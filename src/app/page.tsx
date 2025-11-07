@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { motion, useScroll, useTransform, type MotionProps } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { SplitLogo } from "@/components/split-logo";
 
 const navItems = [
   { href: "/#funding", label: "funding" },
@@ -54,12 +55,9 @@ export default function Page() {
       <div className="relative z-10 bg-bg">
         {/* Sticky Glass Header */}
         <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/30 border-b border-white/10">
-          <Link
-            href="/"
-            className="text-2xl tracking-tight lowercase text-white hover:text-white"
-            onClick={closeMenu}
-          >
-            split
+          <Link href="/" className="flex items-center" onClick={closeMenu}>
+            <span className="sr-only">Split</span>
+            <SplitLogo priority />
           </Link>
 
           <nav className="hidden md:flex gap-8 text-sm text-muted">
