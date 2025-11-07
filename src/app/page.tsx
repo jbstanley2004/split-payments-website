@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { Menu, X } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, type MotionProps } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,6 +11,36 @@ const navItems = [
   { href: "/payments", label: "payments" },
   { href: "/industries", label: "industries" },
 ];
+
+type ParallaxIllustrationProps = MotionProps & {
+  className?: string;
+  children: ReactNode;
+  offset?: [number, number];
+};
+
+function ParallaxIllustration({
+  className,
+  children,
+  offset = [-6, 6],
+  ...motionProps
+}: ParallaxIllustrationProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(
+    scrollYProgress,
+    [0, 1],
+    offset.map((value) => `${value}%`)
+  );
+
+  return (
+    <motion.div ref={ref} style={{ y }} className={className} {...motionProps}>
+      {children}
+    </motion.div>
+  );
+}
 
 export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -74,7 +104,7 @@ export default function Page() {
         </header>
 
         {/* Hero */}
-        <section className="px-6 md:px-10 py-10 md:py-14 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50">
+        <section className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -98,11 +128,12 @@ export default function Page() {
             </div>
           </motion.div>
 
-          <motion.div
+          <ParallaxIllustration
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9 }}
             className="w-full md:w-1/2 flex justify-center md:justify-end md:h-full"
+            offset={[-4, 8]}
           >
             <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[600px]">
               <Image
@@ -114,13 +145,13 @@ export default function Page() {
                 priority
               />
             </div>
-          </motion.div>
+          </ParallaxIllustration>
         </section>
 
         {/* Funding Feature */}
         <section
           id="funding"
-          className="px-6 md:px-10 py-10 md:py-14 flex flex-col md:flex-row-reverse items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50"
+          className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row-reverse items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -141,12 +172,13 @@ export default function Page() {
             </ul>
           </motion.div>
 
-          <motion.div
+          <ParallaxIllustration
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
             className="w-full md:w-1/2 flex justify-center md:justify-start md:h-full"
+            offset={[-5, 7]}
           >
             <div className="relative w-full max-w-[520px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[580px]">
               <Image
@@ -157,13 +189,13 @@ export default function Page() {
                 sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
               />
             </div>
-          </motion.div>
+          </ParallaxIllustration>
         </section>
 
         {/* Payments / POS */}
         <section
           id="pos"
-          className="px-6 md:px-10 py-10 md:py-14 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50"
+          className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -183,12 +215,13 @@ export default function Page() {
             </ul>
           </motion.div>
 
-          <motion.div
+          <ParallaxIllustration
             initial={{ opacity: 0, scale: 0.96 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.9 }}
             className="w-full md:w-1/2 flex justify-center md:justify-end md:h-full"
+            offset={[-3, 9]}
           >
             <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[600px]">
               <Image
@@ -199,7 +232,7 @@ export default function Page() {
                 sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
               />
             </div>
-          </motion.div>
+          </ParallaxIllustration>
         </section>
 
         {/* Footer */}
