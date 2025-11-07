@@ -107,7 +107,7 @@ export default function Page() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/#funding" className="text-xs text-white/80 hover:text-[#ff6600] transition-colors font-medium whitespace-nowrap">
+              <Link href="/#funding" className="text-xs text-white/80 hover:text-[#d97757] transition-colors font-medium whitespace-nowrap">
                 funding
               </Link>
             </motion.div>
@@ -123,7 +123,7 @@ export default function Page() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/payments" className="text-xs text-white/80 hover:text-[#ff6600] transition-colors font-medium whitespace-nowrap">
+              <Link href="/payments" className="text-xs text-white/80 hover:text-[#d97757] transition-colors font-medium whitespace-nowrap">
                 payments
               </Link>
             </motion.div>
@@ -139,7 +139,7 @@ export default function Page() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/industries" className="text-xs text-white/80 hover:text-[#ff6600] transition-colors font-medium whitespace-nowrap">
+              <Link href="/industries" className="text-xs text-white/80 hover:text-[#d97757] transition-colors font-medium whitespace-nowrap">
                 industries
               </Link>
             </motion.div>
@@ -155,7 +155,7 @@ export default function Page() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-2.5 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[#ff6600] transition-colors whitespace-nowrap inline-block">
+              <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[#d97757] transition-colors whitespace-nowrap inline-block">
                 get started
               </Link>
             </motion.div>
@@ -185,7 +185,7 @@ export default function Page() {
               <div className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden pointer-events-auto" onClick={closeMenu} />
               <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-white/10 bg-black/95 backdrop-blur-[20px] backdrop-saturate-[180%] p-6 text-sm shadow-xl md:hidden pointer-events-auto">
                 {navItems.map((item) => (
-                  <Link key={item.href} href={item.href} className="text-white/80 hover:text-[#ff6600] transition-colors" onClick={closeMenu}>
+                  <Link key={item.href} href={item.href} className="text-white/80 hover:text-[#d97757] transition-colors" onClick={closeMenu}>
                     {item.label}
                   </Link>
                 ))}

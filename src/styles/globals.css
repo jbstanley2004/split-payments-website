@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,16 +14,18 @@
   --sh-jsxliterals: #ffffff;
   --sh-property: #a7a7a7;
   --sh-entity: #a7a7a7;
-  --bg: 250 249 246;
-  --text: 11 11 11;
-  --line: 226 226 226;
-  --theme-background: #faf9f6;
+  --bg: 250 249 245;
+  --text: 20 20 19;
+  --line: 232 230 220;
+  --theme-background: #faf9f5;
   --theme-surface: #ffffff;
-  --theme-text-primary: #0b0b0b;
-  --theme-text-secondary: #4f4f4f;
-  --theme-border: #e2e2e2;
-  --theme-accent: #ff6600;
-  --theme-accent-hover: #ff8533;
+  --theme-text-primary: #141413;
+  --theme-text-secondary: #b0aea5;
+  --theme-border: #e8e6dc;
+  --theme-accent: #d97757;
+  --theme-accent-hover: #e08967;
+  --theme-accent-blue: #6a9bcc;
+  --theme-accent-green: #788c5d;
   color-scheme: light;
 }
 
@@ -188,32 +192,37 @@ img::selection {
 
 .light {
   color-scheme: light;
-  --bg: 250 249 246;
-  --text: 11 11 11;
-  --line: 226 226 226;
-  --theme-background: #faf9f6;
+  --bg: 250 249 245;
+  --text: 20 20 19;
+  --line: 232 230 220;
+  --theme-background: #faf9f5;
   --theme-surface: #ffffff;
-  --theme-text-primary: #0b0b0b;
-  --theme-text-secondary: #4f4f4f;
-  --theme-border: #e2e2e2;
+  --theme-text-primary: #141413;
+  --theme-text-secondary: #b0aea5;
+  --theme-border: #e8e6dc;
 }
 
 .dark {
   color-scheme: dark;
-  --bg: 11 11 11;
-  --text: 245 245 245;
-  --line: 30 30 30;
-  --theme-background: #0a0a0a;
-  --theme-surface: #111111;
-  --theme-text-primary: #f5f5f5;
-  --theme-text-secondary: #aaaaaa;
-  --theme-border: #222222;
+  --bg: 20 20 19;
+  --text: 250 249 245;
+  --line: 48 48 46;
+  --theme-background: #141413;
+  --theme-surface: #1a1a19;
+  --theme-text-primary: #faf9f5;
+  --theme-text-secondary: #b0aea5;
+  --theme-border: #2a2a28;
 }
 
 html,
 body {
   background-color: var(--theme-background);
   color: var(--theme-text-primary);
+  font-family: 'Lora', Georgia, serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', Arial, sans-serif;
 }
 
 a {

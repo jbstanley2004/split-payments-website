@@ -52,6 +52,8 @@ export default {
       },
       fontFamily: {
         jetbrains: ["var(--font-jetbrains)"],
+        poppins: ["Poppins", "Arial", "sans-serif"],
+        lora: ["Lora", "Georgia", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

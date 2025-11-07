@@ -60,7 +60,7 @@ export default function GetStarted() {
             className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <a href="/#funding" className="text-xs text-white/80 hover:text-[#ff6600] transition-colors font-medium whitespace-nowrap">funding</a>
+            <a href="/#funding" className="text-xs text-white/80 hover:text-[#d97757] transition-colors font-medium whitespace-nowrap">funding</a>
           </motion.div>
 
           {/* Pod 2: Payments */}
@@ -74,7 +74,7 @@ export default function GetStarted() {
             className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <a href="/payments" className="text-xs text-white/80 hover:text-[#ff6600] transition-colors font-medium whitespace-nowrap">payments</a>
+            <a href="/payments" className="text-xs text-white/80 hover:text-[#d97757] transition-colors font-medium whitespace-nowrap">payments</a>
           </motion.div>
 
           {/* Pod 3: Industries */}
@@ -88,7 +88,7 @@ export default function GetStarted() {
             className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <a href="/industries" className="text-xs text-white/80 hover:text-[#ff6600] transition-colors font-medium whitespace-nowrap">industries</a>
+            <a href="/industries" className="text-xs text-white/80 hover:text-[#d97757] transition-colors font-medium whitespace-nowrap">industries</a>
           </motion.div>
 
           {/* Pod 4: Get Started */}
@@ -102,7 +102,7 @@ export default function GetStarted() {
             className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-2.5 py-1"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[#ff6600] transition-colors whitespace-nowrap inline-block">
+            <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[#d97757] transition-colors whitespace-nowrap inline-block">
               get started
             </Link>
           </motion.div>
