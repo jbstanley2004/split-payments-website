@@ -1,8 +1,8 @@
 "use client";
 
-import { useRef, useState, type ReactNode } from "react";
+import { useRef, useState, useEffect, type ReactNode } from "react";
 import { Menu, X } from "lucide-react";
-import { motion, useScroll, useTransform, type MotionProps } from "framer-motion";
+import { motion, useScroll, useTransform, type MotionProps, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { SplitLogo } from "@/components/split-logo";
@@ -45,55 +45,101 @@ function ParallaxIllustration({
 
 export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [currentTitle, setCurrentTitle] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  const rotatingTitles = ["funding", "payments", "industries"];
 
   const toggleMenu = () => setMenuOpen((open) => !open);
   const closeMenu = () => setMenuOpen(false);
+
+  // Rotate titles every 2 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTitle((prev) => (prev + 1) % rotatingTitles.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [rotatingTitles.length]);
 
   return (
     <main className="relative min-h-screen font-jetbrains text-text">
       {/* All content with relative positioning */}
       <div className="relative z-10 bg-bg">
         {/* Dynamic Island Header */}
-        <header className="fixed top-5 left-0 right-0 z-50 flex items-center justify-center px-6">
+        <header className="fixed top-3 left-0 right-0 z-50 flex items-center justify-center px-6 pointer-events-none">
           {/* Desktop Dynamic Island */}
-          <motion.nav
-            initial={{ width: "120px" }}
-            whileHover={{ width: "auto" }}
-            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-            className="hidden md:flex items-center justify-center backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/85 rounded-[50px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] px-5 py-3 group hover:shadow-[0_12px_48px_rgba(0,0,0,0.5)] transition-shadow duration-500"
+          <div
+            className="hidden md:flex gap-2 items-center justify-center pointer-events-auto"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
           >
-            <Link href="/" className="flex items-center flex-shrink-0" onClick={closeMenu}>
-              <span className="sr-only">Split</span>
-              <SplitLogo priority />
-            </Link>
-
             <motion.div
-              initial={{ opacity: 0, width: 0 }}
-              className="overflow-hidden whitespace-nowrap group-hover:opacity-100 group-hover:w-auto opacity-0 w-0 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+              animate={{
+                width: isHovered ? "auto" : "100px",
+                opacity: isHovered ? 0 : 1,
+              }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="absolute backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5 overflow-hidden"
             >
-              <div className="flex gap-6 text-sm text-white/80 ml-8">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="hover:text-[#00D9FF] transition-colors duration-200 font-medium"
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-                <Link
-                  href="/get-started"
-                  className="bg-[#00D9FF] text-white px-5 py-1.5 rounded-[25px] font-bold text-[0.95rem] hover:bg-[#00C4EA] hover:scale-105 transition-all duration-200"
-                  onClick={closeMenu}
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={currentTitle}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-xs text-white/70 font-medium whitespace-nowrap block text-center"
                 >
+                  {rotatingTitles[currentTitle]}
+                </motion.span>
+              </AnimatePresence>
+            </motion.div>
+
+            {/* Split Island - Left Side */}
+            <motion.nav
+              animate={{
+                opacity: isHovered ? 1 : 0,
+                x: isHovered ? 0 : 30,
+                scale: isHovered ? 1 : 0.8,
+              }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5"
+              style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
+            >
+              <div className="flex gap-4 text-xs text-white/80">
+                <Link href="/#funding" className="hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">
+                  funding
+                </Link>
+                <Link href="/payments" className="hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">
+                  payments
+                </Link>
+              </div>
+            </motion.nav>
+
+            {/* Split Island - Right Side */}
+            <motion.nav
+              animate={{
+                opacity: isHovered ? 1 : 0,
+                x: isHovered ? 0 : -30,
+                scale: isHovered ? 1 : 0.8,
+              }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5"
+              style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
+            >
+              <div className="flex gap-4 text-xs text-white/80">
+                <Link href="/industries" className="hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">
+                  industries
+                </Link>
+                <Link href="/get-started" className="bg-[#00D9FF] text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-[#00C4EA] transition-colors whitespace-nowrap">
                   get started
                 </Link>
               </div>
-            </motion.div>
-          </motion.nav>
+            </motion.nav>
+          </div>
 
           {/* Mobile Header */}
-          <div className="md:hidden flex items-center justify-between w-full backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/85 rounded-full border border-white/10 px-4 py-3">
+          <div className="md:hidden flex items-center justify-between w-full backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/85 rounded-full border border-white/10 px-4 py-3 pointer-events-auto">
             <Link href="/" className="flex items-center" onClick={closeMenu}>
               <span className="sr-only">Split</span>
               <SplitLogo priority />
@@ -113,8 +159,8 @@ export default function Page() {
           {/* Mobile Menu */}
           {menuOpen ? (
             <>
-              <div className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden" onClick={closeMenu} />
-              <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-white/10 bg-black/95 backdrop-blur-[20px] backdrop-saturate-[180%] p-6 text-sm shadow-xl md:hidden">
+              <div className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden pointer-events-auto" onClick={closeMenu} />
+              <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-white/10 bg-black/95 backdrop-blur-[20px] backdrop-saturate-[180%] p-6 text-sm shadow-xl md:hidden pointer-events-auto">
                 {navItems.map((item) => (
                   <Link key={item.href} href={item.href} className="text-white/80 hover:text-[#00D9FF] transition-colors" onClick={closeMenu}>
                     {item.label}
