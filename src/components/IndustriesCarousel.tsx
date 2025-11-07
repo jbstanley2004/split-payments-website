@@ -60,7 +60,7 @@ export default function IndustriesCarousel() {
 
   return (
     <section
-      className="relative overflow-hidden bg-white dark:bg-[#0a0a0a] border-t border-gray-200 dark:border-gray-800 py-12"
+      className="relative overflow-hidden bg-white dark:bg-[#0a0a0a] border-t border-gray-200 dark:border-gray-800 pt-6 pb-12"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
