@@ -1,17 +1,28 @@
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+
+const navItems = [
+  { href: "/#funding", label: "funding" },
+  { href: "/payments", label: "payments" },
+  { href: "/industries", label: "industries" },
+];
 
 export default function IndustriesPage() {
   const ref = useRef(null);
+  const [menuOpen, setMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
   });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+
+  const toggleMenu = () => setMenuOpen((open) => !open);
+  const closeMenu = () => setMenuOpen(false);
   const industries = [
     {
       title: "Restaurants",
@@ -97,19 +108,49 @@ export default function IndustriesPage() {
       <div className="relative z-10">
         {/* Sticky Glass Header */}
         <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/30 border-b border-white/10">
-          <Link href="/" className="text-2xl tracking-tight lowercase text-white hover:text-white">
+          <Link
+            href="/"
+            className="text-2xl tracking-tight lowercase text-white hover:text-white"
+            onClick={closeMenu}
+          >
             split
           </Link>
 
           <nav className="hidden md:flex gap-8 text-sm text-muted">
-            <a href="/#funding" className="hover:text-white transition-colors">funding</a>
-            <a href="/payments" className="hover:text-white transition-colors">payments</a>
-            <a href="/industries" className="hover:text-white transition-colors">industries</a>
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href} className="hover:text-white transition-colors">
+                {item.label}
+              </Link>
+            ))}
           </nav>
 
-          <Link href="/get-started" className="btn">
-            get started
-          </Link>
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white"
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              onClick={toggleMenu}
+            >
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+            <Link href="/get-started" className="btn" onClick={closeMenu}>
+              get started
+            </Link>
+          </div>
+
+          {menuOpen ? (
+            <>
+              <div className="fixed inset-0 z-40 bg-bg/80 backdrop-blur-sm md:hidden" onClick={closeMenu} />
+              <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-line bg-bg/95 p-6 text-sm shadow-xl md:hidden">
+                {navItems.map((item) => (
+                  <Link key={item.href} href={item.href} className="hover:text-white transition-colors" onClick={closeMenu}>
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </>
+          ) : null}
         </header>
 
         {/* Hero */}
