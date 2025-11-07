@@ -2,12 +2,20 @@ import { Providers } from "@/components/providers";
 import StyledComponentsRegistry from "@/lib/styled-components";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { JetBrains_Mono } from "next/font/google";
+import { Poppins, Lora } from "next/font/google";
 import "@/styles/globals.css";
 
-const jetbrains = JetBrains_Mono({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-poppins",
+  display: "swap",
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-lora",
   display: "swap",
 });
 
@@ -50,12 +58,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport = {
-  themeColor: "#FF6600",
+  themeColor: "#d97757",
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={jetbrains.variable} suppressHydrationWarning>
+    <html lang="en" className={`${poppins.variable} ${lora.variable}`} suppressHydrationWarning>
       <body>
         <StyledComponentsRegistry>
           <Providers>{children}</Providers>

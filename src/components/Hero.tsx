@@ -20,16 +20,16 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
     offset: ["start end", "end start"],
   });
 
-  // scroll motion
+  // scroll motion - improved smoothness with custom easing
   const y = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const rotateY = useTransform(scrollYProgress, [0, 1], [35, 25]);
   const rotateX = useTransform(scrollYProgress, [0, 1], [10, 6]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.85]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
 
-  // text fade later (fix early disappearance)
-  const textOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const textY = useTransform(scrollYProgress, [0, 0.7], [0, -40]);
+  // text fade - keep text more visible (minimum 0.4 opacity instead of 0)
+  const textOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.4]);
+  const textY = useTransform(scrollYProgress, [0, 0.8], [0, -30]);
 
   const layoutClasses = reverse
     ? "flex-col lg:flex-row-reverse"
@@ -48,24 +48,24 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
       <motion.div
         className="max-w-xl relative z-10 text-center lg:text-left w-full lg:w-1/2"
         style={{ opacity: textOpacity, y: textY }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
+        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-mono font-semibold leading-tight text-black dark:text-white">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-poppins font-semibold leading-tight text-[var(--theme-text-primary)]">
           {title}
         </h1>
-        <p className="mt-6 text-lg text-gray-600 dark:text-gray-300 max-w-md mx-auto lg:mx-0">
+        <p className="mt-6 text-lg font-lora text-[var(--theme-text-secondary)] max-w-md mx-auto lg:mx-0">
           {text}
         </p>
         <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
           <Link
             href="/get-started"
-            className="border border-gray-200 px-6 py-3 rounded-md text-orange-500 font-mono hover:bg-orange-50 dark:border-gray-700 dark:hover:bg-[#111] transition-colors"
+            className="border border-[var(--theme-border)] px-6 py-3 rounded-md text-[var(--theme-accent)] font-poppins hover:bg-[var(--theme-accent)] hover:text-white transition-all duration-300 ease-out"
           >
             get started
           </Link>
           <a
             href="/#funding"
-            className="text-gray-800 dark:text-gray-200 font-mono hover:underline text-base"
+            className="text-[var(--theme-text-primary)] font-lora hover:text-[var(--theme-accent)] transition-colors duration-300 text-base inline-flex items-center"
           >
             learn more →
           </a>
@@ -84,15 +84,15 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
         initial={{ opacity: 0, y: 50 }}
         animate={{
           opacity: 1,
-          y: [0, -6, 0], // continuous float
+          y: [0, -8, 0], // continuous float - slightly more pronounced
         }}
         transition={{
-          opacity: { duration: 0.8, ease: "easeOut" },
-          y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+          opacity: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] },
+          y: { duration: 7, repeat: Infinity, ease: [0.45, 0.05, 0.55, 0.95] },
         }}
         whileHover={{
-          y: -10,
-          transition: { duration: 0.6, ease: "easeOut" },
+          y: -12,
+          transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
         }}
       >
         <motion.div
@@ -105,7 +105,7 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
           whileHover={{
             rotateY: 0,
             rotateX: 0,
-            transition: { duration: 0.6, ease: "easeOut" },
+            transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
           }}
         >
           {/* light mode */}

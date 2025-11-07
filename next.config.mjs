@@ -8,6 +8,7 @@ const config = {
   },
   experimental: {
     inlineCss: true,
+    turbopackUseSystemTlsCerts: true,
   },
   compiler: {
     styledComponents: true,

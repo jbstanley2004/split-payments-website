@@ -51,7 +51,10 @@ export default {
         line: "rgb(var(--line) / <alpha-value>)",
       },
       fontFamily: {
-        jetbrains: ["var(--font-jetbrains)"],
+        poppins: ["var(--font-poppins)", "Arial", "sans-serif"],
+        lora: ["var(--font-lora)", "Georgia", "serif"],
+        sans: ["var(--font-poppins)", "Arial", "sans-serif"],
+        serif: ["var(--font-lora)", "Georgia", "serif"],
       },
       borderRadius: {
         lg: "var(--radius)",
