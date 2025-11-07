@@ -107,45 +107,76 @@ export default function IndustriesPage() {
 
       {/* All content with relative positioning */}
       <div className="relative z-10">
-        {/* Sticky Glass Header */}
-        <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/30 border-b border-white/10">
-          <Link href="/" className="flex items-center" onClick={closeMenu}>
-            <span className="sr-only">Split</span>
-            <SplitLogo priority />
-          </Link>
+        {/* Dynamic Island Header */}
+        <header className="fixed top-5 left-0 right-0 z-50 flex items-center justify-center px-6">
+          {/* Desktop Dynamic Island */}
+          <motion.nav
+            initial={{ width: "120px" }}
+            whileHover={{ width: "auto" }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            className="hidden md:flex items-center justify-center backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/85 rounded-[50px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] px-5 py-3 group hover:shadow-[0_12px_48px_rgba(0,0,0,0.5)] transition-shadow duration-500"
+          >
+            <Link href="/" className="flex items-center flex-shrink-0" onClick={closeMenu}>
+              <span className="sr-only">Split</span>
+              <SplitLogo priority />
+            </Link>
 
-          <nav className="hidden md:flex gap-8 text-sm text-muted">
-            {navItems.map((item) => (
-              <Link key={item.href} href={item.href} className="hover:text-white transition-colors">
-                {item.label}
-              </Link>
-            ))}
-          </nav>
+            <motion.div
+              initial={{ opacity: 0, width: 0 }}
+              className="overflow-hidden whitespace-nowrap group-hover:opacity-100 group-hover:w-auto opacity-0 w-0 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            >
+              <div className="flex gap-6 text-sm text-white/80 ml-8">
+                {navItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="hover:text-[#00D9FF] transition-colors duration-200 font-medium"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+                <Link
+                  href="/get-started"
+                  className="bg-[#00D9FF] text-white px-5 py-1.5 rounded-[25px] font-bold text-[0.95rem] hover:bg-[#00C4EA] hover:scale-105 transition-all duration-200"
+                  onClick={closeMenu}
+                >
+                  get started
+                </Link>
+              </div>
+            </motion.div>
+          </motion.nav>
 
-          <div className="flex items-center gap-4">
+          {/* Mobile Header */}
+          <div className="md:hidden flex items-center justify-between w-full backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/85 rounded-full border border-white/10 px-4 py-3">
+            <Link href="/" className="flex items-center" onClick={closeMenu}>
+              <span className="sr-only">Split</span>
+              <SplitLogo priority />
+            </Link>
+
             <button
               type="button"
-              className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[#00D9FF]"
               aria-label="Toggle menu"
               aria-expanded={menuOpen}
               onClick={toggleMenu}
             >
               {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
-            <Link href="/get-started" className="btn" onClick={closeMenu}>
-              get started
-            </Link>
           </div>
 
+          {/* Mobile Menu */}
           {menuOpen ? (
             <>
-              <div className="fixed inset-0 z-40 bg-bg/80 backdrop-blur-sm md:hidden" onClick={closeMenu} />
-              <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-line bg-bg/95 p-6 text-sm shadow-xl md:hidden">
+              <div className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden" onClick={closeMenu} />
+              <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-white/10 bg-black/95 backdrop-blur-[20px] backdrop-saturate-[180%] p-6 text-sm shadow-xl md:hidden">
                 {navItems.map((item) => (
-                  <Link key={item.href} href={item.href} className="hover:text-white transition-colors" onClick={closeMenu}>
+                  <Link key={item.href} href={item.href} className="text-white/80 hover:text-[#00D9FF] transition-colors" onClick={closeMenu}>
                     {item.label}
                   </Link>
                 ))}
+                <Link href="/get-started" className="btn mt-2" onClick={closeMenu}>
+                  get started
+                </Link>
               </nav>
             </>
           ) : null}
