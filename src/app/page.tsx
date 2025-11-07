@@ -1,10 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { Menu, X } from "lucide-react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+
+const navItems = [
+  { href: "#funding", label: "funding", type: "anchor" as const },
+  { href: "/payments", label: "payments", type: "link" as const },
+  { href: "/industries", label: "industries", type: "link" as const },
+];
 
 export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -25,15 +32,25 @@ export default function Page() {
         </Link>
 
         <nav className="hidden md:flex gap-8 text-sm text-muted">
-          <a href="#funding" className="hover:text-white transition-colors">
-            funding
-          </a>
-          <a href="/payments" className="hover:text-white transition-colors">
-            payments
-          </a>
-          <a href="/industries" className="hover:text-white transition-colors">
-            industries
-          </a>
+          {navItems.map((item) =>
+            item.type === "anchor" ? (
+              <a
+                key={item.href}
+                href={item.href}
+                className="hover:text-white transition-colors"
+              >
+                {item.label}
+              </a>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="hover:text-white transition-colors"
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -41,6 +58,10 @@ export default function Page() {
             type="button"
             className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white"
             aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            onClick={toggleMenu}
+          >
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             onClick={toggleMenu}
           >
             {menuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
@@ -51,17 +72,35 @@ export default function Page() {
         </div>
 
         {menuOpen ? (
-          <nav className="absolute right-6 top-full mt-4 flex w-[calc(100%-3rem)] flex-col gap-3 rounded-xl border border-line bg-bg/95 p-6 text-sm shadow-xl md:hidden">
-            <a href="#funding" className="hover:text-white transition-colors" onClick={closeMenu}>
-              funding
-            </a>
-            <a href="/payments" className="hover:text-white transition-colors" onClick={closeMenu}>
-              payments
-            </a>
-            <a href="/industries" className="hover:text-white transition-colors" onClick={closeMenu}>
-              industries
-            </a>
-          </nav>
+          <>
+            <div
+              className="fixed inset-0 z-40 bg-bg/80 backdrop-blur-sm md:hidden"
+              onClick={closeMenu}
+            />
+            <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-line bg-bg/95 p-6 text-sm shadow-xl md:hidden">
+              {navItems.map((item) =>
+                item.type === "anchor" ? (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="hover:text-white transition-colors"
+                    onClick={closeMenu}
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="hover:text-white transition-colors"
+                    onClick={closeMenu}
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
+            </nav>
+          </>
         ) : null}
       </header>
 
