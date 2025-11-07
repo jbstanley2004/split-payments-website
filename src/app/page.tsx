@@ -74,12 +74,12 @@ export default function Page() {
         </header>
 
         {/* Hero */}
-        <section className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 border-b border-line/50">
+        <section className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left"
+            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left md:h-full md:flex md:flex-col md:justify-center"
           >
             <h1 className="text-4xl md:text-5xl leading-tight mb-6 text-balance">
               Accept payments. <br /> Access capital. <br /> Grow with split.
@@ -102,9 +102,9 @@ export default function Page() {
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9 }}
-            className="w-full md:w-1/2 flex justify-center md:justify-end"
+            className="w-full md:w-1/2 flex justify-center md:justify-end md:h-full"
           >
-            <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[520px]">
+            <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[600px]">
               <Image
                 src="/graphic4.png"
                 alt="split hero"
@@ -120,14 +120,14 @@ export default function Page() {
         {/* Funding Feature */}
         <section
           id="funding"
-          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row-reverse items-center md:items-stretch justify-between gap-12 md:gap-0 border-b border-line/50"
+          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row-reverse items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
-            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left"
+            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left md:h-full md:flex md:flex-col md:justify-center"
           >
             <h2 className="text-3xl mb-4 text-balance">Sales-based capital access</h2>
             <p className="text-muted mb-6 text-pretty">
@@ -146,9 +146,9 @@ export default function Page() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
-            className="w-full md:w-1/2 flex justify-center md:justify-start"
+            className="w-full md:w-1/2 flex justify-center md:justify-start md:h-full"
           >
-            <div className="relative w-full max-w-[520px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[500px]">
+            <div className="relative w-full max-w-[520px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[580px]">
               <Image
                 src="/graphic3.png"
                 alt="funding graphic"
@@ -163,14 +163,14 @@ export default function Page() {
         {/* Payments / POS */}
         <section
           id="pos"
-          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 border-b border-line/50"
+          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8 }}
-            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left"
+            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left md:h-full md:flex md:flex-col md:justify-center"
           >
             <h2 className="text-3xl mb-4 text-balance">Payments built for every business</h2>
             <p className="text-muted mb-6 text-pretty">
@@ -188,9 +188,9 @@ export default function Page() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.9 }}
-            className="w-full md:w-1/2 flex justify-center md:justify-end"
+            className="w-full md:w-1/2 flex justify-center md:justify-end md:h-full"
           >
-            <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[520px]">
+            <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[600px]">
               <Image
                 src="/merchants.png"
                 alt="merchants"
