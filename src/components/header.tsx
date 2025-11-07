@@ -196,7 +196,7 @@ export function Header() {
 
   return (
     <header className="sticky mt-4 top-4 z-50 px-2 md:px-4 md:flex justify-center">
-      <nav className="border border-border px-4 flex items-center backdrop-filter backdrop-blur-xl bg-[#FFFFFF] dark:bg-[#121212] bg-opacity-70 h-[64px] z-20 relative">
+      <nav className="flex items-center px-2 md:px-0 z-20 w-full md:w-auto relative">
         <ContextMenu>
           <ContextMenuTrigger asChild>
             <Link
@@ -259,67 +259,71 @@ export function Header() {
           </ContextMenuContent>
         </ContextMenu>
 
-        <ul className="space-x-2 font-medium text-sm hidden md:flex mx-3">
-          {links.map(({ path, title, children, cover }) => {
-            if (path) {
-              return (
-                <li key={path}>
-                  <Link
-                    onClick={handleOnClick}
-                    href={path}
-                    className="h-8 items-center justify-center text-sm font-medium px-3 py-2 inline-flex text-secondary-foreground transition-opacity hover:opacity-70 duration-200"
+        <div className="hidden md:flex items-center ml-6">
+          <div className="flex items-center border border-border/80 backdrop-filter backdrop-blur-xl bg-[#FFFFFF]/70 dark:bg-[#121212]/70 rounded-full px-1 py-1 relative">
+            <ul className="flex items-center gap-1 font-medium text-sm px-2">
+              {links.map(({ path, title, children, cover }) => {
+                if (path) {
+                  return (
+                    <li key={path}>
+                      <Link
+                        onClick={handleOnClick}
+                        href={path}
+                        className="inline-flex items-center justify-center rounded-full px-3 py-1.5 text-sm font-medium text-secondary-foreground transition-opacity duration-200 hover:opacity-70"
+                      >
+                        {title}
+                      </Link>
+                    </li>
+                  );
+                }
+
+                return (
+                  <li
+                    key={title}
+                    className="group"
+                    onMouseEnter={() => setShowBlur(true)}
+                    onMouseLeave={() => setShowBlur(false)}
                   >
-                    {title}
-                  </Link>
-                </li>
-              );
-            }
+                    <span className="inline-flex items-center justify-center rounded-full px-3 py-1.5 text-sm font-medium text-secondary-foreground transition-opacity duration-200 hover:opacity-70 cursor-pointer">
+                      {title}
+                    </span>
 
-            return (
-              <li
-                key={title}
-                className="group"
-                onMouseEnter={() => setShowBlur(true)}
-                onMouseLeave={() => setShowBlur(false)}
-              >
-                <span className="h-8 items-center justify-center text-sm font-medium transition-opacity hover:opacity-70 duration-200 px-3 py-2 inline-flex text-secondary-foreground cursor-pointer">
-                  {title}
-                </span>
+                    {children && (
+                      <div
+                        className={cn(
+                          "absolute top-[44px] left-0 -mx-[calc(var(--pixel-ratio)_*_2px)] bg-[#fff] dark:bg-[#121212] flex h-0 group-hover:h-[250px] overflow-hidden transition-all duration-300 ease-in-out border-l border-r",
+                          hidden && "hidden",
+                        )}
+                      >
+                        <ul className="p-4 w-[200px] flex-0 space-y-4 mt-2">
+                          {children.map((child) => {
+                            return (
+                              <li key={child.path}>
+                                <Link
+                                  onClick={handleOnClick}
+                                  href={child.path}
+                                  className="flex space-x-2 items-center transition-opacity hover:opacity-70 duration-200"
+                                >
+                                  <span>{child.icon}</span>
+                                  <span className="text-sm font-medium">
+                                    {child.title}
+                                  </span>
+                                </Link>
+                              </li>
+                            );
+                          })}
+                        </ul>
 
-                {children && (
-                  <div
-                    className={cn(
-                      "absolute top-[48px] left-0 -mx-[calc(var(--pixel-ratio)_*_2px)] bg-[#fff] dark:bg-[#121212] flex h-0 group-hover:h-[250px] overflow-hidden transition-all duration-300 ease-in-out border-l border-r",
-                      hidden && "hidden",
+                        <div className="flex-1 p-4">{cover}</div>
+                        <div className="absolute bottom-0 w-full border-b-[1px]" />
+                      </div>
                     )}
-                  >
-                    <ul className="p-4 w-[200px] flex-0 space-y-4 mt-2">
-                      {children.map((child) => {
-                        return (
-                          <li key={child.path}>
-                            <Link
-                              onClick={handleOnClick}
-                              href={child.path}
-                              className="flex space-x-2 items-center transition-opacity hover:opacity-70 duration-200"
-                            >
-                              <span>{child.icon}</span>
-                              <span className="text-sm font-medium">
-                                {child.title}
-                              </span>
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-
-                    <div className="flex-1 p-4">{cover}</div>
-                    <div className="absolute bottom-0 w-full border-b-[1px]" />
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
 
         <button
           type="button"
@@ -340,7 +344,7 @@ export function Header() {
         </button>
 
         <a
-          className="text-sm font-medium pr-2 border-l-[1px] border-border pl-4 hidden md:block"
+          className="hidden md:inline-flex items-center ml-6 text-sm font-medium text-secondary-foreground transition-opacity duration-200 hover:opacity-70"
           href="https://app.midday.ai"
         >
           Sign in
