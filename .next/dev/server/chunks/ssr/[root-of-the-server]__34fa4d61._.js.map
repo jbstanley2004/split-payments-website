@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["file:///Users/jacob/Downloads/split-main%202/apps/website/src/app/page.tsx"],"sourcesContent":["import { HomeRedesign } from \"@/pages/HomeRedesign\";\n\nexport const revalidate = 0;\n\nexport default function Page() {\n  return <HomeRedesign />;\n}\n"],"names":[],"mappings":";;;;;;;;;;;;;;AAEO,MAAM,aAAa;AAEX,SAAS;IACtB,qBAAO,+QAAC;;;;;AACV","debugId":null}}]
-}
