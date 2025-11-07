@@ -111,6 +111,7 @@ const Logo = styled.a`
   color: ${({ theme }) => theme.colors.accent};
   white-space: nowrap;
   flex-shrink: 0;
+  font-family: var(--font-poppins), Arial, sans-serif;
 `;
 
 const Links = styled.div<{ $isExpanded: boolean }>`
@@ -128,6 +129,7 @@ const Links = styled.div<{ $isExpanded: boolean }>`
     white-space: nowrap;
     font-size: 0.95rem;
     font-weight: 500;
+    font-family: var(--font-poppins), Arial, sans-serif;
     transition: color 0.2s ease;
   }
 
@@ -178,6 +180,7 @@ const MobileLinks = styled.div<{ $open: boolean }>`
 
     a {
       color: rgba(255, 255, 255, 0.8);
+      font-family: var(--font-poppins), Arial, sans-serif;
     }
 
     a:hover {
@@ -193,6 +196,7 @@ const CTA = styled.a`
   border-radius: 25px;
   font-weight: 700;
   font-size: 0.95rem;
+  font-family: var(--font-poppins), Arial, sans-serif;
   white-space: nowrap;
   transition: all 0.2s ease;
 

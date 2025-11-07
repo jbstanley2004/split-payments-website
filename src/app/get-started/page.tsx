@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
 export default function GetStarted() {
   const [currentTitle, setCurrentTitle] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const rotatingTitles = ["funding", "payments", "industries"];
+  const rotatingTitles = ["Funding", "Payments", "Industries"];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,7 +42,7 @@ export default function GetStarted() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
-                className="text-xs text-white/70 font-medium whitespace-nowrap block text-center"
+                className="text-xs text-white/70 font-medium whitespace-nowrap block text-center font-poppins"
               >
                 {rotatingTitles[currentTitle]}
               </motion.span>
@@ -60,7 +60,7 @@ export default function GetStarted() {
             className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <a href="/#funding" className="text-xs text-white/80 hover:text-[#ff6600] transition-colors font-medium whitespace-nowrap">funding</a>
+            <a href="/#funding" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap font-poppins">Funding</a>
           </motion.div>
 
           {/* Pod 2: Payments */}
@@ -74,7 +74,7 @@ export default function GetStarted() {
             className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <a href="/payments" className="text-xs text-white/80 hover:text-[#ff6600] transition-colors font-medium whitespace-nowrap">payments</a>
+            <a href="/payments" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap font-poppins">Payments</a>
           </motion.div>
 
           {/* Pod 3: Industries */}
@@ -88,7 +88,7 @@ export default function GetStarted() {
             className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <a href="/industries" className="text-xs text-white/80 hover:text-[#ff6600] transition-colors font-medium whitespace-nowrap">industries</a>
+            <a href="/industries" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap font-poppins">Industries</a>
           </motion.div>
 
           {/* Pod 4: Get Started */}
@@ -102,15 +102,15 @@ export default function GetStarted() {
             className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-2.5 py-1"
             style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
           >
-            <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[#ff6600] transition-colors whitespace-nowrap inline-block">
-              get started
+            <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[var(--theme-accent)] hover:bg-[var(--theme-accent)] transition-all duration-300 whitespace-nowrap inline-block font-poppins">
+              Get Started
             </Link>
           </motion.div>
         </div>
       </header>
 
       <section className="px-6 md:px-10 py-16 md:py-24 max-w-3xl mx-auto">
-        <h1 className="text-3xl mb-6">get started</h1>
+        <h1 className="text-3xl mb-6 font-poppins">Get Started</h1>
         <p className="text-muted mb-8">
           Tell us a bit about your business and we'll share your pre-approved
           funding options.
