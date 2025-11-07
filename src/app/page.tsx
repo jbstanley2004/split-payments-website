@@ -7,9 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const navItems = [
-  { href: "#funding", label: "funding", type: "anchor" as const },
-  { href: "/payments", label: "payments", type: "link" as const },
-  { href: "/industries", label: "industries", type: "link" as const },
+  { href: "/#funding", label: "funding" },
+  { href: "/payments", label: "payments" },
+  { href: "/industries", label: "industries" },
 ];
 
 export default function Page() {
@@ -31,25 +31,15 @@ export default function Page() {
         </Link>
 
         <nav className="hidden md:flex gap-8 text-sm text-muted">
-          {navItems.map((item) =>
-            item.type === "anchor" ? (
-              <a
-                key={item.href}
-                href={item.href}
-                className="hover:text-white transition-colors"
-              >
-                {item.label}
-              </a>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="hover:text-white transition-colors"
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="hover:text-white transition-colors"
+            >
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         <div className="flex items-center gap-4">
@@ -74,27 +64,16 @@ export default function Page() {
               onClick={closeMenu}
             />
             <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-line bg-bg/95 p-6 text-sm shadow-xl md:hidden">
-              {navItems.map((item) =>
-                item.type === "anchor" ? (
-                  <a
-                    key={item.href}
-                    href={item.href}
-                    className="hover:text-white transition-colors"
-                    onClick={closeMenu}
-                  >
-                    {item.label}
-                  </a>
-                ) : (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    className="hover:text-white transition-colors"
-                    onClick={closeMenu}
-                  >
-                    {item.label}
-                  </Link>
-                ),
-              )}
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="hover:text-white transition-colors"
+                  onClick={closeMenu}
+                >
+                  {item.label}
+                </Link>
+              ))}
             </nav>
           </>
         ) : null}
@@ -119,7 +98,7 @@ export default function Page() {
             <Link href="/get-started" className="btn" onClick={closeMenu}>
               get started
             </Link>
-            <a href="#learn" className="text-muted hover:text-white text-sm">
+            <a href="/#funding" className="text-muted hover:text-white text-sm">
               learn more →
             </a>
           </div>
