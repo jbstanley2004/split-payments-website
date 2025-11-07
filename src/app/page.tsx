@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { Menu, X } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, type MotionProps } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -11,6 +11,36 @@ const navItems = [
   { href: "/payments", label: "payments" },
   { href: "/industries", label: "industries" },
 ];
+
+type ParallaxIllustrationProps = MotionProps & {
+  className?: string;
+  children: ReactNode;
+  offset?: [number, number];
+};
+
+function ParallaxIllustration({
+  className,
+  children,
+  offset = [-6, 6],
+  ...motionProps
+}: ParallaxIllustrationProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const y = useTransform(
+    scrollYProgress,
+    [0, 1],
+    offset.map((value) => `${value}%`)
+  );
+
+  return (
+    <motion.div ref={ref} style={{ y }} className={className} {...motionProps}>
+      {children}
+    </motion.div>
+  );
+}
 
 export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -74,130 +104,136 @@ export default function Page() {
         </header>
 
         {/* Hero */}
-        <section className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12 border-b border-line/50">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="w-full md:w-1/2"
-        >
-          <h1 className="text-4xl md:text-5xl leading-tight mb-6">
-            Accept payments. <br /> Access capital. <br /> Grow with split.
-          </h1>
-          <p className="text-muted mb-8">
-            Flexible merchant funding and payment services built for high-growth
-            businesses. No gradients. No color noise. Just clarity.
-          </p>
-          <div className="flex flex-wrap gap-4">
-            <Link href="/get-started" className="btn" onClick={closeMenu}>
-              get started
-            </Link>
-            <a href="/#funding" className="text-muted hover:text-white text-sm">
-              learn more →
-            </a>
-          </div>
-        </motion.div>
+        <section className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left md:h-full md:flex md:flex-col md:justify-center"
+          >
+            <h1 className="text-4xl md:text-5xl leading-tight mb-6 text-balance">
+              Accept payments. <br /> Access capital. <br /> Grow with split.
+            </h1>
+            <p className="text-muted mb-8 text-pretty">
+              Flexible merchant funding and payment services built for high-growth
+              businesses. No gradients. No color noise. Just clarity.
+            </p>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+              <Link href="/get-started" className="btn" onClick={closeMenu}>
+                get started
+              </Link>
+              <a href="/#funding" className="text-muted hover:text-white text-sm">
+                learn more →
+              </a>
+            </div>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9 }}
-          className="w-full md:w-1/2 flex justify-center"
-        >
-          <Image
-            src="/graphic3.png"
-            alt="split hero"
-            width={720}
-            height={480}
-            className="w-full max-w-md object-contain"
-            sizes="(min-width: 768px) 32rem, 90vw"
-            priority
-          />
-        </motion.div>
-      </section>
+          <ParallaxIllustration
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9 }}
+            className="w-full md:w-1/2 flex justify-center md:justify-end md:h-full"
+            offset={[-4, 8]}
+          >
+            <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[600px]">
+              <Image
+                src="/graphic4.png"
+                alt="split hero"
+                fill
+                className="object-contain object-center md:object-right-top"
+                sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
+                priority
+              />
+            </div>
+          </ParallaxIllustration>
+        </section>
 
         {/* Funding Feature */}
         <section
           id="funding"
-          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12 border-b border-line/50"
+          className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row-reverse items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
-          className="w-full md:w-1/2"
-        >
-          <Image
-            src="/graphic4.png"
-            alt="funding graphic"
-            width={640}
-            height={420}
-            className="w-full max-w-md object-contain"
-            sizes="(min-width: 768px) 28rem, 90vw"
-          />
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7 }}
+            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left md:h-full md:flex md:flex-col md:justify-center"
+          >
+            <h2 className="text-3xl mb-4 text-balance">Sales-based capital access</h2>
+            <p className="text-muted mb-6 text-pretty">
+              Access fast, flexible capital — powered by your daily sales. No fixed
+              monthly minimums or hard credit checks.
+            </p>
+            <ul className="text-muted space-y-2 text-sm inline-block text-left">
+              <li>✔ pre-approved based on processing history</li>
+              <li>✔ automated repayment from card sales</li>
+              <li>✔ funding in as little as 24 hours</li>
+            </ul>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, x: 20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
-          className="w-full md:w-1/2"
-        >
-          <h2 className="text-3xl mb-4">Sales-based capital access</h2>
-          <p className="text-muted mb-6">
-            Access fast, flexible capital — powered by your daily sales. No fixed
-            monthly minimums or hard credit checks.
-          </p>
-          <ul className="text-muted space-y-2 text-sm">
-            <li>✔ pre-approved based on processing history</li>
-            <li>✔ automated repayment from card sales</li>
-            <li>✔ funding in as little as 24 hours</li>
-          </ul>
-        </motion.div>
-      </section>
+          <ParallaxIllustration
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7 }}
+            className="w-full md:w-1/2 flex justify-center md:justify-start md:h-full"
+            offset={[-5, 7]}
+          >
+            <div className="relative w-full max-w-[520px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[580px]">
+              <Image
+                src="/graphic3.png"
+                alt="funding graphic"
+                fill
+                className="object-contain object-center md:object-left-top"
+                sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
+              />
+            </div>
+          </ParallaxIllustration>
+        </section>
 
         {/* Payments / POS */}
         <section
           id="pos"
-          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12 border-b border-line/50"
+          className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8 }}
-          className="w-full md:w-1/2"
-        >
-          <h2 className="text-3xl mb-4">Payments built for every business</h2>
-          <p className="text-muted mb-6">
-            POS, online, and mobile — fast, secure, and all connected to split.
-          </p>
-          <ul className="text-muted space-y-2 text-sm">
-            <li>✔ real-time reporting & reconciliation</li>
-            <li>✔ competitive, transparent pricing</li>
-            <li>✔ multi-location management</li>
-          </ul>
-        </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8 }}
+            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left md:h-full md:flex md:flex-col md:justify-center"
+          >
+            <h2 className="text-3xl mb-4 text-balance">Payments built for every business</h2>
+            <p className="text-muted mb-6 text-pretty">
+              POS, online, and mobile — fast, secure, and all connected to split.
+            </p>
+            <ul className="text-muted space-y-2 text-sm inline-block text-left">
+              <li>✔ real-time reporting & reconciliation</li>
+              <li>✔ competitive, transparent pricing</li>
+              <li>✔ multi-location management</li>
+            </ul>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.9 }}
-          className="w-full md:w-1/2 flex justify-center"
-        >
-          <Image
-            src="/merchants.png"
-            alt="merchants"
-            width={720}
-            height={480}
-            className="w-full max-w-md object-contain"
-            sizes="(min-width: 768px) 32rem, 90vw"
-          />
-        </motion.div>
-      </section>
+          <ParallaxIllustration
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.9 }}
+            className="w-full md:w-1/2 flex justify-center md:justify-end md:h-full"
+            offset={[-3, 9]}
+          >
+            <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[600px]">
+              <Image
+                src="/merchants.png"
+                alt="merchants"
+                fill
+                className="object-contain object-center md:object-right-top"
+                sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
+              />
+            </div>
+          </ParallaxIllustration>
+        </section>
 
         {/* Footer */}
         <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
