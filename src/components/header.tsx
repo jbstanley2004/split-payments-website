@@ -259,9 +259,9 @@ export function Header() {
           </ContextMenuContent>
         </ContextMenu>
 
-        <div className="hidden md:flex items-center ml-3">
-          <div className="flex items-center border border-border backdrop-filter backdrop-blur-xl bg-[#FFFFFF] dark:bg-[#121212] bg-opacity-70 h-12 px-2 relative">
-            <ul className="space-x-2 font-medium text-sm flex mx-3">
+        <div className="hidden md:flex items-center ml-6">
+          <div className="flex items-center border border-border/80 backdrop-filter backdrop-blur-xl bg-[#FFFFFF]/70 dark:bg-[#121212]/70 rounded-full px-1 py-1 relative">
+            <ul className="flex items-center gap-1 font-medium text-sm px-2">
               {links.map(({ path, title, children, cover }) => {
                 if (path) {
                   return (
@@ -269,7 +269,7 @@ export function Header() {
                       <Link
                         onClick={handleOnClick}
                         href={path}
-                        className="h-8 items-center justify-center text-sm font-medium px-3 py-2 inline-flex text-secondary-foreground transition-opacity hover:opacity-70 duration-200"
+                        className="inline-flex items-center justify-center rounded-full px-3 py-1.5 text-sm font-medium text-secondary-foreground transition-opacity duration-200 hover:opacity-70"
                       >
                         {title}
                       </Link>
@@ -284,14 +284,14 @@ export function Header() {
                     onMouseEnter={() => setShowBlur(true)}
                     onMouseLeave={() => setShowBlur(false)}
                   >
-                    <span className="h-8 items-center justify-center text-sm font-medium transition-opacity hover:opacity-70 duration-200 px-3 py-2 inline-flex text-secondary-foreground cursor-pointer">
+                    <span className="inline-flex items-center justify-center rounded-full px-3 py-1.5 text-sm font-medium text-secondary-foreground transition-opacity duration-200 hover:opacity-70 cursor-pointer">
                       {title}
                     </span>
 
                     {children && (
                       <div
                         className={cn(
-                          "absolute top-[48px] left-0 -mx-[calc(var(--pixel-ratio)_*_2px)] bg-[#fff] dark:bg-[#121212] flex h-0 group-hover:h-[250px] overflow-hidden transition-all duration-300 ease-in-out border-l border-r",
+                          "absolute top-[44px] left-0 -mx-[calc(var(--pixel-ratio)_*_2px)] bg-[#fff] dark:bg-[#121212] flex h-0 group-hover:h-[250px] overflow-hidden transition-all duration-300 ease-in-out border-l border-r",
                           hidden && "hidden",
                         )}
                       >
@@ -344,7 +344,7 @@ export function Header() {
         </button>
 
         <a
-          className="text-sm font-medium pr-2 border-l-[1px] border-border pl-4 hidden md:flex items-center h-12 ml-4"
+          className="hidden md:inline-flex items-center ml-6 text-sm font-medium text-secondary-foreground transition-opacity duration-200 hover:opacity-70"
           href="https://app.midday.ai"
         >
           Sign in
