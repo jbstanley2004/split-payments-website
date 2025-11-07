@@ -46,9 +46,9 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        bg: "#0B0B0B",
-        text: "#FFFFFF",
-        line: "#1E1E1E",
+        bg: "rgb(var(--bg) / <alpha-value>)",
+        text: "rgb(var(--text) / <alpha-value>)",
+        line: "rgb(var(--line) / <alpha-value>)",
       },
       fontFamily: {
         jetbrains: ["var(--font-jetbrains)"],

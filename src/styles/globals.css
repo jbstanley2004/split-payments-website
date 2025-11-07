@@ -12,6 +12,16 @@
   --sh-jsxliterals: #ffffff;
   --sh-property: #a7a7a7;
   --sh-entity: #a7a7a7;
+  --bg: 250 249 246;
+  --text: 11 11 11;
+  --line: 226 226 226;
+  --theme-background: #faf9f6;
+  --theme-surface: #ffffff;
+  --theme-text-primary: #0b0b0b;
+  --theme-text-secondary: #4f4f4f;
+  --theme-border: #e2e2e2;
+  --theme-accent: #ff6600;
+  --theme-accent-hover: #ff8533;
   color-scheme: light;
 }
 
@@ -178,22 +188,32 @@ img::selection {
 
 .light {
   color-scheme: light;
+  --bg: 250 249 246;
+  --text: 11 11 11;
+  --line: 226 226 226;
+  --theme-background: #faf9f6;
+  --theme-surface: #ffffff;
+  --theme-text-primary: #0b0b0b;
+  --theme-text-secondary: #4f4f4f;
+  --theme-border: #e2e2e2;
 }
 
 .dark {
   color-scheme: dark;
+  --bg: 11 11 11;
+  --text: 245 245 245;
+  --line: 30 30 30;
+  --theme-background: #0a0a0a;
+  --theme-surface: #111111;
+  --theme-text-primary: #f5f5f5;
+  --theme-text-secondary: #aaaaaa;
+  --theme-border: #222222;
 }
 
 html,
 body {
-  background-color: #faf9f6;
-  color: #0b0b0b;
-}
-
-.dark html,
-.dark body {
-  background-color: #0b0b0b;
-  color: #ffffff;
+  background-color: var(--theme-background);
+  color: var(--theme-text-primary);
 }
 
 a {
