@@ -214,11 +214,11 @@ export default function Page() {
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
             className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left md:h-full md:flex md:flex-col md:justify-center"
           >
-            <h2 className="text-3xl mb-4 text-balance font-poppins">Payments built for every business</h2>
-            <p className="text-muted mb-6 text-pretty font-lora">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-poppins font-semibold leading-tight text-[var(--theme-text-primary)] mb-4">Payments built for every business</h2>
+            <p className="text-lg font-lora text-[var(--theme-text-secondary)] mb-6 max-w-md mx-auto md:mx-0">
               POS, online, and mobile — fast, secure, and all connected to split.
             </p>
-            <ul className="text-muted space-y-2 text-sm inline-block text-left">
+            <ul className="text-[var(--theme-text-secondary)] space-y-2 text-sm inline-block text-left font-lora">
               <li>✔ real-time reporting & reconciliation</li>
               <li>✔ competitive, transparent pricing</li>
               <li>✔ multi-location management</li>
