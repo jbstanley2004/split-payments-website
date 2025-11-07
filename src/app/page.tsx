@@ -74,7 +74,7 @@ export default function Page() {
         </header>
 
         {/* Hero */}
-        <section className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50">
+        <section className="px-6 md:px-10 py-10 md:py-14 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -120,7 +120,7 @@ export default function Page() {
         {/* Funding Feature */}
         <section
           id="funding"
-          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row-reverse items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50"
+          className="px-6 md:px-10 py-10 md:py-14 flex flex-col md:flex-row-reverse items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
           <motion.div
             initial={{ opacity: 0, x: 20 }}
@@ -163,7 +163,7 @@ export default function Page() {
         {/* Payments / POS */}
         <section
           id="pos"
-          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50"
+          className="px-6 md:px-10 py-10 md:py-14 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-12 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
           <motion.div
             initial={{ opacity: 0, y: 24 }}
