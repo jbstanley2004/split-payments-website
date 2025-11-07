@@ -1,5 +1,6 @@
 "use client";
 
+import { SplitLogo } from "@/components/split-logo";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -108,12 +109,9 @@ export default function IndustriesPage() {
       <div className="relative z-10">
         {/* Sticky Glass Header */}
         <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/30 border-b border-white/10">
-          <Link
-            href="/"
-            className="text-2xl tracking-tight lowercase text-white hover:text-white"
-            onClick={closeMenu}
-          >
-            split
+          <Link href="/" className="flex items-center" onClick={closeMenu}>
+            <span className="sr-only">Split</span>
+            <SplitLogo priority />
           </Link>
 
           <nav className="hidden md:flex gap-8 text-sm text-muted">

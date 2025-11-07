@@ -1,5 +1,6 @@
 "use client";
 
+import { SplitLogo } from "@/components/split-logo";
 import Link from "next/link";
 
 export default function GetStarted() {
@@ -7,8 +8,9 @@ export default function GetStarted() {
     <main className="min-h-screen font-jetbrains">
       {/* Sticky Glass Header */}
       <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/30 border-b border-white/10">
-        <Link href="/" className="text-2xl tracking-tight lowercase text-white hover:text-white">
-          split
+        <Link href="/" className="flex items-center">
+          <span className="sr-only">Split</span>
+          <SplitLogo priority />
         </Link>
 
         <nav className="hidden md:flex gap-8 text-sm text-muted">
