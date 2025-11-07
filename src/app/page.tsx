@@ -223,13 +223,36 @@ export default function Page() {
           </motion.div>
 
           <ParallaxIllustration
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.92 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9 }}
+            transition={{
+              duration: 0.9,
+              scale: {
+                type: "spring",
+                stiffness: 120,
+                damping: 15,
+                mass: 0.8
+              }
+            }}
             className="w-full md:w-1/2 flex justify-center md:justify-end md:h-full"
             offset={[-4, 8]}
           >
-            <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[600px]">
+            <motion.div
+              className="relative w-full max-w-[680px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[650px]"
+              animate={{
+                y: [0, -12, 0],
+              }}
+              transition={{
+                y: {
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }
+              }}
+              style={{
+                filter: "drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15))"
+              }}
+            >
               <Image
                 src="/graphic4.png"
                 alt="split hero"
@@ -238,7 +261,7 @@ export default function Page() {
                 sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
                 priority
               />
-            </div>
+            </motion.div>
           </ParallaxIllustration>
         </section>
 
@@ -267,14 +290,38 @@ export default function Page() {
           </motion.div>
 
           <ParallaxIllustration
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: -20, scale: 0.92 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7 }}
+            transition={{
+              duration: 0.7,
+              scale: {
+                type: "spring",
+                stiffness: 110,
+                damping: 14,
+                mass: 0.9
+              }
+            }}
             className="w-full md:w-1/2 flex justify-center md:justify-start md:h-full"
             offset={[-5, 7]}
           >
-            <div className="relative w-full max-w-[520px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[580px]">
+            <motion.div
+              className="relative w-full max-w-[660px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[630px]"
+              animate={{
+                y: [0, -10, 0],
+              }}
+              transition={{
+                y: {
+                  duration: 4.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.5
+                }
+              }}
+              style={{
+                filter: "drop-shadow(0 20px 40px rgba(0, 0, 0, 0.12))"
+              }}
+            >
               <Image
                 src="/graphic3.png"
                 alt="funding graphic"
@@ -282,7 +329,7 @@ export default function Page() {
                 className="object-contain object-center md:object-left-top"
                 sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
               />
-            </div>
+            </motion.div>
           </ParallaxIllustration>
         </section>
 
