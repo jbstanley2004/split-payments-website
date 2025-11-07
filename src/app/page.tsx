@@ -6,7 +6,7 @@ import { motion, useScroll, useTransform, type MotionProps, AnimatePresence } fr
 import Image from "next/image";
 import Link from "next/link";
 import { SplitLogo } from "@/components/split-logo";
-import HeroOptimized from "@/components/hero-optimized";
+import Hero from "@/components/Hero";
 
 const navItems = [
   { href: "/#funding", label: "funding" },
@@ -199,75 +199,7 @@ export default function Page() {
         </header>
 
         {/* Hero */}
-        <HeroOptimized />
-
-        {/* Funding Feature */}
-        <section
-          id="funding"
-          className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row-reverse items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50"
-        >
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7 }}
-            className="w-full md:w-1/2 max-w-xl mx-auto md:mx-0 text-center md:text-left md:h-full md:flex md:flex-col md:justify-center"
-          >
-            <h2 className="text-3xl mb-4 text-balance">Sales-based capital access</h2>
-            <p className="text-muted mb-6 text-pretty">
-              Access fast, flexible capital — powered by your daily sales. No fixed
-              monthly minimums or hard credit checks.
-            </p>
-            <ul className="text-muted space-y-2 text-sm inline-block text-left">
-              <li>✔ pre-approved based on processing history</li>
-              <li>✔ automated repayment from card sales</li>
-              <li>✔ funding in as little as 24 hours</li>
-            </ul>
-          </motion.div>
-
-          <ParallaxIllustration
-            initial={{ opacity: 0, x: -20, scale: 0.92 }}
-            whileInView={{ opacity: 1, x: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{
-              duration: 0.7,
-              scale: {
-                type: "spring",
-                stiffness: 110,
-                damping: 14,
-                mass: 0.9
-              }
-            }}
-            className="w-full md:w-1/2 flex justify-center md:justify-start md:h-full"
-            offset={[-5, 7]}
-          >
-            <motion.div
-              className="relative w-full max-w-[660px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[630px]"
-              animate={{
-                y: [0, -10, 0],
-              }}
-              transition={{
-                y: {
-                  duration: 4.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.5
-                }
-              }}
-              style={{
-                filter: "drop-shadow(0 20px 40px rgba(0, 0, 0, 0.12))"
-              }}
-            >
-              <Image
-                src="/graphic3.png"
-                alt="funding graphic"
-                fill
-                className="object-contain object-center md:object-left-top"
-                sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
-              />
-            </motion.div>
-          </ParallaxIllustration>
-        </section>
+        <Hero />
 
         {/* Payments / POS */}
         <section
