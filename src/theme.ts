@@ -1,12 +1,12 @@
 export const theme = {
   colors: {
-    background: "#0A0A0A",
-    surface: "#111111",
-    textPrimary: "#F5F5F5",
-    textSecondary: "#AAAAAA",
-    accent: "#FF6600",
-    accentHover: "#FF8533",
-    border: "#222222",
+    background: "var(--theme-background)",
+    surface: "var(--theme-surface)",
+    textPrimary: "var(--theme-text-primary)",
+    textSecondary: "var(--theme-text-secondary)",
+    accent: "var(--theme-accent)",
+    accentHover: "var(--theme-accent-hover)",
+    border: "var(--theme-border)",
   },
   fonts: {
     primary:
