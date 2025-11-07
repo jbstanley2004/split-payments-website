@@ -11,16 +11,16 @@ export default function HeroOptimized() {
     offset: ["start end", "end start"],
   });
 
-  // Scroll-linked transforms for the image
+  // Scroll-linked transforms for the image - improved smoothness
   const y = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const rotateY = useTransform(scrollYProgress, [0, 1], [35, 25]);
   const rotateX = useTransform(scrollYProgress, [0, 1], [10, 6]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
-  const imageOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
 
-  // Text fade & lift
-  const textOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const textY = useTransform(scrollYProgress, [0, 0.5], [0, -40]);
+  // Text fade & lift - keep text more visible
+  const textOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.4]);
+  const textY = useTransform(scrollYProgress, [0, 0.8], [0, -30]);
 
   return (
     <section
@@ -36,30 +36,30 @@ export default function HeroOptimized() {
         style={{ opacity: textOpacity, y: textY }}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
+        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
       >
-        <h1 className="text-4xl md:text-5xl font-jetbrains leading-tight text-[#0b0b0b] dark:text-white">
+        <h1 className="text-4xl md:text-5xl font-poppins leading-tight text-[var(--theme-text-primary)]">
           Accept payments.
           <br />
           Access capital.
           <br />
           Grow with split.
         </h1>
-        <p className="mt-6 text-lg text-[#4f4f4f] dark:text-[#aaaaaa] max-w-md mx-auto lg:mx-0">
+        <p className="mt-6 text-lg font-lora text-[var(--theme-text-secondary)] max-w-md mx-auto lg:mx-0">
           Flexible merchant funding and payment services built for high-growth
-          businesses. No gradients. No color noise. Just clarity.
+          businesses. Clarity in payments. Powered by trust.
         </p>
 
         <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
           <Link
             href="/get-started"
-            className="border border-white px-5 py-3 text-sm hover:bg-white hover:text-black transition-colors text-white dark:text-white"
+            className="border border-[var(--theme-border)] px-6 py-3 rounded-md text-[var(--theme-accent)] font-poppins hover:bg-[var(--theme-accent)] hover:text-white transition-all duration-300 ease-out"
           >
             get started
           </Link>
           <a
             href="/#funding"
-            className="text-[#4f4f4f] dark:text-[#aaaaaa] hover:text-[#0b0b0b] dark:hover:text-white font-jetbrains text-sm transition-colors"
+            className="text-[var(--theme-text-primary)] font-lora hover:text-[var(--theme-accent)] transition-colors duration-300 text-base inline-flex items-center"
           >
             learn more →
           </a>
@@ -78,13 +78,13 @@ export default function HeroOptimized() {
         initial={{ opacity: 0, y: 50 }}
         animate={{
           opacity: 1,
-          y: [0, -12, 0], // Continuous float
+          y: [0, -8, 0], // Continuous float - smooth motion
         }}
         transition={{
-          opacity: { duration: 0.8, ease: "easeOut" },
-          y: { duration: 6, repeat: Infinity, ease: "easeInOut" },
+          opacity: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] },
+          y: { duration: 7, repeat: Infinity, ease: [0.45, 0.05, 0.55, 0.95] },
         }}
-        whileHover={{ y: -10, transition: { duration: 0.4, ease: "easeOut" } }}
+        whileHover={{ y: -12, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } }}
       >
         <motion.div
           className="relative w-full max-w-[600px]"
@@ -96,7 +96,7 @@ export default function HeroOptimized() {
           whileHover={{
             rotateY: 30,
             rotateX: 8,
-            transition: { duration: 0.5, ease: "easeOut" },
+            transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
           }}
         >
           {/* Light mode */}
