@@ -3,7 +3,6 @@ const config = {
   poweredByHeader: false,
   reactStrictMode: true,
   trailingSlash: true,
-  transpilePackages: ["@midday/ui", "@midday/tailwind", "next-mdx-remote"],
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -31,6 +30,14 @@ const config = {
         permanent: true,
       },
     ];
+  },
+  turbopack: {
+    resolveAlias: {
+      '@midday/ui': './src/lib/stub.ts',
+      '@midday/supabase': './src/lib/stub.ts',
+      '@midday/jobs': './src/lib/stub.ts',
+      '@midday/email': './src/lib/stub.ts',
+    },
   },
 };
 

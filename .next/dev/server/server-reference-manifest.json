@@ -1,49 +1,5 @@
 {
-  "node": {
-    "006d8a5469dda87dd64a2606c509054dc503bd963c": {
-      "workers": {
-        "app/_not-found/page": {
-          "moduleId": "[project]/Downloads/split-main 2/apps/website/.next-internal/server/app/_not-found/page/actions.js { ACTIONS_MODULE0 => \"[project]/Downloads/split-main 2/apps/website/src/actions/fetch-status.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "fetchStatus",
-          "filename": "Downloads/split-main 2/apps/website/src/actions/fetch-status.ts"
-        },
-        "app/get-started/page": {
-          "moduleId": "[project]/Downloads/split-main 2/apps/website/.next-internal/server/app/get-started/page/actions.js { ACTIONS_MODULE0 => \"[project]/Downloads/split-main 2/apps/website/src/actions/fetch-status.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "fetchStatus",
-          "filename": "Downloads/split-main 2/apps/website/src/actions/fetch-status.ts"
-        },
-        "app/industries/page": {
-          "moduleId": "[project]/Downloads/split-main 2/apps/website/.next-internal/server/app/industries/page/actions.js { ACTIONS_MODULE0 => \"[project]/Downloads/split-main 2/apps/website/src/actions/fetch-status.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "fetchStatus",
-          "filename": "Downloads/split-main 2/apps/website/src/actions/fetch-status.ts"
-        },
-        "app/page": {
-          "moduleId": "[project]/Downloads/split-main 2/apps/website/.next-internal/server/app/page/actions.js { ACTIONS_MODULE0 => \"[project]/Downloads/split-main 2/apps/website/src/actions/fetch-status.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "fetchStatus",
-          "filename": "Downloads/split-main 2/apps/website/src/actions/fetch-status.ts"
-        },
-        "app/payments/page": {
-          "moduleId": "[project]/Downloads/split-main 2/apps/website/.next-internal/server/app/payments/page/actions.js { ACTIONS_MODULE0 => \"[project]/Downloads/split-main 2/apps/website/src/actions/fetch-status.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "fetchStatus",
-          "filename": "Downloads/split-main 2/apps/website/src/actions/fetch-status.ts"
-        }
-      },
-      "layer": {
-        "app/_not-found/page": "action-browser",
-        "app/get-started/page": "action-browser",
-        "app/industries/page": "action-browser",
-        "app/page": "action-browser",
-        "app/payments/page": "action-browser"
-      },
-      "filename": "Downloads/split-main 2/apps/website/src/actions/fetch-status.ts",
-      "exportedName": "fetchStatus"
-    }
-  },
+  "node": {},
   "edge": {},
   "encryptionKey": "L955fTDjjnOe55mA1jbjD4zhYvxnL34T7CU9t2z1WaA="
 }

@@ -1,669 +1,437 @@
-[00:00:00.833] Server  LOG      ✓ Ready in 559ms
-[00:00:04.048] Server  ERROR    ⨯ ./Downloads/split-main 2/packages/ui/tsconfig.json
-An issue occurred while parsing a tsconfig.json file.
-extends: "@midday/tsconfig/react-library.json" doesn't resolve correctly
+[00:00:00.698] Server  LOG      ✓ Ready in 415ms
+[00:00:03.795] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
 
 
-[00:00:04.939] Browser ERROR   uncaughtError: Error: ./Downloads/split-main 2/packages/ui/tsconfig.json
-An issue occurred while parsing a tsconfig.json file.
-extends: "@midday/tsconfig/react-library.json" doesn't resolve correctly
+
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found
 
 
-[00:00:05.112] Browser ERROR   ./Downloads/split-main 2/packages/ui/tsconfig.json
-An issue occurred while parsing a tsconfig.json file.
-extends: "@midday/tsconfig/react-library.json" doesn't resolve correctly
-[00:00:05.112] Browser ERROR   ./Downloads/split-main 2/packages/ui/tsconfig.json
-An issue occurred while parsing a tsconfig.json file.
-extends: "@midday/tsconfig/react-library.json" doesn't resolve correctly
-[00:00:48.075] Server  ERROR    ⨯ ./Downloads/split-main 2/packages/ui/tsconfig.json
-An issue occurred while parsing a tsconfig.json file.
-extends: "@midday/tsconfig/react-library.json" doesn't resolve correctly
+[00:00:04.445] Browser ERROR   uncaughtError: Error: ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
 
 
-[00:00:48.316] Browser ERROR   uncaughtError: Error: ./Downloads/split-main 2/packages/ui/tsconfig.json
-An issue occurred while parsing a tsconfig.json file.
-extends: "@midday/tsconfig/react-library.json" doesn't resolve correctly
+
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found
 
 
-[00:00:48.485] Browser ERROR   ./Downloads/split-main 2/packages/ui/tsconfig.json
-An issue occurred while parsing a tsconfig.json file.
-extends: "@midday/tsconfig/react-library.json" doesn't resolve correctly
-[00:00:48.485] Browser ERROR   ./Downloads/split-main 2/packages/ui/tsconfig.json
-An issue occurred while parsing a tsconfig.json file.
-extends: "@midday/tsconfig/react-library.json" doesn't resolve correctly
-[00:00:53.296] Server  LOG      ✓ Compiled in 27ms
-[00:00:53.679] Server  WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:00:53.681] Server  WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:00:53.683] Server  WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:00:53.906] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:54.080] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:00:54.080] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:00:54.080] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:04:36.959] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
-[00:13:38.191] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:13:38.391] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:13:38.391] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:13:38.391] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:27:20.160] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
-[00:51:21.709] Server  LOG      ✓ Compiled in 2ms
-[00:53:01.714] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:53:22.495] Server  WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:53:22.502] Server  WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:53:22.503] Server  WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:53:22.727] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:53:22.878] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:53:22.878] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:53:22.878] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:54:36.398] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:54:39.968] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:54:40.088] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:54:40.088] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:54:40.088] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:55:01.882] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:55:02.016] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:55:02.016] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:55:02.016] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[00:55:02.128] Browser WARN    Image with src "/graphic4.png" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
-Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
-[00:55:14.928] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:02:09.078] Server  LOG      ✓ Compiled in 2.3s
-[01:02:51.709] Server  LOG      ✓ Compiled in 0ms
-[01:04:34.425] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:04:47.231] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:05:44.620] Server  LOG      ✓ Compiled in 157ms
-[01:05:56.577] Server  LOG      ✓ Compiled in 102ms
-[01:05:56.840] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:09:19.087] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:09:21.669] Server  WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:09:21.672] Server  WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:09:21.673] Server  WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:09:54.362] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:09:59.203] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:10:01.973] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:10:02.092] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:10:02.093] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:10:02.093] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:10:19.068] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:10:40.113] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:12:23.772] Server  LOG      ✓ Compiled in 152ms
-[01:12:37.658] Browser WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/car_repair.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/restaurants.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/clothing.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/pharmacy.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/home_goods_furniture.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:37.658] Browser WARN    Image with src "/industries/clothing.webp" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
-Read more: https://nextjs.org/docs/app/api-reference/components/image#loading
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/hair_beauty.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/hotels.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/professional_services.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/convenience_store.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:37.658] Browser WARN    Image with src "http://localhost:3000/industries/franchise.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:12:42.723] Server  WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:42.724] Server  WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:42.725] Server  WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:42.726] Server  WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:42.726] Server  WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:42.727] Server  WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:42.727] Server  WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:42.728] Server  WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:42.729] Server  WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:12:42.729] Server  WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:14:43.759] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:14:44.002] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:14:44.005] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:14:44.005] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:48.665] Server  LOG      ✓ Compiled in 183ms
-[01:19:54.204] Server  WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.206] Server  WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.207] Server  WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.208] Server  WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.208] Server  WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.209] Server  WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.209] Server  WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.210] Server  WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.211] Server  WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.212] Server  WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:19:54.213] Server  WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:02.893] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:20:03.214] Browser WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:20:03.214] Browser WARN    Image with src "http://localhost:3000/industries/restaurants.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:03.214] Browser WARN    Image with src "http://localhost:3000/industries/car_repair.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:03.214] Browser WARN    Image with src "http://localhost:3000/industries/clothing.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:03.214] Browser WARN    Image with src "http://localhost:3000/industries/pharmacy.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:03.214] Browser WARN    Image with src "http://localhost:3000/industries/home_goods_furniture.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:03.214] Browser WARN    Image with src "http://localhost:3000/industries/hair_beauty.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:06.620] Browser WARN    Image with src "http://localhost:3000/industries/hotels.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:06.620] Browser WARN    Image with src "http://localhost:3000/industries/franchise.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:06.980] Browser WARN    Image with src "http://localhost:3000/industries/convenience_store.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:06.980] Browser WARN    Image with src "http://localhost:3000/industries/professional_services.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:20:53.952] Server  LOG      ✓ Compiled in 287ms
-[01:20:54.077] Browser ERROR   uncaughtError: Error: Target ref is defined but not hydrated. For more information and steps for solving, visit https://motion.dev/troubleshooting/use-scroll-ref
-[01:21:05.426] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[01:21:05.548] Server  LOG      ✓ Compiled in 172ms
-[01:21:05.560] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:21:05.956] Server  WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.959] Server  WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.960] Server  WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.960] Server  WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.961] Server  WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.963] Server  WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.965] Server  WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.966] Server  WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.967] Server  WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.968] Server  WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:05.968] Server  WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.231] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:21:06.522] Browser WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:21:06.522] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:21:06.522] Browser WARN    Image with src "http://localhost:3000/industries/restaurants.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:21:06.522] Browser WARN    Image with src "http://localhost:3000/industries/car_repair.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:21:06.522] Browser WARN    Image with src "http://localhost:3000/industries/clothing.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:21:06.522] Browser WARN    Image with src "http://localhost:3000/industries/pharmacy.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:21:06.522] Browser WARN    Image with src "http://localhost:3000/industries/home_goods_furniture.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:21:06.522] Browser WARN    Image with src "http://localhost:3000/industries/hair_beauty.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:21:19.700] Browser WARN    Image with src "http://localhost:3000/industries/hotels.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:21:19.700] Browser WARN    Image with src "http://localhost:3000/industries/franchise.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:21:20.581] Browser WARN    Image with src "http://localhost:3000/industries/professional_services.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:21:20.581] Browser WARN    Image with src "http://localhost:3000/industries/convenience_store.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:01.024] Server  LOG      ✓ Compiled in 210ms
-[01:23:01.383] Browser ERROR   ./Downloads/split-main 2/apps/website/src/app/industries/page.tsx:197:1
-Parsing ecmascript source code failed
-  195 |     </main>
-  196 |   );
-> 197 | }
-      | ^
-  198 |
+[00:00:04.960] Browser ERROR   ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
 
-Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
 
-Import traces:
-  Client Component Browser:
-    ./Downloads/split-main 2/apps/website/src/app/industries/page.tsx [Client Component Browser]
-    ./Downloads/split-main 2/apps/website/src/app/industries/page.tsx [Server Component]
+https://nextjs.org/docs/messages/module-not-found
+[00:00:04.960] Browser ERROR   ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
 
-  Client Component SSR:
-    ./Downloads/split-main 2/apps/website/src/app/industries/page.tsx [Client Component SSR]
-    ./Downloads/split-main 2/apps/website/src/app/industries/page.tsx [Server Component]
-[01:23:28.214] Server  LOG      ✓ Compiled in 156ms
-[01:23:33.830] Server  WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.832] Server  WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.833] Server  WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.837] Server  WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.838] Server  WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.838] Server  WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.839] Server  WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.840] Server  WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.840] Server  WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.841] Server  WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:33.841] Server  WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.320] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:23:46.582] Browser WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:23:46.582] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:23:46.582] Browser WARN    Image with src "http://localhost:3000/industries/restaurants.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:46.582] Browser WARN    Image with src "http://localhost:3000/industries/car_repair.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:46.582] Browser WARN    Image with src "http://localhost:3000/industries/clothing.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:46.582] Browser WARN    Image with src "http://localhost:3000/industries/pharmacy.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:46.582] Browser WARN    Image with src "http://localhost:3000/industries/home_goods_furniture.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:46.582] Browser WARN    Image with src "http://localhost:3000/industries/hair_beauty.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:51.063] Browser WARN    Image with src "http://localhost:3000/industries/hotels.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:51.063] Browser WARN    Image with src "http://localhost:3000/industries/franchise.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:52.492] Browser WARN    Image with src "http://localhost:3000/industries/professional_services.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:23:52.492] Browser WARN    Image with src "http://localhost:3000/industries/convenience_store.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:24:18.618] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:24:18.618] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:24:18.618] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:24:18.618] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
-[01:28:47.037] Server  LOG      ✓ Compiled in 153ms
-[01:29:26.707] Server  WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.710] Server  WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.710] Server  WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.711] Server  WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.711] Server  WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.712] Server  WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.712] Server  WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.713] Server  WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.713] Server  WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.714] Server  WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:26.715] Server  WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:57.138] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:29:57.299] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:57.299] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:29:57.299] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.463] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:30:06.749] Browser WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:06.749] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:30:06.749] Browser WARN    Image with src "http://localhost:3000/industries/restaurants.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:06.749] Browser WARN    Image with src "http://localhost:3000/industries/car_repair.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:06.749] Browser WARN    Image with src "http://localhost:3000/industries/clothing.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:06.749] Browser WARN    Image with src "http://localhost:3000/industries/pharmacy.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:06.749] Browser WARN    Image with src "http://localhost:3000/industries/home_goods_furniture.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:06.749] Browser WARN    Image with src "http://localhost:3000/industries/hair_beauty.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:08.570] Browser WARN    Image with src "http://localhost:3000/industries/hotels.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:08.570] Browser WARN    Image with src "http://localhost:3000/industries/franchise.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:10.051] Browser WARN    Image with src "http://localhost:3000/industries/convenience_store.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:10.052] Browser WARN    Image with src "http://localhost:3000/industries/professional_services.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:30:27.214] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:30:29.222] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:30:29.362] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:29.362] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:30:29.362] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:31:44.025] Server  LOG      ✓ Compiled in 151ms
-[01:31:52.832] Server  WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:31:52.834] Server  WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:31:52.835] Server  WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:32:47.409] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:32:47.547] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:32:47.547] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:32:47.547] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:32:56.242] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:33:02.894] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:33:03.131] Browser WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:33:03.131] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:33:03.131] Browser WARN    Image with src "http://localhost:3000/industries/restaurants.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:03.131] Browser WARN    Image with src "http://localhost:3000/industries/car_repair.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:03.131] Browser WARN    Image with src "http://localhost:3000/industries/clothing.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:03.131] Browser WARN    Image with src "http://localhost:3000/industries/pharmacy.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:03.131] Browser WARN    Image with src "http://localhost:3000/industries/home_goods_furniture.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:03.131] Browser WARN    Image with src "http://localhost:3000/industries/hair_beauty.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:05.372] Browser WARN    Image with src "http://localhost:3000/industries/hotels.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:05.372] Browser WARN    Image with src "http://localhost:3000/industries/franchise.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:08.412] Browser WARN    Image with src "http://localhost:3000/industries/convenience_store.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:08.413] Browser WARN    Image with src "http://localhost:3000/industries/professional_services.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:33:52.206] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:34:31.222] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:34:31.589] Browser WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:34:31.590] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:34:31.590] Browser WARN    Image with src "http://localhost:3000/industries/restaurants.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:31.590] Browser WARN    Image with src "http://localhost:3000/industries/car_repair.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:31.590] Browser WARN    Image with src "http://localhost:3000/industries/clothing.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:31.590] Browser WARN    Image with src "http://localhost:3000/industries/pharmacy.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:31.590] Browser WARN    Image with src "http://localhost:3000/industries/home_goods_furniture.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:31.590] Browser WARN    Image with src "http://localhost:3000/industries/hair_beauty.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:32.523] Browser WARN    Image with src "http://localhost:3000/industries/hotels.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:32.523] Browser WARN    Image with src "http://localhost:3000/industries/franchise.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:32.835] Browser WARN    Image with src "http://localhost:3000/industries/convenience_store.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:32.835] Browser WARN    Image with src "http://localhost:3000/industries/professional_services.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:34:35.026] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:38:47.268] Server  LOG      ✓ Compiled in 348ms
-[01:38:47.422] Browser ERROR   uncaughtError: Error: Target ref is defined but not hydrated. For more information and steps for solving, visit https://motion.dev/troubleshooting/use-scroll-ref
-[01:39:07.918] Server  LOG      ✓ Compiled in 110ms
-[01:39:08.026] Browser ERROR   ./Downloads/split-main 2/apps/website/src/app/payments/page.tsx:163:1
-Parsing ecmascript source code failed
-  161 |     </main>
-  162 |   );
-> 163 | }
-      | ^
-  164 |
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
 
-Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+https://nextjs.org/docs/messages/module-not-found
+[00:00:08.961] Browser ERROR   ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
 
-Import traces:
-  Client Component Browser:
-    ./Downloads/split-main 2/apps/website/src/app/payments/page.tsx [Client Component Browser]
-    ./Downloads/split-main 2/apps/website/src/app/payments/page.tsx [Server Component]
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
 
-  Client Component SSR:
-    ./Downloads/split-main 2/apps/website/src/app/payments/page.tsx [Client Component SSR]
-    ./Downloads/split-main 2/apps/website/src/app/payments/page.tsx [Server Component]
-[01:39:29.620] Server  WARN     ⚠ Fast Refresh had to perform a full reload due to a runtime error.
-[01:39:29.630] Server  LOG      ✓ Compiled in 199ms
-[01:39:29.749] Browser WARN    Image with src "/payments-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+https://nextjs.org/docs/messages/module-not-found
+[00:00:18.964] Browser ERROR   ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
+
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:50.885] Server  LOG      ✓ Compiled in 194ms
+[00:00:51.298] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
+
+
+
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:51.443] Browser ERROR   uncaughtError: Error: ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
+
+
+
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:00:51.963] Browser ERROR   ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
+
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+[00:00:51.963] Browser ERROR   ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx:4:1
+Module not found: Can't resolve '@midday/ui/cn'
+  2 |
+  3 | import { fetchStatus } from "@/actions/fetch-status";
+> 4 | import { cn } from "@midday/ui/cn";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { useEffect, useState } from "react";
+  6 |
+  7 | export function StatusWidget() {
+
+Import trace:
+  Server Component:
+    ./Downloads/split-main 2/apps/website/src/components/status-widget.tsx
+    ./Downloads/split-main 2/apps/website/src/components/not-found-terminal.tsx
+    ./Downloads/split-main 2/apps/website/src/app/not-found.tsx
+
+https://nextjs.org/docs/messages/module-not-found
+[00:01:13.360] Server  LOG      ✓ Compiled in 293ms
+[00:01:13.710] Server  WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
 Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:39:29.749] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:39:30.447] Server  WARN    Image with src "/payments-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+[00:01:13.712] Server  WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
 Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:39:30.754] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:39:30.932] Browser WARN    Image with src "/payments-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+[00:01:13.713] Server  WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
 Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:39:30.932] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:40:06.480] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:40:06.860] Browser WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+[00:01:13.904] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:14.964] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
 Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+[00:01:14.964] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
 Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
+[00:01:14.964] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
 Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:06.860] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:40:06.860] Browser WARN    Image with src "http://localhost:3000/industries/restaurants.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:06.860] Browser WARN    Image with src "http://localhost:3000/industries/car_repair.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:06.860] Browser WARN    Image with src "http://localhost:3000/industries/clothing.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:06.860] Browser WARN    Image with src "http://localhost:3000/industries/pharmacy.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:06.860] Browser WARN    Image with src "http://localhost:3000/industries/home_goods_furniture.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:06.860] Browser WARN    Image with src "http://localhost:3000/industries/hair_beauty.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:07.911] Browser WARN    Image with src "http://localhost:3000/industries/hotels.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:07.911] Browser WARN    Image with src "http://localhost:3000/industries/franchise.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:10.546] Browser WARN    Image with src "http://localhost:3000/industries/professional_services.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:10.546] Browser WARN    Image with src "http://localhost:3000/industries/convenience_store.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:23.027] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:40:23.178] Browser WARN    Image with src "/payments-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:23.178] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:40:45.609] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:40:45.759] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:45.759] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:45.759] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:50.822] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:40:50.970] Browser WARN    Image with src "/payments-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:50.970] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:40:52.821] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:40:53.095] Browser WARN    Image with src "/industries-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/restaurants.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/car_repair.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/clothing.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/pharmacy.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/home_goods_furniture.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/hair_beauty.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/hotels.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/franchise.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/convenience_store.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Image with src "/industries/professional_services.webp" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:40:53.095] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:40:53.095] Browser WARN    Image with src "http://localhost:3000/industries/restaurants.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:53.095] Browser WARN    Image with src "http://localhost:3000/industries/car_repair.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:53.095] Browser WARN    Image with src "http://localhost:3000/industries/clothing.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:53.095] Browser WARN    Image with src "http://localhost:3000/industries/pharmacy.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:53.095] Browser WARN    Image with src "http://localhost:3000/industries/home_goods_furniture.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:53.095] Browser WARN    Image with src "http://localhost:3000/industries/hair_beauty.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:53.095] Browser WARN    Image with src "http://localhost:3000/industries/hotels.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:53.095] Browser WARN    Image with src "http://localhost:3000/industries/franchise.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:53.095] Browser WARN    Image with src "http://localhost:3000/industries/convenience_store.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:40:54.486] Browser WARN    Image with src "http://localhost:3000/industries/professional_services.webp" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[01:41:11.214] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:41:11.366] Browser WARN    Image with src "/payments-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:41:11.366] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:41:13.416] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:41:13.544] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:41:13.545] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:41:13.545] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:41:18.309] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:41:18.457] Browser WARN    Image with src "/payments-hero.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:41:18.457] Browser WARN    Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
-[01:41:36.849] Browser WARN    Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
-[01:41:51.817] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[01:41:51.959] Browser WARN    Image with src "/graphic3.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:41:51.959] Browser WARN    Image with src "/graphic4.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
-[01:41:51.959] Browser WARN    Image with src "/merchants.png" has a "loader" property that does not implement width. Please implement it or use the "unoptimized" property instead.
-Read more: https://nextjs.org/docs/messages/next-image-missing-loader-width
+[00:01:40.548] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.562] Server  ERROR    ⨯ "unhandledRejection:" Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.582] Server  ERROR    ⨯ "unhandledRejection: " Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.591] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.594] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.609] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.613] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.638] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.645] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.663] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.672] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.682] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.689] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.698] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.712] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.720] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.722] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.728] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.731] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.739] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.740] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.746] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.748] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.754] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.756] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.758] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.758] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.759] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.760] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.760] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.761] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.762] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.762] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.762] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.763] Server  ERROR    ⨯ ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+[00:01:40.768] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.775] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.783] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.787] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.799] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.800] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.808] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.809] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.815] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.816] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.822] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.823] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.829] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.831] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.838] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:40.840] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:01:41.087] Server  LOG      ✓ Compiled in 579ms
+[00:01:41.962] Browser ERROR   ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+https://nextjs.org/docs/messages/module-not-found
+[00:02:26.197] Browser ERROR   ./Downloads/split-main 2/apps/website/src/app/page.tsx:1:1
+Module not found: Can't resolve '@/pages/HomeRedesign'
+> 1 | import { HomeRedesign } from "@/pages/HomeRedesign";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export const revalidate = 0;
+  4 |
+
+Import map: aliased to relative './src/pages/HomeRedesign' inside of [project]/Downloads/split-main 2/apps/website
+
+https://nextjs.org/docs/messages/module-not-found
+[00:02:26.220] Server  LOG      ✓ Compiled in 193ms
+[00:02:26.276] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:02:26.280] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:02:26.287] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'
+[00:02:26.289] Server  ERROR   Error: ENOENT: no such file or directory, scandir '/Users/jacob/Downloads/split-main 2/apps/website/src/pages'

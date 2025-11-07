@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/jacob/Downloads/split-main%202/apps/website/src/app/not-found.tsx"],"sourcesContent":["export default function NotFound() {\n  return (\n    <div className=\"fixed dark:bg-[#0C0C0C] bg-[#FAF9F6] top-0 right-0 bottom-0 left-0 z-30 flex flex-col items-center justify-center\">\n      <h1 className=\"md:text-[300px] text-[140px] font-medium text-center\">\n        404\n      </h1>\n      <p className=\"text-muted text-center text-lg mt-4\">Page not found</p>\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACtB,qBACE,+QAAC;QAAI,WAAU;;0BACb,+QAAC;gBAAG,WAAU;0BAAuD;;;;;;0BAGrE,+QAAC;gBAAE,WAAU;0BAAsC;;;;;;;;;;;;AAGzD","debugId":null}}]
+}

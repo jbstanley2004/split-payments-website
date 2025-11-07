@@ -1,1 +1,6 @@
-module.exports = require("@midday/ui/postcss");
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
