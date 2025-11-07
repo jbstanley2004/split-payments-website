@@ -196,7 +196,7 @@ export function Header() {
 
   return (
     <header className="sticky mt-4 top-4 z-50 px-2 md:px-4 md:flex justify-center">
-      <nav className="border border-border px-4 flex items-center backdrop-filter backdrop-blur-xl bg-[#FFFFFF] dark:bg-[#121212] bg-opacity-70 h-[50px] z-20 relative">
+      <nav className="border border-border px-4 flex items-center backdrop-filter backdrop-blur-xl bg-[#FFFFFF] dark:bg-[#121212] bg-opacity-70 h-[64px] z-20 relative">
         <ContextMenu>
           <ContextMenuTrigger asChild>
             <Link
@@ -208,7 +208,7 @@ export function Header() {
                 alt="Split logo"
                 darkSrc={splitLogoDark}
                 lightSrc={splitLogoLight}
-                className="h-10 w-auto"
+                className="h-10 w-auto md:h-12"
                 priority
               />
             </Link>
