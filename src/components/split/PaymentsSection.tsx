@@ -2,6 +2,13 @@
 
 import styled from "styled-components";
 
+const cardColors = [
+  "#C67C5F", // Terracotta
+  "#B7CDC5", // Mint
+  "#E4DACB", // Beige
+  "#C9C8DA", // Lavender
+];
+
 export function PaymentsSection() {
   return (
     <Wrap id="payments">
@@ -13,10 +20,10 @@ export function PaymentsSection() {
           </Text>
 
           <Grid>
-            <Card>POS terminals, online gateways, and mobile payments</Card>
-            <Card>Real-time reporting &amp; reconciliation</Card>
-            <Card>Competitive, transparent pricing</Card>
-            <Card>Dedicated account support</Card>
+            <Card $color={cardColors[0]}>POS terminals, online gateways, and mobile payments</Card>
+            <Card $color={cardColors[1]}>Real-time reporting &amp; reconciliation</Card>
+            <Card $color={cardColors[2]}>Competitive, transparent pricing</Card>
+            <Card $color={cardColors[3]}>Dedicated account support</Card>
           </Grid>
 
           <CTA href="#get-started">Start accepting payments</CTA>
@@ -109,14 +116,22 @@ const Copy = styled.div`
 `;
 
 const Heading = styled.h2`
-  font-size: 2rem;
+  font-family: "Inter Tight", var(--font-poppins), system-ui, sans-serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #0A0A0A;
   margin: 0 0 1rem;
 `;
 
 const Text = styled.p`
+  font-family: "Source Serif 4", var(--font-lora), Georgia, serif;
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #2C2C2C;
   max-width: 720px;
   margin: 0 0 2rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
 
   @media (max-width: 900px) {
     margin: 0 auto 2rem;
@@ -135,15 +150,24 @@ const Grid = styled.div`
   }
 `;
 
-const Card = styled.div`
-  background: #1a1a1a;
-  border: 1px solid ${({ theme }) => theme.colors.border};
+type CardProps = {
+  $color: string;
+};
+
+const Card = styled.div<CardProps>`
+  background: ${({ $color }) => $color};
+  border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 12px;
   padding: 1.4rem;
   text-align: left;
+  font-family: "Source Serif 4", var(--font-lora), Georgia, serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #0A0A0A;
 `;
 
 const CTA = styled.a`
+  font-family: "Inter Tight", var(--font-poppins), system-ui, sans-serif;
   background: ${({ theme }) => theme.colors.accent};
   color: #fff;
   padding: 0.9rem 1.6rem;
