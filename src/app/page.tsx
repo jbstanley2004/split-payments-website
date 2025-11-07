@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SplitLogo } from "@/components/split-logo";
 import Hero from "@/components/Hero";
+import IndustriesCarousel from "@/components/IndustriesCarousel";
 
 const navItems = [
   { href: "/#funding", label: "Funding" },
@@ -243,6 +244,9 @@ export default function Page() {
             </div>
           </ParallaxIllustration>
         </section>
+
+        {/* Industries Carousel */}
+        <IndustriesCarousel />
 
         {/* Footer */}
         <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
