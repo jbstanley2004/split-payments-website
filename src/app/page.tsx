@@ -1,27 +1,68 @@
 "use client";
 
+import { useState } from "react";
+import { FiMenu, FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function Page() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const toggleMenu = () => setMenuOpen((open) => !open);
+  const closeMenu = () => setMenuOpen(false);
+
   return (
-    <main className="min-h-screen font-jetbrains">
+    <main className="min-h-screen font-jetbrains bg-bg text-text overflow-x-hidden">
       {/* Sticky Glass Header */}
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/30 border-b border-white/10">
-        <Link href="/" className="text-2xl tracking-tight lowercase text-white hover:text-white">
+      <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/60 border-b border-white/10 relative">
+        <Link
+          href="/"
+          className="text-2xl tracking-tight lowercase text-white hover:text-white"
+          onClick={closeMenu}
+        >
           split
         </Link>
 
         <nav className="hidden md:flex gap-8 text-sm text-muted">
-          <a href="#funding" className="hover:text-white transition-colors">funding</a>
-          <a href="/payments" className="hover:text-white transition-colors">payments</a>
-          <a href="/industries" className="hover:text-white transition-colors">industries</a>
+          <a href="#funding" className="hover:text-white transition-colors">
+            funding
+          </a>
+          <a href="/payments" className="hover:text-white transition-colors">
+            payments
+          </a>
+          <a href="/industries" className="hover:text-white transition-colors">
+            industries
+          </a>
         </nav>
 
-        <Link href="/get-started" className="btn">
-          get started
-        </Link>
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white"
+            aria-label="Toggle menu"
+            onClick={toggleMenu}
+          >
+            {menuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
+          </button>
+          <Link href="/get-started" className="btn" onClick={closeMenu}>
+            get started
+          </Link>
+        </div>
+
+        {menuOpen ? (
+          <nav className="absolute right-6 top-full mt-4 flex w-[calc(100%-3rem)] flex-col gap-3 rounded-xl border border-line bg-bg/95 p-6 text-sm shadow-xl md:hidden">
+            <a href="#funding" className="hover:text-white transition-colors" onClick={closeMenu}>
+              funding
+            </a>
+            <a href="/payments" className="hover:text-white transition-colors" onClick={closeMenu}>
+              payments
+            </a>
+            <a href="/industries" className="hover:text-white transition-colors" onClick={closeMenu}>
+              industries
+            </a>
+          </nav>
+        ) : null}
       </header>
 
       {/* Hero */}
@@ -30,7 +71,7 @@ export default function Page() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
-          className="md:w-1/2"
+          className="w-full md:w-1/2"
         >
           <h1 className="text-4xl md:text-5xl leading-tight mb-6">
             Accept payments. <br /> Access capital. <br /> Grow with split.
@@ -39,8 +80,8 @@ export default function Page() {
             Flexible merchant funding and payment services built for high-growth
             businesses. No gradients. No color noise. Just clarity.
           </p>
-          <div className="flex gap-4">
-            <Link href="/get-started" className="btn">
+          <div className="flex flex-wrap gap-4">
+            <Link href="/get-started" className="btn" onClick={closeMenu}>
               get started
             </Link>
             <a href="#learn" className="text-muted hover:text-white text-sm">
@@ -53,14 +94,15 @@ export default function Page() {
           initial={{ opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9 }}
-          className="md:w-1/2 flex justify-center"
+          className="w-full md:w-1/2 flex justify-center"
         >
           <Image
             src="/graphic3.png"
             alt="split hero"
             width={720}
             height={480}
-            className="object-contain"
+            className="w-full max-w-md object-contain"
+            sizes="(min-width: 768px) 32rem, 90vw"
             priority
           />
         </motion.div>
@@ -76,14 +118,15 @@ export default function Page() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7 }}
-          className="md:w-1/2"
+          className="w-full md:w-1/2"
         >
           <Image
             src="/graphic4.png"
             alt="funding graphic"
             width={640}
             height={420}
-            className="object-contain"
+            className="w-full max-w-md object-contain"
+            sizes="(min-width: 768px) 28rem, 90vw"
           />
         </motion.div>
 
@@ -92,7 +135,7 @@ export default function Page() {
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7 }}
-          className="md:w-1/2"
+          className="w-full md:w-1/2"
         >
           <h2 className="text-3xl mb-4">Sales-based capital access</h2>
           <p className="text-muted mb-6">
@@ -117,7 +160,7 @@ export default function Page() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.8 }}
-          className="md:w-1/2"
+          className="w-full md:w-1/2"
         >
           <h2 className="text-3xl mb-4">Payments built for every business</h2>
           <p className="text-muted mb-6">
@@ -135,14 +178,15 @@ export default function Page() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.9 }}
-          className="md:w-1/2 flex justify-center"
+          className="w-full md:w-1/2 flex justify-center"
         >
           <Image
             src="/merchants.png"
             alt="merchants"
             width={720}
             height={480}
-            className="object-contain"
+            className="w-full max-w-md object-contain"
+            sizes="(min-width: 768px) 32rem, 90vw"
           />
         </motion.div>
       </section>
