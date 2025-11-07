@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import { FiMenu, FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -62,9 +61,6 @@ export default function Page() {
             onClick={toggleMenu}
           >
             {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            onClick={toggleMenu}
-          >
-            {menuOpen ? <FiX className="h-5 w-5" /> : <FiMenu className="h-5 w-5" />}
           </button>
           <Link href="/get-started" className="btn" onClick={closeMenu}>
             get started
