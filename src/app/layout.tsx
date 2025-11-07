@@ -55,7 +55,7 @@ export const viewport = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={jetbrains.variable}>
+    <html lang="en" className={jetbrains.variable} suppressHydrationWarning>
       <body>
         <StyledComponentsRegistry>
           <Providers>{children}</Providers>

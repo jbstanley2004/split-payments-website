@@ -12,6 +12,7 @@
   --sh-jsxliterals: #ffffff;
   --sh-property: #a7a7a7;
   --sh-entity: #a7a7a7;
+  color-scheme: light;
 }
 
 .updates p {
@@ -174,8 +175,23 @@ img::selection {
 }
 
 /* Split redesign monochrome styles */
+
+.light {
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
 html,
 body {
+  background-color: #faf9f6;
+  color: #0b0b0b;
+}
+
+.dark html,
+.dark body {
   background-color: #0b0b0b;
   color: #ffffff;
 }
