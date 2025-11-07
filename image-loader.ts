@@ -9,9 +9,7 @@ export default function imageLoader({
   width,
   quality = 80,
 }: ImageLoaderParams): string {
-  // Use local images in development, CDN in production
-  if (process.env.NODE_ENV === "development") {
-    return src;
-  }
-  return `https://midday.ai/cdn-cgi/image/width=${width},quality=${quality}/${src}`;
+  // Return the source as-is for local images
+  // This allows Next.js to serve images from the public directory
+  return src;
 }
