@@ -19,68 +19,62 @@ export default function Page() {
   const closeMenu = () => setMenuOpen(false);
 
   return (
-    <main className="min-h-screen font-jetbrains bg-bg text-text overflow-x-hidden">
-      {/* Sticky Glass Header */}
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/30 border-b border-white/10">
-        <Link
-          href="/"
-          className="text-2xl tracking-tight lowercase text-white hover:text-white"
-          onClick={closeMenu}
-        >
-          split
-        </Link>
-
-        <nav className="hidden md:flex gap-8 text-sm text-muted">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="hover:text-white transition-colors"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <button
-            type="button"
-            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white"
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-            onClick={toggleMenu}
+    <main className="relative min-h-screen font-jetbrains text-text">
+      {/* All content with relative positioning */}
+      <div className="relative z-10 bg-bg">
+        {/* Sticky Glass Header */}
+        <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/30 border-b border-white/10">
+          <Link
+            href="/"
+            className="text-2xl tracking-tight lowercase text-white hover:text-white"
+            onClick={closeMenu}
           >
-            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-          <Link href="/get-started" className="btn" onClick={closeMenu}>
-            get started
+            split
           </Link>
-        </div>
 
-        {menuOpen ? (
-          <>
-            <div
-              className="fixed inset-0 z-40 bg-bg/80 backdrop-blur-sm md:hidden"
-              onClick={closeMenu}
-            />
-            <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-line bg-bg/95 p-6 text-sm shadow-xl md:hidden">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="hover:text-white transition-colors"
-                  onClick={closeMenu}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </>
-        ) : null}
-      </header>
+          <nav className="hidden md:flex gap-8 text-sm text-muted">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="hover:text-white transition-colors"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
 
-      {/* Hero */}
-      <section className="section px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12">
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/20 text-white"
+              aria-label="Toggle menu"
+              aria-expanded={menuOpen}
+              onClick={toggleMenu}
+            >
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+            <Link href="/get-started" className="btn" onClick={closeMenu}>
+              get started
+            </Link>
+          </div>
+
+          {menuOpen ? (
+            <>
+              <div className="fixed inset-0 z-40 bg-bg/80 backdrop-blur-sm md:hidden" onClick={closeMenu} />
+              <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-line bg-bg/95 p-6 text-sm shadow-xl md:hidden">
+                {navItems.map((item) => (
+                  <Link key={item.href} href={item.href} className="hover:text-white transition-colors" onClick={closeMenu}>
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </>
+          ) : null}
+        </header>
+
+        {/* Hero */}
+        <section className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12 border-b border-line/50">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -122,11 +116,11 @@ export default function Page() {
         </motion.div>
       </section>
 
-      {/* Funding Feature */}
-      <section
-        id="funding"
-        className="section px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12"
-      >
+        {/* Funding Feature */}
+        <section
+          id="funding"
+          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12 border-b border-line/50"
+        >
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -164,11 +158,11 @@ export default function Page() {
         </motion.div>
       </section>
 
-      {/* Payments / POS */}
-      <section
-        id="pos"
-        className="section px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12"
-      >
+        {/* Payments / POS */}
+        <section
+          id="pos"
+          className="px-6 md:px-10 py-16 md:py-24 flex flex-col md:flex-row items-center justify-between gap-12 border-b border-line/50"
+        >
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -205,15 +199,16 @@ export default function Page() {
         </motion.div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-line px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
-        <div>© 2025 split payments, inc.</div>
-        <div className="flex items-center gap-6">
-          <a href="/policy">privacy</a>
-          <a href="/terms">terms</a>
-          <a href="/support">contact</a>
-        </div>
-      </footer>
+        {/* Footer */}
+        <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
+          <div>© 2025 split payments, inc.</div>
+          <div className="flex items-center gap-6">
+            <a href="/policy">privacy</a>
+            <a href="/terms">terms</a>
+            <a href="/support">contact</a>
+          </div>
+        </footer>
+      </div>
     </main>
   );
 }
