@@ -9,9 +9,9 @@ import { SplitLogo } from "@/components/split-logo";
 import Hero from "@/components/Hero";
 
 const navItems = [
-  { href: "/#funding", label: "funding" },
-  { href: "/payments", label: "payments" },
-  { href: "/industries", label: "industries" },
+  { href: "/#funding", label: "Funding" },
+  { href: "/payments", label: "Payments" },
+  { href: "/industries", label: "Industries" },
 ];
 
 type ParallaxIllustrationProps = MotionProps & {
@@ -49,7 +49,7 @@ export default function Page() {
   const [currentTitle, setCurrentTitle] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
-  const rotatingTitles = ["funding", "payments", "industries"];
+  const rotatingTitles = ["Funding", "Payments", "Industries"];
 
   const toggleMenu = () => setMenuOpen((open) => !open);
   const closeMenu = () => setMenuOpen(false);
@@ -90,7 +90,7 @@ export default function Page() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
-                  className="text-xs text-white/70 font-medium whitespace-nowrap block text-center"
+                  className="text-xs text-white/70 font-medium whitespace-nowrap block text-center font-poppins"
                 >
                   {rotatingTitles[currentTitle]}
                 </motion.span>
@@ -108,8 +108,8 @@ export default function Page() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/#funding" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap">
-                funding
+              <Link href="/#funding" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap font-poppins">
+                Funding
               </Link>
             </motion.div>
 
@@ -124,8 +124,8 @@ export default function Page() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/payments" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap">
-                payments
+              <Link href="/payments" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap font-poppins">
+                Payments
               </Link>
             </motion.div>
 
@@ -140,8 +140,8 @@ export default function Page() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/industries" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap">
-                industries
+              <Link href="/industries" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap font-poppins">
+                Industries
               </Link>
             </motion.div>
 
@@ -156,8 +156,8 @@ export default function Page() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-2.5 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[var(--theme-accent)] hover:bg-[var(--theme-accent)] transition-all duration-300 whitespace-nowrap inline-block">
-                get started
+              <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[var(--theme-accent)] hover:bg-[var(--theme-accent)] transition-all duration-300 whitespace-nowrap inline-block font-poppins">
+                Get Started
               </Link>
             </motion.div>
           </div>
@@ -186,12 +186,12 @@ export default function Page() {
               <div className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden pointer-events-auto" onClick={closeMenu} />
               <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-white/10 bg-black/95 backdrop-blur-[20px] backdrop-saturate-[180%] p-6 text-sm shadow-xl md:hidden pointer-events-auto">
                 {navItems.map((item) => (
-                  <Link key={item.href} href={item.href} className="text-white/80 hover:text-[var(--theme-accent)] transition-colors" onClick={closeMenu}>
+                  <Link key={item.href} href={item.href} className="text-white/80 hover:text-[var(--theme-accent)] transition-colors font-poppins" onClick={closeMenu}>
                     {item.label}
                   </Link>
                 ))}
-                <Link href="/get-started" className="btn mt-2" onClick={closeMenu}>
-                  get started
+                <Link href="/get-started" className="btn mt-2 font-poppins" onClick={closeMenu}>
+                  Get Started
                 </Link>
               </nav>
             </>

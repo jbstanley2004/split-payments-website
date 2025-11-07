@@ -18,9 +18,7 @@ export default function HeroOptimized() {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
   const imageOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
 
-  // Text fade & lift - keep text more visible
-  const textOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.4]);
-  const textY = useTransform(scrollYProgress, [0, 0.8], [0, -30]);
+  // Keep text crisp and readable - removed fade effects for clarity
 
   return (
     <section
@@ -33,7 +31,6 @@ export default function HeroOptimized() {
       {/* Text content */}
       <motion.div
         className="max-w-xl relative z-10 text-center lg:text-left w-full lg:w-1/2"
-        style={{ opacity: textOpacity, y: textY }}
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
