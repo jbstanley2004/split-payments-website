@@ -27,10 +27,6 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
   const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
 
-  // text fade - keep text more visible (minimum 0.4 opacity instead of 0)
-  const textOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.4]);
-  const textY = useTransform(scrollYProgress, [0, 0.8], [0, -30]);
-
   const layoutClasses = reverse
     ? "flex-col lg:flex-row-reverse"
     : "flex-col lg:flex-row";
@@ -45,10 +41,8 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
       <div className="absolute right-0 top-1/2 translate-y-[-50%] w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.04)_0%,transparent_70%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.06)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
 
       {/* text */}
-      <motion.div
+      <div
         className="max-w-xl relative z-10 text-center lg:text-left w-full lg:w-1/2"
-        style={{ opacity: textOpacity, y: textY }}
-        transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-poppins font-semibold leading-tight text-[var(--theme-text-primary)]">
           {title}
@@ -70,7 +64,7 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
             learn more →
           </a>
         </div>
-      </motion.div>
+      </div>
 
       {/* animated hero image */}
       <motion.div
