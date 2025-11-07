@@ -92,17 +92,18 @@ export default function PaymentsPage() {
         <header className="fixed top-3 left-0 right-0 z-50 flex items-center justify-center px-6 pointer-events-none">
           {/* Desktop Dynamic Island */}
           <div
-            className="hidden md:flex gap-2 items-center justify-center pointer-events-auto"
+            className="hidden md:flex gap-1.5 items-center justify-center pointer-events-auto"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
+            {/* Center rotating title */}
             <motion.div
               animate={{
-                width: isHovered ? "auto" : "100px",
                 opacity: isHovered ? 0 : 1,
+                scale: isHovered ? 0.8 : 1,
               }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="absolute backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5 overflow-hidden"
+              className="absolute backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3.5 py-1 overflow-hidden"
             >
               <AnimatePresence mode="wait">
                 <motion.span
@@ -118,37 +119,61 @@ export default function PaymentsPage() {
               </AnimatePresence>
             </motion.div>
 
-            <motion.nav
+            {/* Pod 1: Funding */}
+            <motion.div
               animate={{
                 opacity: isHovered ? 1 : 0,
-                x: isHovered ? 0 : 30,
+                x: isHovered ? 0 : 40,
                 scale: isHovered ? 1 : 0.8,
               }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5"
+              className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <div className="flex gap-4 text-xs text-white/80">
-                <Link href="/#funding" className="hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">funding</Link>
-                <Link href="/payments" className="hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">payments</Link>
-              </div>
-            </motion.nav>
+              <Link href="/#funding" className="text-xs text-white/80 hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">funding</Link>
+            </motion.div>
 
-            <motion.nav
+            {/* Pod 2: Payments */}
+            <motion.div
               animate={{
                 opacity: isHovered ? 1 : 0,
-                x: isHovered ? 0 : -30,
+                x: isHovered ? 0 : 20,
                 scale: isHovered ? 1 : 0.8,
               }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5"
+              className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <div className="flex gap-4 text-xs text-white/80">
-                <Link href="/industries" className="hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">industries</Link>
-                <Link href="/get-started" className="bg-[#00D9FF] text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-[#00C4EA] transition-colors whitespace-nowrap">get started</Link>
-              </div>
-            </motion.nav>
+              <Link href="/payments" className="text-xs text-white/80 hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">payments</Link>
+            </motion.div>
+
+            {/* Pod 3: Industries */}
+            <motion.div
+              animate={{
+                opacity: isHovered ? 1 : 0,
+                x: isHovered ? 0 : -20,
+                scale: isHovered ? 1 : 0.8,
+              }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
+              style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
+            >
+              <Link href="/industries" className="text-xs text-white/80 hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">industries</Link>
+            </motion.div>
+
+            {/* Pod 4: Get Started */}
+            <motion.div
+              animate={{
+                opacity: isHovered ? 1 : 0,
+                x: isHovered ? 0 : -40,
+                scale: isHovered ? 1 : 0.8,
+              }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-2.5 py-1"
+              style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
+            >
+              <Link href="/get-started" className="bg-[#00D9FF] text-white px-2.5 py-0.5 rounded-full text-xs font-bold hover:bg-[#00C4EA] transition-colors whitespace-nowrap inline-block">get started</Link>
+            </motion.div>
           </div>
 
           {/* Mobile Header */}
