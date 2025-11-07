@@ -208,7 +208,7 @@ export function Header() {
                 alt="Split logo"
                 darkSrc={splitLogoDark}
                 lightSrc={splitLogoLight}
-                className="h-10 w-auto md:h-12"
+                className="h-20 w-auto md:h-24"
                 priority
               />
             </Link>
@@ -236,7 +236,7 @@ export function Header() {
                   alt="Split logo"
                   darkSrc={splitLogoDark}
                   lightSrc={splitLogoLight}
-                  className="h-3 w-auto"
+                  className="h-6 w-auto"
                 />
                 <span className="font-medium text-sm">Copy Logo as SVG</span>
               </ContextMenuItem>
@@ -364,7 +364,7 @@ export function Header() {
                 alt="Split logo"
                 darkSrc={splitLogoDark}
                 lightSrc={splitLogoLight}
-                className="h-5 w-auto"
+                className="h-10 w-auto"
               />
             </button>
 

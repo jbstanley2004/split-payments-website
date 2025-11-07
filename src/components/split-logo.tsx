@@ -9,7 +9,7 @@ type SplitLogoProps = {
   priority?: boolean;
 };
 
-export function SplitLogo({ imageClassName = "h-6 w-auto", priority }: SplitLogoProps) {
+export function SplitLogo({ imageClassName = "h-12 w-auto", priority }: SplitLogoProps) {
   return (
     <span className="inline-flex items-center">
       <Image
