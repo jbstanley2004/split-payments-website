@@ -13,6 +13,14 @@ const navItems = [
   { href: "/industries", label: "Industries" },
 ];
 
+const cardColors = [
+  "#C67C5F", // Terracotta
+  "#B7CDC5", // Mint
+  "#E4DACB", // Beige
+  "#C9C8DA", // Lavender
+  "#6999CA", // Blue
+];
+
 export default function PaymentsPage() {
   const ref = useRef(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -69,7 +77,7 @@ export default function PaymentsPage() {
   ];
 
   return (
-    <main ref={ref} className="relative min-h-screen font-jetbrains text-text">
+    <main ref={ref} className="relative min-h-screen font-lora text-text">
       {/* Fixed Parallax Background */}
       <motion.div
         style={{ y }}
@@ -220,10 +228,10 @@ export default function PaymentsPage() {
             transition={{ duration: 0.7 }}
             className="text-center max-w-4xl mx-auto"
           >
-            <h1 className="text-4xl md:text-6xl leading-tight mb-6">
+            <h1 className="font-poppins text-4xl md:text-6xl leading-tight mb-6">
               Payment Processing Made Simple
             </h1>
-            <p className="text-muted text-lg md:text-xl mb-8">
+            <p className="font-lora text-[#2C2C2C] text-lg md:text-xl mb-8 leading-relaxed">
               From credit card processing to check services, gift cards, and ACH
               payments, we provide an all-in-one resource for your non-cash payment
               needs. Solutions ranging from card terminals to complex software
@@ -243,13 +251,14 @@ export default function PaymentsPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="border border-line p-8 hover:border-muted transition-colors bg-bg/80 backdrop-blur-sm"
+                className="border border-black/[0.08] p-8 transition-colors"
+                style={{ backgroundColor: cardColors[index] }}
               >
                 <div className="w-12 h-12 mb-6 flex items-center justify-start">
-                  <solution.icon className="w-12 h-12 text-text" strokeWidth={1} />
+                  <solution.icon className="w-12 h-12 text-[#0A0A0A]" strokeWidth={1} />
                 </div>
-                <h3 className="text-xl font-medium mb-3">{solution.title}</h3>
-                <p className="text-muted text-sm leading-relaxed">
+                <h3 className="font-poppins text-xl font-medium mb-3 text-[#0A0A0A]">{solution.title}</h3>
+                <p className="font-lora text-[#0A0A0A] text-sm leading-relaxed">
                   {solution.description}
                 </p>
               </motion.div>
@@ -266,12 +275,12 @@ export default function PaymentsPage() {
             transition={{ duration: 0.7 }}
             className="text-center max-w-3xl mx-auto border border-line p-12 bg-bg/80 backdrop-blur-sm"
           >
-            <h2 className="text-3xl md:text-4xl mb-4">Find Your Perfect Solution</h2>
-            <p className="text-muted mb-8 text-lg">
+            <h2 className="font-poppins text-3xl md:text-4xl mb-4">Find Your Perfect Solution</h2>
+            <p className="font-lora text-[#2C2C2C] mb-8 text-lg leading-relaxed">
               Get in touch for a no-obligation cost review and discover the perfect
               payment solution for your business needs.
             </p>
-            <Link href="/get-started" className="btn inline-block">
+            <Link href="/get-started" className="btn inline-block font-poppins">
               Get a Cost Review
             </Link>
           </motion.div>
