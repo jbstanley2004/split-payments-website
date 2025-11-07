@@ -2,41 +2,86 @@
 
 import { SplitLogo } from "@/components/split-logo";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 
 export default function GetStarted() {
+  const [currentTitle, setCurrentTitle] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const rotatingTitles = ["funding", "payments", "industries"];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTitle((prev) => (prev + 1) % rotatingTitles.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [rotatingTitles.length]);
+
   return (
     <main className="min-h-screen font-jetbrains">
       {/* Dynamic Island Header */}
-      <header className="fixed top-5 left-0 right-0 z-50 flex items-center justify-center px-6">
-        <motion.nav
-          initial={{ width: "120px" }}
-          whileHover={{ width: "auto" }}
-          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-          className="flex items-center justify-center backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/85 rounded-[50px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] px-5 py-3 group hover:shadow-[0_12px_48px_rgba(0,0,0,0.5)] transition-shadow duration-500"
+      <header className="fixed top-3 left-0 right-0 z-50 flex items-center justify-center px-6 pointer-events-none">
+        <div
+          className="flex gap-2 items-center justify-center pointer-events-auto"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          <Link href="/" className="flex items-center flex-shrink-0">
-            <span className="sr-only">Split</span>
-            <SplitLogo priority />
-          </Link>
-
           <motion.div
-            initial={{ opacity: 0, width: 0 }}
-            className="overflow-hidden whitespace-nowrap group-hover:opacity-100 group-hover:w-auto opacity-0 w-0 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+            animate={{
+              width: isHovered ? "auto" : "100px",
+              opacity: isHovered ? 0 : 1,
+            }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="absolute backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5 overflow-hidden"
           >
-            <div className="flex gap-6 text-sm text-white/80 ml-8">
-              <a href="/#funding" className="hover:text-[#00D9FF] transition-colors duration-200 font-medium">funding</a>
-              <a href="/payments" className="hover:text-[#00D9FF] transition-colors duration-200 font-medium">payments</a>
-              <a href="/industries" className="hover:text-[#00D9FF] transition-colors duration-200 font-medium">industries</a>
-              <Link
-                href="/get-started"
-                className="bg-[#00D9FF] text-white px-5 py-1.5 rounded-[25px] font-bold text-[0.95rem] hover:bg-[#00C4EA] hover:scale-105 transition-all duration-200"
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={currentTitle}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3 }}
+                className="text-xs text-white/70 font-medium whitespace-nowrap block text-center"
               >
+                {rotatingTitles[currentTitle]}
+              </motion.span>
+            </AnimatePresence>
+          </motion.div>
+
+          <motion.nav
+            animate={{
+              opacity: isHovered ? 1 : 0,
+              x: isHovered ? 0 : 30,
+              scale: isHovered ? 1 : 0.8,
+            }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5"
+            style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
+          >
+            <div className="flex gap-4 text-xs text-white/80">
+              <a href="/#funding" className="hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">funding</a>
+              <a href="/payments" className="hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">payments</a>
+            </div>
+          </motion.nav>
+
+          <motion.nav
+            animate={{
+              opacity: isHovered ? 1 : 0,
+              x: isHovered ? 0 : -30,
+              scale: isHovered ? 1 : 0.8,
+            }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5"
+            style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
+          >
+            <div className="flex gap-4 text-xs text-white/80">
+              <a href="/industries" className="hover:text-[#00D9FF] transition-colors font-medium whitespace-nowrap">industries</a>
+              <Link href="/get-started" className="bg-[#00D9FF] text-white px-3 py-1 rounded-full text-xs font-bold hover:bg-[#00C4EA] transition-colors whitespace-nowrap">
                 get started
               </Link>
             </div>
-          </motion.div>
-        </motion.nav>
+          </motion.nav>
+        </div>
       </header>
 
       <section className="px-6 md:px-10 py-16 md:py-24 max-w-3xl mx-auto">
