@@ -21,6 +21,8 @@ import menuAssistantLight from "public/menu-assistant-light.jpg";
 import menuAssistantDark from "public/menu-assistant.jpg";
 import menuEngineLight from "public/menu-engine-light.png";
 import menuEngineDark from "public/menu-engine.png";
+import splitLogoDark from "public/split_logo_dark.png";
+import splitLogoLight from "public/split_logo_light.png";
 import { useEffect, useState } from "react";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import {
@@ -197,9 +199,15 @@ export function Header() {
       <nav className="border border-border px-4 flex items-center backdrop-filter backdrop-blur-xl bg-[#FFFFFF] dark:bg-[#121212] bg-opacity-70 h-[50px] z-20 relative">
         <ContextMenu>
           <ContextMenuTrigger>
-            <Link href="/">
-              <span className="sr-only">Midday Logo</span>
-              <Icons.LogoSmall className="size-6" />
+            <Link href="/" className="flex items-center">
+              <span className="sr-only">Split Logo</span>
+              <DynamicImage
+                alt="Split logo"
+                darkSrc={splitLogoDark}
+                lightSrc={splitLogoLight}
+                className="h-6 w-auto"
+                priority
+              />
             </Link>
           </ContextMenuTrigger>
 
@@ -221,7 +229,12 @@ export function Header() {
                   } catch {}
                 }}
               >
-                <Icons.LogoSmall className="size-3" />
+                <DynamicImage
+                  alt="Split logo"
+                  darkSrc={splitLogoDark}
+                  lightSrc={splitLogoLight}
+                  className="h-3 w-auto"
+                />
                 <span className="font-medium text-sm">Copy Logo as SVG</span>
               </ContextMenuItem>
               <ContextMenuItem asChild>
@@ -338,9 +351,14 @@ export function Header() {
           animate={{ opacity: 1 }}
         >
           <div className="mt-4 flex justify-between p-3 px-4 relative ml-[1px]">
-            <button type="button" onClick={handleToggleMenu}>
-              <span className="sr-only">Midday Logo</span>
-              <Icons.LogoSmall />
+            <button type="button" onClick={handleToggleMenu} className="flex items-center">
+              <span className="sr-only">Split Logo</span>
+              <DynamicImage
+                alt="Split logo"
+                darkSrc={splitLogoDark}
+                lightSrc={splitLogoLight}
+                className="h-5 w-auto"
+              />
             </button>
 
             <button
