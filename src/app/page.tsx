@@ -21,7 +21,7 @@ export default function Page() {
   return (
     <main className="min-h-screen font-jetbrains bg-bg text-text overflow-x-hidden">
       {/* Sticky Glass Header */}
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/60 border-b border-white/10 relative">
+      <header className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-10 py-6 backdrop-blur-xl bg-bg/30 border-b border-white/10">
         <Link
           href="/"
           className="text-2xl tracking-tight lowercase text-white hover:text-white"
