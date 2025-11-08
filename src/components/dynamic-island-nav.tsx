@@ -73,7 +73,6 @@ export function DynamicIslandNav({
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<Direction>("down");
   const [logoIteration, setLogoIteration] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const lastScrollTriggerRef = useRef(0);
 
   const collapseOffsets = useMemo(() => {
@@ -87,37 +86,18 @@ export function DynamicIslandNav({
     setLogoIteration((prev) => prev + 1);
   }, []);
 
-  const resetInterval = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    intervalRef.current = setInterval(() => {
-      advanceLogo();
-    }, 2200);
-  }, [advanceLogo]);
-
-  useEffect(() => {
-    resetInterval();
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [resetInterval]);
-
   const handleDirectionChange = useCallback(
     (direction: Direction) => {
       const now = Date.now();
       if (now - lastScrollTriggerRef.current > 400) {
         setScrollDirection(direction);
         advanceLogo();
-        resetInterval();
         lastScrollTriggerRef.current = now;
       } else {
         setScrollDirection(direction);
       }
     },
-    [advanceLogo, resetInterval],
+    [advanceLogo],
   );
 
   useEffect(() => {
@@ -214,7 +194,7 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute flex h-8 items-center justify-center rounded-full border border-white/10 bg-black/80 px-2.5 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute flex h-8 items-center justify-center rounded-full border border-white/10 bg-black/80 px-4 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
             <div className="relative flex h-6 w-auto items-center justify-center" style={{ perspective: 600 }}>
               <AnimatePresence mode="wait" initial={false}>
@@ -272,7 +252,7 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isMobileExpanded ? 0 : 1, scale: isMobileExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute flex h-9 items-center justify-center rounded-full border border-black/15 bg-black/85 px-3 py-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute flex h-9 items-center justify-center rounded-full border border-black/15 bg-black/85 px-4 py-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
             <div className="relative flex h-7 w-auto items-center justify-center" style={{ perspective: 600 }}>
               <AnimatePresence mode="wait" initial={false}>
