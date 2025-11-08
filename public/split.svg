@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="200" viewBox="0 0 820 200" fill="#FFFFFF" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" role="img" aria-label="split">
+  <style>
+    text { font-family: Inter Tight, Inter, system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 200; font-size: 150px; letter-spacing: 0; }
+  </style>
+  <text x="0" y="150">
+    <tspan>s</tspan>
+    <tspan dx="2">p</tspan>
+    <tspan dx="16">l</tspan>
+    <tspan dx="16">i</tspan>
+    <tspan dx="2">t</tspan>
+  </text>
+</svg>
