@@ -132,9 +132,15 @@ export default function GetStarted() {
   return (
     <main className="min-h-screen font-jetbrains">
       {/* Dynamic Island Header */}
-      <header className="fixed top-3 left-0 right-0 z-50 flex items-center justify-center px-6 pointer-events-none">
+      <header className="fixed top-3 left-0 right-0 z-50 flex items-center justify-between px-6 pointer-events-none">
+        {/* Desktop Logo - Left Side */}
+        <Link href="/" className="flex items-center pointer-events-auto">
+          <SplitLogo imageClassName="h-8 w-auto" priority />
+        </Link>
+
+        {/* Dynamic Island - Center */}
         <div
-          className="flex gap-1.5 items-center justify-center pointer-events-auto"
+          className="flex gap-1.5 items-center justify-center pointer-events-auto absolute left-1/2 transform -translate-x-1/2"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
