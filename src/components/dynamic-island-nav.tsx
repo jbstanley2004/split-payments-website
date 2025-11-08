@@ -205,9 +205,9 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-white/10 bg-black/80 px-3.5 py-1.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-white/10 bg-black/80 px-4 py-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
-            <div className="relative flex h-6 w-auto items-center justify-center" style={{ perspective: 1000 }}>
+            <div className="relative flex items-center justify-center" style={{ perspective: 1000 }}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
@@ -219,7 +219,7 @@ export function DynamicIslandNav({
                     alt="Split"
                     width={144}
                     height={48}
-                    className="h-6 w-auto object-contain"
+                    className="h-5 w-auto object-contain"
                     priority={logoPriority}
                   />
                 </motion.div>
@@ -230,13 +230,14 @@ export function DynamicIslandNav({
           {navItems.map((item, index) => (
             <motion.div
               key={item.label}
+              initial={{ opacity: 0, x: collapseOffsets[index] ?? 0, scale: 0.85 }}
               animate={{
                 opacity: isDesktopExpanded ? 1 : 0,
                 x: isDesktopExpanded ? 0 : collapseOffsets[index] ?? 0,
                 scale: isDesktopExpanded ? 1 : 0.85,
               }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="relative ml-2 rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+              className="ml-2 rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
               <Link
