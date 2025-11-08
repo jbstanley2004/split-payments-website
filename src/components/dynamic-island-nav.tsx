@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/stub";
 
@@ -25,11 +26,67 @@ type DynamicIslandNavProps = {
   showHomeLogoOnMobile?: boolean;
 };
 
-const DEFAULT_ITEMS: NavItem[] = [
+const ALL_NAV_ITEMS: NavItem[] = [
+  { label: "Home", href: "/landing" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/#funding" },
   { label: "Get Started", href: "/get-started", variant: "cta" },
 ];
+
+// Helper function to normalize paths for comparison
+function normalizePath(path: string): string {
+  // Remove trailing slashes and hash fragments for comparison
+  return path.replace(/\/$/, '').split('#')[0] || '/';
+}
+
+// Helper function to check if a nav item matches the current path
+function isCurrentPage(itemHref: string, currentPath: string): boolean {
+  const normalizedItemHref = normalizePath(itemHref);
+  const normalizedCurrentPath = normalizePath(currentPath);
+
+  // Exact match for home page - treat both / and /landing as home
+  if ((normalizedItemHref === '/' || normalizedItemHref === '/landing') &&
+      (normalizedCurrentPath === '/' || normalizedCurrentPath === '/landing')) {
+    return true;
+  }
+
+  // For other pages, check if current path starts with the item href
+  if (normalizedItemHref !== '/' && normalizedItemHref !== '/landing' &&
+      normalizedCurrentPath.startsWith(normalizedItemHref)) {
+    return true;
+  }
+
+  return false;
+}
+
+// Function to get filtered and ordered nav items based on current page
+function getNavItemsForPage(currentPath: string): NavItem[] {
+  // Filter out the current page
+  const availableItems = ALL_NAV_ITEMS.filter(item => !isCurrentPage(item.href, currentPath));
+
+  // If we're on the Get Started page, put Home in the middle
+  if (normalizePath(currentPath) === '/get-started') {
+    const home = availableItems.find(item => item.label === "Home");
+    const others = availableItems.filter(item => item.label !== "Home");
+
+    if (home && others.length >= 2) {
+      // Put one item before Home, Home in middle, rest after
+      return [others[0], home, ...others.slice(1)];
+    }
+    return availableItems;
+  }
+
+  // For all other pages, put Get Started in the middle
+  const getStarted = availableItems.find(item => item.label === "Get Started");
+  const others = availableItems.filter(item => item.label !== "Get Started");
+
+  if (getStarted && others.length >= 2) {
+    // Put one item before Get Started, Get Started in middle, rest after
+    return [others[0], getStarted, ...others.slice(1)];
+  }
+
+  return availableItems;
+}
 
 function getRotationVariants(direction: Direction, velocity: number = 1) {
   // Allow much higher velocities for ultra-fast blur effect
@@ -89,12 +146,13 @@ function getRotationVariants(direction: Direction, velocity: number = 1) {
 }
 
 export function DynamicIslandNav({
-  navItems = DEFAULT_ITEMS,
+  navItems,
   className,
   homeHref = "/",
   logoPriority = false,
   showHomeLogoOnMobile = false,
 }: DynamicIslandNavProps) {
+  const pathname = usePathname();
   const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<Direction>("down");
@@ -102,12 +160,20 @@ export function DynamicIslandNav({
   const [velocity, setVelocity] = useState(1);
   const lastScrollTriggerRef = useRef(0);
 
+  // Get filtered and ordered nav items based on current page
+  const displayedNavItems = useMemo(() => {
+    if (navItems) {
+      return navItems; // Use custom nav items if provided
+    }
+    return getNavItemsForPage(pathname || '/');
+  }, [pathname, navItems]);
+
   const collapseOffsets = useMemo(() => {
-    if (navItems.length <= 1) return [0];
-    const step = 60 / Math.max(navItems.length - 1, 1);
-    const start = (navItems.length - 1) / 2;
-    return navItems.map((_, index) => (start - index) * step);
-  }, [navItems]);
+    if (displayedNavItems.length <= 1) return [0];
+    const step = 60 / Math.max(displayedNavItems.length - 1, 1);
+    const start = (displayedNavItems.length - 1) / 2;
+    return displayedNavItems.map((_, index) => (start - index) * step);
+  }, [displayedNavItems]);
 
   const advanceLogo = useCallback(() => {
     setLogoIteration((prev) => prev + 1);
@@ -279,7 +345,7 @@ export function DynamicIslandNav({
             </div>
           </motion.div>
 
-          {navItems.map((item, index) => (
+          {displayedNavItems.map((item, index) => (
             <motion.div
               key={item.label}
               initial={{ opacity: 0, x: collapseOffsets[index] ?? 0, scale: 0.85 }}
@@ -338,7 +404,7 @@ export function DynamicIslandNav({
             </div>
           </motion.div>
 
-          {navItems.map((item, index) => (
+          {displayedNavItems.map((item, index) => (
             <motion.div
               key={item.label}
               animate={{
