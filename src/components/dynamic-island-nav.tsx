@@ -33,24 +33,21 @@ const DEFAULT_ITEMS: NavItem[] = [
 ];
 
 function getRotationVariants(direction: Direction, velocity: number = 1) {
-  // Normalize velocity: 0.1 (very slow) to 10+ (extremely fast)
-  // For very fast spins, we want multiple rotations (360+ degrees)
-  const normalizedVelocity = Math.max(0.1, Math.min(velocity, 20));
+  // Allow much higher velocities for ultra-fast blur effect
+  const normalizedVelocity = Math.max(0.1, Math.min(velocity, 100));
 
-  // Calculate rotation degrees based on velocity
-  // Slow swipe: ~45-90 degrees, Fast swipe: 360-1800+ degrees (multiple spins)
+  // Calculate rotation degrees - allow up to 9000 degrees (25 full rotations) for blur effect
   const baseRotation = 90;
   const rotationMultiplier = normalizedVelocity < 1
     ? 0.5 + (normalizedVelocity * 0.5) // 0.5-1x for slow swipes
-    : normalizedVelocity; // 1-20x for fast swipes
+    : normalizedVelocity; // 1-100x for extremely fast swipes
   const rotationDegrees = baseRotation * rotationMultiplier;
 
-  // Calculate duration based on velocity (inverse relationship for perceived speed)
-  // Fast swipes = shorter duration for more dramatic effect
+  // Aggressive duration scaling for fast swipes
   const baseDuration = 0.4;
-  const duration = normalizedVelocity > 3
-    ? baseDuration / Math.sqrt(normalizedVelocity / 3) // Faster animation for fast swipes
-    : baseDuration * (1.2 - normalizedVelocity * 0.2); // Slightly longer for slow swipes
+  const duration = normalizedVelocity > 5
+    ? Math.max(0.15, baseDuration / (normalizedVelocity / 4)) // Very fast animation for blur
+    : baseDuration * (1.2 - normalizedVelocity * 0.15); // Slightly longer for slow swipes
 
   const initialRotateX = direction === "down" ? -rotationDegrees : direction === "up" ? rotationDegrees : 0;
   const exitRotateX = direction === "down" ? rotationDegrees : direction === "up" ? -rotationDegrees : 0;
@@ -120,7 +117,8 @@ export function DynamicIslandNav({
   const handleDirectionChange = useCallback(
     (direction: Direction, velocityValue: number = 1) => {
       const now = Date.now();
-      if (now - lastScrollTriggerRef.current > 400) {
+      // Reduced throttle to 100ms for more responsive rotations
+      if (now - lastScrollTriggerRef.current > 100) {
         setScrollDirection(direction);
         setVelocity(velocityValue);
         advanceLogo();
@@ -158,17 +156,18 @@ export function DynamicIslandNav({
       const deltaX = Math.abs(currentScrollX - lastScrollX);
 
       if (deltaY > deltaX) {
-        const scrollVelocity = (deltaY / timeDelta) * 10; // pixels per ms * 10 for scaling
-        const normalizedVelocity = Math.max(0.5, Math.min(scrollVelocity, 10));
+        const scrollVelocity = (deltaY / timeDelta) * 20; // Increased scaling for more dynamic effect
+        const normalizedVelocity = Math.max(0.5, Math.min(scrollVelocity, 100));
 
+        // Swapped directions to match touch behavior
         if (currentScrollY > lastScrollY) {
-          handleDirectionChange("down", normalizedVelocity);
-        } else if (currentScrollY < lastScrollY) {
           handleDirectionChange("up", normalizedVelocity);
+        } else if (currentScrollY < lastScrollY) {
+          handleDirectionChange("down", normalizedVelocity);
         }
       } else if (deltaX > 5) {
-        const scrollVelocity = (deltaX / timeDelta) * 10;
-        const normalizedVelocity = Math.max(0.5, Math.min(scrollVelocity, 10));
+        const scrollVelocity = (deltaX / timeDelta) * 20;
+        const normalizedVelocity = Math.max(0.5, Math.min(scrollVelocity, 100));
 
         if (currentScrollX > lastScrollX) {
           handleDirectionChange("right", normalizedVelocity);
@@ -186,13 +185,14 @@ export function DynamicIslandNav({
       // Wheel delta values are good indicators of velocity
       // Typical values: 1-100 for trackpad, 50-300+ for mouse wheel
       if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-        const wheelVelocity = Math.abs(event.deltaX) / 20; // Scale down from typical 20-200 range
-        const normalizedVelocity = Math.max(0.5, Math.min(wheelVelocity, 15));
+        const wheelVelocity = Math.abs(event.deltaX) / 10; // More aggressive scaling
+        const normalizedVelocity = Math.max(0.5, Math.min(wheelVelocity, 100));
         handleDirectionChange(event.deltaX > 0 ? "right" : "left", normalizedVelocity);
       } else if (Math.abs(event.deltaY) > 5) {
-        const wheelVelocity = Math.abs(event.deltaY) / 20;
-        const normalizedVelocity = Math.max(0.5, Math.min(wheelVelocity, 15));
-        handleDirectionChange(event.deltaY > 0 ? "down" : "up", normalizedVelocity);
+        const wheelVelocity = Math.abs(event.deltaY) / 10; // More aggressive scaling
+        const normalizedVelocity = Math.max(0.5, Math.min(wheelVelocity, 100));
+        // Swapped directions: wheel down (deltaY > 0) = "up", wheel up (deltaY < 0) = "down"
+        handleDirectionChange(event.deltaY > 0 ? "up" : "down", normalizedVelocity);
       }
     };
 
@@ -213,16 +213,18 @@ export function DynamicIslandNav({
       const deltaY = touchStartY - touchEndY;
       const timeDelta = Math.max(touchEndTime - touchStartTime, 1);
 
-      if (Math.abs(deltaX) > 30 || Math.abs(deltaY) > 30) {
+      // Lower threshold for more responsive detection
+      if (Math.abs(deltaX) > 15 || Math.abs(deltaY) > 15) {
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-          // Calculate swipe velocity: pixels per millisecond
-          const swipeVelocity = (Math.abs(deltaX) / timeDelta) * 5; // Scale up for better effect
-          const normalizedVelocity = Math.max(0.3, Math.min(swipeVelocity, 20));
+          // Calculate swipe velocity with aggressive scaling for blur effect
+          const swipeVelocity = (Math.abs(deltaX) / timeDelta) * 15;
+          const normalizedVelocity = Math.max(0.3, Math.min(swipeVelocity, 100));
           handleDirectionChange(deltaX > 0 ? "left" : "right", normalizedVelocity);
         } else {
-          const swipeVelocity = (Math.abs(deltaY) / timeDelta) * 5;
-          const normalizedVelocity = Math.max(0.3, Math.min(swipeVelocity, 20));
-          handleDirectionChange(deltaY > 0 ? "up" : "down", normalizedVelocity);
+          // Swapped directions: swipe UP (deltaY > 0) = "down", swipe DOWN (deltaY < 0) = "up"
+          const swipeVelocity = (Math.abs(deltaY) / timeDelta) * 15;
+          const normalizedVelocity = Math.max(0.3, Math.min(swipeVelocity, 100));
+          handleDirectionChange(deltaY > 0 ? "down" : "up", normalizedVelocity);
         }
       }
     };
