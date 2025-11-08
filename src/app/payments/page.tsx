@@ -15,6 +15,39 @@ const cardColors = [
   "#6999CA", // Blue
 ];
 
+const solutions = [
+  {
+    title: "Credit Card Acceptance",
+    description:
+      "Seamlessly process credit card transactions in-store, online, or on-the-go with our reliable and secure systems.",
+    icon: CreditCard,
+  },
+  {
+    title: "Check Processing",
+    description:
+      "Traditional and electronic checks, risk-free check guarantee programs, and check conversion to access funds at lower rates.",
+    icon: Check,
+  },
+  {
+    title: "ACH Payments",
+    description:
+      "The most cost-effective ACH transfers for payroll, recurring billing, and B2B payments.",
+    icon: Landmark,
+  },
+  {
+    title: "Point of Sale (POS) systems",
+    description:
+      "Whether it's in-store, on the go, or online, we provide a range of POS systems to meet the needs of hardworking customers.",
+    icon: Laptop,
+  },
+  {
+    title: "Gift Card and Loyalty Programs",
+    description:
+      "Customizable gift card and loyalty programs that encourage customers to return and spend more.",
+    icon: Gift,
+  },
+];
+
 export default function PaymentsPage() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
