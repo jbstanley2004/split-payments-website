@@ -31,6 +31,7 @@ import industriesPreviewLight from "public/industries-hero.png";
 import industriesPreviewDark from "public/industries-hero.png";
 import getStartedPreviewLight from "public/product-vault-light.jpg";
 import getStartedPreviewDark from "public/product-vault.jpg";
+import splitLogoDark from "public/dark_logo.png";
 
 type MobileNavPreview = {
   alt: string;
@@ -305,7 +306,7 @@ export default function Page() {
                   className="flex items-center justify-center"
                 >
                   <Image
-                    src="/light_logo.png"
+                    src={splitLogoDark}
                     alt="Split"
                     width={60}
                     height={20}

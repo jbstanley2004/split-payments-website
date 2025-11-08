@@ -569,7 +569,7 @@ function MobileNavigationCapsule({ links }: { links: NavigationLink[] }) {
                 <DynamicImage
                   alt="Split logo"
                   darkSrc={splitLogoDark}
-                  lightSrc={splitLogoLight}
+                  lightSrc={splitLogoDark}
                   className="h-10 w-auto"
                 />
               </div>
