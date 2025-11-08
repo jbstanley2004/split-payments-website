@@ -21,8 +21,8 @@ import menuAssistantLight from "public/menu-assistant-light.jpg";
 import menuAssistantDark from "public/menu-assistant.jpg";
 import menuEngineLight from "public/menu-engine-light.png";
 import menuEngineDark from "public/menu-engine.png";
-import splitLogoDark from "public/split_logo_dark.png";
-import splitLogoLight from "public/split_logo_light.png";
+import splitLogoDark from "public/dark_logo.png";
+import splitLogoLight from "public/light_logo.png";
 import { useEffect, useState } from "react";
 import { FaDiscord, FaGithub } from "react-icons/fa";
 import {

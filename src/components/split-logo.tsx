@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import splitLogoDark from "public/split_logo_dark.png";
-import splitLogoLight from "public/split_logo_light.png";
+import splitLogoDark from "public/dark_logo.png";
+import splitLogoLight from "public/light_logo.png";
 
 type SplitLogoProps = {
   imageClassName?: string;
