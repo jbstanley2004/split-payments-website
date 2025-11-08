@@ -1,18 +1,109 @@
 "use client";
 
-import { useRef, useState, useEffect, useCallback, type ReactNode } from "react";
-import { Menu, X } from "lucide-react";
-import { motion, useScroll, useTransform, type MotionProps, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  type ReactNode,
+} from "react";
+import {
+  AnimatePresence,
+  animate,
+  motion,
+  useMotionValue,
+  useScroll,
+  useTransform,
+  type MotionProps,
+  type MotionValue,
+} from "framer-motion";
+import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
 import { SplitLogo } from "@/components/split-logo";
 import Hero from "@/components/Hero";
 import IndustriesCarousel from "@/components/IndustriesCarousel";
+import fundingPreviewLight from "public/product-overview-light.jpg";
+import fundingPreviewDark from "public/product-overview.jpg";
+import paymentsPreviewLight from "public/product-invoice-light.jpg";
+import paymentsPreviewDark from "public/product-invoice.jpg";
+import industriesPreviewLight from "public/industries-hero.png";
+import industriesPreviewDark from "public/industries-hero.png";
+import getStartedPreviewLight from "public/product-vault-light.jpg";
+import getStartedPreviewDark from "public/product-vault.jpg";
 
-const navItems = [
-  { href: "/#funding", label: "Funding" },
-  { href: "/payments", label: "Payments" },
-  { href: "/industries", label: "Industries" },
+type MobileNavPreview = {
+  alt: string;
+  lightSrc: StaticImageData;
+  darkSrc: StaticImageData;
+};
+
+type MobileNavChild = {
+  label: string;
+  href: string;
+};
+
+type MobileNavItem = {
+  label: string;
+  href: string;
+  description: string;
+  preview: MobileNavPreview;
+  children?: MobileNavChild[];
+};
+
+const mobileNavItems: MobileNavItem[] = [
+  {
+    label: "Funding",
+    href: "/#funding",
+    description:
+      "Unlock working capital tailored for multi-location growth without leaving the page you're on.",
+    preview: {
+      alt: "Funding overview preview",
+      lightSrc: fundingPreviewLight,
+      darkSrc: fundingPreviewDark,
+    },
+  },
+  {
+    label: "Payments",
+    href: "/payments",
+    description:
+      "Accept in-person and online payments with unified reconciliation and instant transparency.",
+    preview: {
+      alt: "Unified payments preview",
+      lightSrc: paymentsPreviewLight,
+      darkSrc: paymentsPreviewDark,
+    },
+  },
+  {
+    label: "Industries",
+    href: "/industries",
+    description:
+      "See how Split tailors the platform for restaurants, retail, hospitality, and more.",
+    preview: {
+      alt: "Industries spotlight",
+      lightSrc: industriesPreviewLight,
+      darkSrc: industriesPreviewDark,
+    },
+    children: [
+      { label: "Restaurants", href: "/industries?focus=restaurants" },
+      { label: "Retail", href: "/industries?focus=retail" },
+      { label: "Hotels", href: "/industries?focus=hotels" },
+      { label: "Health & Beauty", href: "/industries?focus=beauty" },
+      { label: "Services", href: "/industries?focus=services" },
+      { label: "Franchises", href: "/industries?focus=franchise" },
+    ],
+  },
+  {
+    label: "Get Started",
+    href: "/get-started",
+    description:
+      "Start your custom onboarding to bring Split to every location in a single flow.",
+    preview: {
+      alt: "Get started preview",
+      lightSrc: getStartedPreviewLight,
+      darkSrc: getStartedPreviewDark,
+    },
+  },
 ];
 
 type ParallaxIllustrationProps = MotionProps & {
@@ -46,7 +137,6 @@ function ParallaxIllustration({
 }
 
 export default function Page() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [currentTitle, setCurrentTitle] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | 'left' | 'right'>('down');
@@ -54,9 +144,6 @@ export default function Page() {
   const lastScrollTimeRef = useRef<number>(0);
 
   const rotatingTitles = ["Funding", "Payments", "Industries"];
-
-  const toggleMenu = () => setMenuOpen((open) => !open);
-  const closeMenu = () => setMenuOpen(false);
 
   // Function to advance to next title
   const advanceTitle = useCallback(() => {
@@ -288,39 +375,18 @@ export default function Page() {
           </div>
 
           {/* Mobile Header */}
-          <div className="md:hidden flex items-center justify-between w-full backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/85 rounded-full border border-white/10 px-4 py-3 pointer-events-auto">
-            <Link href="/" className="flex items-center" onClick={closeMenu}>
+          <div className="md:hidden flex items-center justify-between w-full pointer-events-auto">
+            <Link href="/" className="flex items-center">
               <span className="sr-only">Split</span>
               <SplitLogo priority />
             </Link>
 
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[var(--theme-accent)]"
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
-              onClick={toggleMenu}
-            >
-              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
+            <span className="inline-flex items-center rounded-full border border-black/10 bg-white/70 px-3 py-1 text-[11px] font-medium text-[var(--theme-text-secondary)] shadow-sm backdrop-blur-md dark:border-white/10 dark:bg-white/10 dark:text-white/80">
+              Navigation lives below
+            </span>
           </div>
 
-          {/* Mobile Menu */}
-          {menuOpen ? (
-            <>
-              <div className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden pointer-events-auto" onClick={closeMenu} />
-              <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-white/10 bg-black/95 backdrop-blur-[20px] backdrop-saturate-[180%] p-6 text-sm shadow-xl md:hidden pointer-events-auto">
-                {navItems.map((item) => (
-                  <Link key={item.href} href={item.href} className="text-white/80 hover:text-[var(--theme-accent)] transition-colors font-poppins" onClick={closeMenu}>
-                    {item.label}
-                  </Link>
-                ))}
-                <Link href="/get-started" className="btn mt-2 font-poppins" onClick={closeMenu}>
-                  Get Started
-                </Link>
-              </nav>
-            </>
-          ) : null}
+          <MobileOrbitNav items={mobileNavItems} />
         </header>
 
         {/* Hero */}
@@ -383,5 +449,359 @@ export default function Page() {
         </footer>
       </div>
     </main>
+  );
+}
+
+function MobileOrbitNav({ items }: { items: MobileNavItem[] }) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+  const previewTimeout = useRef<NodeJS.Timeout | null>(null);
+  const previewActivatedRef = useRef(false);
+  const orbitProgress = useMotionValue(0);
+
+  useEffect(() => {
+    const controls = animate(orbitProgress, 1, {
+      duration: 32,
+      ease: "linear",
+      repeat: Infinity,
+      repeatType: "loop",
+    });
+
+    return () => {
+      controls.stop();
+    };
+  }, [orbitProgress]);
+
+  useEffect(() => {
+    return () => {
+      if (previewTimeout.current) {
+        clearTimeout(previewTimeout.current);
+      }
+    };
+  }, []);
+
+  const handlePointerStart = useCallback(
+    (index: number) => {
+      previewActivatedRef.current = false;
+
+      if (previewTimeout.current) {
+        clearTimeout(previewTimeout.current);
+      }
+
+      previewTimeout.current = setTimeout(() => {
+        previewActivatedRef.current = true;
+        setPreviewIndex(index);
+      }, 420);
+    },
+    [],
+  );
+
+  const handlePointerCancel = useCallback(() => {
+    previewActivatedRef.current = false;
+    if (previewTimeout.current) {
+      clearTimeout(previewTimeout.current);
+      previewTimeout.current = null;
+    }
+  }, []);
+
+  const handlePointerEnd = useCallback(
+    (index: number) => {
+      if (previewActivatedRef.current) {
+        if (previewTimeout.current) {
+          clearTimeout(previewTimeout.current);
+        }
+
+        previewTimeout.current = setTimeout(() => {
+          setPreviewIndex(null);
+          previewActivatedRef.current = false;
+        }, 1400);
+
+        return;
+      }
+
+      handlePointerCancel();
+      setPreviewIndex(null);
+      setActiveIndex(index);
+    },
+    [handlePointerCancel],
+  );
+
+  useEffect(() => {
+    setPreviewIndex(null);
+    previewActivatedRef.current = false;
+  }, [activeIndex]);
+
+  const activeItem = items[activeIndex] ?? items[0];
+  const activeChildren = activeItem?.children ?? [];
+  const hasChildren = activeChildren.length > 0;
+  const previewItem = previewIndex !== null ? items[previewIndex] : null;
+
+  const childRingGroups = useMemo(() => {
+    if (!hasChildren) {
+      return [] as MobileNavChild[][];
+    }
+
+    if (activeChildren.length <= 4) {
+      return [activeChildren] as MobileNavChild[][];
+    }
+
+    return [
+      activeChildren.slice(0, 4),
+      activeChildren.slice(4),
+    ] as MobileNavChild[][];
+  }, [activeChildren, hasChildren]);
+
+  return (
+    <div className="md:hidden">
+      <div className="fixed inset-x-0 bottom-6 z-[60] flex justify-center px-4">
+        <div className="relative w-full max-w-[420px]">
+          <div className="pointer-events-none absolute inset-x-12 -top-14 h-32 rounded-full bg-gradient-to-t from-black/30 via-black/5 to-transparent dark:from-black/60" />
+
+          <AnimatePresence>
+            {previewItem && (
+              <motion.div
+                key={previewItem.label}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 16 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+                className="pointer-events-none absolute bottom-[calc(100%+1.1rem)] left-1/2 w-[min(320px,calc(100vw-3rem))] -translate-x-1/2 overflow-hidden rounded-3xl border border-black/10 bg-white/90 shadow-[0_24px_60px_rgba(15,15,20,0.28)] backdrop-blur-2xl dark:border-white/10 dark:bg-black/75"
+              >
+                <PreviewMedia preview={previewItem.preview} />
+                <div className="space-y-2 p-4">
+                  <p className="text-sm font-semibold tracking-tight text-[var(--theme-text-primary)] dark:text-white">
+                    {previewItem.label}
+                  </p>
+                  <p className="text-xs leading-relaxed text-[var(--theme-text-secondary)] dark:text-white/70">
+                    {previewItem.description}
+                  </p>
+                  <Link
+                    href={previewItem.href}
+                    className="inline-flex items-center rounded-full border border-black/10 bg-white/70 px-3 py-1 text-[11px] font-medium text-[var(--theme-text-primary)] shadow-sm transition-opacity hover:opacity-80 dark:border-white/20 dark:bg-white/10 dark:text-white"
+                  >
+                    Open section
+                  </Link>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="pointer-events-auto relative flex flex-col items-center rounded-[36px] border border-black/10 bg-white/80 px-8 pt-6 pb-8 shadow-[0_28px_80px_rgba(15,15,20,0.32)] backdrop-blur-3xl dark:border-white/10 dark:bg-black/70">
+            <div className="relative flex h-32 w-full items-center justify-center">
+              <div className="pointer-events-none absolute inset-x-6 h-32 rounded-full border border-black/10 bg-gradient-to-br from-white/35 via-white/10 to-transparent dark:border-white/10 dark:from-white/10" />
+
+              {items.map((item, index) => (
+                <OrbitDot
+                  key={item.label}
+                  item={item}
+                  index={index}
+                  total={items.length}
+                  radius={68}
+                  progress={orbitProgress}
+                  isActive={index === activeIndex}
+                  onPressStart={() => handlePointerStart(index)}
+                  onPressEnd={() => handlePointerEnd(index)}
+                  onPressCancel={handlePointerCancel}
+                />
+              ))}
+
+              <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border border-black/10 bg-white/90 shadow-[0_12px_30px_rgba(15,15,20,0.22)] dark:border-white/20 dark:bg-black/80">
+                <SplitLogo imageClassName="h-9 w-auto" />
+              </div>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {activeItem && (
+                <motion.div
+                  key={activeItem.label}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  className="mt-6 flex flex-col items-center gap-3 text-center"
+                >
+                  <span className="text-sm font-semibold tracking-tight text-[var(--theme-text-primary)] dark:text-white">
+                    {activeItem.label}
+                  </span>
+                  <p className="max-w-[240px] text-xs leading-relaxed text-[var(--theme-text-secondary)] dark:text-white/70">
+                    {activeItem.description}
+                  </p>
+                  <Link
+                    href={activeItem.href}
+                    className="inline-flex items-center rounded-full bg-[var(--theme-accent)] px-5 py-2 text-xs font-semibold text-white shadow-sm transition-transform hover:scale-[1.02]"
+                  >
+                    Go now
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <AnimatePresence mode="wait">
+            {hasChildren && (
+              <motion.div
+                key={activeItem.label}
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
+                className="pointer-events-auto mx-auto mt-9 flex h-48 w-48 items-center justify-center"
+              >
+                <div className="absolute h-10 w-10 rounded-full border border-black/10 dark:border-white/10" />
+                <div className="absolute h-24 w-24 rounded-full border border-black/10 opacity-60 dark:border-white/10" />
+                <div className="absolute h-36 w-36 rounded-full border border-black/10 opacity-40 dark:border-white/10" />
+
+                {childRingGroups.map((group, ringIndex) => (
+                  <ChildRing
+                    key={`${activeItem.label}-ring-${ringIndex}`}
+                    links={group}
+                    radius={ringIndex === 0 ? 88 : 134}
+                    delayOffset={ringIndex * 0.12}
+                  />
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function OrbitDot({
+  item,
+  index,
+  total,
+  radius,
+  progress,
+  isActive,
+  onPressStart,
+  onPressEnd,
+  onPressCancel,
+}: {
+  item: MobileNavItem;
+  index: number;
+  total: number;
+  radius: number;
+  progress: MotionValue<number>;
+  isActive: boolean;
+  onPressStart: () => void;
+  onPressEnd: () => void;
+  onPressCancel: () => void;
+}) {
+  const angle = useMemo(() => (total === 0 ? 0 : (index / total) * Math.PI * 2), [index, total]);
+  const x = useTransform(progress, (latest) => Math.cos(angle + latest * Math.PI * 2) * radius);
+  const y = useTransform(progress, (latest) => Math.sin(angle + latest * Math.PI * 2) * radius);
+
+  return (
+    <motion.button
+      layout
+      type="button"
+      style={{ x, y }}
+      className={`absolute top-1/2 left-1/2 flex h-11 -translate-x-1/2 -translate-y-1/2 items-center rounded-full border border-black/10 bg-white/85 text-xs font-medium text-[var(--theme-text-primary)] shadow-[0_14px_32px_rgba(15,15,20,0.24)] backdrop-blur-2xl transition-colors dark:border-white/10 dark:bg-black/70 dark:text-white ${isActive ? "gap-2 px-4 pr-5 bg-[var(--theme-accent)] text-white dark:bg-[var(--theme-accent)]" : "w-11 justify-center"}`}
+      onPointerDown={onPressStart}
+      onPointerUp={onPressEnd}
+      onPointerLeave={onPressCancel}
+      onPointerCancel={onPressCancel}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          onPressEnd();
+        }
+      }}
+      aria-label={item.label}
+      aria-pressed={isActive}
+    >
+      <span
+        aria-hidden
+        className={`block h-2.5 w-2.5 rounded-full bg-gradient-to-br from-[var(--theme-accent)]/70 to-[var(--theme-accent)]/30 transition-colors dark:from-white/80 dark:to-white/40 ${isActive ? "bg-white dark:bg-white" : ""}`}
+      />
+      <AnimatePresence initial={false}>
+        {isActive && (
+          <motion.span
+            key="label"
+            initial={{ opacity: 0, width: 0 }}
+            animate={{ opacity: 1, width: "auto" }}
+            exit={{ opacity: 0, width: 0 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            className="overflow-hidden whitespace-nowrap text-[11px] font-medium tracking-wide"
+          >
+            {item.label}
+          </motion.span>
+        )}
+      </AnimatePresence>
+    </motion.button>
+  );
+}
+
+function ChildRing({
+  links,
+  radius,
+  delayOffset = 0,
+}: {
+  links: MobileNavChild[];
+  radius: number;
+  delayOffset?: number;
+}) {
+  const total = links.length || 1;
+
+  return (
+    <>
+      {links.map((link, index) => {
+        const angle = (index / total) * Math.PI * 2 - Math.PI / 2;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+
+        return (
+          <motion.div
+            key={`${link.href}-${link.label}`}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{
+              delay: delayOffset + index * 0.06,
+              type: "spring",
+              stiffness: 260,
+              damping: 22,
+            }}
+            className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2"
+            style={{ transform: `translate(${x}px, ${y}px)` }}
+          >
+            <Link
+              href={link.href}
+              aria-label={link.label}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-white/80 text-[var(--theme-text-primary)] shadow-[0_16px_36px_rgba(15,15,20,0.25)] backdrop-blur-xl transition-opacity hover:opacity-80 dark:border-white/10 dark:bg-black/70 dark:text-white"
+            >
+              <span className="text-[11px] font-semibold tracking-wide">
+                {link.label.split(" ")[0]}
+              </span>
+            </Link>
+            <span className="max-w-[90px] text-center text-[10px] font-medium text-[var(--theme-text-secondary)] dark:text-white/70">
+              {link.label}
+            </span>
+          </motion.div>
+        );
+      })}
+    </>
+  );
+}
+
+function PreviewMedia({ preview }: { preview: MobileNavPreview }) {
+  return (
+    <div className="relative h-32 w-full overflow-hidden">
+      <Image
+        alt={preview.alt}
+        src={preview.lightSrc}
+        className="block h-full w-full object-cover dark:hidden"
+        priority={false}
+      />
+      <Image
+        alt={preview.alt}
+        src={preview.darkSrc}
+        className="hidden h-full w-full object-cover dark:block"
+        priority={false}
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+    </div>
   );
 }
