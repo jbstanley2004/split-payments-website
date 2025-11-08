@@ -22,13 +22,13 @@ export function DynamicImage({
       <Image
         src={lightSrc}
         alt={alt}
-        className={cn("dark:hidden", className)}
+        className={cn("dark:hidden bg-transparent", className)}
         {...props}
       />
       <Image
         src={darkSrc}
         alt={alt}
-        className={cn("hidden dark:block", className)}
+        className={cn("hidden dark:block bg-transparent", className)}
         {...props}
       />
     </>
