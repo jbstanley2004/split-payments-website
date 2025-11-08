@@ -46,7 +46,7 @@ export default function LandingPage() {
             >
               <Link
                 href="/get-started"
-                className="inline-flex items-center gap-2 border border-[var(--theme-border)] px-8 py-4 rounded-md text-[var(--theme-accent)] font-poppins text-base font-medium hover:bg-[var(--theme-accent)] hover:text-white transition-all duration-300 ease-out shadow-sm"
+                className="inline-flex items-center gap-2 border border-white/90 bg-[var(--theme-accent)] px-8 py-4 rounded-md text-white font-poppins text-base font-medium hover:bg-[var(--theme-accent-hover)] hover:border-white transition-all duration-300 ease-out shadow-lg"
               >
                 Get Started
                 <svg
