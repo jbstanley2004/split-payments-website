@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, type MotionProps } from "framer-motion
 import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Hero from "@/components/Hero";
-import IndustriesCarousel from "@/components/IndustriesCarousel";
+import CardStreamCarousel from "@/components/CardStreamCarousel";
 
 type ParallaxIllustrationProps = MotionProps & {
   className?: string;
@@ -90,8 +90,8 @@ export default function FundingPage() {
           </ParallaxIllustration>
         </section>
 
-        {/* Industries Carousel */}
-        <IndustriesCarousel />
+        {/* Card Stream Carousel */}
+        <CardStreamCarousel />
 
         {/* Footer */}
         <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
