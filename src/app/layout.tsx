@@ -64,6 +64,23 @@ export const viewport = {
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${poppins.variable} ${lora.variable}`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  document.documentElement.classList.remove('light', 'dark');
+                  document.documentElement.classList.add(isDark ? 'dark' : 'light');
+                } catch (e) {
+                  document.documentElement.classList.add('light');
+                }
+              })();
+            `,
+          }}
+        />
+      </head>
       <body>
         <StyledComponentsRegistry>
           <Providers>{children}</Providers>
