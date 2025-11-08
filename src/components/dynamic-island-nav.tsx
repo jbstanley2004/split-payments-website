@@ -26,9 +26,8 @@ type DynamicIslandNavProps = {
 };
 
 const DEFAULT_ITEMS: NavItem[] = [
-  { label: "Funding", href: "/#funding" },
   { label: "Payments", href: "/payments" },
-  { label: "Industries", href: "/industries" },
+  { label: "Funding", href: "/#funding" },
   { label: "Get Started", href: "/get-started", variant: "cta" },
 ];
 
