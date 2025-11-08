@@ -15,13 +15,13 @@ export function SplitLogo({ imageClassName = "h-12 w-auto", priority }: SplitLog
       <Image
         alt="Split logo"
         src={splitLogoLight}
-        className={`dark:hidden ${imageClassName}`}
+        className={`dark:hidden bg-transparent ${imageClassName}`}
         priority={priority}
       />
       <Image
         alt="Split logo"
         src={splitLogoDark}
-        className={`hidden dark:block ${imageClassName}`}
+        className={`hidden dark:block bg-transparent ${imageClassName}`}
         priority={priority}
       />
     </span>
