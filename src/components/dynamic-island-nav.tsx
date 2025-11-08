@@ -216,7 +216,7 @@ export function DynamicIslandNav({
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             className="pointer-events-none absolute flex h-8 items-center justify-center rounded-full border border-white/10 bg-black/80 px-2.5 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
-            <div className="relative flex h-4 w-auto items-center justify-center" style={{ perspective: 600 }}>
+            <div className="relative flex h-6 w-auto items-center justify-center" style={{ perspective: 600 }}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
@@ -226,9 +226,9 @@ export function DynamicIslandNav({
                   <Image
                     src={darkModeLogo}
                     alt="Split"
-                    width={96}
-                    height={32}
-                    className="h-4 w-auto object-contain"
+                    width={144}
+                    height={48}
+                    className="h-6 w-auto object-contain"
                     priority={logoPriority}
                   />
                 </motion.div>
@@ -274,7 +274,7 @@ export function DynamicIslandNav({
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
             className="pointer-events-none absolute flex h-9 items-center justify-center rounded-full border border-black/15 bg-black/85 px-3 py-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
-            <div className="relative flex h-5 w-auto items-center justify-center" style={{ perspective: 600 }}>
+            <div className="relative flex h-7 w-auto items-center justify-center" style={{ perspective: 600 }}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
@@ -284,9 +284,9 @@ export function DynamicIslandNav({
                   <Image
                     src={darkModeLogo}
                     alt="Split"
-                    width={96}
-                    height={32}
-                    className="h-5 w-auto object-contain"
+                    width={168}
+                    height={56}
+                    className="h-7 w-auto object-contain"
                     priority={logoPriority}
                   />
                 </motion.div>
