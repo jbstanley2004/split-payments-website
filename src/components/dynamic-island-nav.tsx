@@ -49,16 +49,16 @@ function isCurrentPage(itemHref: string, currentPath: string): boolean {
   const normalizedItemHref = normalizePath(itemHref);
   const normalizedCurrentPath = normalizePath(currentPath);
 
-  // Exact match for home page - treat both / and /landing as home
-  if ((normalizedItemHref === '/' || normalizedItemHref === '/landing') &&
-      (normalizedCurrentPath === '/' || normalizedCurrentPath === '/landing')) {
+  // Exact match for landing page
+  if (normalizedItemHref === '/landing' && normalizedCurrentPath === '/landing') {
     return true;
   }
 
-  // For other pages, check if current path starts with the item href
-  if (normalizedItemHref !== '/' && normalizedItemHref !== '/landing' &&
-      normalizedCurrentPath.startsWith(normalizedItemHref)) {
-    return true;
+  // For other pages (including root /), check exact match or starts with
+  if (normalizedItemHref !== '/' && normalizedItemHref !== '/landing') {
+    if (normalizedCurrentPath.startsWith(normalizedItemHref)) {
+      return true;
+    }
   }
 
   return false;
