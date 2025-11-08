@@ -135,7 +135,7 @@ export default function GetStarted() {
       <header className="fixed top-3 left-0 right-0 z-50 flex items-center justify-between px-6 pointer-events-none">
         {/* Desktop Logo - Left Side */}
         <Link href="/" className="flex items-center pointer-events-auto">
-          <SplitLogo imageClassName="h-8 w-auto" priority />
+          <SplitLogo imageClassName="h-11 w-auto" priority />
         </Link>
 
         {/* Dynamic Island - Center */}
