@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
-import { cn } from "@midday/ui/cn";
+import { cn } from "@/lib/stub";
 
 import { SplitLogo } from "@/components/split-logo";
 import darkModeLogo from "public/dark_mode_logo.png";
