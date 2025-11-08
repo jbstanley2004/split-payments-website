@@ -7,7 +7,7 @@ import Link from "next/link";
 
 import { cn } from "@/lib/stub";
 
-import darkModeLogo from "public/dark_mode_logo.png";
+import darkModeLogo from "public/split.svg";
 
 type Direction = "up" | "down" | "left" | "right";
 
