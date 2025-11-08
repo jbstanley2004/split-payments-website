@@ -197,21 +197,10 @@ export function DynamicIslandNav({
   return (
     <header
       className={cn(
-        "fixed left-0 right-0 top-3 z-50 flex items-center justify-between px-6 pointer-events-none",
+        "fixed left-0 right-0 top-3 z-50 flex items-center justify-center px-6 pointer-events-none",
         className,
       )}
     >
-      <Link
-        href={homeHref}
-        className={cn(
-          "pointer-events-auto flex items-center",
-          showHomeLogoOnMobile ? "" : "hidden md:flex",
-        )}
-        aria-label="Split home"
-      >
-        <SplitLogo imageClassName="h-11 w-auto" priority={logoPriority} />
-      </Link>
-
       <div
         className="hidden md:flex pointer-events-auto items-center justify-center gap-1.5"
         onMouseEnter={() => setIsDesktopExpanded(true)}
@@ -221,9 +210,9 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute flex h-11 items-center justify-center rounded-full border border-white/10 bg-black/80 px-5 py-1.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute flex h-9 items-center justify-center rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
-            <div className="relative flex h-5 w-16 items-center justify-center" style={{ perspective: 600 }}>
+            <div className="relative flex h-5 w-auto items-center justify-center" style={{ perspective: 600 }}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
@@ -272,19 +261,14 @@ export function DynamicIslandNav({
       </div>
 
       <div className="md:hidden pointer-events-auto flex w-full flex-col items-center gap-3">
-        {showHomeLogoOnMobile && (
-          <Link href={homeHref} className="flex items-center" aria-label="Split home">
-            <SplitLogo imageClassName="h-9 w-auto" priority={logoPriority} />
-          </Link>
-        )}
         <button
           type="button"
           onClick={() => setIsMobileExpanded((prev) => !prev)}
-          className="relative flex items-center justify-center rounded-full border border-black/15 bg-black/85 px-5 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+          className="relative flex items-center justify-center rounded-full border border-black/15 bg-black/85 px-3 py-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           aria-expanded={isMobileExpanded}
           aria-label="Toggle navigation"
         >
-          <div className="flex h-6 w-16 items-center justify-center" style={{ perspective: 600 }}>
+          <div className="flex h-6 w-auto items-center justify-center" style={{ perspective: 600 }}>
             <AnimatePresence mode="wait" initial={false}>
               <motion.div key={logoIteration} {...getRotationVariants(scrollDirection)} className="flex items-center justify-center">
                 <Image
