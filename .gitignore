@@ -27,6 +27,7 @@ yarn-error.log*
 # OS
 .DS_Store
 *.pem
+ChatGPT Image*.png
 
 # TypeScript
 *.tsbuildinfo
