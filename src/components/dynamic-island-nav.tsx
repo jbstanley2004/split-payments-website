@@ -27,9 +27,9 @@ type DynamicIslandNavProps = {
 };
 
 const ALL_NAV_ITEMS: NavItem[] = [
-  { label: "Home", href: "/landing" },
+  { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
-  { label: "Funding", href: "/#funding" },
+  { label: "Funding", href: "/funding" },
   { label: "Get Started", href: "/get-started", variant: "cta" },
 ];
 
@@ -41,21 +41,16 @@ function normalizePath(path: string): string {
 
 // Helper function to check if a nav item matches the current path
 function isCurrentPage(itemHref: string, currentPath: string): boolean {
-  // Hash links (like /#funding) should never be filtered - they're sections, not pages
-  if (itemHref.includes('#')) {
-    return false;
-  }
-
   const normalizedItemHref = normalizePath(itemHref);
   const normalizedCurrentPath = normalizePath(currentPath);
 
-  // Exact match for landing page
-  if (normalizedItemHref === '/landing' && normalizedCurrentPath === '/landing') {
+  // Exact match for home page
+  if (normalizedItemHref === '/' && normalizedCurrentPath === '/') {
     return true;
   }
 
-  // For other pages (including root /), check exact match or starts with
-  if (normalizedItemHref !== '/' && normalizedItemHref !== '/landing') {
+  // For other pages, check if current path starts with the item href
+  if (normalizedItemHref !== '/') {
     if (normalizedCurrentPath.startsWith(normalizedItemHref)) {
       return true;
     }
