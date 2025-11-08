@@ -32,11 +32,30 @@ const DEFAULT_ITEMS: NavItem[] = [
   { label: "Get Started", href: "/get-started", variant: "cta" },
 ];
 
-function getRotationVariants(direction: Direction) {
-  const initialRotateX = direction === "down" ? -90 : direction === "up" ? 90 : 0;
-  const exitRotateX = direction === "down" ? 90 : direction === "up" ? -90 : 0;
-  const initialRotateY = direction === "right" ? -90 : direction === "left" ? 90 : 0;
-  const exitRotateY = direction === "right" ? 90 : direction === "left" ? -90 : 0;
+function getRotationVariants(direction: Direction, velocity: number = 1) {
+  // Normalize velocity: 0.1 (very slow) to 10+ (extremely fast)
+  // For very fast spins, we want multiple rotations (360+ degrees)
+  const normalizedVelocity = Math.max(0.1, Math.min(velocity, 20));
+
+  // Calculate rotation degrees based on velocity
+  // Slow swipe: ~45-90 degrees, Fast swipe: 360-1800+ degrees (multiple spins)
+  const baseRotation = 90;
+  const rotationMultiplier = normalizedVelocity < 1
+    ? 0.5 + (normalizedVelocity * 0.5) // 0.5-1x for slow swipes
+    : normalizedVelocity; // 1-20x for fast swipes
+  const rotationDegrees = baseRotation * rotationMultiplier;
+
+  // Calculate duration based on velocity (inverse relationship for perceived speed)
+  // Fast swipes = shorter duration for more dramatic effect
+  const baseDuration = 0.4;
+  const duration = normalizedVelocity > 3
+    ? baseDuration / Math.sqrt(normalizedVelocity / 3) // Faster animation for fast swipes
+    : baseDuration * (1.2 - normalizedVelocity * 0.2); // Slightly longer for slow swipes
+
+  const initialRotateX = direction === "down" ? -rotationDegrees : direction === "up" ? rotationDegrees : 0;
+  const exitRotateX = direction === "down" ? rotationDegrees : direction === "up" ? -rotationDegrees : 0;
+  const initialRotateY = direction === "right" ? -rotationDegrees : direction === "left" ? rotationDegrees : 0;
+  const exitRotateY = direction === "right" ? rotationDegrees : direction === "left" ? -rotationDegrees : 0;
 
   const initialY = direction === "down" ? -20 : direction === "up" ? 20 : 0;
   const exitY = direction === "down" ? 20 : direction === "up" ? -20 : 0;
@@ -59,7 +78,7 @@ function getRotationVariants(direction: Direction) {
       y: 0,
       x: 0,
       scale: 1,
-      transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] },
+      transition: { duration, ease: [0.34, 1.56, 0.64, 1] },
     },
     exit: {
       opacity: 0,
@@ -68,7 +87,7 @@ function getRotationVariants(direction: Direction) {
       y: exitY,
       x: exitX,
       scale: 0.8,
-      transition: { duration: 0.35, ease: [0.4, 0, 1, 1] },
+      transition: { duration: duration * 0.875, ease: [0.4, 0, 1, 1] },
     },
   } as const;
 }
@@ -84,6 +103,7 @@ export function DynamicIslandNav({
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<Direction>("down");
   const [logoIteration, setLogoIteration] = useState(0);
+  const [velocity, setVelocity] = useState(1);
   const lastScrollTriggerRef = useRef(0);
 
   const collapseOffsets = useMemo(() => {
@@ -98,14 +118,16 @@ export function DynamicIslandNav({
   }, []);
 
   const handleDirectionChange = useCallback(
-    (direction: Direction) => {
+    (direction: Direction, velocityValue: number = 1) => {
       const now = Date.now();
       if (now - lastScrollTriggerRef.current > 400) {
         setScrollDirection(direction);
+        setVelocity(velocityValue);
         advanceLogo();
         lastScrollTriggerRef.current = now;
       } else {
         setScrollDirection(direction);
+        setVelocity(velocityValue);
       }
     },
     [advanceLogo],
@@ -116,47 +138,68 @@ export function DynamicIslandNav({
 
     let lastScrollY = window.scrollY;
     let lastScrollX = window.scrollX;
+    let lastScrollTime = Date.now();
     let touchStartX = 0;
     let touchStartY = 0;
+    let touchStartTime = 0;
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       const currentScrollX = window.scrollX;
+      const currentTime = Date.now();
+      const timeDelta = Math.max(currentTime - lastScrollTime, 1);
 
       // Collapse mobile nav when scrolling
       if (isMobileExpanded) {
         setIsMobileExpanded(false);
       }
 
-      if (Math.abs(currentScrollY - lastScrollY) > Math.abs(currentScrollX - lastScrollX)) {
+      const deltaY = Math.abs(currentScrollY - lastScrollY);
+      const deltaX = Math.abs(currentScrollX - lastScrollX);
+
+      if (deltaY > deltaX) {
+        const scrollVelocity = (deltaY / timeDelta) * 10; // pixels per ms * 10 for scaling
+        const normalizedVelocity = Math.max(0.5, Math.min(scrollVelocity, 10));
+
         if (currentScrollY > lastScrollY) {
-          handleDirectionChange("down");
+          handleDirectionChange("down", normalizedVelocity);
         } else if (currentScrollY < lastScrollY) {
-          handleDirectionChange("up");
+          handleDirectionChange("up", normalizedVelocity);
         }
-      } else if (Math.abs(currentScrollX - lastScrollX) > 5) {
+      } else if (deltaX > 5) {
+        const scrollVelocity = (deltaX / timeDelta) * 10;
+        const normalizedVelocity = Math.max(0.5, Math.min(scrollVelocity, 10));
+
         if (currentScrollX > lastScrollX) {
-          handleDirectionChange("right");
+          handleDirectionChange("right", normalizedVelocity);
         } else if (currentScrollX < lastScrollX) {
-          handleDirectionChange("left");
+          handleDirectionChange("left", normalizedVelocity);
         }
       }
 
       lastScrollY = currentScrollY;
       lastScrollX = currentScrollX;
+      lastScrollTime = currentTime;
     };
 
     const handleWheel = (event: WheelEvent) => {
+      // Wheel delta values are good indicators of velocity
+      // Typical values: 1-100 for trackpad, 50-300+ for mouse wheel
       if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-        handleDirectionChange(event.deltaX > 0 ? "right" : "left");
+        const wheelVelocity = Math.abs(event.deltaX) / 20; // Scale down from typical 20-200 range
+        const normalizedVelocity = Math.max(0.5, Math.min(wheelVelocity, 15));
+        handleDirectionChange(event.deltaX > 0 ? "right" : "left", normalizedVelocity);
       } else if (Math.abs(event.deltaY) > 5) {
-        handleDirectionChange(event.deltaY > 0 ? "down" : "up");
+        const wheelVelocity = Math.abs(event.deltaY) / 20;
+        const normalizedVelocity = Math.max(0.5, Math.min(wheelVelocity, 15));
+        handleDirectionChange(event.deltaY > 0 ? "down" : "up", normalizedVelocity);
       }
     };
 
     const handleTouchStart = (event: TouchEvent) => {
       touchStartX = event.touches[0]?.clientX ?? 0;
       touchStartY = event.touches[0]?.clientY ?? 0;
+      touchStartTime = Date.now();
     };
 
     const handleTouchMove = (event: TouchEvent) => {
@@ -164,14 +207,22 @@ export function DynamicIslandNav({
 
       const touchEndX = event.touches[0]?.clientX ?? 0;
       const touchEndY = event.touches[0]?.clientY ?? 0;
+      const touchEndTime = Date.now();
+
       const deltaX = touchStartX - touchEndX;
       const deltaY = touchStartY - touchEndY;
+      const timeDelta = Math.max(touchEndTime - touchStartTime, 1);
 
       if (Math.abs(deltaX) > 30 || Math.abs(deltaY) > 30) {
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-          handleDirectionChange(deltaX > 0 ? "left" : "right");
+          // Calculate swipe velocity: pixels per millisecond
+          const swipeVelocity = (Math.abs(deltaX) / timeDelta) * 5; // Scale up for better effect
+          const normalizedVelocity = Math.max(0.3, Math.min(swipeVelocity, 20));
+          handleDirectionChange(deltaX > 0 ? "left" : "right", normalizedVelocity);
         } else {
-          handleDirectionChange(deltaY > 0 ? "up" : "down");
+          const swipeVelocity = (Math.abs(deltaY) / timeDelta) * 5;
+          const normalizedVelocity = Math.max(0.3, Math.min(swipeVelocity, 20));
+          handleDirectionChange(deltaY > 0 ? "up" : "down", normalizedVelocity);
         }
       }
     };
@@ -211,7 +262,7 @@ export function DynamicIslandNav({
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
-                  {...getRotationVariants(scrollDirection)}
+                  {...getRotationVariants(scrollDirection, velocity)}
                   className="flex items-center justify-center"
                 >
                   <Image
@@ -270,7 +321,7 @@ export function DynamicIslandNav({
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
-                  {...getRotationVariants(scrollDirection)}
+                  {...getRotationVariants(scrollDirection, velocity)}
                   className="flex items-center justify-center"
                 >
                   <Image
