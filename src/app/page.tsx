@@ -278,17 +278,17 @@ export default function Page() {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {/* Center rotating title - fades out on hover */}
+            {/* Center logo - fades out on hover */}
             <motion.div
               animate={{
                 opacity: isHovered ? 0 : 1,
                 scale: isHovered ? 0.8 : 1,
               }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="absolute backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3.5 py-1 overflow-hidden"
+              className="absolute backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-4 py-1.5 overflow-hidden"
             >
               <AnimatePresence mode="wait">
-                <motion.span
+                <motion.div
                   key={currentTitle}
                   initial={{
                     opacity: 0,
@@ -302,10 +302,17 @@ export default function Page() {
                     x: scrollDirection === 'right' ? -20 : scrollDirection === 'left' ? 20 : 0,
                   }}
                   transition={{ duration: 0.3 }}
-                  className="text-xs text-white/70 font-medium whitespace-nowrap block text-center font-poppins"
+                  className="flex items-center justify-center"
                 >
-                  {rotatingTitles[currentTitle]}
-                </motion.span>
+                  <Image
+                    src="/light_logo.png"
+                    alt="Split"
+                    width={60}
+                    height={20}
+                    className="h-5 w-auto object-contain"
+                    priority
+                  />
+                </motion.div>
               </AnimatePresence>
             </motion.div>
 
