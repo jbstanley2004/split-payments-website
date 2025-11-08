@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect, type ReactNode } from "react";
+import { useRef, useState, useEffect, useCallback, type ReactNode } from "react";
 import { Menu, X } from "lucide-react";
 import { motion, useScroll, useTransform, type MotionProps, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -50,18 +50,47 @@ export default function Page() {
   const [currentTitle, setCurrentTitle] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | 'left' | 'right'>('down');
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollTimeRef = useRef<number>(0);
 
   const rotatingTitles = ["Funding", "Payments", "Industries"];
 
   const toggleMenu = () => setMenuOpen((open) => !open);
   const closeMenu = () => setMenuOpen(false);
 
-  // Detect scroll and swipe direction
+  // Function to advance to next title
+  const advanceTitle = useCallback(() => {
+    setCurrentTitle((prev) => (prev + 1) % rotatingTitles.length);
+  }, [rotatingTitles.length]);
+
+  // Function to reset the auto-rotation interval
+  const resetInterval = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    intervalRef.current = setInterval(advanceTitle, 2000);
+  }, [advanceTitle]);
+
+  // Detect scroll and swipe direction with immediate title change
   useEffect(() => {
     let lastScrollY = window.scrollY;
     let lastScrollX = window.scrollX;
     let touchStartX = 0;
     let touchStartY = 0;
+
+    const handleDirectionChange = (direction: 'up' | 'down' | 'left' | 'right') => {
+      const now = Date.now();
+      // Throttle to prevent too rapid changes (min 400ms between changes)
+      if (now - lastScrollTimeRef.current > 400) {
+        setScrollDirection(direction);
+        advanceTitle();
+        resetInterval();
+        lastScrollTimeRef.current = now;
+      } else {
+        // Still update direction even if not advancing title
+        setScrollDirection(direction);
+      }
+    };
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -70,17 +99,17 @@ export default function Page() {
       // Determine vertical scroll direction
       if (Math.abs(currentScrollY - lastScrollY) > Math.abs(currentScrollX - lastScrollX)) {
         if (currentScrollY > lastScrollY) {
-          setScrollDirection('down');
+          handleDirectionChange('down');
         } else if (currentScrollY < lastScrollY) {
-          setScrollDirection('up');
+          handleDirectionChange('up');
         }
       }
       // Determine horizontal scroll direction
       else if (Math.abs(currentScrollX - lastScrollX) > 5) {
         if (currentScrollX > lastScrollX) {
-          setScrollDirection('right');
+          handleDirectionChange('right');
         } else if (currentScrollX < lastScrollX) {
-          setScrollDirection('left');
+          handleDirectionChange('left');
         }
       }
 
@@ -105,10 +134,10 @@ export default function Page() {
       if (Math.abs(deltaX) > 30 || Math.abs(deltaY) > 30) {
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
           // Horizontal swipe
-          setScrollDirection(deltaX > 0 ? 'left' : 'right');
+          handleDirectionChange(deltaX > 0 ? 'left' : 'right');
         } else {
           // Vertical swipe
-          setScrollDirection(deltaY > 0 ? 'up' : 'down');
+          handleDirectionChange(deltaY > 0 ? 'up' : 'down');
         }
       }
     };
@@ -116,9 +145,9 @@ export default function Page() {
     // Detect horizontal scroll with trackpad (shift + scroll)
     const handleWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
-        setScrollDirection(e.deltaX > 0 ? 'right' : 'left');
+        handleDirectionChange(e.deltaX > 0 ? 'right' : 'left');
       } else if (Math.abs(e.deltaY) > 5) {
-        setScrollDirection(e.deltaY > 0 ? 'down' : 'up');
+        handleDirectionChange(e.deltaY > 0 ? 'down' : 'up');
       }
     };
 
@@ -133,15 +162,17 @@ export default function Page() {
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('wheel', handleWheel);
     };
-  }, []);
+  }, [advanceTitle, resetInterval]);
 
-  // Rotate titles every 2 seconds
+  // Initialize auto-rotation interval
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTitle((prev) => (prev + 1) % rotatingTitles.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [rotatingTitles.length]);
+    resetInterval();
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [resetInterval]);
 
   return (
     <main className="relative min-h-screen font-lora text-text">
