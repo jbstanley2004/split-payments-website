@@ -33,31 +33,42 @@ const DEFAULT_ITEMS: NavItem[] = [
 ];
 
 function getRotationVariants(direction: Direction) {
-  const initialRotateX = direction === "down" ? -45 : direction === "up" ? 45 : 0;
-  const exitRotateX = direction === "down" ? 45 : direction === "up" ? -45 : 0;
-  const initialRotateY = direction === "right" ? -45 : direction === "left" ? 45 : 0;
-  const exitRotateY = direction === "right" ? 45 : direction === "left" ? -45 : 0;
+  const initialRotateX = direction === "down" ? -90 : direction === "up" ? 90 : 0;
+  const exitRotateX = direction === "down" ? 90 : direction === "up" ? -90 : 0;
+  const initialRotateY = direction === "right" ? -90 : direction === "left" ? 90 : 0;
+  const exitRotateY = direction === "right" ? 90 : direction === "left" ? -90 : 0;
+
+  const initialY = direction === "down" ? -20 : direction === "up" ? 20 : 0;
+  const exitY = direction === "down" ? 20 : direction === "up" ? -20 : 0;
+  const initialX = direction === "right" ? -20 : direction === "left" ? 20 : 0;
+  const exitX = direction === "right" ? 20 : direction === "left" ? -20 : 0;
 
   return {
     initial: {
       opacity: 0,
       rotateX: initialRotateX,
       rotateY: initialRotateY,
-      scale: 0.92,
+      y: initialY,
+      x: initialX,
+      scale: 0.8,
     },
     animate: {
       opacity: 1,
       rotateX: 0,
       rotateY: 0,
+      y: 0,
+      x: 0,
       scale: 1,
-      transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
+      transition: { duration: 0.4, ease: [0.34, 1.56, 0.64, 1] },
     },
     exit: {
       opacity: 0,
       rotateX: exitRotateX,
       rotateY: exitRotateY,
-      scale: 0.92,
-      transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+      y: exitY,
+      x: exitX,
+      scale: 0.8,
+      transition: { duration: 0.35, ease: [0.4, 0, 1, 1] },
     },
   } as const;
 }
@@ -194,9 +205,9 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute flex h-8 items-center justify-center rounded-full border border-white/10 bg-black/80 px-4 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-white/10 bg-black/80 px-3.5 py-1.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
-            <div className="relative flex h-6 w-auto items-center justify-center" style={{ perspective: 600 }}>
+            <div className="relative flex h-6 w-auto items-center justify-center" style={{ perspective: 1000 }}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
@@ -252,9 +263,9 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isMobileExpanded ? 0 : 1, scale: isMobileExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute flex h-9 items-center justify-center rounded-full border border-black/15 bg-black/85 px-4 py-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-black/15 bg-black/85 px-4 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
-            <div className="relative flex h-7 w-auto items-center justify-center" style={{ perspective: 600 }}>
+            <div className="relative flex h-7 w-auto items-center justify-center" style={{ perspective: 1000 }}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
