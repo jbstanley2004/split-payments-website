@@ -7,7 +7,6 @@ import Link from "next/link";
 
 import { cn } from "@/lib/stub";
 
-import { SplitLogo } from "@/components/split-logo";
 import darkModeLogo from "public/dark_mode_logo.png";
 
 type Direction = "up" | "down" | "left" | "right";
@@ -210,9 +209,9 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute flex h-9 items-center justify-center rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute flex h-11 items-center justify-center rounded-full border border-white/10 bg-black/80 px-5 py-1.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
-            <div className="relative flex h-5 w-auto items-center justify-center" style={{ perspective: 600 }}>
+            <div className="relative flex h-5 w-16 items-center justify-center" style={{ perspective: 600 }}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
@@ -224,7 +223,7 @@ export function DynamicIslandNav({
                     alt="Split"
                     width={96}
                     height={32}
-                    className="h-5 w-auto object-contain bg-transparent"
+                    className="h-5 w-auto object-contain"
                     priority={logoPriority}
                   />
                 </motion.div>
@@ -260,56 +259,63 @@ export function DynamicIslandNav({
         </div>
       </div>
 
-      <div className="md:hidden pointer-events-auto flex w-full flex-col items-center gap-3">
-        <button
-          type="button"
-          onClick={() => setIsMobileExpanded((prev) => !prev)}
-          className="relative flex items-center justify-center rounded-full border border-black/15 bg-black/85 px-3 py-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
-          aria-expanded={isMobileExpanded}
-          aria-label="Toggle navigation"
-        >
-          <div className="flex h-6 w-auto items-center justify-center" style={{ perspective: 600 }}>
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div key={logoIteration} {...getRotationVariants(scrollDirection)} className="flex items-center justify-center">
-                <Image
-                  src={darkModeLogo}
-                  alt="Split"
-                  width={96}
-                  height={32}
-                  className="h-6 w-auto object-contain bg-transparent"
-                  priority={logoPriority}
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </button>
-        <AnimatePresence>
-          {isMobileExpanded && (
-            <motion.nav
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-              className="flex w-full max-w-sm flex-wrap items-center justify-center gap-2 rounded-3xl border border-black/15 bg-black/85 px-4 py-3 shadow-[0_20px_40px_rgba(0,0,0,0.4)] backdrop-blur-[16px] backdrop-saturate-[180%]"
-            >
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={cn(
-                    "rounded-full px-4 py-2 text-sm font-medium transition-all font-poppins",
-                    item.variant === "cta"
-                      ? "bg-[var(--theme-accent)] text-white shadow hover:bg-[var(--theme-accent)]/90"
-                      : "border border-white/10 bg-white/5 text-white/80 hover:text-white",
-                  )}
-                  onClick={() => setIsMobileExpanded(false)}
+      <div
+        className="md:hidden pointer-events-auto flex items-center justify-center gap-1.5"
+        onClick={() => setIsMobileExpanded((prev) => !prev)}
+      >
+        <div className="relative flex items-center justify-center">
+          <motion.div
+            animate={{ opacity: isMobileExpanded ? 0 : 1, scale: isMobileExpanded ? 0.85 : 1 }}
+            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            className="pointer-events-none absolute flex h-11 items-center justify-center rounded-full border border-black/15 bg-black/85 px-5 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+          >
+            <div className="relative flex h-6 w-16 items-center justify-center" style={{ perspective: 600 }}>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={logoIteration}
+                  {...getRotationVariants(scrollDirection)}
+                  className="flex items-center justify-center"
                 >
-                  {item.label}
-                </Link>
-              ))}
-            </motion.nav>
-          )}
-        </AnimatePresence>
+                  <Image
+                    src={darkModeLogo}
+                    alt="Split"
+                    width={96}
+                    height={32}
+                    className="h-6 w-auto object-contain"
+                    priority={logoPriority}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </motion.div>
+
+          {navItems.map((item, index) => (
+            <motion.div
+              key={item.label}
+              animate={{
+                opacity: isMobileExpanded ? 1 : 0,
+                x: isMobileExpanded ? 0 : collapseOffsets[index] ?? 0,
+                scale: isMobileExpanded ? 1 : 0.85,
+              }}
+              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              className="relative ml-2 rounded-full border border-black/15 bg-black/85 px-3 py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+              style={{ pointerEvents: isMobileExpanded ? "auto" : "none" }}
+            >
+              <Link
+                href={item.href}
+                className={cn(
+                  "text-xs font-medium transition-colors font-poppins whitespace-nowrap",
+                  item.variant === "cta"
+                    ? "text-white px-2.5 py-0.5 inline-flex items-center justify-center border border-white/20 rounded-full bg-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/90"
+                    : "text-white/80 hover:text-[var(--theme-accent)]",
+                )}
+                onClick={() => setIsMobileExpanded(false)}
+              >
+                {item.label}
+              </Link>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </header>
   );
