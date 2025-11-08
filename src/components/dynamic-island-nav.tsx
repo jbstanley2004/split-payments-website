@@ -41,6 +41,11 @@ function normalizePath(path: string): string {
 
 // Helper function to check if a nav item matches the current path
 function isCurrentPage(itemHref: string, currentPath: string): boolean {
+  // Hash links (like /#funding) should never be filtered - they're sections, not pages
+  if (itemHref.includes('#')) {
+    return false;
+  }
+
   const normalizedItemHref = normalizePath(itemHref);
   const normalizedCurrentPath = normalizePath(currentPath);
 
