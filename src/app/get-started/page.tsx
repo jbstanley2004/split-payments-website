@@ -3,19 +3,131 @@
 import { SplitLogo } from "@/components/split-logo";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export default function GetStarted() {
   const [currentTitle, setCurrentTitle] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | 'left' | 'right'>('down');
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const lastScrollTimeRef = useRef<number>(0);
   const rotatingTitles = ["Funding", "Payments", "Industries"];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTitle((prev) => (prev + 1) % rotatingTitles.length);
-    }, 2000);
-    return () => clearInterval(interval);
+  // Function to advance to next title
+  const advanceTitle = useCallback(() => {
+    setCurrentTitle((prev) => (prev + 1) % rotatingTitles.length);
   }, [rotatingTitles.length]);
+
+  // Function to reset the auto-rotation interval
+  const resetInterval = useCallback(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+    intervalRef.current = setInterval(advanceTitle, 2000);
+  }, [advanceTitle]);
+
+  // Detect scroll and swipe direction with immediate title change
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let lastScrollX = window.scrollX;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    const handleDirectionChange = (direction: 'up' | 'down' | 'left' | 'right') => {
+      const now = Date.now();
+      // Throttle to prevent too rapid changes (min 400ms between changes)
+      if (now - lastScrollTimeRef.current > 400) {
+        setScrollDirection(direction);
+        advanceTitle();
+        resetInterval();
+        lastScrollTimeRef.current = now;
+      } else {
+        // Still update direction even if not advancing title
+        setScrollDirection(direction);
+      }
+    };
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const currentScrollX = window.scrollX;
+
+      // Determine vertical scroll direction
+      if (Math.abs(currentScrollY - lastScrollY) > Math.abs(currentScrollX - lastScrollX)) {
+        if (currentScrollY > lastScrollY) {
+          handleDirectionChange('down');
+        } else if (currentScrollY < lastScrollY) {
+          handleDirectionChange('up');
+        }
+      }
+      // Determine horizontal scroll direction
+      else if (Math.abs(currentScrollX - lastScrollX) > 5) {
+        if (currentScrollX > lastScrollX) {
+          handleDirectionChange('right');
+        } else if (currentScrollX < lastScrollX) {
+          handleDirectionChange('left');
+        }
+      }
+
+      lastScrollY = currentScrollY;
+      lastScrollX = currentScrollX;
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!touchStartX || !touchStartY) return;
+
+      const touchEndX = e.touches[0].clientX;
+      const touchEndY = e.touches[0].clientY;
+      const deltaX = touchStartX - touchEndX;
+      const deltaY = touchStartY - touchEndY;
+
+      // Only detect swipes if movement is significant
+      if (Math.abs(deltaX) > 30 || Math.abs(deltaY) > 30) {
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          // Horizontal swipe
+          handleDirectionChange(deltaX > 0 ? 'left' : 'right');
+        } else {
+          // Vertical swipe
+          handleDirectionChange(deltaY > 0 ? 'up' : 'down');
+        }
+      }
+    };
+
+    // Detect horizontal scroll with trackpad (shift + scroll)
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        handleDirectionChange(e.deltaX > 0 ? 'right' : 'left');
+      } else if (Math.abs(e.deltaY) > 5) {
+        handleDirectionChange(e.deltaY > 0 ? 'down' : 'up');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, [advanceTitle, resetInterval]);
+
+  // Initialize auto-rotation interval
+  useEffect(() => {
+    resetInterval();
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [resetInterval]);
 
   return (
     <main className="min-h-screen font-jetbrains">
@@ -38,9 +150,17 @@ export default function GetStarted() {
             <AnimatePresence mode="wait">
               <motion.span
                 key={currentTitle}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+                initial={{
+                  opacity: 0,
+                  y: scrollDirection === 'down' ? 20 : scrollDirection === 'up' ? -20 : 0,
+                  x: scrollDirection === 'right' ? 20 : scrollDirection === 'left' ? -20 : 0,
+                }}
+                animate={{ opacity: 1, y: 0, x: 0 }}
+                exit={{
+                  opacity: 0,
+                  y: scrollDirection === 'down' ? -20 : scrollDirection === 'up' ? 20 : 0,
+                  x: scrollDirection === 'right' ? -20 : scrollDirection === 'left' ? 20 : 0,
+                }}
                 transition={{ duration: 0.3 }}
                 className="text-xs text-white/70 font-medium whitespace-nowrap block text-center font-poppins"
               >
