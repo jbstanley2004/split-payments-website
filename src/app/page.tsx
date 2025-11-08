@@ -455,9 +455,14 @@ export default function Page() {
 function MobileOrbitNav({ items }: { items: MobileNavItem[] }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
+  const [showChildren, setShowChildren] = useState(false);
+  const [childSwipeIndex, setChildSwipeIndex] = useState(0);
   const previewTimeout = useRef<NodeJS.Timeout | null>(null);
   const previewActivatedRef = useRef(false);
+  const childTapTimeout = useRef<NodeJS.Timeout | null>(null);
   const orbitProgress = useMotionValue(0);
+  const swipeStartX = useRef(0);
+  const swipeStartY = useRef(0);
 
   useEffect(() => {
     const controls = animate(orbitProgress, 1, {
@@ -476,6 +481,9 @@ function MobileOrbitNav({ items }: { items: MobileNavItem[] }) {
     return () => {
       if (previewTimeout.current) {
         clearTimeout(previewTimeout.current);
+      }
+      if (childTapTimeout.current) {
+        clearTimeout(childTapTimeout.current);
       }
     };
   }, []);
@@ -529,12 +537,62 @@ function MobileOrbitNav({ items }: { items: MobileNavItem[] }) {
   useEffect(() => {
     setPreviewIndex(null);
     previewActivatedRef.current = false;
+    setShowChildren(false);
+    setChildSwipeIndex(0);
   }, [activeIndex]);
 
   const activeItem = items[activeIndex] ?? items[0];
   const activeChildren = activeItem?.children ?? [];
   const hasChildren = activeChildren.length > 0;
   const previewItem = previewIndex !== null ? items[previewIndex] : null;
+
+  // Handle double-tap on active dot to toggle children
+  const handleActiveDotTap = useCallback(() => {
+    if (!hasChildren) return;
+
+    if (childTapTimeout.current) {
+      // Double tap detected
+      clearTimeout(childTapTimeout.current);
+      childTapTimeout.current = null;
+      setShowChildren((prev) => !prev);
+    } else {
+      // First tap
+      childTapTimeout.current = setTimeout(() => {
+        childTapTimeout.current = null;
+      }, 300);
+    }
+  }, [hasChildren]);
+
+  // Swipe detection for child navigation
+  const handleChildSwipeStart = useCallback((e: React.TouchEvent | React.PointerEvent) => {
+    if ('touches' in e) {
+      swipeStartX.current = e.touches[0].clientX;
+      swipeStartY.current = e.touches[0].clientY;
+    } else {
+      swipeStartX.current = e.clientX;
+      swipeStartY.current = e.clientY;
+    }
+  }, []);
+
+  const handleChildSwipeEnd = useCallback((e: React.TouchEvent | React.PointerEvent) => {
+    if (!showChildren || activeChildren.length === 0) return;
+
+    const clientX = 'changedTouches' in e ? e.changedTouches[0].clientX : e.clientX;
+    const clientY = 'changedTouches' in e ? e.changedTouches[0].clientY : e.clientY;
+    const deltaX = swipeStartX.current - clientX;
+    const deltaY = swipeStartY.current - clientY;
+
+    // Only handle horizontal swipes
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 50) {
+      if (deltaX > 0) {
+        // Swipe left - next item
+        setChildSwipeIndex((prev) => Math.min(prev + 1, activeChildren.length - 1));
+      } else {
+        // Swipe right - previous item
+        setChildSwipeIndex((prev) => Math.max(prev - 1, 0));
+      }
+    }
+  }, [showChildren, activeChildren.length]);
 
   const childRingGroups = useMemo(() => {
     if (!hasChildren) {
@@ -553,6 +611,19 @@ function MobileOrbitNav({ items }: { items: MobileNavItem[] }) {
 
   return (
     <div className="md:hidden">
+      {/* Subtle backdrop dimming when children are visible */}
+      <AnimatePresence>
+        {showChildren && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="pointer-events-none fixed inset-0 z-[55] bg-gradient-to-t from-black/30 via-transparent to-transparent dark:from-black/50"
+          />
+        )}
+      </AnimatePresence>
+
       <div className="fixed inset-x-0 bottom-6 z-[60] flex justify-center px-4">
         <div className="relative w-full max-w-[420px]">
           <div className="pointer-events-none absolute inset-x-12 -top-14 h-32 rounded-full bg-gradient-to-t from-black/30 via-black/5 to-transparent dark:from-black/60" />
@@ -586,32 +657,100 @@ function MobileOrbitNav({ items }: { items: MobileNavItem[] }) {
             )}
           </AnimatePresence>
 
-          <div className="pointer-events-auto relative flex flex-col items-center rounded-[36px] border border-black/10 bg-white/80 px-8 pt-6 pb-8 shadow-[0_28px_80px_rgba(15,15,20,0.32)] backdrop-blur-3xl dark:border-white/10 dark:bg-black/70">
-            <div className="relative flex h-32 w-full items-center justify-center">
-              <div className="pointer-events-none absolute inset-x-6 h-32 rounded-full border border-black/10 bg-gradient-to-br from-white/35 via-white/10 to-transparent dark:border-white/10 dark:from-white/10" />
+          <motion.div
+            className="pointer-events-auto relative flex flex-col items-center rounded-[36px] border border-black/10 bg-white/80 px-8 pt-6 pb-8 shadow-[0_28px_80px_rgba(15,15,20,0.32)] backdrop-blur-3xl dark:border-white/10 dark:bg-black/70"
+            animate={{
+              scale: showChildren ? 1.08 : 1,
+              y: showChildren ? -20 : 0,
+            }}
+            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <motion.div
+              className="relative flex w-full items-center justify-center"
+              animate={{
+                height: showChildren ? 180 : 128,
+              }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              onTouchStart={showChildren ? handleChildSwipeStart : undefined}
+              onTouchEnd={showChildren ? handleChildSwipeEnd : undefined}
+            >
+              {/* Orbit ring background - morphs into concentric rings */}
+              <AnimatePresence mode="wait">
+                {!showChildren ? (
+                  <motion.div
+                    key="single-ring"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="pointer-events-none absolute inset-x-6 h-32 rounded-full border border-black/10 bg-gradient-to-br from-white/35 via-white/10 to-transparent dark:border-white/10 dark:from-white/10"
+                  />
+                ) : (
+                  <motion.div
+                    key="concentric-rings"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+                    className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                  >
+                    <div className="absolute h-20 w-20 rounded-full border border-black/15 bg-white/20 dark:border-white/15 dark:bg-white/5" />
+                    <div className="absolute h-32 w-32 rounded-full border border-black/12 dark:border-white/12" />
+                    <div className="absolute h-40 w-40 rounded-full border border-black/8 dark:border-white/8" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
-              {items.map((item, index) => (
-                <OrbitDot
-                  key={item.label}
-                  item={item}
-                  index={index}
-                  total={items.length}
-                  radius={68}
-                  progress={orbitProgress}
-                  isActive={index === activeIndex}
-                  onPressStart={() => handlePointerStart(index)}
-                  onPressEnd={() => handlePointerEnd(index)}
-                  onPressCancel={handlePointerCancel}
-                />
-              ))}
+              {/* Main orbit dots - hide when children are shown */}
+              <AnimatePresence>
+                {!showChildren && items.map((item, index) => (
+                  <OrbitDot
+                    key={item.label}
+                    item={item}
+                    index={index}
+                    total={items.length}
+                    radius={68}
+                    progress={orbitProgress}
+                    isActive={index === activeIndex}
+                    onPressStart={() => handlePointerStart(index)}
+                    onPressEnd={() => {
+                      handlePointerEnd(index);
+                      if (index === activeIndex) {
+                        handleActiveDotTap();
+                      }
+                    }}
+                    onPressCancel={handlePointerCancel}
+                  />
+                ))}
+              </AnimatePresence>
 
+              {/* Child items - appear in concentric rings with swipe */}
+              <AnimatePresence>
+                {showChildren && childRingGroups.map((group, ringIndex) => {
+                  // Calculate the starting index for this ring
+                  const startIndex = ringIndex === 0 ? 0 : 4;
+                  return (
+                    <ChildRingSwipeable
+                      key={`${activeItem.label}-ring-${ringIndex}`}
+                      links={group}
+                      radius={ringIndex === 0 ? 58 : 95}
+                      delayOffset={ringIndex * 0.12}
+                      swipeIndex={childSwipeIndex}
+                      startIndex={startIndex}
+                      totalItems={activeChildren.length}
+                    />
+                  );
+                })}
+              </AnimatePresence>
+
+              {/* Center logo */}
               <div className="relative z-10 flex h-16 w-16 items-center justify-center rounded-full border border-black/10 bg-white/90 shadow-[0_12px_30px_rgba(15,15,20,0.22)] dark:border-white/20 dark:bg-black/80">
                 <SplitLogo imageClassName="h-9 w-auto" />
               </div>
-            </div>
+            </motion.div>
 
             <AnimatePresence mode="wait">
-              {activeItem && (
+              {activeItem && !showChildren && (
                 <motion.div
                   key={activeItem.label}
                   initial={{ opacity: 0, y: 12 }}
@@ -626,42 +765,46 @@ function MobileOrbitNav({ items }: { items: MobileNavItem[] }) {
                   <p className="max-w-[240px] text-xs leading-relaxed text-[var(--theme-text-secondary)] dark:text-white/70">
                     {activeItem.description}
                   </p>
-                  <Link
-                    href={activeItem.href}
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={activeItem.href}
+                      className="inline-flex items-center rounded-full bg-[var(--theme-accent)] px-5 py-2 text-xs font-semibold text-white shadow-sm transition-transform hover:scale-[1.02]"
+                    >
+                      Go now
+                    </Link>
+                    {hasChildren && (
+                      <button
+                        onClick={() => setShowChildren(true)}
+                        className="inline-flex items-center rounded-full border border-black/10 bg-white/70 px-4 py-2 text-xs font-medium text-[var(--theme-text-primary)] shadow-sm transition-opacity hover:opacity-80 dark:border-white/20 dark:bg-white/10 dark:text-white"
+                      >
+                        Explore {activeChildren.length} options
+                      </button>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+              {showChildren && (
+                <motion.div
+                  key="children-info"
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -12 }}
+                  transition={{ duration: 0.22, ease: "easeOut" }}
+                  className="mt-6 flex flex-col items-center gap-3 text-center"
+                >
+                  <span className="text-xs font-medium text-[var(--theme-text-secondary)] dark:text-white/60">
+                    Swipe left/right to navigate • Tap to close
+                  </span>
+                  <button
+                    onClick={() => setShowChildren(false)}
                     className="inline-flex items-center rounded-full bg-[var(--theme-accent)] px-5 py-2 text-xs font-semibold text-white shadow-sm transition-transform hover:scale-[1.02]"
                   >
-                    Go now
-                  </Link>
+                    Close
+                  </button>
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
-
-          <AnimatePresence mode="wait">
-            {hasChildren && (
-              <motion.div
-                key={activeItem.label}
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                className="pointer-events-auto mx-auto mt-9 flex h-48 w-48 items-center justify-center"
-              >
-                <div className="absolute h-10 w-10 rounded-full border border-black/10 dark:border-white/10" />
-                <div className="absolute h-24 w-24 rounded-full border border-black/10 opacity-60 dark:border-white/10" />
-                <div className="absolute h-36 w-36 rounded-full border border-black/10 opacity-40 dark:border-white/10" />
-
-                {childRingGroups.map((group, ringIndex) => (
-                  <ChildRing
-                    key={`${activeItem.label}-ring-${ringIndex}`}
-                    links={group}
-                    radius={ringIndex === 0 ? 88 : 134}
-                    delayOffset={ringIndex * 0.12}
-                  />
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+          </motion.div>
         </div>
       </div>
     </div>
@@ -777,6 +920,81 @@ function ChildRing({
               </span>
             </Link>
             <span className="max-w-[90px] text-center text-[10px] font-medium text-[var(--theme-text-secondary)] dark:text-white/70">
+              {link.label}
+            </span>
+          </motion.div>
+        );
+      })}
+    </>
+  );
+}
+
+function ChildRingSwipeable({
+  links,
+  radius,
+  delayOffset = 0,
+  swipeIndex,
+  startIndex,
+  totalItems,
+}: {
+  links: MobileNavChild[];
+  radius: number;
+  delayOffset?: number;
+  swipeIndex: number;
+  startIndex: number;
+  totalItems: number;
+}) {
+  const total = links.length || 1;
+
+  return (
+    <>
+      {links.map((link, index) => {
+        const angle = (index / total) * Math.PI * 2 - Math.PI / 2;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+
+        // Determine if this item should be highlighted based on swipe
+        const globalIndex = startIndex + index;
+        const isHighlighted = globalIndex === swipeIndex;
+
+        return (
+          <motion.div
+            key={`${link.href}-${link.label}`}
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{
+              scale: isHighlighted ? 1.15 : 1,
+              opacity: isHighlighted ? 1 : 0.7,
+            }}
+            exit={{ scale: 0, opacity: 0 }}
+            transition={{
+              delay: delayOffset + index * 0.06,
+              type: "spring",
+              stiffness: 260,
+              damping: 22,
+              scale: { duration: 0.3 },
+              opacity: { duration: 0.3 },
+            }}
+            className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2"
+            style={{ transform: `translate(${x}px, ${y}px)` }}
+          >
+            <Link
+              href={link.href}
+              aria-label={link.label}
+              className={`flex h-12 w-12 items-center justify-center rounded-full border backdrop-blur-xl transition-all ${
+                isHighlighted
+                  ? "border-[var(--theme-accent)]/50 bg-[var(--theme-accent)]/20 text-[var(--theme-accent)] shadow-[0_0_20px_rgba(217,119,87,0.3)] dark:shadow-[0_0_20px_rgba(217,119,87,0.4)]"
+                  : "border-black/10 bg-white/80 text-[var(--theme-text-primary)] dark:border-white/10 dark:bg-black/70 dark:text-white"
+              } shadow-[0_16px_36px_rgba(15,15,20,0.25)] hover:opacity-90`}
+            >
+              <span className="text-[11px] font-semibold tracking-wide">
+                {link.label.split(" ")[0]}
+              </span>
+            </Link>
+            <span className={`max-w-[90px] text-center text-[10px] font-medium transition-colors ${
+              isHighlighted
+                ? "text-[var(--theme-text-primary)] dark:text-white font-semibold"
+                : "text-[var(--theme-text-secondary)] dark:text-white/70"
+            }`}>
               {link.label}
             </span>
           </motion.div>
