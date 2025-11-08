@@ -1,8 +1,9 @@
 .card-beam-container {
   position: relative;
   width: 100%;
-  background: #000000;
+  background: var(--theme-background);
   overflow: hidden;
+  transition: background-color 0.3s ease;
 }
 
 .card-beam-wrapper {
@@ -105,7 +106,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  color: rgba(220, 210, 255, 0.6);
+  color: var(--theme-accent);
+  opacity: 0.6;
   font-family: "Courier New", monospace;
   font-size: 11px;
   line-height: 13px;
@@ -133,6 +135,17 @@
     rgba(0, 0, 0, 0.4) 80%,
     rgba(0, 0, 0, 0.2) 100%
   );
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Light mode - increase opacity for better visibility */
+.light .ascii-content {
+  opacity: 0.75;
+}
+
+/* Dark mode - use purple tint for code effect */
+.dark .ascii-content {
+  color: rgba(196, 181, 253, 0.8);
 }
 
 @keyframes glitch {
@@ -168,12 +181,22 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(0, 255, 255, 0.4),
+    rgba(217, 119, 87, 0.4),
     transparent
   );
   animation: scanEffect 0.6s ease-out;
   pointer-events: none;
   z-index: 5;
+}
+
+/* Dark mode - use purple/cyan scan effect */
+.dark .scan-effect {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(196, 181, 253, 0.5),
+    transparent
+  );
 }
 
 @keyframes scanEffect {

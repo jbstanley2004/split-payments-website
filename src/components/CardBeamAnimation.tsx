@@ -473,6 +473,11 @@ class ParticleSystem {
     window.addEventListener("resize", () => this.onWindowResize());
   }
 
+  isDarkMode(): boolean {
+    if (typeof document === 'undefined') return false;
+    return document.documentElement.classList.contains('dark');
+  }
+
   createParticles() {
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(this.particleCount * 3);
@@ -488,12 +493,13 @@ class ParticleSystem {
     if (!ctx) return;
 
     const half = canvas.width / 2;
-    const hue = 217;
+    const isDark = this.isDarkMode();
+    const hue = isDark ? 260 : 15; // Purple for dark mode, coral/orange for light mode
 
     const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
     gradient.addColorStop(0.025, "#fff");
-    gradient.addColorStop(0.1, `hsl(${hue}, 61%, 33%)`);
-    gradient.addColorStop(0.25, `hsl(${hue}, 64%, 6%)`);
+    gradient.addColorStop(0.1, `hsl(${hue}, ${isDark ? 61 : 65}%, ${isDark ? 33 : 55}%)`);
+    gradient.addColorStop(0.25, `hsl(${hue}, ${isDark ? 64 : 60}%, ${isDark ? 6 : 20}%)`);
     gradient.addColorStop(1, "transparent");
 
     ctx.fillStyle = gradient;
@@ -572,33 +578,41 @@ class ParticleSystem {
   animate() {
     this.animationId = requestAnimationFrame(() => this.animate());
 
+    // Only show particles in dark mode
+    const isDark = this.isDarkMode();
+
     if (this.particles) {
-      const positions = this.particles.geometry.attributes.position.array as Float32Array;
-      const alphas = this.particles.geometry.attributes.alpha.array as Float32Array;
-      const time = Date.now() * 0.001;
+      if (isDark) {
+        const positions = this.particles.geometry.attributes.position.array as Float32Array;
+        const alphas = this.particles.geometry.attributes.alpha.array as Float32Array;
+        const time = Date.now() * 0.001;
 
-      for (let i = 0; i < this.particleCount; i++) {
-        positions[i * 3] += this.velocities[i] * 0.016;
+        for (let i = 0; i < this.particleCount; i++) {
+          positions[i * 3] += this.velocities[i] * 0.016;
 
-        if (positions[i * 3] > window.innerWidth / 2 + 100) {
-          positions[i * 3] = -window.innerWidth / 2 - 100;
-          positions[i * 3 + 1] = (Math.random() - 0.5) * 250;
+          if (positions[i * 3] > window.innerWidth / 2 + 100) {
+            positions[i * 3] = -window.innerWidth / 2 - 100;
+            positions[i * 3 + 1] = (Math.random() - 0.5) * 250;
+          }
+
+          positions[i * 3 + 1] += Math.sin(time + i * 0.1) * 0.5;
+
+          const twinkle = Math.floor(Math.random() * 10);
+          if (twinkle === 1 && alphas[i] > 0) {
+            alphas[i] -= 0.05;
+          } else if (twinkle === 2 && alphas[i] < 1) {
+            alphas[i] += 0.05;
+          }
+
+          alphas[i] = Math.max(0, Math.min(1, alphas[i]));
         }
 
-        positions[i * 3 + 1] += Math.sin(time + i * 0.1) * 0.5;
-
-        const twinkle = Math.floor(Math.random() * 10);
-        if (twinkle === 1 && alphas[i] > 0) {
-          alphas[i] -= 0.05;
-        } else if (twinkle === 2 && alphas[i] < 1) {
-          alphas[i] += 0.05;
-        }
-
-        alphas[i] = Math.max(0, Math.min(1, alphas[i]));
+        this.particles.geometry.attributes.position.needsUpdate = true;
+        this.particles.geometry.attributes.alpha.needsUpdate = true;
       }
 
-      this.particles.geometry.attributes.position.needsUpdate = true;
-      this.particles.geometry.attributes.alpha.needsUpdate = true;
+      // Set visibility based on theme
+      this.particles.visible = isDark;
     }
 
     if (this.renderer && this.scene && this.camera) {
@@ -696,6 +710,11 @@ class ParticleScanner {
     this.setupCanvas();
   }
 
+  isDarkMode(): boolean {
+    if (typeof document === 'undefined') return false;
+    return document.documentElement.classList.contains('dark');
+  }
+
   createGradientCache() {
     this.gradientCanvas = document.createElement("canvas");
     this.gradientCtx = this.gradientCanvas.getContext("2d");
@@ -713,9 +732,19 @@ class ParticleScanner {
       half,
       half
     );
+
+    const isDark = this.isDarkMode();
+
     gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-    gradient.addColorStop(0.3, "rgba(196, 181, 253, 0.8)");
-    gradient.addColorStop(0.7, "rgba(139, 92, 246, 0.4)");
+    if (isDark) {
+      // Dark mode: purple/violet particles
+      gradient.addColorStop(0.3, "rgba(196, 181, 253, 0.8)");
+      gradient.addColorStop(0.7, "rgba(139, 92, 246, 0.4)");
+    } else {
+      // Light mode: coral/orange particles matching brand
+      gradient.addColorStop(0.3, "rgba(217, 119, 87, 0.7)");
+      gradient.addColorStop(0.7, "rgba(228, 145, 115, 0.3)");
+    }
     gradient.addColorStop(1, "transparent");
 
     this.gradientCtx.fillStyle = gradient;
@@ -880,18 +909,24 @@ class ParticleScanner {
     );
     this.ctx.fill();
 
+    const isDark = this.isDarkMode();
+
+    // Adjust colors based on theme
+    const primaryColor = isDark ? "139, 92, 246" : "217, 119, 87"; // purple in dark, coral in light
+    const secondaryColor = isDark ? "196, 181, 253" : "228, 145, 115"; // light purple in dark, light coral in light
+
     const glow1Gradient = this.ctx.createLinearGradient(
       this.lightBarX - lineWidth * 2,
       0,
       this.lightBarX + lineWidth * 2,
       0
     );
-    glow1Gradient.addColorStop(0, "rgba(139, 92, 246, 0)");
+    glow1Gradient.addColorStop(0, `rgba(${primaryColor}, 0)`);
     glow1Gradient.addColorStop(
       0.5,
-      `rgba(196, 181, 253, ${0.8 * glowIntensity})`
+      `rgba(${secondaryColor}, ${0.8 * glowIntensity})`
     );
-    glow1Gradient.addColorStop(1, "rgba(139, 92, 246, 0)");
+    glow1Gradient.addColorStop(1, `rgba(${primaryColor}, 0)`);
 
     this.ctx.globalAlpha = glow1Alpha;
     this.ctx.fillStyle = glow1Gradient;
@@ -913,12 +948,12 @@ class ParticleScanner {
       this.lightBarX + lineWidth * 4,
       0
     );
-    glow2Gradient.addColorStop(0, "rgba(139, 92, 246, 0)");
+    glow2Gradient.addColorStop(0, `rgba(${primaryColor}, 0)`);
     glow2Gradient.addColorStop(
       0.5,
-      `rgba(139, 92, 246, ${0.4 * glowIntensity})`
+      `rgba(${primaryColor}, ${0.4 * glowIntensity})`
     );
-    glow2Gradient.addColorStop(1, "rgba(139, 92, 246, 0)");
+    glow2Gradient.addColorStop(1, `rgba(${primaryColor}, 0)`);
 
     this.ctx.globalAlpha = glow2Alpha;
     this.ctx.fillStyle = glow2Gradient;
@@ -941,9 +976,9 @@ class ParticleScanner {
         this.lightBarX + lineWidth * 8,
         0
       );
-      glow3Gradient.addColorStop(0, "rgba(139, 92, 246, 0)");
-      glow3Gradient.addColorStop(0.5, "rgba(139, 92, 246, 0.2)");
-      glow3Gradient.addColorStop(1, "rgba(139, 92, 246, 0)");
+      glow3Gradient.addColorStop(0, `rgba(${primaryColor}, 0)`);
+      glow3Gradient.addColorStop(0.5, `rgba(${primaryColor}, 0.2)`);
+      glow3Gradient.addColorStop(1, `rgba(${primaryColor}, 0)`);
 
       this.ctx.globalAlpha = glow3Alpha;
       this.ctx.fillStyle = glow3Gradient;
