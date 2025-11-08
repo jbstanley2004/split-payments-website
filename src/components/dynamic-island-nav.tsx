@@ -132,6 +132,11 @@ export function DynamicIslandNav({
       const currentScrollY = window.scrollY;
       const currentScrollX = window.scrollX;
 
+      // Collapse mobile nav when scrolling
+      if (isMobileExpanded) {
+        setIsMobileExpanded(false);
+      }
+
       if (Math.abs(currentScrollY - lastScrollY) > Math.abs(currentScrollX - lastScrollX)) {
         if (currentScrollY > lastScrollY) {
           handleDirectionChange("down");
@@ -191,7 +196,7 @@ export function DynamicIslandNav({
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
     };
-  }, [handleDirectionChange]);
+  }, [handleDirectionChange, isMobileExpanded]);
 
   return (
     <header
@@ -209,9 +214,9 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute flex h-11 items-center justify-center rounded-full border border-white/10 bg-black/80 px-5 py-1.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute flex h-8 items-center justify-center rounded-full border border-white/10 bg-black/80 px-2.5 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
-            <div className="relative flex h-5 w-16 items-center justify-center" style={{ perspective: 600 }}>
+            <div className="relative flex h-4 w-auto items-center justify-center" style={{ perspective: 600 }}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
@@ -223,7 +228,7 @@ export function DynamicIslandNav({
                     alt="Split"
                     width={96}
                     height={32}
-                    className="h-5 w-auto object-contain"
+                    className="h-4 w-auto object-contain"
                     priority={logoPriority}
                   />
                 </motion.div>
@@ -267,9 +272,9 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isMobileExpanded ? 0 : 1, scale: isMobileExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute flex h-11 items-center justify-center rounded-full border border-black/15 bg-black/85 px-5 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute flex h-9 items-center justify-center rounded-full border border-black/15 bg-black/85 px-3 py-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
           >
-            <div className="relative flex h-6 w-16 items-center justify-center" style={{ perspective: 600 }}>
+            <div className="relative flex h-5 w-auto items-center justify-center" style={{ perspective: 600 }}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={logoIteration}
@@ -281,7 +286,7 @@ export function DynamicIslandNav({
                     alt="Split"
                     width={96}
                     height={32}
-                    className="h-6 w-auto object-contain"
+                    className="h-5 w-auto object-contain"
                     priority={logoPriority}
                   />
                 </motion.div>
