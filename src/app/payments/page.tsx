@@ -2,16 +2,10 @@
 
 import { SplitLogo } from "@/components/split-logo";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { CreditCard, Check, Landmark, Laptop, Gift, Menu, X } from "lucide-react";
+import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState, useEffect, useCallback } from "react";
-
-const navItems = [
-  { href: "/#funding", label: "Funding" },
-  { href: "/payments", label: "Payments" },
-  { href: "/industries", label: "Industries" },
-];
 
 const cardColors = [
   "#C67C5F", // Terracotta
@@ -23,7 +17,6 @@ const cardColors = [
 
 export default function PaymentsPage() {
   const ref = useRef(null);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [currentTitle, setCurrentTitle] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | 'left' | 'right'>('down');
@@ -35,9 +28,6 @@ export default function PaymentsPage() {
   });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
   const rotatingTitles = ["Funding", "Payments", "Industries"];
-
-  const toggleMenu = () => setMenuOpen((open) => !open);
-  const closeMenu = () => setMenuOpen(false);
 
   // Function to advance to next title
   const advanceTitle = useCallback(() => {
@@ -211,13 +201,13 @@ export default function PaymentsPage() {
         {/* Dynamic Island Header */}
         <header className="fixed top-3 left-0 right-0 z-50 flex items-center justify-between px-6 pointer-events-none">
           {/* Desktop Logo - Left Side */}
-          <Link href="/" className="hidden md:flex items-center pointer-events-auto">
+          <Link href="/" className="flex items-center pointer-events-auto">
             <SplitLogo imageClassName="h-11 w-auto" priority />
           </Link>
 
-          {/* Desktop Dynamic Island - Center */}
+          {/* Dynamic Island - Center */}
           <div
-            className="hidden md:flex gap-1.5 items-center justify-center pointer-events-auto absolute left-1/2 transform -translate-x-1/2"
+            className="flex gap-1.5 items-center justify-center pointer-events-auto absolute left-1/2 transform -translate-x-1/2"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
@@ -263,7 +253,7 @@ export default function PaymentsPage() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-3 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/#funding" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap font-poppins">Funding</Link>
+              <a href="/#funding" className="text-xs text-white/80 hover:text-[var(--theme-accent)] transition-colors font-medium whitespace-nowrap font-poppins">Funding</a>
             </motion.div>
 
             {/* Pod 2: Payments */}
@@ -305,44 +295,11 @@ export default function PaymentsPage() {
               className="backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/80 rounded-full border border-white/10 shadow-[0_4px_16px_rgba(0,0,0,0.3)] px-2.5 py-1"
               style={{ pointerEvents: isHovered ? 'auto' : 'none' }}
             >
-              <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[var(--theme-accent)] hover:bg-[var(--theme-accent)] transition-all duration-300 whitespace-nowrap inline-block font-poppins">Get Started</Link>
+              <Link href="/get-started" className="text-white px-2.5 py-0.5 rounded-full text-xs font-bold border border-white/20 hover:border-[var(--theme-accent)] hover:bg-[var(--theme-accent)] transition-all duration-300 whitespace-nowrap inline-block font-poppins">
+                Get Started
+              </Link>
             </motion.div>
           </div>
-
-          {/* Mobile Header */}
-          <div className="md:hidden flex items-center justify-between w-full backdrop-blur-[20px] backdrop-saturate-[180%] bg-black/85 rounded-full border border-white/10 px-4 py-3 pointer-events-auto">
-            <Link href="/" className="flex items-center" onClick={closeMenu}>
-              <span className="sr-only">Split</span>
-              <SplitLogo priority />
-            </Link>
-
-            <button
-              type="button"
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-[#00D9FF]"
-              aria-label="Toggle menu"
-              aria-expanded={menuOpen}
-              onClick={toggleMenu}
-            >
-              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          </div>
-
-          {/* Mobile Menu */}
-          {menuOpen ? (
-            <>
-              <div className="fixed inset-0 z-40 bg-black/80 backdrop-blur-sm md:hidden pointer-events-auto" onClick={closeMenu} />
-              <nav className="fixed left-6 right-6 top-24 z-50 flex flex-col gap-3 rounded-xl border border-white/10 bg-black/95 backdrop-blur-[20px] backdrop-saturate-[180%] p-6 text-sm shadow-xl md:hidden pointer-events-auto">
-                {navItems.map((item) => (
-                  <Link key={item.href} href={item.href} className="text-white/80 hover:text-[var(--theme-accent)] transition-colors font-poppins" onClick={closeMenu}>
-                    {item.label}
-                  </Link>
-                ))}
-                <Link href="/get-started" className="btn mt-2 font-poppins" onClick={closeMenu}>
-                  Get Started
-                </Link>
-              </nav>
-            </>
-          ) : null}
         </header>
 
         {/* Hero */}
