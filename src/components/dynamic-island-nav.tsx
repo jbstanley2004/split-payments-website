@@ -217,8 +217,8 @@ export function DynamicIslandNav({
                   <Image
                     src={darkModeLogo}
                     alt="Split"
-                    width={144}
-                    height={48}
+                    width={205}
+                    height={50}
                     className="h-5 w-auto object-contain"
                     priority={logoPriority}
                   />
@@ -276,8 +276,8 @@ export function DynamicIslandNav({
                   <Image
                     src={darkModeLogo}
                     alt="Split"
-                    width={168}
-                    height={56}
+                    width={287}
+                    height={70}
                     className="h-7 w-auto object-contain"
                     priority={logoPriority}
                   />
