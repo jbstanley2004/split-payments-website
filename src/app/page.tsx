@@ -179,10 +179,15 @@ export default function Page() {
       {/* All content with relative positioning */}
       <div className="relative z-10 bg-bg">
         {/* Dynamic Island Header */}
-        <header className="fixed top-3 left-0 right-0 z-50 flex items-center justify-center px-6 pointer-events-none">
-          {/* Desktop Dynamic Island */}
+        <header className="fixed top-3 left-0 right-0 z-50 flex items-center justify-between px-6 pointer-events-none">
+          {/* Desktop Logo - Left Side */}
+          <Link href="/" className="hidden md:flex items-center pointer-events-auto">
+            <SplitLogo imageClassName="h-8 w-auto" priority />
+          </Link>
+
+          {/* Desktop Dynamic Island - Center */}
           <div
-            className="hidden md:flex gap-1.5 items-center justify-center pointer-events-auto"
+            className="hidden md:flex gap-1.5 items-center justify-center pointer-events-auto absolute left-1/2 transform -translate-x-1/2"
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
