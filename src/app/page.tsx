@@ -49,11 +49,91 @@ export default function Page() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentTitle, setCurrentTitle] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | 'left' | 'right'>('down');
 
   const rotatingTitles = ["Funding", "Payments", "Industries"];
 
   const toggleMenu = () => setMenuOpen((open) => !open);
   const closeMenu = () => setMenuOpen(false);
+
+  // Detect scroll and swipe direction
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let lastScrollX = window.scrollX;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      const currentScrollX = window.scrollX;
+
+      // Determine vertical scroll direction
+      if (Math.abs(currentScrollY - lastScrollY) > Math.abs(currentScrollX - lastScrollX)) {
+        if (currentScrollY > lastScrollY) {
+          setScrollDirection('down');
+        } else if (currentScrollY < lastScrollY) {
+          setScrollDirection('up');
+        }
+      }
+      // Determine horizontal scroll direction
+      else if (Math.abs(currentScrollX - lastScrollX) > 5) {
+        if (currentScrollX > lastScrollX) {
+          setScrollDirection('right');
+        } else if (currentScrollX < lastScrollX) {
+          setScrollDirection('left');
+        }
+      }
+
+      lastScrollY = currentScrollY;
+      lastScrollX = currentScrollX;
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!touchStartX || !touchStartY) return;
+
+      const touchEndX = e.touches[0].clientX;
+      const touchEndY = e.touches[0].clientY;
+      const deltaX = touchStartX - touchEndX;
+      const deltaY = touchStartY - touchEndY;
+
+      // Only detect swipes if movement is significant
+      if (Math.abs(deltaX) > 30 || Math.abs(deltaY) > 30) {
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+          // Horizontal swipe
+          setScrollDirection(deltaX > 0 ? 'left' : 'right');
+        } else {
+          // Vertical swipe
+          setScrollDirection(deltaY > 0 ? 'up' : 'down');
+        }
+      }
+    };
+
+    // Detect horizontal scroll with trackpad (shift + scroll)
+    const handleWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+        setScrollDirection(e.deltaX > 0 ? 'right' : 'left');
+      } else if (Math.abs(e.deltaY) > 5) {
+        setScrollDirection(e.deltaY > 0 ? 'down' : 'up');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('wheel', handleWheel, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   // Rotate titles every 2 seconds
   useEffect(() => {
@@ -87,9 +167,17 @@ export default function Page() {
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentTitle}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
+                  initial={{
+                    opacity: 0,
+                    y: scrollDirection === 'down' ? 20 : scrollDirection === 'up' ? -20 : 0,
+                    x: scrollDirection === 'right' ? 20 : scrollDirection === 'left' ? -20 : 0,
+                  }}
+                  animate={{ opacity: 1, y: 0, x: 0 }}
+                  exit={{
+                    opacity: 0,
+                    y: scrollDirection === 'down' ? -20 : scrollDirection === 'up' ? 20 : 0,
+                    x: scrollDirection === 'right' ? -20 : scrollDirection === 'left' ? 20 : 0,
+                  }}
                   transition={{ duration: 0.3 }}
                   className="text-xs text-white/70 font-medium whitespace-nowrap block text-center font-poppins"
                 >
