@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { SplitPressButton } from "@/components/split-press-button";
 
 export function Hero() {
   return (
@@ -16,7 +17,7 @@ export function Hero() {
             your card sales.
           </Subtitle>
           <Actions>
-            <Primary href="#get-started">Get Started</Primary>
+            <SplitPressButton href="#get-started" />
             <Secondary href="#funding">Learn More</Secondary>
           </Actions>
         </Content>

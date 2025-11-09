@@ -4,8 +4,8 @@ import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRef } from "react";
+import { SplitPressButton } from "@/components/split-press-button";
 
 const cardColors = [
   "#C67C5F", // Terracotta
@@ -138,9 +138,7 @@ export default function PaymentsPage() {
               Get in touch for a no-obligation cost review and discover the perfect
               payment solution for your business needs.
             </p>
-            <Link href="/get-started" className="btn inline-block font-poppins">
-              Get a Cost Review
-            </Link>
+            <SplitPressButton href="/get-started" />
           </motion.div>
         </section>
 
