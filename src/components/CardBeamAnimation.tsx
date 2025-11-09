@@ -493,13 +493,12 @@ class ParticleSystem {
     if (!ctx) return;
 
     const half = canvas.width / 2;
-    const isDark = this.isDarkMode();
     const hue = 15; // Coral/orange for both light and dark mode to match brand
 
     const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
     gradient.addColorStop(0.025, "#fff");
-    gradient.addColorStop(0.1, `hsl(${hue}, ${isDark ? 61 : 65}%, ${isDark ? 33 : 55}%)`);
-    gradient.addColorStop(0.25, `hsl(${hue}, ${isDark ? 64 : 60}%, ${isDark ? 6 : 20}%)`);
+    gradient.addColorStop(0.1, `hsl(${hue}, 61%, 33%)`);
+    gradient.addColorStop(0.25, `hsl(${hue}, 64%, 6%)`);
     gradient.addColorStop(1, "transparent");
 
     ctx.fillStyle = gradient;
