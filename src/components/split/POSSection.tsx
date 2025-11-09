@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { SplitPressButton } from "@/components/split-press-button";
 
 export function POSSection() {
   return (
@@ -19,7 +20,9 @@ export function POSSection() {
             <li>Built-in funding eligibility tracking</li>
           </List>
 
-          <CTA href="#get-started">Explore POS options</CTA>
+          <div style={{ marginTop: '1rem' }}>
+            <SplitPressButton href="#get-started" />
+          </div>
         </Copy>
 
         <Graphic aria-hidden="true">

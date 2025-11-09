@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { SplitPressButton } from "@/components/split-press-button";
 
 export function InsightsSection() {
   return (
@@ -10,7 +11,9 @@ export function InsightsSection() {
         Track payments, monitor cash flow, and view your funding balance in real
         time.
       </Text>
-      <CTA href="#get-started">View dashboard demo</CTA>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+        <SplitPressButton href="#get-started" />
+      </div>
     </Wrap>
   );
 }

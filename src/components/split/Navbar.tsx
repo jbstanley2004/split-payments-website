@@ -4,6 +4,7 @@ import { type MouseEvent, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 
 import styled from "styled-components";
+import { SplitPressButton } from "@/components/split-press-button";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -33,7 +34,9 @@ export function Navbar() {
             <a href="#funding">Funding</a>
             <a href="#payments">Payments</a>
             <a href="#pos">POS</a>
-            <CTA href="#get-started">Get Started</CTA>
+            <div style={{ transform: 'scale(0.65)', transformOrigin: 'center' }}>
+              <SplitPressButton href="#get-started" />
+            </div>
           </Links>
         </IslandContent>
       </DynamicIsland>
@@ -46,7 +49,9 @@ export function Navbar() {
         <a href="#funding">Funding</a>
         <a href="#payments">Payments</a>
         <a href="#pos">POS</a>
-        <CTA href="#get-started">Get Started</CTA>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.5rem' }}>
+          <SplitPressButton href="#get-started" />
+        </div>
       </MobileLinks>
     </DynamicIslandContainer>
   );

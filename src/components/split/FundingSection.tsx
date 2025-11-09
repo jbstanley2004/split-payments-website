@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { SplitPressButton } from "@/components/split-press-button";
 
 export function FundingSection() {
   return (
@@ -23,7 +24,9 @@ export function FundingSection() {
             <li>Funding in as little as 24 hours</li>
           </List>
 
-          <CTA href="#get-started">See your funding options</CTA>
+          <div style={{ marginTop: '1rem' }}>
+            <SplitPressButton href="#get-started" />
+          </div>
         </Copy>
 
         <Graphic aria-hidden="true">

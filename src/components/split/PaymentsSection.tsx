@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { SplitPressButton } from "@/components/split-press-button";
 
 const cardColors = [
   "#C67C5F", // Terracotta
@@ -26,7 +27,9 @@ export function PaymentsSection() {
             <Card $color={cardColors[3]}>Dedicated account support</Card>
           </Grid>
 
-          <CTA href="#get-started">Start accepting payments</CTA>
+          <div style={{ marginTop: '1rem' }}>
+            <SplitPressButton href="#get-started" />
+          </div>
         </Copy>
 
         <Graphic aria-hidden="true">

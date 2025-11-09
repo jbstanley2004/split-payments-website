@@ -1,13 +1,16 @@
 "use client";
 
 import styled from "styled-components";
+import { SplitPressButton } from "@/components/split-press-button";
 
 export function CTASection() {
   return (
     <Wrap id="get-started">
-      <Heading>Let’s Split the work — you focus on growth.</Heading>
+      <Heading>Let's Split the work — you focus on growth.</Heading>
       <Text>Fast funding. Smarter payments. Transparent pricing.</Text>
-      <Primary href="#hero">Get started today</Primary>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+        <SplitPressButton href="#hero" />
+      </div>
     </Wrap>
   );
 }
