@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/stub";
+import OrangePushButton from "./OrangePushButton";
 
 import darkModeLogo from "public/split.svg";
 
@@ -366,17 +367,18 @@ export function DynamicIslandNav({
               className="ml-2 rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-saturate-[180%]"
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
-              <Link
-                href={item.href}
-                className={cn(
-                  "text-xs font-medium transition-colors font-poppins whitespace-nowrap",
-                  item.variant === "cta"
-                    ? "text-white px-2.5 py-0.5 inline-flex items-center justify-center border border-white/20 rounded-full bg-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/90"
-                    : "text-white/80 hover:text-[var(--theme-accent)]",
-                )}
-              >
-                {item.label}
-              </Link>
+              {item.variant === "cta" ? (
+                <Link href={item.href} passHref>
+                  <OrangePushButton>{item.label}</OrangePushButton>
+                </Link>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
+                >
+                  {item.label}
+                </Link>
+              )}
             </motion.div>
           ))}
         </div>
@@ -427,21 +429,25 @@ export function DynamicIslandNav({
               className="relative ml-2 rounded-full border border-black/15 bg-black/85 px-3 py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-saturate-[180%]"
               style={{ pointerEvents: isMobileExpanded ? "auto" : "none" }}
             >
-              <Link
-                href={item.href}
-                className={cn(
-                  "text-xs font-medium transition-colors font-poppins whitespace-nowrap",
-                  item.variant === "cta"
-                    ? "text-white px-2.5 py-0.5 inline-flex items-center justify-center border border-white/20 rounded-full bg-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/90"
-                    : "text-white/80 hover:text-[var(--theme-accent)]",
-                )}
-                onClick={() => {
-                  triggerHaptic();
-                  setIsMobileExpanded(false);
-                }}
-              >
-                {item.label}
-              </Link>
+              {item.variant === "cta" ? (
+                <Link href={item.href} passHref>
+                  <OrangePushButton onClick={() => {
+                    triggerHaptic();
+                    setIsMobileExpanded(false);
+                  }}>{item.label}</OrangePushButton>
+                </Link>
+              ) : (
+                <Link
+                  href={item.href}
+                  className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
+                  onClick={() => {
+                    triggerHaptic();
+                    setIsMobileExpanded(false);
+                  }}
+                >
+                  {item.label}
+                </Link>
+              )}
             </motion.div>
           ))}
         </div>

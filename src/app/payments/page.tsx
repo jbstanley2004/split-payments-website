@@ -1,7 +1,7 @@
 "use client";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import Thick3DButton from "@/components/Thick3DButton";
+import OrangePushButton from "@/components/OrangePushButton";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
 import Image from "next/image";
@@ -141,7 +141,7 @@ export default function PaymentsPage() {
               payment solution for your business needs.
             </p>
             <Link href="/get-started" passHref>
-              <Thick3DButton>Get a Cost Review</Thick3DButton>
+              <OrangePushButton>Get a Cost Review</OrangePushButton>
             </Link>
           </motion.div>
         </section>
