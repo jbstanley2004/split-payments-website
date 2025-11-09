@@ -1,13 +1,16 @@
 "use client";
 
 import styled from "styled-components";
+import { ThickButton } from "@/components/ThickButton";
 
 export function CTASection() {
   return (
     <Wrap id="get-started">
-      <Heading>Let’s Split the work — you focus on growth.</Heading>
+      <Heading>Let's Split the work — you focus on growth.</Heading>
       <Text>Fast funding. Smarter payments. Transparent pricing.</Text>
-      <Primary href="#hero">Get started today</Primary>
+      <ThickButton href="#hero" thickness={30} travel={22} tilt={10}>
+        Get Started Today →
+      </ThickButton>
     </Wrap>
   );
 }

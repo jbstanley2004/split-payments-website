@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { ThickButton } from "@/components/ThickButton";
 
 export function Hero() {
   return (
@@ -16,8 +17,9 @@ export function Hero() {
             your card sales.
           </Subtitle>
           <Actions>
-            <Primary href="#get-started">Get Started</Primary>
-            <Secondary href="#funding">Learn More</Secondary>
+            <ThickButton href="#get-started" thickness={30} travel={22} tilt={10}>
+              Get Started →
+            </ThickButton>
           </Actions>
         </Content>
 

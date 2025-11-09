@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import Link from "next/link";
+import { ThickButton } from "@/components/ThickButton";
 
 type AnimatedHeroProps = {
   imageSrcLight: string;
@@ -51,18 +51,9 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
           {text}
         </p>
         <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
-          <Link
-            href="/get-started"
-            className="border border-[var(--theme-border)] px-6 py-3 rounded-md text-[var(--theme-accent)] font-poppins hover:bg-[var(--theme-accent)] hover:text-white transition-all duration-300 ease-out"
-          >
-            get started
-          </Link>
-          <a
-            href="/#funding"
-            className="text-[var(--theme-text-primary)] font-lora hover:text-[var(--theme-accent)] transition-colors duration-300 text-base inline-flex items-center"
-          >
-            learn more →
-          </a>
+          <ThickButton href="/get-started" thickness={30} travel={22} tilt={10}>
+            Get Started →
+          </ThickButton>
         </div>
       </div>
 
