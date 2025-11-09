@@ -1,31 +1,38 @@
-/* Brand variables (from your guidelines) */
-:root{--sky:#cfe7ff;--haze:#faf9f5;--terrain:#d4cec1;--accent-1:#d97757;--accent-2:#6a9bcc;--accent-3:#788c5d;--bg:#faf9f5;--text:#141413;--line:#e8e6dc}
+/* ===== Brand tokens (from your guidelines) ===== */
+:root{
+  --brand-dark:#141413;--brand-light:#faf9f5;--brand-mid:#b0aea5;--brand-line:#e8e6dc;
+  --accent-1:#d97757;--accent-2:#6a9bcc;--accent-3:#788c5d;
+  --bg:var(--brand-light);--text:var(--brand-dark);
+}
 
-/* Container surface with subtle grain */
-.rivian-surface{position:relative;isolation:isolate;background:linear-gradient(180deg,rgba(20,20,19,.04),rgba(20,20,19,.08)),var(--bg);border:1px solid color-mix(in srgb,var(--line),transparent 40%);border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(20,20,19,.06)}
+/* ===== Unified elaborate backdrop (single canvas) ===== */
+.global-backdrop{position:fixed;inset:0;z-index:0;pointer-events:none;background:var(--brand-dark)}
+.gb-layer{position:absolute;inset:0;will-change:transform,opacity}
+/* Sky gradient mesh + conic sheen */
+.gb-sky{background:radial-gradient(50% 50% at 70% 18%,color-mix(in oklab,var(--accent-1) 70%,transparent) 0%,transparent 60%),radial-gradient(30% 30% at 78% 22%,rgba(255,255,255,.12) 0%,transparent 60%),conic-gradient(from 200deg at 25% 120%,rgba(255,255,255,.04),transparent 60%,rgba(255,255,255,.04)),linear-gradient(180deg,color-mix(in oklab,var(--accent-2) 72%,white 22%),color-mix(in oklab,var(--accent-2) 42%,black 8%) 62%,#0f0f0e 100%);filter:saturate(1.02);animation:gb-float 48s ease-in-out infinite}
+/* Sun orb */
+.gb-sun{background:radial-gradient(220px 220px at 78% 22%,color-mix(in oklab,var(--accent-1) 92%,transparent) 0%,transparent 65%);mix-blend-mode:screen;opacity:.9;animation:gb-drift 60s ease-in-out infinite}
+/* Distant ridges */
+.gb-far{background:linear-gradient(180deg,transparent 35%,color-mix(in oklab,var(--brand-light) 8%,var(--brand-dark) 92%) 36%);clip-path:path('M0,56 C220,40 440,60 640,46 C820,36 1040,60 1440,52 L1440,140 L0,140 Z');opacity:.65;transform-origin:left bottom;animation:gb-breathe 44s ease-in-out infinite}
+.gb-mid{background:linear-gradient(180deg,transparent 25%,color-mix(in oklab,var(--brand-light) 14%,var(--brand-dark) 86%) 26%);clip-path:path('M0,72 C200,62 420,78 680,64 C860,56 1040,72 1440,70 L1440,140 L0,140 Z');opacity:.8;transform-origin:center bottom;animation:gb-breathe 36s ease-in-out infinite reverse}
+.gb-fore{background:linear-gradient(180deg,transparent 15%,color-mix(in oklab,var(--brand-light) 18%,var(--brand-dark) 82%) 16%);clip-path:path('M0,86 C260,74 520,92 840,78 C980,72 1160,86 1440,84 L1440,140 L0,140 Z');opacity:.95;transform-origin:right bottom;animation:gb-breathe 28s ease-in-out infinite;filter:drop-shadow(0 -12px 24px rgba(0,0,0,.18))}
+/* Haze + grain */
+.gb-haze{background:radial-gradient(60% 40% at 50% -10%,rgba(255,255,255,.06),transparent 65%),radial-gradient(70% 60% at 15% 15%,rgba(255,255,255,.05),transparent 70%),radial-gradient(70% 60% at 85% 20%,rgba(255,255,255,.05),transparent 70%);filter:blur(16px);opacity:.8;mix-blend-mode:soft-light;animation:gb-float 64s linear infinite}
+.gb-grain{background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><filter id="n"><feTurbulence baseFrequency="0.85" numOctaves="2" stitchTiles="stitch" /></filter><rect width="120" height="120" filter="url(%23n)" opacity="0.035"/></svg>');background-size:220px 220px;opacity:.35;animation:gb-noise 6s steps(2) infinite}
+@keyframes gb-float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,8px,0)}}@keyframes gb-drift{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(-2%,2%,0)}100%{transform:translate3d(0,0,0)}}@keyframes gb-breathe{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes gb-noise{0%{transform:translateZ(0)}100%{transform:translate3d(1px,0,0)}}
+
+/* ===== Content surfaces & steps (overlayed on backdrop) ===== */
+.rivian-surface{position:relative;isolation:isolate;background:linear-gradient(180deg,rgba(20,20,19,.04),rgba(20,20,19,.08)),var(--bg);border:1px solid color-mix(in srgb,var(--brand-line),transparent 40%);border-radius:16px;overflow:hidden;box-shadow:0 10px 40px rgba(20,20,19,.06)}
 .rivian-surface>*{position:relative;z-index:2}
 .rivian-note{margin-top:12px;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--accent-1),white 92%);border:1px dashed color-mix(in srgb,var(--accent-1),transparent 60%)}
-
-/* Backdrop: sky / haze / two ridgelines (Ghibli-ish, Rivian vibe) */
-.rivian-bg{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
-.rivian-layer{position:absolute;inset-inline:0;will-change:transform;animation:drift 36s ease-in-out infinite}
-.rivian-layer--sky{inset-block:0 40%;background:linear-gradient(180deg,color-mix(in srgb,var(--sky),white 20%),color-mix(in srgb,var(--sky),black 12%))}
-.rivian-layer--haze{inset-block:28% 22%;background:radial-gradient(60% 40% at 50% -10%,var(--haze),transparent 65%),radial-gradient(80% 60% at 20% 20%,color-mix(in srgb,var(--haze),white 25%),transparent 70%),radial-gradient(80% 60% at 80% 20%,color-mix(in srgb,var(--haze),white 25%),transparent 70%);filter:blur(14px);opacity:.9;mix-blend-mode:soft-light;animation-duration:42s}
-.rivian-layer--ridge-left{inset-block:auto 0;height:48%;background:linear-gradient(180deg,color-mix(in srgb,var(--terrain),black 12%),color-mix(in srgb,var(--terrain),black 24%));clip-path:path('M0,65 C160,40 320,80 520,55 C640,40 760,70 1000,60 L1000,140 L0,140 Z');transform-origin:left bottom;animation-duration:32s}
-.rivian-layer--ridge-right{inset-block:auto 0;height:42%;background:linear-gradient(180deg,color-mix(in srgb,var(--terrain),black 6%),color-mix(in srgb,var(--terrain),black 16%));clip-path:path('M0,75 C200,55 400,85 640,62 C760,55 880,75 1000,70 L1000,140 L0,140 Z');transform-origin:right bottom;animation-duration:28s}
-
-@keyframes drift{0%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,8px,0)}100%{transform:translate3d(0,0,0)}}
-
-@media (prefers-reduced-motion: reduce){.rivian-layer{animation:none}}
-
-/* Steps */
 .rivian-steps{display:grid;gap:14px;margin-top:14px;counter-reset:step}
-.rivian-step{padding:14px 16px;border-radius:14px;background:linear-gradient(180deg,rgba(20,20,19,.02),rgba(20,20,19,.06));border:1px solid color-mix(in srgb,var(--line),transparent 40%)}
+.rivian-step{padding:14px 16px;border-radius:14px;background:linear-gradient(180deg,rgba(20,20,19,.02),rgba(20,20,19,.06));border:1px solid color-mix(in srgb,var(--brand-line),transparent 40%)}
 .rivian-step h3{font-family:var(--font-poppins);font-weight:600;margin:0 0 6px;font-size:20px}
 .rivian-meta{opacity:.75;font-size:12px}
-
-/* Accent helpers */
 .accent-orange{--accent-1:#d97757}.accent-blue{--accent-1:#6a9bcc}.accent-green{--accent-1:#788c5d}
 
 /* Section sizing */
 .howwework{scroll-margin-top:64px}.howwework .rivian-surface{min-height:min(92vh,900px);display:flex;flex-direction:column;justify-content:center}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){.gb-layer{animation:none}}
