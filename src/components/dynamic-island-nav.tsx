@@ -331,7 +331,7 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-white/10 bg-black/80 px-4 py-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-white/10 bg-black/80 px-4 py-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-saturate-[180%]"
           >
             <div className="relative flex items-center justify-center" style={{ perspective: 1000 }}>
               <AnimatePresence mode="wait" initial={false}>
@@ -363,7 +363,7 @@ export function DynamicIslandNav({
                 scale: isDesktopExpanded ? 1 : 0.85,
               }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="ml-2 rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+              className="ml-2 rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-saturate-[180%]"
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
               <Link
@@ -393,7 +393,7 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isMobileExpanded ? 0 : 1, scale: isMobileExpanded ? 0.85 : 1 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-black/15 bg-black/85 px-4 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-black/15 bg-black/85 px-4 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-saturate-[180%]"
           >
             <div className="relative flex h-7 w-auto items-center justify-center" style={{ perspective: 1000 }}>
               <AnimatePresence mode="wait" initial={false}>
@@ -424,7 +424,7 @@ export function DynamicIslandNav({
                 scale: isMobileExpanded ? 1 : 0.85,
               }}
               transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-              className="relative ml-2 rounded-full border border-black/15 bg-black/85 px-3 py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-blur-[20px] backdrop-saturate-[180%]"
+              className="relative ml-2 rounded-full border border-black/15 bg-black/85 px-3 py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-saturate-[180%]"
               style={{ pointerEvents: isMobileExpanded ? "auto" : "none" }}
             >
               <Link
