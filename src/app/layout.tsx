@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Poppins, Lora } from "next/font/google";
 import "@/styles/globals.css";
+import "@/styles/how-it-works.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
