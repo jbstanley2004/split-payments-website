@@ -1,7 +1,7 @@
 "use client";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import Thick3DButton from "@/components/Thick3DButton";
+import OrangePushButton from "@/components/OrangePushButton";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -49,7 +49,7 @@ export default function HomePage() {
               style={{ willChange: "transform, opacity" }}
             >
               <Link href="/get-started" passHref>
-                <Thick3DButton>Get Started</Thick3DButton>
+                <OrangePushButton>Get Started</OrangePushButton>
               </Link>
             </motion.div>
           </motion.div>
