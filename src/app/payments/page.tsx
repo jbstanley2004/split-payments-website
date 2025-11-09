@@ -1,20 +1,13 @@
 "use client";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
+import GlowingCard from "@/components/GlowingCard";
 import OrangePushButton from "@/components/OrangePushButton";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
-
-const cardColors = [
-  "#C67C5F", // Terracotta
-  "#B7CDC5", // Mint
-  "#E4DACB", // Beige
-  "#C9C8DA", // Lavender
-  "#6999CA", // Blue
-];
 
 const solutions = [
   {
@@ -105,23 +98,14 @@ export default function PaymentsPage() {
         <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {solutions.map((solution, index) => (
-              <motion.div
+              <GlowingCard
                 key={solution.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="border border-black/[0.08] p-8 transition-colors"
-                style={{ backgroundColor: cardColors[index] }}
+                title={solution.title}
+                icon={solution.icon}
+                className="min-h-[300px]"
               >
-                <div className="w-12 h-12 mb-6 flex items-center justify-start">
-                  <solution.icon className="w-12 h-12 text-[#0A0A0A]" strokeWidth={1} />
-                </div>
-                <h3 className="font-poppins text-xl font-medium mb-3 text-[#0A0A0A]">{solution.title}</h3>
-                <p className="font-lora text-[#0A0A0A] text-sm leading-relaxed">
-                  {solution.description}
-                </p>
-              </motion.div>
+                <p>{solution.description}</p>
+              </GlowingCard>
             ))}
           </div>
         </section>
