@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Link from "next/link";
+import OrangePushButton from "./OrangePushButton";
 
 type AnimatedHeroProps = {
   imageSrcLight: string;
@@ -51,11 +52,8 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
           {text}
         </p>
         <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
-          <Link
-            href="/get-started"
-            className="border border-[var(--theme-border)] px-6 py-3 rounded-md text-[var(--theme-accent)] font-poppins hover:bg-[var(--theme-accent)] hover:text-white transition-all duration-300 ease-out"
-          >
-            get started
+          <Link href="/get-started" passHref>
+            <OrangePushButton>get started</OrangePushButton>
           </Link>
           <a
             href="/#funding"
