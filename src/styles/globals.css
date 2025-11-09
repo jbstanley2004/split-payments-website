@@ -235,6 +235,67 @@ body {
   line-height: 1.6;
 }
 
+/* Mobile Optimizations */
+html {
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+  /* Prevent text size adjustment on orientation change */
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Enable momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Prevent pull-to-refresh on mobile */
+  overscroll-behavior-y: none;
+}
+
+body {
+  /* Allow scrolling */
+  overflow-x: hidden;
+  overflow-y: auto;
+  /* Enable momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+  /* Proper touch action */
+  touch-action: pan-y pan-x;
+  /* Prevent rubber band scrolling */
+  overscroll-behavior: none;
+  /* Full viewport height on mobile including notch areas */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
+/* Fix for iOS Safari viewport height */
+@supports (-webkit-touch-callout: none) {
+  body {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Safe area support for notch devices - individual elements can use these as needed */
+:root {
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-left: env(safe-area-inset-left, 0px);
+  --safe-area-inset-right: env(safe-area-inset-right, 0px);
+}
+
+/* Prevent double-tap zoom on mobile */
+* {
+  touch-action: manipulation;
+}
+
+/* Allow scrolling on main content */
+main {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Improve touch scrolling on mobile */
+section {
+  -webkit-overflow-scrolling: touch;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: "Inter Tight", var(--font-poppins), system-ui, sans-serif;
   font-weight: 700;
