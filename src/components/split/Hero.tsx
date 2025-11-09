@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import { ThickButton } from "@/components/ThickButton";
+import { LogoIcon } from "@/components/logo-icon";
 
 export function Hero() {
   return (
@@ -17,8 +18,8 @@ export function Hero() {
             your card sales.
           </Subtitle>
           <Actions>
-            <ThickButton href="#get-started" thickness={30} travel={22} tilt={10}>
-              Get Started →
+            <ThickButton href="#get-started" thickness={50} travel={40} tilt={10}>
+              <>Let's <LogoIcon /></>
             </ThickButton>
           </Actions>
         </Content>

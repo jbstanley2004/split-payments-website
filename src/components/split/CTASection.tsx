@@ -2,14 +2,15 @@
 
 import styled from "styled-components";
 import { ThickButton } from "@/components/ThickButton";
+import { LogoIcon } from "@/components/logo-icon";
 
 export function CTASection() {
   return (
     <Wrap id="get-started">
       <Heading>Let's Split the work — you focus on growth.</Heading>
       <Text>Fast funding. Smarter payments. Transparent pricing.</Text>
-      <ThickButton href="#hero" thickness={30} travel={22} tilt={10}>
-        Get Started Today →
+      <ThickButton href="#hero" thickness={50} travel={40} tilt={10}>
+        <>Let's <LogoIcon /></>
       </ThickButton>
     </Wrap>
   );

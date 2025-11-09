@@ -2,6 +2,7 @@
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { ThickButton } from "@/components/ThickButton";
+import { LogoIcon } from "@/components/logo-icon";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -44,8 +45,8 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <ThickButton href="/get-started" thickness={30} travel={22} tilt={10}>
-                Get Started →
+              <ThickButton href="/get-started" thickness={50} travel={40} tilt={10}>
+                <>Let's <LogoIcon /></>
               </ThickButton>
             </motion.div>
           </motion.div>

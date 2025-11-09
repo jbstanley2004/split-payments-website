@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { ThickButton } from "@/components/ThickButton";
+import { LogoIcon } from "@/components/logo-icon";
 
 type AnimatedHeroProps = {
   imageSrcLight: string;
@@ -51,8 +52,8 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
           {text}
         </p>
         <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
-          <ThickButton href="/get-started" thickness={30} travel={22} tilt={10}>
-            Get Started →
+          <ThickButton href="/get-started" thickness={50} travel={40} tilt={10}>
+            <>Let's <LogoIcon /></>
           </ThickButton>
         </div>
       </div>
