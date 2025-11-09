@@ -5,7 +5,7 @@ import Link from "next/link";
 
 export default function GetStarted() {
   return (
-    <main className="min-h-screen font-jetbrains">
+    <main className="min-h-screen min-h-[100dvh] font-jetbrains">
       <DynamicIslandNav showHomeLogoOnMobile />
 
       <section className="px-6 md:px-10 py-16 md:py-24 max-w-3xl mx-auto">

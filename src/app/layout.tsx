@@ -1,4 +1,5 @@
 import { Providers } from "@/components/providers";
+import { DynamicThemeColor } from "@/components/dynamic-theme-color";
 import StyledComponentsRegistry from "@/lib/styled-components";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -82,6 +83,11 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${poppins.variable} ${lora.variable}`} suppressHydrationWarning>
       <head>
+        {/* Mobile Web App Meta Tags */}
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="format-detection" content="telephone=no" />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -99,6 +105,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         />
       </head>
       <body>
+        <DynamicThemeColor />
         <StyledComponentsRegistry>
           <Providers>{children}</Providers>
         </StyledComponentsRegistry>
