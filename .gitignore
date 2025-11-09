@@ -32,3 +32,5 @@ ChatGPT Image*.png
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+dev.log
+start.log

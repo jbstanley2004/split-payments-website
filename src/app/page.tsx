@@ -11,7 +11,7 @@ export default function HomePage() {
       {/* Fixed Background */}
       <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
         <Image
-          src="/split_hero_image.png"
+          src="/split_hero_image.webp"
           alt="Your Future is Bright"
           fill
           className="object-cover object-center"
@@ -29,10 +29,11 @@ export default function HomePage() {
         {/* Hero Content */}
         <section className="px-6 md:px-10 min-h-screen min-h-[100dvh] flex items-center justify-center">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, translateY: 30 }}
+            animate={{ opacity: 1, translateY: 0 }}
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
             className="text-center flex flex-col items-center gap-10"
+            style={{ willChange: "transform, opacity" }}
           >
             {/* Headline */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-[var(--theme-text-primary)]">
@@ -41,9 +42,10 @@ export default function HomePage() {
 
             {/* Get Started Button - matching the site's button style */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, translateY: 20 }}
+              animate={{ opacity: 1, translateY: 0 }}
               transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              style={{ willChange: "transform, opacity" }}
             >
               <Link
                 href="/get-started"
