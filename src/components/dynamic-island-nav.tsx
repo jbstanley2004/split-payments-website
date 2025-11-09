@@ -179,6 +179,14 @@ export function DynamicIslandNav({
     setLogoIteration((prev) => prev + 1);
   }, []);
 
+  // Haptic feedback for mobile
+  const triggerHaptic = useCallback(() => {
+    if (typeof window !== "undefined" && "vibrate" in navigator) {
+      // Subtle vibration pattern: 10ms vibration
+      navigator.vibrate(10);
+    }
+  }, []);
+
   const handleDirectionChange = useCallback(
     (direction: Direction, velocityValue: number = 1) => {
       const now = Date.now();
@@ -376,7 +384,10 @@ export function DynamicIslandNav({
 
       <div
         className="md:hidden pointer-events-auto flex items-center justify-center gap-1.5"
-        onClick={() => setIsMobileExpanded((prev) => !prev)}
+        onClick={() => {
+          triggerHaptic();
+          setIsMobileExpanded((prev) => !prev);
+        }}
       >
         <div className="relative flex items-center justify-center">
           <motion.div
@@ -424,7 +435,10 @@ export function DynamicIslandNav({
                     ? "text-white px-2.5 py-0.5 inline-flex items-center justify-center border border-white/20 rounded-full bg-[var(--theme-accent)] hover:bg-[var(--theme-accent)]/90"
                     : "text-white/80 hover:text-[var(--theme-accent)]",
                 )}
-                onClick={() => setIsMobileExpanded(false)}
+                onClick={() => {
+                  triggerHaptic();
+                  setIsMobileExpanded(false);
+                }}
               >
                 {item.label}
               </Link>
