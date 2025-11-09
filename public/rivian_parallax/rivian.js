@@ -3,6 +3,9 @@ export function initRivianBackdrop(opts = {}) {
   const el = typeof sel === 'string' ? document.querySelector(sel) : sel;
   if (!el) return;
 
+  // allow opt-in to use layered SVG assets instead of pure CSS gradients
+  if (opts.useAssets) el.classList.add('rivian-using-assets');
+
   let bg = el.querySelector('.rivian-bg');
   if (!bg) {
     bg = document.createElement('div');
