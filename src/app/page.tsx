@@ -1,6 +1,7 @@
 "use client";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
+import Thick3DButton from "@/components/Thick3DButton";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -47,24 +48,8 @@ export default function HomePage() {
               transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ willChange: "transform, opacity" }}
             >
-              <Link
-                href="/get-started"
-                className="inline-flex items-center gap-2 border border-white/90 bg-[var(--theme-accent)] px-8 py-4 rounded-md text-white font-poppins text-base font-medium hover:bg-[var(--theme-accent-hover)] hover:border-white transition-all duration-300 ease-out shadow-lg"
-              >
-                Get Started
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
+              <Link href="/get-started" passHref>
+                <Thick3DButton>Get Started</Thick3DButton>
               </Link>
             </motion.div>
           </motion.div>
