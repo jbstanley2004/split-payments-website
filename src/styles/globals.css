@@ -244,10 +244,9 @@ html {
   -moz-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  /* Enable momentum scrolling on iOS */
-  -webkit-overflow-scrolling: touch;
-  /* Prevent pull-to-refresh on mobile */
-  overscroll-behavior-y: none;
+  /* Full viewport height on mobile including notch areas */
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
 body {
@@ -256,18 +255,14 @@ body {
   overflow-y: auto;
   /* Enable momentum scrolling on iOS */
   -webkit-overflow-scrolling: touch;
-  /* Proper touch action */
-  touch-action: pan-y pan-x;
-  /* Prevent rubber band scrolling */
-  overscroll-behavior: none;
-  /* Full viewport height on mobile including notch areas */
+  /* Full viewport height on mobile */
   min-height: 100vh;
   min-height: -webkit-fill-available;
 }
 
 /* Fix for iOS Safari viewport height */
 @supports (-webkit-touch-callout: none) {
-  body {
+  html, body {
     min-height: -webkit-fill-available;
   }
 }
@@ -280,20 +275,9 @@ body {
   --safe-area-inset-right: env(safe-area-inset-right, 0px);
 }
 
-/* Prevent double-tap zoom on mobile */
-* {
+/* Prevent double-tap zoom only on interactive elements, not on scrollable content */
+button, a, input, select, textarea {
   touch-action: manipulation;
-}
-
-/* Allow scrolling on main content */
-main {
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Improve touch scrolling on mobile */
-section {
-  -webkit-overflow-scrolling: touch;
 }
 
 h1, h2, h3, h4, h5, h6 {

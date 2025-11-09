@@ -7,26 +7,27 @@ import { motion } from "framer-motion";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen font-lora text-text">
+    <main className="relative min-h-screen min-h-[100dvh] font-lora text-text">
       {/* Fixed Background */}
-      <div className="fixed inset-0 z-0">
+      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
         <Image
           src="/split_hero_image.png"
           alt="Your Future is Bright"
           fill
-          className="object-cover"
+          className="object-cover object-center"
           priority
+          sizes="100vw"
         />
         {/* Subtle overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
       </div>
 
       {/* All content with relative positioning */}
-      <div className="relative z-10">
+      <div className="relative z-10 min-h-screen min-h-[100dvh]">
         <DynamicIslandNav />
 
         {/* Hero Content */}
-        <section className="px-6 md:px-10 min-h-screen flex items-center justify-center">
+        <section className="px-6 md:px-10 min-h-screen min-h-[100dvh] flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}

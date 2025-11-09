@@ -39,9 +39,9 @@ function ParallaxIllustration({
 
 export default function FundingPage() {
   return (
-    <main className="relative min-h-screen font-lora text-text">
+    <main className="relative min-h-screen min-h-[100dvh] font-lora text-text">
       {/* All content with relative positioning */}
-      <div className="relative z-10 bg-bg">
+      <div className="relative z-10 bg-bg min-h-screen min-h-[100dvh]">
         <DynamicIslandNav />
 
         {/* Hero */}

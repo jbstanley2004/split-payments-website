@@ -57,25 +57,26 @@ export default function PaymentsPage() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   return (
-    <main ref={ref} className="relative min-h-screen font-lora text-text">
+    <main ref={ref} className="relative min-h-screen min-h-[100dvh] font-lora text-text">
       {/* Fixed Parallax Background */}
       <motion.div
         style={{ y }}
-        className="fixed inset-0 z-0"
+        className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]"
       >
         <Image
           src="/payments-hero.png"
           alt="Payment Processing"
           fill
-          className="object-contain md:object-cover"
+          className="object-contain md:object-cover object-center"
           priority
+          sizes="100vw"
         />
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-bg/70" />
       </motion.div>
 
       {/* All content with relative positioning */}
-      <div className="relative z-10">
+      <div className="relative z-10 min-h-screen min-h-[100dvh]">
         <DynamicIslandNav showHomeLogoOnMobile />
 
         {/* Hero */}
