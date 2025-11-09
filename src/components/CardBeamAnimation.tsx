@@ -494,7 +494,7 @@ class ParticleSystem {
 
     const half = canvas.width / 2;
     const isDark = this.isDarkMode();
-    const hue = isDark ? 260 : 15; // Purple for dark mode, coral/orange for light mode
+    const hue = 15; // Coral/orange for both light and dark mode to match brand
 
     const gradient = ctx.createRadialGradient(half, half, 0, half, half, half);
     gradient.addColorStop(0.025, "#fff");
@@ -736,15 +736,9 @@ class ParticleScanner {
     const isDark = this.isDarkMode();
 
     gradient.addColorStop(0, "rgba(255, 255, 255, 1)");
-    if (isDark) {
-      // Dark mode: purple/violet particles
-      gradient.addColorStop(0.3, "rgba(196, 181, 253, 0.8)");
-      gradient.addColorStop(0.7, "rgba(139, 92, 246, 0.4)");
-    } else {
-      // Light mode: coral/orange particles matching brand
-      gradient.addColorStop(0.3, "rgba(217, 119, 87, 0.7)");
-      gradient.addColorStop(0.7, "rgba(228, 145, 115, 0.3)");
-    }
+    // Use brand orange colors for both light and dark mode
+    gradient.addColorStop(0.3, "rgba(217, 119, 87, 0.7)");
+    gradient.addColorStop(0.7, "rgba(228, 145, 115, 0.3)");
     gradient.addColorStop(1, "transparent");
 
     this.gradientCtx.fillStyle = gradient;
@@ -911,9 +905,9 @@ class ParticleScanner {
 
     const isDark = this.isDarkMode();
 
-    // Adjust colors based on theme
-    const primaryColor = isDark ? "139, 92, 246" : "217, 119, 87"; // purple in dark, coral in light
-    const secondaryColor = isDark ? "196, 181, 253" : "228, 145, 115"; // light purple in dark, light coral in light
+    // Use brand orange colors for both light and dark mode
+    const primaryColor = "217, 119, 87"; // coral/orange
+    const secondaryColor = "228, 145, 115"; // lighter coral/orange
 
     const glow1Gradient = this.ctx.createLinearGradient(
       this.lightBarX - lineWidth * 2,
