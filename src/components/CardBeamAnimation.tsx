@@ -578,41 +578,34 @@ class ParticleSystem {
   animate() {
     this.animationId = requestAnimationFrame(() => this.animate());
 
-    // Only show particles in dark mode
-    const isDark = this.isDarkMode();
-
     if (this.particles) {
-      if (isDark) {
-        const positions = this.particles.geometry.attributes.position.array as Float32Array;
-        const alphas = this.particles.geometry.attributes.alpha.array as Float32Array;
-        const time = Date.now() * 0.001;
+      const positions = this.particles.geometry.attributes.position.array as Float32Array;
+      const alphas = this.particles.geometry.attributes.alpha.array as Float32Array;
+      const time = Date.now() * 0.001;
 
-        for (let i = 0; i < this.particleCount; i++) {
-          positions[i * 3] += this.velocities[i] * 0.016;
+      for (let i = 0; i < this.particleCount; i++) {
+        positions[i * 3] += this.velocities[i] * 0.016;
 
-          if (positions[i * 3] > window.innerWidth / 2 + 100) {
-            positions[i * 3] = -window.innerWidth / 2 - 100;
-            positions[i * 3 + 1] = (Math.random() - 0.5) * 250;
-          }
-
-          positions[i * 3 + 1] += Math.sin(time + i * 0.1) * 0.5;
-
-          const twinkle = Math.floor(Math.random() * 10);
-          if (twinkle === 1 && alphas[i] > 0) {
-            alphas[i] -= 0.05;
-          } else if (twinkle === 2 && alphas[i] < 1) {
-            alphas[i] += 0.05;
-          }
-
-          alphas[i] = Math.max(0, Math.min(1, alphas[i]));
+        if (positions[i * 3] > window.innerWidth / 2 + 100) {
+          positions[i * 3] = -window.innerWidth / 2 - 100;
+          positions[i * 3 + 1] = (Math.random() - 0.5) * 250;
         }
 
-        this.particles.geometry.attributes.position.needsUpdate = true;
-        this.particles.geometry.attributes.alpha.needsUpdate = true;
+        positions[i * 3 + 1] += Math.sin(time + i * 0.1) * 0.5;
+
+        const twinkle = Math.floor(Math.random() * 10);
+        if (twinkle === 1 && alphas[i] > 0) {
+          alphas[i] -= 0.05;
+        } else if (twinkle === 2 && alphas[i] < 1) {
+          alphas[i] += 0.05;
+        }
+
+        alphas[i] = Math.max(0, Math.min(1, alphas[i]));
       }
 
-      // Set visibility based on theme
-      this.particles.visible = isDark;
+      this.particles.geometry.attributes.position.needsUpdate = true;
+      this.particles.geometry.attributes.alpha.needsUpdate = true;
+      this.particles.visible = true;
     }
 
     if (this.renderer && this.scene && this.camera) {
