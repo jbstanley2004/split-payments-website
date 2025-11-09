@@ -1,5 +1,7 @@
 .card {
-    --card-bg: #F9F7F3;
+    --card-bg: linear-gradient(8deg, hsl(var(--background)) 75%, color-mix(in hsl, hsl(var(--background)), white 2.5%) 75.5%);
+    --fg: hsl(var(--foreground));
+    color: var(--fg);
     --glow-sens: 30;
     --blend: soft-light;
     --glow-blend: plus-lighter;
@@ -14,7 +16,7 @@
     isolation: isolate;
     transform: translate3d(0, 0, 0.01px);
     display: grid;
-    border: 1px solid rgb(0 0 0 / 10%);
+    border: 1px solid rgb(255 255 255 / 25%);
     background: var(--card-bg);
     background-repeat: no-repeat;
 
@@ -31,13 +33,11 @@
     z-index: -1;
 }
 
-.card:not(:hover):not(.animating) {
-    &::before,
-    &::after,
-    & > .glow {
-        opacity: 0;
-        transition: opacity 0.75s ease-in-out;
-    }
+.card:not(:hover):not(.animating)::before,
+.card:not(:hover):not(.animating)::after,
+.card:not(:hover):not(.animating) > .glow {
+    opacity: 0;
+    transition: opacity 0.75s ease-in-out;
 }
 
 .card::before {
@@ -153,7 +153,7 @@
     font-family: var(--font-poppins);
     font-size: 1.25rem;
     font-weight: 600;
-    color: #0A0A0A;
+    color: inherit;
     margin-bottom: 0.5rem;
 }
 
@@ -183,5 +183,5 @@
     font-family: var(--font-lora);
     font-size: 0.875rem;
     line-height: 1.6;
-    color: #2C2C2C;
+    color: color-mix(in hsl, var(--fg), transparent 40%);
 }
