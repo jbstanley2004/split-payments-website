@@ -34,3 +34,4 @@ ChatGPT Image*.png
 next-env.d.ts
 dev.log
 start.log
+test-results/
