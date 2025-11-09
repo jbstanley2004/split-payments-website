@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import SplitCTA from "@/components/ui/SplitCTA";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
@@ -39,7 +40,6 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
     >
       {/* background glow */}
       <div className="absolute right-0 top-1/2 translate-y-[-50%] w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.04)_0%,transparent_70%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.06)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
-
       {/* text */}
       <div
         className="max-w-xl relative z-10 text-center lg:text-left w-full lg:w-1/2"
@@ -51,12 +51,9 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
           {text}
         </p>
         <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
-          <Link
+          <SplitCTA
             href="/get-started"
-            className="border border-[var(--theme-border)] px-6 py-3 rounded-md text-[var(--theme-accent)] font-poppins hover:bg-[var(--theme-accent)] hover:text-white transition-all duration-300 ease-out"
-          >
-            get started
-          </Link>
+            className="border border-[var(--theme-border)] px-6 py-3 rounded-md text-[var(--theme-accent)] font-poppins hover:bg-[var(--theme-accent)] hover:text-white transition-all duration-300 ease-out" />
           <a
             href="/#funding"
             className="text-[var(--theme-text-primary)] font-lora hover:text-[var(--theme-accent)] transition-colors duration-300 text-base inline-flex items-center"
@@ -65,7 +62,6 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
           </a>
         </div>
       </div>
-
       {/* animated hero image */}
       <motion.div
         className="relative mt-16 lg:mt-0 lg:ml-16 w-full lg:w-1/2 flex justify-center lg:justify-end"

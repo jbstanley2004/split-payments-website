@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import SplitCTA from "@/components/ui/SplitCTA";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -73,7 +74,6 @@ export default function PaymentsPage() {
         {/* Dark overlay for text readability */}
         <div className="absolute inset-0 bg-bg/70" />
       </motion.div>
-
       {/* All content with relative positioning */}
       <div className="relative z-10">
         <DynamicIslandNav showHomeLogoOnMobile />
@@ -138,9 +138,7 @@ export default function PaymentsPage() {
               Get in touch for a no-obligation cost review and discover the perfect
               payment solution for your business needs.
             </p>
-            <Link href="/get-started" className="btn inline-block font-poppins">
-              Get a Cost Review
-            </Link>
+            <SplitCTA href="/get-started" className="btn inline-block font-poppins" />
           </motion.div>
         </section>
 

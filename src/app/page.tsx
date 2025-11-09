@@ -1,4 +1,5 @@
-"use client";
+"use client";;
+import SplitCTA from "@/components/ui/SplitCTA";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Image from "next/image";
@@ -20,7 +21,6 @@ export default function HomePage() {
         {/* Subtle overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
       </div>
-
       {/* All content with relative positioning */}
       <div className="relative z-10">
         <DynamicIslandNav />
@@ -44,25 +44,9 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <Link
+              <SplitCTA
                 href="/get-started"
-                className="inline-flex items-center gap-2 border border-white/90 bg-[var(--theme-accent)] px-8 py-4 rounded-md text-white font-poppins text-base font-medium hover:bg-[var(--theme-accent-hover)] hover:border-white transition-all duration-300 ease-out shadow-lg"
-              >
-                Get Started
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13 7l5 5m0 0l-5 5m5-5H6"
-                  />
-                </svg>
-              </Link>
+                className="inline-flex items-center gap-2 border border-white/90 bg-[var(--theme-accent)] px-8 py-4 rounded-md text-white font-poppins text-base font-medium hover:bg-[var(--theme-accent-hover)] hover:border-white transition-all duration-300 ease-out shadow-lg" />
             </motion.div>
           </motion.div>
         </section>
