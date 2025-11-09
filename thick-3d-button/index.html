@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Thick 3D Button — Demo</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="thick-button.css">
+</head>
+<body>
+  <main class="page">
+    <h1>Thick 3D Button (1950s plunger feel)</h1>
+    <p>Move your cursor over the button and press. Try keyboard too: <kbd>Space</kbd> / <kbd>Enter</kbd>.</p>
+
+    <div class="demo-row">
+      <button class="btn3d" type="button" aria-label="Let's Split" data-thickness="30" data-travel="22" data-tilt="10">
+        <span class="btn3d__cap">
+          <span class="btn3d__text">Let’s Split →</span>
+        </span>
+      </button>
+
+      <button class="btn3d blue" type="button" aria-label="Continue" data-thickness="36" data-travel="26" data-tilt="12">
+        <span class="btn3d__cap">
+          <span class="btn3d__text">Continue</span>
+        </span>
+      </button>
+
+      <button class="btn3d gold" type="button" aria-label="Pay Now" data-thickness="26" data-travel="18" data-tilt="8">
+        <span class="btn3d__cap">
+          <span class="btn3d__text">Pay Now</span>
+        </span>
+      </button>
+    </div>
+
+    <section class="notes">
+      <h2>How to use</h2>
+      <ol>
+        <li>Copy <code>thick-button.css</code> and <code>thick-button.js</code> into your project.</li>
+        <li>Use the markup: 
+          <pre><code>&lt;button class="btn3d" data-thickness="30" data-travel="22" data-tilt="10"&gt;
+  &lt;span class="btn3d__cap"&gt;&lt;span class="btn3d__text"&gt;Label&lt;/span&gt;&lt;/span&gt;
+&lt;/button&gt;</code></pre></li>
+        <li>Adjust <code>data-thickness</code> (height), <code>data-travel</code> (press depth), and <code>data-tilt</code> (hover tilt).</li>
+      </ol>
+    </section>
+  </main>
+
+  <script src="thick-button.js"></script>
+</body>
+</html>
