@@ -28,19 +28,19 @@ export default function HomePage() {
         <DynamicIslandNav />
 
         {/* Hero Content */}
-        <section className="min-h-screen min-h-[100dvh] flex items-center justify-start text-left">
+        <section className="min-h-screen min-h-[100dvh] flex items-center justify-center text-center">
           <motion.div
             initial={{ opacity: 0, translateY: 30 }}
             animate={{ opacity: 1, translateY: 0 }}
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex flex-col items-start gap-10 max-w-2xl pl-12 md:pl-24 lg:pl-32"
+            className="flex flex-col items-center gap-10 max-w-4xl px-6"
             style={{ willChange: "transform, opacity" }}
           >
             {/* Headline */}
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-black">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-black dark:text-black">
               The new standard in merchant cash advances
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl font-lora text-black">
+            <p className="text-lg md:text-xl lg:text-2xl font-lora text-gray-700 dark:text-gray-700">
               A smarter way to fund your business — seamless integration, instant access, and full transparency.
             </p>
 
