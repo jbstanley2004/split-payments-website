@@ -28,7 +28,7 @@ export default function HomePage() {
         <DynamicIslandNav />
 
         {/* Hero Content */}
-        <section className="min-h-screen min-h-[100dvh] flex items-center justify-center text-center">
+        <section className="min-h-screen min-h-[100dvh] flex items-end justify-center text-center pb-24 md:pb-32">
           <motion.div
             initial={{ opacity: 0, translateY: 30 }}
             animate={{ opacity: 1, translateY: 0 }}
