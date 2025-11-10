@@ -13,7 +13,7 @@ const solutions = [
   {
     title: "Credit Card Acceptance",
     description:
-      "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale with your business.",
+      "Accept payments anywhere with reliable processing that is secure, transparent, and built to scale with your business.",
     icon: CreditCard,
   },
   {
@@ -25,19 +25,19 @@ const solutions = [
   {
     title: "ACH Payments",
     description:
-      "Simplify ACH transfers for payroll, subscriptions, and B2B — faster, lower-cost, and fully automated.",
+      "Simplify ACH transfers for payroll, recurring billing, and B2B transactions with faster, lower cost automation.",
     icon: Landmark,
   },
   {
     title: "Point of Sale (POS) systems",
     description:
-      "Power your business with flexible POS systems — tailored for retail, restaurants, and service providers, in-store or on-the-go.",
+      "Power your operations with flexible POS systems tailored for retail, restaurants, and service providers both in store and online.",
     icon: Laptop,
   },
   {
     title: "Gift Card and Loyalty Programs",
     description:
-      "Engage and retain customers with branded gift cards and loyalty rewards that drive repeat spending and brand loyalty.",
+      "Engage and retain customers with branded gift cards and loyalty rewards that inspire repeat visits and increase spending.",
     icon: Gift,
   },
 ];
@@ -82,12 +82,12 @@ export default function PaymentsPage() {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="font-poppins text-4xl md:text-6xl leading-tight mb-6">
-              Smarter Payments. Stronger Cash Flow.
+              Smarter payments. Stronger cash flow.
             </h1>
             <p className="font-lora text-[#2C2C2C] text-lg md:text-xl mb-8 leading-relaxed">
-              Simplify every transaction — from cards to ACH — while unlocking funding that moves at the speed of your business.
-              Our platform unites payment processing, merchant services, and split-funding into one seamless experience.
-              From terminals to advanced software integrations, Split delivers payment technology that keeps your business running smoothly — increasing revenue, improving cash flow, and creating better customer experiences.
+              Simplify every transaction from cards to ACH while unlocking funding that moves at the speed of your business.
+              Our platform unites payment processing, merchant services, and split funding into one seamless experience.
+              From terminals to advanced software integrations, Split delivers payment technology that keeps your business running smoothly. Increase revenue, improve cash flow, and enhance every customer interaction.
             </p>
           </motion.div>
         </section>
@@ -129,11 +129,11 @@ export default function PaymentsPage() {
 
         {/* Footer */}
         <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>© 2025 Split Payments, Inc. — Empowering merchants through smarter payments and funding.</div>
+          <div>© 2025 Split Payments, Inc. All rights reserved.</div>
           <div className="flex items-center gap-6">
-            <a href="/policy">privacy</a>
-            <a href="/terms">terms</a>
-            <a href="/support">contact</a>
+            <a href="/policy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="/support">Contact</a>
           </div>
         </footer>
       </div>
