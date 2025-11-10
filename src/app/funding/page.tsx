@@ -61,12 +61,12 @@ export default function FundingPage() {
           >
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-poppins font-semibold leading-tight text-[var(--theme-text-primary)] mb-4">Payments built for every business</h2>
             <p className="text-lg font-lora text-[var(--theme-text-secondary)] mb-6 max-w-md mx-auto md:mx-0">
-              POS, online, and mobile — fast, secure, and all connected to split.
+              Simplify your operations with connected POS, online, and mobile payment solutions.
             </p>
             <ul className="text-[var(--theme-text-secondary)] space-y-2 text-sm inline-block text-left font-lora">
-              <li>✔ real-time reporting & reconciliation</li>
-              <li>✔ competitive, transparent pricing</li>
-              <li>✔ multi-location management</li>
+              <li>• Real time reporting and reconciliation</li>
+              <li>• Transparent, competitive pricing</li>
+              <li>• Easy management across multiple locations</li>
             </ul>
           </motion.div>
 
@@ -81,7 +81,7 @@ export default function FundingPage() {
             <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[600px]">
               <Image
                 src="/merchants.png"
-                alt="merchants"
+                alt="Split merchant dashboard showing sales based funding and payment analytics"
                 fill
                 className="object-contain object-center md:object-right-top"
                 sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
@@ -95,11 +95,11 @@ export default function FundingPage() {
 
         {/* Footer */}
         <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>© 2025 split payments, inc.</div>
+          <div>© 2025 Split Payments, Inc. All rights reserved.</div>
           <div className="flex items-center gap-6">
-            <a href="/policy">privacy</a>
-            <a href="/terms">terms</a>
-            <a href="/support">contact</a>
+            <a href="/policy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="/support">Contact</a>
           </div>
         </footer>
       </div>
