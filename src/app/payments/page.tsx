@@ -13,31 +13,31 @@ const solutions = [
   {
     title: "Credit Card Acceptance",
     description:
-      "Seamlessly process credit card transactions in-store, online, or on-the-go with our reliable and secure systems.",
+      "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale with your business.",
     icon: CreditCard,
   },
   {
     title: "Check Processing",
     description:
-      "Traditional and electronic checks, risk-free check guarantee programs, and check conversion to access funds at lower rates.",
+      "Modernize your check acceptance with automated verification, faster deposits, and lower transaction costs.",
     icon: Check,
   },
   {
     title: "ACH Payments",
     description:
-      "The most cost-effective ACH transfers for payroll, recurring billing, and B2B payments.",
+      "Simplify ACH transfers for payroll, subscriptions, and B2B — faster, lower-cost, and fully automated.",
     icon: Landmark,
   },
   {
     title: "Point of Sale (POS) systems",
     description:
-      "Whether it's in-store, on the go, or online, we provide a range of POS systems to meet the needs of hardworking customers.",
+      "Power your business with flexible POS systems — tailored for retail, restaurants, and service providers, in-store or on-the-go.",
     icon: Laptop,
   },
   {
     title: "Gift Card and Loyalty Programs",
     description:
-      "Customizable gift card and loyalty programs that encourage customers to return and spend more.",
+      "Engage and retain customers with branded gift cards and loyalty rewards that drive repeat spending and brand loyalty.",
     icon: Gift,
   },
 ];
@@ -82,14 +82,12 @@ export default function PaymentsPage() {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="font-poppins text-4xl md:text-6xl leading-tight mb-6">
-              Payment Processing Made Simple
+              Smarter Payments. Stronger Cash Flow.
             </h1>
             <p className="font-lora text-[#2C2C2C] text-lg md:text-xl mb-8 leading-relaxed">
-              From credit card processing to check services, gift cards, and ACH
-              payments, we provide an all-in-one resource for your non-cash payment
-              needs. Solutions ranging from card terminals to complex software
-              integrations, all designed to streamline your payment operations, boost
-              your sales, and enhance your customer's experience.
+              Simplify every transaction — from cards to ACH — while unlocking funding that moves at the speed of your business.
+              Our platform unites payment processing, merchant services, and split-funding into one seamless experience.
+              From terminals to advanced software integrations, Split delivers payment technology that keeps your business running smoothly — increasing revenue, improving cash flow, and creating better customer experiences.
             </p>
           </motion.div>
         </section>
@@ -119,20 +117,19 @@ export default function PaymentsPage() {
             transition={{ duration: 0.7 }}
             className="text-center max-w-3xl mx-auto border border-line p-12 bg-bg/80 backdrop-blur-sm"
           >
-            <h2 className="font-poppins text-3xl md:text-4xl mb-4">Find Your Perfect Solution</h2>
+            <h2 className="font-poppins text-3xl md:text-4xl mb-4">Find the Right Fit for Your Business</h2>
             <p className="font-lora text-[#2C2C2C] mb-8 text-lg leading-relaxed">
-              Get in touch for a no-obligation cost review and discover the perfect
-              payment solution for your business needs.
+              Let's review your processing setup and uncover how Split can streamline payments, reduce fees, and fund your growth — all in one platform.
             </p>
             <Link href="/get-started" passHref>
-              <OrangePushButton>Get a Cost Review</OrangePushButton>
+              <OrangePushButton>Start My Cost Review</OrangePushButton>
             </Link>
           </motion.div>
         </section>
 
         {/* Footer */}
         <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>© 2025 split payments, inc.</div>
+          <div>© 2025 Split Payments, Inc. — Empowering merchants through smarter payments and funding.</div>
           <div className="flex items-center gap-6">
             <a href="/policy">privacy</a>
             <a href="/terms">terms</a>
