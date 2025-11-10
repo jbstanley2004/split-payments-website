@@ -53,13 +53,13 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
         </p>
         <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
           <Link href="/get-started" passHref>
-            <OrangePushButton>get started</OrangePushButton>
+            <OrangePushButton>Get started</OrangePushButton>
           </Link>
           <a
             href="/#funding"
             className="text-[var(--theme-text-primary)] font-lora hover:text-[var(--theme-accent)] transition-colors duration-300 text-base inline-flex items-center"
           >
-            learn more →
+            Learn more →
           </a>
         </div>
       </div>
@@ -104,7 +104,7 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
           <div className="dark:hidden">
             <Image
               src={imageSrcLight}
-              alt="Split interface"
+              alt="Split merchant dashboard showing sales based funding and payment analytics"
               width={600}
               height={380}
               priority
@@ -115,7 +115,7 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
           <div className="hidden dark:block">
             <Image
               src={imageSrcDark}
-              alt="Split interface dark"
+              alt="Split merchant dashboard dark mode view"
               width={600}
               height={380}
               priority
@@ -138,12 +138,12 @@ export default function Hero() {
         imageSrcDark="/graphic4.png"
         title={
           <>
-            Sales-based capital access
+            Flexible funding
             <br />
-            for growing merchants.
+            for growing merchants
           </>
         }
-        text="Access fast, flexible capital — powered by your daily sales. No fixed monthly minimums or hard credit checks."
+        text="Unlock working capital through your daily card sales with no fixed payments, hidden fees, or credit barriers. Funding that moves with your business, not against it."
       />
 
       {/* Section 2 – light graphic3 below */}
@@ -154,10 +154,10 @@ export default function Hero() {
           <>
             Payment infrastructure
             <br />
-            built for every business.
+            built for every business
           </>
         }
-        text="POS, online, and mobile — fast, secure, and all connected to split. Real-time reporting and transparent pricing."
+        text="Accept payments anywhere with secure, integrated tools that connect directly to Split. Real time reporting, transparent pricing, and the flexibility to manage it all in one place."
         reverse
       />
     </>
