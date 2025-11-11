@@ -2,9 +2,10 @@
   --pointer-angle: 45deg;
   --pointer-distance: 0;
   --glow-sensitivity: 30;
-  --glow-color-h: 200;
-  --glow-color-s: 80%;
-  --glow-color-l: 70%;
+  /* Brand orange #d97757 in HSL */
+  --glow-color-h: 15;
+  --glow-color-s: 63%;
+  --glow-color-l: 60%;
 
   position: relative;
   display: flex;
