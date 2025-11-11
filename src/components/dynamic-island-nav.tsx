@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/stub";
-import OrangePushButton from "./OrangePushButton";
+import CtaButton from "./CtaButton";
 
 import darkModeLogo from "public/split.svg";
 
@@ -194,15 +194,21 @@ export function DynamicIslandNav({
               animate={{
                 opacity: isDesktopExpanded ? 1 : 0,
                 x: isDesktopExpanded ? 0 : collapseOffsets[index] ?? 0,
-                scale: isDesktopExpanded ? 1 : 0.85,
+                scale: isDesktopExpanded ? 1.25 : 0.85,
               }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 15,
+                duration: 0.3,
+                ease: [0.4, 0, 0.2, 1],
+              }}
               className="ml-2 rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-saturate-[180%]"
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
               {item.variant === "cta" ? (
                 <Link href={item.href} passHref>
-                  <OrangePushButton onClick={triggerLinkHaptic}>{item.label}</OrangePushButton>
+                  <CtaButton onClick={triggerLinkHaptic} variant="nav">{item.label}</CtaButton>
                 </Link>
               ) : (
                 <Link
@@ -264,10 +270,10 @@ export function DynamicIslandNav({
             >
               {item.variant === "cta" ? (
                 <Link href={item.href} passHref>
-                  <OrangePushButton onClick={() => {
+                  <CtaButton onClick={() => {
                     triggerLinkHaptic();
                     setIsMobileExpanded(false);
-                  }}>{item.label}</OrangePushButton>
+                  }}>{item.label}</CtaButton>
                 </Link>
               ) : (
                 <Link
