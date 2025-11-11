@@ -43,24 +43,28 @@ export function WaterRipple({ children }: WaterRippleProps) {
 
     // Only trigger animation if not already animating
     if (!isAnimating) {
-      setIsAnimating(true);
+      // Delay the ripple to sync with button reaching deepest press (400ms)
+      // This makes the ripple appear when the button is fully pressed
+      setTimeout(() => {
+        setIsAnimating(true);
 
-      // Haptic feedback on mobile
-      if (isMobile && typeof navigator !== "undefined" && "vibrate" in navigator) {
-        navigator.vibrate(15);
-      }
+        // Haptic feedback on mobile - fires when ripple starts
+        if (isMobile && typeof navigator !== "undefined" && "vibrate" in navigator) {
+          navigator.vibrate(15);
+        }
 
-      // Clear any existing timeout
-      if (animationTimeoutRef.current) {
-        clearTimeout(animationTimeoutRef.current);
-      }
+        // Clear any existing timeout
+        if (animationTimeoutRef.current) {
+          clearTimeout(animationTimeoutRef.current);
+        }
 
-      // Reset animation state after the longest animation completes
-      // Mobile: shorter duration (4s), Desktop: full duration (6.5s)
-      const animationDuration = isMobile ? 4000 : 6500;
-      animationTimeoutRef.current = setTimeout(() => {
-        setIsAnimating(false);
-      }, animationDuration);
+        // Reset animation state after the longest animation completes
+        // Mobile: shorter duration (4s), Desktop: full duration (6.5s)
+        const animationDuration = isMobile ? 4000 : 6500;
+        animationTimeoutRef.current = setTimeout(() => {
+          setIsAnimating(false);
+        }, animationDuration);
+      }, 400); // Delay matches button press duration
     }
   };
 
