@@ -99,6 +99,7 @@ export function DynamicIslandNav({
   const pathname = usePathname();
   const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
 
   // Get filtered and ordered nav items based on current page
   const displayedNavItems = useMemo(() => {
@@ -122,6 +123,25 @@ export function DynamicIslandNav({
       navigator.vibrate(10);
     }
   }, []);
+
+  // Tap outside to close on mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (isMobileExpanded && navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsMobileExpanded(false);
+      }
+    };
+
+    if (isMobileExpanded) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isMobileExpanded]);
 
   return (
     <header
@@ -190,6 +210,7 @@ export function DynamicIslandNav({
       </div>
 
       <div
+        ref={navRef}
         className="md:hidden pointer-events-auto flex items-center justify-center gap-1.5"
         onClick={() => {
           triggerHaptic();

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { motion, useScroll, useTransform, useMotionValue, useAnimationFrame } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import OrangePushButton from "./OrangePushButton";
 
@@ -128,177 +128,142 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
   );
 }
 
-export default function Hero() {
+// Framer Motion 3D Carousel Component
+function FramerCarousel3D() {
+  const baseImages = [
+    '/industries/restaurants.webp',
+    '/industries/clothing.webp',
+    '/industries/car_repair.webp',
+    '/industries/convenience_store.webp',
+    '/industries/franchise.webp',
+    '/industries/hair_beauty.webp',
+    '/industries/home_goods_furniture.webp',
+    '/industries/hotels.webp',
+    '/industries/pharmacy.webp',
+    '/industries/professional_services.webp'
+  ];
+
+  const industryImages = [...baseImages, ...baseImages, ...baseImages];
+  const totalItems = industryImages.length;
+
+  const rotation = useMotionValue(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const velocity = useRef(0);
+  const lastY = useRef(0);
+  const lastTime = useRef(Date.now());
+
   useEffect(() => {
-    // Carousel initialization
-    const baseImages = [
-      '/industries/restaurants.webp',
-      '/industries/clothing.webp',
-      '/industries/car_repair.webp',
-      '/industries/convenience_store.webp',
-      '/industries/franchise.webp',
-      '/industries/hair_beauty.webp',
-      '/industries/home_goods_furniture.webp',
-      '/industries/hotels.webp',
-      '/industries/pharmacy.webp',
-      '/industries/professional_services.webp'
-    ];
-
-    // Repeat images 3 times to get 30 total
-    const industryImages = [...baseImages, ...baseImages, ...baseImages];
-
-    const initCarousel = () => {
-      if (typeof window === 'undefined' || !window.gsap) {
-        return;
-      }
-
-      const c = document.getElementById('container');
-      if (!c) {
-        return;
-      }
-
-      const boxes = [];
-      let currentRotation = 0;
-      let autoRotateSpeed = 0.0005; // Auto-rotate speed
-      let isDragging = false;
-      let velocity = 0;
-      let lastY = 0;
-      let lastTime = Date.now();
-
-      function makeBoxes(n) {
-        for (let i = 0; i < n; i++) {
-          const b = document.createElement('div');
-          boxes.push(b);
-          c.appendChild(b);
-        }
-      }
-
-      makeBoxes(30);
-
-      // EXACT original parameters from 2020-6-4-photo-carousel
-      window.gsap.to(c, 0.4, { perspective: 200, backgroundColor: 'transparent' });
-
-      for (let i = 0; i < boxes.length; i++) {
-        const b = boxes[i];
-        window.gsap.set(b, {
-          left: '50%',
-          top: '50%',
-          margin: -200,  // Only change: larger photos (400x400 instead of 300x300)
-          width: 400,
-          height: 400,
-          borderRadius: '20%',
-          backgroundImage: 'url(' + industryImages[i] + ')',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          clearProps: 'transform',
-          backfaceVisibility: 'hidden'  // Original used hidden
-        });
-
-        // EXACT original timeline parameters
-        b.tl = window.gsap.timeline({ paused: true, defaults: { immediateRender: true } })
-          .fromTo(b, {
-            scale: 0.31,    // Original scale
-            rotationX: i / boxes.length * 360,
-            transformOrigin: String("50% 50% -500%")  // Original transform origin
-          }, {
-            rotationX: '+=360',
-            ease: 'none'
-          })
-          .timeScale(0.05);
-      }
-
-      // Auto-rotate animation loop
-      function animate() {
-        if (!isDragging) {
-          // Apply auto-rotation
-          currentRotation += autoRotateSpeed;
-          // Apply velocity (gradually decrease)
-          if (Math.abs(velocity) > 0.00001) {
-            currentRotation += velocity;
-            velocity *= 0.95; // friction
-          }
-        }
-
-        // Keep rotation in 0-1 range
-        currentRotation = currentRotation % 1;
-        if (currentRotation < 0) currentRotation += 1;
-
-        boxes.forEach((b) => {
-          window.gsap.set(b.tl, { progress: currentRotation });
-        });
-
-        requestAnimationFrame(animate);
-      }
-      animate();
-
-      // Drag interaction
-      const startDrag = (clientY) => {
-        isDragging = true;
-        lastY = clientY;
-        lastTime = Date.now();
-        velocity = 0;
-        c.style.cursor = 'grabbing';
-      };
-
-      const onDrag = (clientY) => {
-        if (!isDragging) return;
-
-        const currentTime = Date.now();
-        const deltaTime = Math.max(currentTime - lastTime, 1);
-        const deltaY = clientY - lastY;
-
-        // FIXED: Negative deltaY means cursor moved up, so rotation should be negative (same direction)
-        const delta = -deltaY * 0.002;
-        currentRotation += delta;
-
-        // Calculate velocity for momentum
-        velocity = -deltaY * 0.002 / (deltaTime / 16.67);
-
-        lastY = clientY;
-        lastTime = currentTime;
-      };
-
-      const endDrag = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        c.style.cursor = 'grab';
-        // Velocity will naturally decay in the animate loop
-      };
-
-      // Mouse events
-      c.addEventListener('mousedown', (e) => {
-        e.preventDefault();
-        startDrag(e.clientY);
-      });
-      document.addEventListener('mousemove', (e) => onDrag(e.clientY));
-      document.addEventListener('mouseup', endDrag);
-
-      // Touch events
-      c.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        startDrag(e.touches[0].clientY);
-      }, { passive: false });
-      document.addEventListener('touchmove', (e) => {
-        onDrag(e.touches[0].clientY);
-      });
-      document.addEventListener('touchend', endDrag);
-
-      c.style.cursor = 'grab';
-    };
-
-    // Wait for GSAP to be available
-    const checkGSAP = setInterval(() => {
-      if (window.gsap) {
-        clearInterval(checkGSAP);
-        initCarousel();
-      }
-    }, 100);
-
-    return () => {
-      clearInterval(checkGSAP);
-    };
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Auto-rotate animation
+  useAnimationFrame((time, delta) => {
+    if (!isDragging) {
+      // Auto-rotation speed
+      const autoRotateSpeed = 0.08 * (delta / 16.67);
+
+      // Apply velocity with friction
+      if (Math.abs(velocity.current) > 0.01) {
+        rotation.set(rotation.get() + velocity.current);
+        velocity.current *= 0.95;
+      } else {
+        rotation.set(rotation.get() + autoRotateSpeed);
+      }
+    }
+  });
+
+  const handleDragStart = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    setIsDragging(true);
+    const clientY = 'touches' in event ? event.touches[0].clientY : event.clientY;
+    lastY.current = clientY;
+    lastTime.current = Date.now();
+    velocity.current = 0;
+
+    // Haptic feedback on mobile
+    if (isMobile && typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(10);
+    }
+  };
+
+  const handleDrag = (event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
+    if (!isDragging) return;
+
+    const clientY = 'touches' in event ? event.touches[0].clientY : event.clientY;
+    const currentTime = Date.now();
+    const deltaTime = Math.max(currentTime - lastTime.current, 1);
+    const deltaY = clientY - lastY.current;
+
+    const delta = -deltaY * 0.5;
+    rotation.set(rotation.get() + delta);
+
+    // Calculate velocity for momentum
+    velocity.current = -deltaY * 0.5 / (deltaTime / 16.67);
+
+    lastY.current = clientY;
+    lastTime.current = currentTime;
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
+  return (
+    <div
+      className="relative w-full h-[600px] overflow-hidden cursor-grab active:cursor-grabbing"
+      onMouseDown={handleDragStart}
+      onMouseMove={handleDrag}
+      onMouseUp={handleDragEnd}
+      onMouseLeave={handleDragEnd}
+      onTouchStart={handleDragStart}
+      onTouchMove={handleDrag}
+      onTouchEnd={handleDragEnd}
+      style={{ perspective: '1000px' }}
+    >
+      <div className="absolute inset-0 flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+        {industryImages.map((src, i) => {
+          const angle = (i / totalItems) * 360;
+          const radius = 500; // Distance from center
+
+          return (
+            <motion.div
+              key={i}
+              className="absolute"
+              style={{
+                width: '400px',
+                height: '400px',
+                transformStyle: 'preserve-3d',
+                backfaceVisibility: 'hidden',
+              }}
+              animate={{
+                rotateX: rotation.get() + angle,
+              }}
+              transition={{
+                type: "tween",
+                ease: "linear",
+                duration: 0,
+              }}
+            >
+              <div
+                className="w-full h-full rounded-[20%] overflow-hidden bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${src})`,
+                  transform: `translateZ(-${radius}px) scale(0.31)`,
+                  transformOrigin: '50% 50%',
+                }}
+              />
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default function Hero() {
   return (
     <>
       {/* Section 1 – dark graphic4 first */}
@@ -316,7 +281,7 @@ export default function Hero() {
         text="Unlock working capital through your daily card sales with no fixed payments, hidden fees, or credit barriers. Funding that moves with your business, not against it."
       />
 
-      {/* Section 2 – carousel instead of graphic3 */}
+      {/* Section 2 – Framer Motion carousel instead of GSAP */}
       <section
         id="payment-infrastructure"
         className="relative flex flex-col lg:flex-row-reverse items-center justify-between py-24 px-6 lg:px-16 bg-white dark:bg-[#0a0a0a] overflow-hidden min-h-[620px]"
@@ -347,11 +312,9 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* 3D Carousel */}
+        {/* 3D Carousel with Framer Motion */}
         <div className="relative mt-16 lg:mt-0 lg:ml-16 w-full lg:w-1/2 flex justify-center lg:justify-end">
-          <div id="carousel-wrapper" className="relative w-full h-[600px]">
-            <div id="container"></div>
-          </div>
+          <FramerCarousel3D />
         </div>
       </section>
     </>

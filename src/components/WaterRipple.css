@@ -47,6 +47,22 @@
     rgba(200, 230, 255, 0.08) 40%,
     transparent 70%
   );
+  /* Add will-change for GPU optimization */
+  will-change: transform, opacity;
+}
+
+/* Simplified mobile styles - reduce backdrop-filter for performance */
+@media (max-width: 767px) {
+  .ripple-wave {
+    backdrop-filter: none;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+  }
+
+  /* Hide secondary ripples and some primary ones on mobile */
+  .ripple-effect.active .ripple-4,
+  .ripple-effect.active .ripple-5 {
+    display: none;
+  }
 }
 
 /* Damped harmonic motion - mimics real wave physics */
@@ -352,6 +368,21 @@
   pointer-events: none;
   backdrop-filter: blur(3px) brightness(1.1);
   filter: url(#waterDistortion);
+  will-change: transform, opacity;
+}
+
+/* Mobile optimization - remove expensive backdrop-filter */
+@media (max-width: 767px) {
+  .water-distortion {
+    backdrop-filter: none;
+  }
+
+  /* Hide all secondary ripples on mobile for performance */
+  .ripple-effect.active .secondary-1,
+  .ripple-effect.active .secondary-2,
+  .ripple-effect.active .secondary-3 {
+    display: none;
+  }
 }
 
 .ripple-effect.active .water-distortion {
@@ -414,5 +445,22 @@
   100% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(2);
+  }
+}
+
+/* Accessibility - Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .ripple-wave,
+  .ripple-secondary,
+  .water-distortion,
+  .ripple-effect.active::before {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  /* Remove will-change when animations are disabled */
+  .ripple-wave,
+  .water-distortion {
+    will-change: auto;
   }
 }

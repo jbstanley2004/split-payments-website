@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./WaterRipple.css";
 
 interface WaterRippleProps {
@@ -9,23 +9,70 @@ interface WaterRippleProps {
 
 export function WaterRipple({ children }: WaterRippleProps) {
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleMouseEnter = () => {
+  // Detect mobile and reduced motion preferences
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const checkReducedMotion = () => {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      setPrefersReducedMotion(mediaQuery.matches);
+    };
+
+    checkMobile();
+    checkReducedMotion();
+
+    window.addEventListener("resize", checkMobile);
+
+    // Listen for reduced motion preference changes
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handleChange);
+
+    return () => {
+      window.removeEventListener("resize", checkMobile);
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
+  const triggerAnimation = () => {
+    // Skip animation if user prefers reduced motion
+    if (prefersReducedMotion) return;
+
     // Only trigger animation if not already animating
     if (!isAnimating) {
       setIsAnimating(true);
+
+      // Haptic feedback on mobile
+      if (isMobile && typeof navigator !== "undefined" && "vibrate" in navigator) {
+        navigator.vibrate(15);
+      }
 
       // Clear any existing timeout
       if (animationTimeoutRef.current) {
         clearTimeout(animationTimeoutRef.current);
       }
 
-      // Reset animation state after the longest animation completes (6.5s)
-      // This is ripple-5: 4.6s duration + 1.9s delay = 6.5s total
+      // Reset animation state after the longest animation completes
+      // Mobile: shorter duration (4s), Desktop: full duration (6.5s)
+      const animationDuration = isMobile ? 4000 : 6500;
       animationTimeoutRef.current = setTimeout(() => {
         setIsAnimating(false);
-      }, 6500);
+      }, animationDuration);
+    }
+  };
+
+  const handleMouseEnter = () => {
+    if (!isMobile) {
+      triggerAnimation();
+    }
+  };
+
+  const handleClick = () => {
+    if (isMobile) {
+      triggerAnimation();
     }
   };
 
@@ -33,6 +80,7 @@ export function WaterRipple({ children }: WaterRippleProps) {
     <div
       className="water-ripple-container"
       onMouseEnter={handleMouseEnter}
+      onClick={handleClick}
     >
       {/* SVG filter for water distortion effect */}
       <svg className="water-filter" width="0" height="0">
