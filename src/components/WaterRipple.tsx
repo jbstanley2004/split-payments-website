@@ -14,7 +14,12 @@ export function WaterRipple({}: WaterRippleProps) {
     left: 0,
     width: '100%',
     height: '100%',
-    clipPath: 'polygon(0 50%, 100% 50%, 100% 100%, 0% 100%)',
+    WebkitMaskImage: 'url(/hero_image_mask.png)',
+    maskImage: 'url(/hero_image_mask.png)',
+    WebkitMaskSize: 'cover',
+    maskSize: 'cover',
+    WebkitMaskPosition: 'center',
+    maskPosition: 'center',
     zIndex: 5,
   };
 
