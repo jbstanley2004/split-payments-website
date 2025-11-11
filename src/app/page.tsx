@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] font-lora text-text">
       {/* Fixed Background */}
-      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
+      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh] ripple-background">
         <Image
           src="/hero_image_formatted.png"
           alt="A modern office interior"
@@ -21,7 +21,7 @@ export default function HomePage() {
           sizes="100vw"
         />
         {/* Subtle overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20 pointer-events-none" />
       </div>
 
       {/* All content with relative positioning */}

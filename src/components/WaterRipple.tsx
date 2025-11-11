@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./WaterRipple.css";
 
 interface WaterRippleProps {
@@ -8,72 +8,73 @@ interface WaterRippleProps {
 }
 
 export function WaterRipple({ children }: WaterRippleProps) {
-  const [isAnimating, setIsAnimating] = useState(false);
-  const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const rippleInitialized = useRef(false);
 
-  const handleMouseEnter = () => {
-    // Only trigger animation if not already animating
-    if (!isAnimating) {
-      setIsAnimating(true);
+  useEffect(() => {
+    // Only run on client side
+    if (typeof window === "undefined" || rippleInitialized.current) return;
 
-      // Clear any existing timeout
-      if (animationTimeoutRef.current) {
-        clearTimeout(animationTimeoutRef.current);
+    // Dynamically import jQuery and jquery.ripples
+    const loadRipples = async () => {
+      try {
+        // Load jQuery
+        const $ = (await import("jquery")).default;
+
+        // Make jQuery available globally for jquery.ripples
+        (window as any).$ = $;
+        (window as any).jQuery = $;
+
+        // Load jquery.ripples
+        await import("jquery.ripples");
+
+        // Apply ripples to the background image
+        const backgroundElement = document.querySelector(".ripple-background");
+        if (backgroundElement) {
+          // Apply the exact configuration from water-ripple-effect
+          ($(".ripple-background") as any).ripples({
+            resolution: 200,
+            perturbance: 0.04,
+            interactive: true, // Enable interactive mode for cursor-based ripples
+          });
+
+          rippleInitialized.current = true;
+
+          // After ripples is initialized, apply the water mask to the canvas
+          setTimeout(() => {
+            const canvas = backgroundElement.querySelector("canvas");
+            if (canvas) {
+              // Apply CSS mask to restrict ripples to water area
+              canvas.style.clipPath = "var(--water-mask-clip-path)";
+              (canvas.style as any).webkitClipPath = "var(--water-mask-clip-path)";
+            }
+          }, 100);
+        }
+      } catch (error) {
+        console.error("Failed to initialize ripple effect:", error);
       }
+    };
 
-      // Reset animation state after the longest animation completes (6.5s)
-      // This is ripple-5: 4.6s duration + 1.9s delay = 6.5s total
-      animationTimeoutRef.current = setTimeout(() => {
-        setIsAnimating(false);
-      }, 6500);
-    }
-  };
+    loadRipples();
+
+    // Cleanup
+    return () => {
+      try {
+        const $ = (window as any).$;
+        if ($ && $(".ripple-background").length) {
+          const rippleElement = $(".ripple-background")[0];
+          if (rippleElement && (rippleElement as any).ripples) {
+            ($(".ripple-background") as any).ripples("destroy");
+          }
+        }
+      } catch (error) {
+        console.error("Failed to cleanup ripple effect:", error);
+      }
+    };
+  }, []);
 
   return (
-    <div
-      className="water-ripple-container"
-      onMouseEnter={handleMouseEnter}
-    >
-      {/* SVG filter for water distortion effect */}
-      <svg className="water-filter" width="0" height="0">
-        <defs>
-          <filter id="waterDistortion">
-            <feTurbulence
-              type="turbulence"
-              baseFrequency="0.02"
-              numOctaves="3"
-              result="turbulence"
-            />
-            <feDisplacementMap
-              in="SourceGraphic"
-              in2="turbulence"
-              scale="8"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </defs>
-      </svg>
-
-      {/* Multiple ripple layers for realistic water effect */}
-      <div className={`ripple-effect ${isAnimating ? "active" : ""}`}>
-        {/* Primary ripples - main wave propagation */}
-        <div className="ripple-wave ripple-1"></div>
-        <div className="ripple-wave ripple-2"></div>
-        <div className="ripple-wave ripple-3"></div>
-        <div className="ripple-wave ripple-4"></div>
-        <div className="ripple-wave ripple-5"></div>
-
-        {/* Secondary ripples - smaller interference patterns */}
-        <div className="ripple-secondary secondary-1"></div>
-        <div className="ripple-secondary secondary-2"></div>
-        <div className="ripple-secondary secondary-3"></div>
-
-        {/* Distortion overlay */}
-        <div className="water-distortion"></div>
-      </div>
-
-      {/* Button content */}
+    <div ref={containerRef} className="water-ripple-container">
       {children}
     </div>
   );
