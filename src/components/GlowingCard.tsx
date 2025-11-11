@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import styles from "./GlowingCard.module.css";
 
 const GlowingCard = ({ children, title, icon: Icon, className }) => {
   const cardRef = useRef(null);
+  // Generate unique ID for SVG filter to avoid conflicts between multiple cards
+  const filterId = useMemo(() => `lensFilter-${Math.random().toString(36).substr(2, 9)}`, []);
 
   useEffect(() => {
     const card = cardRef.current;
@@ -84,7 +86,7 @@ const GlowingCard = ({ children, title, icon: Icon, className }) => {
   return (
     <div ref={cardRef} className={`${styles.card} ${className}`}>
       <span className={styles.glow}></span>
-      <div className={styles.glassFilter}></div>
+      <div className={styles.glassFilter} style={{ filter: `url(#${filterId}) saturate(120%) brightness(1.15)` }}></div>
       <div className={styles.glassOverlay}></div>
       <div className={styles.glassSpecular}></div>
       <div className={styles.inner}>
@@ -96,8 +98,8 @@ const GlowingCard = ({ children, title, icon: Icon, className }) => {
       </div>
 
       {/* SVG Filter for liquid glass distortion effect */}
-      <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
-        <filter id="lensFilter" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+      <svg xmlns="http://www.w3.org/2000/svg" style={{ position: "absolute", width: 0, height: 0 }}>
+        <filter id={filterId} x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
           <feComponentTransfer in="SourceAlpha" result="alpha">
             <feFuncA type="identity" />
           </feComponentTransfer>
