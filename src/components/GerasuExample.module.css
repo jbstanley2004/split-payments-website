@@ -8,8 +8,8 @@
 .background {
   position: absolute;
   inset: 0;
-  background: url("https://wallpapers.com/images/hd/poster-background-hlybuowt1whxbh2z.jpg")
-    center repeat border-box #000;
+  width: 100%;
+  height: 100%;
 }
 
 .contentScroll {
