@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/stub";
+import { useOnClickOutside } from "@/lib/useOnClickOutside";
 import OrangePushButton from "./OrangePushButton";
 
 import darkModeLogo from "public/split.svg";
@@ -99,6 +100,9 @@ export function DynamicIslandNav({
   const pathname = usePathname();
   const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+  const mobileNavRef = useRef<HTMLDivElement>(null);
+
+  useOnClickOutside(mobileNavRef, () => setIsMobileExpanded(false));
 
   // Get filtered and ordered nav items based on current page
   const displayedNavItems = useMemo(() => {
@@ -190,6 +194,7 @@ export function DynamicIslandNav({
       </div>
 
       <div
+        ref={mobileNavRef}
         className="md:hidden pointer-events-auto flex items-center justify-center gap-1.5"
         onClick={() => {
           triggerHaptic();

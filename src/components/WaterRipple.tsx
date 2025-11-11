@@ -11,7 +11,7 @@ export function WaterRipple({ children }: WaterRippleProps) {
   const [isAnimating, setIsAnimating] = useState(false);
   const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleMouseEnter = () => {
+  const triggerAnimation = () => {
     // Only trigger animation if not already animating
     if (!isAnimating) {
       setIsAnimating(true);
@@ -32,7 +32,8 @@ export function WaterRipple({ children }: WaterRippleProps) {
   return (
     <div
       className="water-ripple-container"
-      onMouseEnter={handleMouseEnter}
+      onMouseEnter={triggerAnimation}
+      onClick={triggerAnimation}
     >
       {/* SVG filter for water distortion effect */}
       <svg className="water-filter" width="0" height="0">

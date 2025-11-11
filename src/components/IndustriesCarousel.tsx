@@ -1,7 +1,7 @@
 "use client";
 import { motion, useAnimationControls } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const industries = [
   "/industries/car_repair.webp",
@@ -19,6 +19,8 @@ const industries = [
 export default function IndustriesCarousel() {
   const [isMobile, setIsMobile] = useState(false);
   const controls = useAnimationControls();
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [dragConstraints, setDragConstraints] = useState(0);
 
   // detect mobile
   useEffect(() => {
@@ -28,19 +30,32 @@ export default function IndustriesCarousel() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // set drag constraints
+  useEffect(() => {
+    if (carouselRef.current) {
+      const carouselWidth = carouselRef.current.scrollWidth;
+      const parentWidth = carouselRef.current.parentElement!.offsetWidth;
+      setDragConstraints(parentWidth - carouselWidth);
+    }
+  }, []);
+
   const duration = isMobile ? 45 : 35;
 
   // start motion
   useEffect(() => {
-    controls.start({
-      x: ["0%", "-100%"],
-      transition: {
-        duration,
-        ease: "linear",
-        repeat: Infinity,
-      },
-    });
-  }, [controls, duration]);
+    if (!isMobile) {
+      controls.start({
+        x: ["0%", "-100%"],
+        transition: {
+          duration,
+          ease: "linear",
+          repeat: Infinity,
+        },
+      });
+    } else {
+      controls.stop();
+    }
+  }, [isMobile, controls, duration]);
 
   // pause / resume on hover
   const handleMouseEnter = () => {
@@ -70,8 +85,14 @@ export default function IndustriesCarousel() {
 
       <div className="flex overflow-hidden whitespace-nowrap">
         <motion.div
+          ref={carouselRef}
           className="flex gap-8 sm:gap-6 md:gap-8"
           animate={controls}
+          drag={isMobile ? "x" : false}
+          dragConstraints={{
+            right: 0,
+            left: dragConstraints,
+          }}
         >
           {[...industries, ...industries].map((src, i) => (
             <div
