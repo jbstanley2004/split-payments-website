@@ -12,9 +12,11 @@ interface InteractiveCardProps {
 }
 
 const brandColors = [
-  { bg: "#d97757", border: "#c76545" }, // Orange
-  { bg: "#6a9bcc", border: "#5889ba" }, // Blue
-  { bg: "#788c5d", border: "#677a4c" }, // Green
+  { bg: "#d8d1c6", border: "#c8c1b6", text: "#141413" }, // Warm beige (Card 1 - Credit Card)
+  { bg: "#6a9bcc", border: "#5889ba", text: "#faf9f5" }, // Blue (Card 2 - Check Processing)
+  { bg: "#788c5d", border: "#677a4c", text: "#faf9f5" }, // Green (Card 3 - ACH Payments)
+  { bg: "#c3d0ca", border: "#b3c0ba", text: "#141413" }, // Soft sage green (Card 4 - POS)
+  { bg: "#cccbd8", border: "#bcbbc8", text: "#141413" }, // Muted lavender-gray (Card 5 - Gift Card)
 ];
 
 const InteractiveCard = ({
@@ -84,6 +86,7 @@ const InteractiveCard = ({
         style={{
           backgroundColor: colors.bg,
           borderColor: colors.border,
+          color: colors.text,
         }}
         onMouseEnter={addRotation}
         onMouseMove={animateRotation}
