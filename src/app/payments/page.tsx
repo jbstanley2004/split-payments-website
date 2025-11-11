@@ -1,7 +1,7 @@
 "use client";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import GlowingCard from "@/components/GlowingCard";
+import InteractiveCard from "@/components/InteractiveCard";
 import OrangePushButton from "@/components/OrangePushButton";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
@@ -96,14 +96,15 @@ export default function PaymentsPage() {
         <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {solutions.map((solution, index) => (
-              <GlowingCard
+              <InteractiveCard
                 key={solution.title}
                 title={solution.title}
                 icon={solution.icon}
+                colorIndex={index}
                 className="min-h-[300px]"
               >
                 <p>{solution.description}</p>
-              </GlowingCard>
+              </InteractiveCard>
             ))}
           </div>
         </section>
