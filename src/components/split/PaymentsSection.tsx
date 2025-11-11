@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { useEffect } from "react";
 
 const cardColors = [
   "#C67C5F", // Terracotta
@@ -10,6 +11,24 @@ const cardColors = [
 ];
 
 export function PaymentsSection() {
+  useEffect(() => {
+    // Dynamically import and initialize the liquid glass effect
+    import("@/utils/liquidGlass").then((module) => {
+      // Apply the effect to each card
+      new (module.default || window.Gerasu)(".payment-glass-card", {
+        darknessOpacity: 17,
+        darknessBlur: 5,
+        lightnessOpacity: 17,
+        lightnessBlur: 15,
+        centerDistortion: 68,
+        centerSize: 15,
+        preBlur: 7,
+        postBlur: 0,
+        iridescence: 20,
+      });
+    });
+  }, []);
+
   return (
     <Wrap id="payments">
       <Inner>
@@ -20,10 +39,10 @@ export function PaymentsSection() {
           </Text>
 
           <Grid>
-            <Card $color={cardColors[0]}>POS terminals, online gateways, and mobile payments</Card>
-            <Card $color={cardColors[1]}>Real-time reporting &amp; reconciliation</Card>
-            <Card $color={cardColors[2]}>Competitive, transparent pricing</Card>
-            <Card $color={cardColors[3]}>Dedicated account support</Card>
+            <Card className="payment-glass-card" $color={cardColors[0]}>POS terminals, online gateways, and mobile payments</Card>
+            <Card className="payment-glass-card" $color={cardColors[1]}>Real-time reporting &amp; reconciliation</Card>
+            <Card className="payment-glass-card" $color={cardColors[2]}>Competitive, transparent pricing</Card>
+            <Card className="payment-glass-card" $color={cardColors[3]}>Dedicated account support</Card>
           </Grid>
 
           <CTA href="#get-started">Start accepting payments</CTA>
@@ -155,8 +174,9 @@ type CardProps = {
 };
 
 const Card = styled.div<CardProps>`
+  position: relative;
   background: ${({ $color }) => $color};
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 1.4rem;
   text-align: left;
@@ -164,6 +184,21 @@ const Card = styled.div<CardProps>`
   font-size: 1rem;
   line-height: 1.5;
   color: #0A0A0A;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.1),
+    0 4px 8px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.15),
+      0 8px 16px rgba(0, 0, 0, 0.1),
+      inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  }
 `;
 
 const CTA = styled.a`
