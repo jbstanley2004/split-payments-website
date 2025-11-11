@@ -11,6 +11,10 @@
     --color-sens: calc(var(--glow-sens) + 20);
     --pointer-°: 45deg;
 
+    /* Liquid glass variables */
+    --lg-bg-color: rgba(255, 255, 255, 0.25);
+    --lg-highlight: rgba(255, 255, 255, 0.75);
+
     position: relative;
     border-radius: 1.768em;
     isolation: isolate;
@@ -20,6 +24,7 @@
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
+    overflow: hidden;
 
 }
 
@@ -185,4 +190,38 @@
     font-size: 0.875rem;
     line-height: 1.6;
     color: color-mix(in hsl, var(--fg), transparent 40%);
+}
+
+/* Liquid Glass Effect Styles */
+.glassFilter,
+.glassOverlay,
+.glassSpecular {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.glassFilter {
+    z-index: 0;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    filter: url(#lensFilter) saturate(120%) brightness(1.15);
+}
+
+.glassOverlay {
+    z-index: 1;
+    background: var(--lg-bg-color);
+}
+
+.glassSpecular {
+    z-index: 2;
+    box-shadow:
+        inset 1px 1px 0 var(--lg-highlight),
+        inset 0 0 5px var(--lg-highlight);
+}
+
+.inner {
+    position: relative;
+    z-index: 3;
 }

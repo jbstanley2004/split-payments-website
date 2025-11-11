@@ -84,6 +84,9 @@ const GlowingCard = ({ children, title, icon: Icon, className }) => {
   return (
     <div ref={cardRef} className={`${styles.card} ${className}`}>
       <span className={styles.glow}></span>
+      <div className={styles.glassFilter}></div>
+      <div className={styles.glassOverlay}></div>
+      <div className={styles.glassSpecular}></div>
       <div className={styles.inner}>
         <header>
           {Icon && <Icon className="w-8 h-8 text-[#0A0A0A]" strokeWidth={1.5} />}
@@ -91,6 +94,17 @@ const GlowingCard = ({ children, title, icon: Icon, className }) => {
         </header>
         <div className={styles.content}>{children}</div>
       </div>
+
+      {/* SVG Filter for liquid glass distortion effect */}
+      <svg xmlns="http://www.w3.org/2000/svg" style={{ display: "none" }}>
+        <filter id="lensFilter" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
+          <feComponentTransfer in="SourceAlpha" result="alpha">
+            <feFuncA type="identity" />
+          </feComponentTransfer>
+          <feGaussianBlur in="alpha" stdDeviation="50" result="blur" />
+          <feDisplacementMap in="SourceGraphic" in2="blur" scale="50" xChannelSelector="A" yChannelSelector="A" />
+        </filter>
+      </svg>
     </div>
   );
 };
