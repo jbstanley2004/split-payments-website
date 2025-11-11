@@ -175,7 +175,7 @@ type CardProps = {
 
 const Card = styled.div<CardProps>`
   position: relative;
-  background: ${({ $color }) => $color};
+  background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 1.4rem;
@@ -184,20 +184,28 @@ const Card = styled.div<CardProps>`
   font-size: 1rem;
   line-height: 1.5;
   color: #0A0A0A;
+  font-weight: 500;
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.1),
-    0 4px 8px rgba(0, 0, 0, 0.05),
-    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.75), 0 4px 8px rgba(0, 0, 0, 0.25);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  /* Add subtle color tint overlay */
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    background: ${({ $color }) => $color};
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: -1;
+  }
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow:
-      0 4px 8px rgba(0, 0, 0, 0.15),
-      0 8px 16px rgba(0, 0, 0, 0.1),
-      inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.85), 0 8px 16px rgba(0, 0, 0, 0.35);
   }
 `;
 
