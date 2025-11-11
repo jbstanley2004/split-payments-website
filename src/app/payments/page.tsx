@@ -3,6 +3,7 @@
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import GlowingCard from "@/components/GlowingCard";
 import OrangePushButton from "@/components/OrangePushButton";
+import { PaymentsSection } from "@/components/split/PaymentsSection";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
 import Image from "next/image";
@@ -107,6 +108,9 @@ export default function PaymentsPage() {
             ))}
           </div>
         </section>
+
+        {/* Payments Built for Every Business - Carousel Section */}
+        <PaymentsSection />
 
         {/* CTA Section */}
         <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
