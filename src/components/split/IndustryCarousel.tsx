@@ -29,12 +29,23 @@ export function IndustryCarousel() {
         return;
       }
 
+      // @ts-ignore
+      var c = document.getElementById('carousel-container');
+      var scrollDist = document.getElementById('carousel-scrollDist');
+
+      if (!c || !scrollDist) {
+        setTimeout(initCarousel, 100);
+        return;
+      }
+
       initialized.current = true;
+
+      // @ts-ignore - Register ScrollTrigger plugin
+      gsap.registerPlugin(ScrollTrigger);
 
       // Exact code from 2020-6-4-photo-carousel/dist/script.js
       // @ts-ignore
-      var c = document.getElementById('carousel-container'),
-          boxes = [];
+      var boxes = [];
 
       makeBoxes(industryPhotos.length);
 
@@ -107,34 +118,38 @@ export function IndustryCarousel() {
     <>
       <Script
         src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/gsap-latest-beta.min.js"
-        strategy="afterInteractive"
+        strategy="beforeInteractive"
       />
       <Script
         src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/ScrollTrigger.min.js"
-        strategy="afterInteractive"
+        strategy="beforeInteractive"
       />
-      <div id="carousel-scrollDist" style={{
-        position: 'absolute',
-        top: 0,
-        width: '100%',
-        height: '400%'
-      }} />
-      <div id="carousel-container" style={{
-        position: 'sticky',
-        top: 0,
-        width: '100%',
-        height: '500px',
-        overflow: 'hidden',
-        borderRadius: '32px',
-        border: '1px solid rgba(0, 0, 0, 0.08)',
-        boxShadow: '0 35px 70px rgba(15, 15, 15, 0.16)'
-      }}>
-        <style jsx>{`
-          #carousel-container div {
-            position: absolute;
-            user-select: none;
-          }
-        `}</style>
+      <div style={{ position: 'relative', width: '100%', minHeight: '500px' }}>
+        <div id="carousel-scrollDist" style={{
+          position: 'absolute',
+          top: 0,
+          width: '100%',
+          height: '2000px',
+          pointerEvents: 'none'
+        }} />
+        <div id="carousel-container" style={{
+          position: 'sticky',
+          top: '20%',
+          width: '100%',
+          height: '500px',
+          overflow: 'hidden',
+          borderRadius: '32px',
+          border: '1px solid rgba(0, 0, 0, 0.08)',
+          boxShadow: '0 35px 70px rgba(15, 15, 15, 0.16)',
+          backgroundColor: '#fff'
+        }}>
+          <style jsx>{`
+            #carousel-container div {
+              position: absolute;
+              user-select: none;
+            }
+          `}</style>
+        </div>
       </div>
     </>
   );

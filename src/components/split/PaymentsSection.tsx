@@ -130,7 +130,7 @@ const CarouselWrapper = styled.div`
   flex: 1 1 340px;
   max-width: 600px;
   position: relative;
-  min-height: 500px;
+  min-height: 2000px;
 
   @media (max-width: 900px) {
     margin: 0 auto;
