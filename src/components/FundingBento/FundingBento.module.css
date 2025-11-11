@@ -80,8 +80,6 @@
 .card { --tx: 0px; --ty: 0px; transform: translate3d(var(--tx), var(--ty), 0); }
 
 /* Typography */
-h3 { font-family: 'Poppins', Arial, sans-serif; margin: 0 0 8px; font-weight: 600; }
-p  { margin: 0; }
 
 @media (prefers-reduced-motion: reduce) {
   .card, .moving .card { transition: none !important; }
