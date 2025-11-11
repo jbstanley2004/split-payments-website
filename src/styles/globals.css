@@ -348,3 +348,31 @@ a:hover {
 .section {
   @apply border-b border-line;
 }
+
+/* Photo Carousel Styles */
+#carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+#carousel-wrapper div {
+  position: absolute;
+  user-select: none;
+}
+
+#container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#scrollDist {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 400%;
+  pointer-events: none;
+}
