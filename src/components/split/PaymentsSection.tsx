@@ -158,11 +158,32 @@ const Text = styled.p`
 `;
 
 const Grid = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
   max-width: 620px;
   margin: 0 0 2rem;
+  padding: 2rem;
+  border-radius: 20px;
+  background:
+    linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%),
+    linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+  background-blend-mode: overlay;
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 
   @media (max-width: 900px) {
     margin: 0 auto 2rem;
