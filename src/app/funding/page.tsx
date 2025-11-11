@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform, type MotionProps } from "framer-motion";
 import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
@@ -38,128 +38,6 @@ function ParallaxIllustration({
 }
 
 export default function FundingPage() {
-  useEffect(() => {
-    // Carousel initialization - exact code from 2020-6-4-photo-carousel
-    const baseImages = [
-      '/industries/restaurants.webp',
-      '/industries/clothing.webp',
-      '/industries/car_repair.webp',
-      '/industries/convenience_store.webp',
-      '/industries/franchise.webp',
-      '/industries/hair_beauty.webp',
-      '/industries/home_goods_furniture.webp',
-      '/industries/hotels.webp',
-      '/industries/pharmacy.webp',
-      '/industries/professional_services.webp'
-    ];
-
-    // Repeat images 3 times to get 30 total (like the original)
-    const industryImages = [...baseImages, ...baseImages, ...baseImages];
-
-    const initCarousel = () => {
-      if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger || !window.Observer) {
-        console.error('GSAP plugins not loaded');
-        return;
-      }
-
-      const c = document.getElementById('container');
-      const scrollDist = document.getElementById('scrollDist');
-      if (!c || !scrollDist) {
-        console.error('Carousel elements not found');
-        return;
-      }
-
-      const boxes = [];
-      let currentRotation = 0;
-
-      function makeBoxes(n) {
-        for (let i = 0; i < n; i++) {
-          const b = document.createElement('div');
-          boxes.push(b);
-          c.appendChild(b);
-        }
-      }
-
-      makeBoxes(30); // Use 30 boxes like the original
-
-      window.gsap.to(c, 0.4, { perspective: 200, backgroundColor: 'transparent' });
-
-      for (let i = 0; i < boxes.length; i++) {
-        const b = boxes[i];
-        window.gsap.set(b, {
-          left: '50%',
-          top: '50%',
-          margin: -150,
-          width: 300,
-          height: 300,
-          borderRadius: '20%',
-          backgroundImage: 'url(' + industryImages[i] + ')',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          clearProps: 'transform',
-          backfaceVisibility: 'hidden'
-        });
-
-        b.tl = window.gsap.timeline({ paused: true, defaults: { immediateRender: true } })
-          .fromTo(b, {
-            scale: 0.31,
-            rotationX: i / boxes.length * 360,
-            transformOrigin: String("50% 50% -500%")
-          }, {
-            rotationX: '+=360',
-            ease: 'none'
-          })
-          .timeScale(0.05);
-      }
-
-      // Add cursor/drag interaction using Observer
-      window.gsap.registerPlugin(window.Observer);
-
-      window.Observer.create({
-        target: c,
-        type: "pointer",
-        onMove: (self) => {
-          if (self.isPressed) {
-            const delta = self.deltaY * 0.001;
-            currentRotation += delta;
-            boxes.forEach((b) => {
-              window.gsap.to(b.tl, { progress: currentRotation % 1 });
-            });
-          }
-        }
-      });
-
-      // Keep scroll interaction too
-      window.ScrollTrigger.create({
-        trigger: '#scrollDist',
-        start: "top top",
-        end: "bottom bottom",
-        onRefresh: self => {
-          boxes.forEach((b) => { window.gsap.set(b.tl, { progress: self.progress }); });
-          currentRotation = self.progress;
-        },
-        onUpdate: self => {
-          boxes.forEach((b) => { window.gsap.to(b.tl, { progress: self.progress }); });
-          currentRotation = self.progress;
-        }
-      });
-    };
-
-    // Wait for GSAP to be available
-    const checkGSAP = setInterval(() => {
-      if (window.gsap && window.ScrollTrigger && window.Observer) {
-        clearInterval(checkGSAP);
-        window.gsap.registerPlugin(window.ScrollTrigger);
-        window.gsap.registerPlugin(window.Observer);
-        initCarousel();
-      }
-    }, 100);
-
-    return () => {
-      clearInterval(checkGSAP);
-    };
-  }, []);
-
   return (
     <main className="relative min-h-screen min-h-[100dvh] font-lora text-text">
       {/* All content with relative positioning */}
@@ -192,12 +70,24 @@ export default function FundingPage() {
             </ul>
           </motion.div>
 
-          <div className="w-full md:w-1/2 flex justify-center md:justify-end md:h-full relative">
-            <div id="carousel-wrapper" className="relative w-full h-[600px]">
-              <div id="scrollDist"></div>
-              <div id="container"></div>
+          <ParallaxIllustration
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+            className="w-full md:w-1/2 flex justify-center md:justify-end md:h-full"
+            offset={[-3, 9]}
+          >
+            <div className="relative w-full max-w-[540px] md:max-w-none aspect-[4/3] md:aspect-auto md:h-full md:min-h-[600px]">
+              <Image
+                src="/merchants.png"
+                alt="Split merchant dashboard showing sales based funding and payment analytics"
+                fill
+                className="object-contain object-center md:object-right-top"
+                sizes="(min-width: 1280px) 50vw, (min-width: 768px) 52vw, 90vw"
+              />
             </div>
-          </div>
+          </ParallaxIllustration>
         </section>
 
         {/* Card Beam Animation */}
