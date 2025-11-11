@@ -1,0 +1,52 @@
+.content {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  background: url("https://wallpapers.com/images/hd/poster-background-hlybuowt1whxbh2z.jpg")
+    center repeat border-box #000;
+}
+
+.contentScroll {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.glassContainer {
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 0;
+  width: calc(100% - 2rem);
+  height: 200vh;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.glass {
+  display: flex;
+  width: 100%;
+  height: 5rem;
+  align-items: center;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.75), 0 4px 8px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 600;
+  justify-content: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.75), 0 4px 8px rgba(0, 0, 0, 0.25);
+}

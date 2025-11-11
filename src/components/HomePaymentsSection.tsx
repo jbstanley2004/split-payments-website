@@ -5,6 +5,7 @@ import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
 import Link from "next/link";
 import LiquidGlassCard from "./LiquidGlassCard";
 import OrangePushButton from "./OrangePushButton";
+import GerasuExample from "./GerasuExample";
 
 const solutions = [
   {
@@ -41,9 +42,13 @@ const solutions = [
 
 export default function HomePaymentsSection() {
   return (
-    <section className="relative py-24 md:py-32">
-      {/* Content */}
-      <div className="relative z-10 px-6 md:px-10 max-w-7xl mx-auto">
+    <>
+      {/* Gerasu Example */}
+      <GerasuExample />
+
+      <section className="relative py-24 md:py-32">
+        {/* Content */}
+        <div className="relative z-10 px-6 md:px-10 max-w-7xl mx-auto">
         {/* Hero Text */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -99,5 +104,6 @@ export default function HomePaymentsSection() {
         </motion.div>
       </div>
     </section>
+    </>
   );
 }
