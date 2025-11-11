@@ -85,7 +85,6 @@ const InteractiveCard = ({
         className={`${styles.card} ${className}`}
         style={{
           backgroundColor: colors.bg,
-          borderColor: colors.border,
           color: colors.text,
         }}
         onMouseEnter={addRotation}
