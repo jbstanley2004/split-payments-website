@@ -1,15 +1,25 @@
 "use client";
 
+import { useEffect } from "react";
 import styled from "styled-components";
-
-const cardColors = [
-  "#C67C5F", // Terracotta
-  "#B7CDC5", // Mint
-  "#E4DACB", // Beige
-  "#C9C8DA", // Lavender
-];
+import Gerasu from "@/utils/gerasu";
 
 export function PaymentsSection() {
+  useEffect(() => {
+    // Initialize Gerasu liquid glass effect with the same settings from the example
+    const gerasu = new Gerasu(".glass-card", {
+      darknessOpacity: 17,
+      darknessBlur: 5,
+      lightnessOpacity: 17,
+      lightnessBlur: 15,
+      centerDistortion: 68,
+      centerSize: 15,
+      preBlur: 7,
+      postBlur: 0,
+      iridescence: 20
+    });
+  }, []);
+
   return (
     <Wrap id="payments">
       <Inner>
@@ -20,10 +30,10 @@ export function PaymentsSection() {
           </Text>
 
           <Grid>
-            <Card $color={cardColors[0]}>POS terminals, online gateways, and mobile payments</Card>
-            <Card $color={cardColors[1]}>Real-time reporting &amp; reconciliation</Card>
-            <Card $color={cardColors[2]}>Competitive, transparent pricing</Card>
-            <Card $color={cardColors[3]}>Dedicated account support</Card>
+            <Card className="glass-card">POS terminals, online gateways, and mobile payments</Card>
+            <Card className="glass-card">Real-time reporting &amp; reconciliation</Card>
+            <Card className="glass-card">Competitive, transparent pricing</Card>
+            <Card className="glass-card">Dedicated account support</Card>
           </Grid>
 
           <CTA href="#get-started">Start accepting payments</CTA>
@@ -150,13 +160,9 @@ const Grid = styled.div`
   }
 `;
 
-type CardProps = {
-  $color: string;
-};
-
-const Card = styled.div<CardProps>`
-  background: ${({ $color }) => $color};
-  border: 1px solid rgba(0, 0, 0, 0.08);
+const Card = styled.div`
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 1.4rem;
   text-align: left;
@@ -164,6 +170,10 @@ const Card = styled.div<CardProps>`
   font-size: 1rem;
   line-height: 1.5;
   color: #0A0A0A;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.05);
+  position: relative;
 `;
 
 const CTA = styled.a`
