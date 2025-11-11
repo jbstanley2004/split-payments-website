@@ -113,15 +113,22 @@ class CardStreamController {
     this.cardLine.addEventListener(
       "touchstart",
       (e) => {
+        // Only prevent default if touching the card line itself (not for scrolling)
         e.preventDefault();
         startDrag(e.touches[0].clientX);
       },
       { passive: false }
     );
-    document.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      onDrag(e.touches[0].clientX);
-    }, {
+
+    // Only prevent default during touchmove if we're actually dragging
+    const touchMoveHandler = (e: TouchEvent) => {
+      if (this.isDragging) {
+        e.preventDefault();
+        onDrag(e.touches[0].clientX);
+      }
+    };
+
+    document.addEventListener("touchmove", touchMoveHandler, {
       passive: false,
     });
     document.addEventListener("touchend", endDrag);
@@ -175,6 +182,9 @@ class CardStreamController {
   }
 
   updateCardClipping() {
+    // Throttle expensive DOM queries on mobile for better performance
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+
     const scannerX = typeof window !== "undefined" ? window.innerWidth / 2 : 0;
     const scannerWidth = 8;
     const scannerLeft = scannerX - scannerWidth / 2;
@@ -404,7 +414,9 @@ class CardStreamController {
 
   populateCardLine() {
     this.cardLine.innerHTML = "";
-    const cardsCount = 30;
+    // Reduce card count on mobile for better performance
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const cardsCount = isMobile ? 15 : 30;
     for (let i = 0; i < cardsCount; i++) {
       const cardWrapper = this.createCardWrapper(i);
       this.cardLine.appendChild(cardWrapper);
@@ -443,6 +455,11 @@ class ParticleSystem {
 
   constructor(canvas: HTMLCanvasElement) {
     this.canvas = canvas;
+    // Reduce particle count on mobile for better performance
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    if (isMobile) {
+      this.particleCount = 150; // Reduced from 400
+    }
     this.init();
   }
 
@@ -680,6 +697,16 @@ class ParticleScanner {
     this.w = window.innerWidth;
     this.h = 300;
     this.lightBarX = this.w / 2;
+
+    // Reduce particle count and intensity on mobile for better performance
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    if (isMobile) {
+      this.maxParticles = 300; // Reduced from 800
+      this.intensity = 0.5; // Reduced from 0.8
+      this.scanTargetParticles = 1000; // Reduced from 2500
+      this.scanTargetIntensity = 1.0; // Reduced from 1.8
+    }
+
     this.baseIntensity = this.intensity;
     this.baseMaxParticles = this.maxParticles;
     this.baseFadeZone = this.fadeZone;
