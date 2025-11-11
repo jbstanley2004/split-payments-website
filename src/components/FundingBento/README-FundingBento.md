@@ -1,0 +1,1 @@
+Drop these files into your project; see the chat for integration details.
