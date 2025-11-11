@@ -25,6 +25,7 @@ export default function HomePage() {
       </div>
 
       {/* All content with relative positioning */}
+      <WaterRipple imageUrl="/hero_image_formatted.png" />
       <div className="relative z-10 min-h-screen min-h-[100dvh]">
         <DynamicIslandNav />
 
@@ -52,11 +53,9 @@ export default function HomePage() {
               transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ willChange: "transform, opacity" }}
             >
-              <WaterRipple>
-                <Link href="/get-started" passHref>
-                  <OrangePushButton>Get Started</OrangePushButton>
-                </Link>
-              </WaterRipple>
+              <Link href="/get-started" passHref>
+                <OrangePushButton>Get Started</OrangePushButton>
+              </Link>
             </motion.div>
           </motion.div>
         </section>
