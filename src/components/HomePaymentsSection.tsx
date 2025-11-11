@@ -1,9 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import LiquidGlassCard from "./LiquidGlassCard";
 import OrangePushButton from "./OrangePushButton";
@@ -42,31 +40,8 @@ const solutions = [
 ];
 
 export default function HomePaymentsSection() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-
   return (
-    <section ref={ref} className="relative py-24 md:py-32 overflow-hidden">
-      {/* Parallax Background */}
-      <motion.div
-        style={{ y }}
-        className="absolute inset-0 z-0 w-full h-full"
-      >
-        <Image
-          src="/hero_image_formatted.png"
-          alt="Modern office interior"
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-        {/* Subtle overlay for better card visibility */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" />
-      </motion.div>
-
+    <section className="relative py-24 md:py-32">
       {/* Content */}
       <div className="relative z-10 px-6 md:px-10 max-w-7xl mx-auto">
         {/* Hero Text */}
