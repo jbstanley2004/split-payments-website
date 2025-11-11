@@ -30,20 +30,22 @@ export default function LiquidGlassCard({
         gerasuRef.current.destroy();
       }
 
-      // Small delay to ensure DOM has updated with new dimensions
+      // Wait for animation to complete before reapplying effect
       const timeoutId = setTimeout(() => {
-        gerasuRef.current = new Gerasu(`.${uniqueClass.current}`, {
-          darknessOpacity: 17,
-          darknessBlur: 5,
-          lightnessOpacity: 17,
-          lightnessBlur: 15,
-          centerDistortion: 68,
-          centerSize: 15,
-          preBlur: 7,
-          postBlur: 0,
-          iridescence: 20,
-        });
-      }, 50);
+        if (glassRef.current) {
+          gerasuRef.current = new Gerasu(`.${uniqueClass.current}`, {
+            darknessOpacity: 17,
+            darknessBlur: 5,
+            lightnessOpacity: 17,
+            lightnessBlur: 15,
+            centerDistortion: 68,
+            centerSize: 15,
+            preBlur: 7,
+            postBlur: 0,
+            iridescence: 20,
+          });
+        }
+      }, 450); // Wait for animation to complete (400ms + buffer)
 
       return () => {
         clearTimeout(timeoutId);
