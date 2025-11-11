@@ -175,29 +175,29 @@ export default function Hero() {
 
       makeBoxes(30);
 
-      window.gsap.to(c, 0.4, { perspective: 300, backgroundColor: 'transparent' });
+      window.gsap.to(c, 0.4, { perspective: 400, backgroundColor: 'transparent' });
 
       for (let i = 0; i < boxes.length; i++) {
         const b = boxes[i];
         window.gsap.set(b, {
           left: '50%',
           top: '50%',
-          margin: -225, // Increased from -150 (450/2)
-          width: 450,   // Increased from 300
-          height: 450,  // Increased from 300
+          margin: -225, // 450/2
+          width: 450,
+          height: 450,
           borderRadius: '15%',
           backgroundImage: 'url(' + industryImages[i] + ')',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           clearProps: 'transform',
-          backfaceVisibility: 'visible' // Changed to visible so we can see backs
+          backfaceVisibility: 'visible'
         });
 
         b.tl = window.gsap.timeline({ paused: true, defaults: { immediateRender: true } })
           .fromTo(b, {
-            scale: 0.52,    // Increased from 0.31 to make photos larger and closer
+            scale: 0.42,    // Reduced from 0.52 to reduce overlap
             rotationX: i / boxes.length * 360,
-            transformOrigin: String("50% 50% -350%") // Less negative = tighter cylinder
+            transformOrigin: String("50% 50% -420%") // Wider cylinder to prevent bleeding
           }, {
             rotationX: '+=360',
             ease: 'none'
