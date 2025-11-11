@@ -15,12 +15,13 @@
   height: 100%;
   min-height: 70px;
   align-items: flex-start;
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  backdrop-filter: blur(12px) saturate(180%);
   border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 8px rgba(0, 0, 0, 0.15);
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.15);
   overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .cardContent {
