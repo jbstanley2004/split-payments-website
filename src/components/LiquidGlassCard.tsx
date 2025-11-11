@@ -19,24 +19,39 @@ export default function LiquidGlassCard({
 }: LiquidGlassCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const glassRef = useRef<HTMLDivElement>(null);
   const gerasuRef = useRef<any>(null);
+  const uniqueClass = useRef(`glass-${Math.random().toString(36).substr(2, 9)}`);
 
   useEffect(() => {
-    if (cardRef.current && typeof window !== "undefined") {
-      // Initialize Gerasu effect
-      gerasuRef.current = new Gerasu(`.${styles.glass}`, {
-        darknessOpacity: 17,
-        darknessBlur: 5,
-        lightnessOpacity: 17,
-        lightnessBlur: 15,
-        centerDistortion: 68,
-        centerSize: 15,
-        preBlur: 7,
-        postBlur: 0,
-        iridescence: 20,
-      });
-    }
+    if (glassRef.current && typeof window !== "undefined") {
+      // Destroy previous instance if exists
+      if (gerasuRef.current && gerasuRef.current.destroy) {
+        gerasuRef.current.destroy();
+      }
 
+      // Small delay to ensure DOM has updated with new dimensions
+      const timeoutId = setTimeout(() => {
+        gerasuRef.current = new Gerasu(`.${uniqueClass.current}`, {
+          darknessOpacity: 17,
+          darknessBlur: 5,
+          lightnessOpacity: 17,
+          lightnessBlur: 15,
+          centerDistortion: 68,
+          centerSize: 15,
+          preBlur: 7,
+          postBlur: 0,
+          iridescence: 20,
+        });
+      }, 50);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+  }, [isExpanded]); // Re-run when expansion state changes
+
+  useEffect(() => {
     return () => {
       if (gerasuRef.current && gerasuRef.current.destroy) {
         gerasuRef.current.destroy();
@@ -60,7 +75,8 @@ export default function LiquidGlassCard({
       onMouseLeave={() => setIsExpanded(false)}
     >
       <motion.div
-        className={styles.glass}
+        ref={glassRef}
+        className={`${styles.glass} ${uniqueClass.current}`}
         initial={false}
         animate={{
           height: isExpanded ? "auto" : "70px",
