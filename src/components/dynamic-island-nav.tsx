@@ -7,7 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/stub";
-import CtaButton from "./CtaButton";
+import OrangePushButton from "./OrangePushButton";
 
 import darkModeLogo from "public/split.svg";
 
@@ -159,7 +159,7 @@ export function DynamicIslandNav({
       )}
     >
       <div
-        className="hidden md:flex pointer-events-auto items-center justify-center gap-1.5"
+        className="hidden md:flex pointer-events-auto items-center justify-center gap-3"
         onMouseEnter={() => setIsDesktopExpanded(true)}
         onMouseLeave={() => setIsDesktopExpanded(false)}
       >
@@ -194,21 +194,15 @@ export function DynamicIslandNav({
               animate={{
                 opacity: isDesktopExpanded ? 1 : 0,
                 x: isDesktopExpanded ? 0 : collapseOffsets[index] ?? 0,
-                scale: isDesktopExpanded ? 1.25 : 0.85,
+                scale: isDesktopExpanded ? 1.1 : 0.85,
               }}
-              transition={{
-                type: "spring",
-                stiffness: 400,
-                damping: 15,
-                duration: 0.3,
-                ease: [0.4, 0, 0.2, 1],
-              }}
+              transition={{ type: "spring", stiffness: 300, damping: 20, mass: 0.5 }}
               className="ml-2 rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-saturate-[180%]"
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
               {item.variant === "cta" ? (
                 <Link href={item.href} passHref>
-                  <CtaButton onClick={triggerLinkHaptic} variant="nav">{item.label}</CtaButton>
+                  <OrangePushButton onClick={triggerLinkHaptic}>{item.label}</OrangePushButton>
                 </Link>
               ) : (
                 <Link
@@ -270,10 +264,10 @@ export function DynamicIslandNav({
             >
               {item.variant === "cta" ? (
                 <Link href={item.href} passHref>
-                  <CtaButton onClick={() => {
+                  <OrangePushButton onClick={() => {
                     triggerLinkHaptic();
                     setIsMobileExpanded(false);
-                  }}>{item.label}</CtaButton>
+                  }}>{item.label}</OrangePushButton>
                 </Link>
               ) : (
                 <Link
