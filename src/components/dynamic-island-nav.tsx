@@ -124,6 +124,14 @@ export function DynamicIslandNav({
     }
   }, []);
 
+  // Haptic for link clicks - slightly different pattern
+  const triggerLinkHaptic = useCallback(() => {
+    if (typeof window !== "undefined" && "vibrate" in navigator) {
+      // Double tap pattern for navigation: short-pause-short
+      navigator.vibrate([8, 20, 8]);
+    }
+  }, []);
+
   // Tap outside to close on mobile
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
@@ -194,12 +202,13 @@ export function DynamicIslandNav({
             >
               {item.variant === "cta" ? (
                 <Link href={item.href} passHref>
-                  <OrangePushButton>{item.label}</OrangePushButton>
+                  <OrangePushButton onClick={triggerLinkHaptic}>{item.label}</OrangePushButton>
                 </Link>
               ) : (
                 <Link
                   href={item.href}
                   className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
+                  onClick={triggerLinkHaptic}
                 >
                   {item.label}
                 </Link>
@@ -256,7 +265,7 @@ export function DynamicIslandNav({
               {item.variant === "cta" ? (
                 <Link href={item.href} passHref>
                   <OrangePushButton onClick={() => {
-                    triggerHaptic();
+                    triggerLinkHaptic();
                     setIsMobileExpanded(false);
                   }}>{item.label}</OrangePushButton>
                 </Link>
@@ -265,7 +274,7 @@ export function DynamicIslandNav({
                   href={item.href}
                   className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
                   onClick={() => {
-                    triggerHaptic();
+                    triggerLinkHaptic();
                     setIsMobileExpanded(false);
                   }}
                 >

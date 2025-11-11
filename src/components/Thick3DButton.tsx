@@ -78,6 +78,20 @@ const Thick3DButton = ({
     mouseY.set(Infinity);
   };
 
+  const handleTapStart = () => {
+    // Strong haptic feedback on button press
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(20); // Stronger feedback for this big button
+    }
+  };
+
+  const handleHoverStart = () => {
+    // Subtle haptic feedback on hover
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(5); // Very subtle
+    }
+  };
+
   const cssVariables = {
     ...colorSchemes[colorScheme],
     '--thickness': `${thickness}px`,
@@ -92,6 +106,8 @@ const Thick3DButton = ({
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      onHoverStart={handleHoverStart}
+      onTapStart={handleTapStart}
       style={{
         ...cssVariables,
         perspective: '800px',

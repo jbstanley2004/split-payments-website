@@ -89,6 +89,12 @@ export default function IndustriesCarousel() {
   const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
     if (isMobile) {
       isDragging.current = false;
+
+      // Satisfying release haptic
+      if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+        navigator.vibrate([8, 10, 8]); // Double pulse on release
+      }
+
       // Resume auto-scroll after drag
       controls.start({
         x: ["0%", "-100%"],

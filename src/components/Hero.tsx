@@ -32,6 +32,20 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
     ? "flex-col lg:flex-row-reverse"
     : "flex-col lg:flex-row";
 
+  const handleImageHover = () => {
+    // Subtle haptic on image hover
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(5);
+    }
+  };
+
+  const handleImageTap = () => {
+    // Gentle haptic on image tap
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(10);
+    }
+  };
+
   return (
     <section
       ref={ref}
@@ -86,6 +100,8 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, title, text, reverse, id }:
           y: -12,
           transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
         }}
+        onHoverStart={handleImageHover}
+        onTapStart={handleImageTap}
       >
         <motion.div
           className="relative w-full max-w-[600px]"
@@ -183,9 +199,16 @@ function FramerCarousel3D() {
     lastTime.current = Date.now();
     velocity.current = 0;
 
-    // Haptic feedback on mobile
-    if (isMobile && typeof navigator !== "undefined" && "vibrate" in navigator) {
-      navigator.vibrate(10);
+    // Stronger haptic feedback on drag start
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(15); // Stronger initial feedback
+    }
+  };
+
+  const handleCarouselHover = () => {
+    // Subtle haptic when hovering over carousel
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate(5);
     }
   };
 
@@ -209,6 +232,11 @@ function FramerCarousel3D() {
 
   const handleDragEnd = () => {
     setIsDragging(false);
+
+    // Stronger "release" haptic when drag ends
+    if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+      navigator.vibrate([12, 10, 8]); // Triple pulse for satisfying release
+    }
   };
 
   return (
@@ -218,6 +246,7 @@ function FramerCarousel3D() {
       onMouseMove={handleDrag}
       onMouseUp={handleDragEnd}
       onMouseLeave={handleDragEnd}
+      onMouseEnter={handleCarouselHover}
       onTouchStart={handleDragStart}
       onTouchMove={handleDrag}
       onTouchEnd={handleDragEnd}
