@@ -131,7 +131,7 @@ const Graphic = styled.div`
   position: relative;
   flex: 1 1 320px;
   max-width: 520px;
-  padding: 4.5rem 2.4rem;
+  padding: 7rem 3rem;
   border-radius: 36px;
   background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06), transparent 65%)
       rgba(12, 12, 12, 0.95);
@@ -241,13 +241,13 @@ const Photo = styled.div<PhotoProps>`
   opacity: 0.75;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
   ${({ $position }) =>
-    ($position === "top-left" && "top: 14%; left: 6%;") ||
-    ($position === "top-right" && "top: 8%; right: 8%;") ||
-    ($position === "bottom-left" && "bottom: 10%; left: 3%;") ||
-    ($position === "bottom-right" && "bottom: 14%; right: 6%;") ||
+    ($position === "top-left" && "top: 2%; left: 0%;") ||
+    ($position === "top-right" && "top: 2%; right: 0%;") ||
+    ($position === "bottom-left" && "bottom: 2%; left: 0%;") ||
+    ($position === "bottom-right" && "bottom: 2%; right: 0%;") ||
     (
       $position === "center-left" &&
-        "top: 45%; left: -3%; transform: translateY(-50%);"
+        "top: 50%; left: 30%; transform: translate(-50%, -50%);"
     )}
 `;
 
