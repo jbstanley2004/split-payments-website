@@ -83,7 +83,7 @@ export default function IndustriesCarousel() {
                 alt={`Industry ${(i % industries.length) + 1}`}
                 width={400}
                 height={300}
-                className="h-[140px] sm:h-[200px] md:h-[240px] w-auto object-contain"
+                className="h-[200px] sm:h-[280px] md:h-[340px] w-auto object-contain"
               />
             </div>
           ))}
