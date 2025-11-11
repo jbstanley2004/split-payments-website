@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef } from 'react';
+import Image from 'next/image';
 import styles from './FundingBento.v2.module.css';
 
 type Density = 'compact' | 'comfortable';
@@ -103,28 +104,28 @@ const FundingBento: React.FC<FundingBentoProps> = ({
 
         <article className={`${styles.card} ${styles.wide} ${styles.accentGreen}`} data-layer={1} aria-label="Omnichannel POS">
           <div className={styles.inner}>
-            <img src={require('./assets/asset-pos.svg').default?.src || require('./assets/asset-pos.svg')} alt="Omnichannel POS illustration" />
+            <Image src="/assets/asset-pos.svg" alt="Omnichannel POS illustration" width={400} height={200} />
             <div className={styles.shine} aria-hidden="true"></div>
           </div>
         </article>
 
         <article className={`${styles.card} ${styles.wide} ${styles.accentOrange}`} data-layer={2} aria-label="Sales Timeline">
           <div className={styles.inner}>
-            <img src={require('./assets/asset-timeline.svg').default?.src || require('./assets/asset-timeline.svg')} alt="Sales timeline illustration" />
+            <Image src="/assets/asset-timeline.svg" alt="Sales timeline illustration" width={400} height={200} />
             <div className={styles.shine} aria-hidden="true"></div>
           </div>
         </article>
 
         <article className={`${styles.card} ${styles.lg} ${styles.accentBlue}`} data-layer={3} aria-label="Revenue Advance">
           <div className={styles.inner}>
-            <img src={require('./assets/asset-advance.svg').default?.src || require('./assets/asset-advance.svg')} alt="Revenue advance illustration" />
+            <Image src="/assets/asset-advance.svg" alt="Revenue advance illustration" width={400} height={400} />
             <div className={styles.shine} aria-hidden="true"></div>
           </div>
         </article>
 
         <article className={`${styles.card} ${styles.lg} ${styles.accentOrange}`} data-layer={4} aria-label="Transparent Rates">
           <div className={styles.inner}>
-            <img src={require('./assets/asset-rates.svg').default?.src || require('./assets/asset-rates.svg')} alt="Transparent rates illustration" />
+            <Image src="/assets/asset-rates.svg" alt="Transparent rates illustration" width={400} height={400} />
             <div className={styles.shine} aria-hidden="true"></div>
           </div>
         </article>
