@@ -3,26 +3,15 @@
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
 import { WaterRipple } from "@/components/WaterRipple";
-import Image from "next/image";
+import { BackgroundRipple } from "@/components/BackgroundRipple";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function HomePage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] font-lora text-text">
-      {/* Fixed Background */}
-      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
-        <Image
-          src="/hero_image_formatted.png"
-          alt="A modern office interior"
-          fill
-          className="object-cover object-center"
-          priority
-          sizes="100vw"
-        />
-        {/* Subtle overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
-      </div>
+      {/* Fixed Background with Ripple Effect */}
+      <BackgroundRipple />
 
       {/* All content with relative positioning */}
       <div className="relative z-10 min-h-screen min-h-[100dvh]">
