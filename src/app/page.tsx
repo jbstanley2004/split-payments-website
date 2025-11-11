@@ -2,10 +2,12 @@
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
-import { WaterRipple } from "@/components/WaterRipple";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import dynamic from 'next/dynamic'
+
+const WaterRipple = dynamic(() => import('@/components/WaterRipple').then(mod => mod.WaterRipple), { ssr: false });
 
 export default function HomePage() {
   return (
@@ -25,7 +27,6 @@ export default function HomePage() {
       </div>
 
       {/* All content with relative positioning */}
-      <WaterRipple imageUrl="/hero_image_formatted.png" />
       <div className="relative z-10 min-h-screen min-h-[100dvh]">
         <DynamicIslandNav />
 
@@ -59,6 +60,7 @@ export default function HomePage() {
             </motion.div>
           </motion.div>
         </section>
+        <WaterRipple />
       </div>
     </main>
   );
