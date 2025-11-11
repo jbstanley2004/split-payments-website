@@ -1,0 +1,101 @@
+.water-ripple-container {
+  position: relative;
+  display: inline-block;
+}
+
+.ripple-effect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.ripple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 30%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: all 0.1s ease-out;
+}
+
+/* First ripple */
+.ripple-effect.active .ripple-1 {
+  animation: ripple-expand 1.8s ease-out forwards;
+}
+
+/* Second ripple - delayed */
+.ripple-effect.active .ripple-2 {
+  animation: ripple-expand 1.8s ease-out 0.3s forwards;
+}
+
+/* Third ripple - more delayed */
+.ripple-effect.active .ripple-3 {
+  animation: ripple-expand 1.8s ease-out 0.6s forwards;
+}
+
+@keyframes ripple-expand {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    width: 300px;
+    height: 300px;
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+/* Add a subtle shimmer effect */
+.ripple-effect.active::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.2) 0%,
+    transparent 70%
+  );
+  animation: shimmer 0.6s ease-out;
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+}

@@ -2,6 +2,7 @@
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
+import { WaterRipple } from "@/components/WaterRipple";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -51,9 +52,11 @@ export default function HomePage() {
               transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
               style={{ willChange: "transform, opacity" }}
             >
-              <Link href="/get-started" passHref>
-                <OrangePushButton>Get Started</OrangePushButton>
-              </Link>
+              <WaterRipple>
+                <Link href="/get-started" passHref>
+                  <OrangePushButton>Get Started</OrangePushButton>
+                </Link>
+              </WaterRipple>
             </motion.div>
           </motion.div>
         </section>
