@@ -2,6 +2,7 @@
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
+import HomePaymentsSection from "@/components/HomePaymentsSection";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -24,7 +25,7 @@ export default function HomePage() {
       </div>
 
       {/* All content with relative positioning */}
-      <div className="relative z-10 min-h-screen min-h-[100dvh]">
+      <div className="relative z-10">
         <DynamicIslandNav />
 
         {/* Hero Content */}
@@ -57,6 +58,9 @@ export default function HomePage() {
             </motion.div>
           </motion.div>
         </section>
+
+        {/* Payments Section */}
+        <HomePaymentsSection />
       </div>
     </main>
   );
