@@ -40,7 +40,7 @@ function ParallaxIllustration({
 export default function FundingPage() {
   useEffect(() => {
     // Carousel initialization - exact code from 2020-6-4-photo-carousel
-    const industryImages = [
+    const baseImages = [
       '/industries/restaurants.webp',
       '/industries/clothing.webp',
       '/industries/car_repair.webp',
@@ -53,9 +53,12 @@ export default function FundingPage() {
       '/industries/professional_services.webp'
     ];
 
+    // Repeat images 3 times to get 30 total (like the original)
+    const industryImages = [...baseImages, ...baseImages, ...baseImages];
+
     const initCarousel = () => {
-      if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger) {
-        console.error('GSAP or ScrollTrigger not loaded');
+      if (typeof window === 'undefined' || !window.gsap || !window.ScrollTrigger || !window.Observer) {
+        console.error('GSAP plugins not loaded');
         return;
       }
 
@@ -67,6 +70,7 @@ export default function FundingPage() {
       }
 
       const boxes = [];
+      let currentRotation = 0;
 
       function makeBoxes(n) {
         for (let i = 0; i < n; i++) {
@@ -76,7 +80,7 @@ export default function FundingPage() {
         }
       }
 
-      makeBoxes(industryImages.length);
+      makeBoxes(30); // Use 30 boxes like the original
 
       window.gsap.to(c, 0.4, { perspective: 200, backgroundColor: 'transparent' });
 
@@ -108,24 +112,45 @@ export default function FundingPage() {
           .timeScale(0.05);
       }
 
+      // Add cursor/drag interaction using Observer
+      window.gsap.registerPlugin(window.Observer);
+
+      window.Observer.create({
+        target: c,
+        type: "pointer",
+        onMove: (self) => {
+          if (self.isPressed) {
+            const delta = self.deltaY * 0.001;
+            currentRotation += delta;
+            boxes.forEach((b) => {
+              window.gsap.to(b.tl, { progress: currentRotation % 1 });
+            });
+          }
+        }
+      });
+
+      // Keep scroll interaction too
       window.ScrollTrigger.create({
         trigger: '#scrollDist',
         start: "top top",
         end: "bottom bottom",
         onRefresh: self => {
           boxes.forEach((b) => { window.gsap.set(b.tl, { progress: self.progress }); });
+          currentRotation = self.progress;
         },
         onUpdate: self => {
           boxes.forEach((b) => { window.gsap.to(b.tl, { progress: self.progress }); });
+          currentRotation = self.progress;
         }
       });
     };
 
     // Wait for GSAP to be available
     const checkGSAP = setInterval(() => {
-      if (window.gsap && window.ScrollTrigger) {
+      if (window.gsap && window.ScrollTrigger && window.Observer) {
         clearInterval(checkGSAP);
         window.gsap.registerPlugin(window.ScrollTrigger);
+        window.gsap.registerPlugin(window.Observer);
         initCarousel();
       }
     }, 100);
