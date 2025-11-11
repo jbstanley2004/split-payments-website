@@ -1,0 +1,49 @@
+.glassContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border-radius: 2rem;
+  overflow: hidden;
+  flex: 1 1 auto;
+  box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
+  color: var(--lg-text);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 2.2);
+}
+
+.glassFilter,
+.glassOverlay,
+.glassSpecular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.glassFilter {
+  z-index: 0;
+  backdrop-filter: blur(4px);
+  filter: url(#lensFilter) saturate(120%) brightness(1.15);
+}
+
+.glassOverlay {
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.glassSpecular {
+  z-index: 2;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.75),
+    inset 0 0 5px rgba(255, 255, 255, 0.75);
+}
+
+.glassContent {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: space-around;
+  padding: 12px 28px;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
