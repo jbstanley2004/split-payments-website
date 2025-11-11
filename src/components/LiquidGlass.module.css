@@ -1,10 +1,17 @@
 .glassContainer {
+  --pointer-angle: 45deg;
+  --pointer-distance: 0;
+  --glow-sensitivity: 30;
+  --glow-color-h: 200;
+  --glow-color-s: 80%;
+  --glow-color-l: 70%;
+
   position: relative;
   display: flex;
   align-items: center;
   background: transparent;
   border-radius: 2rem;
-  overflow: hidden;
+  overflow: visible;
   flex: 1 1 auto;
   box-shadow: 0 6px 6px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 0, 0, 0.1);
   color: var(--lg-text);
@@ -13,10 +20,12 @@
 
 .glassFilter,
 .glassOverlay,
-.glassSpecular {
+.glassSpecular,
+.glassGlow {
   position: absolute;
   inset: 0;
   border-radius: inherit;
+  pointer-events: none;
 }
 
 .glassFilter {
@@ -28,12 +37,56 @@
 .glassOverlay {
   z-index: 1;
   background: rgba(255, 255, 255, 0.25);
+  transition: opacity 0.25s ease-out;
 }
 
 .glassSpecular {
   z-index: 2;
   box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.75),
     inset 0 0 5px rgba(255, 255, 255, 0.75);
+  transition: opacity 0.25s ease-out;
+}
+
+.glassGlow {
+  z-index: 4;
+  inset: -40px;
+  opacity: calc((var(--pointer-distance) - var(--glow-sensitivity)) / (100 - var(--glow-sensitivity)));
+  transition: opacity 0.25s ease-out;
+  mask-image: conic-gradient(
+    from var(--pointer-angle) at center,
+    black 2.5%,
+    transparent 10%,
+    transparent 90%,
+    black 97.5%
+  );
+}
+
+.glassGlow::before {
+  content: "";
+  position: absolute;
+  inset: 40px;
+  border-radius: inherit;
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 100%),
+    inset 0 0 1px 0 hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 60%),
+    inset 0 0 3px 0 hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 50%),
+    inset 0 0 6px 0 hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 40%),
+    inset 0 0 15px 0 hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 30%),
+    inset 0 0 25px 2px hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 20%),
+    inset 0 0 50px 2px hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 10%),
+    0 0 1px 0 hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 60%),
+    0 0 3px 0 hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 50%),
+    0 0 6px 0 hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 40%),
+    0 0 15px 0 hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 30%),
+    0 0 25px 2px hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 20%),
+    0 0 50px 2px hsl(var(--glow-color-h) var(--glow-color-s) var(--glow-color-l) / 10%);
+}
+
+.glassContainer:not(:hover) .glassOverlay,
+.glassContainer:not(:hover) .glassSpecular,
+.glassContainer:not(:hover) .glassGlow {
+  opacity: 0;
+  transition: opacity 0.75s ease-in-out;
 }
 
 .glassContent {
