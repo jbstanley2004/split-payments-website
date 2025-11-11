@@ -4,7 +4,6 @@ import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform, type MotionProps } from "framer-motion";
 import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import Hero from "@/components/Hero";
 import CardBeamAnimation from "@/components/CardBeamAnimation";
 
 type ParallaxIllustrationProps = MotionProps & {
@@ -44,8 +43,56 @@ export default function FundingPage() {
       <div className="relative z-10 bg-bg min-h-screen min-h-[100dvh]">
         <DynamicIslandNav />
 
-        {/* Hero */}
-        <Hero />
+        {/* Funding Overview — graphic + copy */}
+        <section
+          id="funding-overview"
+          className="px-6 md:px-10 py-12 md:py-16 border-b border-line/50"
+          aria-labelledby="funding-overview-heading"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Graphic */}
+            <div className="lg:col-span-6">
+              <div className="relative rounded-3xl border border-line/50 bg-[var(--surface)] p-3 md:p-4">
+                <Image
+                  src="/Split_funding_overview.svg"
+                  width={1400}
+                  height={760}
+                  alt="Diagram showing Split's funding flow: card sales feed a relationship loop where small fixed percentages repay funding while new offers are extended over time."
+                  className="w-full h-auto rounded-2xl"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Copy */}
+            <div className="lg:col-span-6 text-[var(--theme-text-primary)]">
+              <h1 id="funding-overview-heading" className="font-poppins text-4xl md:text-5xl font-semibold leading-tight mb-5">Relationship, not a one-off</h1>
+
+              <p className="text-lg text-[var(--theme-text-secondary)] mb-6">
+                As you process with us, we review your rhythm and extend additional rounds of funding on a cadence that fits your business — biweekly, monthly, or as needed. The goal is to grow together, not to run a single transaction.
+              </p>
+
+              <h2 className="font-poppins text-2xl md:text-3xl font-semibold mb-3">Why it works</h2>
+              <p className="text-[var(--theme-text-secondary)] mb-6">
+                You already process card payments. Repayments come from a fixed percentage of those sales, so payments move in step with your revenue. When you have a slow day, you pay less. If there are no sales, there’s no payment.
+              </p>
+
+              <h2 className="font-poppins text-2xl md:text-3xl font-semibold mb-3">What we focus on</h2>
+              <p className="text-[var(--theme-text-secondary)] mb-6">
+                Our attention is on your card processing revenue. As long as that flow stays consistent, we keep funding you in new rounds. Typical qualification is around eight thousand dollars per month in processing volume. We don’t base decisions on personal credit or bank balances.
+              </p>
+
+              <h2 className="font-poppins text-2xl md:text-3xl font-semibold mb-3">Timeline for initial funding</h2>
+              <ol className="space-y-3 text-[var(--theme-text-secondary)]">
+                <li><strong className="font-poppins text-[var(--theme-text-primary)]">Merchant account approval</strong> — about one day</li>
+                <li><strong className="font-poppins text-[var(--theme-text-primary)]">Virtual setup or POS shipped</strong> — same day for virtual, one to two days if equipment is shipped</li>
+                <li><strong className="font-poppins text-[var(--theme-text-primary)]">Remote activation and verification</strong></li>
+                <li><strong className="font-poppins text-[var(--theme-text-primary)]">Funds deployed</strong> — typically within three to five days from agreement</li>
+              </ol>
+              <p className="mt-3 text-xs text-muted">(Timelines are averages, not promises.)</p>
+            </div>
+          </div>
+        </section>
 
         {/* Payments / POS */}
         <section
