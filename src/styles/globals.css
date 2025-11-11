@@ -349,6 +349,27 @@ a:hover {
   @apply border-b border-line;
 }
 
+/* Photo Carousel Styles */
+#carousel-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+#carousel-wrapper div {
+  position: absolute;
+  user-select: none;
+}
+
+#container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: grab;
+}
+
 /* Swipe indicator animation */
 @keyframes slide {
   0%, 100% {
