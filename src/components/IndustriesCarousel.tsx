@@ -70,20 +70,20 @@ export default function IndustriesCarousel() {
 
       <div className="flex overflow-hidden whitespace-nowrap">
         <motion.div
-          className="flex gap-8 sm:gap-6 md:gap-8"
+          className="flex gap-0"
           animate={controls}
         >
           {[...industries, ...industries].map((src, i) => (
             <div
               key={i}
-              className="flex-shrink-0 h-[140px] sm:h-[200px] md:h-[240px] w-auto"
+              className="flex-shrink-0"
             >
               <Image
                 src={src}
                 alt={`Industry ${(i % industries.length) + 1}`}
                 width={400}
                 height={300}
-                className="h-full w-auto object-contain rounded-lg"
+                className="h-[140px] sm:h-[200px] md:h-[240px] w-auto object-contain"
               />
             </div>
           ))}
