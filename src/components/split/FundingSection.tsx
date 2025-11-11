@@ -241,13 +241,13 @@ const Photo = styled.div<PhotoProps>`
   opacity: 0.75;
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
   ${({ $position }) =>
-    ($position === "top-left" && "top: 2%; left: 0%;") ||
-    ($position === "top-right" && "top: 2%; right: 0%;") ||
-    ($position === "bottom-left" && "bottom: 2%; left: 0%;") ||
-    ($position === "bottom-right" && "bottom: 2%; right: 0%;") ||
+    ($position === "top-left" && "top: 0%; left: 0%;") ||
+    ($position === "top-right" && "top: 0%; right: 0%;") ||
+    ($position === "bottom-left" && "bottom: 0%; left: 0%;") ||
+    ($position === "bottom-right" && "bottom: 0%; right: 0%;") ||
     (
       $position === "center-left" &&
-        "top: 50%; left: 30%; transform: translate(-50%, -50%);"
+        "top: 50%; left: 50%; transform: translate(-50%, -50%);"
     )}
 `;
 
