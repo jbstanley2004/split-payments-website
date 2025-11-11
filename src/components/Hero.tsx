@@ -194,12 +194,12 @@ export default function Hero() {
           backfaceVisibility: 'hidden'  // Original used hidden
         });
 
-        // EXACT original timeline parameters
+        // Timeline parameters - adjusted cylinder radius to prevent overlap
         b.tl = window.gsap.timeline({ paused: true, defaults: { immediateRender: true } })
           .fromTo(b, {
             scale: 0.31,    // Original scale
             rotationX: i / boxes.length * 360,
-            transformOrigin: String("50% 50% -500%")  // Original transform origin
+            transformOrigin: String("50% 50% -800%")  // Increased from -500% to -800% for larger cylinder radius (prevents overlap)
           }, {
             rotationX: '+=360',
             ease: 'none'
@@ -238,6 +238,11 @@ export default function Hero() {
         lastTime = Date.now();
         velocity = 0;
         c.style.cursor = 'grabbing';
+
+        // Haptic feedback on drag start
+        if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+          navigator.vibrate(15);
+        }
       };
 
       const onDrag = (clientY) => {
@@ -262,7 +267,11 @@ export default function Hero() {
         if (!isDragging) return;
         isDragging = false;
         c.style.cursor = 'grab';
-        // Velocity will naturally decay in the animate loop
+
+        // Haptic feedback on release
+        if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+          navigator.vibrate([12, 10, 8]);
+        }
       };
 
       // Mouse events

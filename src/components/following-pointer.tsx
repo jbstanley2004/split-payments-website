@@ -20,7 +20,19 @@ export const FollowerPointerCard = ({
   const y = useMotionValue(0);
   const ref = React.useRef<HTMLDivElement>(null);
   const [rect, setRect] = useState<DOMRect | null>(null);
-  const [isInside, setIsInside] = useState<boolean>(false); // Add this line
+  const [isInside, setIsInside] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  // Detect mobile devices
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768 || 'ontouchstart' in window;
+      setIsMobile(mobile);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (ref.current) {
@@ -51,14 +63,17 @@ export const FollowerPointerCard = ({
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       style={{
-        cursor: "none",
+        cursor: isMobile ? "auto" : "none",
       }}
       ref={ref}
       className={cn("relative", className)}
     >
-      <AnimatePresence mode="wait">
-        <FollowPointer x={x} y={y} title={title} />
-      </AnimatePresence>
+      {/* Only show custom pointer on desktop */}
+      {!isMobile && (
+        <AnimatePresence mode="wait">
+          <FollowPointer x={x} y={y} title={title} />
+        </AnimatePresence>
+      )}
       {children}
     </div>
   );

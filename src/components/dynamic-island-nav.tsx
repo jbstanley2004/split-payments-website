@@ -99,6 +99,7 @@ export function DynamicIslandNav({
   const pathname = usePathname();
   const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
 
   // Get filtered and ordered nav items based on current page
   const displayedNavItems = useMemo(() => {
@@ -122,6 +123,33 @@ export function DynamicIslandNav({
       navigator.vibrate(10);
     }
   }, []);
+
+  // Haptic for link clicks - slightly different pattern
+  const triggerLinkHaptic = useCallback(() => {
+    if (typeof window !== "undefined" && "vibrate" in navigator) {
+      // Double tap pattern for navigation: short-pause-short
+      navigator.vibrate([8, 20, 8]);
+    }
+  }, []);
+
+  // Tap outside to close on mobile
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+      if (isMobileExpanded && navRef.current && !navRef.current.contains(event.target as Node)) {
+        setIsMobileExpanded(false);
+      }
+    };
+
+    if (isMobileExpanded) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isMobileExpanded]);
 
   return (
     <header
@@ -174,12 +202,13 @@ export function DynamicIslandNav({
             >
               {item.variant === "cta" ? (
                 <Link href={item.href} passHref>
-                  <OrangePushButton>{item.label}</OrangePushButton>
+                  <OrangePushButton onClick={triggerLinkHaptic}>{item.label}</OrangePushButton>
                 </Link>
               ) : (
                 <Link
                   href={item.href}
                   className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
+                  onClick={triggerLinkHaptic}
                 >
                   {item.label}
                 </Link>
@@ -190,6 +219,7 @@ export function DynamicIslandNav({
       </div>
 
       <div
+        ref={navRef}
         className="md:hidden pointer-events-auto flex items-center justify-center gap-1.5"
         onClick={() => {
           triggerHaptic();
@@ -235,7 +265,7 @@ export function DynamicIslandNav({
               {item.variant === "cta" ? (
                 <Link href={item.href} passHref>
                   <OrangePushButton onClick={() => {
-                    triggerHaptic();
+                    triggerLinkHaptic();
                     setIsMobileExpanded(false);
                   }}>{item.label}</OrangePushButton>
                 </Link>
@@ -244,7 +274,7 @@ export function DynamicIslandNav({
                   href={item.href}
                   className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
                   onClick={() => {
-                    triggerHaptic();
+                    triggerLinkHaptic();
                     setIsMobileExpanded(false);
                   }}
                 >
