@@ -175,29 +175,31 @@ export default function Hero() {
 
       makeBoxes(30);
 
-      window.gsap.to(c, 0.4, { perspective: 400, backgroundColor: 'transparent' });
+      // EXACT original parameters from 2020-6-4-photo-carousel
+      window.gsap.to(c, 0.4, { perspective: 200, backgroundColor: 'transparent' });
 
       for (let i = 0; i < boxes.length; i++) {
         const b = boxes[i];
         window.gsap.set(b, {
           left: '50%',
           top: '50%',
-          margin: -225, // 450/2
-          width: 450,
-          height: 450,
-          borderRadius: '15%',
+          margin: -200,  // Only change: larger photos (400x400 instead of 300x300)
+          width: 400,
+          height: 400,
+          borderRadius: '20%',
           backgroundImage: 'url(' + industryImages[i] + ')',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           clearProps: 'transform',
-          backfaceVisibility: 'visible'
+          backfaceVisibility: 'hidden'  // Original used hidden
         });
 
+        // EXACT original timeline parameters
         b.tl = window.gsap.timeline({ paused: true, defaults: { immediateRender: true } })
           .fromTo(b, {
-            scale: 0.42,    // Reduced from 0.52 to reduce overlap
+            scale: 0.31,    // Original scale
             rotationX: i / boxes.length * 360,
-            transformOrigin: String("50% 50% -420%") // Wider cylinder to prevent bleeding
+            transformOrigin: String("50% 50% -500%")  // Original transform origin
           }, {
             rotationX: '+=360',
             ease: 'none'
