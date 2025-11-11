@@ -27,6 +27,9 @@
   --theme-accent-hover: #e49173;
   --theme-accent-blue: #6a9bcc;
   --theme-accent-green: #788c5d;
+  /* Card text colors */
+  --fg: #0A0A0A;
+  --lg-text: #0A0A0A;
   color-scheme: light dark;
   background-color: #F9F7F3;
   color: #0A0A0A;
@@ -209,6 +212,9 @@ img::selection {
   --theme-accent-hover: #e49173;
   --theme-accent-blue: #6a9bcc;
   --theme-accent-green: #788c5d;
+  /* Card text colors */
+  --fg: #0A0A0A;
+  --lg-text: #0A0A0A;
 }
 
 .dark {
