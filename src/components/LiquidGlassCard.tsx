@@ -50,13 +50,13 @@ export default function LiquidGlassCard({
       className={styles.cardWrapper}
       initial={false}
       animate={{
-        scale: isExpanded ? 1.05 : 1,
+        scale: isExpanded ? 1.08 : 1,
       }}
       transition={{
         type: "spring",
-        stiffness: 200,
-        damping: 15,
-        mass: 0.5,
+        stiffness: 300,
+        damping: 10,
+        mass: 0.3,
       }}
       onMouseEnter={() => setIsExpanded(true)}
       onMouseLeave={() => setIsExpanded(false)}
@@ -69,9 +69,9 @@ export default function LiquidGlassCard({
         }}
         transition={{
           type: "spring",
-          stiffness: 200,
-          damping: 15,
-          mass: 0.8,
+          stiffness: 250,
+          damping: 12,
+          mass: 0.5,
         }}
       >
         <div className={styles.cardContent}>
@@ -82,13 +82,14 @@ export default function LiquidGlassCard({
           <AnimatePresence>
             {isExpanded && (
               <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: -15, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -15, scale: 0.95 }}
                 transition={{
                   type: "spring",
-                  stiffness: 300,
-                  damping: 25,
+                  stiffness: 400,
+                  damping: 18,
+                  mass: 0.4,
                 }}
                 className={styles.description}
               >

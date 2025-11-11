@@ -57,14 +57,14 @@ export default function HomePaymentsSection() {
         className="absolute inset-0 z-0 w-full h-full"
       >
         <Image
-          src="/payments-hero.png"
-          alt="Payment Processing"
+          src="/hero_image_formatted.png"
+          alt="Modern office interior"
           fill
           className="object-cover object-center"
           sizes="100vw"
         />
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-black/40" />
+        {/* Subtle overlay for better card visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/10 to-black/30" />
       </motion.div>
 
       {/* Content */}
