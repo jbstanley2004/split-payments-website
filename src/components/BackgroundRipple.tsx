@@ -3,29 +3,22 @@
 import { useEffect, useRef } from "react";
 
 export function BackgroundRipple() {
-  const rippleContainerRef = useRef<HTMLDivElement>(null);
+  const waterRippleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Dynamically import jQuery and jquery.ripples only on client side
     const initRipples = async () => {
-      if (typeof window === "undefined" || !rippleContainerRef.current) return;
+      if (typeof window === "undefined" || !waterRippleRef.current) return;
 
       try {
-        // Import jQuery
         const $ = (await import("jquery")).default;
+        (window as any).$ = $;
+        (window as any).jQuery = $;
 
-        // Make jQuery available globally for jquery.ripples
-        if (typeof window !== "undefined") {
-          (window as any).$ = $;
-          (window as any).jQuery = $;
-        }
-
-        // Import jquery.ripples
         await import("jquery.ripples");
 
-        // Initialize ripples on the entire background
-        if (rippleContainerRef.current) {
-          ($ as any)(rippleContainerRef.current).ripples({
+        // Apply ripples exactly as in the example
+        if (waterRippleRef.current) {
+          ($ as any)(waterRippleRef.current).ripples({
             resolution: 200,
             perturbance: 0.04,
           });
@@ -37,13 +30,12 @@ export function BackgroundRipple() {
 
     initRipples();
 
-    // Cleanup function
     return () => {
-      if (rippleContainerRef.current && typeof window !== "undefined") {
+      if (waterRippleRef.current && typeof window !== "undefined") {
         try {
           const $ = (window as any).$;
           if ($ && $.fn.ripples) {
-            ($ as any)(rippleContainerRef.current).ripples("destroy");
+            ($ as any)(waterRippleRef.current).ripples("destroy");
           }
         } catch (error) {
           console.error("Failed to destroy ripples:", error);
@@ -54,9 +46,8 @@ export function BackgroundRipple() {
 
   return (
     <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
-      {/* Background image with ripple effect */}
+      {/* Static background for non-water areas */}
       <div
-        ref={rippleContainerRef}
         className="absolute inset-0 w-full h-full"
         style={{
           backgroundImage: "url(/hero_image_formatted.png)",
@@ -66,13 +57,17 @@ export function BackgroundRipple() {
         }}
       />
 
-      {/* Overlay to block ripple interactions on land areas (top ~55% of screen) */}
-      {/* Based on the hero image, water starts at approximately 55% down */}
+      {/* Water area with ripples - matches example implementation */}
       <div
-        className="absolute inset-x-0 top-0 pointer-events-auto"
+        ref={waterRippleRef}
+        className="absolute w-full"
         style={{
-          height: "55%",
-          background: "transparent",
+          top: "50%",
+          height: "50%",
+          backgroundImage: "url(/hero_image_formatted.png)",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
         }}
       />
 
