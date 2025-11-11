@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef, useEffect } from "react";
 import Link from "next/link";
 import OrangePushButton from "./OrangePushButton";
+import FundingBento from "./funding/FundingBento.v2";
 
 type AnimatedHeroProps = {
   imageSrcLight: string;
@@ -311,19 +312,7 @@ export default function Hero() {
   return (
     <>
       {/* Section 1 – dark graphic4 first */}
-      <AnimatedHero
-        id="funding"
-        imageSrcLight="/graphic4.png"
-        imageSrcDark="/graphic4.png"
-        title={
-          <>
-            Flexible funding
-            <br />
-            for growing merchants
-          </>
-        }
-        text="Unlock working capital through your daily card sales with no fixed payments, hidden fees, or credit barriers. Funding that moves with your business, not against it."
-      />
+      <FundingBento />
 
       {/* Section 2 – carousel instead of graphic3 */}
       <section
