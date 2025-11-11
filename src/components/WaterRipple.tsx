@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./WaterRipple.css";
 
 interface WaterRippleProps {
@@ -8,13 +8,31 @@ interface WaterRippleProps {
 }
 
 export function WaterRipple({ children }: WaterRippleProps) {
-  const [isHovered, setIsHovered] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const animationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = () => {
+    // Only trigger animation if not already animating
+    if (!isAnimating) {
+      setIsAnimating(true);
+
+      // Clear any existing timeout
+      if (animationTimeoutRef.current) {
+        clearTimeout(animationTimeoutRef.current);
+      }
+
+      // Reset animation state after the longest animation completes (6.5s)
+      // This is ripple-5: 4.6s duration + 1.9s delay = 6.5s total
+      animationTimeoutRef.current = setTimeout(() => {
+        setIsAnimating(false);
+      }, 6500);
+    }
+  };
 
   return (
     <div
       className="water-ripple-container"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
     >
       {/* SVG filter for water distortion effect */}
       <svg className="water-filter" width="0" height="0">
@@ -38,7 +56,7 @@ export function WaterRipple({ children }: WaterRippleProps) {
       </svg>
 
       {/* Multiple ripple layers for realistic water effect */}
-      <div className={`ripple-effect ${isHovered ? "active" : ""}`}>
+      <div className={`ripple-effect ${isAnimating ? "active" : ""}`}>
         {/* Primary ripples - main wave propagation */}
         <div className="ripple-wave ripple-1"></div>
         <div className="ripple-wave ripple-2"></div>
