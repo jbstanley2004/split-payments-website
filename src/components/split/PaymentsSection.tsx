@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import { IndustryCarousel } from "./IndustryCarousel";
 
 const cardColors = [
   "#C67C5F", // Terracotta
@@ -29,64 +30,9 @@ export function PaymentsSection() {
           <CTA href="#get-started">Start accepting payments</CTA>
         </Copy>
 
-        <Graphic aria-hidden="true">
-          <FeaturePanel>
-            <FeatureHeader>
-              <FeatureNumber>03</FeatureNumber>
-              <FeatureMeta>
-                <small>Features</small>
-                <strong>Pre-approved offers</strong>
-              </FeatureMeta>
-            </FeatureHeader>
-            <FeatureCard>
-              <FeatureBadge>
-                Your business is pre-approved for $10,000 in working capital.
-              </FeatureBadge>
-              <FeatureCopy>
-                Pre-approved offers guarantee access to the full amount offered
-                once fraud &amp; compliance checks are passed.
-              </FeatureCopy>
-              <FeatureHint>
-                Avoid the disappointment of getting denied after a hard credit
-                pull thanks to our pre-approved offers.
-              </FeatureHint>
-            </FeatureCard>
-          </FeaturePanel>
-
-          <FeaturePanel>
-            <FeatureHeader>
-              <FeatureNumber>04</FeatureNumber>
-              <FeatureMeta>
-                <small>Features</small>
-                <strong>Flexible capital access</strong>
-              </FeatureMeta>
-            </FeatureHeader>
-            <FeatureCard>
-              <FeatureTabs>
-                <span>Advances</span>
-                <span>All</span>
-                <span>Active</span>
-                <span>Paid</span>
-              </FeatureTabs>
-              <FeatureList>
-                <li>
-                  <strong>$5,000</strong>
-                  <span>Split Terminal</span>
-                  <time>July 3, 2024</time>
-                </li>
-                <li>
-                  <strong>$12,500</strong>
-                  <span>Split eCommerce</span>
-                  <time>August 5, 2024</time>
-                </li>
-              </FeatureList>
-              <FeatureHint>
-                Capital availability that offers similar benefits to a line of
-                credit.
-              </FeatureHint>
-            </FeatureCard>
-          </FeaturePanel>
-        </Graphic>
+        <CarouselWrapper>
+          <IndustryCarousel />
+        </CarouselWrapper>
       </Inner>
     </Wrap>
   );
@@ -180,129 +126,14 @@ const CTA = styled.a`
   }
 `;
 
-const Graphic = styled.div`
+const CarouselWrapper = styled.div`
   flex: 1 1 340px;
-  max-width: 500px;
-  background: linear-gradient(180deg, #fafafa 0%, #f1f1f1 100%);
-  border-radius: 32px;
-  padding: 2.6rem;
-  display: grid;
-  gap: 2.4rem;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 35px 70px rgba(15, 15, 15, 0.16);
+  max-width: 600px;
+  position: relative;
+  min-height: 500px;
 
   @media (max-width: 900px) {
     margin: 0 auto;
-  }
-`;
-
-const FeaturePanel = styled.div`
-  display: grid;
-  gap: 1.2rem;
-`;
-
-const FeatureHeader = styled.div`
-  display: flex;
-  gap: 1.4rem;
-  align-items: center;
-`;
-
-const FeatureNumber = styled.span`
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: rgba(0, 0, 0, 0.4);
-`;
-
-const FeatureMeta = styled.div`
-  display: grid;
-  gap: 0.2rem;
-
-  small {
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: rgba(0, 0, 0, 0.5);
-  }
-
-  strong {
-    font-size: 1.1rem;
-  }
-`;
-
-const FeatureCard = styled.div`
-  background: #fff;
-  border-radius: 24px;
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  padding: 1.6rem;
-  display: grid;
-  gap: 0.9rem;
-`;
-
-const FeatureBadge = styled.div`
-  font-weight: 700;
-  line-height: 1.4;
-`;
-
-const FeatureCopy = styled.p`
-  font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.65);
-  margin: 0;
-`;
-
-const FeatureHint = styled.p`
-  font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.5);
-  margin: 0;
-`;
-
-const FeatureTabs = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: rgba(0, 0, 0, 0.5);
-
-  span:first-child {
-    background: #0d0d0d;
-    color: #fff;
-    border-radius: 12px;
-    padding: 0.4rem 0.6rem;
-    text-align: center;
-  }
-
-  span:not(:first-child) {
-    padding: 0.4rem 0.6rem;
-    border-radius: 12px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.04);
-  }
-`;
-
-const FeatureList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 0.75rem;
-
-  li {
-    display: grid;
-    gap: 0.25rem;
-  }
-
-  strong {
-    font-size: 1.1rem;
-  }
-
-  span {
-    font-size: 0.85rem;
-    color: rgba(0, 0, 0, 0.6);
-  }
-
-  time {
-    font-size: 0.75rem;
-    color: rgba(0, 0, 0, 0.45);
+    width: 100%;
   }
 `;
