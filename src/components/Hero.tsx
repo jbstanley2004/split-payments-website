@@ -194,12 +194,12 @@ export default function Hero() {
           backfaceVisibility: 'hidden'  // Original used hidden
         });
 
-        // EXACT original timeline parameters
+        // Timeline parameters - adjusted cylinder radius to prevent overlap
         b.tl = window.gsap.timeline({ paused: true, defaults: { immediateRender: true } })
           .fromTo(b, {
             scale: 0.31,    // Original scale
             rotationX: i / boxes.length * 360,
-            transformOrigin: String("50% 50% -500%")  // Original transform origin
+            transformOrigin: String("50% 50% -800%")  // Increased from -500% to -800% for larger cylinder radius (prevents overlap)
           }, {
             rotationX: '+=360',
             ease: 'none'
