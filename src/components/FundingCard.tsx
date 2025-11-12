@@ -11,11 +11,11 @@ export default function FundingCard() {
   const estDays = useMemo(() => Math.max(1, Math.round(advance / Math.max(1, dailyRemit))), [advance, dailyRemit]);
 
   useEffect(() => {
-    const arc = document.querySelector('.loop-arc');
+    const arc = document.querySelector('.loop-arc') as SVGPathElement | null;
     if (!arc) return;
     const circ = 2 * Math.PI * 36;
-    const dash = (circ * Math.min(1, holdback / 25)).toFixed(1);
-    animate(0, parseFloat(dash), {
+    const dashTarget = circ * Math.min(1, holdback / 25);
+    animate(0, dashTarget, {
       duration: 0.4,
       onUpdate: (latest) => {
         arc.setAttribute('stroke-dasharray', `${latest.toFixed(1)} ${circ.toFixed(1)}`);
@@ -43,7 +43,7 @@ export default function FundingCard() {
           <span className="block text-sm font-lora mb-2">Advance amount</span>
           <div className="flex items-center gap-3">
             <input type="range" min={2000} max={75000} step={500} value={advance} onChange={(e)=>setAdvance(+e.target.value)} className="w-full cursor-pointer"/>
-            <span className="font-poppins text-sm">${'{'}advance.toLocaleString(){'}'}</span>
+            <span className="font-poppins text-sm">{advance.toLocaleString()}</span>
           </div>
         </label>
 
@@ -59,7 +59,7 @@ export default function FundingCard() {
           <span className="block text-sm font-lora mb-2">Daily card sales</span>
           <div className="flex items-center gap-3">
             <input type="range" min={200} max={5000} step={50} value={dailySales} onChange={(e)=>setDailySales(+e.target.value)} className="w-full cursor-pointer"/>
-            <span className="font-poppins text-sm">${'{'}dailySales.toLocaleString(){'}'}</span>
+            <span className="font-poppins text-sm">{dailySales.toLocaleString()}</span>
           </div>
         </label>
       </div>
@@ -67,7 +67,7 @@ export default function FundingCard() {
       <motion.div layout className="mt-6 grid grid-cols-2 gap-4">
         <div className="rounded-xl border border-black/10 dark:border-white/10 p-3">
           <div className="text-[10px] uppercase tracking-wide text-black/60 dark:text-white/60">Est. daily remit</div>
-          <motion.div key={dailyRemit} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="font-poppins text-2xl">${'{'}dailyRemit.toLocaleString(undefined,{ style:'currency', currency:'USD' }){'}'}</motion.div>
+          <motion.div key={dailyRemit} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="font-poppins text-2xl">{dailyRemit.toLocaleString(undefined,{ style:'currency', currency:'USD' })}</motion.div>
         </div>
         <div className="rounded-xl border border-black/10 dark:border-white/10 p-3">
           <div className="text-[10px] uppercase tracking-wide text-black/60 dark:text-white/60">Est. days to repay</div>
