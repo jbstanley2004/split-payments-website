@@ -10,9 +10,14 @@
 .rc-accent{stroke:var(--rc-accent)}
 .rc-label{font-family:var(--font-lora, Lora), Georgia, serif;font-size:9px;fill:var(--rc-ink)}
 
-/* Motion */
-.relationship-circle .accent-arc{animation:rc-sweep var(--rc-speed,3s) ease-in-out forwards;transform-origin:center}
-.relationship-circle .ticks line{opacity:.35;animation:rc-pulse 4s ease-in-out infinite}
-.relationship-circle .ticks line:nth-child(odd){animation-delay:1s}
-@keyframes rc-sweep{to{stroke-dashoffset:0}}
-@keyframes rc-pulse{0%,100%{opacity:.35}50%{opacity:.9}}
+/* Motion (user-driven via JS/CSS vars) */
+.relationship-circle .accent-arc{
+  stroke-dasharray:452;
+  stroke-dashoffset:var(--rc-progress,452);
+  transition:stroke-dashoffset .5s ease-in-out;
+  transform-origin:center;
+}
+.relationship-circle .ticks line{
+  opacity:var(--rc-tick-opacity,.35);
+  transition:opacity .4s ease-in-out;
+}
