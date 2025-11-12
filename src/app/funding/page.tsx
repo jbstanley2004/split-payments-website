@@ -6,6 +6,7 @@ import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Hero from "@/components/Hero";
 import CardBeamAnimation from "@/components/CardBeamAnimation";
+import TickerBlock from "@/components/TickerBlock";
 
 type ParallaxIllustrationProps = MotionProps & {
   className?: string;
@@ -46,6 +47,12 @@ export default function FundingPage() {
 
         {/* Hero */}
         <Hero />
+
+        {/* Metrics ticker */}
+        <section className="px-6 md:px-10">
+          {/* @ts-expect-error Async Server Component */}
+          <TickerBlock />
+        </section>
 
         {/* Payments / POS */}
         <section
