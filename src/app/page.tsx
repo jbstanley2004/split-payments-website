@@ -6,8 +6,6 @@ import { WaterRipple } from "@/components/WaterRipple";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Ticker } from "@/components/ticker";
-import TickerClient from "@/components/TickerClient";
 
 export default function HomePage() {
   return (
@@ -62,22 +60,7 @@ export default function HomePage() {
             </motion.div>
           </motion.div>
         </section>
-
-        {/* Metrics Ticker */}
-        <section>
-          {/* Server fetch */}
-          {/* @ts-expect-error Async Server Component */}
-          <TickerSection />
-        </section>
       </div>
     </main>
   );
-}
-
-async function TickerSection(){
-  // Defer to existing server component for data
-  const metrics = await Ticker();
-  // metrics is a React node from the server comp; we re-render client for animation by extracting text via props would require changes.
-  // For now, simply render server component (no breakage) and a light client pulse overlay.
-  return metrics;
 }
