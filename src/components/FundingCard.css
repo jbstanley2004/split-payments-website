@@ -1,5 +1,5 @@
 .funding-card {
-  background: var(--theme-surface);
+  background: #e8e6dc;
   border-radius: 18px;
   box-shadow: 0 4px 18px rgba(0,0,0,0.08);
   padding: 2rem;
@@ -16,8 +16,16 @@
 }
 .slider input[type="range"] {
   width: 100%;
-  accent-color: var(--theme-accent-blue);
   transition: all 0.3s ease;
+}
+.advance-slider input[type="range"] {
+  accent-color: var(--theme-text-primary);
+}
+.holdback-slider input[type="range"] {
+  accent-color: var(--theme-accent-green);
+}
+.sales-slider input[type="range"] {
+  accent-color: var(--theme-accent-gray);
 }
 .metrics {
   display: flex;

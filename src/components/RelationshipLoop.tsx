@@ -2,8 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import "./RelationshipLoop.css";
 
-export default function RelationshipLoop() {
+type RelationshipLoopProps = {
+  holdback: number;
+};
+
+export default function RelationshipLoop({ holdback }: RelationshipLoopProps) {
   const nodes = ["Review", "Offer", "Advance", "Repay"];
+  const duration = 2 + (25 - holdback) * 0.5;
 
   return (
     <div className="relationship-loop">
@@ -12,20 +17,14 @@ export default function RelationshipLoop() {
           cx="100"
           cy="100"
           r="80"
-          stroke="url(#grad)"
+          stroke="var(--theme-accent-gray)"
           strokeWidth="3"
           fill="none"
           initial={{ rotate: 0 }}
           animate={{ rotate: 360 }}
-          transition={{ repeat: Infinity, duration: 14, ease: "linear" }}
+          transition={{ repeat: Infinity, duration, ease: "linear" }}
           transformOrigin="center center"
         />
-        <defs>
-          <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="var(--theme-accent-blue)" />
-            <stop offset="100%" stopColor="var(--theme-accent-green)" />
-          </linearGradient>
-        </defs>
 
         {nodes.map((label, i) => {
           const angle = (i / nodes.length) * Math.PI * 2;
@@ -33,7 +32,7 @@ export default function RelationshipLoop() {
           const y = 100 + Math.sin(angle) * 80;
           return (
             <motion.g key={i} initial={{ opacity: 0.6 }} whileHover={{ scale: 1.2, opacity: 1 }}>
-              <circle cx={x} cy={y} r="6" fill="var(--theme-accent-blue)" />
+              <circle cx={x} cy={y} r="6" fill="var(--theme-accent-gray)" />
               <text x={x} y={y + 16} textAnchor="middle" fontSize="8" fill="var(--theme-text-secondary)">{label}</text>
             </motion.g>
           );
