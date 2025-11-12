@@ -1,13 +1,20 @@
+"use client";
+
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Hero from "@/components/Hero";
 import TickerBlock from "@/components/TickerBlock";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
+import OrangePushButton from "@/components/OrangePushButton";
+import { WaterRipple } from "@/components/WaterRipple";
 import Image from "next/image";
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function HomePage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] font-lora text-text">
+      {/* Fixed Background for Home Hero */}
       <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
         <Image
           src="/hero_image_formatted.png"
@@ -30,14 +37,39 @@ export default function HomePage() {
           ]}
         />
 
-        {/* HOME HERO: existing landing copy */}
+        {/* HOME HERO: original copy, placement, and ripple CTA */}
         <section
           id="home"
           data-section-id="home"
           className="min-h-screen min-h-[100dvh] flex items-end justify-center text-center pb-24 md:pb-32"
         >
-          {/* We reuse the Hero component structure by placing its main content here if desired. */}
-          {/* For now, we keep this simple and allow the Funding Hero to carry the primary animation. */}
+          <motion.div
+            initial={{ opacity: 0, translateY: 30 }}
+            animate={{ opacity: 1, translateY: 0 }}
+            transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+            className="flex flex-col items-center gap-10 max-w-4xl px-6"
+            style={{ willChange: 'transform, opacity' }}
+          >
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-black dark:text-black">
+              The new standard in merchant cash advances
+            </h1>
+            <p className="text-lg md:text-xl lg:text-2xl font-lora text-gray-700 dark:text-gray-700">
+              A smarter way to fund your business — seamless integration, instant access, and full transparency.
+            </p>
+
+            <motion.div
+              initial={{ opacity: 0, translateY: 20 }}
+              animate={{ opacity: 1, translateY: 0 }}
+              transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+              style={{ willChange: 'transform, opacity' }}
+            >
+              <WaterRipple>
+                <Link href="/#get-started" passHref>
+                  <OrangePushButton>Get Started</OrangePushButton>
+                </Link>
+              </WaterRipple>
+            </motion.div>
+          </motion.div>
         </section>
 
         {/* FUNDING / INFRASTRUCTURE */}

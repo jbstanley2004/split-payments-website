@@ -45,16 +45,16 @@ export default function PaymentsSection() {
   const ref = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start start", "end start"],
+    offset: ['start start', 'end start'],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
 
   return (
     <div
       ref={ref}
       className="relative min-h-screen min-h-[100dvh] font-lora text-text overflow-hidden"
     >
-      {/* Scoped parallax background */}
+      {/* Scoped parallax background that matches original payments hero framing */}
       <motion.div
         style={{ y }}
         className="absolute inset-0 -z-10 w-full h-full"
@@ -63,8 +63,9 @@ export default function PaymentsSection() {
           src="/payments-hero.png"
           alt="Payment Processing"
           fill
-          className="object-contain md:object-cover object-center"
+          className="object-cover object-center md:object-cover"
           sizes="100vw"
+          priority
         />
         <div className="absolute inset-0 bg-bg/70" />
       </motion.div>
