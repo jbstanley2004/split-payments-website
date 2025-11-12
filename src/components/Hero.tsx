@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import OrangePushButton from "./OrangePushButton";
 import FundingCard from "./FundingCard";
+import RelationshipLoop from "./RelationshipLoop";
 
 type AnimatedHeroProps = {
   imageSrcLight?: string;
@@ -96,6 +97,9 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, revers
 }
 
 export default function Hero() {
+  const [advance, setAdvance] = useState(55000);
+  const [holdback, setHoldback] = useState(14);
+  const [sales, setSales] = useState(2500);
   useEffect(() => {
     // Carousel initialization (unchanged)
     const baseImages = [
@@ -155,7 +159,7 @@ export default function Hero() {
       <AnimatedHero
         id="funding"
         reverse
-        visual={<FundingCard />}
+        visual={<FundingCard advance={advance} holdback={holdback} sales={sales} setAdvance={setAdvance} setHoldback={setHoldback} setSales={setSales} />}
         title={
           <>
             Flexible funding
@@ -171,7 +175,7 @@ export default function Hero() {
         <h3 className="text-xl md:text-2xl font-poppins font-semibold text-[var(--theme-text-primary)] mb-6">We build long-term funding relationships, not one-offs.</h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div className="order-2 lg:order-1">
-            <img src="/Split_Funding_Overview.svg" alt="Funding relationship loop showing Review to Next Round" className="w-full h-auto" />
+            <RelationshipLoop holdback={holdback} />
           </div>
           <div className="order-1 lg:order-2 space-y-6">
             <div>
