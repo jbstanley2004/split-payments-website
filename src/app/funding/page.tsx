@@ -6,6 +6,7 @@ import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Hero from "@/components/Hero";
 import CardBeamAnimation from "@/components/CardBeamAnimation";
+import RelationshipLoop from "@/components/RelationshipLoop";
 
 type ParallaxIllustrationProps = MotionProps & {
   className?: string;
@@ -89,6 +90,8 @@ export default function FundingPage() {
             </div>
           </ParallaxIllustration>
         </section>
+
+        <RelationshipLoop />
 
         {/* Card Beam Animation */}
         <CardBeamAnimation />

@@ -1,0 +1,26 @@
+.relationship-loop {
+  position: relative;
+  text-align: center;
+  padding: 2rem 0;
+}
+.relationship-loop svg {
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  display: block;
+}
+.relationship-loop text {
+  font-family: var(--font-lora);
+  letter-spacing: 0.2px;
+  fill: var(--theme-text-secondary);
+  pointer-events: none;
+}
+.relationship-caption {
+  margin-top: 1rem;
+  max-width: 420px;
+  font-size: 0.9rem;
+  color: var(--theme-text-secondary);
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
