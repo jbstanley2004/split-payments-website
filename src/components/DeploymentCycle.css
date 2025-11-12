@@ -1,0 +1,10 @@
+.deployment-cycle{position:relative;text-align:center;padding:.5rem 0;background:transparent}
+.deployment-circle{display:block}
+.deployment-cycle svg{width:clamp(260px,34vw,440px);height:auto;margin:0 auto;display:block;overflow:visible}
+.deployment-cycle text{font-family:var(--font-lora);letter-spacing:.2px;fill:#141413;pointer-events:auto}
+:root{--rc-ink:#141413;--rc-accent:var(--theme-accent-blue,#4C6FFF);--rc-bg:#faf9f5}
+.rc-muted{stroke:#c7c4b9;opacity:.9}
+.rc-accent{stroke:var(--rc-accent)}
+.rc-label{font-family:var(--font-lora, Lora), Georgia, serif;font-size:10px;fill:var(--rc-ink)}
+.deployment-circle .accent-arc{stroke-dasharray:452;stroke-dashoffset:var(--rc-progress,452);transition:stroke-dashoffset .45s ease;transform-origin:center;}
+.deployment-circle .ticks line{opacity:var(--rc-tick-opacity,.35);transition:opacity .4s ease;}

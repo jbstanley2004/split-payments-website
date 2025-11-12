@@ -1,23 +1,10 @@
-.relationship-loop{position:relative;text-align:center;padding:2rem 0;background:#faf9f5}
+.relationship-loop{position:relative;text-align:center;padding:.5rem 0;background:transparent}
 .relationship-circle{display:block}
-.relationship-loop svg{width:300px;height:300px;margin:0 auto;display:block}
-.relationship-loop text{font-family:var(--font-lora);letter-spacing:.2px;fill:#141413;pointer-events:none}
-.relationship-caption{margin-top:1rem;max-width:420px;font-size:.9rem;color:#14141399;margin-left:auto;margin-right:auto;line-height:1.5}
-
-/* Brand tokens */
-:root{--rc-ink:#141413;--rc-accent:#d97757;--rc-bg:#faf9f5}
+.relationship-loop svg{width:clamp(260px,34vw,440px);height:auto;margin:0 auto;display:block;overflow:visible}
+.relationship-loop text{font-family:var(--font-lora);letter-spacing:.2px;fill:#141413;pointer-events:auto}
+:root{--rc-ink:#141413;--rc-accent:var(--theme-accent-blue,#4C6FFF);--rc-bg:#faf9f5}
 .rc-muted{stroke:#c7c4b9;opacity:.9}
 .rc-accent{stroke:var(--rc-accent)}
-.rc-label{font-family:var(--font-lora, Lora), Georgia, serif;font-size:9px;fill:var(--rc-ink)}
-
-/* Motion (user-driven via JS/CSS vars) */
-.relationship-circle .accent-arc{
-  stroke-dasharray:452;
-  stroke-dashoffset:var(--rc-progress,452);
-  transition:stroke-dashoffset .5s ease-in-out;
-  transform-origin:center;
-}
-.relationship-circle .ticks line{
-  opacity:var(--rc-tick-opacity,.35);
-  transition:opacity .4s ease-in-out;
-}
+.rc-label{font-family:var(--font-lora, Lora), Georgia, serif;font-size:10px;fill:var(--rc-ink)}
+.relationship-circle .accent-arc{stroke-dasharray:452;stroke-dashoffset:var(--rc-progress,452);transition:stroke-dashoffset .45s ease;transform-origin:center;}
+.relationship-circle .ticks line{opacity:var(--rc-tick-opacity,.35);transition:opacity .4s ease;}
