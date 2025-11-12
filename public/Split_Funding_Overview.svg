@@ -6,7 +6,30 @@
   <g transform="translate(410,210)">
     <circle r="140" fill="none" stroke="#141413" stroke-width="2"/>
     <g class="ticks" stroke="#141413" stroke-width="1.5">
-      ${Array.from({length:24}).map((_,i)=>`<line transform=\"rotate(${i*15})\" y1=-150 y2=-140 />`).join('')}
+      <line transform="rotate(0)" y1=-150 y2=-140 />
+      <line transform="rotate(15)" y1=-150 y2=-140 />
+      <line transform="rotate(30)" y1=-150 y2=-140 />
+      <line transform="rotate(45)" y1=-150 y2=-140 />
+      <line transform="rotate(60)" y1=-150 y2=-140 />
+      <line transform="rotate(75)" y1=-150 y2=-140 />
+      <line transform="rotate(90)" y1=-150 y2=-140 />
+      <line transform="rotate(105)" y1=-150 y2=-140 />
+      <line transform="rotate(120)" y1=-150 y2=-140 />
+      <line transform="rotate(135)" y1=-150 y2=-140 />
+      <line transform="rotate(150)" y1=-150 y2=-140 />
+      <line transform="rotate(165)" y1=-150 y2=-140 />
+      <line transform="rotate(180)" y1=-150 y2=-140 />
+      <line transform="rotate(195)" y1=-150 y2=-140 />
+      <line transform="rotate(210)" y1=-150 y2=-140 />
+      <line transform="rotate(225)" y1=-150 y2=-140 />
+      <line transform="rotate(240)" y1=-150 y2=-140 />
+      <line transform="rotate(255)" y1=-150 y2=-140 />
+      <line transform="rotate(270)" y1=-150 y2=-140 />
+      <line transform="rotate(285)" y1=-150 y2=-140 />
+      <line transform="rotate(300)" y1=-150 y2=-140 />
+      <line transform="rotate(315)" y1=-150 y2=-140 />
+      <line transform="rotate(330)" y1=-150 y2=-140 />
+      <line transform="rotate(345)" y1=-150 y2=-140 />
     </g>
     <path class="loop-arc" d="M 0 -140 a 140 140 0 1 1 -0.01 0" fill="none" stroke="#d97757" stroke-width="6" stroke-linecap="round" stroke-dasharray="0 880"/>
     <polygon points="0,-165 10,-145 -10,-145" fill="#d97757"/>
