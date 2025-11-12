@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 import './ScrollProgressRail.css';
 
@@ -11,10 +11,12 @@ export default function ScrollProgressRail({
 }: { nodes: Node[]; className?: string }) {
   const [active, setActive] = useState(0);
   const [progress, setProgress] = useState(0); // 0..1 across all nodes
+  const [show, setShow] = useState(false); // hidden over hero by default until client computes
   const observers = useRef<IntersectionObserver[]>([]);
 
-  // attach observers to each node section
+  // attach observers to each node section (client only)
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
     const obs: IntersectionObserver[] = [];
     const onChange = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
@@ -40,13 +42,12 @@ export default function ScrollProgressRail({
 
   // overall scroll progress (for rail fill)
   useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
     const handler = () => {
       const first = document.getElementById(nodes[0]?.id);
       const last = document.getElementById(nodes[nodes.length - 1]?.id);
       if (!first || !last) return;
-      const docH = document.documentElement.scrollHeight - window.innerHeight;
       const y = window.scrollY;
-      // normalize between first+viewportTop and last+viewportTop
       const start = first.getBoundingClientRect().top + y;
       const end = last.getBoundingClientRect().top + y;
       const p = Math.min(1, Math.max(0, (y - start) / Math.max(1, end - start)));
@@ -58,16 +59,28 @@ export default function ScrollProgressRail({
     return () => { window.removeEventListener('scroll', handler); window.removeEventListener('resize', handler); };
   }, [nodes]);
 
-  // hide entirely while hero is in view (assumes hero section id='hero')
-  const show = useMemo(() => {
-    const hero = document.getElementById('hero');
-    if (!hero) return true;
-    const r = hero.getBoundingClientRect();
-    return r.bottom < 0 || r.top < -20 || r.top > window.innerHeight - 20;
-  }, [active, progress]);
+  // compute visibility relative to hero in an effect (client-only)
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+    const updateShow = () => {
+      const hero = document.getElementById('hero');
+      if (!hero) { setShow(true); return; }
+      const r = hero.getBoundingClientRect();
+      const shouldShow = r.bottom < 0 || r.top < -20 || r.top > window.innerHeight - 20;
+      setShow(shouldShow);
+    };
+    updateShow();
+    window.addEventListener('scroll', updateShow, { passive: true });
+    window.addEventListener('resize', updateShow);
+    return () => { window.removeEventListener('scroll', updateShow); window.removeEventListener('resize', updateShow); };
+  }, []);
 
   return (
-    <aside className={clsx('spr', className, show ? 'spr-visible' : 'spr-hidden')} aria-label="Site progress">
+    <aside
+      className={clsx('spr', className, show ? 'spr-visible' : 'spr-hidden')}
+      aria-label="Site progress"
+      style={{ ['--spr-count' as any]: nodes.length }}
+    >
       <div className="spr-rail">
         <div className="spr-rail-fill" style={{ height: `${Math.round(progress * 100)}%` }} />
         {nodes.map((n, i) => (
@@ -75,7 +88,7 @@ export default function ScrollProgressRail({
             key={n.id}
             className={clsx('spr-node', i === active && 'is-active')}
             style={{ ['--i' as any]: i }}
-            onClick={() => { document.getElementById(n.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}
+            onClick={() => { if (typeof document !== 'undefined') document.getElementById(n.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}
             aria-current={i === active ? 'step' : undefined}
             aria-label={n.label}
           >
