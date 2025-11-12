@@ -1,26 +1,24 @@
 import Image from "next/image";
-import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Hero from "@/components/Hero";
 import CardBeamAnimation from "@/components/CardBeamAnimation";
 import TickerBlock from "@/components/TickerBlock";
 import ParallaxIllustration from "@/components/ParallaxIllustration";
 import Reveal from "@/components/Reveal";
 
-export default async function FundingPage() {
+export default async function FundingSection() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] font-lora text-text">
-      <div className="relative z-10 bg-bg min-h-screen min-h-[100dvh]">
-        <DynamicIslandNav />
+    <section id="funding" className="relative bg-bg min-h-screen font-lora text-text">
+      <div className="relative z-10">
         <Hero />
 
         {/* Metrics ticker */}
-        <section className="px-6 md:px-10">
+        <div className="px-6 md:px-10">
           {/* @ts-expect-error Async Server Component */}
           <TickerBlock />
-        </section>
+        </div>
 
         {/* Payments / POS */}
-        <section
+        <div
           id="pos"
           className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
@@ -60,19 +58,10 @@ export default async function FundingPage() {
               />
             </div>
           </ParallaxIllustration>
-        </section>
+        </div>
 
         <CardBeamAnimation />
-
-        <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>© 2025 Split Payments, Inc. All rights reserved.</div>
-          <div className="flex items-center gap-6">
-            <a href="/policy">Privacy Policy</a>
-            <a href="/terms">Terms of Service</a>
-            <a href="/support">Contact</a>
-          </div>
-        </footer>
       </div>
-    </main>
+    </section>
   );
 }

@@ -6,30 +6,33 @@ import { WaterRipple } from "@/components/WaterRipple";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import PaymentsSection from "@/components/PaymentsSection";
+import FundingSection from "@/components/FundingSection";
+import GetStartedSection from "@/components/GetStartedSection";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] font-lora text-text">
-      {/* Fixed Background */}
-      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
-        <Image
-          src="/hero_image_formatted.png"
-          alt="A modern office interior"
-          fill
-          className="object-cover object-center"
-          priority
-          sizes="100vw"
-        />
-        {/* Subtle overlay for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
-      </div>
+    <main className="relative font-lora text-text">
+      <DynamicIslandNav />
 
-      {/* All content with relative positioning */}
-      <div className="relative z-10 min-h-screen min-h-[100dvh]">
-        <DynamicIslandNav />
+      {/* Hero Section */}
+      <section id="home" className="relative min-h-screen min-h-[100dvh]">
+        {/* Background */}
+        <div className="absolute inset-0 z-0 w-full h-full">
+          <Image
+            src="/hero_image_formatted.png"
+            alt="A modern office interior"
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+          {/* Subtle overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
+        </div>
 
         {/* Hero Content */}
-        <section className="min-h-screen min-h-[100dvh] flex items-end justify-center text-center pb-24 md:pb-32">
+        <div className="relative z-10 min-h-screen min-h-[100dvh] flex items-end justify-center text-center pb-24 md:pb-32">
           <motion.div
             initial={{ opacity: 0, translateY: 30 }}
             animate={{ opacity: 1, translateY: 0 }}
@@ -53,14 +56,30 @@ export default function HomePage() {
               style={{ willChange: "transform, opacity" }}
             >
               <WaterRipple>
-                <Link href="/get-started" passHref>
+                <Link href="#get-started" passHref>
                   <OrangePushButton>Get Started</OrangePushButton>
                 </Link>
               </WaterRipple>
             </motion.div>
           </motion.div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      {/* @ts-expect-error Async Server Component */}
+      <PaymentsSection />
+      {/* @ts-expect-error Async Server Component */}
+      <FundingSection />
+      <GetStartedSection />
+
+      {/* Footer */}
+      <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4 bg-bg">
+        <div>© 2025 Split Payments, Inc. All rights reserved.</div>
+        <div className="flex items-center gap-6">
+          <a href="/policy">Privacy Policy</a>
+          <a href="/terms">Terms of Service</a>
+          <a href="/support">Contact</a>
+        </div>
+      </footer>
     </main>
   );
 }

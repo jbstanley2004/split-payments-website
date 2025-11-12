@@ -1,6 +1,5 @@
 "use client";
 
-import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import InteractiveCard from "@/components/InteractiveCard";
 import OrangePushButton from "@/components/OrangePushButton";
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -42,7 +41,7 @@ const solutions = [
   },
 ];
 
-export default function PaymentsPage() {
+export default function PaymentsSection() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -51,11 +50,11 @@ export default function PaymentsPage() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   return (
-    <main ref={ref} className="relative min-h-screen min-h-[100dvh] font-lora text-text">
+    <section ref={ref} id="payments" className="relative min-h-screen font-lora text-text bg-bg">
       {/* Fixed Parallax Background */}
       <motion.div
         style={{ y }}
-        className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]"
+        className="absolute inset-0 z-0 w-full h-full"
       >
         <Image
           src="/payments-hero.png"
@@ -70,11 +69,9 @@ export default function PaymentsPage() {
       </motion.div>
 
       {/* All content with relative positioning */}
-      <div className="relative z-10 min-h-screen min-h-[100dvh]">
-        <DynamicIslandNav showHomeLogoOnMobile />
-
+      <div className="relative z-10">
         {/* Hero */}
-        <section className="px-6 md:px-10 py-32 md:py-48 min-h-[80vh] flex items-center border-b border-line/50">
+        <div className="px-6 md:px-10 py-32 md:py-48 min-h-[80vh] flex items-center border-b border-line/50">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -90,10 +87,10 @@ export default function PaymentsPage() {
               From terminals to advanced software integrations, Split delivers payment technology that keeps your business running smoothly — increasing revenue, improving cash flow, and creating better customer experiences.
             </p>
           </motion.div>
-        </section>
+        </div>
 
         {/* Solutions Grid */}
-        <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
+        <div className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {solutions.map((solution, index) => (
               <InteractiveCard
@@ -107,10 +104,10 @@ export default function PaymentsPage() {
               </InteractiveCard>
             ))}
           </div>
-        </section>
+        </div>
 
         {/* CTA Section */}
-        <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
+        <div className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -126,18 +123,8 @@ export default function PaymentsPage() {
               <OrangePushButton>Start My Cost Review</OrangePushButton>
             </Link>
           </motion.div>
-        </section>
-
-        {/* Footer */}
-        <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>© 2025 Split Payments, Inc. — Empowering merchants through smarter payments and funding.</div>
-          <div className="flex items-center gap-6">
-            <a href="/policy">privacy</a>
-            <a href="/terms">terms</a>
-            <a href="/support">contact</a>
-          </div>
-        </footer>
+        </div>
       </div>
-    </main>
+    </section>
   );
 }

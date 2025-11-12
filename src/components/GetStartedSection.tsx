@@ -1,14 +1,9 @@
 "use client";
 
-import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import Link from "next/link";
-
-export default function GetStarted() {
+export default function GetStartedSection() {
   return (
-    <main className="min-h-screen min-h-[100dvh] font-jetbrains">
-      <DynamicIslandNav showHomeLogoOnMobile />
-
-      <section className="px-6 md:px-10 py-16 md:py-24 max-w-3xl mx-auto">
+    <section id="get-started" className="min-h-screen bg-bg font-jetbrains py-16 md:py-24">
+      <div className="px-6 md:px-10 max-w-3xl mx-auto">
         <h1 className="text-3xl mb-6 font-poppins">Get Started</h1>
         <p className="text-muted mb-8">
           Tell us a bit about your business and we'll share your pre-approved
@@ -69,7 +64,7 @@ export default function GetStarted() {
         <p className="text-xs text-muted mt-8">
           No hard credit checks. No personal guarantees.
         </p>
-      </section>
-    </main>
+      </div>
+    </section>
   );
 }
