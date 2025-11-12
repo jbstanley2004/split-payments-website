@@ -54,10 +54,10 @@ export default function PaymentsSection() {
       ref={ref}
       className="relative min-h-screen min-h-[100dvh] font-lora text-text overflow-hidden"
     >
-      {/* Parallax background that exactly matches the original payments hero framing */}
+      {/* Scoped parallax background just for the payments section */}
       <motion.div
         style={{ y }}
-        className="fixed inset-0 -z-10 w-full h-full min-h-screen min-h-[100dvh]"
+        className="absolute inset-0 -z-10 w-full h-full min-h-screen min-h-[100dvh]"
       >
         <Image
           src="/payments-hero.png"
@@ -71,7 +71,7 @@ export default function PaymentsSection() {
       </motion.div>
 
       {/* Hero */}
-      <section className="relative px-6 md:px-10 py-32 md:py-48 min-h-[80vh] flex items-center border-b border-line/50">
+      <section className="px-6 md:px-10 py-32 md:py-48 min-h-[80vh] flex items-center border-b border-line/50">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -89,7 +89,7 @@ export default function PaymentsSection() {
       </section>
 
       {/* Solutions Grid */}
-      <section className="relative px-6 md:px-10 py-16 md:py-24 border-b border-line/50 bg-transparent">
+      <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {solutions.map((solution, index) => (
             <InteractiveCard
@@ -106,7 +106,7 @@ export default function PaymentsSection() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative px-6 md:px-10 py-16 md:py-24 border-b border-line/50 bg-transparent">
+      <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
