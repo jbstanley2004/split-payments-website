@@ -4,8 +4,7 @@ import Hero from "@/components/Hero";
 import CardBeamAnimation from "@/components/CardBeamAnimation";
 import TickerBlock from "@/components/TickerBlock";
 import ParallaxIllustration from "@/components/ParallaxIllustration";
-import { motion, type MotionProps } from "framer-motion";
-import { ReactNode } from "react";
+import Reveal from "@/components/Reveal";
 
 export default async function FundingPage() {
   return (
@@ -25,7 +24,7 @@ export default async function FundingPage() {
           id="pos"
           className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
-          <motion.div
+          <Reveal
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
@@ -41,7 +40,7 @@ export default async function FundingPage() {
               <li>• Transparent, competitive pricing</li>
               <li>• Easy management across multiple locations</li>
             </ul>
-          </motion.div>
+          </Reveal>
 
           <ParallaxIllustration
             initial={{ opacity: 0, scale: 0.96 }}
