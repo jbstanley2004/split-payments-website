@@ -2,9 +2,11 @@ import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Hero from "@/components/Hero";
 import CardBeamAnimation from "@/components/CardBeamAnimation";
-import TickerBlock from "@/components/TickerBlock";
 import ParallaxIllustration from "@/components/ParallaxIllustration";
 import Reveal from "@/components/Reveal";
+import ScrollSection from "@/components/ScrollSection";
+import DeploymentCycleVertical from "@/components/DeploymentCycleVertical";
+import FundingLoopVertical from "@/components/FundingLoopVertical";
 
 export default async function FundingPage() {
   return (
@@ -13,13 +15,12 @@ export default async function FundingPage() {
         <DynamicIslandNav />
         <Hero />
 
-        {/* Metrics ticker */}
-        <section className="px-6 md:px-10">
-          {/* @ts-expect-error Async Server Component */}
-          <TickerBlock />
-        </section>
+        {/* Deployment Cycle (vertical) */}
+        <ScrollSection id="deployment" className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
+          <DeploymentCycleVertical />
+        </ScrollSection>
 
-        {/* Payments / POS */}
+        {/* Payments / POS (kept) */}
         <section
           id="pos"
           className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50"
@@ -61,6 +62,11 @@ export default async function FundingPage() {
             </div>
           </ParallaxIllustration>
         </section>
+
+        {/* Funding Loop (vertical) */}
+        <ScrollSection id="funding" className="px-6 md:px-10 py-16 md:py-24 border-t border-line/50">
+          <FundingLoopVertical />
+        </ScrollSection>
 
         <CardBeamAnimation />
 
