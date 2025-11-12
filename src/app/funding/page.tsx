@@ -1,58 +1,30 @@
-"use client";
-
-import { useRef, type ReactNode } from "react";
-import { motion, useScroll, useTransform, type MotionProps } from "framer-motion";
 import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Hero from "@/components/Hero";
 import CardBeamAnimation from "@/components/CardBeamAnimation";
+import TickerBlock from "@/components/TickerBlock";
+import ParallaxIllustration from "@/components/ParallaxIllustration";
+import Reveal from "@/components/Reveal";
 
-type ParallaxIllustrationProps = MotionProps & {
-  className?: string;
-  children: ReactNode;
-  offset?: [number, number];
-};
-
-function ParallaxIllustration({
-  className,
-  children,
-  offset = [-6, 6],
-  ...motionProps
-}: ParallaxIllustrationProps) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(
-    scrollYProgress,
-    [0, 1],
-    offset.map((value) => `${value}%`)
-  );
-
-  return (
-    <motion.div ref={ref} style={{ y }} className={className} {...motionProps}>
-      {children}
-    </motion.div>
-  );
-}
-
-export default function FundingPage() {
+export default async function FundingPage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] font-lora text-text">
-      {/* All content with relative positioning */}
       <div className="relative z-10 bg-bg min-h-screen min-h-[100dvh]">
         <DynamicIslandNav />
-
-        {/* Hero */}
         <Hero />
+
+        {/* Metrics ticker */}
+        <section className="px-6 md:px-10">
+          {/* @ts-expect-error Async Server Component */}
+          <TickerBlock />
+        </section>
 
         {/* Payments / POS */}
         <section
           id="pos"
           className="px-6 md:px-10 py-8 md:py-12 flex flex-col md:flex-row items-center md:items-stretch justify-between gap-10 md:gap-0 md:min-h-[620px] border-b border-line/50"
         >
-          <motion.div
+          <Reveal
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
@@ -68,7 +40,7 @@ export default function FundingPage() {
               <li>• Transparent, competitive pricing</li>
               <li>• Easy management across multiple locations</li>
             </ul>
-          </motion.div>
+          </Reveal>
 
           <ParallaxIllustration
             initial={{ opacity: 0, scale: 0.96 }}
@@ -90,10 +62,8 @@ export default function FundingPage() {
           </ParallaxIllustration>
         </section>
 
-        {/* Card Beam Animation */}
         <CardBeamAnimation />
 
-        {/* Footer */}
         <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
           <div>© 2025 Split Payments, Inc. All rights reserved.</div>
           <div className="flex items-center gap-6">
