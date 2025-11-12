@@ -1,12 +1,11 @@
-"use client";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect } from 'react';
 import { motion, animate } from 'framer-motion';
+import SplitFundingLoop from './SplitFundingLoop';
 
 export default function FundingCard() {
   const [advance, setAdvance] = useState(10000);
   const [holdback, setHoldback] = useState(12);
   const [dailySales, setDailySales] = useState(1500);
-
   const dailyRemit = useMemo(() => +(dailySales * (holdback / 100)).toFixed(2), [dailySales, holdback]);
   const estDays = useMemo(() => Math.max(1, Math.round(advance / Math.max(1, dailyRemit))), [advance, dailyRemit]);
 
@@ -37,33 +36,29 @@ export default function FundingCard() {
           </div>
         </div>
       </div>
-
       <div className="mt-4 space-y-5">
         <label className="block">
           <span className="block text-sm font-lora mb-2">Advance amount</span>
           <div className="flex items-center gap-3">
-            <input type="range" min={2000} max={75000} step={500} value={advance} onChange={(e)=>setAdvance(+e.target.value)} className="w-full cursor-pointer"/>
+            <input type="range" min={2000} max={75000} step={500} value={advance} onChange={(e)=>setAdvance(+e.target.value)} className="w-full cursor-pointer accent-[#d97757]"/>
             <span className="font-poppins text-sm">{advance.toLocaleString()}</span>
           </div>
         </label>
-
         <label className="block">
           <span className="block text-sm font-lora mb-2">Holdback</span>
           <div className="flex items-center gap-3">
-            <input aria-label="Holdback percentage" type="range" min={5} max={25} step={1} value={holdback} onChange={(e)=>setHoldback(+e.target.value)} className="w-full cursor-pointer"/>
+            <input aria-label="Holdback percentage" type="range" min={5} max={25} step={1} value={holdback} onChange={(e)=>setHoldback(+e.target.value)} className="w-full cursor-pointer accent-[#d97757]"/>
             <span className="font-poppins text-sm">{holdback}%</span>
           </div>
         </label>
-
         <label className="block">
           <span className="block text-sm font-lora mb-2">Daily card sales</span>
           <div className="flex items-center gap-3">
-            <input type="range" min={200} max={5000} step={50} value={dailySales} onChange={(e)=>setDailySales(+e.target.value)} className="w-full cursor-pointer"/>
+            <input type="range" min={200} max={5000} step={50} value={dailySales} onChange={(e)=>setDailySales(+e.target.value)} className="w-full cursor-pointer accent-[#d97757]"/>
             <span className="font-poppins text-sm">{dailySales.toLocaleString()}</span>
           </div>
         </label>
       </div>
-
       <motion.div layout className="mt-6 grid grid-cols-2 gap-4">
         <div className="rounded-xl border border-black/10 dark:border-white/10 p-3">
           <div className="text-[10px] uppercase tracking-wide text-black/60 dark:text-white/60">Est. daily remit</div>
@@ -74,6 +69,10 @@ export default function FundingCard() {
           <motion.div key={estDays} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="font-poppins text-2xl">{estDays}</motion.div>
         </div>
       </motion.div>
+      <p className="mt-4 text-xs text-black/60 dark:text-white/60 font-lora">Funding estimates are for illustrative purposes only and not guarantees of future results.</p>
+      <div className="absolute top-[110%] left-1/2 -translate-x-1/2 w-[340px]">
+        <SplitFundingLoop holdback={holdback} />
+      </div>
     </div>
   );
 }
