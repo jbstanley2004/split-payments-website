@@ -1,26 +1,18 @@
-.relationship-loop {
-  position: relative;
-  text-align: center;
-  padding: 2rem 0;
-}
-.relationship-loop svg {
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
-  display: block;
-}
-.relationship-loop text {
-  font-family: var(--font-lora);
-  letter-spacing: 0.2px;
-  fill: var(--theme-text-secondary);
-  pointer-events: none;
-}
-.relationship-caption {
-  margin-top: 1rem;
-  max-width: 420px;
-  font-size: 0.9rem;
-  color: var(--theme-text-secondary);
-  margin-left: auto;
-  margin-right: auto;
-  line-height: 1.5;
-}
+.relationship-loop{position:relative;text-align:center;padding:2rem 0;background:#faf9f5}
+.relationship-circle{display:block}
+.relationship-loop svg{width:300px;height:300px;margin:0 auto;display:block}
+.relationship-loop text{font-family:var(--font-lora);letter-spacing:.2px;fill:#141413;pointer-events:none}
+.relationship-caption{margin-top:1rem;max-width:420px;font-size:.9rem;color:#14141399;margin-left:auto;margin-right:auto;line-height:1.5}
+
+/* Brand tokens */
+:root{--rc-ink:#141413;--rc-accent:#d97757;--rc-bg:#faf9f5}
+.rc-muted{stroke:#c7c4b9;opacity:.9}
+.rc-accent{stroke:var(--rc-accent)}
+.rc-label{font-family:var(--font-lora, Lora), Georgia, serif;font-size:9px;fill:var(--rc-ink)}
+
+/* Motion */
+.relationship-circle .accent-arc{animation:rc-sweep var(--rc-speed,3s) ease-in-out forwards;transform-origin:center}
+.relationship-circle .ticks line{opacity:.35;animation:rc-pulse 4s ease-in-out infinite}
+.relationship-circle .ticks line:nth-child(odd){animation-delay:1s}
+@keyframes rc-sweep{to{stroke-dashoffset:0}}
+@keyframes rc-pulse{0%,100%{opacity:.35}50%{opacity:.9}}
