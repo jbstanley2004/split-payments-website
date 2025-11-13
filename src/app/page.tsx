@@ -53,7 +53,7 @@ export default function HomePage() {
               Empowering growth through payment technology
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl font-lora text-gray-700 dark:text-gray-700">
-              A smarter way to fund your business — seamless integration, instant access, and full transparency.
+              A Smarter Way to Fund Your Business
             </p>
 
             <motion.div
