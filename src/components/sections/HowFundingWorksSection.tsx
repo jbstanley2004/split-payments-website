@@ -117,40 +117,44 @@ function DeploymentTimeline() {
 }
 
 function FundingLoopVisual() {
+  // Angles in degrees, measured from the positive X axis, rotating counterclockwise
+  // We offset them so -90° is straight up, etc.
   const stages = [
     {
       id: 1,
       label: "Funding deployed",
       description: "Capital hits your business account.",
-      angle: -90, // top
+      angleDeg: -90, // top
     },
     {
       id: 2,
       label: "You process card sales",
       description: "Everyday revenue powers the cycle.",
-      angle: -18, // upper-right
+      angleDeg: -18, // upper-right
     },
     {
       id: 3,
       label: "We track performance",
       description: "We watch your volume over time.",
-      angle: 54, // lower-right
+      angleDeg: 54, // lower-right
     },
     {
       id: 4,
       label: "Volume stays healthy",
       description: "Sales stay at or above baseline.",
-      angle: 126, // lower-left
+      angleDeg: 126, // lower-left
     },
     {
       id: 5,
       label: "New rounds offered",
       description: "More funding becomes available.",
-      angle: 198, // upper-left
+      angleDeg: 198, // upper-left
     },
   ];
 
-  const radius = 118; // distance from center for labels
+  // These numbers are in the SVG coordinate system (0–200).
+  const ringRadius = 78;
+  const labelRadius = ringRadius + 40; // labels sit just outside the ring
 
   return (
     <section className="mb-16 lg:mb-20">
@@ -165,44 +169,61 @@ function FundingLoopVisual() {
         </p>
 
         <div className="mt-10 flex justify-center">
-          <div className="relative h-60 w-60 md:h-72 md:w-72">
-            {/* Loop rings */}
-            <motion.div
-              className="absolute inset-0 rounded-full border border-[#E3DDD0] bg-[radial-gradient(circle_at_top,_rgba(226,211,189,0.34),_transparent_58%)]"
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.6 }}
+          <div className="relative h-72 w-72 md:h-80 md:w-80">
+            {/* Base neutral ring (no gradients) */}
+            <svg
+              viewBox="0 0 200 200"
+              className="absolute inset-0 h-full w-full"
             >
-              <div className="absolute inset-6 rounded-full border border-[#E5DFD0]/70" />
-              <div className="absolute inset-3 rounded-full border border-dashed border-[#D6C9B8]/70" />
-            </motion.div>
+              <circle
+                cx="100"
+                cy="100"
+                r={ringRadius}
+                stroke="#E3DDD0"
+                strokeWidth={2}
+                fill="none"
+              />
+            </svg>
 
-            {/* Smooth orange cycle marker */}
-            <motion.div
-              className="absolute inset-10"
+            {/* Rotating orange accent arc on the ring */}
+            <motion.svg
+              viewBox="0 0 200 200"
+              className="absolute inset-0 h-full w-full"
               animate={{ rotate: 360 }}
               transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
             >
-              <div className="absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#D97757] shadow-[0_0_0_6px_rgba(217,119,87,0.23)]" />
-            </motion.div>
+              <circle
+                cx="100"
+                cy="100"
+                r={ringRadius}
+                stroke="#D97757"
+                strokeWidth={3}
+                strokeLinecap="round"
+                strokeDasharray="120 480"
+                fill="none"
+              />
+            </motion.svg>
 
-            {/* Center dot */}
-            <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#141413]" />
-
-            {/* Stage labels, evenly spaced around the loop */}
+            {/* Stage labels arranged around the ring */}
             {stages.map((stage) => {
-              const angleRad = (stage.angle * Math.PI) / 180;
-              const x = Math.cos(angleRad) * radius;
-              const y = Math.sin(angleRad) * radius;
+              const angleRad = (stage.angleDeg * Math.PI) / 180;
+              const x = 100 + Math.cos(angleRad) * labelRadius;
+              const y = 100 + Math.sin(angleRad) * labelRadius;
+
+              const leftPct = (x / 200) * 100;
+              const topPct = (y / 200) * 100;
 
               return (
                 <div
                   key={stage.id}
-                  className="absolute left-1/2 top-1/2"
-                  style={{ transform: `translate(${x}px, ${y}px)` }}
+                  className="absolute"
+                  style={{
+                    left: `${leftPct}%`,
+                    top: `${topPct}%`,
+                    transform: "translate(-50%, -50%)",
+                  }}
                 >
-                  <div className="inline-flex max-w-[150px] flex-col items-center rounded-2xl border border-[#E5DFD0] bg-white/95 px-3 py-2 text-[10px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-[11px]">
+                  <div className="inline-flex max-w-[180px] flex-col items-center rounded-2xl border border-[#E5DFD0] bg-white px-3 py-2 text-[10px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-[11px]">
                     <span className="mb-0.5 text-[11px] font-poppins font-semibold text-[#141413] md:text-xs">
                       {stage.label}
                     </span>
