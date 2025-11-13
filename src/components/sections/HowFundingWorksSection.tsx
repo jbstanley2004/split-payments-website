@@ -58,7 +58,7 @@ const fundingStages = [
 function AutoQualificationCard() {
   return (
     <div className="mb-16">
-      <div className="rounded-3xl border border-[#E5DFD0] bg-[#FAF9F5] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.06)]">
+      <div className="rounded-3xl bg-[#FAF9F5] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.06)]">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Eligibility
         </p>
@@ -80,7 +80,6 @@ function DeploymentTimeline() {
     {
       // Card 1 – blue accent
       cardBg: "bg-[#F2F5FB]",
-      border: "border-[#C9D7EA]",
       badgeBg: "bg-[#E1ECF7]",
       badgeBorder: "border-[#C9D7EA]",
       badgeText: "text-[#375985]",
@@ -88,7 +87,6 @@ function DeploymentTimeline() {
     {
       // Card 2 – green accent
       cardBg: "bg-[#F3F6EF]",
-      border: "border-[#CBD7BF]",
       badgeBg: "bg-[#E3EBD8]",
       badgeBorder: "border-[#CBD7BF]",
       badgeText: "text-[#485737]",
@@ -96,7 +94,6 @@ function DeploymentTimeline() {
     {
       // Card 3 – warm neutral accent
       cardBg: "bg-[#F4F3EF]",
-      border: "border-[#D3CEC1]",
       badgeBg: "bg-[#E7E3DA]",
       badgeBorder: "border-[#D3CEC1]",
       badgeText: "text-[#5A5345]",
@@ -125,7 +122,7 @@ function DeploymentTimeline() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: index * 0.08, duration: 0.5 }}
-                className={`relative flex flex-col rounded-2xl border ${accent.border} ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)]`}
+                className={`relative flex flex-col rounded-2xl ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)]`}
               >
                 <div className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[#9B8E7A]">
                   <span
@@ -284,10 +281,12 @@ function FundingLoopVisual() {
                   >
                     {/* Card stays upright via inverse rotation */}
                     <motion.div
-                      className="inline-flex w-[210px] min-h-[110px] flex-col items-center justify-center rounded-2xl border bg-white px-4 py-3 text-center text-[11px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-xs"
+                      className="inline-flex w-[210px] min-h-[110px] flex-col items-center justify-center rounded-2xl border border-transparent bg-white px-4 py-3 text-center text-[11px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-xs"
                       style={{ rotate: inverseRotation }}
                       animate={{
-                        borderColor: isActive ? "#D97757" : "#E5DFD0",
+                        borderColor: isActive
+                          ? "#D97757"
+                          : "rgba(0,0,0,0)", // no visible border when inactive
                         boxShadow: isActive
                           ? "0 16px 40px rgba(20,20,19,0.16)"
                           : "0 10px 24px rgba(20,20,19,0.08)",
