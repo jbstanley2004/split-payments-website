@@ -13,6 +13,8 @@ import {
   useTransform,
 } from "framer-motion";
 import type { AnimationPlaybackControls, PanInfo } from "framer-motion";
+import Link from "next/link";
+import OrangePushButton from "@/components/OrangePushButton";
 
 const timelineSteps = [
   {
@@ -125,7 +127,7 @@ function DeploymentTimeline() {
                 transition={{ delay: index * 0.08, duration: 0.5 }}
                 className={`relative flex flex-col rounded-2xl ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)]`}
               >
-                {/* UPDATED: text color for day label to brand dark (#141413) */}
+                {/* Day label */}
                 <div className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[#141413]">
                   <span
                     className={`inline-flex h-7 w-7 items-center justify-center rounded-full border ${accent.badgeBorder} ${accent.badgeBg} text-[11px] ${accent.badgeText}`}
@@ -356,6 +358,13 @@ function ReassuranceStrip() {
           </p>
         </div>
       </div>
+
+      {/* Centered CTA matching rest of site */}
+      <div className="mt-10 flex justify-center">
+        <Link href="/get-started" passHref>
+          <OrangePushButton>Get started</OrangePushButton>
+        </Link>
+      </div>
     </section>
   );
 }
@@ -371,7 +380,7 @@ export default function HowFundingWorksSection() {
           <h2 className="text-3xl sm:text-4xl font-poppins font-semibold tracking-tight text-[#141413]">
             How funding works
           </h2>
-          <p className="mt-4 mx-auto max-w-2xl text-sm font-lora text-[#524F49] sm:text-base md:text-lg">
+        <p className="mt-4 mx-auto max-w-2xl text-sm font-lora text-[#524F49] sm:text-base md:text-lg">
             Automatic qualification, fast deployment, and repeat funding as your
             card sales stay strong.
           </p>
