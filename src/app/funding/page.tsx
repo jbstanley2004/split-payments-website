@@ -62,6 +62,11 @@ export default async function FundingPage() {
           </ParallaxIllustration>
         </section>
 
+        <div className="text-center px-6 md:px-10">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-poppins font-semibold leading-tight text-[var(--theme-text-primary)] mb-4" style={{ color: 'black' }}>
+            Enabling growth through payments technology.
+          </h2>
+        </div>
         <CardBeamAnimation />
 
         <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
