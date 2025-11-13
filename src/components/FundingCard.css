@@ -22,11 +22,11 @@
 .advance-slider input[type="range"] {
   accent-color: var(--theme-accent-blue);
 }
-/* Holdback slider – keep existing green accent */
+/* Holdback slider – match advance color for consistency */
 .holdback-slider input[type="range"] {
-  accent-color: var(--theme-accent-green);
+  accent-color: var(--theme-accent-blue);
 }
-/* Daily card sales slider – match advance/holdback aesthetic (blue) */
+/* Daily card sales slider – also brand blue so bars match */
 .sales-slider input[type="range"] {
   accent-color: var(--theme-accent-blue);
 }
