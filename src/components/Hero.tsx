@@ -5,7 +5,7 @@ import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import OrangePushButton from "./OrangePushButton";
 import FundingCard from "./FundingCard";
-import RelationshipLoop from "./RelationshipLoop";
+import HowFundingWorksSection from "./sections/HowFundingWorksSection";
 
 type AnimatedHeroProps = {
   imageSrcLight?: string;
@@ -125,7 +125,7 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, revers
             <OrangePushButton>Get started</OrangePushButton>
           </Link>
           <a
-            href="/#funding"
+            href="/#how-funding-works"
             className="text-[var(--theme-text-primary)] font-lora hover:text-[var(--theme-accent)] transition-colors duration-300 text-base inline-flex items-center"
           >
             Learn more →
@@ -292,51 +292,8 @@ export default function Hero() {
         text="Unlock working capital through your daily card sales with no fixed payments, hidden fees, or credit barriers. Funding that moves with your business, not against it."
       />
 
-      {/* Relationship Loop + Copy (new section) */}
-      <section className="relative py-10 lg:py-16 px-6 lg:px-16 bg-white dark:bg-[#0a0a0a]">
-        <h3 className="text-xl md:text-2xl font-poppins font-semibold text-[var(--theme-text-primary)] mb-6">
-          We build long-term funding relationships, not one-offs.
-        </h3>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-          <div className="order-2 lg:order-1">
-            <RelationshipLoop holdback={holdback} />
-          </div>
-          <div className="order-1 lg:order-2 space-y-6">
-            <div>
-              <h4 className="font-poppins text-lg font-semibold">Relationship, not a one-off</h4>
-              <p className="font-lora">
-                As you process with us, we review your rhythm and extend additional rounds of funding on a cadence that fits your
-                business — biweekly, monthly, or as needed. The goal is to grow together, not to run a single transaction.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-poppins text-lg font-semibold">Why it works</h4>
-              <p className="font-lora">
-                You already process card payments. Repayments come from a fixed percentage of those sales, so payments move in step
-                with your revenue. When you have a slow day, you pay less. If there are no sales, there’s no payment.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-poppins text-lg font-semibold">What we focus on</h4>
-              <p className="font-lora">
-                Our attention is on your card processing revenue. As long as that flow stays consistent, we keep funding you in new
-                rounds. Typical qualification is around eight thousand dollars per month in processing volume. We don’t base
-                decisions on personal credit or bank balances.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-poppins text-lg font-semibold">Timeline for initial funding</h4>
-              <ul className="list-disc pl-5 font-lora space-y-1">
-                <li>Merchant account approval — about one day</li>
-                <li>Virtual setup or POS shipped — same day for virtual, one to two days if equipment is shipped</li>
-                <li>Remote activation and verification</li>
-                <li>Funds deployed — typically within three to five days from agreement</li>
-              </ul>
-              <p className="font-lora text-sm opacity-70 mt-2">(Timelines are averages, not promises.)</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Section 2 – How funding works (auto-qualification, timeline, loop, reassurance) */}
+      <HowFundingWorksSection />
     </>
   );
 }
