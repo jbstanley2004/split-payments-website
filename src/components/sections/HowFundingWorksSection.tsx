@@ -105,9 +105,6 @@ function DeploymentTimeline() {
 
   return (
     <section className="mb-20">
-      <h3 className="mb-6 text-lg md:text-xl font-poppins font-semibold text-[#141413]">
-        From agreement to first funding, in a few simple steps.
-      </h3>
       <div className="relative">
         <div
           className="absolute left-0 right-0 top-6 hidden h-px bg-[#E0D9C8] md:block"
@@ -380,7 +377,7 @@ export default function HowFundingWorksSection() {
           <h2 className="text-3xl sm:text-4xl font-poppins font-semibold tracking-tight text-[#141413]">
             How funding works
           </h2>
-        <p className="mt-4 mx-auto max-w-2xl text-sm font-lora text-[#524F49] sm:text-base md:text-lg">
+          <p className="mt-4 mx-auto max-w-2xl text-sm font-lora text-[#524F49] sm:text-base md:text-lg">
             Automatic qualification, fast deployment, and repeat funding as your
             card sales stay strong.
           </p>
@@ -394,3 +391,4 @@ export default function HowFundingWorksSection() {
     </section>
   );
 }
+
