@@ -83,6 +83,7 @@ function DeploymentTimeline() {
           {timelineSteps.map((step, index) => {
             const accent =
               accentStyles[index] || accentStyles[accentStyles.length - 1];
+
             return (
               <motion.div
                 key={step.title}
@@ -121,49 +122,35 @@ function FundingLoopVisual() {
       id: 1,
       label: "Funding deployed",
       description: "Capital hits your business account.",
-      position: "top",
+      angle: -90, // top
     },
     {
       id: 2,
       label: "You process card sales",
       description: "Everyday revenue powers the cycle.",
-      position: "right",
+      angle: -18, // upper-right
     },
     {
       id: 3,
       label: "We track performance",
       description: "We watch your volume over time.",
-      position: "bottom",
+      angle: 54, // lower-right
     },
     {
       id: 4,
       label: "Volume stays healthy",
       description: "Sales stay at or above baseline.",
-      position: "left",
+      angle: 126, // lower-left
     },
     {
       id: 5,
       label: "New rounds offered",
       description: "More funding becomes available.",
-      position: "topleft",
+      angle: 198, // upper-left
     },
   ];
 
-  const getPositionClasses = (position: string) => {
-    switch (position) {
-      case "top":
-        return "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2";
-      case "right":
-        return "top-1/2 right-0 translate-x-1/2 -translate-y-1/2";
-      case "bottom":
-        return "bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2";
-      case "left":
-        return "top-1/2 left-0 -translate-x-1/2 -translate-y-1/2";
-      case "topleft":
-      default:
-        return "top-[16%] left-[10%] -translate-y-1/2";
-    }
-  };
+  const radius = 118; // distance from center for labels
 
   return (
     <section className="mb-16 lg:mb-20">
@@ -176,49 +163,54 @@ function FundingLoopVisual() {
           ongoing volume all feed back into the same loop — keeping you eligible
           for new offers as your processing stays healthy.
         </p>
+
         <div className="mt-10 flex justify-center">
-          <div className="relative inline-flex items-center justify-center">
+          <div className="relative h-60 w-60 md:h-72 md:w-72">
+            {/* Loop rings */}
             <motion.div
-              className="relative h-60 w-60 rounded-full border border-[#E3DDD0] bg-[radial-gradient(circle_at_top,_rgba(226,211,189,0.34),_transparent_58%)] md:h-72 md:w-72"
+              className="absolute inset-0 rounded-full border border-[#E3DDD0] bg-[radial-gradient(circle_at_top,_rgba(226,211,189,0.34),_transparent_58%)]"
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, amount: 0.4 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="absolute inset-8 rounded-full border border-[#E5DFD0]/70" />
-              <div className="absolute inset-4 rounded-full border border-dashed border-[#D6C9B8]/70" />
-              {[0, 72, 144, 216, 288].map((deg) => (
-                <span
-                  key={deg}
-                  className="absolute h-2 w-2 rounded-full bg-[#6A9BCC]"
-                  style={{
-                    top: `calc(50% - 40%)`,
-                    left: `calc(50% - 4px)`,
-                    transformOrigin: "4px calc(40%)",
-                    transform: `rotate(${deg}deg)`,
-                  }}
-                />
-              ))}
-              <motion.div
-                className="absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#141413] shadow-[0_0_0_8px_rgba(20,20,19,0.06)]"
-                animate={{ rotate: 360 }}
-                transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
-                style={{ transformOrigin: "0 -86px" }}
-              />
-              {stages.map((stage) => (
+              <div className="absolute inset-6 rounded-full border border-[#E5DFD0]/70" />
+              <div className="absolute inset-3 rounded-full border border-dashed border-[#D6C9B8]/70" />
+            </motion.div>
+
+            {/* Smooth orange cycle marker */}
+            <motion.div
+              className="absolute inset-10"
+              animate={{ rotate: 360 }}
+              transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
+            >
+              <div className="absolute left-1/2 top-0 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-[#D97757] shadow-[0_0_0_6px_rgba(217,119,87,0.23)]" />
+            </motion.div>
+
+            {/* Center dot */}
+            <div className="absolute left-1/2 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#141413]" />
+
+            {/* Stage labels, evenly spaced around the loop */}
+            {stages.map((stage) => {
+              const angleRad = (stage.angle * Math.PI) / 180;
+              const x = Math.cos(angleRad) * radius;
+              const y = Math.sin(angleRad) * radius;
+
+              return (
                 <div
                   key={stage.id}
-                  className={`absolute ${getPositionClasses(stage.position)}`}
+                  className="absolute left-1/2 top-1/2"
+                  style={{ transform: `translate(${x}px, ${y}px)` }}
                 >
-                  <div className="inline-flex max-w-[130px] flex-col items-center rounded-2xl border border-[#E5DFD0] bg-white/90 px-3 py-2 text-[10px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-[11px]">
-                    <span className="mb-0.5 font-poppins text-[11px] font-semibold text-[#141413] md:text-xs">
+                  <div className="inline-flex max-w-[150px] flex-col items-center rounded-2xl border border-[#E5DFD0] bg-white/95 px-3 py-2 text-[10px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-[11px]">
+                    <span className="mb-0.5 text-[11px] font-poppins font-semibold text-[#141413] md:text-xs">
                       {stage.label}
                     </span>
                     <span>{stage.description}</span>
                   </div>
                 </div>
-              ))}
-            </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
