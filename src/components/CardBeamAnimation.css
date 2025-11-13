@@ -9,10 +9,11 @@
 .card-beam-wrapper {
   position: relative;
   width: 100vw;
-  height: 400px;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 2rem 0;
 }
 
 .card-stream {
