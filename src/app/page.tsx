@@ -4,7 +4,6 @@ import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Hero from "@/components/Hero";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
-import PaymentInfrastructureSection from "@/components/sections/PaymentInfrastructureSection";
 import OrangePushButton from "@/components/OrangePushButton";
 import { WaterRipple } from "@/components/WaterRipple";
 import Image from "next/image";
@@ -72,10 +71,9 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        {/* FUNDING / INFRASTRUCTURE */}
+        {/* FUNDING */}
         <section id="funding" data-section-id="funding">
           <Hero />
-          <PaymentInfrastructureSection />
         </section>
 
         {/* PAYMENTS */}

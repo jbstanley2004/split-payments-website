@@ -1,10 +1,9 @@
 "use client";
 
 import InteractiveCard from "@/components/InteractiveCard";
-import OrangePushButton from "@/components/OrangePushButton";
+import PaymentInfrastructureSection from "@/components/sections/PaymentInfrastructureSection";
 import { motion } from "framer-motion";
 import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
-import Link from "next/link";
 
 const solutions = [
   {
@@ -80,27 +79,8 @@ export default function PaymentsSection() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
-          className="text-center max-w-3xl mx-auto border border-line p-12 bg-bg/80 backdrop-blur-sm"
-        >
-          <h3 className="font-poppins text-3xl md:text-4xl mb-4">
-            Find the Right Fit for Your Business
-          </h3>
-          <p className="font-lora text-[#2C2C2C] mb-8 text-lg leading-relaxed">
-            Let&apos;s review your processing setup and uncover how Split can streamline payments, reduce fees, and fund your growth —
-            all in one platform.
-          </p>
-          <Link href="/get-started" passHref>
-            <OrangePushButton>Get started</OrangePushButton>
-          </Link>
-        </motion.div>
-      </section>
+      {/* Payment infrastructure CTA replacing "Find the Right Fit" */}
+      <PaymentInfrastructureSection />
     </div>
   );
 }
