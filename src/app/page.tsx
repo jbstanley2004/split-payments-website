@@ -36,7 +36,7 @@ export default function HomePage() {
           ]}
         />
 
-        {/* HOME HERO: original copy, placement, and ripple CTA */}
+        {/* HOME HERO: updated heading copy, same CTA + ripple placement */}
         <section
           id="home"
           data-section-id="home"
@@ -50,7 +50,7 @@ export default function HomePage() {
             style={{ willChange: "transform, opacity" }}
           >
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-black dark:text-black">
-              The new standard in merchant cash advances
+              Empowering growth through payment technology
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl font-lora text-gray-700 dark:text-gray-700">
               A smarter way to fund your business — seamless integration, instant access, and full transparency.
