@@ -125,7 +125,8 @@ function DeploymentTimeline() {
                 transition={{ delay: index * 0.08, duration: 0.5 }}
                 className={`relative flex flex-col rounded-2xl ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)]`}
               >
-                <div className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[#9B8E7A]">
+                {/* UPDATED: text color for day label to brand dark (#141413) */}
+                <div className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[#141413]">
                   <span
                     className={`inline-flex h-7 w-7 items-center justify-center rounded-full border ${accent.badgeBorder} ${accent.badgeBg} text-[11px] ${accent.badgeText}`}
                   >
