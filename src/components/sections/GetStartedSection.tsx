@@ -1,67 +1,36 @@
 "use client";
 
+import Link from "next/link";
+import OrangePushButton from "@/components/OrangePushButton";
+
 export default function GetStartedSection() {
   return (
-    <div className="min-h-screen min-h-[100dvh] font-jetbrains px-6 md:px-10 py-16 md:py-24 max-w-3xl mx-auto">
-      <h2 className="text-3xl mb-6 font-poppins">Get Started</h2>
-      <p className="text-muted mb-8">
-        Tell us a bit about your business and we&apos;ll share your pre-approved funding options.
-      </p>
+    <section
+      id="get-started"
+      className="bg-[#FAF9F5] py-16 md:py-24 px-6 md:px-10 lg:px-16"
+    >
+      <div className="mx-auto max-w-4xl text-center">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+          Get started
+        </p>
+        <h2 className="text-3xl md:text-4xl font-poppins font-semibold tracking-tight text-[#141413]">
+          Get a funding estimate in a few minutes.
+        </h2>
+        <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49] max-w-2xl mx-auto">
+          Tell us about your card sales and we&apos;ll share your pre-approved funding options.
+          No hard credit checks. No personal guarantees.
+        </p>
 
-      <form className="space-y-6 max-w-xl">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="biz" className="text-sm text-muted">
-            business name
-          </label>
-          <input
-            id="biz"
-            name="biz"
-            className="bg-bg border border-line p-3 outline-none text-white"
-            placeholder="Acme Coffee LLC"
-          />
+        <div className="mt-8 flex justify-center">
+          <Link href="/get-started">
+            <OrangePushButton>Open full Get Started form</OrangePushButton>
+          </Link>
         </div>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="sales" className="text-sm text-muted">
-            avg monthly card sales (USD)
-          </label>
-          <input
-            id="sales"
-            name="sales"
-            type="number"
-            className="bg-bg border border-line p-3 outline-none text-white"
-            placeholder="50000"
-          />
-        </div>
-
-        <div className="flex flex-col gap-2">
-          <label htmlFor="email" className="text-sm text-muted">
-            work email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            className="bg-bg border border-line p-3 outline-none text-white"
-            placeholder="you@company.com"
-          />
-        </div>
-
-        <div className="flex items-center gap-2 text-xs text-muted">
-          <input id="agree" type="checkbox" className="accent-white" />
-          <label htmlFor="agree">
-            I agree to the privacy policy & terms.
-          </label>
-        </div>
-
-        <button type="submit" className="btn">
-          submit
-        </button>
-      </form>
-
-      <p className="text-xs text-muted mt-8">
-        No hard credit checks. No personal guarantees.
-      </p>
-    </div>
+        <p className="mt-3 text-[11px] text-[#7B7569]">
+          No hard credit checks. This won&apos;t affect your credit score.
+        </p>
+      </div>
+    </section>
   );
 }
