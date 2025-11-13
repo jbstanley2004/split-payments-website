@@ -23,22 +23,10 @@ const solutions = [
     icon: Check,
   },
   {
-    title: "ACH Payments",
-    description:
-      "Simplify ACH transfers for payroll, subscriptions, and B2B — faster, lower-cost, and fully automated.",
-    icon: Landmark,
-  },
-  {
     title: "Point of Sale (POS) systems",
     description:
       "Power your business with flexible POS systems — tailored for retail, restaurants, and service providers, in-store or on-the-go.",
     icon: Laptop,
-  },
-  {
-    title: "Gift Card and Loyalty Programs",
-    description:
-      "Engage and retain customers with branded gift cards and loyalty rewards that drive repeat spending and brand loyalty.",
-    icon: Gift,
   },
 ];
 
