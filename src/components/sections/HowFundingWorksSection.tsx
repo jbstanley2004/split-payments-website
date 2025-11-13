@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { motion, animate } from "framer-motion";
 
 const timelineSteps = [
   {
@@ -18,6 +18,39 @@ const timelineSteps = [
     label: "Day 3–5",
     title: "Funding deployed",
     body: "As soon as your account is active, we deploy your funding so you can put it to work. No separate application for the first round.",
+  },
+];
+
+const fundingStages = [
+  {
+    id: 1,
+    label: "Funding deployed",
+    description: "Capital hits your business account.",
+    angleDeg: -90, // top
+  },
+  {
+    id: 2,
+    label: "You process card sales",
+    description: "Everyday revenue powers the cycle.",
+    angleDeg: -18, // upper-right
+  },
+  {
+    id: 3,
+    label: "We track performance",
+    description: "We watch your volume over time.",
+    angleDeg: 54, // lower-right
+  },
+  {
+    id: 4,
+    label: "Volume stays healthy",
+    description: "Sales stay at or above baseline.",
+    angleDeg: 126, // lower-left
+  },
+  {
+    id: 5,
+    label: "New rounds offered",
+    description: "More funding becomes available.",
+    angleDeg: 198, // upper-left
   },
 ];
 
@@ -117,44 +150,26 @@ function DeploymentTimeline() {
 }
 
 function FundingLoopVisual() {
-  // Angles in degrees, measured from the positive X axis, rotating counterclockwise
-  // We offset them so -90° is straight up, etc.
-  const stages = [
-    {
-      id: 1,
-      label: "Funding deployed",
-      description: "Capital hits your business account.",
-      angleDeg: -90, // top
-    },
-    {
-      id: 2,
-      label: "You process card sales",
-      description: "Everyday revenue powers the cycle.",
-      angleDeg: -18, // upper-right
-    },
-    {
-      id: 3,
-      label: "We track performance",
-      description: "We watch your volume over time.",
-      angleDeg: 54, // lower-right
-    },
-    {
-      id: 4,
-      label: "Volume stays healthy",
-      description: "Sales stay at or above baseline.",
-      angleDeg: 126, // lower-left
-    },
-    {
-      id: 5,
-      label: "New rounds offered",
-      description: "More funding becomes available.",
-      angleDeg: 198, // upper-left
-    },
-  ];
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  // These numbers are in the SVG coordinate system (0–200).
+  useEffect(() => {
+    const controls = animate(0, fundingStages.length, {
+      duration: 16,
+      ease: "linear",
+      repeat: Infinity,
+      onUpdate: (latest) => {
+        const next = Math.floor(latest) % fundingStages.length;
+        setActiveIndex(next);
+      },
+    });
+
+    return () => {
+      controls.stop();
+    };
+  }, []);
+
   const ringRadius = 78;
-  const labelRadius = ringRadius + 40; // labels sit just outside the ring
+  const labelRadius = ringRadius + 40;
 
   return (
     <section className="mb-16 lg:mb-20">
@@ -170,7 +185,7 @@ function FundingLoopVisual() {
 
         <div className="mt-10 flex justify-center">
           <div className="relative h-72 w-72 md:h-80 md:w-80">
-            {/* Base neutral ring (no gradients) */}
+            {/* Base neutral ring */}
             <svg
               viewBox="0 0 200 200"
               className="absolute inset-0 h-full w-full"
@@ -179,39 +194,60 @@ function FundingLoopVisual() {
                 cx="100"
                 cy="100"
                 r={ringRadius}
-                stroke="#E3DDD0"
+                stroke="#E8E6DC"
                 strokeWidth={2}
                 fill="none"
               />
             </svg>
 
-            {/* Rotating orange accent arc on the ring */}
+            {/* Rotating orange arc */}
             <motion.svg
               viewBox="0 0 200 200"
               className="absolute inset-0 h-full w-full"
               animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
+              transition={{ repeat: Infinity, duration: 16, ease: "linear" }}
             >
               <circle
                 cx="100"
                 cy="100"
                 r={ringRadius}
                 stroke="#D97757"
-                strokeWidth={3}
+                strokeWidth={4}
                 strokeLinecap="round"
                 strokeDasharray="120 480"
                 fill="none"
               />
             </motion.svg>
 
-            {/* Stage labels arranged around the ring */}
-            {stages.map((stage) => {
+            {/* Center label */}
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="rounded-full border border-[#E8E6DC] bg-[#FAF9F5] px-4 py-3">
+                <p className="text-[11px] font-poppins font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
+                  Ongoing cycle
+                </p>
+                <p className="mt-1 text-xs font-lora text-[#524F49]">
+                  Repeat funding as long as your sales stay healthy.
+                </p>
+              </div>
+            </div>
+
+            {/* Stage labels */}
+            {fundingStages.map((stage, index) => {
               const angleRad = (stage.angleDeg * Math.PI) / 180;
               const x = 100 + Math.cos(angleRad) * labelRadius;
               const y = 100 + Math.sin(angleRad) * labelRadius;
 
               const leftPct = (x / 200) * 100;
               const topPct = (y / 200) * 100;
+
+              const isLeftSide = x < 96;
+              const isRightSide = x > 104;
+
+              let alignClasses = "items-center text-center";
+              if (isLeftSide) alignClasses = "items-end text-right";
+              if (isRightSide) alignClasses = "items-start text-left";
+
+              const isActive = index === activeIndex;
 
               return (
                 <div
@@ -223,12 +259,24 @@ function FundingLoopVisual() {
                     transform: "translate(-50%, -50%)",
                   }}
                 >
-                  <div className="inline-flex max-w-[180px] flex-col items-center rounded-2xl border border-[#E5DFD0] bg-white px-3 py-2 text-[10px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-[11px]">
+                  <motion.div
+                    layout
+                    initial={false}
+                    animate={{
+                      scale: isActive ? 1.03 : 1,
+                      boxShadow: isActive
+                        ? "0 14px 32px rgba(20,20,19,0.14)"
+                        : "0 10px 24px rgba(20,20,19,0.08)",
+                      borderColor: isActive ? "#D97757" : "#E5DFD0",
+                    }}
+                    transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                    className={`inline-flex max-w-[180px] flex-col rounded-2xl border bg-white px-3 py-2 text-[10px] font-lora text-[#3F3A32] ${alignClasses}`}
+                  >
                     <span className="mb-0.5 text-[11px] font-poppins font-semibold text-[#141413] md:text-xs">
                       {stage.label}
                     </span>
                     <span>{stage.description}</span>
-                  </div>
+                  </motion.div>
                 </div>
               );
             })}
@@ -300,3 +348,4 @@ export default function HowFundingWorksSection() {
     </section>
   );
 }
+
