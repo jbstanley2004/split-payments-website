@@ -11,13 +11,14 @@ import OrangePushButton from "./OrangePushButton";
 
 import darkModeLogo from "public/split.svg";
 
-type Direction = "up" | "down" | "left" | "right";
-
+// extended nav item type to support sections
 type NavItem = {
   label: string;
   href: string;
   variant?: "default" | "cta";
+  sectionId?: string;
 };
+
 
 type DynamicIslandNavProps = {
   navItems?: NavItem[];
@@ -132,6 +133,18 @@ export function DynamicIslandNav({
     }
   }, []);
 
+  const scrollToSection = useCallback((sectionId?: string) => {
+    if (!sectionId || typeof window === 'undefined') return;
+    const el = document.getElementById(sectionId);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const newUrl = sectionId === 'home' ? '/' : `/#${sectionId}`;
+    const current = window.location.pathname + window.location.hash;
+    if (current !== newUrl) {
+      window.history.pushState(null, '', newUrl);
+    }
+  }, []);
+
   // Tap outside to close on mobile
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent | TouchEvent) => {
@@ -201,14 +214,34 @@ export function DynamicIslandNav({
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
               {item.variant === "cta" ? (
-                <Link href={item.href} passHref>
-                  <OrangePushButton onClick={triggerLinkHaptic}>{item.label}</OrangePushButton>
+                <Link
+                  href={item.href}
+                  onClick={(e) => {
+                    if (item.sectionId) {
+                      e.preventDefault();
+                      triggerLinkHaptic();
+                      scrollToSection(item.sectionId);
+                    } else {
+                      triggerLinkHaptic();
+                    }
+                  }}
+                  passHref
+                >
+                  <OrangePushButton>{item.label}</OrangePushButton>
                 </Link>
               ) : (
                 <Link
                   href={item.href}
                   className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
-                  onClick={triggerLinkHaptic}
+                  onClick={(e) => {
+                    if (item.sectionId) {
+                      e.preventDefault();
+                      triggerLinkHaptic();
+                      scrollToSection(item.sectionId);
+                    } else {
+                      triggerLinkHaptic();
+                    }
+                  }}
                 >
                   {item.label}
                 </Link>
@@ -263,18 +296,34 @@ export function DynamicIslandNav({
               style={{ pointerEvents: isMobileExpanded ? "auto" : "none" }}
             >
               {item.variant === "cta" ? (
-                <Link href={item.href} passHref>
-                  <OrangePushButton onClick={() => {
-                    triggerLinkHaptic();
+                <Link
+                  href={item.href}
+                  passHref
+                  onClick={(e) => {
+                    if (item.sectionId) {
+                      e.preventDefault();
+                      triggerLinkHaptic();
+                      scrollToSection(item.sectionId);
+                    } else {
+                      triggerLinkHaptic();
+                    }
                     setIsMobileExpanded(false);
-                  }}>{item.label}</OrangePushButton>
+                  }}
+                >
+                  <OrangePushButton>{item.label}</OrangePushButton>
                 </Link>
               ) : (
                 <Link
                   href={item.href}
                   className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
-                  onClick={() => {
-                    triggerLinkHaptic();
+                  onClick={(e) => {
+                    if (item.sectionId) {
+                      e.preventDefault();
+                      triggerLinkHaptic();
+                      scrollToSection(item.sectionId);
+                    } else {
+                      triggerLinkHaptic();
+                    }
                     setIsMobileExpanded(false);
                   }}
                 >

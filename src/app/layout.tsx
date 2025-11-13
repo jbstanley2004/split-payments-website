@@ -5,9 +5,8 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Poppins, Lora } from 'next/font/google';
 import '@/styles/globals.css';
-import dynamic from 'next/dynamic';
 import ScrollStitch from '@/components/ScrollStitch';
-const FooterBeam = dynamic(() => import('@/components/FooterBeam'), { ssr: false });
+import FooterBeamClient from '@/components/FooterBeamClient';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -110,7 +109,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           <Providers>{children}</Providers>
         </StyledComponentsRegistry>
         <ScrollStitch />
-        <FooterBeam />
+        <FooterBeamClient />
       </body>
     </html>
   );

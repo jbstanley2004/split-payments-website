@@ -1,71 +1,62 @@
 "use client";
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function ScrollStitch() {
-  const router = useRouter();
   const pathname = usePathname();
-  const lock = useRef(false);
-  const order = ['/', '/payments', '/funding', '/get-started'];
 
+  // Scrollspy + URL hash updates only on the home page
   useEffect(() => {
-    const threshold = 24;
+    if (pathname !== '/') return;
 
-    const onWheel = (e: WheelEvent) => {
-      if (lock.current) return;
-      const idx = order.indexOf(pathname || '/');
-      if (idx === -1) return;
+    const sections = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-section-id]')
+    );
+    if (sections.length === 0) return;
 
-      const atTop = window.scrollY <= threshold;
-      const atBottom =
-        window.innerHeight + window.scrollY >= document.body.scrollHeight - threshold;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let mostVisible: IntersectionObserverEntry | null = null;
 
-      if (e.deltaY > 0 && atBottom && idx < order.length - 1) {
-        lock.current = true;
-        router.push(order[idx + 1]);
-        setTimeout(() => (lock.current = false), 500);
-      }
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          if (!mostVisible || entry.intersectionRatio > mostVisible.intersectionRatio) {
+            mostVisible = entry;
+          }
+        }
 
-      if (e.deltaY < 0 && atTop && idx > 0) {
-        lock.current = true;
-        router.push(order[idx - 1]);
-        setTimeout(() => (lock.current = false), 500);
-      }
-    };
+        if (!mostVisible) return;
+        const sectionId = mostVisible.target.getAttribute('data-section-id');
+        if (!sectionId || typeof window === 'undefined') return;
 
-    let startY = 0;
-    const onTouchStart = (e: TouchEvent) => (startY = e.touches[0].clientY);
-    const onTouchEnd = (e: TouchEvent) => {
-      if (lock.current) return;
-      const idx = order.indexOf(pathname || '/');
-      if (idx === -1) return;
-      const dy = (e.changedTouches[0]?.clientY ?? 0) - startY;
+        const newUrl = sectionId === 'home' ? '/' : `/#${sectionId}`;
+        const current = window.location.pathname + window.location.hash;
+        if (current !== newUrl) {
+          window.history.replaceState(null, '', newUrl);
+        }
+      },
+      { threshold: 0.5 }
+    );
 
-      const atTop = window.scrollY <= threshold;
-      const atBottom =
-        window.innerHeight + window.scrollY >= document.body.scrollHeight - threshold;
+    sections.forEach((section) => observer.observe(section));
 
-      if (dy < -32 && atBottom && idx < order.length - 1) {
-        lock.current = true;
-        router.push(order[idx + 1]);
-        setTimeout(() => (lock.current = false), 600);
-      }
-      if (dy > 32 && atTop && idx > 0) {
-        lock.current = true;
-        router.push(order[idx - 1]);
-        setTimeout(() => (lock.current = false), 600);
-      }
-    };
+    return () => observer.disconnect();
+  }, [pathname]);
 
-    window.addEventListener('wheel', onWheel, { passive: true });
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchend', onTouchEnd, { passive: true });
+  // Handle initial deep-linking to a section hash on the home page
+  useEffect(() => {
+    if (pathname !== '/') return;
+    if (typeof window === 'undefined') return;
 
-    return () => {
-      window.removeEventListener('wheel', onWheel);
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchend', onTouchEnd);
-    };
+    const hash = window.location.hash.replace('#', '');
+    if (!hash) return;
+
+    const el = document.getElementById(hash);
+    if (!el) return;
+
+    setTimeout(() => {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 0);
   }, [pathname]);
 
   return null;
