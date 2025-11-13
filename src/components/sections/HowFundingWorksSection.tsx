@@ -53,11 +53,6 @@ const fundingStages = [
     label: "Volume stays healthy",
     description: "Sales stay at or above baseline.",
   },
-  {
-    id: 5,
-    label: "New rounds offered",
-    description: "More funding becomes available.",
-  },
 ];
 
 function AutoQualificationCard() {
@@ -156,7 +151,7 @@ function DeploymentTimeline() {
 }
 
 function FundingLoopVisual() {
-  const n = fundingStages.length;
+  const n = fundingStages.length; // 4
 
   // progress goes 0 → n (each unit = one card step)
   const progress = useMotionValue(0);
@@ -222,7 +217,7 @@ function FundingLoopVisual() {
   };
 
   const ringRadius = 78;
-  const labelRadius = ringRadius + 48;
+  const labelRadius = ringRadius + 40;
 
   return (
     <section className="mb-16 lg:mb-20">
@@ -266,7 +261,8 @@ function FundingLoopVisual() {
               onDragEnd={handleDragEnd}
             >
               {fundingStages.map((stage, index) => {
-                const angleDeg = -90 + (360 / n) * index; // 12 o’clock start
+                // With 4 cards, these land at 12, 3, 6, 9 o’clock
+                const angleDeg = -90 + (360 / n) * index;
                 const angleRad = (angleDeg * Math.PI) / 180;
                 const x = 100 + Math.cos(angleRad) * labelRadius;
                 const y = 100 + Math.sin(angleRad) * labelRadius;
@@ -326,7 +322,6 @@ function FundingLoopVisual() {
     </section>
   );
 }
-
 
 function ReassuranceStrip() {
   return (
@@ -389,4 +384,3 @@ export default function HowFundingWorksSection() {
     </section>
   );
 }
-
