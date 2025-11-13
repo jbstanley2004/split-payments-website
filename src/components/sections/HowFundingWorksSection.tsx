@@ -158,13 +158,23 @@ function DeploymentTimeline() {
 function FundingLoopVisual() {
   const n = fundingStages.length;
 
-  // progress goes 0 → n (each unit is one full step)
+  // progress goes 0 → n (each unit = one card step)
   const progress = useMotionValue(0);
   const rotation = useTransform(progress, (v) => (v * 360) / n);
   const inverseRotation = useTransform(rotation, (v) => -v);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const controls = useRef<AnimationPlaybackControls | null>(null);
+
+  const progressToIndex = useCallback(
+    (value: number) => {
+      // Card at 12 o’clock is the one with index ≡ -progress (mod n)
+      let idx = Math.round(-value) % n;
+      if (idx < 0) idx += n;
+      return idx;
+    },
+    [n]
+  );
 
   const startAutoRotate = useCallback(() => {
     controls.current?.stop();
@@ -175,17 +185,15 @@ function FundingLoopVisual() {
     progress.set(normalized);
 
     controls.current = animate(progress, normalized + n, {
-      duration: 14, // full loop time (tweak if you want faster/slower)
+      duration: 14, // full loop time
       ease: "linear",
       repeat: Infinity,
       repeatType: "loop",
       onUpdate: (latest) => {
-        let idx = Math.round(latest) % n;
-        if (idx < 0) idx += n;
-        setActiveIndex(idx);
+        setActiveIndex(progressToIndex(latest));
       },
     });
-  }, [n, progress]);
+  }, [n, progress, progressToIndex]);
 
   useEffect(() => {
     startAutoRotate();
@@ -198,15 +206,15 @@ function FundingLoopVisual() {
     controls.current?.stop();
   };
 
-  const handleDrag = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+  const handleDrag = (
+    _event: MouseEvent | TouchEvent | PointerEvent,
+    info: PanInfo
+  ) => {
     const current = progress.get();
     const dragFactor = -0.01; // drag sensitivity
     const next = current + info.delta.x * dragFactor;
     progress.set(next);
-
-    let idx = Math.round(next) % n;
-    if (idx < 0) idx += n;
-    setActiveIndex(idx);
+    setActiveIndex(progressToIndex(next));
   };
 
   const handleDragEnd = () => {
@@ -230,7 +238,7 @@ function FundingLoopVisual() {
 
         <div className="mt-10 flex justify-center">
           <div className="relative h-[320px] w-[320px] md:h-[360px] md:w-[360px]">
-            {/* Base ring (static) */}
+            {/* Static base ring */}
             <svg
               viewBox="0 0 200 200"
               className="absolute inset-0 h-full w-full"
@@ -258,7 +266,7 @@ function FundingLoopVisual() {
               onDragEnd={handleDragEnd}
             >
               {fundingStages.map((stage, index) => {
-                const angleDeg = -90 + (360 / n) * index; // start at 12 o'clock
+                const angleDeg = -90 + (360 / n) * index; // 12 o’clock start
                 const angleRad = (angleDeg * Math.PI) / 180;
                 const x = 100 + Math.cos(angleRad) * labelRadius;
                 const y = 100 + Math.sin(angleRad) * labelRadius;
@@ -318,6 +326,7 @@ function FundingLoopVisual() {
     </section>
   );
 }
+
 
 function ReassuranceStrip() {
   return (
