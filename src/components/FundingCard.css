@@ -18,14 +18,17 @@
   width: 100%;
   transition: all 0.3s ease;
 }
+/* Advance amount slider – brand blue */
 .advance-slider input[type="range"] {
-  accent-color: var(--theme-text-primary);
+  accent-color: var(--theme-accent-blue);
 }
+/* Holdback slider – keep existing green accent */
 .holdback-slider input[type="range"] {
   accent-color: var(--theme-accent-green);
 }
+/* Daily card sales slider – match advance/holdback aesthetic (blue) */
 .sales-slider input[type="range"] {
-  accent-color: var(--theme-accent-gray);
+  accent-color: var(--theme-accent-blue);
 }
 .metrics {
   display: flex;
