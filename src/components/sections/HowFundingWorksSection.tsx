@@ -58,7 +58,8 @@ const fundingStages = [
 function AutoQualificationCard() {
   return (
     <div className="mb-16">
-      <div className="rounded-3xl bg-[#FAF9F5] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.06)]">
+      {/* UPDATED bg to match Credit Card Acceptance (#d8d1c6) */}
+      <div className="rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.06)]">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Eligibility
         </p>
@@ -92,8 +93,8 @@ function DeploymentTimeline() {
       badgeText: "text-[#485737]",
     },
     {
-      // Card 3 – warm neutral accent
-      cardBg: "bg-[#F4F3EF]",
+      // Card 3 – warm neutral accent (UPDATED to #d8d1c6)
+      cardBg: "bg-[#d8d1c6]",
       badgeBg: "bg-[#E7E3DA]",
       badgeBorder: "border-[#D3CEC1]",
       badgeText: "text-[#5A5345]",
@@ -285,8 +286,8 @@ function FundingLoopVisual() {
                       style={{ rotate: inverseRotation }}
                       animate={{
                         borderColor: isActive
-                          ? "#D97757"
-                          : "rgba(0,0,0,0)", // no visible border when inactive
+                          ? "#D97757" // orange outline when active
+                          : "rgba(0,0,0,0)", // no border when inactive
                         boxShadow: isActive
                           ? "0 16px 40px rgba(20,20,19,0.16)"
                           : "0 10px 24px rgba(20,20,19,0.08)",
