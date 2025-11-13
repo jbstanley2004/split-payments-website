@@ -137,9 +137,9 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, revers
 }
 
 export default function Hero() {
-  const [advance, setAdvance] = useState(55000);
-  const [holdback, setHoldback] = useState(14);
-  const [sales, setSales] = useState(2500);
+  const [advance, setAdvance] = useState(25000);
+  const [holdback, setHoldback] = useState(15);
+  const [sales, setSales] = useState(1000);
   useEffect(() => {
     // Carousel initialization (unchanged)
     const baseImages = [
@@ -297,3 +297,4 @@ export default function Hero() {
     </>
   );
 }
+
