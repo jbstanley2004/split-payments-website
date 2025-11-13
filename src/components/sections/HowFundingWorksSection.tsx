@@ -58,7 +58,7 @@ const fundingStages = [
 function AutoQualificationCard() {
   return (
     <div className="mb-16">
-      {/* UPDATED bg to match Credit Card Acceptance (#d8d1c6) */}
+      {/* Warm beige to match Credit Card Acceptance card */}
       <div className="rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.06)]">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Eligibility
@@ -79,25 +79,25 @@ function AutoQualificationCard() {
 function DeploymentTimeline() {
   const accentStyles = [
     {
-      // Card 1 – blue accent
-      cardBg: "bg-[#F2F5FB]",
-      badgeBg: "bg-[#E1ECF7]",
-      badgeBorder: "border-[#C9D7EA]",
-      badgeText: "text-[#375985]",
+      // Day 0 – POS systems color
+      cardBg: "bg-[#c3d0ca]",
+      badgeBg: "bg-white",
+      badgeBorder: "border-[#b3c0ba]",
+      badgeText: "text-[#141413]",
     },
     {
-      // Card 2 – green accent
-      cardBg: "bg-[#F3F6EF]",
-      badgeBg: "bg-[#E3EBD8]",
-      badgeBorder: "border-[#CBD7BF]",
-      badgeText: "text-[#485737]",
+      // Day 0–2 – Gift Card & Loyalty color
+      cardBg: "bg-[#cccbd8]",
+      badgeBg: "bg-white",
+      badgeBorder: "border-[#bcbbc8]",
+      badgeText: "text-[#141413]",
     },
     {
-      // Card 3 – warm neutral accent (UPDATED to #d8d1c6)
-      cardBg: "bg-[#d8d1c6]",
-      badgeBg: "bg-[#E7E3DA]",
-      badgeBorder: "border-[#D3CEC1]",
-      badgeText: "text-[#5A5345]",
+      // Day 3–5 – Check Processing blue
+      cardBg: "bg-[#6a9bcc]",
+      badgeBg: "bg-white",
+      badgeBorder: "border-[#5889ba]",
+      badgeText: "text-[#141413]",
     },
   ];
 
