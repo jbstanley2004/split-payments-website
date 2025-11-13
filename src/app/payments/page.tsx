@@ -23,22 +23,10 @@ const solutions = [
     icon: Check,
   },
   {
-    title: "ACH Payments",
-    description:
-      "Simplify ACH transfers for payroll, subscriptions, and B2B — faster, lower-cost, and fully automated.",
-    icon: Landmark,
-  },
-  {
     title: "Point of Sale (POS) systems",
     description:
       "Power your business with flexible POS systems — tailored for retail, restaurants, and service providers, in-store or on-the-go.",
     icon: Laptop,
-  },
-  {
-    title: "Gift Card and Loyalty Programs",
-    description:
-      "Engage and retain customers with branded gift cards and loyalty rewards that drive repeat spending and brand loyalty.",
-    icon: Gift,
   },
 ];
 
@@ -94,7 +82,7 @@ export default function PaymentsPage() {
 
         {/* Solutions Grid */}
         <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {solutions.map((solution, index) => (
               <InteractiveCard
                 key={solution.title}
