@@ -2,7 +2,6 @@
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Link from "next/link";
-import CardBeamAnimation from "@/components/CardBeamAnimation";
 
 export default function GetStarted() {
   return (
@@ -70,16 +69,6 @@ export default function GetStarted() {
         <p className="text-xs text-muted mt-8">
           No hard credit checks. No personal guarantees.
         </p>
-      </section>
-
-      {/* Empowering Growth + Card beam footer section */}
-      <section className="px-0 pb-0 mt-16">
-        <div className="px-6 md:px-10 mb-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-poppins font-semibold">
-            Empowering Growth Through Payment Technology
-          </h2>
-        </div>
-        <CardBeamAnimation />
       </section>
     </main>
   );
