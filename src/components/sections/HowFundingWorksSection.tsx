@@ -1,6 +1,11 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   motion,
   animate,
@@ -151,24 +156,36 @@ function DeploymentTimeline() {
 }
 
 function FundingLoopVisual() {
-  // Rotate the whole loop
-  const rotation = useMotionValue(0);
-  // Counter-rotation so cards stay upright
-  const inverseRotation = useTransform(rotation, (value) => -value);
+  const n = fundingStages.length;
+
+  // progress goes 0 → n (each unit is one full step)
+  const progress = useMotionValue(0);
+  const rotation = useTransform(progress, (v) => (v * 360) / n);
+  const inverseRotation = useTransform(rotation, (v) => -v);
+
+  const [activeIndex, setActiveIndex] = useState(0);
   const controls = useRef<AnimationPlaybackControls | null>(null);
 
   const startAutoRotate = useCallback(() => {
     controls.current?.stop();
-    const normalized = rotation.get() % 360;
-    rotation.set(normalized);
 
-    controls.current = animate(rotation, normalized + 360, {
-      duration: 14, // a little faster
+    const current = progress.get();
+    let normalized = current % n;
+    if (normalized < 0) normalized += n;
+    progress.set(normalized);
+
+    controls.current = animate(progress, normalized + n, {
+      duration: 14, // full loop time (tweak if you want faster/slower)
       ease: "linear",
       repeat: Infinity,
       repeatType: "loop",
+      onUpdate: (latest) => {
+        let idx = Math.round(latest) % n;
+        if (idx < 0) idx += n;
+        setActiveIndex(idx);
+      },
     });
-  }, [rotation]);
+  }, [n, progress]);
 
   useEffect(() => {
     startAutoRotate();
@@ -181,10 +198,15 @@ function FundingLoopVisual() {
     controls.current?.stop();
   };
 
-  const handleDrag = (_event: any, info: PanInfo) => {
-    const current = rotation.get();
-    const dragFactor = -0.4; // drag right = spin clockwise
-    rotation.set(current + info.delta.x * dragFactor);
+  const handleDrag = (_event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const current = progress.get();
+    const dragFactor = -0.01; // drag sensitivity
+    const next = current + info.delta.x * dragFactor;
+    progress.set(next);
+
+    let idx = Math.round(next) % n;
+    if (idx < 0) idx += n;
+    setActiveIndex(idx);
   };
 
   const handleDragEnd = () => {
@@ -192,7 +214,7 @@ function FundingLoopVisual() {
   };
 
   const ringRadius = 78;
-  const labelRadius = ringRadius + 44; // cards sit just outside the ring
+  const labelRadius = ringRadius + 48;
 
   return (
     <section className="mb-16 lg:mb-20">
@@ -208,7 +230,7 @@ function FundingLoopVisual() {
 
         <div className="mt-10 flex justify-center">
           <div className="relative h-[320px] w-[320px] md:h-[360px] md:w-[360px]">
-            {/* Base neutral ring */}
+            {/* Base ring (static) */}
             <svg
               viewBox="0 0 200 200"
               className="absolute inset-0 h-full w-full"
@@ -223,46 +245,28 @@ function FundingLoopVisual() {
               />
             </svg>
 
-            {/* Rotating accent arc, tied to the same rotation value */}
-            <motion.svg
-              viewBox="0 0 200 200"
-              className="absolute inset-0 h-full w-full"
-              style={{ rotate: rotation }}
-            >
-              <circle
-                cx="100"
-                cy="100"
-                r={ringRadius}
-                stroke="#D97757"
-                strokeWidth={4}
-                strokeLinecap="round"
-                strokeDasharray="110 480"
-                fill="none"
-              />
-            </motion.svg>
-
-            {/* Draggable circular carousel of stages */}
+            {/* Draggable, auto-rotating carousel */}
             <motion.div
               className="absolute inset-0 cursor-grab active:cursor-grabbing"
               style={{ rotate: rotation }}
               drag="x"
               dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.18}
+              dragElastic={0.2}
               dragMomentum={false}
               onDragStart={handleDragStart}
               onDrag={handleDrag}
               onDragEnd={handleDragEnd}
             >
               {fundingStages.map((stage, index) => {
-                // Evenly spaced around the circle, starting at the top (-90°)
-                const angleDeg = -90 + (360 / fundingStages.length) * index;
+                const angleDeg = -90 + (360 / n) * index; // start at 12 o'clock
                 const angleRad = (angleDeg * Math.PI) / 180;
-
                 const x = 100 + Math.cos(angleRad) * labelRadius;
                 const y = 100 + Math.sin(angleRad) * labelRadius;
 
                 const leftPct = (x / 200) * 100;
                 const topPct = (y / 200) * 100;
+
+                const isActive = index === activeIndex;
 
                 return (
                   <div
@@ -274,12 +278,20 @@ function FundingLoopVisual() {
                       transform: "translate(-50%, -50%)",
                     }}
                   >
-                    {/* Counter-rotate so the card always faces upright */}
+                    {/* Card stays upright via inverse rotation */}
                     <motion.div
-                      className="inline-flex max-w-[180px] flex-col rounded-2xl border border-[#E5DFD0] bg-white px-3 py-2 text-[10px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-[11px]"
+                      className="inline-flex w-[210px] min-h-[110px] flex-col items-center justify-center rounded-2xl border bg-white px-4 py-3 text-center text-[11px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-xs"
                       style={{ rotate: inverseRotation }}
+                      animate={{
+                        borderColor: isActive ? "#D97757" : "#E5DFD0",
+                        boxShadow: isActive
+                          ? "0 16px 40px rgba(20,20,19,0.16)"
+                          : "0 10px 24px rgba(20,20,19,0.08)",
+                        scale: isActive ? 1.04 : 1,
+                      }}
+                      transition={{ type: "spring", stiffness: 260, damping: 24 }}
                     >
-                      <span className="mb-0.5 text-[11px] font-poppins font-semibold text-[#141413] md:text-xs">
+                      <span className="mb-1 text-[11px] font-poppins font-semibold text-[#141413] md:text-xs">
                         {stage.label}
                       </span>
                       <span>{stage.description}</span>
@@ -289,7 +301,7 @@ function FundingLoopVisual() {
               })}
             </motion.div>
 
-            {/* Center label – fixed, not affected by rotation */}
+            {/* Center label */}
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
               <div className="rounded-full border border-[#E8E6DC] bg-[#FAF9F5] px-4 py-3">
                 <p className="text-[11px] font-poppins font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
@@ -368,3 +380,4 @@ export default function HowFundingWorksSection() {
     </section>
   );
 }
+
