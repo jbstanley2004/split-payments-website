@@ -82,7 +82,7 @@ export default function PaymentsPage() {
 
         {/* Solutions Grid */}
         <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {solutions.map((solution, index) => (
               <InteractiveCard
                 key={solution.title}
