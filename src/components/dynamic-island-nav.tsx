@@ -179,7 +179,7 @@ export function DynamicIslandNav({
         <div className="relative flex items-center justify-center">
           <motion.div
             animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-white/10 bg-black/80 px-4 py-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-saturate-[180%]"
           >
             <div className="relative flex items-center justify-center" style={{ perspective: 1000 }}>
@@ -209,7 +209,12 @@ export function DynamicIslandNav({
                 x: isDesktopExpanded ? 0 : collapseOffsets[index] ?? 0,
                 scale: isDesktopExpanded ? 1 : 0.85,
               }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 20,
+                delay: 0.05 * index,
+              }}
               className="ml-2 rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-saturate-[180%]"
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
@@ -262,7 +267,7 @@ export function DynamicIslandNav({
         <div className="relative flex items-center justify-center">
           <motion.div
             animate={{ opacity: isMobileExpanded ? 0 : 1, scale: isMobileExpanded ? 0.85 : 1 }}
-            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-black/15 bg-black/85 px-4 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-saturate-[180%]"
           >
             <div className="relative flex h-7 w-auto items-center justify-center" style={{ perspective: 1000 }}>
@@ -291,7 +296,12 @@ export function DynamicIslandNav({
                 x: isMobileExpanded ? 0 : collapseOffsets[index] ?? 0,
                 scale: isMobileExpanded ? 1 : 0.85,
               }}
-              transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 20,
+                delay: 0.05 * index,
+              }}
               className="relative ml-2 rounded-full border border-black/15 bg-black/85 px-3 py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-saturate-[180%]"
               style={{ pointerEvents: isMobileExpanded ? "auto" : "none" }}
             >
