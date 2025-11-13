@@ -8,11 +8,15 @@ const codeChars =
   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789(){}[]<>;:,._-+=!@#$%^&*|\\/\"'`~?";
 
 const cardImages = [
-  "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b55e654d1341fb06f8_4.1.png",
-  "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b5a080a31ee7154b19_1.png",
-  "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b5c1e4919fd69672b8_3.png",
-  "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b5f6a5e232e7beb4be_2.png",
-  "https://cdn.prod.website-files.com/68789c86c8bc802d61932544/689f20b5bea2f1b07392d936_4.png",
+  "/cards/Amex2.png",
+  "/cards/MasterCard2.png",
+  "/cards/Visa2.png",
+  "/cards/amex.png",
+  "/cards/amex3.png",
+  "/cards/masterCard3.png",
+  "/cards/mastercard.png",
+  "/cards/visa.png",
+  "/cards/visa3.png",
 ];
 
 class CardStreamController {
@@ -31,11 +35,28 @@ class CardStreamController {
   containerWidth: number = 0;
   cardLineWidth: number = 0;
   animationId: number | null = null;
+  shuffledImages: string[];
 
   constructor(container: HTMLElement, cardLine: HTMLElement) {
     this.container = container;
     this.cardLine = cardLine;
+    this.shuffledImages = this.shuffleArray([...cardImages]);
     this.init();
+  }
+
+  shuffleArray(array: any[]) {
+    let currentIndex = array.length;
+    let randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+    return array;
   }
 
   init() {
@@ -50,7 +71,7 @@ class CardStreamController {
   calculateDimensions() {
     this.containerWidth = this.container.offsetWidth;
     const cardWidth = 400;
-    const cardGap = 60;
+    const cardGap = 0;
     const cardCount = this.cardLine.children.length;
     this.cardLineWidth = (cardWidth + cardGap) * cardCount;
   }
@@ -361,7 +382,7 @@ class CardStreamController {
 
     const cardImage = document.createElement("img");
     cardImage.className = "card-image";
-    cardImage.src = cardImages[index % cardImages.length];
+    cardImage.src = this.shuffledImages[index % this.shuffledImages.length];
     cardImage.alt = "Credit Card";
 
     cardImage.onerror = () => {
