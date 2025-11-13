@@ -1,7 +1,13 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useCallback, useEffect, useRef } from "react";
+import {
+  motion,
+  animate,
+  useMotionValue,
+  useTransform,
+} from "framer-motion";
+import type { AnimationPlaybackControls, PanInfo } from "framer-motion";
 
 const timelineSteps = [
   {
@@ -145,6 +151,49 @@ function DeploymentTimeline() {
 }
 
 function FundingLoopVisual() {
+  // Rotate the whole loop
+  const rotation = useMotionValue(0);
+  // Counter-rotation so cards stay upright
+  const inverseRotation = useTransform(rotation, (value) => -value);
+  const controls = useRef<AnimationPlaybackControls | null>(null);
+
+  const startAutoRotate = useCallback(() => {
+    controls.current?.stop();
+    const normalized = rotation.get() % 360;
+    rotation.set(normalized);
+
+    controls.current = animate(rotation, normalized + 360, {
+      duration: 14, // a little faster
+      ease: "linear",
+      repeat: Infinity,
+      repeatType: "loop",
+    });
+  }, [rotation]);
+
+  useEffect(() => {
+    startAutoRotate();
+    return () => {
+      controls.current?.stop();
+    };
+  }, [startAutoRotate]);
+
+  const handleDragStart = () => {
+    controls.current?.stop();
+  };
+
+  const handleDrag = (_event: any, info: PanInfo) => {
+    const current = rotation.get();
+    const dragFactor = -0.4; // drag right = spin clockwise
+    rotation.set(current + info.delta.x * dragFactor);
+  };
+
+  const handleDragEnd = () => {
+    startAutoRotate();
+  };
+
+  const ringRadius = 78;
+  const labelRadius = ringRadius + 44; // cards sit just outside the ring
+
   return (
     <section className="mb-16 lg:mb-20">
       <div className="flex flex-col items-center text-center">
@@ -153,55 +202,105 @@ function FundingLoopVisual() {
         </h3>
         <p className="mt-3 max-w-xl text-sm md:text-base font-lora text-[#524F49]">
           Once your first round is deployed, your card sales, performance, and
-          ongoing volume move through the same steps again and again — keeping
-          you eligible for new offers as your processing stays healthy.
+          ongoing volume all feed back into the same loop — keeping you eligible
+          for new offers as your processing stays healthy.
         </p>
 
-        {/* Conveyor / assembly-line style loop */}
-        <div className="mt-10 w-full max-w-3xl">
-          <div className="relative overflow-hidden rounded-3xl border border-[#E8E6DC] bg-white px-4 py-6 shadow-[0_18px_45px_rgba(20,20,19,0.06)]">
-            {/* Track line */}
-            <div className="pointer-events-none absolute inset-y-10 left-4 right-4 flex items-center">
-              <div className="h-[2px] w-full rounded-full bg-[#E8E6DC]" />
-            </div>
-
-            {/* Moving cards; duplicated so it can loop infinitely */}
-            <motion.div
-              className="flex gap-6"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ repeat: Infinity, duration: 26, ease: "linear" }}
+        <div className="mt-10 flex justify-center">
+          <div className="relative h-[320px] w-[320px] md:h-[360px] md:w-[360px]">
+            {/* Base neutral ring */}
+            <svg
+              viewBox="0 0 200 200"
+              className="absolute inset-0 h-full w-full"
             >
-              {[0, 1].map((loopIndex) =>
-                fundingStages.map((stage) => (
+              <circle
+                cx="100"
+                cy="100"
+                r={ringRadius}
+                stroke="#E8E6DC"
+                strokeWidth={2}
+                fill="none"
+              />
+            </svg>
+
+            {/* Rotating accent arc, tied to the same rotation value */}
+            <motion.svg
+              viewBox="0 0 200 200"
+              className="absolute inset-0 h-full w-full"
+              style={{ rotate: rotation }}
+            >
+              <circle
+                cx="100"
+                cy="100"
+                r={ringRadius}
+                stroke="#D97757"
+                strokeWidth={4}
+                strokeLinecap="round"
+                strokeDasharray="110 480"
+                fill="none"
+              />
+            </motion.svg>
+
+            {/* Draggable circular carousel of stages */}
+            <motion.div
+              className="absolute inset-0 cursor-grab active:cursor-grabbing"
+              style={{ rotate: rotation }}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.18}
+              dragMomentum={false}
+              onDragStart={handleDragStart}
+              onDrag={handleDrag}
+              onDragEnd={handleDragEnd}
+            >
+              {fundingStages.map((stage, index) => {
+                // Evenly spaced around the circle, starting at the top (-90°)
+                const angleDeg = -90 + (360 / fundingStages.length) * index;
+                const angleRad = (angleDeg * Math.PI) / 180;
+
+                const x = 100 + Math.cos(angleRad) * labelRadius;
+                const y = 100 + Math.sin(angleRad) * labelRadius;
+
+                const leftPct = (x / 200) * 100;
+                const topPct = (y / 200) * 100;
+
+                return (
                   <div
-                    key={`${stage.id}-${loopIndex}`}
-                    className="relative flex min-w-[190px] max-w-[220px] flex-shrink-0 flex-col rounded-2xl border border-[#E5DFD0] bg-[#FAF9F5] px-4 py-3 text-left shadow-[0_10px_24px_rgba(20,20,19,0.08)]"
+                    key={stage.id}
+                    className="absolute"
+                    style={{
+                      left: `${leftPct}%`,
+                      top: `${topPct}%`,
+                      transform: "translate(-50%, -50%)",
+                    }}
                   >
-                    {/* “Car” dot where it sits on the track */}
-                    <div className="absolute left-1/2 top-[52%] -translate-x-1/2">
-                      <div className="h-2 w-2 rounded-full border border-[#D97757] bg-white" />
-                    </div>
-
-                    <span className="mb-1 inline-flex items-center rounded-full border border-[#E8E6DC] bg-white px-2 py-0.5 text-[10px] font-poppins font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
-                      Step {stage.id}
-                    </span>
-                    <span className="mb-1 text-xs font-poppins font-semibold text-[#141413] md:text-sm">
-                      {stage.label}
-                    </span>
-                    <span className="text-[11px] font-lora text-[#524F49] md:text-xs">
-                      {stage.description}
-                    </span>
+                    {/* Counter-rotate so the card always faces upright */}
+                    <motion.div
+                      className="inline-flex max-w-[180px] flex-col rounded-2xl border border-[#E5DFD0] bg-white px-3 py-2 text-[10px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-[11px]"
+                      style={{ rotate: inverseRotation }}
+                    >
+                      <span className="mb-0.5 text-[11px] font-poppins font-semibold text-[#141413] md:text-xs">
+                        {stage.label}
+                      </span>
+                      <span>{stage.description}</span>
+                    </motion.div>
                   </div>
-                ))
-              )}
+                );
+              })}
             </motion.div>
-          </div>
 
-          <p className="mt-3 text-xs md:text-sm font-lora text-[#524F49]">
-            As long as those steps keep happening — funding, card sales, tracked
-            performance, and healthy volume — you stay eligible for the next
-            round automatically.
-          </p>
+            {/* Center label – fixed, not affected by rotation */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div className="rounded-full border border-[#E8E6DC] bg-[#FAF9F5] px-4 py-3">
+                <p className="text-[11px] font-poppins font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
+                  Ongoing cycle
+                </p>
+                <p className="mt-1 text-xs font-lora text-[#524F49]">
+                  Repeat funding as long as your sales stay healthy.
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -269,5 +368,3 @@ export default function HowFundingWorksSection() {
     </section>
   );
 }
-
-
