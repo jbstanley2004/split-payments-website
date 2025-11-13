@@ -6,41 +6,94 @@
   font-family: var(--font-lora);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .funding-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0,0,0,0.1);
 }
-.slider label {
-  font-weight: 500;
+
+.funding-title {
+  font-family: var(--font-poppins);
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
   color: var(--theme-text-primary);
 }
+
+.funding-subtitle {
+  font-size: 0.95rem;
+  color: var(--theme-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.slider {
+  margin-bottom: 1.5rem;
+}
+
+.slider-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.slider label {
+  font-weight: 500;
+  font-size: 0.92rem;
+  color: var(--theme-text-primary);
+}
+
+.slider-value {
+  font-family: var(--font-poppins);
+  font-size: 0.95rem;
+  color: var(--theme-text-primary);
+}
+
+.slider-helper {
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  color: var(--theme-text-secondary);
+}
+
 .slider input[type="range"] {
   width: 100%;
+  margin-top: 0.5rem;
   transition: all 0.3s ease;
 }
+
+/* Advance amount slider – brand blue */
 .advance-slider input[type="range"] {
-  accent-color: var(--theme-text-primary);
+  accent-color: var(--theme-accent-blue);
 }
+
+/* Holdback slider – match advance color for consistency */
 .holdback-slider input[type="range"] {
-  accent-color: var(--theme-accent-green);
+  accent-color: var(--theme-accent-blue);
 }
+
+/* Daily card sales slider – also brand blue so bars match */
 .sales-slider input[type="range"] {
-  accent-color: var(--theme-accent-gray);
+  accent-color: var(--theme-accent-blue);
 }
+
 .metrics {
   display: flex;
   justify-content: space-between;
   margin-top: 1.5rem;
 }
+
 .metrics .label {
   font-size: 0.9rem;
   color: var(--theme-text-secondary);
 }
+
 .metrics .value {
   font-size: 1.4rem;
   font-weight: 600;
+  font-family: var(--font-poppins);
   color: var(--theme-text-primary);
 }
+
 .disclaimer {
   margin-top: 1.25rem;
   color: #999;
