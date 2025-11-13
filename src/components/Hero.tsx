@@ -19,19 +19,35 @@ type AnimatedHeroProps = {
   id?: string;
 };
 
+// Small helper to detect if we should dial back animations (mobile / low-power)
+const useReducedMotionHint = () => {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const update = () => setReduced(mq.matches || isTouch);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return reduced;
+};
+
 function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, reverse, id }: AnimatedHeroProps) {
   const ref = useRef(null);
+  const prefersReduced = useReducedMotionHint();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
 
-  // scroll motion - improved smoothness with custom easing
-  const y = useTransform(scrollYProgress, [0, 1], [0, -60]);
-  const rotateY = useTransform(scrollYProgress, [0, 1], [35, 25]);
-  const rotateX = useTransform(scrollYProgress, [0, 1], [10, 6]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
+  // Scroll motion with gentle parallax. When reduced motion is preferred, keep values minimal.
+  const y = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, -16] : [0, -60]);
+  const rotateY = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, 0] : [18, 10]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, 0] : [8, 4]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, prefersReduced ? 0.985 : 0.96]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, prefersReduced ? 0.98 : 0.95]);
 
   const layoutClasses = reverse
     ? "flex-col lg:flex-row" // visual left, text right
@@ -50,15 +66,22 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, revers
       <motion.div
         className="relative mt-6 lg:mt-0 lg:mr-16 w-full lg:w-1/2 flex justify-center lg:justify-start order-1 lg:order-none"
         style={{ y, opacity, scale, perspective: "1200px" }}
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: [0, -8, 0] }}
-        transition={{ opacity: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }, y: { duration: 7, repeat: Infinity, ease: [0.45, 0.05, 0.55, 0.95] } }}
-        whileHover={{ y: -12, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          opacity: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] },
+          y: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] },
+        }}
+        whileHover={prefersReduced ? undefined : { y: -12, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } }}
       >
         <motion.div
           className="relative w-full max-w-[600px]"
           style={{ rotateY, rotateX, transformStyle: "preserve-3d" }}
-          whileHover={{ rotateY: 0, rotateX: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } }}
+          whileHover={
+            prefersReduced
+              ? undefined
+              : { rotateY: 0, rotateX: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } }
+          }
         >
           {visual ? (
             visual
