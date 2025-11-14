@@ -413,14 +413,15 @@ function ReassuranceStrip() {
             Built for established card volume
           </p>
           <p className="max-w-xl text-sm md:text-base font-lora text-[#524F49]">
-            We’re not a startup lender or a marketplace. We’re a card processor
-            that’s been funding Main Street businesses for over a decade.
+            We’re building a card processing and funding platform for businesses
+            that want a straightforward way to turn card volume into working
+            capital.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm text-[#524F49]">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-            <span>Over $1B funded to U.S. merchants</span>
+            <span>Simple, transparent structure</span>
           </div>
           <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
