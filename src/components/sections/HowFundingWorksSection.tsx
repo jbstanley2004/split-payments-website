@@ -25,12 +25,12 @@ const timelineSteps = [
   {
     label: "Day 0–2",
     title: "Merchant account & equipment activated",
-    body: "We set up your merchant account and whatever you need to take payments — terminal, POS, or virtual terminal. If hardware is required, we ship and activate it remotely.",
+    body: "We set up your merchant account and whatever you need for processing—software integration, online gateway, or physical terminal. If hardware is required, we ship and activate it remotely.",
   },
   {
     label: "Day 3–5",
     title: "Funding deployed",
-    body: "As soon as your account is active, we deploy your funding so you can put it to work. No separate application for the first round.",
+    body: "As soon as your account is active, we deploy your funding directly into your business bank account so you can put it to work. No separate application for the first round.",
   },
 ];
 
@@ -38,17 +38,17 @@ const fundingStages = [
   {
     id: 1,
     label: "Funding deployed",
-    description: "Capital hits your business account.",
+    description: "Capital lands in your business bank account.",
   },
   {
     id: 2,
-    label: "You process card sales",
-    description: "Everyday revenue powers the cycle.",
+    label: "Repayment as you process",
+    description: "A fixed percentage of each card sale goes toward repayment.",
   },
   {
     id: 3,
-    label: "We track performance",
-    description: "We watch your volume over time.",
+    label: "Balance paid down",
+    description: "Your advance balance decreases with each batch.",
   },
   {
     id: 4,
@@ -66,13 +66,31 @@ function AutoQualificationCard() {
           Eligibility
         </p>
         <h3 className="mb-2 text-xl md:text-2xl font-poppins font-semibold text-[#141413]">
-          Already processing $8,000+/month? You automatically qualify.
+          You don’t apply — you qualify automatically
         </h3>
-        <p className="text-sm md:text-base font-lora text-[#524F49]">
-          If your business has a history of at least $8,000 per month in card
-          payments, you’re eligible for funding right away. No long underwriting
-          cycle, no personal credit pulls, no guesswork.
+        <p className="mb-4 text-sm md:text-base font-lora text-[#524F49]">
+          If your volume and history fit our model, we proactively extend
+          funding offers based on your processing. No lengthy application or
+          hard credit pull to get started.{" "}
+          <span className="font-semibold text-[#3F3A32]">
+            If you’re processing with us and your numbers qualify, we’ll tap
+            you on the shoulder.
+          </span>
         </p>
+        <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm text-[#524F49]">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+            <span>Based on real sales, not projections</span>
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+            <span>No separate underwriting package to compile</span>
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+            <span>Offers scale up as your processing grows</span>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -81,36 +99,43 @@ function AutoQualificationCard() {
 function DeploymentTimeline() {
   const accentStyles = [
     {
-      // Day 0 – POS systems color
-      cardBg: "bg-[#c3d0ca]",
-      badgeBg: "bg-white",
-      badgeBorder: "border-[#b3c0ba]",
-      badgeText: "text-[#141413]",
+      border: "border-[#D97757]",
+      dotBg: "bg-[#D97757]",
+      labelColor: "text-[#D97757]",
     },
     {
-      // Day 0–2 – Gift Card & Loyalty color
-      cardBg: "bg-[#cccbd8]",
-      badgeBg: "bg-white",
-      badgeBorder: "border-[#bcbbc8]",
-      badgeText: "text-[#141413]",
+      border: "border-[#C1683E]",
+      dotBg: "bg-[#C1683E]",
+      labelColor: "text-[#C1683E]",
     },
     {
-      // Day 3–5 – Check Processing blue
-      cardBg: "bg-[#6a9bcc]",
-      badgeBg: "bg-white",
-      badgeBorder: "border-[#5889ba]",
-      badgeText: "text-[#141413]",
+      border: "border-[#A65632]",
+      dotBg: "bg-[#A65632]",
+      labelColor: "text-[#A65632]",
     },
   ];
 
   return (
-    <section className="mb-20">
+    <section className="mb-16">
+      <div className="mb-6 flex flex-col gap-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+          Timeline
+        </p>
+        <h3 className="text-xl md:text-2xl font-poppins font-semibold text-[#141413]">
+          Funding in days, not months
+        </h3>
+        <p className="max-w-2xl text-sm md:text-base font-lora text-[#524F49]">
+          Because we underwrite off your card-processing history, we can move
+          much faster than traditional lenders. Here’s how a typical deployment
+          looks once you’re processing with us.
+        </p>
+      </div>
+
       <div className="relative">
-        <div
-          className="absolute left-0 right-0 top-6 hidden h-px bg-[#E0D9C8] md:block"
-          aria-hidden="true"
-        />
-        <div className="grid gap-8 md:grid-cols-3">
+        {/* Vertical line for desktop */}
+        <div className="pointer-events-none absolute inset-y-0 left-[16px] hidden w-px bg-gradient-to-b from-[#E3DDD0] via-[#D6CDBF] to-[#E3DDD0] md:block" />
+
+        <div className="space-y-4 md:space-y-5">
           {timelineSteps.map((step, index) => {
             const accent =
               accentStyles[index] || accentStyles[accentStyles.length - 1];
@@ -122,23 +147,33 @@ function DeploymentTimeline() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: index * 0.08, duration: 0.5 }}
-                className={`relative flex flex-col rounded-2xl ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)]`}
+                className={`relative flex flex-col rounded-2xl border border-[#E3DDD0] bg-[#F8F4EC]/90 backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
               >
                 {/* Day label */}
-                <div className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-[#141413]">
-                  <span
-                    className={`inline-flex h-7 w-7 items-center justify-center rounded-full border ${accent.badgeBorder} ${accent.badgeBg} text-[11px] ${accent.badgeText}`}
+                <div className="mb-3 flex items-center gap-3 md:mb-0 md:w-48">
+                  <div
+                    className={`hidden h-3 w-3 rounded-full border-2 bg-[#F8F4EC] md:block ${accent.border}`}
                   >
-                    {index + 1}
+                    <span
+                      className={`block h-full w-full rounded-full ${accent.dotBg}`}
+                    />
+                  </div>
+                  <span
+                    className={`text-xs font-semibold uppercase tracking-[0.16em] ${accent.labelColor}`}
+                  >
+                    {step.label}
                   </span>
-                  <span>{step.label}</span>
                 </div>
-                <h4 className="mb-2 text-base md:text-lg font-poppins font-semibold text-[#141413]">
-                  {step.title}
-                </h4>
-                <p className="text-sm md:text-[15px] font-lora text-[#524F49]">
-                  {step.body}
-                </p>
+
+                {/* Content */}
+                <div className="flex-1">
+                  <h4 className="mb-2 text-base md:text-lg font-poppins font-semibold text-[#141413]">
+                    {step.title}
+                  </h4>
+                  <p className="text-sm md:text-base font-lora text-[#524F49]">
+                    {step.body}
+                  </p>
+                </div>
               </motion.div>
             );
           })}
@@ -178,7 +213,7 @@ function FundingLoopVisual() {
     progress.set(normalized);
 
     controls.current = animate(progress, normalized + n, {
-      duration: 14, // full loop time
+      duration: 24, // full loop time (slower)
       ease: "linear",
       repeat: Infinity,
       repeatType: "loop",
@@ -190,6 +225,7 @@ function FundingLoopVisual() {
 
   useEffect(() => {
     startAutoRotate();
+
     return () => {
       controls.current?.stop();
     };
@@ -215,26 +251,43 @@ function FundingLoopVisual() {
   };
 
   const ringRadius = 78;
-  const labelRadius = ringRadius + 40;
+  const labelRadius = ringRadius + 20; // tighter orbit around center text
 
   return (
     <section className="mb-16 lg:mb-20">
       <div className="flex flex-col items-center text-center">
         <h3 className="text-lg md:text-xl font-poppins font-semibold text-[#141413]">
-          Funding that keeps coming as your sales stay strong.
+          A funding loop that matches your sales cycle
         </h3>
         <p className="mt-3 max-w-xl text-sm md:text-base font-lora text-[#524F49]">
-          Once your first round is deployed, your card sales, performance, and
-          ongoing volume all feed back into the same loop — keeping you eligible
-          for new offers as your processing stays healthy.
+          Funding deploys, repays automatically as you process cards, and
+          becomes available again as long as your volume stays healthy. It’s a
+          loop, not a one-off event.
         </p>
+      </div>
 
-        <div className="mt-10 flex justify-center">
-          <div className="relative h-[320px] w-[320px] md:h-[360px] md:w-[360px]">
-            {/* Static base ring */}
+      <div className="mt-10 flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:gap-12">
+        {/* Left: circular visualization */}
+        <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] shadow-[0_24px_60px_rgba(20,20,19,0.12)] sm:h-[360px] sm:w-[360px]">
+          {/* Center label */}
+          <div className="relative z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#F8F4EC] px-4 text-center shadow-[0_12px_30px_rgba(20,20,19,0.10)]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
+              Loop
+            </p>
+            <p className="mt-1 text-xs font-poppins font-semibold text-[#141413]">
+              Deploy → Repay → Renew
+            </p>
+          </div>
+
+          {/* Circular track */}
+          <div className="absolute inset-6 rounded-full border border-dashed border-[#D6CDBF]" />
+
+          {/* SVG for precise ring radius reference (invisible helper) */}
+          <div className="pointer-events-none absolute inset-6">
             <svg
               viewBox="0 0 200 200"
-              className="absolute inset-0 h-full w-full"
+              className="h-full w-full"
+              aria-hidden="true"
             >
               <circle
                 cx="100"
@@ -245,76 +298,104 @@ function FundingLoopVisual() {
                 fill="none"
               />
             </svg>
+          </div>
 
-            {/* Draggable, auto-rotating carousel */}
-            <motion.div
-              className="absolute inset-0 cursor-grab active:cursor-grabbing"
-              style={{ rotate: rotation }}
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={0.2}
-              dragMomentum={false}
-              onDragStart={handleDragStart}
-              onDrag={handleDrag}
-              onDragEnd={handleDragEnd}
-            >
-              {fundingStages.map((stage, index) => {
-                // With 4 cards, these land at 12, 3, 6, 9 o’clock
-                const angleDeg = -90 + (360 / n) * index;
-                const angleRad = (angleDeg * Math.PI) / 180;
-                const x = 100 + Math.cos(angleRad) * labelRadius;
-                const y = 100 + Math.sin(angleRad) * labelRadius;
+          {/* Draggable, auto-rotating carousel */}
+          <motion.div
+            className="absolute inset-0 cursor-grab active:cursor-grabbing"
+            style={{ rotate: rotation }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            dragMomentum={false}
+            onDragStart={handleDragStart}
+            onDrag={handleDrag}
+            onDragEnd={handleDragEnd}
+          >
+            {fundingStages.map((stage, index) => {
+              // With 4 cards, these land at 12, 3, 6, 9 o’clock
+              const angleDeg = -90 + (360 / n) * index;
+              const angleRad = (angleDeg * Math.PI) / 180;
+              const x = 100 + Math.cos(angleRad) * labelRadius;
+              const y = 100 + Math.sin(angleRad) * labelRadius;
 
-                const leftPct = (x / 200) * 100;
-                const topPct = (y / 200) * 100;
+              const leftPct = (x / 200) * 100;
+              const topPct = (y / 200) * 100;
 
-                const isActive = index === activeIndex;
+              const isActive = index === activeIndex;
 
-                return (
-                  <div
-                    key={stage.id}
-                    className="absolute"
-                    style={{
-                      left: `${leftPct}%`,
-                      top: `${topPct}%`,
-                      transform: "translate(-50%, -50%)",
+              return (
+                <div
+                  key={stage.id}
+                  className="absolute"
+                  style={{
+                    left: `${leftPct}%`,
+                    top: `${topPct}%`,
+                    transform: "translate(-50%, -50%)",
+                  }}
+                >
+                  {/* Card stays upright via inverse rotation */}
+                  <motion.div
+                    className="inline-flex w-[210px] min-h-[110px] flex-col rounded-2xl border border-transparent bg-white/95 px-4 py-3 text-[11px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-xs"
+                    style={{ rotate: inverseRotation }}
+                    animate={{
+                      borderColor: isActive
+                        ? "#D97757" // orange outline when active
+                        : "rgba(0,0,0,0)", // no border when inactive
+                      boxShadow: isActive
+                        ? "0 16px 40px rgba(20,20,19,0.16)"
+                        : "0 10px 24px rgba(20,20,19,0.08)",
+                      scale: isActive ? 1.04 : 1,
                     }}
+                    transition={{ type: "spring", stiffness: 260, damping: 24 }}
                   >
-                    {/* Card stays upright via inverse rotation */}
-                    <motion.div
-                      className="inline-flex w-[210px] min-h-[110px] flex-col items-center justify-center rounded-2xl border border-transparent bg-white px-4 py-3 text-center text-[11px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-xs"
-                      style={{ rotate: inverseRotation }}
-                      animate={{
-                        borderColor: isActive
-                          ? "#D97757" // orange outline when active
-                          : "rgba(0,0,0,0)", // no border when inactive
-                        boxShadow: isActive
-                          ? "0 16px 40px rgba(20,20,19,0.16)"
-                          : "0 10px 24px rgba(20,20,19,0.08)",
-                        scale: isActive ? 1.04 : 1,
-                      }}
-                      transition={{ type: "spring", stiffness: 260, damping: 24 }}
-                    >
-                      <span className="mb-1 text-[11px] font-poppins font-semibold text-[#141413] md:text-xs">
-                        {stage.label}
-                      </span>
-                      <span>{stage.description}</span>
-                    </motion.div>
-                  </div>
-                );
-              })}
-            </motion.div>
+                    <span className="mb-1 text-[11px] font-poppins font-semibold text-[#141413] md:text-xs">
+                      {stage.label}
+                    </span>
+                    <span>{stage.description}</span>
+                  </motion.div>
+                </div>
+              );
+            })}
+          </motion.div>
+        </div>
 
-            {/* Center label */}
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <div className="rounded-full border border-[#E8E6DC] bg-[#FAF9F5] px-4 py-3">
-                <p className="text-[11px] font-poppins font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
-                  Ongoing cycle
-                </p>
-                <p className="mt-1 text-xs font-lora text-[#524F49]">
-                  Repeat funding as long as your sales stay healthy.
-                </p>
-              </div>
+        {/* Right: explanatory copy */}
+        <div className="max-w-md space-y-4 text-sm md:text-base font-lora text-[#524F49]">
+          <p>
+            Instead of fixed monthly payments,{" "}
+            <span className="font-semibold text-[#3F3A32]">
+              repayment flexes with your sales.
+            </span>{" "}
+            On strong days, you pay down more. On slower days, less. There’s no
+            penalty for early payoff and no compounding interest.
+          </p>
+          <p>
+            Once your balance is paid down and your card volume stays healthy,
+            we proactively extend renewed funding offers so you can{" "}
+            <span className="font-semibold text-[#3F3A32]">
+              keep investing in growth without reapplying.
+            </span>
+          </p>
+          <div className="mt-4 grid gap-3 text-xs md:text-sm">
+            <div className="flex items-start gap-2">
+              <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+              <p>
+                <span className="font-semibold text-[#3F3A32]">
+                  No compounding interest or variable rates.
+                </span>{" "}
+                Just a simple, transparent cost of capital tied to your sales
+                volume.
+              </p>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+              <p>
+                <span className="font-semibold text-[#3F3A32]">
+                  Works for seasonal and growth-stage businesses.
+                </span>{" "}
+                Repayment naturally slows during off-peak periods.
+              </p>
             </div>
           </div>
         </div>
@@ -326,41 +407,26 @@ function FundingLoopVisual() {
 function ReassuranceStrip() {
   return (
     <section className="mt-6 border-t border-[#E3DDD0] pt-8">
-      <div className="grid gap-6 md:grid-cols-3">
-        <div>
-          <h4 className="mb-1 text-sm md:text-base font-poppins font-semibold text-[#141413]">
-            What we focus on
-          </h4>
-          <p className="text-xs md:text-sm font-lora text-[#524F49]">
-            Your card processing history — typically $8,000 per month or more in
-            sales.
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="space-y-1">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+            Built for established card volume
+          </p>
+          <p className="max-w-xl text-sm md:text-base font-lora text-[#524F49]">
+            We’re not a startup lender or a marketplace. We’re a card processor
+            that’s been funding Main Street businesses for over a decade.
           </p>
         </div>
-        <div>
-          <h4 className="mb-1 text-sm md:text-base font-poppins font-semibold text-[#141413]">
-            How you repay
-          </h4>
-          <p className="text-xs md:text-sm font-lora text-[#524F49]">
-            A fixed percentage of daily card sales, so payments flex with your
-            revenue. Slow day? You remit less. No sales? No payment that day.
-          </p>
+        <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm text-[#524F49]">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+            <span>Over $1B funded to U.S. merchants</span>
+          </div>
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+            <span>Terms that adjust with your seasonality</span>
+          </div>
         </div>
-        <div>
-          <h4 className="mb-1 text-sm md:text-base font-poppins font-semibold text-[#141413]">
-            What we don’t use
-          </h4>
-          <p className="text-xs md:text-sm font-lora text-[#524F49]">
-            We don’t base decisions on personal credit scores or bank balances.
-            Your processing performance is what matters.
-          </p>
-        </div>
-      </div>
-
-      {/* Centered CTA matching rest of site */}
-      <div className="mt-10 flex justify-center">
-        <Link href="/get-started" passHref>
-          <OrangePushButton>Get started</OrangePushButton>
-        </Link>
       </div>
     </section>
   );
@@ -368,11 +434,8 @@ function ReassuranceStrip() {
 
 export default function HowFundingWorksSection() {
   return (
-    <section
-      id="how-funding-works"
-      className="bg-[#FAF9F5] py-20 px-4 sm:px-6 lg:px-12 xl:px-20 border-t border-[#E3DDD0]"
-    >
-      <div className="mx-auto max-w-5xl">
+    <section className="bg-[#F8F4EC] py-16 md:py-20">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10 text-center">
           <h2 className="text-3xl sm:text-4xl font-poppins font-semibold tracking-tight text-[#141413]">
             How funding works
