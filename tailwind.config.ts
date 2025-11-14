@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-export default {
+const config: Config = {
   darkMode: ["class"],
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
@@ -8,7 +8,7 @@ export default {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        2xl: "1400px",
       },
     },
     extend: {
@@ -17,8 +17,8 @@ export default {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: {
-          DEFAULT: '#F9F7F3', // warm off-white background
-          dark: '#0A0A0A',    // deep neutral black for dark mode
+          DEFAULT: '#faf9f5',
+          dark: '#050505',
         },
         foreground: "hsl(var(--foreground))",
         primary: {
@@ -49,35 +49,32 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        bg: "rgb(var(--bg) / <alpha-value>)",
+        paper: '#faf9f5',
+        ink: '#141413',
+        stone: '#e8e6dc',
+        mist: '#b0aea5',
         text: {
-          DEFAULT: '#0A0A0A', // near-black for body copy
-          subtle: '#2C2C2C',  // secondary dark gray
-          soft: '#4B4B4B',    // tertiary gray
+          DEFAULT: '#141413',
+          subtle: '#4b4a45',
+          soft: '#77756c',
         },
-        line: "rgb(var(--line) / <alpha-value>)",
       },
       fontFamily: {
         poppins: ["var(--font-poppins)", "Arial", "sans-serif"],
         lora: ["var(--font-lora)", "Georgia", "serif"],
-        sans: ['"Inter Tight"', "var(--font-poppins)", "system-ui", "sans-serif"],
-        serif: ['"Source Serif 4"', "var(--font-lora)", "Georgia", "serif"],
+        heading: ["Poppins", "system-ui", "sans-serif"],
+        body: ["Lora", "Georgia", "serif"],
       },
-      fontWeight: {
-        normal: "400",
-        medium: "500",
-        semibold: "600",
-        bold: "700",
+      borderRadius: {
+        soft: "18px",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       lineHeight: {
         snug: "1.25",
         relaxed: "1.5",
         loose: "1.7",
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
         "accordion-down": {
@@ -93,7 +90,12 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      boxShadow: {
+        soft: '0 18px 40px rgba(0,0,0,0.08)',
+      },
     },
   },
   plugins: [],
-} satisfies Config;
+};
+
+export default config;

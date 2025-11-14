@@ -72,10 +72,7 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
   viewportFit: 'cover',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#d97757' },
-    { media: '(prefers-color-scheme: dark)', color: '#1a1a1a' },
-  ],
+  themeColor: '#faf9f5',
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
@@ -86,28 +83,52 @@ export default function Layout({ children }: { children: ReactNode }) {
         <meta name='apple-mobile-web-app-capable' content='yes' />
         <meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
         <meta name='format-detection' content='telephone=no' />
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Observer.min.js'></script>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/Draggable.min.js'></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function() {
-              try {
-                var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.classList.remove('light', 'dark');
-                document.documentElement.classList.add(isDark ? 'dark' : 'light');
-              } catch (e) {
-                document.documentElement.classList.add('light');
-              }
-            })();`,
-          }}
-        />
       </head>
-      <body>
+      <body className="bg-paper text-ink antialiased">
         <DynamicThemeColor />
         <StyledComponentsRegistry>
-          <Providers>{children}</Providers>
+          <Providers>
+            <div className="min-h-screen flex flex-col bg-paper text-ink">
+              <header className="px-6 sm:px-10 pt-8 pb-4">
+                <nav className="flex items-center justify-between gap-6">
+                  <div className="flex items-center gap-3">
+                    <div className="h-9 w-9 rounded-full border border-mist/60 flex items-center justify-center">
+                      <span className="text-xs tracking-[0.22em] uppercase text-mist">
+                        SP
+                      </span>
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-poppins text-sm tracking-[0.18em] uppercase text-mist">
+                        Split
+                      </span>
+                      <span className="text-xs text-text-soft">
+                        Shared payments, quietly handled.
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 text-xs sm:text-sm">
+                    <button className="px-3 py-1.5 rounded-full border border-transparent hover:border-mist/70 transition-all">
+                      Log in
+                    </button>
+                    <button className="px-4 py-1.5 rounded-full border border-ink text-ink text-xs sm:text-sm tracking-wide hover:bg-ink hover:text-paper transition-colors">
+                      Get early access
+                    </button>
+                  </div>
+                </nav>
+              </header>
+              <main className="flex-1 px-6 sm:px-10 pb-10">{children}</main>
+              <footer className="px-6 sm:px-10 py-6 text-xs text-text-soft border-t border-stone">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <span>© {new Date().getFullYear()} Split.</span>
+                  <div className="flex gap-4">
+                    <button className="hover:text-ink">Status</button>
+                    <button className="hover:text-ink">Privacy</button>
+                    <button className="hover:text-ink">Terms</button>
+                  </div>
+                </div>
+              </footer>
+            </div>
+          </Providers>
         </StyledComponentsRegistry>
         <ScrollStitch />
         <FooterBeamClient />

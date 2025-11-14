@@ -19,12 +19,10 @@
   height: 250px;
   pointer-events: none;
   z-index: -1;
-  /* Clip ripples to stay within water area */
   overflow: hidden;
   border-radius: 50%;
 }
 
-/* Primary water ripple waves */
 .ripple-wave {
   position: absolute;
   top: 50%;
@@ -34,91 +32,60 @@
   height: 0;
   border-radius: 50%;
   opacity: 0;
-  /* Realistic water appearance: subtle border with tinted backdrop blur */
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  box-shadow:
-    0 0 20px rgba(255, 255, 255, 0.2),
-    inset 0 0 30px rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(1px);
-  /* Slightly blue-tinted to mimic water */
-  background: radial-gradient(
-    circle,
-    rgba(200, 230, 255, 0.15) 0%,
-    rgba(200, 230, 255, 0.08) 40%,
-    transparent 70%
-  );
-  /* Add will-change for GPU optimization */
-  will-change: transform, opacity;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.12);
 }
 
-/* Simplified mobile styles - reduce backdrop-filter for performance */
 @media (max-width: 767px) {
   .ripple-wave {
-    backdrop-filter: none;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
   }
 
-  /* Hide secondary ripples and some primary ones on mobile */
   .ripple-effect.active .ripple-4,
   .ripple-effect.active .ripple-5 {
     display: none;
   }
 }
 
-/* Damped harmonic motion - mimics real wave physics */
-/* Each ripple has slightly different timing and size for natural variation */
 .ripple-effect.active .ripple-1 {
-  animation: water-ripple-1 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation: water-ripple-1 4s ease-out forwards;
 }
 
 .ripple-effect.active .ripple-2 {
-  animation: water-ripple-2 4.2s cubic-bezier(0.23, 0.48, 0.43, 0.96) 0.35s forwards;
+  animation: water-ripple-2 4.2s ease-out 0.35s forwards;
 }
 
 .ripple-effect.active .ripple-3 {
-  animation: water-ripple-3 4.5s cubic-bezier(0.27, 0.44, 0.47, 0.92) 0.8s forwards;
+  animation: water-ripple-3 4.5s ease-out 0.8s forwards;
 }
 
 .ripple-effect.active .ripple-4 {
-  animation: water-ripple-4 4.3s cubic-bezier(0.24, 0.47, 0.44, 0.95) 1.3s forwards;
+  animation: water-ripple-4 4.3s ease-out 1.3s forwards;
 }
 
 .ripple-effect.active .ripple-5 {
-  animation: water-ripple-5 4.6s cubic-bezier(0.26, 0.45, 0.46, 0.93) 1.9s forwards;
+  animation: water-ripple-5 4.6s ease-out 1.9s forwards;
 }
 
-/* Individual ripple animations with varied sizes and timings for natural water effect */
 @keyframes water-ripple-1 {
   0% {
     width: 0;
     height: 0;
     opacity: 0;
-    border-width: 2.5px;
   }
-  3% {
-    opacity: 0.6;
-  }
-  12% {
-    opacity: 0.55;
-    border-width: 2px;
-  }
-  25% {
+  5% {
     opacity: 0.4;
-    border-width: 1.8px;
   }
-  45% {
-    opacity: 0.25;
-    border-width: 1.3px;
+  35% {
+    opacity: 0.28;
   }
   70% {
     opacity: 0.12;
-    border-width: 0.8px;
   }
   100% {
     width: 280px;
     height: 280px;
     opacity: 0;
-    border-width: 0.3px;
   }
 }
 
@@ -127,32 +94,20 @@
     width: 0;
     height: 0;
     opacity: 0;
-    border-width: 2.8px;
   }
-  4% {
-    opacity: 0.65;
+  5% {
+    opacity: 0.42;
   }
-  14% {
-    opacity: 0.5;
-    border-width: 2.2px;
+  38% {
+    opacity: 0.26;
   }
-  30% {
-    opacity: 0.35;
-    border-width: 1.6px;
-  }
-  55% {
-    opacity: 0.2;
-    border-width: 1.1px;
-  }
-  75% {
+  72% {
     opacity: 0.1;
-    border-width: 0.7px;
   }
   100% {
     width: 320px;
     height: 320px;
     opacity: 0;
-    border-width: 0.3px;
   }
 }
 
@@ -161,32 +116,20 @@
     width: 0;
     height: 0;
     opacity: 0;
-    border-width: 2.3px;
   }
   5% {
-    opacity: 0.55;
+    opacity: 0.4;
   }
-  16% {
-    opacity: 0.48;
-    border-width: 1.9px;
+  32% {
+    opacity: 0.26;
   }
-  35% {
-    opacity: 0.32;
-    border-width: 1.5px;
-  }
-  60% {
-    opacity: 0.18;
-    border-width: 1px;
-  }
-  80% {
-    opacity: 0.08;
-    border-width: 0.6px;
+  68% {
+    opacity: 0.1;
   }
   100% {
     width: 300px;
     height: 300px;
     opacity: 0;
-    border-width: 0.3px;
   }
 }
 
@@ -195,32 +138,20 @@
     width: 0;
     height: 0;
     opacity: 0;
-    border-width: 2.6px;
   }
-  4% {
-    opacity: 0.58;
+  5% {
+    opacity: 0.4;
   }
-  13% {
-    opacity: 0.52;
-    border-width: 2.1px;
+  34% {
+    opacity: 0.25;
   }
-  28% {
-    opacity: 0.38;
-    border-width: 1.7px;
-  }
-  50% {
-    opacity: 0.23;
-    border-width: 1.2px;
-  }
-  72% {
-    opacity: 0.11;
-    border-width: 0.8px;
+  70% {
+    opacity: 0.1;
   }
   100% {
     width: 310px;
     height: 310px;
     opacity: 0;
-    border-width: 0.3px;
   }
 }
 
@@ -229,36 +160,23 @@
     width: 0;
     height: 0;
     opacity: 0;
-    border-width: 2.4px;
   }
-  3% {
-    opacity: 0.62;
+  5% {
+    opacity: 0.38;
   }
-  15% {
-    opacity: 0.47;
-    border-width: 2px;
+  35% {
+    opacity: 0.24;
   }
-  32% {
-    opacity: 0.33;
-    border-width: 1.6px;
-  }
-  58% {
-    opacity: 0.19;
-    border-width: 1.1px;
-  }
-  78% {
+  70% {
     opacity: 0.09;
-    border-width: 0.7px;
   }
   100% {
     width: 315px;
     height: 315px;
     opacity: 0;
-    border-width: 0.3px;
   }
 }
 
-/* Secondary ripples - smaller interference waves */
 .ripple-secondary {
   position: absolute;
   top: 50%;
@@ -268,41 +186,35 @@
   height: 0;
   border-radius: 50%;
   opacity: 0;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: radial-gradient(
-    circle,
-    rgba(220, 240, 255, 0.1) 0%,
-    transparent 60%
-  );
+  border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .ripple-effect.active .secondary-1 {
-  animation: secondary-ripple-1 3.5s cubic-bezier(0.33, 0.5, 0.5, 0.95) 0.5s forwards;
+  animation: secondary-ripple-1 3.5s ease-out 0.5s forwards;
 }
 
 .ripple-effect.active .secondary-2 {
-  animation: secondary-ripple-2 3.8s cubic-bezier(0.31, 0.52, 0.48, 0.96) 1.2s forwards;
+  animation: secondary-ripple-2 3.8s ease-out 1.2s forwards;
 }
 
 .ripple-effect.active .secondary-3 {
-  animation: secondary-ripple-3 3.6s cubic-bezier(0.34, 0.49, 0.51, 0.94) 2s forwards;
+  animation: secondary-ripple-3 3.6s ease-out 2s forwards;
 }
 
-/* Secondary waves - subtle interference patterns */
 @keyframes secondary-ripple-1 {
   0% {
     width: 0;
     height: 0;
     opacity: 0;
   }
-  8% {
-    opacity: 0.35;
+  12% {
+    opacity: 0.3;
   }
-  35% {
-    opacity: 0.22;
+  40% {
+    opacity: 0.18;
   }
-  70% {
-    opacity: 0.08;
+  75% {
+    opacity: 0.06;
   }
   100% {
     width: 200px;
@@ -317,14 +229,14 @@
     height: 0;
     opacity: 0;
   }
-  9% {
-    opacity: 0.38;
+  12% {
+    opacity: 0.32;
   }
-  38% {
-    opacity: 0.24;
+  42% {
+    opacity: 0.18;
   }
-  72% {
-    opacity: 0.09;
+  76% {
+    opacity: 0.06;
   }
   100% {
     width: 220px;
@@ -339,14 +251,14 @@
     height: 0;
     opacity: 0;
   }
-  7% {
-    opacity: 0.33;
+  10% {
+    opacity: 0.3;
   }
-  32% {
-    opacity: 0.2;
+  38% {
+    opacity: 0.18;
   }
-  68% {
-    opacity: 0.07;
+  72% {
+    opacity: 0.06;
   }
   100% {
     width: 210px;
@@ -355,112 +267,11 @@
   }
 }
 
-/* Water surface distortion effect */
-.water-distortion {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 200px;
-  height: 200px;
-  border-radius: 50%;
-  opacity: 0;
-  pointer-events: none;
-  backdrop-filter: blur(3px) brightness(1.1);
-  filter: url(#waterDistortion);
-  will-change: transform, opacity;
-}
-
-/* Mobile optimization - remove expensive backdrop-filter */
-@media (max-width: 767px) {
-  .water-distortion {
-    backdrop-filter: none;
-  }
-
-  /* Hide all secondary ripples on mobile for performance */
-  .ripple-effect.active .secondary-1,
-  .ripple-effect.active .secondary-2,
-  .ripple-effect.active .secondary-3 {
-    display: none;
-  }
-}
-
-.ripple-effect.active .water-distortion {
-  animation: distortion-pulse 2s ease-out forwards;
-}
-
-@keyframes distortion-pulse {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.5);
-    backdrop-filter: blur(4px) brightness(1.08);
-  }
-  25% {
-    opacity: 0.4;
-  }
-  60% {
-    opacity: 0.15;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.8);
-    backdrop-filter: blur(0px) brightness(1);
-  }
-}
-
-/* Initial impact splash effect */
-.ripple-effect.active::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.3) 0%,
-    rgba(200, 230, 255, 0.15) 35%,
-    transparent 75%
-  );
-  animation: impact-splash 1.5s ease-out forwards;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-}
-
-@keyframes impact-splash {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.4);
-  }
-  15% {
-    opacity: 0.7;
-  }
-  40% {
-    opacity: 0.4;
-  }
-  70% {
-    opacity: 0.15;
-  }
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(2);
-  }
-}
-
-/* Accessibility - Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .ripple-wave,
   .ripple-secondary,
-  .water-distortion,
   .ripple-effect.active::before {
     animation: none !important;
     opacity: 0 !important;
-  }
-
-  /* Remove will-change when animations are disabled */
-  .ripple-wave,
-  .water-distortion {
-    will-change: auto;
   }
 }
