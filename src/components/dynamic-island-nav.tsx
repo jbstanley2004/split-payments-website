@@ -237,7 +237,7 @@ export function DynamicIslandNav({
               ) : (
                 <Link
                   href={item.href}
-                  className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
+                  className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-[var(--theme-accent-gray)] hover:text-white"
                   onClick={(e) => {
                     if (item.sectionId) {
                       e.preventDefault();
@@ -325,7 +325,7 @@ export function DynamicIslandNav({
               ) : (
                 <Link
                   href={item.href}
-                  className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-white/80 hover:text-[var(--theme-accent)]"
+                  className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-[var(--theme-accent-gray)] hover:text-white"
                   onClick={(e) => {
                     if (item.sectionId) {
                       e.preventDefault();
@@ -347,3 +347,4 @@ export function DynamicIslandNav({
     </header>
   );
 }
+

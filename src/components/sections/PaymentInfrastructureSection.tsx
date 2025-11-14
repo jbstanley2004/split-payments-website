@@ -35,12 +35,11 @@ export default function PaymentInfrastructureSection() {
         </div>
       </div>
 
-      {/* 3D Carousel */}
-      <div className="relative mt-16 lg:mt-0 lg:ml-16 w-full lg:w-1/2 flex justify-center lg:justify-end">
-        <div id="carousel-wrapper" className="relative w-full h-[600px]">
-          <div id="container"></div>
-        </div>
+      {/* Right column kept minimal to avoid blank white space after removing carousel graphic */}
+      <div className="mt-16 lg:mt-0 lg:ml-16 w-full lg:w-1/2 flex justify-center lg:justify-end">
+        {/* Intentionally left empty so layout remains balanced without the carousel animation and copy */}
       </div>
     </section>
   );
 }
+

@@ -1,7 +1,6 @@
 "use client";
 
 import InteractiveCard from "@/components/InteractiveCard";
-import PaymentInfrastructureSection from "@/components/sections/PaymentInfrastructureSection";
 import { motion } from "framer-motion";
 import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
 
@@ -69,8 +68,8 @@ export default function PaymentsSection() {
         </div>
       </section>
 
-      {/* Payment infrastructure CTA replacing "Find the Right Fit" */}
-      <PaymentInfrastructureSection />
+      {/* Payment infrastructure CTA section removed per design feedback */}
     </div>
   );
 }
+
