@@ -196,7 +196,7 @@ function FundingLoopVisual() {
 
   const progressToIndex = useCallback(
     (value: number) => {
-      // Card at 12 o’clock is the one with index ≡ -progress (mod n)
+      // Chip at 12 o’clock is the one with index ≡ -progress (mod n)
       let idx = Math.round(-value) % n;
       if (idx < 0) idx += n;
       return idx;
@@ -250,9 +250,11 @@ function FundingLoopVisual() {
     startAutoRotate();
   };
 
-  // Slightly tighter radius so cards stay comfortably inside the loop container
-  const ringRadius = 74;
-  const labelRadius = ringRadius + 14; // smaller orbit to keep cards away from copy
+  // Radius for the orbit chips (smaller so chips never fight the edge)
+  const ringRadius = 70;
+  const chipRadius = ringRadius + 8;
+
+  const activeStage = fundingStages[activeIndex] ?? fundingStages[0];
 
   return (
     <section className="mb-16 lg:mb-20">
@@ -269,7 +271,7 @@ function FundingLoopVisual() {
 
       <div className="mt-10 flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:gap-14">
         {/* Left: circular visualization */}
-        <div className="relative flex h-[320px] w-[320px] items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] shadow-[0_24px_60px_rgba(20,20,19,0.12)] sm:h-[360px] sm:w-[360px] lg:shrink-0">
+        <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] shadow-[0_24px_60px_rgba(20,20,19,0.12)] sm:h-[360px] sm:w-[360px] lg:shrink-0">
           {/* Center label */}
           <div className="relative z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#F8F4EC] px-4 text-center shadow-[0_12px_30px_rgba(20,20,19,0.10)]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
@@ -283,7 +285,7 @@ function FundingLoopVisual() {
           {/* Circular track */}
           <div className="absolute inset-6 rounded-full border border-dashed border-[#D6CDBF]" />
 
-          {/* SVG for precise ring radius reference (invisible helper) */}
+          {/* Invisible SVG for radius math */}
           <div className="pointer-events-none absolute inset-6">
             <svg
               viewBox="0 0 200 200"
@@ -301,7 +303,7 @@ function FundingLoopVisual() {
             </svg>
           </div>
 
-          {/* Draggable, auto-rotating carousel */}
+          {/* Draggable, auto-rotating orbit of compact chips */}
           <motion.div
             className="absolute inset-0 cursor-grab active:cursor-grabbing"
             style={{ rotate: rotation }}
@@ -314,11 +316,11 @@ function FundingLoopVisual() {
             onDragEnd={handleDragEnd}
           >
             {fundingStages.map((stage, index) => {
-              // With 4 cards, these land at 12, 3, 6, 9 o’clock
+              // With 4 chips, these land at 12, 3, 6, 9 o’clock
               const angleDeg = -90 + (360 / n) * index;
               const angleRad = (angleDeg * Math.PI) / 180;
-              const x = 100 + Math.cos(angleRad) * labelRadius;
-              const y = 100 + Math.sin(angleRad) * labelRadius;
+              const x = 100 + Math.cos(angleRad) * chipRadius;
+              const y = 100 + Math.sin(angleRad) * chipRadius;
 
               const leftPct = (x / 200) * 100;
               const topPct = (y / 200) * 100;
@@ -335,25 +337,21 @@ function FundingLoopVisual() {
                     transform: "translate(-50%, -50%)",
                   }}
                 >
-                  {/* Card stays upright via inverse rotation */}
+                  {/* Chip stays upright via inverse rotation */}
                   <motion.div
-                    className="inline-flex w-[200px] min-h-[110px] flex-col rounded-2xl border border-transparent bg-white/95 px-4 py-3 text-[11px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-xs"
+                    className="inline-flex items-center justify-center rounded-full border border-transparent bg-white/95 px-4 py-1.5 text-[11px] font-poppins text-[#3F3A32] shadow-[0_8px_20px_rgba(20,20,19,0.10)] md:text-xs"
                     style={{ rotate: inverseRotation }}
                     animate={{
-                      borderColor: isActive
-                        ? "#D97757" // orange outline when active
-                        : "rgba(0,0,0,0)", // no border when inactive
+                      borderColor: isActive ? "#D97757" : "rgba(0,0,0,0)",
                       boxShadow: isActive
-                        ? "0 16px 40px rgba(20,20,19,0.16)"
-                        : "0 10px 24px rgba(20,20,19,0.08)",
-                      scale: isActive ? 1.02 : 1,
+                        ? "0 14px 32px rgba(20,20,19,0.18)"
+                        : "0 8px 20px rgba(20,20,19,0.10)",
+                      scale: isActive ? 1.05 : 0.96,
+                      opacity: isActive ? 1 : 0.7,
                     }}
                     transition={{ type: "spring", stiffness: 260, damping: 24 }}
                   >
-                    <span className="mb-1 text-[11px] font-poppins font-semibold text-[#141413] md:text-xs">
-                      {stage.label}
-                    </span>
-                    <span>{stage.description}</span>
+                    {stage.label}
                   </motion.div>
                 </div>
               );
@@ -361,8 +359,18 @@ function FundingLoopVisual() {
           </motion.div>
         </div>
 
-        {/* Right: explanatory copy */}
+        {/* Right: static detail card + explanatory copy */}
         <div className="max-w-md space-y-4 text-sm md:text-base font-lora text-[#524F49]">
+          <div className="rounded-2xl bg-white/80 px-4 py-3 shadow-[0_14px_32px_rgba(20,20,19,0.10)] border border-[#E3DDD0]">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+              Current step
+            </p>
+            <p className="mt-1 text-sm font-poppins font-semibold text-[#141413]">
+              {activeStage.label}
+            </p>
+            <p className="mt-1 text-xs md:text-sm">{activeStage.description}</p>
+          </div>
+
           <p>
             Instead of fixed monthly payments,{" "}
             <span className="font-semibold text-[#3F3A32]">
