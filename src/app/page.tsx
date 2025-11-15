@@ -73,6 +73,39 @@ export default function HomePage() {
                 </Link>
               </WaterRipple>
             </motion.div>
+
+            <motion.div
+              className="flex flex-col items-center text-[0.65rem] uppercase tracking-[0.3em] text-black/70"
+              initial={{ opacity: 0, translateY: 10 }}
+              animate={{ opacity: 1, translateY: 0 }}
+              transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              <span>Scroll to learn more</span>
+              <motion.span
+                aria-hidden="true"
+                className="mt-3 flex flex-col items-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0.4, 1, 0.4], translateY: [0, 4, 0] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <svg
+                  width="24"
+                  height="32"
+                  viewBox="0 0 24 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="text-black/70"
+                >
+                  <path
+                    d="M12 4v20m0 0l-6-6m6 6 6-6"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </motion.span>
+            </motion.div>
           </motion.div>
         </section>
 
