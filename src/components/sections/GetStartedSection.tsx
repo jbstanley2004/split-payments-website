@@ -8,12 +8,9 @@ export default function GetStartedSection() {
   return (
     <section
       id="get-started"
-      className="relative min-h-[70vh] flex items-center px-6 md:px-10 lg:px-16 py-16 md:py-24"
+      className="relative min-h-[80vh] flex items-center justify-center px-6 md:px-10 lg:px-16 py-16 md:py-24"
     >
-      {/* Subtle overlay to ensure readability over the hero background image */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#FAF9F5]/80 via-[#FAF9F5]/60 to-transparent" />
-
-      <div className="relative mx-auto max-w-4xl text-center">
+      <div className="relative mx-auto max-w-3xl rounded-3xl bg-[#FAF9F5]/94 border border-[#E8E6DC] px-6 py-10 md:px-10 md:py-12 text-center shadow-[0_22px_60px_rgba(20,20,19,0.18)]">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Get started
         </p>
