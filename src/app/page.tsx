@@ -15,14 +15,28 @@ export default function HomePage() {
     <main className="relative min-h-screen min-h-[100dvh] font-lora text-text bg-[#FAF9F5]">
       {/* Fixed Background for Home Hero */}
       <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
-        <Image
-          src="/hero_image_formatted.png"
-          alt="A modern office interior"
-          fill
-          className="object-contain sm:object-cover object-center bg-[#F8F4EC]"
-          priority
-          sizes="100vw"
-        />
+        {/* Mobile-optimized hero artwork */}
+        <div className="absolute inset-0 sm:hidden">
+          <Image
+            src="/hero_image_mobile.png"
+            alt="Soft illustrated landscape background"
+            fill
+            className="object-cover object-center bg-[#F8F4EC]"
+            priority
+            sizes="100vw"
+          />
+        </div>
+        {/* Desktop / tablet hero artwork */}
+        <div className="absolute inset-0 hidden sm:block">
+          <Image
+            src="/hero_image_formatted.png"
+            alt="Soft illustrated landscape background"
+            fill
+            className="object-cover object-center bg-[#F8F4EC]"
+            priority
+            sizes="100vw"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
       </div>
 
