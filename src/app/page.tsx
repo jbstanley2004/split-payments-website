@@ -19,7 +19,7 @@ export default function HomePage() {
           src="/hero_image_formatted.png"
           alt="A modern office interior"
           fill
-          className="object-cover object-center"
+          className="object-contain sm:object-cover object-center bg-[#F8F4EC]"
           priority
           sizes="100vw"
         />
