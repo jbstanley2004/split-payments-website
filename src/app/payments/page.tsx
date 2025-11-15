@@ -37,75 +37,77 @@ const SOLUTIONS: PaymentSolution[] = [
 export default function PaymentsPage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] font-lora text-text bg-[#FAF9F5]">
-      <div className="relative z-10">
-        <DynamicIslandNav showHomeLogoOnMobile />
+      <div className="relative z-10 px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
+          <DynamicIslandNav showHomeLogoOnMobile />
 
-        {/* HERO */}
-        <section className="px-6 md:px-10 lg:px-16 pt-28 md:pt-32 pb-10 md:pb-12 border-b border-[#E8E6DC]">
-          <div className="mx-auto max-w-4xl text-center">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
-              Payments
-            </p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-semibold tracking-tight text-[#141413]">
-              Smarter payments. Stronger cash flow.
-            </h1>
-            <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49] max-w-3xl mx-auto">
-              Simplify every transaction — from cards to ACH — while unlocking funding that moves at the speed of your business.
-              Split unites payment processing, merchant services, and split-funding into one seamless experience so your cash flow
-              stays strong and predictable.
-            </p>
-          </div>
-
-          {/* Summary bar */}
-          <div className="mt-8 flex justify-center">
-            <div className="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-full border border-[#E8E6DC] bg-white/80 px-4 py-2 text-[11px] font-medium tracking-[0.16em] uppercase text-[#7B7569]">
-              <span>Cards</span>
-              <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
-              <span>ACH</span>
-              <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
-              <span>Terminals</span>
-              <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
-              <span>POS</span>
-              <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
-              <span>Online</span>
+          {/* HERO */}
+          <section className="px-6 md:px-10 lg:px-16 pt-28 md:pt-32 pb-10 md:pb-12 border-b border-[#E8E6DC]">
+            <div className="mx-auto max-w-4xl text-center">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+                Payments
+              </p>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-semibold tracking-tight text-[#141413]">
+                Smarter payments. Stronger cash flow.
+              </h1>
+              <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49] max-w-3xl mx-auto">
+                Simplify every transaction — from cards to ACH — while unlocking funding that moves at the speed of your business.
+                Split unites payment processing, merchant services, and split-funding into one seamless experience so your cash flow
+                stays strong and predictable.
+              </p>
             </div>
-          </div>
-        </section>
 
-        {/* SOLUTIONS GRID */}
-        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-20 border-b border-[#E8E6DC]">
-          <div className="mx-auto max-w-5xl grid grid-cols-1 gap-8 md:grid-cols-3">
-            {SOLUTIONS.map((solution, index) => (
-              <InteractiveCard
-                key={solution.title}
-                title={solution.title}
-                icon={solution.icon}
-                colorIndex={index}
-                className="min-h-[260px]"
-              >
-                <p className="text-sm font-lora leading-relaxed">{solution.description}</p>
-              </InteractiveCard>
-            ))}
-          </div>
-        </section>
-
-        {/* CTA SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 md:py-20">
-          <div className="mx-auto max-w-3xl rounded-3xl border border-[#E8E6DC] bg-white/80 px-6 py-10 md:px-10 md:py-12 text-center shadow-sm">
-            <h2 className="text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-[#141413]">
-              See how Split can improve your processing.
-            </h2>
-            <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49]">
-              Share a recent statement and we"ll review your current setup, uncover potential savings, and show how funding and
-              payments work together in one platform.
-            </p>
+            {/* Summary bar */}
             <div className="mt-8 flex justify-center">
-              <Link href="/get-started">
-                <OrangePushButton>Start my cost review</OrangePushButton>
-              </Link>
+              <div className="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-full border border-[#E8E6DC] bg-white/80 px-4 py-2 text-[11px] font-medium tracking-[0.16em] uppercase text-[#7B7569]">
+                <span>Cards</span>
+                <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
+                <span>ACH</span>
+                <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
+                <span>Terminals</span>
+                <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
+                <span>POS</span>
+                <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
+                <span>Online</span>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+
+          {/* SOLUTIONS GRID */}
+          <section className="px-6 md:px-10 lg:px-16 py-12 md:py-20 border-b border-[#E8E6DC]">
+            <div className="mx-auto max-w-5xl grid grid-cols-1 gap-8 md:grid-cols-3">
+              {SOLUTIONS.map((solution, index) => (
+                <InteractiveCard
+                  key={solution.title}
+                  title={solution.title}
+                  icon={solution.icon}
+                  colorIndex={index}
+                  className="min-h-[260px]"
+                >
+                  <p className="text-sm font-lora leading-relaxed">{solution.description}</p>
+                </InteractiveCard>
+              ))}
+            </div>
+          </section>
+
+          {/* CTA SECTION */}
+          <section className="px-6 md:px-10 lg:px-16 py-16 md:py-20 bg-[#FAF9F5]">
+            <div className="mx-auto max-w-3xl rounded-3xl border border-[#E8E6DC] bg-white/80 px-6 py-10 md:px-10 md:py-12 text-center shadow-sm">
+              <h2 className="text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-[#141413]">
+                See how Split can improve your processing.
+              </h2>
+              <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49]">
+                Share a recent statement and we"ll review your current setup, uncover potential savings, and show how funding and
+                payments work together in one platform.
+              </p>
+              <div className="mt-8 flex justify-center">
+                <Link href="/get-started">
+                  <OrangePushButton>Start my cost review</OrangePushButton>
+                </Link>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </main>
   );
