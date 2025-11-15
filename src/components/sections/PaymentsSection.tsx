@@ -50,14 +50,14 @@ export default function PaymentsSection() {
           stays strong and predictable.
         </p>
 
-        {/* Learn more link to standalone payments page */}
+        {/* Learn more link to standalone payments page, styled like Flexible Funding hero link */}
         <div className="mt-5 flex justify-center">
           <Link
             href="/payments"
-            className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-[#141413] underline-offset-4 hover:underline"
+            className="inline-flex items-center text-sm md:text-base font-lora text-[#141413] hover:text-[#D97757] transition-colors duration-300"
           >
             <span>Learn more about payments</span>
-            <span aria-hidden>→</span>
+            <span aria-hidden className="ml-1">→</span>
           </Link>
         </div>
       </div>
