@@ -145,11 +145,13 @@ export function FlexibleFundingHero() {
   const [holdback, setHoldback] = useState(15);
   const [sales, setSales] = useState(1000);
 
+  // Minimal presentation: just the interactive FundingCard over the global hero background
   return (
-    <AnimatedHero
+    <section
       id="flexible-funding"
-      reverse
-      visual={
+      className="relative flex items-center justify-center py-16 md:py-24 px-4 sm:px-6 lg:px-8"
+    >
+      <div className="relative w-full max-w-[640px]">
         <FundingCard
           advance={advance}
           holdback={holdback}
@@ -158,16 +160,8 @@ export function FlexibleFundingHero() {
           setHoldback={setHoldback}
           setSales={setSales}
         />
-      }
-      title={
-        <>
-          Flexible funding
-          <br />
-          for growing merchants
-        </>
-      }
-      text="Unlock working capital through your daily card sales with no fixed payments, hidden fees, or credit barriers. Funding that moves with your business, not against it."
-    />
+      </div>
+    </section>
   );
 }
 
