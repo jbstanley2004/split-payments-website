@@ -151,7 +151,7 @@ export function FlexibleFundingHero() {
       id="flexible-funding"
       className="relative flex items-center justify-center py-16 md:py-24 px-4 sm:px-6 lg:px-8"
     >
-      <div className="relative w-full max-w-[640px]">
+      <div className="relative w-full max-w-[360px]">
         <FundingCard
           advance={advance}
           holdback={holdback}
