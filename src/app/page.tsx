@@ -1,7 +1,7 @@
 "use client";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import Hero from "@/components/Hero";
+import Hero, { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
 import OrangePushButton from "@/components/OrangePushButton";
@@ -76,14 +76,25 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        {/* HOME FUNDING SECTION – wrapped in rounded container */}
+        {/* HOW FUNDING WORKS – full-width narrative block */}
+        <section
+          id="how-funding-works"
+          data-section-id="how-funding-works"
+          className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
+        >
+          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
+            <HowFundingWorksBlock />
+          </div>
+        </section>
+
+        {/* FLEXIBLE FUNDING HERO – its own block before Payments */}
         <section
           id="funding"
           data-section-id="funding"
           className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
         >
           <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
-            <Hero />
+            <FlexibleFundingHero />
           </div>
         </section>
 
