@@ -140,163 +140,50 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, revers
   );
 }
 
+export function FlexibleFundingHero() {
+  const [advance, setAdvance] = useState(25000);
+  const [holdback, setHoldback] = useState(15);
+  const [sales, setSales] = useState(1000);
+
+  return (
+    <AnimatedHero
+      id="flexible-funding"
+      reverse
+      visual={
+        <FundingCard
+          advance={advance}
+          holdback={holdback}
+          sales={sales}
+          setAdvance={setAdvance}
+          setHoldback={setHoldback}
+          setSales={setSales}
+        />
+      }
+      title={
+        <>
+          Flexible funding
+          <br />
+          for growing merchants
+        </>
+      }
+      text="Unlock working capital through your daily card sales with no fixed payments, hidden fees, or credit barriers. Funding that moves with your business, not against it."
+    />
+  );
+}
+
+export function HowFundingWorksBlock() {
+  return <HowFundingWorksSection />;
+}
+
+// Backwards-compatible default export used on the dedicated /funding page
 export default function Hero() {
   const [advance, setAdvance] = useState(25000);
   const [holdback, setHoldback] = useState(15);
   const [sales, setSales] = useState(1000);
-  useEffect(() => {
-    // Carousel initialization (unchanged)
-    const baseImages = [
-      "/industries/restaurants.webp",
-      "/industries/clothing.webp",
-      "/industries/car_repair.webp",
-      "/industries/convenience_store.webp",
-      "/industries/franchise.webp",
-      "/industries/hair_beauty.webp",
-      "/industries/home_goods_furniture.webp",
-      "/industries/hotels.webp",
-      "/industries/pharmacy.webp",
-      "/industries/professional_services.webp",
-    ];
-    const industryImages = [...baseImages, ...baseImages, ...baseImages];
-    const initCarousel = () => {
-      if (typeof window === "undefined" || !window.gsap) return;
-      const c = document.getElementById("container");
-      if (!c) return;
-      const boxes: any[] = [];
-      let currentRotation = 0;
-      let autoRotateSpeed = 0.0005;
-      let isDragging = false;
-      let velocity = 0;
-      let lastY = 0;
-      let lastTime = Date.now();
-      function makeBoxes(n: number) {
-        for (let i = 0; i < n; i++) {
-          const b: any = document.createElement("div");
-          boxes.push(b);
-          c.appendChild(b);
-        }
-      }
-      makeBoxes(30);
-      // match original settings
-      (window as any).gsap.to(c, 0.4, { perspective: 200, backgroundColor: "transparent" });
-      for (let i = 0; i < boxes.length; i++) {
-        const b: any = boxes[i];
-        (window as any).gsap.set(b, {
-          left: "50%",
-          top: "50%",
-          margin: -200,
-          width: 400,
-          height: 400,
-          borderRadius: "20%",
-          backgroundImage: "url(" + industryImages[i] + ")",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          clearProps: "transform",
-          backfaceVisibility: "hidden",
-        });
-        b.tl = (window as any).gsap
-          .timeline({ paused: true, defaults: { immediateRender: true } })
-          .fromTo(
-            b,
-            { scale: 0.31, rotationX: (i / boxes.length) * 360, transformOrigin: String("50% 50% -800%") },
-            { rotationX: "+=360", ease: "none" }
-          )
-          .timeScale(0.05);
-      }
-      function animate() {
-        if (!isDragging) {
-          currentRotation += autoRotateSpeed;
-          if (Math.abs(velocity) > 0.00001) {
-            currentRotation += velocity;
-            velocity *= 0.95;
-          }
-        }
-        currentRotation = currentRotation % 1;
-        if (currentRotation < 0) currentRotation += 1;
-        boxes.forEach((b: any) => {
-          (window as any).gsap.set(b.tl, { progress: currentRotation });
-        });
-        requestAnimationFrame(animate);
-      }
-      animate();
-      const startDrag = (y: number) => {
-        isDragging = true;
-        lastY = y;
-        lastTime = Date.now();
-        velocity = 0;
-        (c as any).style.cursor = "grabbing";
-        if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate(15);
-      };
-      const onDrag = (y: number) => {
-        if (!isDragging) return;
-        const t = Date.now();
-        const dt = Math.max(t - lastTime, 1);
-        const dY = y - lastY;
-        const d = -dY * 0.002;
-        currentRotation += d;
-        velocity = (-dY * 0.002) / (dt / 16.67);
-        lastY = y;
-        lastTime = t;
-      };
-      const endDrag = () => {
-        if (!isDragging) return;
-        isDragging = false;
-        (c as any).style.cursor = "grab";
-        if (typeof navigator !== "undefined" && "vibrate" in navigator) navigator.vibrate([12, 10, 8]);
-      };
-      c.addEventListener("mousedown", (e: any) => {
-        e.preventDefault();
-        startDrag(e.clientY);
-      });
-      document.addEventListener("mousemove", (e: any) => onDrag(e.clientY));
-      document.addEventListener("mouseup", endDrag);
-      c.addEventListener("touchstart", (e: any) => {
-        e.preventDefault();
-        startDrag(e.touches[0].clientY);
-      }, { passive: false });
-      document.addEventListener("touchmove", (e: any) => onDrag(e.touches[0].clientY));
-      document.addEventListener("touchend", endDrag);
-      (c as any).style.cursor = "grab";
-    };
-    const checkGSAP = setInterval(() => {
-      if ((window as any).gsap) {
-        clearInterval(checkGSAP);
-        initCarousel();
-      }
-    }, 100);
-    return () => {
-      clearInterval(checkGSAP);
-    };
-  }, []);
 
   return (
     <>
-      {/* Section 1 – Flexible funding hero with Funding settings card */}
-      <AnimatedHero
-        id="funding"
-        reverse
-        visual={
-          <FundingCard
-            advance={advance}
-            holdback={holdback}
-            sales={sales}
-            setAdvance={setAdvance}
-            setHoldback={setHoldback}
-            setSales={setSales}
-          />
-        }
-        title={
-          <>
-            Flexible funding
-            <br />
-            for growing merchants
-          </>
-        }
-        text="Unlock working capital through your daily card sales with no fixed payments, hidden fees, or credit barriers. Funding that moves with your business, not against it."
-      />
-
-      {/* Section 2 – How funding works (auto-qualification, timeline, loop, reassurance) */}
+      <FlexibleFundingHero />
       <HowFundingWorksSection />
     </>
   );
