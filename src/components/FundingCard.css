@@ -1,17 +1,19 @@
 .funding-card {
-  /* Remove panel chrome so only the controls/content appear over the hero background */
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 1.5rem 1.5rem 1.75rem;
+  position: relative;
+  background: #e7ded0;
+  border-radius: 32px;
+  box-shadow: 0 30px 80px rgba(20, 20, 19, 0.22);
+  padding: 2rem 2.25rem 2.5rem;
   font-family: var(--font-lora);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  transform: rotate(-2deg);
+  transform-origin: center center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .funding-card:hover {
-  transform: translateY(-2px);
-  box-shadow: none;
+  transform: rotate(0deg) translateY(-4px);
+  box-shadow: 0 40px 90px rgba(20, 20, 19, 0.28);
 }
 
 .funding-title {
@@ -63,7 +65,7 @@
   transition: all 0.3s ease;
 }
 
-/* Sliders now use warm funding accent to match Eligibility chips */
+/* Sliders use warm funding accent to match Eligibility chips */
 .advance-slider input[type="range"],
 .holdback-slider input[type="range"],
 .sales-slider input[type="range"] {
