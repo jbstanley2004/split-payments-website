@@ -2,6 +2,7 @@
 
 import { CreditCard, Check, Laptop } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import Link from "next/link";
 
 type PaymentFeature = {
   title: string;
@@ -48,6 +49,17 @@ export default function PaymentsSection() {
           Split unites payment processing, merchant services, and split-funding into one seamless experience so your cash flow
           stays strong and predictable.
         </p>
+
+        {/* Learn more link to standalone payments page */}
+        <div className="mt-5 flex justify-center">
+          <Link
+            href="/payments"
+            className="inline-flex items-center gap-1 text-xs sm:text-sm font-semibold text-[#141413] underline-offset-4 hover:underline"
+          >
+            <span>Learn more about payments</span>
+            <span aria-hidden>→</span>
+          </Link>
+        </div>
       </div>
 
       <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
