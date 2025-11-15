@@ -13,30 +13,16 @@ import { motion } from "framer-motion";
 export default function HomePage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] font-lora text-text bg-[#FAF9F5]">
-      {/* Fixed Background for Home Hero */}
+      {/* Fixed Background for Home Hero (single illustration, as before) */}
       <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
-        {/* Mobile-optimized hero artwork */}
-        <div className="absolute inset-0 sm:hidden">
-          <Image
-            src="/hero_image_mobile.png"
-            alt="Soft illustrated landscape background"
-            fill
-            className="object-cover object-center bg-[#F8F4EC]"
-            priority
-            sizes="100vw"
-          />
-        </div>
-        {/* Desktop / tablet hero artwork */}
-        <div className="absolute inset-0 hidden sm:block">
-          <Image
-            src="/hero_image_formatted.png"
-            alt="Soft illustrated landscape background"
-            fill
-            className="object-cover object-center bg-[#F8F4EC]"
-            priority
-            sizes="100vw"
-          />
-        </div>
+        <Image
+          src="/hero_image_formatted.png"
+          alt="Soft illustrated landscape background"
+          fill
+          className="object-cover object-center bg-[#F8F4EC]"
+          priority
+          sizes="100vw"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
       </div>
 
@@ -55,7 +41,7 @@ export default function HomePage() {
           ]}
         />
 
-        {/* LANDING HERO – kept full-bleed over background image */}
+        {/* LANDING HERO – full-bleed over background image */}
         <section
           id="home"
           data-section-id="home"
