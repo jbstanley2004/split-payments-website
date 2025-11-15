@@ -337,21 +337,24 @@ function FundingLoopVisual() {
                     transform: "translate(-50%, -50%)",
                   }}
                 >
-                  {/* Chip stays upright via inverse rotation */}
+                  {/* Pill chip stays upright via inverse rotation; styled to match badges */}
                   <motion.div
-                    className="inline-flex items-center justify-center rounded-full border border-transparent bg-white/95 px-4 py-1.5 text-[11px] font-poppins text-[#3F3A32] shadow-[0_8px_20px_rgba(20,20,19,0.10)] md:text-xs"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-[#f0ebe2]/95 px-4 py-1.5 shadow-[0_10px_26px_rgba(20,20,19,0.12)] border border-transparent"
                     style={{ rotate: inverseRotation }}
                     animate={{
                       borderColor: isActive ? "#D97757" : "rgba(0,0,0,0)",
                       boxShadow: isActive
                         ? "0 14px 32px rgba(20,20,19,0.18)"
-                        : "0 8px 20px rgba(20,20,19,0.10)",
-                      scale: isActive ? 1.05 : 0.96,
-                      opacity: isActive ? 1 : 0.7,
+                        : "0 10px 26px rgba(20,20,19,0.12)",
+                      scale: isActive ? 1.04 : 0.98,
+                      opacity: isActive ? 1 : 0.8,
                     }}
                     transition={{ type: "spring", stiffness: 260, damping: 24 }}
                   >
-                    {stage.label}
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                    <span className="text-[11px] font-lora text-[#3F3A32] md:text-xs">
+                      {stage.label}
+                    </span>
                   </motion.div>
                 </div>
               );
