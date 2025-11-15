@@ -41,7 +41,7 @@ export default function PaymentsPage() {
         <DynamicIslandNav showHomeLogoOnMobile />
 
         {/* HERO */}
-        <section className="px-6 md:px-10 lg:px-16 pt-28 md:pt-32 pb-12 md:pb-16 border-b border-[#E8E6DC]">
+        <section className="px-6 md:px-10 lg:px-16 pt-28 md:pt-32 pb-10 md:pb-12 border-b border-[#E8E6DC]">
           <div className="mx-auto max-w-4xl text-center">
             <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
               Payments
@@ -54,6 +54,21 @@ export default function PaymentsPage() {
               Split unites payment processing, merchant services, and split-funding into one seamless experience so your cash flow
               stays strong and predictable.
             </p>
+          </div>
+
+          {/* Summary bar */}
+          <div className="mt-8 flex justify-center">
+            <div className="inline-flex flex-wrap items-center justify-center gap-x-4 gap-y-2 rounded-full border border-[#E8E6DC] bg-white/80 px-4 py-2 text-[11px] font-medium tracking-[0.16em] uppercase text-[#7B7569]">
+              <span>Cards</span>
+              <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
+              <span>ACH</span>
+              <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
+              <span>Terminals</span>
+              <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
+              <span>POS</span>
+              <span className="h-1 w-1 rounded-full bg-[#D0C7B8]" />
+              <span>Online</span>
+            </div>
           </div>
         </section>
 
