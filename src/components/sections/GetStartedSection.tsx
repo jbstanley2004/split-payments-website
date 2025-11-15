@@ -2,14 +2,18 @@
 
 import Link from "next/link";
 import OrangePushButton from "@/components/OrangePushButton";
+import { WaterRipple } from "@/components/WaterRipple";
 
 export default function GetStartedSection() {
   return (
     <section
       id="get-started"
-      className="bg-[#FAF9F5] py-16 md:py-24 px-6 md:px-10 lg:px-16"
+      className="relative py-16 md:py-24 px-6 md:px-10 lg:px-16"
     >
-      <div className="mx-auto max-w-4xl text-center">
+      {/* Subtle overlay to ensure readability over the hero background image */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#FAF9F5]/80 via-[#FAF9F5]/60 to-transparent" />
+
+      <div className="relative mx-auto max-w-4xl text-center">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Get started
         </p>
@@ -22,9 +26,11 @@ export default function GetStartedSection() {
         </p>
 
         <div className="mt-8 flex justify-center">
-          <Link href="/get-started">
-            <OrangePushButton>Open full Get Started form</OrangePushButton>
-          </Link>
+          <WaterRipple>
+            <Link href="/get-started">
+              <OrangePushButton>Get Started</OrangePushButton>
+            </Link>
+          </WaterRipple>
         </div>
 
         <p className="mt-3 text-[11px] text-[#7B7569]">
