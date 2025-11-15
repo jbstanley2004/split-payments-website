@@ -1,12 +1,20 @@
 .funding-card {
-  position: relative;
-  padding: 2rem 2.25rem 2.5rem;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 2rem 2.25rem;
   font-family: var(--font-lora);
+  background: #d8d1c6;
+  border: 1px solid #e7ded0;
+  border-radius: 28px;
+  box-shadow: 0 24px 60px rgba(20, 20, 19, 0.16);
 }
 
-.funding-card:hover {
-  transform: none;
-  box-shadow: none;
+@media (max-width: 640px) {
+  .funding-card {
+    padding: 1.5rem;
+    border-radius: 24px;
+  }
 }
 
 .funding-title {
