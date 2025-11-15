@@ -1,9 +1,23 @@
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import Hero from "@/components/Hero";
+import Image from "next/image";
 
 export default async function FundingPage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] font-lora text-text bg-[#FAF9F5]">
+      {/* Shared hero background image, same as homepage */}
+      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
+        <Image
+          src="/hero_image_formatted.png"
+          alt="Soft illustrated landscape background"
+          fill
+          className="object-cover object-center"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
+      </div>
+
       <div className="relative z-10 min-h-screen min-h-[100dvh] px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8">
         <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
           <DynamicIslandNav showHomeLogoOnMobile />
