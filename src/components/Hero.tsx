@@ -57,10 +57,10 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, revers
     <section
       ref={ref}
       id={id}
-      className={`relative flex ${layoutClasses} items-center justify-between py-24 px-6 lg:px-16 bg-white dark:bg-[#0a0a0a] overflow-hidden min-h-[620px]`}
+      className={`relative flex ${layoutClasses} items-center justify-between py-24 px-6 lg:px-16 bg-[#F8F4EC] overflow-hidden min-h-[620px]`}
     >
       {/* background glow */}
-      <div className="absolute right-0 top-1/2 translate-y-[-50%] w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.04)_0%,transparent_70%)] dark:bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.06)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute right-0 top-1/2 translate-y-[-50%] w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.04)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
 
       {/* visual */}
       <motion.div
@@ -72,7 +72,11 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, revers
           opacity: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] },
           y: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] },
         }}
-        whileHover={prefersReduced ? undefined : { y: -12, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } }}
+        whileHover={
+          prefersReduced
+            ? undefined
+            : { y: -12, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } }
+        }
       >
         <motion.div
           className="relative w-full max-w-[600px]"
@@ -114,10 +118,10 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, revers
 
       {/* text */}
       <div className="max-w-xl relative z-10 text-center lg:text-left w-full lg:w-1/2">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-poppins font-semibold leading-tight text-[var(--theme-text-primary)]">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-poppins font-semibold leading-tight text-[#141413]">
           {title}
         </h1>
-        <p className="mt-6 text-lg font-lora text-[var(--theme-text-secondary)] max-w-md mx-auto lg:mx-0">
+        <p className="mt-6 text-lg font-lora text-[#524F49] max-w-md mx-auto lg:mx-0">
           {text}
         </p>
         <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
@@ -126,7 +130,7 @@ function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, revers
           </Link>
           <a
             href="/#how-funding-works"
-            className="text-[var(--theme-text-primary)] font-lora hover:text-[var(--theme-accent)] transition-colors duration-300 text-base inline-flex items-center"
+            className="text-[#141413] font-lora hover:text-[#D97757] transition-colors duration-300 text-base inline-flex items-center"
           >
             Learn more →
           </a>
@@ -268,7 +272,7 @@ export default function Hero() {
 
   return (
     <>
-      {/* Section 1 – Funding hero (visual left) */}
+      {/* Section 1 – Flexible funding hero with Funding settings card */}
       <AnimatedHero
         id="funding"
         reverse
@@ -297,4 +301,3 @@ export default function Hero() {
     </>
   );
 }
-
