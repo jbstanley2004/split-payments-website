@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-import OrangePushButton from "@/components/OrangePushButton";
 import { CreditCard, Check, Laptop } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -67,12 +65,6 @@ export default function PaymentsSection() {
             <p className="mt-3 text-sm font-lora text-[#524F49]">{feature.description}</p>
           </article>
         ))}
-      </div>
-
-      <div className="mt-10 flex justify-center">
-        <Link href="/payments">
-          <OrangePushButton>Explore payments</OrangePushButton>
-        </Link>
       </div>
     </section>
   );
