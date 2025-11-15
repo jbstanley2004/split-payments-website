@@ -1,7 +1,6 @@
 "use client";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import InteractiveCard from "@/components/InteractiveCard";
 import OrangePushButton from "@/components/OrangePushButton";
 import { CreditCard, Check, Laptop } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -87,20 +86,62 @@ export default function PaymentsPage() {
             </div>
           </section>
 
-          {/* SOLUTIONS GRID */}
+          {/* COVERAGE + SOLUTIONS GRID */}
           <section className="px-6 md:px-10 lg:px-16 py-12 md:py-20 border-b border-[#E8E6DC]">
-            <div className="mx-auto max-w-5xl grid grid-cols-1 gap-8 md:grid-cols-3">
-              {SOLUTIONS.map((solution, index) => (
-                <InteractiveCard
-                  key={solution.title}
-                  title={solution.title}
-                  icon={solution.icon}
-                  colorIndex={index}
-                  className="min-h-[260px]"
-                >
-                  <p className="text-sm font-lora leading-relaxed">{solution.description}</p>
-                </InteractiveCard>
-              ))}
+            <div className="mx-auto max-w-5xl">
+              <div className="text-left md:text-center">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+                  Coverage
+                </p>
+                <h2 className="mt-2 text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-[#141413]">
+                  Built for every way you accept payments.
+                </h2>
+                <p className="mt-3 text-sm sm:text-base md:text-lg font-lora text-[#524F49] max-w-3xl md:mx-auto">
+                  From in-person swipes to online checkouts, Split brings cards, ACH, terminals, and POS together under one
+                  transparent platform so you don&apos;t have to stitch together multiple providers.
+                </p>
+              </div>
+
+              <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
+                {SOLUTIONS.map((solution) => (
+                  <article
+                    key={solution.title}
+                    className="flex flex-col rounded-3xl border border-[#E8E6DC] bg-white/80 p-6 text-left shadow-sm"
+                  >
+                    <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#141413] text-[#FAF9F5]">
+                      <solution.icon className="h-5 w-5" aria-hidden="true" />
+                    </div>
+                    <h3 className="font-poppins text-base md:text-lg font-semibold text-[#141413]">
+                      {solution.title}
+                    </h3>
+                    <p className="mt-3 text-sm font-lora text-[#524F49]">{solution.description}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* REASSURANCE STRIP */}
+          <section className="px-6 md:px-10 lg:px-16 py-10 border-b border-[#E8E6DC] bg-[#FAF9F5]">
+            <div className="mx-auto flex max-w-5xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
+              <div className="space-y-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+                  Why merchants switch to Split
+                </p>
+                <p className="max-w-xl text-sm md:text-base font-lora text-[#524F49]">
+                  We combine payment processing and funding so you get one relationship for your card volume and your working capital.
+                </p>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm text-[#524F49]">
+                <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                  <span>Simple, transparent pricing</span>
+                </div>
+                <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                  <span>Funding-ready payment rails</span>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -111,7 +152,7 @@ export default function PaymentsPage() {
                 See how Split can improve your processing.
               </h2>
               <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49]">
-                Share a recent statement and we"ll review your current setup, uncover potential savings, and show how funding and
+                Share a recent statement and we&apos;ll review your current setup, uncover potential savings, and show how funding and
                 payments work together in one platform.
               </p>
               <div className="mt-8 flex justify-center">
