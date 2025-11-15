@@ -50,7 +50,7 @@ export default function HomePage() {
             style={{ willChange: "transform, opacity" }}
           >
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-black dark:text-black">
-              Empowering growth through payment technology
+              Funding growth through payment technology
             </h1>
             <p className="text-lg md:text-xl lg:text-2xl font-lora text-gray-700 dark:text-gray-700">
               A Smarter Way to Fund Your Business
