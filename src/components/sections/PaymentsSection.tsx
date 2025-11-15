@@ -63,9 +63,9 @@ export default function PaymentsSection() {
               {feature.title}
             </h3>
             <p className="mt-3 text-sm font-lora text-[#524F49]">{feature.description}</p>
-          </article
+          </article>
         ))}
       </div>
-    </section
+    </section>
   );
 }
