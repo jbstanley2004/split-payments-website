@@ -3,13 +3,17 @@
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import InteractiveCard from "@/components/InteractiveCard";
 import OrangePushButton from "@/components/OrangePushButton";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
-import Image from "next/image";
+import { CreditCard, Check, Laptop } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
-import { useRef } from "react";
 
-const solutions = [
+type PaymentSolution = {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+};
+
+const SOLUTIONS: PaymentSolution[] = [
   {
     title: "Credit Card Acceptance",
     description:
@@ -31,100 +35,62 @@ const solutions = [
 ];
 
 export default function PaymentsPage() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-
   return (
-    <main ref={ref} className="relative min-h-screen min-h-[100dvh] font-lora text-text">
-      {/* Fixed Parallax Background */}
-      <motion.div
-        style={{ y }}
-        className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]"
-      >
-        <Image
-          src="/payments-hero.png"
-          alt="Payment Processing"
-          fill
-          className="object-contain md:object-cover object-center"
-          priority
-          sizes="100vw"
-        />
-        {/* Dark overlay for text readability */}
-        <div className="absolute inset-0 bg-bg/70" />
-      </motion.div>
-
-      {/* All content with relative positioning */}
-      <div className="relative z-10 min-h-screen min-h-[100dvh]">
+    <main className="relative min-h-screen min-h-[100dvh] font-lora text-text bg-[#FAF9F5]">
+      <div className="relative z-10">
         <DynamicIslandNav showHomeLogoOnMobile />
 
-        {/* Hero */}
-        <section className="px-6 md:px-10 py-32 md:py-48 min-h-[80vh] flex items-center border-b border-line/50">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <h1 className="font-poppins text-4xl md:text-6xl leading-tight mb-6">
-              Smarter Payments. Stronger Cash Flow.
-            </h1>
-            <p className="font-lora text-[#2C2C2C] text-lg md:text-xl mb-8 leading-relaxed">
-              Simplify every transaction — from cards to ACH — while unlocking funding that moves at the speed of your business.
-              Our platform unites payment processing, merchant services, and split-funding into one seamless experience.
-              From terminals to advanced software integrations, Split delivers payment technology that keeps your business running smoothly — increasing revenue, improving cash flow, and creating better customer experiences.
+        {/* HERO */}
+        <section className="px-6 md:px-10 lg:px-16 pt-28 md:pt-32 pb-12 md:pb-16 border-b border-[#E8E6DC]">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+              Payments
             </p>
-          </motion.div>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-semibold tracking-tight text-[#141413]">
+              Smarter payments. Stronger cash flow.
+            </h1>
+            <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49] max-w-3xl mx-auto">
+              Simplify every transaction — from cards to ACH — while unlocking funding that moves at the speed of your business.
+              Split unites payment processing, merchant services, and split-funding into one seamless experience so your cash flow
+              stays strong and predictable.
+            </p>
+          </div>
         </section>
 
-        {/* Solutions Grid */}
-        <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {solutions.map((solution, index) => (
+        {/* SOLUTIONS GRID */}
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-20 border-b border-[#E8E6DC]">
+          <div className="mx-auto max-w-5xl grid grid-cols-1 gap-8 md:grid-cols-3">
+            {SOLUTIONS.map((solution, index) => (
               <InteractiveCard
                 key={solution.title}
                 title={solution.title}
                 icon={solution.icon}
                 colorIndex={index}
-                className="min-h-[300px]"
+                className="min-h-[260px]"
               >
-                <p>{solution.description}</p>
+                <p className="text-sm font-lora leading-relaxed">{solution.description}</p>
               </InteractiveCard>
             ))}
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="px-6 md:px-10 py-16 md:py-24 border-b border-line/50">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7 }}
-            className="text-center max-w-3xl mx-auto border border-line p-12 bg-bg/80 backdrop-blur-sm"
-          >
-            <h2 className="font-poppins text-3xl md:text-4xl mb-4">Find the Right Fit for Your Business</h2>
-            <p className="font-lora text-[#2C2C2C] mb-8 text-lg leading-relaxed">
-              Let's review your processing setup and uncover how Split can streamline payments, reduce fees, and fund your growth — all in one platform.
+        {/* CTA SECTION */}
+        <section className="px-6 md:px-10 lg:px-16 py-16 md:py-20">
+          <div className="mx-auto max-w-3xl rounded-3xl border border-[#E8E6DC] bg-white/80 px-6 py-10 md:px-10 md:py-12 text-center shadow-sm">
+            <h2 className="text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-[#141413]">
+              See how Split can improve your processing.
+            </h2>
+            <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49]">
+              Share a recent statement and we"ll review your current setup, uncover potential savings, and show how funding and
+              payments work together in one platform.
             </p>
-            <Link href="/get-started" passHref>
-              <OrangePushButton>Start My Cost Review</OrangePushButton>
-            </Link>
-          </motion.div>
-        </section>
-
-        {/* Footer */}
-        <footer className="border-t border-line/50 px-6 md:px-10 py-8 text-xs text-muted flex flex-col md:flex-row items-center justify-between gap-4">
-          <div>© 2025 Split Payments, Inc. — Empowering merchants through smarter payments and funding.</div>
-          <div className="flex items-center gap-6">
-            <a href="/policy">privacy</a>
-            <a href="/terms">terms</a>
-            <a href="/support">contact</a>
+            <div className="mt-8 flex justify-center">
+              <Link href="/get-started">
+                <OrangePushButton>Start my cost review</OrangePushButton>
+              </Link>
+            </div>
           </div>
-        </footer>
+        </section>
       </div>
     </main>
   );
