@@ -93,9 +93,7 @@ export default function HomePage() {
           data-section-id="funding"
           className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
         >
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#E7DED0] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E3DDD0]">
-            <FlexibleFundingHero />
-          </div>
+          <FlexibleFundingHero />
         </section>
 
         {/* HOME PAYMENTS SECTION – wrapped in rounded container */}
