@@ -34,7 +34,7 @@ export default function PaymentsSection() {
   return (
     <section
       id="payments-inner"
-      className="bg-[#FAF9F5] border-t border-[#E8E6DC] py-16 md:py-24 px-6 md:px-10 lg:px-16"
+      className="bg-[#FAF9F5] border-t border-[#E8E6DC] pt-16 md:pt-24 pb-4 md:pb-6 px-6 md:px-10 lg:px-16"
     >
       <div className="mx-auto max-w-5xl text-center">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
@@ -63,9 +63,9 @@ export default function PaymentsSection() {
               {feature.title}
             </h3>
             <p className="mt-3 text-sm font-lora text-[#524F49]">{feature.description}</p>
-          </article>
+          </article
         ))}
       </div>
-    </section>
+    </section
   );
 }
