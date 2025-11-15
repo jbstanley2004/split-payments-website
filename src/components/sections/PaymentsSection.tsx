@@ -1,10 +1,17 @@
 "use client";
 
-import InteractiveCard from "@/components/InteractiveCard";
-import { motion } from "framer-motion";
-import { CreditCard, Check, Landmark, Laptop, Gift } from "lucide-react";
+import Link from "next/link";
+import OrangePushButton from "@/components/OrangePushButton";
+import { CreditCard, Check, Laptop } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const solutions = [
+type PaymentFeature = {
+  title: string;
+  description: string;
+  icon: LucideIcon;
+};
+
+const PAYMENT_FEATURES: PaymentFeature[] = [
   {
     title: "Credit Card Acceptance",
     description:
@@ -25,51 +32,48 @@ const solutions = [
   },
 ];
 
-const colorIndexes = [0, 1, 4];
-
 export default function PaymentsSection() {
   return (
-    <div className="relative min-h-screen min-h-[100dvh] font-lora text-text bg-bg">
-      {/* Hero */}
-      <section className="px-6 md:px-10 pt-32 pb-16 md:pt-40 md:pb-20 min-h-[80vh] flex items-center border-b border-line/50">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7 }}
-          className="text-center max-w-4xl mx-auto"
-        >
-          <h2 className="font-poppins text-4xl md:text-6xl leading-tight mb-6">
-            Smarter Payments. Stronger Cash Flow.
-          </h2>
-          <p className="font-lora text-[#2C2C2C] text-lg md:text-xl mb-8 leading-relaxed">
-            Simplify every transaction — from cards to ACH — while unlocking funding that moves at the speed of your business. Our
-            platform unites payment processing, merchant services, and split-funding into one seamless experience. From terminals to
-            advanced software integrations, Split delivers payment technology that keeps your business running smoothly — increasing
-            revenue, improving cash flow, and creating better customer experiences.
-          </p>
-        </motion.div>
-      </section>
+    <section
+      id="payments-inner"
+      className="bg-[#FAF9F5] border-t border-[#E8E6DC] py-16 md:py-24 px-6 md:px-10 lg:px-16"
+    >
+      <div className="mx-auto max-w-5xl text-center">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+          Payments
+        </p>
+        <h2 className="text-3xl md:text-4xl font-poppins font-semibold tracking-tight text-[#141413]">
+          Smarter payments. Stronger cash flow.
+        </h2>
+        <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49] max-w-3xl mx-auto">
+          Simplify every transaction — from cards to ACH — while unlocking funding that moves at the speed of your business.
+          Split unites payment processing, merchant services, and split-funding into one seamless experience so your cash flow
+          stays strong and predictable.
+        </p>
+      </div>
 
-      {/* Solutions Grid */}
-      <section className="px-6 md:px-10 pt-8 pb-16 md:pt-10 md:pb-20 border-b border-line/50">
-        <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {solutions.map((solution, index) => (
-            <InteractiveCard
-              key={solution.title}
-              title={solution.title}
-              icon={solution.icon}
-              colorIndex={colorIndexes[index]}
-              className="min-h-[300px]"
-            >
-              <p>{solution.description}</p>
-            </InteractiveCard>
-          ))}
-        </div>
-      </section>
+      <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
+        {PAYMENT_FEATURES.map((feature) => (
+          <article
+            key={feature.title}
+            className="flex flex-col rounded-3xl border border-[#E8E6DC] bg-white/80 p-6 text-left shadow-sm"
+          >
+            <div className="mb-4 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[#141413] text-[#FAF9F5]">
+              <feature.icon className="h-5 w-5" aria-hidden="true" />
+            </div>
+            <h3 className="font-poppins text-base md:text-lg font-semibold text-[#141413]">
+              {feature.title}
+            </h3>
+            <p className="mt-3 text-sm font-lora text-[#524F49]">{feature.description}</p>
+          </article>
+        ))}
+      </div>
 
-      {/* Payment infrastructure CTA section removed per design feedback */}
-    </div>
+      <div className="mt-10 flex justify-center">
+        <Link href="/payments">
+          <OrangePushButton>Explore payments</OrangePushButton>
+        </Link>
+      </div>
+    </section>
   );
 }
-
