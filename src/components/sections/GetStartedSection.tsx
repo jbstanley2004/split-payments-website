@@ -8,7 +8,7 @@ export default function GetStartedSection() {
   return (
     <section
       id="get-started"
-      className="relative py-16 md:py-24 px-6 md:px-10 lg:px-16"
+      className="relative min-h-[70vh] flex items-center px-6 md:px-10 lg:px-16 py-16 md:py-24"
     >
       {/* Subtle overlay to ensure readability over the hero background image */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#FAF9F5]/80 via-[#FAF9F5]/60 to-transparent" />
