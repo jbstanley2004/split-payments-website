@@ -250,8 +250,9 @@ function FundingLoopVisual() {
     startAutoRotate();
   };
 
-  const ringRadius = 78;
-  const labelRadius = ringRadius + 20; // tighter orbit around center text
+  // Slightly tighter radius so cards stay comfortably inside the loop container
+  const ringRadius = 74;
+  const labelRadius = ringRadius + 14; // smaller orbit to keep cards away from copy
 
   return (
     <section className="mb-16 lg:mb-20">
@@ -266,9 +267,9 @@ function FundingLoopVisual() {
         </p>
       </div>
 
-      <div className="mt-10 flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:gap-12">
+      <div className="mt-10 flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:gap-14">
         {/* Left: circular visualization */}
-        <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] shadow-[0_24px_60px_rgba(20,20,19,0.12)] sm:h-[360px] sm:w-[360px]">
+        <div className="relative flex h-[320px] w-[320px] items-center justify-center overflow-hidden rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] shadow-[0_24px_60px_rgba(20,20,19,0.12)] sm:h-[360px] sm:w-[360px] lg:shrink-0">
           {/* Center label */}
           <div className="relative z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#F8F4EC] px-4 text-center shadow-[0_12px_30px_rgba(20,20,19,0.10)]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
@@ -336,7 +337,7 @@ function FundingLoopVisual() {
                 >
                   {/* Card stays upright via inverse rotation */}
                   <motion.div
-                    className="inline-flex w-[210px] min-h-[110px] flex-col rounded-2xl border border-transparent bg-white/95 px-4 py-3 text-[11px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-xs"
+                    className="inline-flex w-[200px] min-h-[110px] flex-col rounded-2xl border border-transparent bg-white/95 px-4 py-3 text-[11px] font-lora text-[#3F3A32] shadow-[0_10px_24px_rgba(20,20,19,0.08)] md:text-xs"
                     style={{ rotate: inverseRotation }}
                     animate={{
                       borderColor: isActive
@@ -345,7 +346,7 @@ function FundingLoopVisual() {
                       boxShadow: isActive
                         ? "0 16px 40px rgba(20,20,19,0.16)"
                         : "0 10px 24px rgba(20,20,19,0.08)",
-                      scale: isActive ? 1.04 : 1,
+                      scale: isActive ? 1.02 : 1,
                     }}
                     transition={{ type: "spring", stiffness: 260, damping: 24 }}
                   >
@@ -455,4 +456,3 @@ export default function HowFundingWorksSection() {
     </section>
   );
 }
-
