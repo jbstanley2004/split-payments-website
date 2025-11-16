@@ -99,22 +99,19 @@ function AutoQualificationCard() {
 function DeploymentTimeline() {
   const accentStyles = [
     {
-      border: "border-[#D97757]",
-      dotBg: "bg-[#D97757]",
-      labelColor: "text-[#D97757]",
-      cardBg: "bg-[#6a9bcc]", // Day 0 – blue (secondary accent)
+      border: "border-[#788C5D]",
+      dotBg: "bg-[#788C5D]",
+      cardBg: "bg-[#BCD1CA]", // Day 0 – greenish
     },
     {
-      border: "border-[#C1683E]",
-      dotBg: "bg-[#C1683E]",
-      labelColor: "text-[#C1683E]",
-      cardBg: "bg-[#788c5d]", // Day 0–2 – green (tertiary accent)
+      border: "border-[#8A6B9B]",
+      dotBg: "bg-[#8A6B9B]",
+      cardBg: "bg-[#CBCADB]", // Day 0–2 – purplish
     },
     {
-      border: "border-[#A65632]",
-      dotBg: "bg-[#A65632]",
-      labelColor: "text-[#A65632]",
-      cardBg: "bg-[#8a6b9b]", // Day 3–5 – purple (secondary accent)
+      border: "border-[#6A9BCC]",
+      dotBg: "bg-[#6A9BCC]",
+      cardBg: "bg-[#6A9BCC]", // Day 3–5 – bluish
     },
   ];
 
@@ -161,9 +158,7 @@ function DeploymentTimeline() {
                       className={`block h-full w-full rounded-full ${accent.dotBg}`}
                     />
                   </div>
-                  <span
-                    className={`text-xs font-semibold uppercase tracking-[0.16em] ${accent.labelColor}`}
-                  >
+                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#141413]">
                     {step.label}
                   </span>
                 </div>
@@ -173,7 +168,7 @@ function DeploymentTimeline() {
                   <h4 className="mb-2 text-base md:text-lg font-poppins font-semibold text-[#141413]">
                     {step.title}
                   </h4>
-                  <p className="text-sm md:text-base font-lora text-[#524F49]">
+                  <p className="text-sm md:text-base font-lora text-[#141413]">
                     {step.body}
                   </p>
                 </div>
