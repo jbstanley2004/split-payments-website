@@ -102,16 +102,19 @@ function DeploymentTimeline() {
       border: "border-[#D97757]",
       dotBg: "bg-[#D97757]",
       labelColor: "text-[#D97757]",
+      cardBg: "bg-[#6a9bcc]", // Day 0 – blue (secondary accent)
     },
     {
       border: "border-[#C1683E]",
       dotBg: "bg-[#C1683E]",
       labelColor: "text-[#C1683E]",
+      cardBg: "bg-[#788c5d]", // Day 0–2 – green (tertiary accent)
     },
     {
       border: "border-[#A65632]",
       dotBg: "bg-[#A65632]",
       labelColor: "text-[#A65632]",
+      cardBg: "bg-[#8a6b9b]", // Day 3–5 – purple (secondary accent)
     },
   ];
 
@@ -147,7 +150,7 @@ function DeploymentTimeline() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: index * 0.08, duration: 0.5 }}
-                className={`relative flex flex-col rounded-2xl border border-[#E3DDD0] bg-[#F8F4EC]/90 backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
+                className={`relative flex flex-col rounded-2xl border border-[#E3DDD0] ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
               >
                 {/* Day label */}
                 <div className="mb-3 flex items-center gap-3 md:mb-0 md:w-48">
