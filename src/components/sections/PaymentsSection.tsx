@@ -79,7 +79,7 @@ export default function PaymentsSection() {
           return (
             <article
               key={feature.title}
-              className={`flex flex-col rounded-3xl border border-[#E8E6DC] ${style.bg} p-6 text-left shadow-sm`}
+              className={`flex flex-col rounded-3xl border border-[#E8E6DC] ${style.bg} p-6 text-left shadow-[0_12px_30px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.8)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]`}
             >
               <div className="mb-3 flex items-center gap-3">
                 <div className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#D97757] text-[#FAF9F5]">
