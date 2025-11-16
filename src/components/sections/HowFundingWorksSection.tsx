@@ -85,14 +85,14 @@ function AutoQualificationCard() {
   return (
     <div className="mb-16">
       {/* Warm beige to match Credit Card Acceptance card */}
-      <div className="rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.06)]">
+      <div className="rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.06)] text-center">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Eligibility
         </p>
         <h3 className="mb-2 text-xl md:text-2xl font-poppins font-semibold text-[#141413]">
           You don’t apply — you qualify automatically
         </h3>
-        <p className="mb-4 text-sm md:text-base font-lora text-[#524F49]">
+        <p className="mx-auto mb-4 max-w-2xl text-sm md:text-base font-lora text-[#524F49]">
           If your volume and history fit our model, we proactively extend
           funding offers based on your processing. No lengthy application or
           hard credit pull to get started.{" "}
@@ -101,7 +101,7 @@ function AutoQualificationCard() {
             you on the shoulder.
           </span>
         </p>
-        <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm text-[#524F49]">
+        <div className="flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm text-[#524F49]">
           <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
             <span>Based on real sales, not projections</span>
