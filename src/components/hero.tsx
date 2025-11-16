@@ -1,66 +1,184 @@
-import { Button } from "@midday/ui/button";
+"use client";
+import Image from "next/image";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
-import { HeroImage } from "./hero-image";
-import { Metrics } from "./metrics";
-import { WordAnimation } from "./word-animation";
+import OrangePushButton from "./OrangePushButton";
+import FundingCard from "./FundingCard";
+import HowFundingWorksSection from "./sections/HowFundingWorksSection";
 
-export function Hero() {
+type AnimatedHeroProps = {
+  imageSrcLight?: string;
+  imageSrcDark?: string;
+  /** Optional custom visual to render instead of the default image */
+  visual?: React.ReactNode;
+  title: React.ReactNode;
+  text: string;
+  /** When true, visual is left and text is right (desktop) */
+  reverse?: boolean;
+  id?: string;
+};
+
+// Small helper to detect if we should dial back animations (mobile / low-power)
+const useReducedMotionHint = () => {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    const update = () => setReduced(mq.matches || isTouch);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+  return reduced;
+};
+
+function AnimatedHero({ imageSrcLight, imageSrcDark, visual, title, text, reverse, id }: AnimatedHeroProps) {
+  const ref = useRef(null);
+  const prefersReduced = useReducedMotionHint();
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  // Scroll motion with gentle parallax. When reduced motion is preferred, keep values minimal.
+  const y = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, -16] : [0, -60]);
+  const rotateY = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, 0] : [18, 10]);
+  const rotateX = useTransform(scrollYProgress, [0, 1], prefersReduced ? [0, 0] : [8, 4]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, prefersReduced ? 0.985 : 0.96]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, prefersReduced ? 0.98 : 0.95]);
+
+  const layoutClasses = reverse
+    ? "flex-col lg:flex-row" // visual left, text right
+    : "flex-col lg:flex-row";
+
   return (
-    <section className="mt-[60px] lg:mt-[180px] min-h-[530px] relative lg:h-[calc(100vh-300px)]">
-      <div className="flex flex-col">
-        <Link href="/updates/midday-v1-1">
-          <Button
-            variant="outline"
-            className="rounded-full border-border flex space-x-2 items-center"
-          >
-            <span className="text-xs">Midday v1.1</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={12}
-              height={12}
-              fill="none"
-            >
-              <path
-                fill="currentColor"
-                d="M8.783 6.667H.667V5.333h8.116L5.05 1.6 6 .667 11.333 6 6 11.333l-.95-.933 3.733-3.733Z"
-              />
-            </svg>
-          </Button>
-        </Link>
+    <section
+      ref={ref}
+      id={id}
+      className={`relative flex ${layoutClasses} items-center justify-between py-24 px-6 lg:px-16 bg-[#F8F4EC] overflow-hidden min-h-[620px]`}
+    >
+      {/* background glow */}
+      <div className="absolute right-0 top-1/2 translate-y-[-50%] w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,0.04)_0%,transparent_70%)] rounded-full blur-3xl pointer-events-none" />
 
-        <h2 className="mt-6 md:mt-10 max-w-[580px] text-[#878787] leading-tight text-[24px] md:text-[36px] font-medium">
-          Invoicing, Time tracking, File reconciliation, Storage, Financial
-          Overview & your own Assistant made for <WordAnimation />
-        </h2>
+      {/* visual */}
+      <motion.div
+        className="relative mt-6 lg:mt-0 lg:mr-16 w-full lg:w-1/2 flex justify-center lg:justify-start order-1 lg:order-none"
+        style={{ y, opacity, scale, perspective: "1200px" }}
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          opacity: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] },
+          y: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] },
+        }}
+        whileHover={
+          prefersReduced
+            ? undefined
+            : { y: -12, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } }
+        }
+      >
+        <motion.div
+          className="relative w-full max-w-[600px]"
+          style={{ rotateY, rotateX, transformStyle: "preserve-3d" }}
+          whileHover={
+            prefersReduced
+              ? undefined
+              : { rotateY: 0, rotateX: 0, transition: { duration: 0.4, ease: [0.25, 0.1, 0.25, 1] } }
+          }
+        >
+          {visual ? (
+            visual
+          ) : (
+            <>
+              <div className="dark:hidden">
+                <Image
+                  src={imageSrcLight || "/graphic4.png"}
+                  alt="Split merchant dashboard showing sales based funding and payment analytics"
+                  width={600}
+                  height={380}
+                  priority
+                  className="drop-shadow-[0_40px_60px_rgba(0,0,0,0.15)] rounded-xl w-full h-auto"
+                />
+              </div>
+              <div className="hidden dark:block">
+                <Image
+                  src={imageSrcDark || "/graphic4.png"}
+                  alt="Split merchant dashboard dark mode view"
+                  width={600}
+                  height={380}
+                  priority
+                  className="drop-shadow-[0_40px_60px_rgba(0,0,0,0.3)] rounded-xl w-full h-auto"
+                />
+              </div>
+            </>
+          )}
+        </motion.div>
+      </motion.div>
 
-        <div className="mt-8 md:mt-10">
-          <div className="flex items-center space-x-4">
-            <Link
-              href="https://cal.com/pontus-midday/15min"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Button
-                variant="outline"
-                className="border-transparent h-11 px-6 dark:bg-[#1D1D1D] bg-[#F2F1EF]"
-              >
-                Talk to founders
-              </Button>
-            </Link>
-
-            <a href="https://app.midday.ai">
-              <Button className="h-11 px-5">Start free trial</Button>
-            </a>
-          </div>
-        </div>
-
-        <p className="text-xs text-[#707070] mt-4 font-mono">
-          Start free trial, no credit card required.
+      {/* text */}
+      <div className="max-w-xl relative z-10 text-center lg:text-left w-full lg:w-1/2">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-poppins font-semibold leading-tight text-[#141413]">
+          {title}
+        </h1>
+        <p className="mt-6 text-lg font-lora text-[#524F49] max-w-md mx-auto lg:mx-0">
+          {text}
         </p>
+        <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
+          <Link href="/get-started" passHref>
+            <OrangePushButton>Get started</OrangePushButton>
+          </Link>
+          <a
+            href="/#how-funding-works"
+            className="text-[#141413] font-lora hover:text-[#D97757] transition-colors duration-300 text-base inline-flex items-center"
+          >
+            Learn more →
+          </a>
+        </div>
       </div>
-
-      <HeroImage />
-      <Metrics />
     </section>
+  );
+}
+
+export function FlexibleFundingHero() {
+  const [advance, setAdvance] = useState(25000);
+  const [holdback, setHoldback] = useState(15);
+  const [sales, setSales] = useState(1000);
+
+  // Minimal presentation: just the interactive FundingCard over the global hero background
+  return (
+    <section
+      id="flexible-funding"
+      className="relative flex items-center justify-center py-16 md:py-24 px-4 sm:px-6 lg:px-8"
+    >
+      <div className="relative w-full max-w-[360px]">
+        <FundingCard
+          advance={advance}
+          holdback={holdback}
+          sales={sales}
+          setAdvance={setAdvance}
+          setHoldback={setHoldback}
+          setSales={setSales}
+        />
+      </div>
+    </section>
+  );
+}
+
+export function HowFundingWorksBlock() {
+  return <HowFundingWorksSection />;
+}
+
+// Backwards-compatible default export used on the dedicated /funding page
+export default function Hero() {
+  const [advance, setAdvance] = useState(25000);
+  const [holdback, setHoldback] = useState(15);
+  const [sales, setSales] = useState(1000);
+
+  return (
+    <>
+      <FlexibleFundingHero />
+      <HowFundingWorksSection />
+    </>
   );
 }
