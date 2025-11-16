@@ -9,14 +9,14 @@ import { motion } from "framer-motion";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] font-lora text-text bg-[#FAF9F5]">
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
       {/* Fixed Background for Home Hero (single illustration, as before) */}
-      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh]">
+      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh] min-h-[100svh]">
         <Image
           src="/hero_image_formatted.png"
           alt="Soft illustrated landscape background"
           fill
-          className="object-cover object-center bg-[#F8F4EC]"
+          className="object-cover object-center md:object-center bg-[#F8F4EC]"
           priority
           sizes="100vw"
         />
@@ -24,25 +24,13 @@ export default function HomePage() {
       </div>
 
       <div className="relative z-10">
-        <DynamicIslandNav
-          navItems={[
-            { label: "Home", href: "/#home", sectionId: "home" },
-            { label: "Payments", href: "/#payments", sectionId: "payments" },
-            { label: "Funding", href: "/#funding", sectionId: "funding" },
-            {
-              label: "Get Started",
-              href: "/#get-started",
-              sectionId: "get-started",
-              variant: "cta",
-            },
-          ]}
-        />
+        <DynamicIslandNav />
 
         {/* LANDING HERO – full-bleed over background image */}
         <section
           id="home"
           data-section-id="home"
-          className="relative min-h-screen min-h-[100dvh] flex items-end justify-center text-center pb-24 md:pb-32"
+          className="relative min-h-screen min-h-[100dvh] min-h-[100svh] flex items-end justify-center text-center pb-24 md:pb-32"
         >
           <motion.div
             initial={{ opacity: 0, translateY: 30 }}

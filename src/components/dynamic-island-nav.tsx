@@ -1,155 +1,60 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type FocusEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/stub";
-import OrangePushButton from "./OrangePushButton";
 
 import splitFavicon from "public/favicon.svg";
 
-// extended nav item type to support sections
-type NavItem = {
-  label: string;
-  href: string;
-  variant?: "default" | "cta";
-  sectionId?: string;
-};
-
-
 type DynamicIslandNavProps = {
-  navItems?: NavItem[];
   className?: string;
-  homeHref?: string;
   logoPriority?: boolean;
-  showHomeLogoOnMobile?: boolean;
 };
 
-const ALL_NAV_ITEMS: NavItem[] = [
+const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
-  { label: "Get Started", href: "/get-started", variant: "cta" },
-];
+] as const;
 
-const FUNDING_BORDER_LABELS = new Set(["Home", "Payments", "Funding"]);
+const CHIP_COLORS: Record<(typeof NAV_ITEMS)[number]["label"], string> = {
+  Home: "#d8d1c6",
+  Payments: "#6A9BCC",
+  Funding: "#BCD1CA",
+};
 
-// Helper function to normalize paths for comparison
-function normalizePath(path: string): string {
-  // Remove trailing slashes and hash fragments for comparison
-  return path.replace(/\/$/, '').split('#')[0] || '/';
-}
+const SAFE_AREA_TOP_OFFSET = "calc(env(safe-area-inset-top, 0px) + 1.25rem)";
 
-// Helper function to check if a nav item matches the current path
-function isCurrentPage(itemHref: string, currentPath: string): boolean {
-  const normalizedItemHref = normalizePath(itemHref);
-  const normalizedCurrentPath = normalizePath(currentPath);
-
-  // Exact match for home page
-  if (normalizedItemHref === '/' && normalizedCurrentPath === '/') {
-    return true;
-  }
-
-  // For other pages, check if current path starts with the item href
-  if (normalizedItemHref !== '/') {
-    if (normalizedCurrentPath.startsWith(normalizedItemHref)) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-// Function to get filtered and ordered nav items based on current page
-function getNavItemsForPage(currentPath: string): NavItem[] {
-  const normalizedPath = normalizePath(currentPath);
-  const baseItems =
-    normalizedPath === "/"
-      ? ALL_NAV_ITEMS.filter(item => item.label !== "Get Started")
-      : ALL_NAV_ITEMS;
-
-  // Filter out the current page
-  const availableItems = baseItems.filter(item => !isCurrentPage(item.href, currentPath));
-
-  // If we're on the Get Started page, put Home in the middle
-  if (normalizedPath === '/get-started') {
-    const home = availableItems.find(item => item.label === "Home");
-    const others = availableItems.filter(item => item.label !== "Home");
-
-    if (home && others.length >= 2) {
-      // Put one item before Home, Home in middle, rest after
-      return [others[0], home, ...others.slice(1)];
-    }
-    return availableItems;
-  }
-
-  // For all other pages, put Get Started in the middle
-  const getStarted = availableItems.find(item => item.label === "Get Started");
-  const others = availableItems.filter(item => item.label !== "Get Started");
-
-  if (getStarted && others.length >= 2) {
-    // Put one item before Get Started, Get Started in middle, rest after
-    return [others[0], getStarted, ...others.slice(1)];
-  }
-
-  return availableItems;
-}
+const PILL_BASE_CLASSES =
+  "inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] text-[11px] font-poppins font-medium uppercase tracking-[0.16em] text-[#141413] shadow-[0_18px_40px_rgba(20,20,19,0.14)] whitespace-nowrap";
 
 export function DynamicIslandNav({
-  navItems,
   className,
-  homeHref = "/",
   logoPriority = false,
-  showHomeLogoOnMobile = false,
 }: DynamicIslandNavProps) {
-  const pathname = usePathname();
   const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
 
-  // Get filtered and ordered nav items based on current page
-  const displayedNavItems = useMemo(() => {
-    if (navItems) {
-      return navItems; // Use custom nav items if provided
-    }
-    return getNavItemsForPage(pathname || '/');
-  }, [pathname, navItems]);
-
-  const collapseOffsets = useMemo(() => {
-    if (displayedNavItems.length <= 1) return [0];
-    const step = 60 / Math.max(displayedNavItems.length - 1, 1);
-    const start = (displayedNavItems.length - 1) / 2;
-    return displayedNavItems.map((_, index) => (start - index) * step);
-  }, [displayedNavItems]);
-
   // Haptic feedback for mobile
   const triggerHaptic = useCallback(() => {
     if (typeof window !== "undefined" && "vibrate" in navigator) {
-      // Subtle vibration pattern: 10ms vibration
       navigator.vibrate(10);
     }
   }, []);
 
-  // Haptic for link clicks - slightly different pattern
   const triggerLinkHaptic = useCallback(() => {
     if (typeof window !== "undefined" && "vibrate" in navigator) {
-      // Double tap pattern for navigation: short-pause-short
       navigator.vibrate([8, 20, 8]);
     }
   }, []);
 
-  const scrollToSection = useCallback((sectionId?: string) => {
-    if (!sectionId || typeof window === 'undefined') return;
-    const el = document.getElementById(sectionId);
-    if (!el) return;
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    const newUrl = sectionId === 'home' ? '/' : `/#${sectionId}`;
-    const current = window.location.pathname + window.location.hash;
-    if (current !== newUrl) {
-      window.history.pushState(null, '', newUrl);
+  const handleDesktopBlur = useCallback((event: FocusEvent<HTMLDivElement>) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      setIsDesktopExpanded(false);
     }
   }, []);
 
@@ -175,199 +80,108 @@ export function DynamicIslandNav({
   return (
     <header
       className={cn(
-        "fixed left-0 right-0 top-3 z-50 flex items-center justify-center px-6 pointer-events-none",
+        "fixed left-0 right-0 top-5 sm:top-6 md:top-8 z-50 flex items-center justify-center px-6 pointer-events-none",
         className,
       )}
+      style={{ top: SAFE_AREA_TOP_OFFSET }}
     >
       <div
-        className="hidden md:flex pointer-events-auto items-center justify-center gap-1.5"
+        className="hidden md:flex pointer-events-auto items-center justify-center gap-2"
         onMouseEnter={() => setIsDesktopExpanded(true)}
         onMouseLeave={() => setIsDesktopExpanded(false)}
+        onFocus={() => setIsDesktopExpanded(true)}
+        onBlur={handleDesktopBlur}
       >
-        <div className="relative flex items-center justify-center">
-          <motion.div
-            animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="pointer-events-none absolute inline-flex items-center justify-center"
-          >
-            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[#E8E6DC]/80 bg-[#D97757] shadow-[0_20px_50px_rgba(217,119,87,0.35)]">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div className="flex items-center justify-center">
-                  <Image
-                    src={splitFavicon}
-                    alt="Split"
-                    width={68}
-                    height={68}
-                    className="h-10 w-auto object-contain"
-                    priority={logoPriority}
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </motion.div>
+        <motion.div
+          animate={{ scale: isDesktopExpanded ? 0.94 : 1 }}
+          transition={{ type: "spring", stiffness: 250, damping: 20 }}
+          className="flex h-16 w-16 items-center justify-center rounded-full border border-[#E8E6DC]/80 bg-[#D97757] shadow-[0_20px_50px_rgba(217,119,87,0.35)]"
+        >
+          <Image
+            src={splitFavicon}
+            alt="Split"
+            width={68}
+            height={68}
+            className="h-10 w-auto object-contain"
+            priority={logoPriority}
+          />
+        </motion.div>
 
-          {displayedNavItems.map((item, index) => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, x: collapseOffsets[index] ?? 0, scale: 0.85 }}
-              animate={{
-                opacity: isDesktopExpanded ? 1 : 0,
-                x: isDesktopExpanded ? 0 : collapseOffsets[index] ?? 0,
-                scale: isDesktopExpanded ? 1 : 0.85,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 20,
-                delay: 0.05 * index,
-              }}
-              className={cn(
-                "ml-2 transition-all duration-300",
-                item.variant === "cta"
-                  ? "border-none bg-transparent px-0 py-0 shadow-none"
-                  : cn(
-                      "rounded-full bg-[#f0ebe2] px-3.5 py-1.5 shadow-[0_15px_30px_rgba(20,20,19,0.14)]",
-                      FUNDING_BORDER_LABELS.has(item.label)
-                        ? "border border-[rgba(255,255,255,0.7)]"
-                        : "border border-transparent"
-                    )
-              )}
-              style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
-            >
-              {item.variant === "cta" ? (
-                <Link
-                  href={item.href}
-                  onClick={(e) => {
-                    if (item.sectionId) {
-                      e.preventDefault();
-                      triggerLinkHaptic();
-                      scrollToSection(item.sectionId);
-                    } else {
-                      triggerLinkHaptic();
-                    }
-                  }}
-                  passHref
+        <div className="flex items-center gap-2">
+          <AnimatePresence>
+            {isDesktopExpanded &&
+              NAV_ITEMS.map((item, index) => (
+                <motion.div
+                  key={`desktop-${item.label}`}
+                  initial={{ opacity: 0, y: 8, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.9 }}
+                  transition={{ duration: 0.3, delay: index * 0.05, ease: [0.4, 0, 0.2, 1] }}
                 >
-                  <OrangePushButton>{item.label}</OrangePushButton>
-                </Link>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="inline-flex items-center gap-2 text-[11px] font-lora text-[#3F3A32] transition-colors whitespace-nowrap"
-                  onClick={(e) => {
-                    if (item.sectionId) {
-                      e.preventDefault();
-                      triggerLinkHaptic();
-                      scrollToSection(item.sectionId);
-                    } else {
-                      triggerLinkHaptic();
-                    }
-                  }}
-                >
-                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-                  {item.label}
-                </Link>
-              )}
-            </motion.div>
-          ))}
+                  <Link
+                    href={item.href}
+                    className={cn(PILL_BASE_CLASSES, "px-4 py-2.5")}
+                    style={{ backgroundColor: CHIP_COLORS[item.label] }}
+                    onClick={triggerLinkHaptic}
+                  >
+                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                    {item.label}
+                  </Link>
+                </motion.div>
+              ))}
+          </AnimatePresence>
         </div>
       </div>
 
-      <div
-        ref={navRef}
-        className="md:hidden pointer-events-auto flex items-center justify-center gap-1.5"
-        onClick={() => {
-          triggerHaptic();
-          setIsMobileExpanded((prev) => !prev);
-        }}
-      >
-        <div className="relative flex items-center justify-center">
-          <motion.div
-            animate={{ opacity: isMobileExpanded ? 0 : 1, scale: isMobileExpanded ? 0.85 : 1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="pointer-events-none absolute inline-flex items-center justify-center"
-          >
-            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[#E8E6DC]/80 bg-[#D97757] shadow-[0_16px_40px_rgba(217,119,87,0.35)]">
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div className="flex items-center justify-center">
-                  <Image
-                    src={splitFavicon}
-                    alt="Split"
-                    width={60}
-                    height={60}
-                    className="h-8 w-auto object-contain"
-                    priority={logoPriority}
-                  />
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </motion.div>
+      <div ref={navRef} className="md:hidden pointer-events-auto flex items-center justify-center gap-2">
+        <motion.button
+          type="button"
+          aria-label={isMobileExpanded ? "Hide navigation menu" : "Open navigation menu"}
+          aria-expanded={isMobileExpanded}
+          aria-controls="dynamic-island-mobile-list"
+          onClick={() => {
+            triggerHaptic();
+            setIsMobileExpanded((prev) => !prev);
+          }}
+          whileTap={{ scale: 0.96 }}
+          className="flex h-14 w-14 items-center justify-center rounded-full border border-[#E8E6DC]/80 bg-[#D97757] shadow-[0_16px_40px_rgba(217,119,87,0.35)]"
+        >
+          <Image
+            src={splitFavicon}
+            alt="Split"
+            width={60}
+            height={60}
+            className="h-8 w-auto object-contain"
+            priority={logoPriority}
+          />
+        </motion.button>
 
-          {displayedNavItems.map((item, index) => (
-            <motion.div
-              key={item.label}
-              animate={{
-                opacity: isMobileExpanded ? 1 : 0,
-                x: isMobileExpanded ? 0 : collapseOffsets[index] ?? 0,
-                scale: isMobileExpanded ? 1 : 0.85,
-              }}
-              transition={{
-                type: "spring",
-                stiffness: 300,
-                damping: 20,
-                delay: 0.05 * index,
-              }}
-              className={cn(
-                "relative ml-2 transition-all duration-300",
-                item.variant === "cta"
-                  ? "border-none bg-transparent px-0 py-0 shadow-none"
-                  : cn(
-                      "rounded-full bg-[#f0ebe2] px-3 py-1.5 shadow-[0_12px_28px_rgba(20,20,19,0.14)]",
-                      FUNDING_BORDER_LABELS.has(item.label)
-                        ? "border border-[rgba(255,255,255,0.7)]"
-                        : "border border-transparent"
-                    )
-              )}
-              style={{ pointerEvents: isMobileExpanded ? "auto" : "none" }}
-            >
-              {item.variant === "cta" ? (
-                <Link
-                  href={item.href}
-                  passHref
-                  onClick={(e) => {
-                    if (item.sectionId) {
-                      e.preventDefault();
-                      triggerLinkHaptic();
-                      scrollToSection(item.sectionId);
-                    } else {
-                      triggerLinkHaptic();
-                    }
-                    setIsMobileExpanded(false);
-                  }}
+        <div id="dynamic-island-mobile-list" className="flex items-center gap-2">
+          <AnimatePresence>
+            {isMobileExpanded &&
+              NAV_ITEMS.map((item, index) => (
+                <motion.div
+                  key={`mobile-${item.label}`}
+                  initial={{ opacity: 0, y: 8, scale: 0.92 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 8, scale: 0.92 }}
+                  transition={{ duration: 0.25, delay: index * 0.05, ease: [0.4, 0, 0.2, 1] }}
                 >
-                  <OrangePushButton>{item.label}</OrangePushButton>
-                </Link>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="inline-flex items-center gap-2 text-[11px] font-lora text-[#3F3A32] whitespace-nowrap"
-                  onClick={(e) => {
-                    if (item.sectionId) {
-                      e.preventDefault();
+                  <Link
+                    href={item.href}
+                    className={cn(PILL_BASE_CLASSES, "px-3.5 py-2 shadow-[0_14px_32px_rgba(20,20,19,0.14)]")}
+                    style={{ backgroundColor: CHIP_COLORS[item.label] }}
+                    onClick={() => {
                       triggerLinkHaptic();
-                      scrollToSection(item.sectionId);
-                    } else {
-                      triggerLinkHaptic();
-                    }
-                    setIsMobileExpanded(false);
-                  }}
-                >
-                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-                  {item.label}
-                </Link>
-              )}
-            </motion.div>
-          ))}
+                      setIsMobileExpanded(false);
+                    }}
+                  >
+                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                    {item.label}
+                  </Link>
+                </motion.div>
+              ))}
+          </AnimatePresence>
         </div>
       </div>
     </header>
