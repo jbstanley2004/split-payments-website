@@ -84,8 +84,8 @@ const fundingStageStyles = [
 function AutoQualificationCard() {
   return (
     <div className="mb-16">
-      {/* Warm beige to match Credit Card Acceptance card */}
-      <div className="rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
+      {/* Warm beige card that hugs the eligibility copy */}
+      <div className="inline-block rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Eligibility
         </p>
@@ -266,7 +266,7 @@ function FundingLoopVisual() {
     startAutoRotate();
   };
 
-  // Radius for the orbit chips (smaller so chips never fight the edge)
+  // Radius for the orbit chips
   const ringRadius = 70;
   const chipRadius = ringRadius + 8;
 
@@ -288,8 +288,8 @@ function FundingLoopVisual() {
       </div>
 
       <div className="mt-10 flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:gap-14">
-        {/* Left: circular visualization */}
-        <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] shadow-[0_24px_60px_rgba(20,20,19,0.12)] sm:h-[360px] sm:w-[360px] lg:shrink-0">
+        {/* Left: circular visualization sits flat on the page background */}
+        <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] sm:h-[360px] sm:w-[360px]">
           {/* Center label */}
           <div className="relative z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#F8F4EC] px-4 text-center shadow-[0_12px_30px_rgba(20,20,19,0.10)]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
@@ -345,7 +345,7 @@ function FundingLoopVisual() {
 
               const isActive = index === activeIndex;
               const chipStyle =
-                fundingStageStyles[index] ??
+                fundingStageStyles[index] ||
                 fundingStageStyles[fundingStageStyles.length - 1];
 
               return (
@@ -366,7 +366,7 @@ function FundingLoopVisual() {
                       backgroundColor: chipStyle.chipBg,
                     }}
                     animate={{
-                      borderColor: isActive ? "#D97757" : "rgba(0,0,0,0)", // keep orange edge when active
+                      borderColor: isActive ? "#D97757" : "rgba(0,0,0,0)",
                       boxShadow: isActive
                         ? "0 14px 32px rgba(20,20,19,0.18)"
                         : "0 10px 26px rgba(20,20,19,0.12)",
@@ -386,57 +386,59 @@ function FundingLoopVisual() {
           </motion.div>
         </div>
 
-        {/* Right: dynamic current-step card + explanatory copy */}
-        <div className="max-w-md space-y-4 text-sm md:text-base font-lora text-[#524F49]">
-          <div
-            className="rounded-2xl px-4 py-3 shadow-[0_14px_32px_rgba(20,20,19,0.10)] border border-[#E3DDD0] text-[#141413]"
-            style={{ backgroundColor: activeStageStyle.bg }}
-          >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.16em]">
-              Current step
-            </p>
-            <p className="mt-1 text-sm font-poppins font-semibold">
-              {activeStage.label}
-            </p>
-            <p className="mt-1 text-xs md:text-sm">
-              {activeStage.description}
-            </p>
-          </div>
-
-          <p>
-            Instead of fixed monthly payments,{" "}
-            <span className="font-semibold text-[#3F3A32]">
-              repayment flexes with your sales.
-            </span>{" "}
-            On strong days, you pay down more. On slower days, less. There’s no
-            penalty for early payoff and no compounding interest.
-          </p>
-          <p>
-            Once your balance is paid down and your card volume stays healthy,
-            we proactively extend renewed funding offers so you can{" "}
-            <span className="font-semibold text-[#3F3A32]">
-              keep investing in growth without reapplying.
-            </span>
-          </p>
-          <div className="mt-4 grid gap-3 text-xs md:text-sm">
-            <div className="flex items-start gap-2">
-              <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-              <p>
-                <span className="font-semibold text-[#3F3A32]">
-                  No compounding interest or variable rates.
-                </span>{" "}
-                Just a simple, transparent cost of capital tied to your sales
-                volume.
+        {/* Right: translucent context container that floats near the loop */}
+        <div className="relative max-w-md lg:-ml-6">
+          <div className="rounded-3xl border border-[#E3DDD0] bg-[#FAF9F5]/80 backdrop-blur-sm shadow-[0_18px_40px_rgba(20,20,19,0.14)] px-5 py-4 space-y-3 text-sm md:text-base font-lora text-[#524F49]">
+            <div
+              className="rounded-2xl px-4 py-3 shadow-[0_14px_32px_rgba(20,20,19,0.10)] border border-[#E3DDD0] text-[#141413]"
+              style={{ backgroundColor: activeStageStyle.bg }}
+            >
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em]">
+                Current step
+              </p>
+              <p className="mt-1 text-sm font-poppins font-semibold">
+                {activeStage.label}
+              </p>
+              <p className="mt-1 text-xs md:text-sm">
+                {activeStage.description}
               </p>
             </div>
-            <div className="flex items-start gap-2">
-              <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-              <p>
-                <span className="font-semibold text-[#3F3A32]">
-                  Works for seasonal and growth-stage businesses.
-                </span>{" "}
-                Repayment naturally slows during off-peak periods.
-              </p>
+
+            <p>
+              Instead of fixed monthly payments,{" "}
+              <span className="font-semibold text-[#3F3A32]">
+                repayment flexes with your sales.
+              </span>{" "}
+              On strong days, you pay down more. On slower days, less. There’s no
+              penalty for early payoff and no compounding interest.
+            </p>
+            <p>
+              Once your balance is paid down and your card volume stays healthy,
+              we proactively extend renewed funding offers so you can{" "}
+              <span className="font-semibold text-[#3F3A32]">
+                keep investing in growth without reapplying.
+              </span>
+            </p>
+            <div className="mt-2 grid gap-3 text-xs md:text-sm">
+              <div className="flex items-start gap-2">
+                <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                <p>
+                  <span className="font-semibold text-[#3F3A32]">
+                    No compounding interest or variable rates.
+                  </span>{" "}
+                  Just a simple, transparent cost of capital tied to your sales
+                  volume.
+                </p>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                <p>
+                  <span className="font-semibold text-[#3F3A32]">
+                    Works for seasonal and growth-stage businesses.
+                  </span>{" "}
+                  Repayment naturally slows during off-peak periods.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -476,7 +478,7 @@ function ReassuranceStrip() {
 
 export default function HowFundingWorksSection() {
   return (
-    <section className="bg-[#F8F4EC] py-16 md:py-20">
+    <section className="py-16 md:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10 text-center">
           <h2 className="text-3xl sm:text-4xl font-poppins font-semibold tracking-tight text-[#141413]">
