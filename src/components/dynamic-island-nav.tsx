@@ -213,7 +213,12 @@ export function DynamicIslandNav({
                 damping: 20,
                 delay: 0.05 * index,
               }}
-              className="ml-2 rounded-full border border-white/10 bg-black/80 px-3 py-1 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-saturate-[180%]"
+              className={cn(
+                "ml-2 transition-all duration-300",
+                item.variant === "cta"
+                  ? "border-none bg-transparent px-0 py-0 shadow-none"
+                  : "rounded-full border border-[#E8E6DC] bg-[#f0ebe2] px-3.5 py-1.5 shadow-[0_15px_30px_rgba(20,20,19,0.14)]"
+              )}
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
               {item.variant === "cta" ? (
@@ -235,7 +240,7 @@ export function DynamicIslandNav({
               ) : (
                 <Link
                   href={item.href}
-                  className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-[var(--theme-accent-gray)] hover:text-white"
+                  className="inline-flex items-center gap-2 text-[11px] font-lora text-[#3F3A32] transition-colors whitespace-nowrap"
                   onClick={(e) => {
                     if (item.sectionId) {
                       e.preventDefault();
@@ -246,6 +251,7 @@ export function DynamicIslandNav({
                     }
                   }}
                 >
+                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
                   {item.label}
                 </Link>
               )}
@@ -298,7 +304,12 @@ export function DynamicIslandNav({
                 damping: 20,
                 delay: 0.05 * index,
               }}
-              className="relative ml-2 rounded-full border border-black/15 bg-black/85 px-3 py-1 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-saturate-[180%]"
+              className={cn(
+                "relative ml-2 transition-all duration-300",
+                item.variant === "cta"
+                  ? "border-none bg-transparent px-0 py-0 shadow-none"
+                  : "rounded-full border border-[#E8E6DC] bg-[#f0ebe2] px-3 py-1.5 shadow-[0_12px_28px_rgba(20,20,19,0.14)]"
+              )}
               style={{ pointerEvents: isMobileExpanded ? "auto" : "none" }}
             >
               {item.variant === "cta" ? (
@@ -321,7 +332,7 @@ export function DynamicIslandNav({
               ) : (
                 <Link
                   href={item.href}
-                  className="text-xs font-medium transition-colors font-poppins whitespace-nowrap text-[var(--theme-accent-gray)] hover:text-white"
+                  className="inline-flex items-center gap-2 text-[11px] font-lora text-[#3F3A32] whitespace-nowrap"
                   onClick={(e) => {
                     if (item.sectionId) {
                       e.preventDefault();
@@ -333,6 +344,7 @@ export function DynamicIslandNav({
                     setIsMobileExpanded(false);
                   }}
                 >
+                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
                   {item.label}
                 </Link>
               )}
