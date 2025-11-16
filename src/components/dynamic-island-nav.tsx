@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type FocusEvent } from "react";
-import { AnimatePresence, motion, useSpring, type SpringOptions } from "framer-motion";
+import { AnimatePresence, animate, motion, useMotionValue, type AnimationOptions } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -31,10 +31,11 @@ const SAFE_AREA_TOP_OFFSET = "calc(env(safe-area-inset-top, 0px) + 1.25rem)";
 const PILL_BASE_CLASSES =
   "inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] text-[11px] font-poppins font-medium uppercase tracking-[0.16em] text-[#141413] shadow-[0_18px_40px_rgba(20,20,19,0.14)] whitespace-nowrap";
 
-const ORB_SPRING: SpringOptions = {
-  stiffness: 70,
-  damping: 18,
-  mass: 1.5,
+const ORB_SPRING: AnimationOptions<number> = {
+  type: "spring",
+  stiffness: 55,
+  damping: 16,
+  mass: 2,
   restDelta: 0.0001,
   restSpeed: 0.0001,
 };
@@ -47,8 +48,8 @@ export function DynamicIslandNav({
   const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
-  const desktopOrbScale = useSpring(1, ORB_SPRING);
-  const mobileOrbScale = useSpring(1, ORB_SPRING);
+  const desktopOrbScale = useMotionValue(1);
+  const mobileOrbScale = useMotionValue(1);
 
   // Haptic feedback for mobile
   const triggerHaptic = useCallback(() => {
@@ -78,22 +79,24 @@ export function DynamicIslandNav({
     };
 
     if (isMobileExpanded) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('touchstart', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("touchstart", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
     };
   }, [isMobileExpanded]);
 
   useEffect(() => {
-    desktopOrbScale.set(isDesktopExpanded ? 0.9 : 1);
+    const controls = animate(desktopOrbScale, isDesktopExpanded ? 0.9 : 1, ORB_SPRING);
+    return () => controls.stop();
   }, [desktopOrbScale, isDesktopExpanded]);
 
   useEffect(() => {
-    mobileOrbScale.set(isMobileExpanded ? 0.92 : 1);
+    const controls = animate(mobileOrbScale, isMobileExpanded ? 0.92 : 1, ORB_SPRING);
+    return () => controls.stop();
   }, [mobileOrbScale, isMobileExpanded]);
 
   return (
