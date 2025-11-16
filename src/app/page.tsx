@@ -81,38 +81,34 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        {/* HOW FUNDING WORKS – full-width narrative block */}
+        {/* HOW FUNDING WORKS – content floats directly on the beige background */}
         <section
           id="how-funding-works"
           data-section-id="how-funding-works"
-          className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
+          className="px-6 md:px-10 lg:px-16 pt-12 md:pt-16"
         >
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] ring-1 ring-[#E8E6DC] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
-            <HowFundingWorksBlock />
-          </div>
+          <HowFundingWorksBlock />
         </section>
 
-        {/* FLEXIBLE FUNDING HERO – beige branded card container */}
+        {/* FLEXIBLE FUNDING HERO – standalone interactive card */}
         <section
           id="funding"
           data-section-id="funding"
-          className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
+          className="px-6 md:px-10 lg:px-16 pb-8 md:pb-12"
         >
           <FlexibleFundingHero />
         </section>
 
-        {/* HOME PAYMENTS SECTION – wrapped in rounded container */}
+        {/* HOME PAYMENTS SECTION – copy and floating cards, no outer container */}
         <section
           id="payments"
           data-section-id="payments"
-          className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
+          className="px-6 md:px-10 lg:px-16 pt-8 md:pt-12 pb-10 md:pb-16"
         >
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] ring-1 ring-[#E8E6DC] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
-            <PaymentsSection />
-          </div>
+          <PaymentsSection />
         </section>
 
-        {/* BOTTOM GET STARTED – hero-style card over background, unchanged */}
+        {/* BOTTOM GET STARTED – containerless copy and CTA */}
         <section id="get-started" data-section-id="get-started">
           <GetStartedSection />
         </section>
@@ -120,4 +116,3 @@ export default function HomePage() {
     </main>
   );
 }
-

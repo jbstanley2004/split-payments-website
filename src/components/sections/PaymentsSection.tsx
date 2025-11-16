@@ -39,11 +39,9 @@ const CARD_STYLES = [
 
 export default function PaymentsSection() {
   return (
-    <section
-      id="payments-inner"
-      className="bg-[#FAF9F5] border-t border-[#E8E6DC] pt-16 md:pt-24 pb-4 md:pb-6 px-6 md:px-10 lg:px-16"
-    >
-      <div className="mx-auto max-w-5xl text-left">
+    <section id="payments-inner" className="pt-16 md:pt-24 pb-4 md:pb-6">
+      {/* Copy block sits directly on the page background */}
+      <div className="mx-auto max-w-4xl px-0 md:px-2 lg:px-4 text-left">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Payments
         </p>
@@ -71,30 +69,33 @@ export default function PaymentsSection() {
         </div>
       </div>
 
-      <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
-        {PAYMENT_FEATURES.map((feature, index) => {
-          const style =
-            CARD_STYLES[index] || CARD_STYLES[CARD_STYLES.length - 1];
+      {/* Floating feature cards as their own band */}
+      <div className="mt-10 px-0 md:px-2 lg:px-4">
+        <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
+          {PAYMENT_FEATURES.map((feature, index) => {
+            const style =
+              CARD_STYLES[index] || CARD_STYLES[CARD_STYLES.length - 1];
 
-          return (
-            <article
-              key={feature.title}
-              className={`flex flex-col rounded-3xl border border-[#E8E6DC] ${style.bg} p-6 text-left shadow-[0_12px_30px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.8)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]`}
-            >
-              <div className="mb-3 flex items-center gap-3">
-                <div className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#D97757] text-[#FAF9F5]">
-                  <feature.icon className="h-4 w-4" aria-hidden="true" />
+            return (
+              <article
+                key={feature.title}
+                className={`flex flex-col rounded-3xl ${style.bg} p-6 text-left shadow-[0_12px_30px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.8)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]`}
+              >
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#D97757] text-[#FAF9F5]">
+                    <feature.icon className="h-4 w-4" aria-hidden="true" />
+                  </div>
+                  <h3 className="font-poppins text-base md:text-lg font-semibold text-[#141413]">
+                    {feature.title}
+                  </h3>
                 </div>
-                <h3 className="font-poppins text-base md:text-lg font-semibold text-[#141413]">
-                  {feature.title}
-                </h3>
-              </div>
-              <p className="mt-1 text-sm font-lora text-[#141413]">
-                {feature.description}
-              </p>
-            </article>
-          );
-        })}
+                <p className="mt-1 text-sm font-lora text-[#141413]">
+                  {feature.description}
+                </p>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
