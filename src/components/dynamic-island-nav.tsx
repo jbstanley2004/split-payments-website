@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/stub";
 import OrangePushButton from "./OrangePushButton";
 
-import darkModeLogo from "public/split.svg";
+import splitFavicon from "public/favicon.svg";
 
 // extended nav item type to support sections
 type NavItem = {
@@ -180,19 +180,17 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isDesktopExpanded ? 0 : 1, scale: isDesktopExpanded ? 0.85 : 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-white/10 bg-black/80 px-4 py-2.5 shadow-[0_4px_16px_rgba(0,0,0,0.3)] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute inline-flex items-center justify-center"
           >
-            <div className="relative flex items-center justify-center" style={{ perspective: 1000 }}>
+            <div className="flex h-16 w-16 items-center justify-center rounded-full border border-[#E8E6DC]/80 bg-[#D97757] shadow-[0_20px_50px_rgba(217,119,87,0.35)]">
               <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  className="flex items-center justify-center"
-                >
+                <motion.div className="flex items-center justify-center">
                   <Image
-                    src={darkModeLogo}
+                    src={splitFavicon}
                     alt="Split"
-                    width={76}
-                    height={30}
-                    className="h-5 w-auto object-contain"
+                    width={68}
+                    height={68}
+                    className="h-10 w-auto object-contain"
                     priority={logoPriority}
                   />
                 </motion.div>
@@ -268,19 +266,17 @@ export function DynamicIslandNav({
           <motion.div
             animate={{ opacity: isMobileExpanded ? 0 : 1, scale: isMobileExpanded ? 0.85 : 1 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            className="pointer-events-none absolute inline-flex items-center justify-center rounded-full border border-black/15 bg-black/85 px-4 py-2 shadow-[0_12px_32px_rgba(0,0,0,0.35)] backdrop-saturate-[180%]"
+            className="pointer-events-none absolute inline-flex items-center justify-center"
           >
-            <div className="relative flex h-7 w-auto items-center justify-center" style={{ perspective: 1000 }}>
+            <div className="flex h-14 w-14 items-center justify-center rounded-full border border-[#E8E6DC]/80 bg-[#D97757] shadow-[0_16px_40px_rgba(217,119,87,0.35)]">
               <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  className="flex items-center justify-center"
-                >
+                <motion.div className="flex items-center justify-center">
                   <Image
-                    src={darkModeLogo}
+                    src={splitFavicon}
                     alt="Split"
-                    width={106}
-                    height={42}
-                    className="h-7 w-auto object-contain"
+                    width={60}
+                    height={60}
+                    className="h-8 w-auto object-contain"
                     priority={logoPriority}
                   />
                 </motion.div>
@@ -347,4 +343,3 @@ export function DynamicIslandNav({
     </header>
   );
 }
-
