@@ -147,11 +147,8 @@ export function FlexibleFundingHero() {
 
   // Minimal presentation: just the interactive FundingCard over the global hero background
   return (
-    <section
-      id="flexible-funding"
-      className="relative flex items-center justify-center py-16 md:py-24 px-4 sm:px-6 lg:px-8"
-    >
-      <div className="relative w-full max-w-[360px]">
+    <section id="flexible-funding" className="relative flex items-center justify-center py-16 md:py-24">
+      <div className="relative w-full max-w-[360px] overflow-hidden rounded-[36px] bg-[#E7DED0] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
         <FundingCard
           advance={advance}
           holdback={holdback}
