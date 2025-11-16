@@ -63,11 +63,17 @@ function isCurrentPage(itemHref: string, currentPath: string): boolean {
 
 // Function to get filtered and ordered nav items based on current page
 function getNavItemsForPage(currentPath: string): NavItem[] {
+  const normalizedPath = normalizePath(currentPath);
+  const baseItems =
+    normalizedPath === "/"
+      ? ALL_NAV_ITEMS.filter(item => item.label !== "Get Started")
+      : ALL_NAV_ITEMS;
+
   // Filter out the current page
-  const availableItems = ALL_NAV_ITEMS.filter(item => !isCurrentPage(item.href, currentPath));
+  const availableItems = baseItems.filter(item => !isCurrentPage(item.href, currentPath));
 
   // If we're on the Get Started page, put Home in the middle
-  if (normalizePath(currentPath) === '/get-started') {
+  if (normalizedPath === '/get-started') {
     const home = availableItems.find(item => item.label === "Home");
     const others = availableItems.filter(item => item.label !== "Home");
 
