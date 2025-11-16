@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120">
+  <rect width="240" height="120" rx="24" fill="#ffffff"/>
+  <circle cx="60" cy="60" r="28" fill="#E60028" opacity="0.9"/>
+  <circle cx="54" cy="52" r="14" fill="#ffffff"/>
+  <text x="100" y="70" fill="#E60028" font-family="'Poppins', 'Helvetica', 'Arial', sans-serif" font-weight="700" font-size="32">Worldpay</text>
+</svg>

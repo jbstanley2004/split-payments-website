@@ -17,20 +17,38 @@ import {
   Users2,
 } from "lucide-react";
 
-const partnerNames = [
-  "First Data",
-  "Worldpay",
-  "Clover",
-  "Square",
-  "Stripe",
-  "Global Payments",
-];
-
 type IconCard = {
   title: string;
   description: string;
   icon: LucideIcon;
 };
+
+type LogoItem = {
+  name: string;
+  src: string;
+};
+
+const marqueePartners: LogoItem[] = [
+  { name: "First Data", src: "/payment_types/first-data.svg" },
+  { name: "Worldpay", src: "/payment_types/worldpay.svg" },
+  { name: "Clover", src: "/payment_types/clover.svg" },
+  { name: "Square", src: "/payment_types/square.svg" },
+  { name: "Stripe", src: "/payment_types/stripe.svg" },
+  { name: "Global Payments", src: "/payment_types/global-payments.svg" },
+];
+
+const supportingPaymentLogos: LogoItem[] = [
+  { name: "Adyen", src: "/gsap-animated-logo-wh-carousel/logos/adyen.svg" },
+  { name: "PayPal", src: "/gsap-animated-logo-wh-carousel/logos/paypal.svg" },
+  { name: "Visa", src: "/gsap-animated-logo-wh-carousel/logos/visa.svg" },
+  { name: "Mastercard", src: "/gsap-animated-logo-wh-carousel/logos/mastercard.svg" },
+  { name: "American Express", src: "/gsap-animated-logo-wh-carousel/logos/amex.svg" },
+];
+
+const carouselRows = [
+  { id: "primary", logos: [...marqueePartners, ...supportingPaymentLogos], reverse: false },
+  { id: "secondary", logos: [...supportingPaymentLogos, ...marqueePartners], reverse: true },
+];
 
 const heroHighlights: IconCard[] = [
   {
@@ -260,22 +278,6 @@ export default function CCSplitPage() {
               </div>
             </section>
 
-            <section id="partners" className="border-t border-[#E8E6DC] px-6 py-10 sm:px-10">
-              <div className="text-center">
-                <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Trusted by processing leaders</p>
-                <div className="mt-6 grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
-                  {partnerNames.map((name) => (
-                    <div
-                      key={name}
-                      className="rounded-2xl border border-[#E8E6DC] bg-white/70 px-4 py-6 text-sm font-semibold uppercase tracking-[0.2em] text-[#524F49]"
-                    >
-                      {name}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-
             <section id="features" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
               <div className="grid gap-10 lg:grid-cols-[0.85fr_1fr]">
                 <div className="space-y-6">
@@ -441,6 +443,52 @@ export default function CCSplitPage() {
                     <p className="mt-4 text-sm text-[#524F49]">{faq.answer}</p>
                   </details>
                 ))}
+              </div>
+            </section>
+
+            <section id="partners" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
+              <div className="rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] px-6 py-10 text-center sm:px-10">
+                <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">
+                  Trusted by processing leaders
+                </p>
+                <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
+                  CC Split runs with the processors you already trust
+                </h2>
+                <p className="mt-3 text-base text-[#524F49]">
+                  First Data, Worldpay, Clover, Square, Stripe, Global Payments and every major card network stay on display in
+                  a single carousel so prospects see familiar brands at the footer of the page.
+                </p>
+
+                <div className="mt-10 space-y-6">
+                  {carouselRows.map((row) => {
+                    const duplicatedLogos = [...row.logos, ...row.logos];
+                    return (
+                      <div key={row.id} className="relative overflow-hidden rounded-[28px] border border-[#E8E6DC] bg-white/60 p-4">
+                        <div
+                          className={`flex gap-6 ${row.reverse ? "animate-logo-marquee-reverse" : "animate-logo-marquee"}`}
+                        >
+                          {duplicatedLogos.map((logo, index) => (
+                            <div
+                              key={`${logo.name}-${index}`}
+                              className="flex h-24 w-48 flex-shrink-0 items-center justify-center rounded-2xl bg-[#FAF9F5] p-4 ring-1 ring-[#E8E6DC]"
+                              aria-label={logo.name}
+                            >
+                              <Image
+                                src={logo.src}
+                                alt={`${logo.name} logo`}
+                                width={180}
+                                height={72}
+                                className="h-12 w-auto object-contain"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#F8F4EC] to-transparent" />
+                        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#F8F4EC] to-transparent" />
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </section>
 
