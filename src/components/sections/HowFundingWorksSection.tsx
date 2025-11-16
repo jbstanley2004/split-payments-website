@@ -85,7 +85,7 @@ function AutoQualificationCard() {
   return (
     <div className="mb-16">
       {/* Warm beige to match Credit Card Acceptance card */}
-      <div className="rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.06)]">
+      <div className="rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Eligibility
         </p>
@@ -169,7 +169,7 @@ function DeploymentTimeline() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: index * 0.08, duration: 0.5 }}
-                className={`relative flex flex-col rounded-2xl border border-[#E3DDD0] ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
+                className={`relative flex flex-col rounded-2xl border border-[#E3DDD0] ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_30px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
               >
                 {/* Day label */}
                 <div className="mb-3 flex items-center gap-3 md:mb-0 md:w-48">
