@@ -6,11 +6,49 @@ import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useActiveSection } from "@/hooks/useActiveSection";
+import React from "react";
+
+function GhostSectionContainer({
+  id,
+  children,
+  className = "",
+  activeId,
+}: {
+  id: string;
+  children: React.ReactNode;
+  className?: string;
+  activeId: string | null;
+}) {
+  const isActive = activeId === id;
+
+  return (
+    <section
+      id={id}
+      data-section-id={id}
+      className={`px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8 ${className}`}
+    >
+      <div
+        className={[
+          "mx-auto max-w-6xl transition-all duration-400 ease-out",
+          "rounded-[36px]",
+          isActive
+            ? "bg-[#FAF9F5]/95 ring-1 ring-[#E8E6DC] shadow-[0_24px_60px_rgba(20,20,19,0.20),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset] scale-[1.01]"
+            : "bg-transparent ring-0 shadow-none scale-[1.0]",
+        ].join(" "))
+      >
+        {children}
+      </div>
+    </section>
+  );
+}
 
 export default function HomePage() {
+  const sectionIds = ["home", "how-funding-works", "funding", "payments", "get-started"];
+  const activeId = useActiveSection(sectionIds);
+
   return (
     <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
-      {/* Fixed Background for Home Hero (single illustration, as before) */}
       <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh] min-h-[100svh]">
         <Image
           src="/hero_image_formatted.png"
@@ -26,7 +64,6 @@ export default function HomePage() {
       <div className="relative z-10">
         <DynamicIslandNav />
 
-        {/* LANDING HERO – full-bleed over background image */}
         <section
           id="home"
           data-section-id="home"
@@ -81,43 +118,22 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        {/* HOW FUNDING WORKS – full-width narrative block */}
-        <section
-          id="how-funding-works"
-          data-section-id="how-funding-works"
-          className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
-        >
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] ring-1 ring-[#E8E6DC] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
-            <HowFundingWorksBlock />
-          </div>
-        </section>
+        <GhostSectionContainer id="how-funding-works" activeId={activeId}>
+          <HowFundingWorksBlock />
+        </GhostSectionContainer>
 
-        {/* FLEXIBLE FUNDING HERO – beige branded card container */}
-        <section
-          id="funding"
-          data-section-id="funding"
-          className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
-        >
+        <GhostSectionContainer id="funding" activeId={activeId}>
           <FlexibleFundingHero />
-        </section>
+        </GhostSectionContainer>
 
-        {/* HOME PAYMENTS SECTION – wrapped in rounded container */}
-        <section
-          id="payments"
-          data-section-id="payments"
-          className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
-        >
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] ring-1 ring-[#E8E6DC] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
-            <PaymentsSection />
-          </div>
-        </section>
+        <GhostSectionContainer id="payments" activeId={activeId}>
+          <PaymentsSection />
+        </GhostSectionContainer>
 
-        {/* BOTTOM GET STARTED – hero-style card over background, unchanged */}
-        <section id="get-started" data-section-id="get-started">
+        <GhostSectionContainer id="get-started" activeId={activeId} className="pb-16">
           <GetStartedSection />
-        </section>
+        </GhostSectionContainer>
       </div>
     </main>
   );
 }
-
