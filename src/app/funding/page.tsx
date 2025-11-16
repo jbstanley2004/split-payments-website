@@ -21,20 +21,18 @@ export default function FundingPage() {
       <div className="relative z-10">
         <DynamicIslandNav />
 
-        {/* HOW FUNDING WORKS – matches homepage container */}
+        {/* HOW FUNDING WORKS – mirrors homepage, no enclosing card */}
         <section
           id="how-funding-works"
-          className="px-3 pb-6 pt-24 sm:px-4 sm:pb-8 sm:pt-28 md:px-6 md:pb-10 md:pt-32"
+          className="px-6 md:px-10 lg:px-16 pt-24 sm:pt-28 md:pt-32"
         >
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] ring-1 ring-[#E8E6DC] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
-            <HowFundingWorksBlock />
-          </div>
+          <HowFundingWorksBlock />
         </section>
 
         {/* Standalone Funding card mirrors the home version and sits last */}
         <section
           id="funding"
-          className="px-3 pb-16 pt-2 sm:px-4 sm:pb-20 md:px-6 md:pb-24"
+          className="px-6 md:px-10 lg:px-16 pb-16 pt-2 sm:pb-20 md:pb-24"
         >
           <FlexibleFundingHero />
         </section>
