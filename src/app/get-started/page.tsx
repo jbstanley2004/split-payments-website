@@ -23,7 +23,7 @@ export default function GetStarted() {
 
       <div className="relative z-10 px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8 min-h-screen min-h-[100dvh]">
         <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
-          <DynamicIslandNav showHomeLogoOnMobile />
+          <DynamicIslandNav />
 
           <section className="px-6 md:px-10 lg:px-16 pt-24 md:pt-28 pb-20 max-w-6xl mx-auto">
             {/* Header */}

@@ -19,7 +19,7 @@ export default function FundingPage() {
       </div>
 
       <div className="relative z-10">
-        <DynamicIslandNav showHomeLogoOnMobile />
+        <DynamicIslandNav />
 
         {/* HOW FUNDING WORKS – matches homepage container */}
         <section

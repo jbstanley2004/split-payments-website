@@ -4,10 +4,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/stub";
-import OrangePushButton from "./OrangePushButton";
 
 import splitFavicon from "public/favicon.svg";
 
@@ -15,7 +13,6 @@ import splitFavicon from "public/favicon.svg";
 type NavItem = {
   label: string;
   href: string;
-  variant?: "default" | "cta";
   sectionId?: string;
 };
 
@@ -23,100 +20,42 @@ type NavItem = {
 type DynamicIslandNavProps = {
   navItems?: NavItem[];
   className?: string;
-  homeHref?: string;
   logoPriority?: boolean;
-  showHomeLogoOnMobile?: boolean;
 };
 
 const ALL_NAV_ITEMS: NavItem[] = [
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
-  { label: "Get Started", href: "/get-started", variant: "cta" },
 ];
 
-const FUNDING_BORDER_LABELS = new Set(["Home", "Payments", "Funding"]);
+const CHIP_COLORS: Record<string, string> = {
+  Home: "#d8d1c6",
+  Payments: "#6A9BCC",
+  Funding: "#BCD1CA",
+};
 
-// Helper function to normalize paths for comparison
-function normalizePath(path: string): string {
-  // Remove trailing slashes and hash fragments for comparison
-  return path.replace(/\/$/, '').split('#')[0] || '/';
-}
-
-// Helper function to check if a nav item matches the current path
-function isCurrentPage(itemHref: string, currentPath: string): boolean {
-  const normalizedItemHref = normalizePath(itemHref);
-  const normalizedCurrentPath = normalizePath(currentPath);
-
-  // Exact match for home page
-  if (normalizedItemHref === '/' && normalizedCurrentPath === '/') {
-    return true;
-  }
-
-  // For other pages, check if current path starts with the item href
-  if (normalizedItemHref !== '/') {
-    if (normalizedCurrentPath.startsWith(normalizedItemHref)) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-// Function to get filtered and ordered nav items based on current page
-function getNavItemsForPage(currentPath: string): NavItem[] {
-  const normalizedPath = normalizePath(currentPath);
-  const baseItems =
-    normalizedPath === "/"
-      ? ALL_NAV_ITEMS.filter(item => item.label !== "Get Started")
-      : ALL_NAV_ITEMS;
-
-  // Filter out the current page
-  const availableItems = baseItems.filter(item => !isCurrentPage(item.href, currentPath));
-
-  // If we're on the Get Started page, put Home in the middle
-  if (normalizedPath === '/get-started') {
-    const home = availableItems.find(item => item.label === "Home");
-    const others = availableItems.filter(item => item.label !== "Home");
-
-    if (home && others.length >= 2) {
-      // Put one item before Home, Home in middle, rest after
-      return [others[0], home, ...others.slice(1)];
-    }
-    return availableItems;
-  }
-
-  // For all other pages, put Get Started in the middle
-  const getStarted = availableItems.find(item => item.label === "Get Started");
-  const others = availableItems.filter(item => item.label !== "Get Started");
-
-  if (getStarted && others.length >= 2) {
-    // Put one item before Get Started, Get Started in middle, rest after
-    return [others[0], getStarted, ...others.slice(1)];
-  }
-
-  return availableItems;
+// Function to get nav items
+function getNavItemsForPage(): NavItem[] {
+  return ALL_NAV_ITEMS;
 }
 
 export function DynamicIslandNav({
   navItems,
   className,
-  homeHref = "/",
   logoPriority = false,
-  showHomeLogoOnMobile = false,
 }: DynamicIslandNavProps) {
-  const pathname = usePathname();
   const [isDesktopExpanded, setIsDesktopExpanded] = useState(false);
   const [isMobileExpanded, setIsMobileExpanded] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
 
-  // Get filtered and ordered nav items based on current page
+  // Get nav items
   const displayedNavItems = useMemo(() => {
     if (navItems) {
       return navItems; // Use custom nav items if provided
     }
-    return getNavItemsForPage(pathname || '/');
-  }, [pathname, navItems]);
+    return getNavItemsForPage();
+  }, [navItems]);
 
   const collapseOffsets = useMemo(() => {
     if (displayedNavItems.length <= 1) return [0];
@@ -209,11 +148,11 @@ export function DynamicIslandNav({
           {displayedNavItems.map((item, index) => (
             <motion.div
               key={item.label}
-              initial={{ opacity: 0, x: collapseOffsets[index] ?? 0, scale: 0.85 }}
+              initial={{ opacity: 0, x: collapseOffsets[index] ?? 0, scale: 0.8 }}
               animate={{
                 opacity: isDesktopExpanded ? 1 : 0,
                 x: isDesktopExpanded ? 0 : collapseOffsets[index] ?? 0,
-                scale: isDesktopExpanded ? 1 : 0.85,
+                scale: isDesktopExpanded ? 1.08 : 0.8,
               }}
               transition={{
                 type: "spring",
@@ -221,53 +160,26 @@ export function DynamicIslandNav({
                 damping: 20,
                 delay: 0.05 * index,
               }}
-              className={cn(
-                "ml-2 transition-all duration-300",
-                item.variant === "cta"
-                  ? "border-none bg-transparent px-0 py-0 shadow-none"
-                  : cn(
-                      "rounded-full bg-[#f0ebe2] px-3.5 py-1.5 shadow-[0_15px_30px_rgba(20,20,19,0.14)]",
-                      FUNDING_BORDER_LABELS.has(item.label)
-                        ? "border border-[rgba(255,255,255,0.7)]"
-                        : "border border-transparent"
-                    )
-              )}
+              className="ml-2 transition-all duration-300"
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
-              {item.variant === "cta" ? (
-                <Link
-                  href={item.href}
-                  onClick={(e) => {
-                    if (item.sectionId) {
-                      e.preventDefault();
-                      triggerLinkHaptic();
-                      scrollToSection(item.sectionId);
-                    } else {
-                      triggerLinkHaptic();
-                    }
-                  }}
-                  passHref
-                >
-                  <OrangePushButton>{item.label}</OrangePushButton>
-                </Link>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="inline-flex items-center gap-2 text-[11px] font-lora text-[#3F3A32] transition-colors whitespace-nowrap"
-                  onClick={(e) => {
-                    if (item.sectionId) {
-                      e.preventDefault();
-                      triggerLinkHaptic();
-                      scrollToSection(item.sectionId);
-                    } else {
-                      triggerLinkHaptic();
-                    }
-                  }}
-                >
-                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-                  {item.label}
-                </Link>
-              )}
+              <Link
+                href={item.href}
+                className="inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] px-4 py-2 text-[11px] font-poppins font-medium uppercase tracking-[0.16em] text-[#141413] shadow-[0_18px_40px_rgba(20,20,19,0.14)] whitespace-nowrap"
+                style={{ backgroundColor: CHIP_COLORS[item.label] || "#f0ebe2" }}
+                onClick={(e) => {
+                  if (item.sectionId) {
+                    e.preventDefault();
+                    triggerLinkHaptic();
+                    scrollToSection(item.sectionId);
+                  } else {
+                    triggerLinkHaptic();
+                  }
+                }}
+              >
+                <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                {item.label}
+              </Link>
             </motion.div>
           ))}
         </div>
@@ -309,7 +221,7 @@ export function DynamicIslandNav({
               animate={{
                 opacity: isMobileExpanded ? 1 : 0,
                 x: isMobileExpanded ? 0 : collapseOffsets[index] ?? 0,
-                scale: isMobileExpanded ? 1 : 0.85,
+                scale: isMobileExpanded ? 1.05 : 0.8,
               }}
               transition={{
                 type: "spring",
@@ -317,55 +229,27 @@ export function DynamicIslandNav({
                 damping: 20,
                 delay: 0.05 * index,
               }}
-              className={cn(
-                "relative ml-2 transition-all duration-300",
-                item.variant === "cta"
-                  ? "border-none bg-transparent px-0 py-0 shadow-none"
-                  : cn(
-                      "rounded-full bg-[#f0ebe2] px-3 py-1.5 shadow-[0_12px_28px_rgba(20,20,19,0.14)]",
-                      FUNDING_BORDER_LABELS.has(item.label)
-                        ? "border border-[rgba(255,255,255,0.7)]"
-                        : "border border-transparent"
-                    )
-              )}
+              className="relative ml-2 transition-all duration-300"
               style={{ pointerEvents: isMobileExpanded ? "auto" : "none" }}
             >
-              {item.variant === "cta" ? (
-                <Link
-                  href={item.href}
-                  passHref
-                  onClick={(e) => {
-                    if (item.sectionId) {
-                      e.preventDefault();
-                      triggerLinkHaptic();
-                      scrollToSection(item.sectionId);
-                    } else {
-                      triggerLinkHaptic();
-                    }
-                    setIsMobileExpanded(false);
-                  }}
-                >
-                  <OrangePushButton>{item.label}</OrangePushButton>
-                </Link>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="inline-flex items-center gap-2 text-[11px] font-lora text-[#3F3A32] whitespace-nowrap"
-                  onClick={(e) => {
-                    if (item.sectionId) {
-                      e.preventDefault();
-                      triggerLinkHaptic();
-                      scrollToSection(item.sectionId);
-                    } else {
-                      triggerLinkHaptic();
-                    }
-                    setIsMobileExpanded(false);
-                  }}
-                >
-                  <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-                  {item.label}
-                </Link>
-              )}
+              <Link
+                href={item.href}
+                className="inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] px-3.5 py-1.5 text-[11px] font-poppins font-medium uppercase tracking-[0.16em] text-[#141413] shadow-[0_14px_32px_rgba(20,20,19,0.14)] whitespace-nowrap"
+                style={{ backgroundColor: CHIP_COLORS[item.label] || "#f0ebe2" }}
+                onClick={(e) => {
+                  if (item.sectionId) {
+                    e.preventDefault();
+                    triggerLinkHaptic();
+                    scrollToSection(item.sectionId);
+                  } else {
+                    triggerLinkHaptic();
+                  }
+                  setIsMobileExpanded(false);
+                }}
+              >
+                <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                {item.label}
+              </Link>
             </motion.div>
           ))}
         </div>
