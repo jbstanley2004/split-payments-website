@@ -10,7 +10,8 @@ const OrangePushButton = ({ children, ...props }: OrangePushButtonProps) => {
     <button className="orange-push-button" {...props}>
       <div className="button-outer">
         <div className="button-inner">
-          <span>{children}</span>
+          <span className="button-pill-dot" aria-hidden="true" />
+          <span className="button-pill-label">{children}</span>
         </div>
       </div>
     </button>
