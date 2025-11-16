@@ -60,7 +60,7 @@ export default function PaymentsPage() {
       </div>
 
       <div className="relative z-10 px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] ring-1 ring-[#E8E6DC] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
           <DynamicIslandNav showHomeLogoOnMobile />
 
           {/* HERO */}
@@ -121,17 +121,17 @@ export default function PaymentsPage() {
                 </p>
               </div>
 
-              <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
-                {SOLUTIONS.map((solution, index) => {
-                  const style =
-                    SOLUTION_CARD_STYLES[index] ||
-                    SOLUTION_CARD_STYLES[SOLUTION_CARD_STYLES.length - 1];
+                <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
+                  {SOLUTIONS.map((solution, index) => {
+                    const style =
+                      SOLUTION_CARD_STYLES[index] ||
+                      SOLUTION_CARD_STYLES[SOLUTION_CARD_STYLES.length - 1];
 
-                  return (
-                    <article
-                      key={solution.title}
-                      className={`flex flex-col rounded-3xl border border-[#E8E6DC] ${style.bg} p-6 text-left shadow-sm`}
-                    >
+                    return (
+                      <article
+                        key={solution.title}
+                        className={`flex flex-col rounded-3xl border border-[#E8E6DC] ${style.bg} p-6 text-left shadow-[0_12px_30px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.8)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]`}
+                      >
                       <div className="mb-3 flex items-center gap-3">
                         <div className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#D97757] text-[#FAF9F5]">
                           <solution.icon
@@ -180,7 +180,7 @@ export default function PaymentsPage() {
 
           {/* CTA SECTION */}
           <section className="px-6 md:px-10 lg:px-16 py-16 md:py-20 bg-[#FAF9F5]">
-            <div className="mx-auto max-w-3xl rounded-3xl border border-[#E8E6DC] bg-white/80 px-6 py-10 md:px-10 md:py-12 text-center shadow-sm">
+            <div className="mx-auto max-w-3xl rounded-3xl border border-[#E8E6DC] bg-white/80 px-6 py-10 md:px-10 md:py-12 text-center shadow-[0_18px_40px_rgba(20,20,19,0.12),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
               <h2 className="text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-[#141413]">
                 See how Split can improve your processing.
               </h2>

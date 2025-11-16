@@ -22,7 +22,7 @@ export default function GetStarted() {
       </div>
 
       <div className="relative z-10 px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8 min-h-screen min-h-[100dvh]">
-        <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
+        <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] ring-1 ring-[#E8E6DC] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
           <DynamicIslandNav showHomeLogoOnMobile />
 
           <section className="px-6 md:px-10 lg:px-16 pt-24 md:pt-28 pb-20 max-w-6xl mx-auto">
@@ -42,7 +42,7 @@ export default function GetStarted() {
 
             <div className="grid gap-10 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1.1fr)] items-start">
               {/* Form card */}
-              <div className="rounded-3xl bg-[#E8E6DC] shadow-[0_18px_45px_rgba(20,20,19,0.06)] border border-[#E5DFD0] px-6 py-7 md:px-8 md:py-8">
+              <div className="rounded-3xl bg-[#E8E6DC] border border-[#E5DFD0] px-6 py-7 md:px-8 md:py-8 shadow-[0_20px_45px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
                 <form className="space-y-8">
                   {/* Business section */}
                   <div>
@@ -226,7 +226,7 @@ export default function GetStarted() {
               </div>
 
               {/* What happens next card */}
-              <aside className="rounded-3xl bg-[#FAF9F5] border border-[#E5DFD0] px-5 py-6 shadow-[0_14px_32px_rgba(20,20,19,0.06)]">
+              <aside className="rounded-3xl bg-[#FAF9F5] border border-[#E5DFD0] px-5 py-6 shadow-[0_16px_38px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
                 <h2 className="text-lg font-poppins font-semibold text-[#141413]">
                   What happens next
                 </h2>
