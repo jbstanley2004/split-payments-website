@@ -1,13 +1,10 @@
 "use client";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import Hero, { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
+import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
-import OrangePushButton from "@/components/OrangePushButton";
-import { WaterRipple } from "@/components/WaterRipple";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 
 export default function HomePage() {
@@ -62,25 +59,12 @@ export default function HomePage() {
             </p>
 
             <motion.div
-              initial={{ opacity: 0, translateY: 20 }}
-              animate={{ opacity: 1, translateY: 0 }}
-              transition={{ delay: 0.2, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
-              style={{ willChange: "transform, opacity" }}
-            >
-              <WaterRipple>
-                <Link href="/#get-started" passHref>
-                  <OrangePushButton>Get Started</OrangePushButton>
-                </Link>
-              </WaterRipple>
-            </motion.div>
-
-            <motion.div
-              className="pointer-events-none absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center text-[0.65rem] uppercase tracking-[0.3em] text-black/70"
+              className="flex flex-col items-center text-[0.7rem] uppercase tracking-[0.3em] text-black/70"
               initial={{ opacity: 0, translateY: 10 }}
               animate={{ opacity: 1, translateY: 0 }}
-              transition={{ delay: 0.8, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ delay: 0.2, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              <span>Scroll to learn more</span>
+              <span>Scroll down to learn more</span>
               <motion.span
                 aria-hidden="true"
                 className="mt-3 flex flex-col items-center"

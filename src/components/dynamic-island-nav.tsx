@@ -35,6 +35,8 @@ const ALL_NAV_ITEMS: NavItem[] = [
   { label: "Get Started", href: "/get-started", variant: "cta" },
 ];
 
+const FUNDING_BORDER_LABELS = new Set(["Home", "Payments", "Funding"]);
+
 // Helper function to normalize paths for comparison
 function normalizePath(path: string): string {
   // Remove trailing slashes and hash fragments for comparison
@@ -63,11 +65,17 @@ function isCurrentPage(itemHref: string, currentPath: string): boolean {
 
 // Function to get filtered and ordered nav items based on current page
 function getNavItemsForPage(currentPath: string): NavItem[] {
+  const normalizedPath = normalizePath(currentPath);
+  const baseItems =
+    normalizedPath === "/"
+      ? ALL_NAV_ITEMS.filter(item => item.label !== "Get Started")
+      : ALL_NAV_ITEMS;
+
   // Filter out the current page
-  const availableItems = ALL_NAV_ITEMS.filter(item => !isCurrentPage(item.href, currentPath));
+  const availableItems = baseItems.filter(item => !isCurrentPage(item.href, currentPath));
 
   // If we're on the Get Started page, put Home in the middle
-  if (normalizePath(currentPath) === '/get-started') {
+  if (normalizedPath === '/get-started') {
     const home = availableItems.find(item => item.label === "Home");
     const others = availableItems.filter(item => item.label !== "Home");
 
@@ -217,7 +225,12 @@ export function DynamicIslandNav({
                 "ml-2 transition-all duration-300",
                 item.variant === "cta"
                   ? "border-none bg-transparent px-0 py-0 shadow-none"
-                  : "rounded-full border border-[#E8E6DC] bg-[#f0ebe2] px-3.5 py-1.5 shadow-[0_15px_30px_rgba(20,20,19,0.14)]"
+                  : cn(
+                      "rounded-full bg-[#f0ebe2] px-3.5 py-1.5 shadow-[0_15px_30px_rgba(20,20,19,0.14)]",
+                      FUNDING_BORDER_LABELS.has(item.label)
+                        ? "border border-[rgba(255,255,255,0.7)]"
+                        : "border border-transparent"
+                    )
               )}
               style={{ pointerEvents: isDesktopExpanded ? "auto" : "none" }}
             >
@@ -308,7 +321,12 @@ export function DynamicIslandNav({
                 "relative ml-2 transition-all duration-300",
                 item.variant === "cta"
                   ? "border-none bg-transparent px-0 py-0 shadow-none"
-                  : "rounded-full border border-[#E8E6DC] bg-[#f0ebe2] px-3 py-1.5 shadow-[0_12px_28px_rgba(20,20,19,0.14)]"
+                  : cn(
+                      "rounded-full bg-[#f0ebe2] px-3 py-1.5 shadow-[0_12px_28px_rgba(20,20,19,0.14)]",
+                      FUNDING_BORDER_LABELS.has(item.label)
+                        ? "border border-[rgba(255,255,255,0.7)]"
+                        : "border border-transparent"
+                    )
               )}
               style={{ pointerEvents: isMobileExpanded ? "auto" : "none" }}
             >
