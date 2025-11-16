@@ -124,12 +124,12 @@ function DeploymentTimeline() {
   // Timeline card background colors
   const accentStyles = [
     {
-      // Day 0 – bluish card
-      cardBg: "bg-[#6A9BCC]",
+      // Day 0 – darkest beige card
+      cardBg: "bg-[#d8d1c6]",
     },
     {
-      // Day 0–2 – lavender card
-      cardBg: "bg-[#CBCADB]",
+      // Day 0–2 – bluish card (Funding home-section blue)
+      cardBg: "bg-[#6A9BCC]",
     },
     {
       // Day 3–5 – greenish card (Funding deployed)
