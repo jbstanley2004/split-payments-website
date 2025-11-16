@@ -4,25 +4,11 @@ import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 export default function HomePage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
-      {/* Fixed Background for Home Hero (single illustration, as before) */}
-      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh] min-h-[100svh]">
-        <Image
-          src="/hero_image_formatted.png"
-          alt="Soft illustrated landscape background"
-          fill
-          className="object-cover object-center md:object-center bg-[#F8F4EC]"
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
-      </div>
-
       <div className="relative z-10">
         <DynamicIslandNav />
 
@@ -87,7 +73,7 @@ export default function HomePage() {
           data-section-id="how-funding-works"
           className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
         >
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] ring-1 ring-[#E8E6DC] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
+          <div className="mx-auto max-w-6xl">
             <HowFundingWorksBlock />
           </div>
         </section>
@@ -107,15 +93,13 @@ export default function HomePage() {
           data-section-id="payments"
           className="px-3 pb-6 pt-4 sm:px-4 sm:pb-8 sm:pt-6 md:px-6 md:pb-10 md:pt-8"
         >
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] ring-1 ring-[#E8E6DC] shadow-[0_28px_70px_rgba(20,20,19,0.16),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
+          <div className="mx-auto max-w-6xl">
             <PaymentsSection />
           </div>
         </section>
 
         {/* BOTTOM GET STARTED – hero-style card over background, unchanged */}
-        <section id="get-started" data-section-id="get-started">
-          <GetStartedSection />
-        </section>
+        <GetStartedSection />
       </div>
     </main>
   );
