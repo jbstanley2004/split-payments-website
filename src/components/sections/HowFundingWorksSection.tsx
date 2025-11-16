@@ -83,9 +83,9 @@ const fundingStageStyles = [
 
 function AutoQualificationCard() {
   return (
-    <div className="mb-16">
-      {/* Warm beige to match Credit Card Acceptance card */}
-      <div className="rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
+    <div className="mb-16 flex justify-center">
+      {/* Warm beige card that hugs the eligibility copy, floating directly on the beige page */}
+      <div className="inline-block max-w-3xl rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Eligibility
         </p>
@@ -169,7 +169,7 @@ function DeploymentTimeline() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: index * 0.08, duration: 0.5 }}
-                className={`relative flex flex-col rounded-2xl border border-[#E3DDD0] ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_30px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
+                className={`relative flex flex-col rounded-2xl ${accent.cardBg} px-5 py-5 shadow-[0_14px_30px_rgba(20,20,19,0.08)] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
               >
                 {/* Day label */}
                 <div className="mb-3 flex items-center gap-3 md:mb-0 md:w-48">
@@ -288,8 +288,8 @@ function FundingLoopVisual() {
       </div>
 
       <div className="mt-10 flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:gap-14">
-        {/* Left: circular visualization */}
-        <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] shadow-[0_24px_60px_rgba(20,20,19,0.12)] sm:h-[360px] sm:w-[360px] lg:shrink-0">
+        {/* Left: circular visualization printed directly on the page background */}
+        <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] sm:h-[360px] sm:w-[360px] lg:shrink-0">
           {/* Center label */}
           <div className="relative z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#F8F4EC] px-4 text-center shadow-[0_12px_30px_rgba(20,20,19,0.10)]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
@@ -366,7 +366,7 @@ function FundingLoopVisual() {
                       backgroundColor: chipStyle.chipBg,
                     }}
                     animate={{
-                      borderColor: isActive ? "#D97757" : "rgba(0,0,0,0)", // keep orange edge when active
+                      borderColor: isActive ? "#D97757" : "rgba(0,0,0,0)",
                       boxShadow: isActive
                         ? "0 14px 32px rgba(20,20,19,0.18)"
                         : "0 10px 26px rgba(20,20,19,0.12)",
@@ -386,10 +386,10 @@ function FundingLoopVisual() {
           </motion.div>
         </div>
 
-        {/* Right: dynamic current-step card + explanatory copy */}
+        {/* Right: copy sits directly on the page background, with only the current-step card as a color block */}
         <div className="max-w-md space-y-4 text-sm md:text-base font-lora text-[#524F49]">
           <div
-            className="rounded-2xl px-4 py-3 shadow-[0_14px_32px_rgba(20,20,19,0.10)] border border-[#E3DDD0] text-[#141413]"
+            className="rounded-2xl px-4 py-3 text-[#141413]"
             style={{ backgroundColor: activeStageStyle.bg }}
           >
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em]">
@@ -476,13 +476,13 @@ function ReassuranceStrip() {
 
 export default function HowFundingWorksSection() {
   return (
-    <section className="bg-[#F8F4EC] py-16 md:py-20">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-10 text-center">
+    <section className="py-16 md:py-20">
+      <div className="mx-auto max-w-4xl px-6 sm:px-8">
+        <header className="mb-10">
           <h2 className="text-3xl sm:text-4xl font-poppins font-semibold tracking-tight text-[#141413]">
             How funding works
           </h2>
-          <p className="mt-4 mx-auto max-w-2xl text-sm font-lora text-[#524F49] sm:text-base md:text-lg">
+          <p className="mt-4 max-w-2xl text-sm font-lora text-[#524F49] sm:text-base md:text-lg">
             Automatic qualification, fast deployment, and repeat funding as your
             card sales stay strong.
           </p>
