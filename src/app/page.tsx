@@ -30,12 +30,12 @@ function GhostSectionContainer({
     >
       <div
         className={[
-          "mx-auto max-w-6xl transition-all duration-400 ease-out",
+          "mx-auto max-w-6xl transition-all duration-300 ease-out",
           "rounded-[36px]",
           isActive
             ? "bg-[#FAF9F5]/95 ring-1 ring-[#E8E6DC] shadow-[0_24px_60px_rgba(20,20,19,0.20),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset] scale-[1.01]"
             : "bg-transparent ring-0 shadow-none scale-[1.0]",
-        ].join(" "))
+        ].join(" ")}
       >
         {children}
       </div>
