@@ -13,8 +13,10 @@
 **Accent Colors:**
 
 - Orange: `#d97757` - Primary accent
-- Blue: `#6a9bcc` - Secondary accent
-- Green: `#788c5d` - Tertiary accent
+
+1. **Greenish** - `#BCD1CA` (light sage green)
+2. **Purplish** - `#CBCADB` (soft lavender)
+3. **Bluish** - `#6A9BCC` (muted blue)
 
 ### Typography
 
