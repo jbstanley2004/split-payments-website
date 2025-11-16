@@ -10,8 +10,7 @@ export default function GetStartedSection() {
       id="get-started"
       className="relative min-h-[80vh] flex items-center justify-center px-6 md:px-10 lg:px-16 py-16 md:py-24"
     >
-      {/* Card styled to mirror Eligibility card */}
-      <div className="relative mx-auto max-w-4xl rounded-3xl bg-[#d8d1c6]/95 px-6 py-8 md:px-10 md:py-10 shadow-[0_22px_55px_rgba(20,20,19,0.15),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
+      <div className="relative mx-auto max-w-4xl px-6 py-8 md:px-10 md:py-10">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Get started
         </p>
@@ -24,15 +23,15 @@ export default function GetStartedSection() {
 
         {/* Chip row to echo Eligibility highlights */}
         <div className="mt-6 flex flex-wrap items-center justify-center gap-3 text-xs md:text-sm text-[#524F49]">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
             <span>Only a few questions about your card sales</span>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
             <span>No hard credit checks</span>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
             <span>Pre-approved offers based on real processing</span>
           </div>

@@ -13,8 +13,6 @@ import {
   useTransform,
 } from "framer-motion";
 import type { AnimationPlaybackControls, PanInfo } from "framer-motion";
-import Link from "next/link";
-import OrangePushButton from "@/components/OrangePushButton";
 
 const timelineSteps = [
   {
@@ -57,63 +55,35 @@ const fundingStages = [
   },
 ];
 
-// Visual styles for the four funding stages (loop chips + current step card)
-const fundingStageStyles = [
-  {
-    // Funding deployed – greenish
-    bg: "#BCD1CA",
-    chipBg: "#BCD1CA",
-  },
-  {
-    // Repayment as you process – bluish
-    bg: "#6A9BCC",
-    chipBg: "#6A9BCC",
-  },
-  {
-    // Balance paid down – lavender
-    bg: "#CBCADB",
-    chipBg: "#CBCADB",
-  },
-  {
-    // Volume stays healthy – darkest beige from eligibility card
-    bg: "#d8d1c6",
-    chipBg: "#d8d1c6",
-  },
-];
-
 function AutoQualificationCard() {
   return (
-    <div className="mb-16">
-      {/* Warm beige to match Credit Card Acceptance card */}
-      <div className="rounded-3xl bg-[#d8d1c6] px-6 py-6 md:px-8 md:py-7 shadow-[0_18px_45px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
-          Eligibility
-        </p>
-        <h3 className="mb-2 text-xl md:text-2xl font-poppins font-semibold text-[#141413]">
-          You don’t apply — you qualify automatically
-        </h3>
-        <p className="mb-4 text-sm md:text-base font-lora text-[#524F49]">
-          If your volume and history fit our model, we proactively extend
-          funding offers based on your processing. No lengthy application or
-          hard credit pull to get started.{" "}
-          <span className="font-semibold text-[#3F3A32]">
-            If you’re processing with us and your numbers qualify, we’ll tap
-            you on the shoulder.
-          </span>
-        </p>
-        <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm text-[#524F49]">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-            <span>Based on real sales, not projections</span>
-          </div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-            <span>No separate underwriting package to compile</span>
-          </div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-            <span>Offers scale up as your processing grows</span>
-          </div>
+    <div className="mb-16 space-y-4">
+      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+        Eligibility
+      </p>
+      <h3 className="text-xl md:text-2xl font-poppins font-semibold text-[#141413]">
+        You don’t apply — you qualify automatically
+      </h3>
+      <p className="text-sm md:text-base font-lora text-[#524F49]">
+        If your volume and history fit our model, we proactively extend funding offers
+        based on your processing. No lengthy application or hard credit pull to get
+        started.{" "}
+        <span className="font-semibold text-[#3F3A32]">
+          If you’re processing with us and your numbers qualify, we’ll tap you on the shoulder.
+        </span>
+      </p>
+      <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm text-[#524F49]">
+        <div className="inline-flex items-center gap-2 px-3 py-1">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+          <span>Based on real sales, not projections</span>
+        </div>
+        <div className="inline-flex items-center gap-2 px-3 py-1">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+          <span>No separate underwriting package to compile</span>
+        </div>
+        <div className="inline-flex items-center gap-2 px-3 py-1">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+          <span>Offers scale up as your processing grows</span>
         </div>
       </div>
     </div>
@@ -121,22 +91,6 @@ function AutoQualificationCard() {
 }
 
 function DeploymentTimeline() {
-  // Timeline card background colors
-  const accentStyles = [
-    {
-      // Day 0 – darkest beige card
-      cardBg: "bg-[#d8d1c6]",
-    },
-    {
-      // Day 0–2 – bluish card (Funding home-section blue)
-      cardBg: "bg-[#6A9BCC]",
-    },
-    {
-      // Day 3–5 – greenish card (Funding deployed)
-      cardBg: "bg-[#BCD1CA]",
-    },
-  ];
-
   return (
     <section className="mb-16">
       <div className="mb-6 flex flex-col gap-3">
@@ -158,19 +112,15 @@ function DeploymentTimeline() {
         <div className="pointer-events-none absolute inset-y-0 left-[16px] hidden w-px bg-gradient-to-b from-[#E3DDD0] via-[#D6CDBF] to-[#E3DDD0] md:block" />
 
         <div className="space-y-4 md:space-y-5">
-          {timelineSteps.map((step, index) => {
-            const accent =
-              accentStyles[index] || accentStyles[accentStyles.length - 1];
-
-            return (
-              <motion.div
-                key={step.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: index * 0.08, duration: 0.5 }}
-                className={`relative flex flex-col rounded-2xl border border-[#E3DDD0] ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_30px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
-              >
+          {timelineSteps.map((step, index) => (
+            <motion.div
+              key={step.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: index * 0.08, duration: 0.5 }}
+              className="relative flex flex-col px-5 py-5 md:flex-row md:items-center md:gap-6 md:px-6"
+            >
                 {/* Day label */}
                 <div className="mb-3 flex items-center gap-3 md:mb-0 md:w-48">
                   <div className="hidden h-3 w-3 items-center justify-center md:flex">
@@ -190,9 +140,8 @@ function DeploymentTimeline() {
                     {step.body}
                   </p>
                 </div>
-              </motion.div>
-            );
-          })}
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
@@ -271,8 +220,6 @@ function FundingLoopVisual() {
   const chipRadius = ringRadius + 8;
 
   const activeStage = fundingStages[activeIndex] ?? fundingStages[0];
-  const activeStageStyle =
-    fundingStageStyles[activeIndex] ?? fundingStageStyles[0];
 
   return (
     <section className="mb-16 lg:mb-20">
@@ -289,9 +236,9 @@ function FundingLoopVisual() {
 
       <div className="mt-10 flex flex-col items-center gap-8 lg:flex-row lg:items-stretch lg:gap-14">
         {/* Left: circular visualization */}
-        <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full bg-gradient-to-b from-[#F8F4EC] via-[#F3ECE1] to-[#E8DFD1] shadow-[0_24px_60px_rgba(20,20,19,0.12)] sm:h-[360px] sm:w-[360px] lg:shrink-0">
+        <div className="relative flex h-[320px] w-[320px] items-center justify-center rounded-full sm:h-[360px] sm:w-[360px] lg:shrink-0">
           {/* Center label */}
-          <div className="relative z-10 flex h-32 w-32 flex-col items-center justify-center rounded-full bg-[#F8F4EC] px-4 text-center shadow-[0_12px_30px_rgba(20,20,19,0.10)]">
+          <div className="relative z-10 flex h-32 w-32 flex-col items-center justify-center px-4 text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#9B8E7A]">
               Loop
             </p>
@@ -344,9 +291,6 @@ function FundingLoopVisual() {
               const topPct = (y / 200) * 100;
 
               const isActive = index === activeIndex;
-              const chipStyle =
-                fundingStageStyles[index] ??
-                fundingStageStyles[fundingStageStyles.length - 1];
 
               return (
                 <div
@@ -360,23 +304,17 @@ function FundingLoopVisual() {
                 >
                   {/* Pill chip stays upright via inverse rotation */}
                   <motion.div
-                    className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 shadow-[0_10px_26px_rgba(20,20,19,0.12)] border border-transparent"
-                    style={{
-                      rotate: inverseRotation,
-                      backgroundColor: chipStyle.chipBg,
-                    }}
+                    className="inline-flex items-center gap-1.5 px-4 py-1.5"
+                    style={{ rotate: inverseRotation }}
                     animate={{
-                      borderColor: isActive ? "#D97757" : "rgba(0,0,0,0)", // keep orange edge when active
-                      boxShadow: isActive
-                        ? "0 14px 32px rgba(20,20,19,0.18)"
-                        : "0 10px 26px rgba(20,20,19,0.12)",
-                      scale: isActive ? 1.04 : 0.98,
-                      opacity: isActive ? 1 : 0.8,
+                      scale: isActive ? 1.04 : 0.94,
+                      opacity: isActive ? 1 : 0.7,
+                      color: isActive ? "#141413" : "#7B7569",
                     }}
                     transition={{ type: "spring", stiffness: 260, damping: 24 }}
                   >
                     <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757] flex-shrink-0" />
-                    <span className="text-[11px] font-lora text-[#141413] md:text-xs">
+                    <span className="text-[11px] font-lora md:text-xs">
                       {stage.label}
                     </span>
                   </motion.div>
@@ -388,10 +326,7 @@ function FundingLoopVisual() {
 
         {/* Right: dynamic current-step card + explanatory copy */}
         <div className="max-w-md space-y-4 text-sm md:text-base font-lora text-[#524F49]">
-          <div
-            className="rounded-2xl px-4 py-3 shadow-[0_14px_32px_rgba(20,20,19,0.10)] border border-[#E3DDD0] text-[#141413]"
-            style={{ backgroundColor: activeStageStyle.bg }}
-          >
+          <div className="space-y-1 text-[#141413]">
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em]">
               Current step
             </p>
@@ -447,7 +382,7 @@ function FundingLoopVisual() {
 
 function ReassuranceStrip() {
   return (
-    <section className="mt-6 border-t border-[#E3DDD0] pt-8">
+    <section className="mt-6 pt-8">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="space-y-1">
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
@@ -460,11 +395,11 @@ function ReassuranceStrip() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm text-[#524F49]">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
             <span>Simple, transparent structure</span>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
             <span>Terms that adjust with your seasonality</span>
           </div>
@@ -476,7 +411,7 @@ function ReassuranceStrip() {
 
 export default function HowFundingWorksSection() {
   return (
-    <section className="bg-[#F8F4EC] py-16 md:py-20">
+    <section className="py-16 md:py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <header className="mb-10 text-center">
           <h2 className="text-3xl sm:text-4xl font-poppins font-semibold tracking-tight text-[#141413]">
