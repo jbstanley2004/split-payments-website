@@ -15,6 +15,7 @@
 - Orange: `#d97757` - Primary accent
 - Blue: `#6a9bcc` - Secondary accent
 - Green: `#788c5d` - Tertiary accent
+- Purple: `#8a6b9b` - Secondary accent
 
 ### Typography
 
