@@ -53,41 +53,75 @@
   color: #524f49;
 }
 
-/* Base slider reset + dark bar */
-.slider input[type="range"] {
+/* Track wrapper & custom bars (no gradients) */
+
+.slider-track-wrapper {
+  position: relative;
   width: 100%;
   margin-top: 0.5rem;
-  transition: all 0.3s ease;
+  height: 14px;
+}
+
+.slider-track-base,
+.slider-track-fill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 6px;
+  border-radius: 9999px;
+}
+
+.slider-track-base {
+  width: 100%;
+}
+
+.slider-track-fill {
+  width: 0%;
+}
+
+/* Native range overlaid on top, but transparent */
+
+.slider-track-wrapper input[type="range"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
   background: transparent;
   -webkit-appearance: none;
   appearance: none;
 }
 
-/* Dark bar / track */
-.slider input[type="range"]::-webkit-slider-runnable-track {
+/* hide default track visuals; we use our own bars */
+
+.slider-track-wrapper input[type="range"]::-webkit-slider-runnable-track {
   height: 6px;
   border-radius: 9999px;
-  background-color: #3b3a36; /* keep the dark bar */
+  background: transparent;
 }
 
-.slider input[type="range"]::-moz-range-track {
+.slider-track-wrapper input[type="range"]::-moz-range-track {
   height: 6px;
   border-radius: 9999px;
-  background-color: #3b3a36;
+  background: transparent;
 }
 
 /* Orange thumb (drag circle) */
-.slider input[type="range"]::-webkit-slider-thumb {
+
+.slider-track-wrapper input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 18px;
   width: 18px;
   border-radius: 9999px;
-  background-color: #d97757; /* brand orange accent */
+  background-color: #d97757; /* brand orange */
   cursor: pointer;
-  margin-top: -6px; /* center on the track */
+  margin-top: -6px; /* centers thumb over 6px track */
+  border: none;
 }
 
-.slider input[type="range"]::-moz-range-thumb {
+.slider-track-wrapper input[type="range"]::-moz-range-thumb {
   height: 18px;
   width: 18px;
   border-radius: 9999px;
@@ -96,20 +130,7 @@
   border: none;
 }
 
-/* Slider-specific accent colors
-   (used by browsers for the \"filled\" portion / focus, while bar stays dark)
-*/
-.advance-slider input[type="range"] {
-  accent-color: #8a6b9b; /* purple */
-}
-
-.holdback-slider input[type="range"] {
-  accent-color: #6a9bcc; /* blue */
-}
-
-.sales-slider input[type="range"] {
-  accent-color: #bcd1ca; /* greenish */
-}
+/* Metrics + disclaimer */
 
 .metrics {
   display: flex;
@@ -134,4 +155,3 @@
   color: #7b7569;
   font-size: 0.75rem;
 }
-
