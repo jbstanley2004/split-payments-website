@@ -12,9 +12,8 @@ type FundingCardProps = {
 };
 
 const TRACK_DARK = "#3b3a36";
-const ADVANCE_COLOR = "#8A6B9B"; // purple
-const HOLDBACK_COLOR = "#6A9BCC"; // blue
-const SALES_COLOR = "#BCD1CA"; // greenish
+// Use the same green progress color for all sliders
+const PROGRESS_COLOR = "#BCD1CA"; // brand greenish
 
 function percentage(value: number, min: number, max: number): number {
   const clamped = Math.min(Math.max(value, min), max);
@@ -64,7 +63,7 @@ export default function FundingCard({
             className="slider-track-fill"
             style={{
               width: `${advancePercent}%`,
-              backgroundColor: ADVANCE_COLOR,
+              backgroundColor: PROGRESS_COLOR,
             }}
           />
           <input
@@ -73,7 +72,7 @@ export default function FundingCard({
             min={10000}
             max={100000}
             value={advance}
-            onChange={(e) => setAdvance(+e.target.value)}
+            onChange={(e) => setAdvance(Number(e.target.value))}
           />
         </div>
       </div>
@@ -95,7 +94,7 @@ export default function FundingCard({
             className="slider-track-fill"
             style={{
               width: `${holdbackPercent}%`,
-              backgroundColor: HOLDBACK_COLOR,
+              backgroundColor: PROGRESS_COLOR,
             }}
           />
           <input
@@ -104,7 +103,7 @@ export default function FundingCard({
             min={5}
             max={25}
             value={holdback}
-            onChange={(e) => setHoldback(+e.target.value)}
+            onChange={(e) => setHoldback(Number(e.target.value))}
           />
         </div>
       </div>
@@ -128,7 +127,7 @@ export default function FundingCard({
             className="slider-track-fill"
             style={{
               width: `${salesPercent}%`,
-              backgroundColor: SALES_COLOR,
+              backgroundColor: PROGRESS_COLOR,
             }}
           />
           <input
@@ -137,7 +136,7 @@ export default function FundingCard({
             min={500}
             max={10000}
             value={sales}
-            onChange={(e) => setSales(+e.target.value)}
+            onChange={(e) => setSales(Number(e.target.value))}
           />
         </div>
       </div>
