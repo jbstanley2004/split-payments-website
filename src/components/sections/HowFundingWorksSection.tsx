@@ -99,19 +99,22 @@ function AutoQualificationCard() {
 function DeploymentTimeline() {
   const accentStyles = [
     {
-      border: "border-[#D97757]",
-      dotBg: "bg-[#D97757]",
-      labelColor: "text-[#D97757]",
+      border: "border-[#CBBEE4]",
+      dotBg: "bg-[#A894D7]",
+      labelColor: "text-[#655A89]",
+      cardBg: "bg-[#E7E2F5]/90",
     },
     {
-      border: "border-[#C1683E]",
-      dotBg: "bg-[#C1683E]",
-      labelColor: "text-[#C1683E]",
+      border: "border-[#95AEE0]",
+      dotBg: "bg-[#7C96D6]",
+      labelColor: "text-[#4E5E96]",
+      cardBg: "bg-[#E3E9F8]/90",
     },
     {
-      border: "border-[#A65632]",
-      dotBg: "bg-[#A65632]",
-      labelColor: "text-[#A65632]",
+      border: "border-[#B9D2C6]",
+      dotBg: "bg-[#9DC2B1]",
+      labelColor: "text-[#4F685C]",
+      cardBg: "bg-[#E6F1EB]/90",
     },
   ];
 
@@ -147,7 +150,7 @@ function DeploymentTimeline() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: index * 0.08, duration: 0.5 }}
-                className={`relative flex flex-col rounded-2xl border border-[#E3DDD0] bg-[#F8F4EC]/90 backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
+                className={`relative flex flex-col rounded-2xl border ${accent.border} ${accent.cardBg} backdrop-blur-sm px-5 py-5 shadow-[0_14px_32px_rgba(20,20,19,0.06)] md:flex-row md:items-center md:gap-6 md:px-6 md:py-5`}
               >
                 {/* Day label */}
                 <div className="mb-3 flex items-center gap-3 md:mb-0 md:w-48">
