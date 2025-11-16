@@ -11,7 +11,7 @@ export default function GetStartedSection() {
       className="relative min-h-[80vh] flex items-center justify-center px-6 md:px-10 lg:px-16 py-16 md:py-24"
     >
       {/* Card styled to mirror Eligibility card */}
-      <div className="relative mx-auto max-w-4xl rounded-3xl bg-[#d8d1c6]/95 px-6 py-8 md:px-10 md:py-10 shadow-[0_22px_60px_rgba(20,20,19,0.16)]">
+      <div className="stacked-panel relative mx-auto max-w-4xl rounded-3xl bg-[#d8d1c6]/95 px-6 py-8 md:px-10 md:py-10">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
           Get started
         </p>

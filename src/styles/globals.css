@@ -34,3 +34,64 @@
   font-family: "Inter Tight", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
+@layer components {
+  .stacked-shell {
+    position: relative;
+    border-radius: 36px;
+    border: 1px solid #E8E6DC;
+    background-color: #FAF9F5;
+    box-shadow: 0 45px 120px rgba(20, 20, 19, 0.18), 0 20px 45px rgba(20, 20, 19, 0.08);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .stacked-shell::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border-top: 1.5px solid rgba(255, 255, 255, 0.9);
+    border-bottom: 1.5px solid rgba(20, 20, 19, 0.1);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .stacked-shell::after {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0));
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .stacked-panel {
+    position: relative;
+    border: 1px solid #E8E6DC;
+    box-shadow: 0 26px 60px rgba(20, 20, 19, 0.12);
+    isolation: isolate;
+  }
+
+  .stacked-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border-top: 1px solid rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid rgba(20, 20, 19, 0.12);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .stacked-panel::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0));
+    opacity: 0.3;
+    pointer-events: none;
+  }
+}

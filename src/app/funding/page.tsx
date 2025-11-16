@@ -26,7 +26,7 @@ export default function FundingPage() {
           id="how-funding-works"
           className="px-3 pb-6 pt-24 sm:px-4 sm:pb-8 sm:pt-28 md:px-6 md:pb-10 md:pt-32"
         >
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
+          <div className="stacked-shell mx-auto max-w-6xl overflow-hidden">
             <HowFundingWorksBlock />
           </div>
         </section>
