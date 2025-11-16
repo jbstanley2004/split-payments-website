@@ -44,6 +44,10 @@ Use a **warm, editorial fintech** aesthetic — soft neutrals, subtle depth, no 
   * Secondary text: `#524F49`, `#3F3A32`
   * Muted labels: `#9B8E7A`
   * Accent orange: `#D97757` (sparingly, for chips/dots/CTA emphasis)
+  * 
+1. **Greenish** - `#BCD1CA` (light sage green)
+2. **Purplish** - `#CBCADB` (soft lavender)
+3. **Bluish** - `#6A9BCC` (muted blue)
 * Pills / chips:
 
   * Background: `#f0ebe2`
