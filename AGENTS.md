@@ -41,6 +41,10 @@ Use a **warm, editorial fintech** aesthetic — soft neutrals, subtle depth, no 
 * Accents & text:
 
   * Body text: `#141413`
+  * - Orange: `#d97757` - Primary accent
+- Blue: `#6a9bcc` - Secondary accent
+- Green: `#788c5d` - Tertiary accent
+- Purple: `#8a6b9b` - Secondary accent
   * Secondary text: `#524F49`, `#3F3A32`
   * Muted labels: `#9B8E7A`
   * Accent orange: `#D97757` (sparingly, for chips/dots/CTA emphasis)
