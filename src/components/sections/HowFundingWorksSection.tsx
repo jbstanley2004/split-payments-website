@@ -57,6 +57,34 @@ const fundingStages = [
   },
 ];
 
+// Visual styles for the four funding stages (loop chips + current step card)
+const fundingStageStyles = [
+  {
+    // Funding deployed – greenish
+    bg: "#BCD1CA",
+    chipBg: "#BCD1CA",
+    chipDot: "#788C5D",
+  },
+  {
+    // Repayment as you process – bluish
+    bg: "#6A9BCC",
+    chipBg: "#6A9BCC",
+    chipDot: "#6A9BCC",
+  },
+  {
+    // Balance paid down – lavender
+    bg: "#CBCADB",
+    chipBg: "#CBCADB",
+    chipDot: "#8A6B9B",
+  },
+  {
+    // Volume stays healthy – darkest beige from eligibility card
+    bg: "#d8d1c6",
+    chipBg: "#d8d1c6",
+    chipDot: "#D97757", // keeps that orange accent in the loop
+  },
+];
+
 function AutoQualificationCard() {
   return (
     <div className="mb-16">
@@ -97,21 +125,25 @@ function AutoQualificationCard() {
 }
 
 function DeploymentTimeline() {
+  // Timeline card backgrounds + dot accents
   const accentStyles = [
     {
-      border: "border-[#788C5D]",
-      dotBg: "bg-[#788C5D]",
-      cardBg: "bg-[#BCD1CA]", // Day 0 – greenish
-    },
-    {
-      border: "border-[#8A6B9B]",
-      dotBg: "bg-[#8A6B9B]",
-      cardBg: "bg-[#CBCADB]", // Day 0–2 – purplish
-    },
-    {
+      // Day 0 – bluish card
       border: "border-[#6A9BCC]",
       dotBg: "bg-[#6A9BCC]",
-      cardBg: "bg-[#6A9BCC]", // Day 3–5 – bluish
+      cardBg: "bg-[#6A9BCC]",
+    },
+    {
+      // Day 0–2 – lavender card
+      border: "border-[#8A6B9B]",
+      dotBg: "bg-[#8A6B9B]",
+      cardBg: "bg-[#CBCADB]",
+    },
+    {
+      // Day 3–5 – greenish card (Funding deployed)
+      border: "border-[#788C5D]",
+      dotBg: "bg-[#788C5D]",
+      cardBg: "bg-[#BCD1CA]",
     },
   ];
 
@@ -253,6 +285,8 @@ function FundingLoopVisual() {
   const chipRadius = ringRadius + 8;
 
   const activeStage = fundingStages[activeIndex] ?? fundingStages[0];
+  const activeStageStyle =
+    fundingStageStyles[activeIndex] ?? fundingStageStyles[0];
 
   return (
     <section className="mb-16 lg:mb-20">
@@ -324,6 +358,9 @@ function FundingLoopVisual() {
               const topPct = (y / 200) * 100;
 
               const isActive = index === activeIndex;
+              const chipStyle =
+                fundingStageStyles[index] ??
+                fundingStageStyles[fundingStageStyles.length - 1];
 
               return (
                 <div
@@ -335,12 +372,15 @@ function FundingLoopVisual() {
                     transform: "translate(-50%, -50%)",
                   }}
                 >
-                  {/* Pill chip stays upright via inverse rotation; styled to match badges */}
+                  {/* Pill chip stays upright via inverse rotation */}
                   <motion.div
-                    className="inline-flex items-center gap-1.5 rounded-full bg-[#f0ebe2]/95 px-4 py-1.5 shadow-[0_10px_26px_rgba(20,20,19,0.12)] border border-transparent"
-                    style={{ rotate: inverseRotation }}
+                    className="inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 shadow-[0_10px_26px_rgba(20,20,19,0.12)] border border-transparent"
+                    style={{
+                      rotate: inverseRotation,
+                      backgroundColor: chipStyle.chipBg,
+                    }}
                     animate={{
-                      borderColor: isActive ? "#D97757" : "rgba(0,0,0,0)",
+                      borderColor: isActive ? "#D97757" : "rgba(0,0,0,0)", // keep orange edge when active
                       boxShadow: isActive
                         ? "0 14px 32px rgba(20,20,19,0.18)"
                         : "0 10px 26px rgba(20,20,19,0.12)",
@@ -349,7 +389,10 @@ function FundingLoopVisual() {
                     }}
                     transition={{ type: "spring", stiffness: 260, damping: 24 }}
                   >
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                    <span
+                      className="inline-block h-1.5 w-1.5 rounded-full"
+                      style={{ backgroundColor: chipStyle.chipDot }}
+                    />
                     <span className="text-[11px] font-lora text-[#3F3A32] md:text-xs">
                       {stage.label}
                     </span>
@@ -360,9 +403,12 @@ function FundingLoopVisual() {
           </motion.div>
         </div>
 
-        {/* Right: static detail card + explanatory copy */}
+        {/* Right: dynamic current-step card + explanatory copy */}
         <div className="max-w-md space-y-4 text-sm md:text-base font-lora text-[#524F49]">
-          <div className="rounded-2xl bg-white/80 px-4 py-3 shadow-[0_14px_32px_rgba(20,20,19,0.10)] border border-[#E3DDD0]">
+          <div
+            className="rounded-2xl px-4 py-3 shadow-[0_14px_32px_rgba(20,20,19,0.10)] border border-[#E3DDD0]"
+            style={{ backgroundColor: activeStageStyle.bg }}
+          >
             <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
               Current step
             </p>
