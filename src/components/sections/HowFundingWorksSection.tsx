@@ -63,25 +63,21 @@ const fundingStageStyles = [
     // Funding deployed – greenish
     bg: "#BCD1CA",
     chipBg: "#BCD1CA",
-    chipDot: "#D97757", // orange accent
   },
   {
     // Repayment as you process – bluish
     bg: "#6A9BCC",
     chipBg: "#6A9BCC",
-    chipDot: "#D97757",
   },
   {
     // Balance paid down – lavender
     bg: "#CBCADB",
     chipBg: "#CBCADB",
-    chipDot: "#D97757",
   },
   {
     // Volume stays healthy – darkest beige from eligibility card
     bg: "#d8d1c6",
     chipBg: "#d8d1c6",
-    chipDot: "#D97757",
   },
 ];
 
@@ -125,21 +121,18 @@ function AutoQualificationCard() {
 }
 
 function DeploymentTimeline() {
-  // Timeline card backgrounds + dot accents
+  // Timeline card background colors
   const accentStyles = [
     {
       // Day 0 – bluish card
-      border: "border-[#6A9BCC]",
       cardBg: "bg-[#6A9BCC]",
     },
     {
       // Day 0–2 – lavender card
-      border: "border-[#8A6B9B]",
       cardBg: "bg-[#CBCADB]",
     },
     {
       // Day 3–5 – greenish card (Funding deployed)
-      border: "border-[#788C5D]",
       cardBg: "bg-[#BCD1CA]",
     },
   ];
@@ -180,10 +173,8 @@ function DeploymentTimeline() {
               >
                 {/* Day label */}
                 <div className="mb-3 flex items-center gap-3 md:mb-0 md:w-48">
-                  <div
-                    className={`hidden h-3 w-3 rounded-full border-2 bg-[#F8F4EC] md:block ${accent.border}`}
-                  >
-                    <span className="block h-full w-full rounded-full bg-[#D97757]" />
+                  <div className="hidden h-3 w-3 items-center justify-center md:flex">
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
                   </div>
                   <span className="text-xs font-semibold uppercase tracking-[0.16em] text-[#141413]">
                     {step.label}
@@ -384,7 +375,7 @@ function FundingLoopVisual() {
                     }}
                     transition={{ type: "spring", stiffness: 260, damping: 24 }}
                   >
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757] flex-shrink-0" />
                     <span className="text-[11px] font-lora text-[#141413] md:text-xs">
                       {stage.label}
                     </span>
@@ -505,4 +496,3 @@ export default function HowFundingWorksSection() {
     </section>
   );
 }
-
