@@ -34,6 +34,7 @@ export const metadata: Metadata = {
     'Accept payments, access fast working capital, and grow with Split credit card split funding.',
   icons: {
     icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
       { url: '/favicon.ico' },
       { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
       { url: '/icon.png', type: 'image/png', sizes: '192x192' },
