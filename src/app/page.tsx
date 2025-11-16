@@ -29,12 +29,6 @@ export default function HomePage() {
             { label: "Home", href: "/#home", sectionId: "home" },
             { label: "Payments", href: "/#payments", sectionId: "payments" },
             { label: "Funding", href: "/#funding", sectionId: "funding" },
-            {
-              label: "Get Started",
-              href: "/#get-started",
-              sectionId: "get-started",
-              variant: "cta",
-            },
           ]}
         />
 
