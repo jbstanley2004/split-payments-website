@@ -53,17 +53,62 @@
   color: #524f49;
 }
 
+/* Base slider reset + dark bar */
 .slider input[type="range"] {
   width: 100%;
   margin-top: 0.5rem;
   transition: all 0.3s ease;
+  background: transparent;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-/* Sliders use warm funding accent to match Eligibility chips */
-.advance-slider input[type="range"],
-.holdback-slider input[type="range"],
+/* Dark bar / track */
+.slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background-color: #3b3a36; /* keep the dark bar */
+}
+
+.slider input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background-color: #3b3a36;
+}
+
+/* Orange thumb (drag circle) */
+.slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background-color: #d97757; /* brand orange accent */
+  cursor: pointer;
+  margin-top: -6px; /* center on the track */
+}
+
+.slider input[type="range"]::-moz-range-thumb {
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background-color: #d97757;
+  cursor: pointer;
+  border: none;
+}
+
+/* Slider-specific accent colors
+   (used by browsers for the \"filled\" portion / focus, while bar stays dark)
+*/
+.advance-slider input[type="range"] {
+  accent-color: #8a6b9b; /* purple */
+}
+
+.holdback-slider input[type="range"] {
+  accent-color: #6a9bcc; /* blue */
+}
+
 .sales-slider input[type="range"] {
-  accent-color: #d97757;
+  accent-color: #bcd1ca; /* greenish */
 }
 
 .metrics {
@@ -89,3 +134,4 @@
   color: #7b7569;
   font-size: 0.75rem;
 }
+
