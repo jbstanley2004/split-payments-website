@@ -4,24 +4,13 @@ import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
-import Image from "next/image";
+import { PageBackdrop } from "@/components/page-backdrop";
 import { motion } from "framer-motion";
 
 export default function HomePage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
-      {/* Fixed Background for Home Hero (single illustration, as before) */}
-      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh] min-h-[100svh]">
-        <Image
-          src="/hero_image_formatted.png"
-          alt="Soft illustrated landscape background"
-          fill
-          className="object-cover object-center md:object-center bg-[#F8F4EC]"
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
-      </div>
+      <PageBackdrop priority />
 
       <div className="relative z-10">
         <DynamicIslandNav />
