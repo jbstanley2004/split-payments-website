@@ -24,6 +24,134 @@ type IconCard = {
   icon: LucideIcon;
 };
 
+const reassuranceChips = ["No credit checks", "No interest", "No fixed payments"];
+
+const heroHighlights: IconCard[] = [
+  {
+    title: "Instant funding",
+    description: "Access capital within 24 hours of approval.",
+    icon: Sparkles,
+  },
+  {
+    title: "Automated payback",
+    description: "Repayments are a percentage of your daily sales.",
+    icon: CreditCard,
+  },
+];
+
+const featureCards: IconCard[] = [
+  {
+    title: "No collateral",
+    description: "Access funding without putting your assets at risk. No personal guarantees required.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "No hidden fees",
+    description: "Transparent pricing with no hidden charges. Know exactly what you pay upfront.",
+    icon: CheckCircle2,
+  },
+  {
+    title: "Fast approval",
+    description: "Get approved in as little as 24 hours. Quick and simple application process.",
+    icon: Clock3,
+  },
+  {
+    title: "Flexible repayments",
+    description: "Repayments automatically adjust with your sales volume. Pay less when sales are slow.",
+    icon: LineChart,
+  },
+];
+
+const reasonCards: IconCard[] = [
+  {
+    title: "Easy, No Stress",
+    description: "Simple application process with minimal paperwork. Get approved quickly and start growing.",
+    icon: CheckCircle2,
+  },
+  {
+    title: "Sales-Based Repayments",
+    description: "Your repayments automatically adjust based on your card sales. More flexibility when you need it.",
+    icon: Users2,
+  },
+  {
+    title: "High Approval Rates",
+    description: "We approve businesses that banks turn down. Focus on your sales history, not just credit score.",
+    icon: BarChart3,
+  },
+  {
+    title: "Fast Funding",
+    description: "Get funds in your account as fast as 24 hours after approval. No long waiting periods.",
+    icon: Sparkles,
+  },
+];
+
+const metrics = [
+    { value: "1K+", suffix: "USD", label: "AVG FUNDING" },
+    { value: "94", suffix: "%", label: "APPROVAL RATE" },
+    { value: "41M+", suffix: "", label: "MERCHANTS FUNDED" },
+    { value: "4.9", suffix: "/5", label: "CUSTOMER SATISFACTION" },
+];
+
+const testimonials = [
+  {
+    quote: "I was able to get funded within a week, and the repayments automatically adjust with my sales. It's been a game-changer for managing cash flow during slow months.",
+    name: "James Mitchell",
+    business: "Mitchell's Auto Repair",
+  },
+  {
+    quote: "The application was so easy, and I loved that I didn't need collateral. The split payments work perfectly with my business model.",
+    name: "Sarah Johnson",
+    business: "Bella's Boutique",
+  },
+  {
+    quote: "Best financing decision I've made. The flexible repayments mean I'm not stressed about fixed monthly payments when business is slower.",
+    name: "Michael Chen",
+    business: "Chen's Restaurant",
+  },
+];
+
+const faqs = [
+  {
+    question: "What is a credit card split?",
+    answer: "A credit card split, also known as a merchant cash advance, is a financing option where a provider purchases a portion of your future credit card sales. In return, you receive a lump sum of cash upfront. Repayment is made through a small, fixed percentage of your daily credit card sales.",
+  },
+  {
+    question: "How do I qualify?",
+    answer: "Qualification is primarily based on your business's sales history. We look for consistent credit card sales volume. Unlike traditional loans, we don't require a high credit score, extensive business history, or collateral.",
+  },
+  {
+    question: "How quickly can I get funded?",
+    answer: "Our application process is designed to be fast and simple. Once you submit your application and required documents, you can be approved and receive funds in your bank account in as little as 24 hours.",
+  },
+  {
+    question: "Are there any hidden fees?",
+    answer: "No, we believe in full transparency. The cost of the advance is a single, fixed fee. You'll know the exact repayment amount before you accept the offer. There are no interest rates, late fees, or other hidden charges.",
+  },
+];
+
+const carouselRows = [
+    {
+      id: 1,
+      logos: [
+        { name: 'firstdata', src: 'https://www.creditcardsplits.com/static/firstdata.png' },
+        { name: 'worldplay', src: 'https://www.creditcardsplits.com/static/worldplay.png' },
+        { name: 'clover', src: 'https://www.creditcardsplits.com/static/clover.png' },
+        { name: 'square', src: 'https://www.creditcardsplits.com/static/square.png' },
+        { name: 'stripe', src: 'https://www.creditcardsplits.com/static/stripe.png' },
+      ],
+    },
+    {
+      id: 2,
+      logos: [
+        { name: 'pcj', src: 'https://www.creditcardsplits.com/static/pcj.png' },
+        { name: 'global-payments', src: 'https://www.creditcardsplits.com/static/global-payments.png' },
+        { name: 'visa', src: 'https://www.creditcardsplits.com/static/visa.png' },
+        { name: 'mastercard', src: 'https://www.creditcardsplits.com/static/mastercard.png' },
+        { name: 'amex', src: 'https://www.creditcardsplits.com/static/amex.png' },
+      ],
+      reverse: true,
+    },
+];
 // (all original data arrays preserved)...
 
 export default function CCSplitPage() {
