@@ -23,6 +23,7 @@ const BRAND_BEIGE_PILL = "#f0ebe2"; // smaller beige chips
 const BRAND_BLUE = "#6A9BCC";
 const BRAND_GREEN = "#BCD1CA";
 const BRAND_LAVENDER = "#CBCADB";
+const BRAND_ORANGE = "#D97757";
 
 const HERO_HIGHLIGHTS: IconCard[] = [
   {
@@ -195,7 +196,6 @@ export default function CCSplitPage() {
                 // Pepper in accent backgrounds across the row: beige, blue, green, lavender.
                 const bgPalette = [BRAND_BEIGE_DARK, BRAND_BLUE, BRAND_GREEN, BRAND_LAVENDER] as const;
                 const bg = bgPalette[index % bgPalette.length];
-                const isBeige = bg === BRAND_BEIGE_DARK;
 
                 return (
                   <article
@@ -203,9 +203,12 @@ export default function CCSplitPage() {
                     className="flex flex-col rounded-[32px] p-7 shadow-[0_18px_45px_rgba(20,20,19,0.12),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"
                     style={{ backgroundColor: bg }}
                   >
-                    {/* Icon badge: hollow circle, matching the examples you sent */}
-                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(20,20,19,0.12)] bg-[rgba(250,249,245,0.85)]">
-                      <card.icon className="h-5 w-5 text-[#141413]" aria-hidden="true" />
+                    {/* Icon badge: orange-filled circle with white icon, matching Payments */}
+                    <div
+                      className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full"
+                      style={{ backgroundColor: BRAND_ORANGE }}
+                    >
+                      <card.icon className="h-5 w-5 text-white" aria-hidden="true" />
                     </div>
                     <h3 className="font-poppins text-lg font-semibold text-[#141413]">
                       {card.title}
@@ -237,7 +240,8 @@ export default function CCSplitPage() {
                 {METRICS.map((metric) => (
                   <div
                     key={metric.label}
-                    className="rounded-[32px] border border-[#E8E6DC] bg-[#FAF9F5] p-6 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
+                    className="rounded-[32px] border border-[#E8E6DC] p-6 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
+                    style={{ backgroundColor: BRAND_BEIGE_DARK }}
                   >
                     <div className="text-3xl md:text-4xl font-poppins font-semibold text-[#141413]">
                       {metric.value}
@@ -253,7 +257,7 @@ export default function CCSplitPage() {
             <div className="mt-4 lg:mt-0">
               <div
                 className="rounded-[40px] border border-[rgba(255,255,255,0.7)] p-7 shadow-[0_24px_60px_rgba(20,20,19,0.18),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"
-                style={{ backgroundColor: "#e7ded0" }}
+                style={{ backgroundColor: BRAND_BEIGE_DARK }}
               >
                 <div className="mb-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.16em] text-[#7B7569]">
                   <span>CC Split overview</span>
@@ -292,7 +296,7 @@ export default function CCSplitPage() {
                           className="h-full rounded-full"
                           style={{
                             width: idx === 0 ? "62%" : idx === 1 ? "86%" : "74%",
-                            backgroundColor: "#D97757",
+                            backgroundColor: BRAND_ORANGE,
                           }}
                         />
                       </div>
@@ -326,8 +330,11 @@ export default function CCSplitPage() {
                     className="rounded-[32px] p-7 shadow-[0_18px_45px_rgba(20,20,19,0.12),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"
                     style={{ backgroundColor: bg }}
                   >
-                    <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full border border-[rgba(20,20,19,0.12)] bg-[rgba(250,249,245,0.85)]">
-                      <reason.icon className="h-5 w-5 text-[#141413]" />
+                    <div
+                      className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full"
+                      style={{ backgroundColor: BRAND_ORANGE }}
+                    >
+                      <reason.icon className="h-5 w-5 text-white" />
                     </div>
                     <h3 className="font-poppins text-lg font-semibold text-[#141413]">
                       {reason.title}
@@ -344,7 +351,7 @@ export default function CCSplitPage() {
         <section className="px-6 md:px-10 lg:px-16 pb-16 pt-10 md:pb-24">
           <div
             className="mx-auto max-w-4xl rounded-[40px] border border-[rgba(255,255,255,0.7)] p-8 shadow-[0_24px_60px_rgba(20,20,19,0.18),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"
-            style={{ backgroundColor: "#e7ded0" }}
+            style={{ backgroundColor: BRAND_BEIGE_DARK }}
           >
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-3">
