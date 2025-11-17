@@ -16,7 +16,6 @@ import {
   Star,
   Users2,
 } from "lucide-react";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 type IconCard = {
   title: string;
@@ -80,8 +79,19 @@ const analytics: IconCard[] = [
 
 export default function CCSplitPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-transparent font-lora text-[#141413]">
-      <TwinklingStarsBackground />
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#FAF9F5] font-lora text-[#141413]">
+      {/* Shared hero background image, same as homepage and funding */}
+      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh] min-h-[100svh]">
+        <Image
+          src="/hero_image_formatted.png"
+          alt="Soft illustrated landscape background"
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
+      </div>
 
       <div className="relative z-10">
         <DynamicIslandNav />
