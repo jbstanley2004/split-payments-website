@@ -90,6 +90,24 @@ export function Footer() {
                 </li>
               </ul>
             </div>
+
+            <div>
+              <span>New Pages</span>
+              <ul>
+                <li className="transition-colors text-[#878787]">
+                  <Link href="/ccsplit-iso">CCSplit ISO</Link>
+                </li>
+                <li className="transition-colors text-[#878787]">
+                  <Link href="/connect">Connect</Link>
+                </li>
+                <li className="transition-colors text-[#878787]">
+                  <Link href="/ecom">E-commerce</Link>
+                </li>
+                <li className="transition-colors text-[#878787]">
+                  <Link href="/finance">Finance</Link>
+                </li>
+              </ul>
+            </div>
           </div>
 
           <div className="md:w-6/12 flex mt-8 md:mt-0 md:justify-end">
