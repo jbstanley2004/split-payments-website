@@ -106,6 +106,9 @@ export function Footer() {
                 <li className="transition-colors text-[#878787]">
                   <Link href="/finance">Finance</Link>
                 </li>
+                <li className="transition-colors text-[#878787]">
+                  <Link href="/cc-split">CC Split</Link>
+                </li>
               </ul>
             </div>
           </div>
