@@ -1,6 +1,5 @@
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
-import { PageBackdrop } from "@/components/page-backdrop";
 import { CreditCard, Check, Laptop } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
@@ -43,10 +42,7 @@ const SUMMARY_COLORS = ["#d8d1c6", "#6A9BCC", "#BCD1CA"];
 
 export default function PaymentsPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
-      {/* Shared backdrop image, same treatment as other editorial pages */}
-      <PageBackdrop priority />
-
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text">
       <div className="relative z-10">
         <DynamicIslandNav />
 

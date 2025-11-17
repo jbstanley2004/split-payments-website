@@ -5,14 +5,10 @@ import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
 import { motion } from "framer-motion";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-transparent">
-      {/* Twinkling stars background from public/pure-css-twinkling-stars-background */}
-      <TwinklingStarsBackground />
-
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text">
       <div className="relative z-10">
         <DynamicIslandNav />
 

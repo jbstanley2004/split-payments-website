@@ -115,7 +115,7 @@ const METRICS = [
 
 export default function CCSplitPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#FAF9F5] font-lora text-[#141413]">
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-[#141413]">
       <div className="relative z-10">
         <DynamicIslandNav />
 
