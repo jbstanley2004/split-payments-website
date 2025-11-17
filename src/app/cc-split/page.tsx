@@ -24,7 +24,124 @@ type IconCard = {
   icon: LucideIcon;
 };
 
-// (all original data arrays preserved)...
+const reassuranceChips = ["No hidden fees", "No interest", "No credit check"];
+const heroHighlights = [
+  {
+    title: "Instant funding",
+    description: "Access capital in minutes, not days.",
+    icon: Sparkles,
+  },
+  {
+    title: "Flexible repayments",
+    description: "Repayments are based on a percentage of your sales.",
+    icon: LineChart,
+  },
+];
+const featureCards = [
+  {
+    title: "Automated repayments",
+    description: "Repayments are automatically deducted from your sales.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Real-time tracking",
+    description: "Track your funding and repayments in real-time.",
+    icon: BarChart3,
+  },
+  {
+    title: "No hidden fees",
+    description: "No hidden fees, no interest, and no credit check.",
+    icon: CheckCircle2,
+  },
+  {
+    title: "Flexible funding",
+    description: "Access up to $250,000 in funding.",
+    icon: CreditCard,
+  },
+];
+const reasonCards = [
+  {
+    title: "Get funded in minutes",
+    description: "Access capital in minutes, not days.",
+    icon: Clock3,
+  },
+  {
+    title: "Flexible repayments",
+    description: "Repayments are based on a percentage of your sales.",
+    icon: PieChart,
+  },
+  {
+    title: "No hidden fees",
+    description: "No hidden fees, no interest, and no credit check.",
+    icon: CheckCircle2,
+  },
+  {
+    title: "Build your business",
+    description: "Access the capital you need to grow your business.",
+    icon: Building2,
+  },
+];
+const metrics = [
+  {
+    value: "95%",
+    label: "of our customers would recommend us to a friend.",
+    suffix: "",
+  },
+  {
+    value: "1.2M",
+    label: "merchants use Split to access capital.",
+    suffix: "+",
+  },
+];
+const testimonials = [
+  {
+    name: "John Doe",
+    business: "Doe's Donuts",
+    quote: "Split helped me access the capital I needed to open a new location. The process was fast, easy, and transparent.",
+  },
+  {
+    name: "Jane Smith",
+    business: "Smith's Salads",
+    quote: "I was able to get the funding I needed to purchase a new oven, which has helped me increase my sales by 25%.",
+  },
+  {
+    name: "Bob Johnson",
+    business: "Johnson's Juice",
+    quote: "Split is a great option for businesses that need access to capital but don't want to deal with the hassle of a traditional loan.",
+  },
+];
+const faqs = [
+  {
+    question: "What is CC Split?",
+    answer: "CC Split is a funding solution that provides businesses with access to capital based on their future sales.",
+  },
+  {
+    question: "How does it work?",
+    answer: "CC Split pairs processor data with Split funding so you can extend instant, sales-based capital without adding operational drag. Unlock offers that grow whenever your merchants grow.",
+  },
+  {
+    question: "How much funding can I get?",
+    answer: "You can access up to $250,000 in funding.",
+  },
+  {
+    question: "How do I repay the funding?",
+    answer: "Repayments are based on a percentage of your sales and are automatically deducted from your sales.",
+  },
+];
+const carouselRows = [
+  {
+    id: 1,
+    logos: [
+      { name: "Stripe", src: "/stripe.svg" },
+      { name: "Square", src: "/square.svg" },
+      { name: "Clover", src: "/clover.svg" },
+      { name: "Global Payments", src: "/global-payments.svg" },
+      { name: "Worldpay", src: "/worldpay.svg" },
+      { name: "First Data", src: "/first-data.svg" },
+    ],
+    reverse: false,
+  },
+];
 
 export default function CCSplitPage() {
   return (
