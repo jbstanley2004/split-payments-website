@@ -4,25 +4,17 @@ import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 export default function FundingPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#F5F5F3] font-lora text-[#161616]">
+    <main className="relative min-h-screen bg-white font-lora text-[#161616]">
       <TwinklingStarsBackground />
 
       <div className="relative z-10">
         <DynamicIslandNav />
 
-        {/* HOW FUNDING WORKS */}
-        <section
-          id="how-funding-works"
-          className="px-6 md:px-10 lg:px-16 pt-20 sm:pt-24 md:pt-28"
-        >
+        <section id="how-funding-works" className="px-6 md:px-10 lg:px-16 pt-20 sm:pt-24 md:pt-28">
           <HowFundingWorksBlock />
         </section>
 
-        {/* Interactive funding settings card */}
-        <section
-          id="funding-settings"
-          className="px-6 md:px-10 lg:px-16 pb-16 pt-4 sm:pb-20 md:pb-24 flex justify-center"
-        >
+        <section id="funding-settings" className="px-6 md:px-10 lg:px-16 pb-16 pt-4 sm:pb-20 flex justify-center">
           <FlexibleFundingHero />
         </section>
 
