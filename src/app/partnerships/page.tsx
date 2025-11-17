@@ -196,7 +196,10 @@ export default function PartnershipsPage() {
               {/* Left: headline + hero cards directly on image */}
               <div className="max-w-3xl">
                 <div className="inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] bg-[#f0ebe2] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-[#9B8E7A]">
-                  <span className="inline-block h-1.5 w-1.5 rounded-full bg-[" + BRAND_ORANGE + "]" />
+                  <span
+                    className="inline-block h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: BRAND_ORANGE }}
+                  />
                   ISO Partnerships
                 </div>
                 <div className="mt-6 space-y-4">
