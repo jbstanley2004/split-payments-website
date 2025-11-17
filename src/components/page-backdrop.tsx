@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
+import GeminiBackground from "@/components/GeminiBackground";
 
 export type PageBackdropProps = ComponentPropsWithoutRef<"div"> & {
   priority?: boolean;
@@ -15,8 +15,8 @@ export function PageBackdrop({ className, priority = false, ...rest }: PageBackd
 
   return (
     <div className={classes} {...rest}>
-      {/* Twinkling stars background replaces hero_image_formatted.png globally */}
-      <TwinklingStarsBackground />
+      {/* Gemini background replaces all previous hero/CC Split backgrounds globally */}
+      <GeminiBackground priority={priority} />
     </div>
   );
 }

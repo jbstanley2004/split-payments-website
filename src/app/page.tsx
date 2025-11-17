@@ -5,13 +5,13 @@ import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
 import { motion } from "framer-motion";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
+import { PageBackdrop } from "@/components/page-backdrop";
 
 export default function HomePage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-transparent">
-      {/* Twinkling stars background from public/pure-css-twinkling-stars-background */}
-      <TwinklingStarsBackground />
+      {/* Gemini background via shared PageBackdrop */}
+      <PageBackdrop priority />
 
       <div className="relative z-10">
         <DynamicIslandNav />
@@ -71,7 +71,7 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        {/* HOW FUNDING WORKS – content floats directly over the starry canvas */}
+        {/* HOW FUNDING WORKS – content floats directly over the Gemini canvas */}
         <section
           id="how-funding-works"
           data-section-id="how-funding-works"
