@@ -185,13 +185,15 @@ export default function CCSplitPage() {
       <div className="relative z-10">
         <DynamicIslandNav />
 
-        <section id="overview" className="px-6 pb-16 pt-24 sm:pb-20 sm:pt-28 md:px-10 lg:px-16">
-          <div className="mx-auto max-w-6xl grid items-center gap-12 lg:grid-cols-[1.1fr_0.9fr]">
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-4 py-1.5 text-sm uppercase tracking-[0.3em] text-[#9B8E7A]">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-                CC Split by Split
-              </div>
+        <div className="px-3 pb-6 pt-4 sm:px-4 sm:pb-10 sm:pt-6 md:px-6 md:pb-14 md:pt-8">
+          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
+            <section id="overview" className="px-6 py-12 sm:px-10 sm:py-16">
+              <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+                <div className="space-y-6">
+                  <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-4 py-1.5 text-sm uppercase tracking-[0.3em] text-[#9B8E7A]">
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                    CC Split by Split
+                  </div>
                   <div className="space-y-4">
                     <h1 className="font-poppins text-4xl font-semibold leading-tight text-[#141413] sm:text-5xl">
                       Working capital that flows with every swipe
@@ -234,8 +236,8 @@ export default function CCSplitPage() {
                   </div>
                 </div>
 
-            <div className="relative isolate">
-              <div className="relative overflow-hidden rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] p-8 shadow-[0_25px_60px_rgba(20,20,19,0.15)]">
+                <div className="relative isolate">
+                  <div className="relative overflow-hidden rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] p-8 shadow-[0_25px_60px_rgba(20,20,19,0.15)]">
                     <div className="absolute inset-6 rounded-[28px] bg-gradient-to-br from-[#E5DFD0] via-transparent to-[#f7f3ea]" />
                     <div className="relative flex flex-col gap-6">
                       <div className="rounded-2xl bg-white/80 p-4 shadow-[0_15px_40px_rgba(20,20,19,0.15)]">
@@ -270,19 +272,19 @@ export default function CCSplitPage() {
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className="pointer-events-none absolute -left-6 top-6 hidden h-24 w-24 rounded-full bg-[#D97757]/20 blur-2xl sm:block" />
+                </div>
               </div>
-              <div className="pointer-events-none absolute -left-6 top-6 hidden h-24 w-24 rounded-full bg-[#D97757]/20 blur-2xl sm:block" />
-            </div>
-          </div>
-        </section>
+            </section>
 
-        <section id="features" className="px-6 py-16 sm:py-20 md:px-10 lg:px-16">
-          <div className="mx-auto max-w-6xl grid gap-12 lg:grid-cols-[0.85fr_1fr]">
-            <div className="space-y-6">
-              <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Our solutions</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
-                Smarter working capital, seamless repayments
-              </h2>
+            <section id="features" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
+              <div className="grid gap-10 lg:grid-cols-[0.85fr_1fr]">
+                <div className="space-y-6">
+                  <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Our solutions</p>
+                  <h2 className="font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
+                    Smarter working capital, seamless repayments
+                  </h2>
                   <p className="text-lg text-[#524F49]">
                     CC Split combines automated repayment logic with Split's funding stack so you can match capital to every merchant's rhythm. No hidden fees, no rigid amortization schedules.
                   </p>
@@ -304,29 +306,28 @@ export default function CCSplitPage() {
                     </div>
                   </div>
                 </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              {featureCards.map((feature) => (
-                <div key={feature.title} className="rounded-3xl border border-[#E8E6DC] bg-white/80 p-5 shadow-[0_15px_35px_rgba(20,20,19,0.08)]">
-                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#141413] text-white">
-                    <feature.icon className="h-6 w-6" />
-                  </div>
-                  <h3 className="font-poppins text-xl font-semibold text-[#141413]">{feature.title}</h3>
-                  <p className="text-sm text-[#524F49]">{feature.description}</p>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {featureCards.map((feature) => (
+                    <div key={feature.title} className="rounded-3xl border border-[#E8E6DC] bg-white/80 p-5 shadow-[0_15px_35px_rgba(20,20,19,0.08)]">
+                      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#141413] text-white">
+                        <feature.icon className="h-6 w-6" />
+                      </div>
+                      <h3 className="font-poppins text-xl font-semibold text-[#141413]">{feature.title}</h3>
+                      <p className="text-sm text-[#524F49]">{feature.description}</p>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
+              </div>
+            </section>
 
-        <section id="benefits" className="px-6 py-16 sm:py-20 md:px-10 lg:px-16">
-          <div className="mx-auto max-w-6xl">
-            <div className="text-center">
+            <section id="benefits" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
+              <div className="text-center">
                 <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Why merchants choose CC Split</p>
                 <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
                   Funding aligned with payment intelligence
                 </h2>
               </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <div className="mt-10 grid gap-6 md:grid-cols-2">
                 {reasonCards.map((reason) => (
                   <div key={reason.title} className="rounded-3xl border border-[#E8E6DC] bg-[#F8F4EC] p-6 text-left">
                     <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#D97757]">
@@ -337,11 +338,10 @@ export default function CCSplitPage() {
                   </div>
                 ))}
               </div>
-          </div>
-        </section>
+            </section>
 
-        <section id="metrics" className="px-6 py-16 sm:py-20 md:px-10 lg:px-16">
-          <div className="mx-auto max-w-6xl grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr]">
+            <section id="metrics" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
+              <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
                 <div>
                   <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Proof in the numbers</p>
                   <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
@@ -359,8 +359,8 @@ export default function CCSplitPage() {
                     ))}
                   </div>
                 </div>
-            <div className="relative">
-              <div className="rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] p-6 shadow-[0_25px_60px_rgba(20,20,19,0.12)]">
+                <div className="relative">
+                  <div className="rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] p-6 shadow-[0_25px_60px_rgba(20,20,19,0.12)]">
                     <div className="rounded-2xl bg-white/80 p-6">
                       <div className="flex items-center justify-between text-sm text-[#9B8E7A]">
                         <span>Live card batches</span>
@@ -389,22 +389,21 @@ export default function CCSplitPage() {
                         <p className="text-xs text-[#7B7569]">Automatic increase once rolling volume hits target.</p>
                       </div>
                     </div>
+                  </div>
+                  <div className="pointer-events-none absolute -right-8 top-1/2 hidden h-32 w-32 -translate-y-1/2 rounded-full bg-[#BCD1CA]/40 blur-3xl sm:block" />
+                </div>
               </div>
-              <div className="pointer-events-none absolute -right-8 top-1/2 hidden h-32 w-32 -translate-y-1/2 rounded-full bg-[#BCD1CA]/40 blur-3xl sm:block" />
-            </div>
-          </div>
-        </section>
+            </section>
 
-        <section id="testimonials" className="px-6 py-16 sm:py-20 md:px-10 lg:px-16">
-          <div className="mx-auto max-w-6xl">
-            <div className="text-center">
+            <section id="testimonials" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
+              <div className="text-center">
                 <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Testimonials</p>
                 <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
                   Rated 4.9/5 by 1,200+ merchants
                 </h2>
                 <p className="mt-3 text-lg text-[#524F49]">Real stories from processors and merchants using CC Split to steady their cash flow.</p>
               </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
+              <div className="mt-10 grid gap-6 md:grid-cols-3">
                 {testimonials.map((testimonial) => (
                   <div key={testimonial.name} className="flex h-full flex-col rounded-3xl border border-[#E8E6DC] bg-white/80 p-6 text-left shadow-[0_12px_28px_rgba(20,20,19,0.08)]">
                     <div className="mb-4 flex">
@@ -419,19 +418,17 @@ export default function CCSplitPage() {
                     </div>
                   </div>
                 ))}
-            </div>
-          </div>
-        </section>
+              </div>
+            </section>
 
-        <section id="faq" className="px-6 py-16 sm:py-20 md:px-10 lg:px-16">
-          <div className="mx-auto max-w-5xl">
-            <div className="text-center">
+            <section id="faq" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
+              <div className="text-center">
                 <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">FAQ</p>
                 <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
                   Questions about CC Split
                 </h2>
               </div>
-            <div className="mt-10 space-y-4">
+              <div className="mt-10 space-y-4">
                 {faqs.map((faq) => (
                   <details
                     key={faq.question}
@@ -446,12 +443,11 @@ export default function CCSplitPage() {
                     <p className="mt-4 text-sm text-[#524F49]">{faq.answer}</p>
                   </details>
                 ))}
-            </div>
-          </div>
-        </section>
+              </div>
+            </section>
 
-        <section id="partners" className="px-6 py-16 sm:py-20 md:px-10 lg:px-16">
-          <div className="mx-auto max-w-6xl rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] px-6 py-10 text-center sm:px-10">
+            <section id="partners" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
+              <div className="rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] px-6 py-10 text-center sm:px-10">
                 <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">
                   Trusted by processing leaders
                 </p>
@@ -463,7 +459,7 @@ export default function CCSplitPage() {
                   a single carousel so prospects see familiar brands at the footer of the page.
                 </p>
 
-            <div className="mt-10 space-y-6">
+                <div className="mt-10 space-y-6">
                   {carouselRows.map((row) => {
                     const duplicatedLogos = [...row.logos, ...row.logos];
                     return (
@@ -492,30 +488,32 @@ export default function CCSplitPage() {
                       </div>
                     );
                   })}
-            </div>
-          </div>
-        </section>
+                </div>
+              </div>
+            </section>
 
-        <section id="cta" className="px-6 pb-20 pt-10 sm:pb-24 md:px-10 lg:px-16">
-          <div className="mx-auto max-w-5xl rounded-[32px] bg-[#141413] px-6 py-10 text-white sm:px-10">
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-              <div className="space-y-3">
-                <p className="text-sm uppercase tracking-[0.4em] text-white/60">Get started</p>
-                <h2 className="font-poppins text-3xl font-semibold">See how CC Split can level-up your processing portfolio</h2>
-                <p className="text-base text-white/80">
-                  Share a bit about your merchant mix and card volume. Our team will tailor a CC Split program and send a live preview.
-                </p>
+            <section id="cta" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
+              <div className="rounded-[32px] bg-[#141413] px-6 py-10 text-white sm:px-10">
+                <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="space-y-3">
+                    <p className="text-sm uppercase tracking-[0.4em] text-white/60">Get started</p>
+                    <h2 className="font-poppins text-3xl font-semibold">See how CC Split can level-up your processing portfolio</h2>
+                    <p className="text-base text-white/80">
+                      Share a bit about your merchant mix and card volume. Our team will tailor a CC Split program and send a live preview.
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+                    <OrangePushButton>Schedule a walkthrough</OrangePushButton>
+                    <button className="inline-flex items-center text-sm font-semibold text-white/80 transition-colors hover:text-white">
+                      Talk to sales
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-                <OrangePushButton>Schedule a walkthrough</OrangePushButton>
-                <button className="inline-flex items-center text-sm font-semibold text-white/80 transition-colors hover:text-white">
-                  Talk to sales
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </button>
-              </div>
-            </div>
+            </section>
           </div>
-        </section>
+        </div>
       </div>
     </main>
   );
