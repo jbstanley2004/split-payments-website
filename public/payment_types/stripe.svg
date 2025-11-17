@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="120" viewBox="0 0 240 120">
+  <rect width="240" height="120" rx="24" fill="#ffffff"/>
+  <path d="M56 84V36h24c16 0 26 8 26 24s-10 24-26 24h-8v16z" fill="#635BFF"/>
+  <rect x="112" y="52" width="16" height="48" fill="#635BFF" rx="8"/>
+  <rect x="132" y="36" width="24" height="64" fill="#635BFF" rx="12"/>
+  <rect x="164" y="52" width="16" height="48" fill="#635BFF" rx="8"/>
+  <rect x="184" y="60" width="18" height="40" fill="#635BFF" rx="9"/>
+  <text x="56" y="110" fill="#635BFF" font-family="'Poppins', 'Helvetica', 'Arial', sans-serif" font-weight="700" font-size="28">stripe</text>
+</svg>

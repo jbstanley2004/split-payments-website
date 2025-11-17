@@ -18,12 +18,16 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
+  { label: "CC Split", href: "/cc-split" },
+  { label: "Partnerships", href: "/partnerships" },
 ] as const;
 
 const CHIP_COLORS: Record<(typeof NAV_ITEMS)[number]["label"], string> = {
   Home: "#d8d1c6",
   Payments: "#6A9BCC",
   Funding: "#BCD1CA",
+  "CC Split": "#CBCADB",
+  Partnerships: "#E7D6C7",
 };
 
 const SAFE_AREA_TOP_OFFSET = "calc(env(safe-area-inset-top, 0px) + 1.25rem)";
