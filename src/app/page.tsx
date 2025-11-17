@@ -9,7 +9,7 @@ import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-transparent">
       {/* Twinkling stars background from public/pure-css-twinkling-stars-background */}
       <TwinklingStarsBackground />
 
@@ -71,7 +71,7 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        {/* HOW FUNDING WORKS – content floats directly on the beige background */}
+        {/* HOW FUNDING WORKS – content floats directly over the starry canvas */}
         <section
           id="how-funding-works"
           data-section-id="how-funding-works"
@@ -89,7 +89,7 @@ export default function HomePage() {
           <FlexibleFundingHero />
         </section>
 
-        {/* HOME PAYMENTS SECTION – copy and floating cards, no outer container */}
+        {/* HOME PAYMENTS SECTION – copy and floating cards */}
         <section
           id="payments"
           data-section-id="payments"
