@@ -1,22 +1,7 @@
-import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
 import type { LucideIcon } from "lucide-react";
-import {
-  ArrowRight,
-  BarChart3,
-  Building2,
-  CheckCircle2,
-  Clock3,
-  CreditCard,
-  LineChart,
-  PieChart,
-  ShieldCheck,
-  Sparkles,
-  Star,
-  Users2,
-} from "lucide-react";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
+import { BarChart3, Building2, CheckCircle2, Clock3, CreditCard, LineChart, PieChart, ShieldCheck, Users2 } from "lucide-react";
 
 type IconCard = {
   title: string;
@@ -24,472 +9,369 @@ type IconCard = {
   icon: LucideIcon;
 };
 
-const reassuranceChips = ["No hidden fees", "No interest", "No credit check"];
-const heroHighlights = [
+// Brand chips follow the same palette + logic as Payments summary chips and Funding loop chips.
+const REASSURANCE_PILLS = [
+  "Cards",
+  "Workflows",
+  "Approvals",
+  "Flexible billing",
+] as const;
+
+// Exact brand swatches pulled from Funding + Payments implementations.
+const BRAND_BEIGE_DARK = "#d8d1c6"; // eligibility card / dark beige pill
+const BRAND_BEIGE_PILL = "#f0ebe2"; // smaller beige chips
+const BRAND_BLUE = "#6A9BCC";
+const BRAND_GREEN = "#BCD1CA";
+const BRAND_LAVENDER = "#CBCADB";
+const BRAND_ORANGE = "#D97757";
+
+const HERO_HIGHLIGHTS: IconCard[] = [
   {
-    title: "Instant funding",
-    description: "Access capital in minutes, not days.",
-    icon: Sparkles,
+    title: "Lift conversion on large invoices",
+    description:
+      "Let customers split bigger card payments while you keep clean, predictable cash flow on your side.",
+    icon: CreditCard,
   },
   {
-    title: "Flexible repayments",
-    description: "Repayments are based on a percentage of your sales.",
-    icon: LineChart,
-  },
-];
-const featureCards = [
-  {
-    title: "Automated repayments",
-    description: "Repayments are automatically deducted from your sales.",
-    icon: ShieldCheck,
+    title: "Reduce approval drag",
+    description:
+      "Turn multi-step signoffs into a single, card-based flow that feels familiar to every buyer.",
+    icon: CheckCircle2,
   },
   {
-    title: "Real-time tracking",
-    description: "Track your funding and repayments in real-time.",
+    title: "Align cost with value delivered",
+    description:
+      "Structure splits around milestones or usage so customers only pay as they see value.",
     icon: BarChart3,
   },
   {
-    title: "No hidden fees",
-    description: "No hidden fees, no interest, and no credit check.",
-    icon: CheckCircle2,
-  },
-  {
-    title: "Flexible funding",
-    description: "Access up to $250,000 in funding.",
-    icon: CreditCard,
+    title: "Keep finance confident",
+    description:
+      "We handle orchestration, reconciliation, and risk while your team keeps existing processes.",
+    icon: ShieldCheck,
   },
 ];
-const reasonCards = [
+
+const FEATURE_CARDS: IconCard[] = [
   {
-    title: "Get funded in minutes",
-    description: "Access capital in minutes, not days.",
+    title: "Portfolio-grade underwriting",
+    description:
+      "Use live processor and card data instead of static underwriting so offers grow with every batch.",
+    icon: LineChart,
+  },
+  {
+    title: "Merchant-friendly terms",
+    description:
+      "No new logins, no new cards — CC Split rides the rails your merchants already trust.",
+    icon: Building2,
+  },
+  {
+    title: "Automated repayments",
+    description:
+      "Tie remittances directly to card volume so cash never fights against operations.",
     icon: Clock3,
   },
   {
-    title: "Flexible repayments",
-    description: "Repayments are based on a percentage of your sales.",
+    title: "Clear economics for everyone",
+    description:
+      "Transparent economics across you, your merchants, and Split with no buried fees.",
     icon: PieChart,
   },
+];
+
+const REASONS: IconCard[] = [
   {
-    title: "No hidden fees",
-    description: "No hidden fees, no interest, and no credit check.",
+    title: "No new behavior for your merchants",
+    description:
+      "Merchants keep swiping the way they always have — CC Split just changes how the capital flows.",
+    icon: Users2,
+  },
+  {
+    title: "Cleaner forecasting for finance",
+    description:
+      "Dynamic remits map to volume curves so forecasts track real performance instead of guesses.",
+    icon: BarChart3,
+  },
+  {
+    title: "Less friction at renewal",
+    description:
+      "Split large renewals across the term and remove pricing as a blocker for high-intent customers.",
     icon: CheckCircle2,
   },
   {
-    title: "Build your business",
-    description: "Access the capital you need to grow your business.",
-    icon: Building2,
+    title: "Fewer one-off exceptions",
+    description:
+      "Turn one-off payment plans into a single, standardized CC Split program your teams can trust.",
+    icon: ShieldCheck,
   },
 ];
-const metrics = [
-  {
-    value: "95%",
-    label: "of our customers would recommend us to a friend.",
-    suffix: "",
-  },
-  {
-    value: "1.2M",
-    label: "merchants use Split to access capital.",
-    suffix: "+",
-  },
-];
-const testimonials = [
-  {
-    name: "John Doe",
-    business: "Doe's Donuts",
-    quote: "Split helped me access the capital I needed to open a new location. The process was fast, easy, and transparent.",
-  },
-  {
-    name: "Jane Smith",
-    business: "Smith's Salads",
-    quote: "I was able to get the funding I needed to purchase a new oven, which has helped me increase my sales by 25%.",
-  },
-  {
-    name: "Bob Johnson",
-    business: "Johnson's Juice",
-    quote: "Split is a great option for businesses that need access to capital but don't want to deal with the hassle of a traditional loan.",
-  },
-];
-const faqs = [
-  {
-    question: "What is CC Split?",
-    answer: "CC Split is a funding solution that provides businesses with access to capital based on their future sales.",
-  },
-  {
-    question: "How does it work?",
-    answer: "CC Split pairs processor data with Split funding so you can extend instant, sales-based capital without adding operational drag. Unlock offers that grow whenever your merchants grow.",
-  },
-  {
-    question: "How much funding can I get?",
-    answer: "You can access up to $250,000 in funding.",
-  },
-  {
-    question: "How do I repay the funding?",
-    answer: "Repayments are based on a percentage of your sales and are automatically deducted from your sales.",
-  },
-];
-const carouselRows = [
-  {
-    id: 1,
-    logos: [
-      { name: "Stripe", src: "/stripe.svg" },
-      { name: "Square", src: "/square.svg" },
-      { name: "Clover", src: "/clover.svg" },
-      { name: "Global Payments", src: "/global-payments.svg" },
-      { name: "Worldpay", src: "/worldpay.svg" },
-      { name: "First Data", src: "/first-data.svg" },
-    ],
-    reverse: false,
-  },
+
+const METRICS = [
+  { label: "Increase in upmarket close rate", value: "+18", suffix: "%" },
+  { label: "Time-to-cash from swipe", value: "≤ 2", suffix: " days" },
+  { label: "Reduction in invoice churn", value: "-24", suffix: "%" },
+  { label: "NPS lift for funded merchants", value: "+12", suffix: " pts" },
 ];
 
 export default function CCSplitPage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#FAF9F5] font-lora text-[#141413]">
-      {/* Twinkling stars background replaces hero_image_formatted.png here */}
-      <TwinklingStarsBackground />
-
       <div className="relative z-10">
         <DynamicIslandNav />
 
-        <div className="px-3 pb-6 pt-4 sm:px-4 sm:pb-10 sm:pt-6 md:px-6 md:pb-14 md:pt-8">
-          <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.18)] ring-1 ring-[#E8E6DC]">
-            <section id="overview" className="px-6 py-12 sm:px-10 sm:py-16">
-              <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
-                <div className="space-y-6">
-                  <div className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-4 py-1.5 text-sm uppercase tracking-[0.3em] text-[#9B8E7A]">
+        {/* HERO */}
+        <section className="px-6 md:px-10 lg:px-16 pt-24 sm:pt-28 md:pt-32 pb-10 md:pb-12">
+          <div className="mx-auto max-w-4xl text-left">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+              CC Split
+            </p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-semibold tracking-tight text-[#141413]">
+              Split large card payments without changing how customers pay.
+            </h1>
+            <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49] max-w-3xl">
+              Offer flexible schedules on your terms while customers keep using the cards, workflows, and approvals they
+              already trust.
+            </p>
+          </div>
+
+          {/* Pills – strictly follow beige / blue / green / purple rules, using dark beige pill color */}
+          <div className="mt-8 flex justify-start">
+            <div className="flex flex-wrap gap-2">
+              {REASSURANCE_PILLS.map((pill, index) => {
+                // 1–2 pills: all dark beige
+                let bg: string = BRAND_BEIGE_DARK;
+
+                if (REASSURANCE_PILLS.length === 3) {
+                  // 3 pills: beige, blue, green
+                  const pattern = [BRAND_BEIGE_DARK, BRAND_BLUE, BRAND_GREEN] as const;
+                  bg = pattern[index] ?? BRAND_BEIGE_DARK;
+                } else if (REASSURANCE_PILLS.length === 4) {
+                  // 4 pills: beige, blue, green, lavender
+                  const pattern = [BRAND_BEIGE_DARK, BRAND_BLUE, BRAND_GREEN, BRAND_LAVENDER] as const;
+                  bg = pattern[index] ?? BRAND_BEIGE_DARK;
+                } else if (REASSURANCE_PILLS.length >= 5) {
+                  // 5+: beige, blue, green, lavender, beige, repeat
+                  const pattern = [
+                    BRAND_BEIGE_DARK,
+                    BRAND_BLUE,
+                    BRAND_GREEN,
+                    BRAND_LAVENDER,
+                    BRAND_BEIGE_DARK,
+                  ] as const;
+                  bg = pattern[index % pattern.length];
+                }
+
+                const isBeige = bg === BRAND_BEIGE_DARK;
+                const textColor = isBeige ? "#141413" : "#FAF9F5";
+
+                return (
+                  <span
+                    key={pill}
+                    className="inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] px-3 py-1 text-[11px] font-medium tracking-[0.16em] uppercase"
+                    style={{ backgroundColor: bg, color: textColor }}
+                  >
                     <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-                    CC Split by Split
-                  </div>
-                  <div className="space-y-4">
-                    <h1 className="font-poppins text-4xl font-semibold leading-tight text-[#141413] sm:text-5xl">
-                      Working capital that flows with every swipe
-                    </h1>
-                    <p className="text-lg text-[#524F49] sm:text-xl">
-                      CC Split pairs processor data with Split funding so you can extend instant, sales-based capital without adding operational drag. Unlock offers that grow whenever your merchants grow.
-                    </p>
-                  </div>
-                  <div className="flex flex-wrap gap-3">
-                    {reassuranceChips.map((chip) => (
-                      <span
-                        key={chip}
-                        className="inline-flex items-center gap-2 rounded-full bg-[#f0ebe2] px-3 py-1 text-sm text-[#3F3A32]"
-                      >
-                        <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-                        {chip}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex flex-wrap items-center gap-4">
-                    <OrangePushButton>Get Started</OrangePushButton>
-                    <button className="inline-flex items-center text-sm font-semibold text-[#524F49] transition-colors hover:text-[#D97757]">
-                      See how it works
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </button>
-                  </div>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    {heroHighlights.map((highlight) => (
-                      <div
-                        key={highlight.title}
-                        className="rounded-3xl border border-[#E8E6DC] bg-[#F8F4EC] p-5 shadow-[0_12px_30px_rgba(20,20,19,0.08)]"
-                      >
-                        <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-white text-[#D97757]">
-                          <highlight.icon className="h-5 w-5" />
-                        </div>
-                        <h3 className="font-poppins text-lg font-semibold text-[#141413]">{highlight.title}</h3>
-                        <p className="text-sm text-[#524F49]">{highlight.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                    <span>{pill}</span>
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        </section>
 
-                <div className="relative isolate">
-                  <div className="relative overflow-hidden rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] p-8 shadow-[0_25px_60px_rgba(20,20,19,0.15)]">
-                    <div className="absolute inset-6 rounded-[28px] bg-gradient-to-br from-[#E5DFD0] via-transparent to-[#f7f3ea]" />
-                    <div className="relative flex flex-col gap-6">
-                      <div className="rounded-2xl bg-white/80 p-4 shadow-[0_15px_40px_rgba(20,20,19,0.15)]">
-                        <div className="text-sm text-[#9B8E7A]">Split sample merchant</div>
-                        <div className="mt-2 flex items-end justify-between">
-                          <div>
-                            <div className="text-4xl font-semibold text-[#141413]">$85,000</div>
-                            <p className="text-sm text-[#524F49]">Available CC Split funding</p>
-                          </div>
-                          <div className="rounded-full bg-[#141413] px-4 py-1 text-sm text-white">Active</div>
-                        </div>
-                      </div>
-                      <div className="grid gap-4 sm:grid-cols-2">
-                        <div className="rounded-2xl border border-[#E8E6DC] bg-white/70 p-4 text-sm text-[#524F49]">
-                          <div className="text-xs uppercase tracking-[0.2em] text-[#9B8E7A]">Split rate</div>
-                          <div className="text-2xl font-semibold text-[#141413]">9.5%</div>
-                          <p className="text-xs text-[#7B7569]">Adjusts automatically with card batches</p>
-                        </div>
-                        <div className="rounded-2xl border border-[#E8E6DC] bg-white/70 p-4 text-sm text-[#524F49]">
-                          <div className="text-xs uppercase tracking-[0.2em] text-[#9B8E7A]">Next review</div>
-                          <div className="text-2xl font-semibold text-[#141413]">May 18</div>
-                          <p className="text-xs text-[#7B7569]">New offers drop as soon as volume spikes</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4 rounded-2xl border border-dashed border-[#E8E6DC] bg-white/80 p-4">
-                        <div className="rounded-full bg-[#141413] p-3 text-white">
-                          <ArrowRight className="h-5 w-5 -rotate-45" />
-                        </div>
-                        <div>
-                          <p className="text-sm text-[#9B8E7A]">Processor feed</p>
-                          <p className="font-semibold text-[#141413]">Live batches syncing hourly</p>
-                        </div>
-                      </div>
+        {/* VALUE PROPS – three-up desktop cards that mirror the screenshot and Funding / Payments styles */}
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16">
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-8 text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+                Why CC Split
+              </p>
+              <h2 className="mt-2 text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-[#141413]">
+                Designed for operators, not just cardholders.
+              </h2>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-3">
+              {HERO_HIGHLIGHTS.map((card, index) => {
+                // Pepper in accent backgrounds across the row: beige, blue, green, lavender.
+                const bgPalette = [BRAND_BEIGE_DARK, BRAND_BLUE, BRAND_GREEN, BRAND_LAVENDER] as const;
+                const bg = bgPalette[index % bgPalette.length];
+
+                return (
+                  <article
+                    key={card.title}
+                    className="flex flex-col rounded-[32px] p-7 shadow-[0_18px_45px_rgba(20,20,19,0.12),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"
+                    style={{ backgroundColor: bg }}
+                  >
+                    {/* Icon badge: orange-filled circle with white icon, matching Payments */}
+                    <div
+                      className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full"
+                      style={{ backgroundColor: BRAND_ORANGE }}
+                    >
+                      <card.icon className="h-5 w-5 text-white" aria-hidden="true" />
                     </div>
+                    <h3 className="font-poppins text-lg font-semibold text-[#141413]">
+                      {card.title}
+                    </h3>
+                    <p className="mt-3 text-sm font-lora text-[#141413]">{card.description}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* METRICS SECTION */}
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-20">
+          <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+                Illustrative metrics
+              </p>
+              <h2 className="mt-2 text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-[#141413]">
+                Impact of CC Split on a typical mid-market SaaS portfolio.
+              </h2>
+              <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-[#524F49]">
+                These numbers are directional only, but they show how splits on the card rails can strengthen close rates,
+                time-to-cash, and renewal quality.
+              </p>
+
+              <div className="mt-8 grid gap-6 sm:grid-cols-2">
+                {METRICS.map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="rounded-[32px] border border-[#E8E6DC] p-6 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
+                    style={{ backgroundColor: BRAND_BEIGE_DARK }}
+                  >
+                    <div className="text-3xl md:text-4xl font-poppins font-semibold text-[#141413]">
+                      {metric.value}
+                      <span className="ml-1 text-lg font-normal text-[#524F49]">{metric.suffix}</span>
+                    </div>
+                    <p className="mt-3 text-sm font-lora text-[#524F49]">{metric.label}</p>
                   </div>
-                  <div className="pointer-events-none absolute -left-6 top-6 hidden h-24 w-24 rounded-full bg-[#D97757]/20 blur-2xl sm:block" />
-                </div>
+                ))}
               </div>
-            </section>
+            </div>
 
-            <section id="features" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
-              <div className="grid gap-10 lg:grid-cols-[0.85fr_1fr]">
-                <div className="space-y-6">
-                  <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Our solutions</p>
-                  <h2 className="font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
-                    Smarter working capital, seamless repayments
-                  </h2>
-                  <p className="text-lg text-[#524F49]">
-                    CC Split combines automated repayment logic with Split's funding stack so you can match capital to every merchant's rhythm. No hidden fees, no rigid amortization schedules.
-                  </p>
-                  <div className="rounded-3xl border border-[#E8E6DC] bg-[#F8F4EC] p-6">
-                    <p className="text-sm uppercase tracking-[0.3em] text-[#9B8E7A]">Program snapshot</p>
-                    <div className="mt-4 space-y-3 text-sm text-[#524F49]">
-                      <div className="flex items-center justify-between border-b border-dashed border-[#E8E6DC] pb-2">
-                        <span>Draw limit</span>
-                        <span className="font-semibold text-[#141413]">Up to 1.5× monthly volume</span>
-                      </div>
-                      <div className="flex items-center justify-between border-b border-dashed border-[#E8E6DC] pb-2">
-                        <span>Remit frequency</span>
-                        <span className="font-semibold text-[#141413]">Daily or weekly batches</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span>Visibility</span>
-                        <span className="font-semibold text-[#141413]">Unified inside Split dashboard</span>
-                      </div>
-                    </div>
+            {/* CC Split overview card – now built directly off the FundingCard visual language */}
+            <div className="mt-4 lg:mt-0">
+              <div
+                className="rounded-[40px] border border-[rgba(255,255,255,0.7)] p-7 shadow-[0_24px_60px_rgba(20,20,19,0.18),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"
+                style={{ backgroundColor: BRAND_BEIGE_DARK }}
+              >
+                <div className="mb-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.16em] text-[#7B7569]">
+                  <span>CC Split overview</span>
+                  <span>Sample merchant</span>
+                </div>
+
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="rounded-3xl bg-[#FAF9F5] p-4 shadow-[0_14px_32px_rgba(20,20,19,0.10)] border border-[rgba(255,255,255,0.7)]">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#7B7569]">
+                      Available funding
+                    </p>
+                    <p className="mt-2 text-3xl font-poppins font-semibold text-[#141413]">$85,000</p>
+                    <p className="mt-2 text-sm font-lora text-[#524F49]">Dynamic, tied to 90-day card volume.</p>
+                  </div>
+                  <div className="rounded-3xl bg-[#FAF9F5] p-4 shadow-[0_14px_32px_rgba(20,20,19,0.10)] border border-[rgba(255,255,255,0.7)]">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#7B7569]">
+                      Current split rate
+                    </p>
+                    <p className="mt-2 text-3xl font-poppins font-semibold text-[#141413]">9.5%</p>
+                    <p className="mt-2 text-sm font-lora text-[#524F49]">Adjusts automatically with performance.</p>
                   </div>
                 </div>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {featureCards.map((feature) => (
-                    <div key={feature.title} className="rounded-3xl border border-[#E8E6DC] bg-white/80 p-5 shadow-[0_15px_35px_rgba(20,20,19,0.08)]">
-                      <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-[#141413] text-white">
-                        <feature.icon className="h-6 w-6" />
+
+                <div className="mt-5 space-y-3">
+                  {["Breakfast rush", "Lunch", "Dinner"].map((period, idx) => (
+                    <div
+                      key={period}
+                      className="rounded-3xl bg-[#FAF9F5] px-4 py-3 shadow-[0_12px_28px_rgba(20,20,19,0.10)] border border-[rgba(255,255,255,0.7)]"
+                    >
+                      <div className="flex items-center justify-between text-xs font-lora text-[#524F49]">
+                        <span>{period}</span>
+                        <span>{idx === 1 ? "Split remit 9.3%" : "Split remit 9.5%"}</span>
                       </div>
-                      <h3 className="font-poppins text-xl font-semibold text-[#141413]">{feature.title}</h3>
-                      <p className="text-sm text-[#524F49]">{feature.description}</p>
+                      <div className="mt-2 h-[6px] rounded-full bg-[#E3DDD0]">
+                        <div
+                          className="h-full rounded-full"
+                          style={{
+                            width: idx === 0 ? "62%" : idx === 1 ? "86%" : "74%",
+                            backgroundColor: BRAND_ORANGE,
+                          }}
+                        />
+                      </div>
                     </div>
                   ))}
                 </div>
               </div>
-            </section>
-
-            <section id="benefits" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
-              <div className="text-center">
-                <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Why merchants choose CC Split</p>
-                <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
-                  Funding aligned with payment intelligence
-                </h2>
-              </div>
-              <div className="mt-10 grid gap-6 md:grid-cols-2">
-                {reasonCards.map((reason) => (
-                  <div key={reason.title} className="rounded-3xl border border-[#E8E6DC] bg-[#F8F4EC] p-6 text-left">
-                    <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#D97757]">
-                      <reason.icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="font-poppins text-xl font-semibold text-[#141413]">{reason.title}</h3>
-                    <p className="text-sm text-[#524F49]">{reason.description}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section id="metrics" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
-              <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-                <div>
-                  <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Proof in the numbers</p>
-                  <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
-                    Repayments that move with sales—not against cash flow
-                  </h2>
-                  <div className="mt-10 grid gap-6 sm:grid-cols-2">
-                    {metrics.map((metric) => (
-                      <div key={metric.label} className="rounded-3xl border border-[#E8E6DC] bg-white/80 p-6 text-left shadow-[0_12px_28px_rgba(20,20,19,0.07)]">
-                        <div className="text-4xl font-semibold text-[#141413]">
-                          {metric.value}
-                          <span className="text-xl font-normal text-[#524F49]">{metric.suffix}</span>
-                        </div>
-                        <p className="mt-2 text-sm text-[#524F49]">{metric.label}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                <div className="relative">
-                  <div className="rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] p-6 shadow-[0_25px_60px_rgba(20,20,19,0.12)]">
-                    <div className="rounded-2xl bg-white/80 p-6">
-                      <div className="flex items-center justify-between text-sm text-[#9B8E7A]">
-                        <span>Live card batches</span>
-                        <span>Today</span>
-                      </div>
-                      <div className="mt-6 space-y-4">
-                        {["Breakfast rush", "Lunch", "Dinner"].map((period, idx) => (
-                          <div key={period} className="rounded-2xl border border-[#E8E6DC] bg-[#FAF9F5] p-4">
-                            <div className="flex items-center justify-between text-sm text-[#524F49]">
-                              <span>{period}</span>
-                              <span>{idx === 1 ? "Split remit 9.3%" : "Split remit 9.5%"}</span>
-                            </div>
-                            <div className="mt-3 h-2 rounded-full bg-[#E8E6DC]">
-                              <div
-                                className={`h-full rounded-full bg-[#D97757] ${idx === 0 ? "w-2/3" : idx === 1 ? "w-5/6" : "w-3/4"}`}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                      <div className="mt-6 rounded-2xl border border-dashed border-[#E8E6DC] bg-[#F8F4EC] p-4 text-sm text-[#524F49]">
-                        <div className="flex items-center justify-between">
-                          <span>Next offer refresh</span>
-                          <span className="font-semibold text-[#141413]">In 3 days</span>
-                        </div>
-                        <p className="text-xs text-[#7B7569]">Automatic increase once rolling volume hits target.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="pointer-events-none absolute -right-8 top-1/2 hidden h-32 w-32 -translate-y-1/2 rounded-full bg-[#BCD1CA]/40 blur-3xl sm:block" />
-                </div>
-              </div>
-            </section>
-
-            <section id="testimonials" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
-              <div className="text-center">
-                <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">Testimonials</p>
-                <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
-                  Rated 4.9/5 by 1,200+ merchants
-                </h2>
-                <p className="mt-3 text-lg text-[#524F49]">Real stories from processors and merchants using CC Split to steady their cash flow.</p>
-              </div>
-              <div className="mt-10 grid gap-6 md:grid-cols-3">
-                {testimonials.map((testimonial) => (
-                  <div key={testimonial.name} className="flex h-full flex-col rounded-3xl border border-[#E8E6DC] bg-white/80 p-6 text-left shadow-[0_12px_28px_rgba(20,20,19,0.08)]">
-                    <div className="mb-4 flex">
-                      {Array.from({ length: 5 }).map((_, index) => (
-                        <Star key={index} className="h-4 w-4 fill-[#D97757] text-[#D97757]" />
-                      ))}
-                    </div>
-                    <p className="flex-1 text-sm text-[#524F49]">“{testimonial.quote}”</p>
-                    <div className="mt-6">
-                      <p className="font-semibold text-[#141413]">{testimonial.name}</p>
-                      <p className="text-sm text-[#7B7569]">{testimonial.business}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            <section id="faq" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
-              <div className="text-center">
-                <p className="text-sm font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">FAQ</p>
-                <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
-                  Questions about CC Split
-                </h2>
-              </div>
-              <div className="mt-10 space-y-4">
-                {faqs.map((faq) => (
-                  <details
-                    key={faq.question}
-                    className="group rounded-3xl border border-[#E8E6DC] bg-white/80 p-5 text-left shadow-[0_10px_24px_rgba(20,20,19,0.06)]"
-                  >
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
-                      <span className="font-semibold text-[#141413]">{faq.question}</span>
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#F8F4EC] text-[#D97757] transition-transform duration-300 group-open:rotate-45">
-                        <PlusIcon />
-                      </div>
-                    </summary>
-                    <p className="mt-4 text-sm text-[#524F49]">{faq.answer}</p>
-                  </details>
-                ))}
-              </div>
-            </section>
-
-            <section id="partners" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
-              <div className="rounded-[32px] border border-[#E8E6DC] bg-[#F8F4EC] px-6 py-10 text-center sm:px-10">
-                <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#9B8E7A]">
-                  Trusted by processing leaders
-                </p>
-                <h2 className="mt-4 font-poppins text-3xl font-semibold text-[#141413] sm:text-4xl">
-                  CC Split runs with the processors you already trust
-                </h2>
-                <p className="mt-3 text-base text-[#524F49]">
-                  First Data, Worldpay, Clover, Square, Stripe, Global Payments and every major card network stay on display in
-                  a single carousel so prospects see familiar brands at the footer of the page.
-                </p>
-
-                <div className="mt-10 space-y-6">
-                  {carouselRows.map((row) => {
-                    const duplicatedLogos = [...row.logos, ...row.logos];
-                    return (
-                      <div key={row.id} className="relative overflow-hidden rounded-[28px] border border-[#E8E6DC] bg-white/60 p-4">
-                        <div
-                          className={`flex gap-6 ${row.reverse ? "animate-logo-marquee-reverse" : "animate-logo-marquee"}`}
-                        >
-                          {duplicatedLogos.map((logo, index) => (
-                            <div
-                              key={`${logo.name}-${index}`}
-                              className="flex h-24 w-48 flex-shrink-0 items-center justify-center rounded-2xl bg-[#FAF9F5] p-4 ring-1 ring-[#E8E6DC]"
-                              aria-label={logo.name}
-                            >
-                              <Image
-                                src={logo.src}
-                                alt={`${logo.name} logo`}
-                                width={180}
-                                height={72}
-                                className="h-12 w-auto object-contain"
-                              />
-                            </div>
-                          ))}
-                        </div>
-                        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#F8F4EC] to-transparent" />
-                        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#F8F4EC] to-transparent" />
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </section>
-
-            <section id="cta" className="border-t border-[#E8E6DC] px-6 py-12 sm:px-10 sm:py-16">
-              <div className="rounded-[32px] bg-[#141413] px-6 py-10 text-white sm:px-10">
-                <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-                  <div className="space-y-3">
-                    <p className="text-sm uppercase tracking-[0.4em] text-white/60">Get started</p>
-                    <h2 className="font-poppins text-3xl font-semibold">See how CC Split can level-up your processing portfolio</h2>
-                    <p className="text-base text-white/80">
-                      Share a bit about your merchant mix and card volume. Our team will tailor a CC Split program and send a live preview.
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-                    <OrangePushButton>Schedule a walkthrough</OrangePushButton>
-                    <button className="inline-flex items-center text-sm font-semibold text-white/80 transition-colors hover:text-white">
-                      Talk to sales
-                      <ArrowRight className="ml-2 h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </section>
+            </div>
           </div>
-        </div>
+        </section>
+
+        {/* REASONS SECTION – operator-focused */}
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-18">
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-8 text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9B8E7A]">
+                For your teams
+              </p>
+              <h2 className="mt-2 text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-[#141413]">
+                Built so sales, RevOps, and finance all say yes.
+              </h2>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {REASONS.map((reason, index) => {
+                const bgPalette = [BRAND_BEIGE_DARK, BRAND_BLUE, BRAND_GREEN, BRAND_LAVENDER] as const;
+                const bg = bgPalette[index % bgPalette.length];
+
+                return (
+                  <article
+                    key={reason.title}
+                    className="rounded-[32px] p-7 shadow-[0_18px_45px_rgba(20,20,19,0.12),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"
+                    style={{ backgroundColor: bg }}
+                  >
+                    <div
+                      className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full"
+                      style={{ backgroundColor: BRAND_ORANGE }}
+                    >
+                      <reason.icon className="h-5 w-5 text-white" />
+                    </div>
+                    <h3 className="font-poppins text-lg font-semibold text-[#141413]">
+                      {reason.title}
+                    </h3>
+                    <p className="mt-3 text-sm font-lora text-[#141413]">{reason.description}</p>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA – single card, aligned with Payments CTA and without Talk to sales link */}
+        <section className="px-6 md:px-10 lg:px-16 pb-16 pt-10 md:pb-24">
+          <div
+            className="mx-auto max-w-4xl rounded-[40px] border border-[rgba(255,255,255,0.7)] p-8 shadow-[0_24px_60px_rgba(20,20,19,0.18),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"
+            style={{ backgroundColor: BRAND_BEIGE_DARK }}
+          >
+            <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+              <div className="space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#7B7569]">Get started</p>
+                <h2 className="font-poppins text-2xl md:text-3xl font-semibold text-[#141413]">
+                  See how CC Split fits into your processing portfolio.
+                </h2>
+                <p className="text-sm sm:text-base font-lora text-[#524F49]">
+                  Share a bit about your merchant mix and card volume. We&apos;ll map a CC Split program to your existing rails
+                  and send a live preview.
+                </p>
+              </div>
+              <div className="flex justify-start lg:justify-end">
+                <OrangePushButton>Schedule a walkthrough</OrangePushButton>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );
 }
 
-function PlusIcon() {
-  return (
-    <svg viewBox="0 0 16 16" className="h-4 w-4" aria-hidden="true">
-      <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
-  );
-}
