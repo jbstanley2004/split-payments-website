@@ -4,7 +4,7 @@ import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 export default function FundingPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-transparent">
       {/* Twinkling stars background replaces hero_image_formatted.png here */}
       <TwinklingStarsBackground />
 
