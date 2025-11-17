@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef } from "react";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
+import Image from "next/image";
 
 export type PageBackdropProps = ComponentPropsWithoutRef<"div"> & {
   priority?: boolean;
@@ -15,8 +15,15 @@ export function PageBackdrop({ className, priority = false, ...rest }: PageBackd
 
   return (
     <div className={classes} {...rest}>
-      {/* Twinkling stars background replaces hero_image_formatted.png globally */}
-      <TwinklingStarsBackground />
+      <Image
+        src="/hero_image_formatted.png"
+        alt="Soft illustrated landscape background"
+        fill
+        sizes="100vw"
+        priority={priority}
+        className="object-cover object-center"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/16 via-transparent to-black/24" />
     </div>
   );
 }
