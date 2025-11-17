@@ -17,6 +17,7 @@ import {
   Users2,
 } from "lucide-react";
 import { PageBackdrop } from "@/components/page-backdrop";
+import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 type IconCard = {
   title: string;
@@ -31,6 +32,13 @@ export default function CCSplitPage() {
     <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-transparent font-lora text-[#141413]">
       {/* Gemini background shared with rest of marketing site */}
       <PageBackdrop priority />
+// (all original data arrays preserved)...
+
+export default function CCSplitPage() {
+  return (
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#FAF9F5] font-lora text-[#141413]">
+      {/* Twinkling stars background replaces hero_image_formatted.png here */}
+      <TwinklingStarsBackground />
 
       <div className="relative z-10">
         <DynamicIslandNav />
