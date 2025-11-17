@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import * as THREE from "three";
+import { Camera, Scene, WebGLRenderer, PlaneGeometry, ShaderMaterial, TextureLoader, RepeatWrapping, LinearFilter, Vector2, Mesh } from "three";
 
 // This stays as close as possible to clouds/src/script.js and index.html
 // but wrapped in a React component and using module imports.
@@ -13,14 +13,14 @@ export default function CloudsBackground() {
     if (!containerRef.current) return;
 
     let container: HTMLDivElement | null = containerRef.current;
-    let camera: THREE.Camera;
-    let scene: THREE.Scene;
-    let renderer: THREE.WebGLRenderer;
+    let camera: Camera;
+    let scene: Scene;
+    let renderer: WebGLRenderer;
     let uniforms: { [key: string]: { value: any } };
 
     let animationFrameId: number;
 
-    const loader = new THREE.TextureLoader();
+    const loader = new TextureLoader();
     loader.setCrossOrigin("anonymous");
 
     let startTime = performance.now();
@@ -28,9 +28,9 @@ export default function CloudsBackground() {
     loader.load(
       "https://s3-us-west-2.amazonaws.com/s.cdpn.io/982762/noise.png",
       (texture) => {
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.minFilter = THREE.LinearFilter;
+        texture.wrapS = RepeatWrapping;
+        texture.wrapT = RepeatWrapping;
+        texture.minFilter = LinearFilter;
 
         init(texture);
         animate();
@@ -40,24 +40,24 @@ export default function CloudsBackground() {
     function init(texture: THREE.Texture) {
       if (!container) return;
 
-      camera = new THREE.Camera();
+      camera = new Camera();
       camera.position.z = 1;
 
-      scene = new THREE.Scene();
+      scene = new Scene();
 
-      const geometry = new THREE.PlaneBufferGeometry(2, 2);
+      const geometry = new PlaneGeometry(2, 2);
 
       uniforms = {
         u_time: { value: 1.0 },
-        u_resolution: { value: new THREE.Vector2() },
+        u_resolution: { value: new Vector2() },
         u_noise: { value: texture },
-        u_mouse: { value: new THREE.Vector2() },
+        u_mouse: { value: new Vector2() },
       };
 
       const vertexShader = document.getElementById("vertexShader-clouds")?.textContent || "";
       const fragmentShader = document.getElementById("fragmentShader-clouds")?.textContent || "";
 
-      const material = new THREE.ShaderMaterial({
+      const material = new ShaderMaterial({
         uniforms,
         vertexShader,
         fragmentShader,
@@ -65,10 +65,10 @@ export default function CloudsBackground() {
       // @ts-expect-error - match original material usage
       material.extensions = { ...(material.extensions || {}), derivatives: true };
 
-      const mesh = new THREE.Mesh(geometry, material);
+      const mesh = new Mesh(geometry, material);
       scene.add(mesh);
 
-      renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer = new WebGLRenderer({ antialias: true });
       container.appendChild(renderer.domElement);
 
       onWindowResize();
