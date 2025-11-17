@@ -1,12 +1,22 @@
+import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 export default function FundingPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-transparent">
-      {/* Twinkling stars background replaces hero_image_formatted.png here */}
-      <TwinklingStarsBackground />
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
+      {/* Shared hero background image, same as homepage */}
+      <div className="fixed inset-0 z-0 w-full h-full min-h-screen min-h-[100dvh] min-h-[100svh]">
+        <Image
+          src="/hero_image_formatted.png"
+          alt="Soft illustrated landscape background"
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/16 via-transparent to-black/24" />
+      </div>
 
       <div className="relative z-10">
         <DynamicIslandNav />
