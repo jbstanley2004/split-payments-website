@@ -1,7 +1,7 @@
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
 import type { LucideIcon } from "lucide-react";
-import { ArrowRight, BarChart3, Building2, CheckCircle2, Clock3, CreditCard, LineChart, PieChart, ShieldCheck, Star, Users2 } from "lucide-react";
+import { ArrowRight, BarChart3, Building2, CheckCircle2, Clock3, CreditCard, LineChart, PieChart, ShieldCheck, Users2 } from "lucide-react";
 
 type IconCard = {
   title: string;
@@ -136,8 +136,6 @@ export default function CCSplitPage() {
           <div className="mt-8 flex justify-start">
             <div className="flex flex-wrap gap-2">
               {REASSURANCE_PILLS.map((pill, index) => {
-                const paletteIndex = index % PILL_COLORS.length;
-
                 // 1-2 pills: Beige only
                 let bg = PILL_COLORS[0];
                 if (REASSURANCE_PILLS.length === 3) {
@@ -266,7 +264,7 @@ export default function CCSplitPage() {
                       </div>
                       <div className="mt-2 h-1.5 rounded-full bg-[#E8E6DC]">
                         <div
-                          className={"h-full rounded-full bg-[#D97757]"}
+                          className="h-full rounded-full bg-[#D97757]"
                           style={{ width: idx === 0 ? "64%" : idx === 1 ? "84%" : "72%" }}
                         />
                       </div>
@@ -337,4 +335,3 @@ export default function CCSplitPage() {
   );
 }
 
-```
