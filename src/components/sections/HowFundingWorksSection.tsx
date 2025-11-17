@@ -266,7 +266,7 @@ function FundingLoopVisual() {
     startAutoRotate();
   };
 
-  // Radius for the orbit chips (smaller so chips never fight the edge)
+  // Radius for the orbit chips
   const ringRadius = 70;
   const chipRadius = ringRadius + 8;
 
@@ -345,7 +345,7 @@ function FundingLoopVisual() {
 
               const isActive = index === activeIndex;
               const chipStyle =
-                fundingStageStyles[index] ??
+                fundingStageStyles[index] ||
                 fundingStageStyles[fundingStageStyles.length - 1];
 
               return (
@@ -428,15 +428,49 @@ function FundingLoopVisual() {
                 Just a simple, transparent cost of capital tied to your sales
                 volume.
               </p>
-            </div>
-            <div className="flex items-start gap-2">
-              <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
-              <p>
-                <span className="font-semibold text-[#3F3A32]">
-                  Works for seasonal and growth-stage businesses.
-                </span>{" "}
-                Repayment naturally slows during off-peak periods.
+              <p className="mt-1 text-sm font-poppins font-semibold">
+                {activeStage.label}
               </p>
+              <p className="mt-1 text-xs md:text-sm">
+                {activeStage.description}
+              </p>
+            </div>
+
+            <p>
+              Instead of fixed monthly payments,{" "}
+              <span className="font-semibold text-[#3F3A32]">
+                repayment flexes with your sales.
+              </span>{" "}
+              On strong days, you pay down more. On slower days, less. There’s no
+              penalty for early payoff and no compounding interest.
+            </p>
+            <p>
+              Once your balance is paid down and your card volume stays healthy,
+              we proactively extend renewed funding offers so you can{" "}
+              <span className="font-semibold text-[#3F3A32]">
+                keep investing in growth without reapplying.
+              </span>
+            </p>
+            <div className="mt-2 grid gap-3 text-xs md:text-sm">
+              <div className="flex items-start gap-2">
+                <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                <p>
+                  <span className="font-semibold text-[#3F3A32]">
+                    No compounding interest or variable rates.
+                  </span>{" "}
+                  Just a simple, transparent cost of capital tied to your sales
+                  volume.
+                </p>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="mt-1 inline-block h-1.5 w-1.5 rounded-full bg-[#D97757]" />
+                <p>
+                  <span className="font-semibold text-[#3F3A32]">
+                    Works for seasonal and growth-stage businesses.
+                  </span>{" "}
+                  Repayment naturally slows during off-peak periods.
+                </p>
+              </div>
             </div>
           </div>
         </div>
