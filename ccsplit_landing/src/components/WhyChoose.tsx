@@ -1,62 +1,41 @@
-import { CheckCircle, Users, BarChart, Zap, Shield, DollarSign } from 'lucide-react';
-import { Button } from './ui/button';
+import { CheckCircle } from 'lucide-react';
+
+const benefits = [
+  "No fixed payments",
+  "No interest rates",
+  "No credit checks",
+  "No collateral",
+];
+
 export function WhyChoose() {
-  const reasons = [
-    {
-      icon: CheckCircle,
-      title: 'Easy, No Stress',
-      description: 'Simple application process with minimal paperwork. Get approved quickly and start growing.',
-    },
-    {
-      icon: Users,
-      title: 'Sales-Based Repayments',
-      description: 'Your repayments automatically adjust based on your card sales. More flexibility when you need it.',
-    },
-    {
-      icon: BarChart,
-      title: 'High Approval Rates',
-      description: 'We approve businesses that banks turn down. Focus on your sales history, not just credit score.',
-    },
-    {
-      icon: Zap,
-      title: 'Fast Funding',
-      description: 'Get funds in your account as fast as 24 hours after approval. No long waiting periods.',
-    },
-    {
-      icon: Shield,
-      title: 'Transparent',
-      description: 'No hidden fees or surprise charges. Clear, straightforward terms you can understand.',
-    },
-    {
-      icon: DollarSign,
-      title: 'Better Cash Flow',
-      description: 'Maintain healthy cash flow with payments that match your revenue. Never get caught short.',
-    },
-  ];
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-light">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-sm font-semibold text-gray-500 mb-4 uppercase tracking-wide">
-            THE BENEFITS
-          </h2>
-          <h3 className="text-4xl md:text-5xl font-bold">
-            Why Businesses Choose Credit Card Splits
-          </h3>
-        </div>
-        <div className="grid md:grid-cols-3 gap-8">
-          {reasons.map((reason, index) => (
-            <div key={index} className="bg-white border border-gray-200 rounded-lg p-8 hover:shadow-xl transition-shadow">
-              <div className="bg-[#c4ff1a] w-16 h-16 rounded-full flex items-center justify-center mb-6">
-                <reason.icon className="w-8 h-8 text-black" />
-              </div>
-              <h4 className="text-xl font-bold mb-4">{reason.title}</h4>
-              <p className="text-gray-600 mb-6">{reason.description}</p>
-              <Button variant="outline" className="w-full border-black text-black hover:bg-black hover:text-white">
-                Learn More
-              </Button>
+        <div className="grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <img
+              src="https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?q=80&w=2487&auto=format&fit=crop"
+              alt="Merchant using a payment terminal"
+              className="rounded-card"
+            />
+          </div>
+          <div>
+            <p className="text-sm text-mid-gray uppercase tracking-widest mb-4">THE BENEFITS</p>
+            <h2 className="text-5xl font-bold tracking-tight mb-8">
+              Funding that moves with your business
+            </h2>
+            <p className="text-mid-gray mb-8">
+              Traditional loans demand fixed payments, regardless of your sales. We do it differently. Our advances are repaid as a small percentage of your daily sales, so you pay less when business is slow.
+            </p>
+            <div className="grid grid-cols-2 gap-6">
+              {benefits.map((benefit, index) => (
+                <div key={index} className="flex items-center gap-3">
+                  <CheckCircle className="w-6 h-6 text-green" />
+                  <span className="font-sans font-medium">{benefit}</span>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>

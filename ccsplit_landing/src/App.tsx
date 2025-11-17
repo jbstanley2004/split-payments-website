@@ -3,24 +3,24 @@ import { Hero } from './components/Hero';
 import { Stats } from './components/Stats';
 import { Features } from './components/Features';
 import { WhyChoose } from './components/WhyChoose';
-import { SalesMetrics } from './components/SalesMetrics';
+import { WhySwitch } from './components/WhySwitch';
 import { Testimonials } from './components/Testimonials';
-import { FAQ } from './components/FAQ';
-import { Footer } from './components/Footer';
 import './globals.css';
+
 function App() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-light">
       <Header />
-      <Hero />
-      <Stats />
-      <Features />
-      <WhyChoose />
-      <SalesMetrics />
-      <Testimonials />
-      <FAQ />
-      <Footer />
+      <main>
+        <Hero />
+        <Stats />
+        <Features />
+        <WhySwitch />
+        <WhyChoose />
+        <Testimonials />
+      </main>
     </div>
   );
 }
+
 export default App;

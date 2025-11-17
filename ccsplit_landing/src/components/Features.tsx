@@ -1,68 +1,43 @@
-import { DollarSign, Clock, Shield, TrendingUp } from 'lucide-react';
-import { Button } from './ui/button';
+import { Zap, PieChart, Lock } from 'lucide-react';
+
+const features = [
+  {
+    icon: Zap,
+    title: "Instant Deposits",
+    description: "Access your funds in seconds, not days. Our real-time platform ensures your revenue is always available.",
+  },
+  {
+    icon: PieChart,
+    title: "Automated Splits",
+    description: "Set it and forget it. Our system automatically splits payments, manages revenue, and simplifies your accounting.",
+  },
+  {
+    icon: Lock,
+    title: "Bank-Grade Security",
+    description: "Protect your transactions and customer data with multi-layer security and PCI-compliant infrastructure.",
+  },
+];
+
 export function Features() {
-  const features = [
-    {
-      icon: DollarSign,
-      title: 'No Collateral',
-      description: 'Access funding without putting your assets at risk. No personal guarantees required.',
-    },
-    {
-      icon: Clock,
-      title: 'No Hidden Fees',
-      description: 'Transparent pricing with no hidden charges. Know exactly what you pay upfront.',
-    },
-    {
-      icon: Shield,
-      title: 'Fast Approval',
-      description: 'Get approved in as little as 24 hours. Quick and simple application process.',
-    },
-    {
-      icon: TrendingUp,
-      title: 'Flexible Repayments',
-      description: 'Repayments automatically adjust with your sales volume. Pay less when sales are slow.',
-    },
-  ];
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-light">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-sm font-semibold text-gray-500 mb-4 uppercase tracking-wide">
-            OUR SOLUTIONS
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <p className="text-sm text-mid-gray uppercase tracking-widest mb-4">FEATURES</p>
+          <h2 className="text-5xl font-bold tracking-tight">
+            Why you’ll love Split
           </h2>
-          <h3 className="text-4xl md:text-5xl font-bold mb-6">
-            Smarter Working Capital,<br />Seamless Repayments
-          </h3>
         </div>
-        <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          <div>
-            <img 
-              src="https://www.creditcardsplits.com/static/SeamlessRepayments.png"
-              alt="Funding Dashboard"
-              className="rounded-lg shadow-2xl"
-            />
-          </div>
-          <div>
-            <h3 className="text-3xl font-bold mb-6">Funding That Works With You</h3>
-            <p className="text-gray-600 mb-8">
-              With credit card splits, you get instant access to working capital that flows with your business. 
-              No fixed monthly payments, no stress. Your repayments automatically adjust based on your daily sales.
-            </p>
-            <div className="grid grid-cols-2 gap-6">
-              {features.map((feature, index) => (
-                <div key={index} className="space-y-3">
-                  <div className="bg-[#c4ff1a] w-12 h-12 rounded-lg flex items-center justify-center">
-                    <feature.icon className="w-6 h-6 text-black" />
-                  </div>
-                  <h4 className="font-bold text-lg">{feature.title}</h4>
-                  <p className="text-gray-600 text-sm">{feature.description}</p>
-                </div>
-              ))}
+        <div className="grid md:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <div key={index} className="bg-light rounded-card shadow-soft p-8">
+              <div className="bg-light-gray w-16 h-16 rounded-2xl flex items-center justify-center mb-6">
+                <feature.icon className="w-8 h-8 text-dark" />
+              </div>
+              <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
+              <p className="text-mid-gray">{feature.description}</p>
             </div>
-            <Button className="mt-8 bg-black text-white hover:bg-gray-800 px-8 py-6">
-              Apply for Funding
-            </Button>
-          </div>
+          ))}
         </div>
       </div>
     </section>
