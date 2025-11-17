@@ -1,5 +1,4 @@
 import type { ComponentPropsWithoutRef } from "react";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 export type PageBackdropProps = ComponentPropsWithoutRef<"div"> & {
   priority?: boolean;
@@ -13,10 +12,5 @@ export function PageBackdrop({ className, priority = false, ...rest }: PageBackd
     .filter(Boolean)
     .join(" " );
 
-  return (
-    <div className={classes} {...rest}>
-      {/* Twinkling stars background replaces hero_image_formatted.png globally */}
-      <TwinklingStarsBackground />
-    </div>
-  );
+  return <div className={classes} {...rest} />;
 }
