@@ -29,7 +29,7 @@
   --theme-accent-green: #788c5d;
   --theme-accent-gray: #b0aea5;
   color-scheme: light dark;
-  background-color: #F9F7F3;
+  background-color: transparent;
   color: #0A0A0A;
   font-family: "Inter Tight", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -43,7 +43,7 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   min-height: 100svh;
-  background-color: #FAF9F5;
+  background-color: transparent;
   color: #141413;
   font-family: var(--font-lora, "Lora"), var(--font-poppins, "Poppins"), "Inter Tight", system-ui, sans-serif;
   text-rendering: optimizeLegibility;

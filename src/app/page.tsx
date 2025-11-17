@@ -4,15 +4,14 @@ import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import CloudsBackground from "@/components/CloudsBackground";
+import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
-      {/* Clouds hero background from /clouds repo */}
-      <CloudsBackground />
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-transparent">
+      {/* Twinkling stars background from public/pure-css-twinkling-stars-background */}
+      <TwinklingStarsBackground />
 
       <div className="relative z-10">
         <DynamicIslandNav />
@@ -30,15 +29,15 @@ export default function HomePage() {
             className="flex flex-col items-center gap-10 max-w-4xl px-6"
             style={{ willChange: "transform, opacity" }}
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-black dark:text-black">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-light">
               Funding growth through payment technology
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl font-lora text-gray-700 dark:text-gray-700">
+            <p className="text-lg md:text-xl lg:text-2xl font-lora text-light/80">
               A Smarter Way to Fund Your Business
             </p>
 
             <motion.div
-              className="flex flex-col items-center text-[0.7rem] uppercase tracking-[0.3em] text-black/70"
+              className="flex flex-col items-center text-[0.7rem] uppercase tracking-[0.3em] text-light/80"
               initial={{ opacity: 0, translateY: 10 }}
               animate={{ opacity: 1, translateY: 0 }}
               transition={{ delay: 0.2, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
@@ -57,7 +56,7 @@ export default function HomePage() {
                   viewBox="0 0 24 32"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="text-black/70"
+                  className="text-light/80"
                 >
                   <path
                     d="M12 4v20m0 0l-6-6m6 6 6-6"
@@ -72,7 +71,7 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        {/* HOW FUNDING WORKS – content floats directly on the beige background */}
+        {/* HOW FUNDING WORKS – content floats directly over the starry canvas */}
         <section
           id="how-funding-works"
           data-section-id="how-funding-works"
@@ -90,7 +89,7 @@ export default function HomePage() {
           <FlexibleFundingHero />
         </section>
 
-        {/* HOME PAYMENTS SECTION – copy and floating cards, no outer container */}
+        {/* HOME PAYMENTS SECTION – copy and floating cards */}
         <section
           id="payments"
           data-section-id="payments"
