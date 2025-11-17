@@ -61,3 +61,22 @@ body {
 [class*="shadow-[0_14px_32px_rgba(20,20,19,0.10)]"] {
   box-shadow: none !important;
 }
+
+@layer utilities {
+  @keyframes logo-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-logo-marquee {
+    animation: logo-marquee 36s linear infinite;
+  }
+
+  .animate-logo-marquee-reverse {
+    animation: logo-marquee 36s linear infinite reverse;
+  }
+}
