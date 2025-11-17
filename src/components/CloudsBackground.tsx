@@ -1,7 +1,19 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Camera, Scene, WebGLRenderer, PlaneGeometry, ShaderMaterial, TextureLoader, RepeatWrapping, LinearFilter, Vector2, Mesh } from "three";
+import {
+  Camera,
+  Scene,
+  WebGLRenderer,
+  PlaneGeometry,
+  ShaderMaterial,
+  Texture,
+  TextureLoader,
+  RepeatWrapping,
+  LinearFilter,
+  Vector2,
+  Mesh,
+} from "three";
 
 // This stays as close as possible to clouds/src/script.js and index.html
 // but wrapped in a React component and using module imports.
@@ -27,7 +39,7 @@ export default function CloudsBackground() {
 
     loader.load(
       "https://s3-us-west-2.amazonaws.com/s.cdpn.io/982762/noise.png",
-      (texture) => {
+      (texture: Texture) => {
         texture.wrapS = RepeatWrapping;
         texture.wrapT = RepeatWrapping;
         texture.minFilter = LinearFilter;
@@ -37,7 +49,7 @@ export default function CloudsBackground() {
       }
     );
 
-    function init(texture: THREE.Texture) {
+    function init(texture: Texture) {
       if (!container) return;
 
       camera = new Camera();
@@ -54,8 +66,10 @@ export default function CloudsBackground() {
         u_mouse: { value: new Vector2() },
       };
 
-      const vertexShader = document.getElementById("vertexShader-clouds")?.textContent || "";
-      const fragmentShader = document.getElementById("fragmentShader-clouds")?.textContent || "";
+      const vertexShader =
+        document.getElementById("vertexShader-clouds")?.textContent || "";
+      const fragmentShader =
+        document.getElementById("fragmentShader-clouds")?.textContent || "";
 
       const material = new ShaderMaterial({
         uniforms,
@@ -130,7 +144,10 @@ export default function CloudsBackground() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+    <div
+      className="pointer-events-none fixed inset-0 -z-10"
+      aria-hidden="true"
+    >
       {/* Shaders injected into the DOM so we can reuse the original GLSL source untouched */}
       <script id="vertexShader-clouds" type="x-shader/x-vertex">
         {`void main() {
