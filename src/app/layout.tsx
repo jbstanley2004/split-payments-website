@@ -7,6 +7,7 @@ import { Poppins, Lora } from 'next/font/google';
 import '@/styles/globals.css';
 import ScrollStitch from '@/components/ScrollStitch';
 import FooterBeamClient from '@/components/FooterBeamClient';
+import Image from 'next/image';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -105,7 +106,18 @@ export default function Layout({ children }: { children: ReactNode }) {
           }}
         />
       </head>
-      <body>
+      <body className='relative min-h-screen font-lora text-[#141413]'>
+        {/* GLOBAL BACKGROUND IMAGE – single source of truth */}
+        {/* To change global background, update this Image src */}
+        <div className='fixed inset-0 -z-10'>
+          <Image
+            src='/hero_image_formatted.png'
+            alt='Global background'
+            fill
+            priority
+            className='object-cover object-center'
+          />
+        </div>
         <DynamicThemeColor />
         <StyledComponentsRegistry>
           <Providers>{children}</Providers>
