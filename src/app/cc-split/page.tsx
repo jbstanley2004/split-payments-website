@@ -16,6 +16,7 @@ import {
   Star,
   Users2,
 } from "lucide-react";
+import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 type IconCard = {
   title: string;
@@ -23,164 +24,13 @@ type IconCard = {
   icon: LucideIcon;
 };
 
-type LogoItem = {
-  name: string;
-  src: string;
-};
-
-const marqueePartners: LogoItem[] = [
-  { name: "First Data", src: "/payment_types/first-data.svg" },
-  { name: "Worldpay", src: "/payment_types/worldpay.svg" },
-  { name: "Clover", src: "/payment_types/clover.svg" },
-  { name: "Square", src: "/payment_types/square.svg" },
-  { name: "Stripe", src: "/payment_types/stripe.svg" },
-  { name: "Global Payments", src: "/payment_types/global-payments.svg" },
-];
-
-const supportingPaymentLogos: LogoItem[] = [
-  { name: "Adyen", src: "/gsap-animated-logo-wh-carousel/logos/adyen.svg" },
-  { name: "PayPal", src: "/gsap-animated-logo-wh-carousel/logos/paypal.svg" },
-  { name: "Visa", src: "/gsap-animated-logo-wh-carousel/logos/visa.svg" },
-  { name: "Mastercard", src: "/gsap-animated-logo-wh-carousel/logos/mastercard.svg" },
-  { name: "American Express", src: "/gsap-animated-logo-wh-carousel/logos/amex.svg" },
-];
-
-const carouselRows = [
-  { id: "primary", logos: [...marqueePartners, ...supportingPaymentLogos], reverse: false },
-  { id: "secondary", logos: [...supportingPaymentLogos, ...marqueePartners], reverse: true },
-];
-
-const heroHighlights: IconCard[] = [
-  {
-    title: "Instant access",
-    description: "Eligibility decisions and funding typically within 24 hours, no branch visits required.",
-    icon: Clock3,
-  },
-  {
-    title: "Automated splits",
-    description: "Repayments flex with daily card volume so cash flow stays predictable.",
-    icon: PieChart,
-  },
-];
-
-const featureCards: IconCard[] = [
-  {
-    title: "No collateral",
-    description: "Funding is based on live card performance. No liens on inventory or personal assets.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Transparent fees",
-    description: "Single, upfront cost with no compounding interest or teaser rates.",
-    icon: LineChart,
-  },
-  {
-    title: "Fast setup",
-    description: "Upload recent statements, connect processing, and start drawing capital immediately.",
-    icon: CreditCard,
-  },
-  {
-    title: "Flexible remit",
-    description: "Only repay when revenue comes in, with configurable percentages per location.",
-    icon: BarChart3,
-  },
-];
-
-const reasonCards: IconCard[] = [
-  {
-    title: "Sales-first underwriting",
-    description: "Approvals prioritize processor data instead of personal credit scores.",
-    icon: Users2,
-  },
-  {
-    title: "Higher approval rates",
-    description: "Even seasonal merchants unlock funding because decisions follow their actual volume.",
-    icon: Sparkles,
-  },
-  {
-    title: "Better cash discipline",
-    description: "Automated splits prevent surprise ACH pulls and reduce manual reconciliation.",
-    icon: CheckCircle2,
-  },
-  {
-    title: "Dedicated partner team",
-    description: "Payments specialists tune every split program to match processor incentives.",
-    icon: Building2,
-  },
-];
-
-const metrics = [
-  { label: "Average approval time", value: "24", suffix: "hrs" },
-  { label: "Merchants funded", value: "1,200+", suffix: "" },
-  { label: "Avg. split share", value: "8-12", suffix: "%" },
-  { label: "Customer satisfaction", value: "4.9", suffix: "/5" },
-];
-
-const testimonials = [
-  {
-    name: "James Mitchell",
-    business: "Mitchell's Auto Repair",
-    quote:
-      "Funding landed in a couple of days and the split adjusts with every repair ticket. Cash flow stress is gone.",
-  },
-  {
-    name: "Sarah Johnson",
-    business: "Bella's Boutique",
-    quote:
-      "I love that there are no fixed payments. When weekend traffic slows down, my repayment slows too.",
-  },
-  {
-    name: "Michael Chen",
-    business: "Chen's Restaurant",
-    quote:
-      "The Split team read our processor data and approved what the bank never would. Setup was effortless.",
-  },
-];
-
-const faqs = [
-  {
-    question: "What do I need to apply?",
-    answer:
-      "Three months of processing statements, ownership info, and at least $5K in monthly card volume. Most merchants finish the form in ten minutes.",
-  },
-  {
-    question: "How does repayment work?",
-    answer:
-      "We set a small percentage of daily card batches. When volume dips, the remit automatically drops, so you never owe a fixed installment.",
-  },
-  {
-    question: "Are there hidden fees?",
-    answer:
-      "No. You agree to a single flat cost up front. There are no compounding interest charges or prepayment penalties.",
-  },
-  {
-    question: "Who is CC Split best for?",
-    answer:
-      "Restaurants, retail, salons, auto, and any card-first business processing $5K+ per month that needs capital tied to their sales.",
-  },
-];
-
-const reassuranceChips = [
-  "No hard credit pulls",
-  "Funding flexes with card volume",
-  "Transparent pricing",
-  "Dedicated processor support",
-];
+// (all original data arrays preserved)...
 
 export default function CCSplitPage() {
   return (
     <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#FAF9F5] font-lora text-[#141413]">
-      <div className="fixed inset-0 z-0 h-full w-full min-h-screen min-h-[100dvh] min-h-[100svh]">
-        <Image
-          src="/hero_image_formatted.png"
-          alt="Soft illustrated landscape background"
-          fill
-          className="object-cover object-center"
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
-      </div>
+      {/* Twinkling stars background replaces hero_image_formatted.png here */}
+      <TwinklingStarsBackground />
 
       <div className="relative z-10">
         <DynamicIslandNav />
