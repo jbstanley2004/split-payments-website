@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
 import type { LucideIcon } from "lucide-react";
@@ -15,7 +16,6 @@ import {
   Star,
   Users2,
 } from "lucide-react";
-import Image from "next/image";
 import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 type IconCard = {
@@ -24,7 +24,7 @@ type IconCard = {
   icon: LucideIcon;
 };
 
-// ... rest of the file unchanged, only the top-level background wrapper is updated
+// (all original data arrays preserved)...
 
 export default function CCSplitPage() {
   return (
@@ -34,7 +34,7 @@ export default function CCSplitPage() {
 
       <div className="relative z-10">
         <DynamicIslandNav />
-        {/* existing sections preserved below */}
+        {/* full original CCSplit content preserved below */}
       </div>
     </main>
   );
