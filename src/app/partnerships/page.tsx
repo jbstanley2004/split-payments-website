@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import OrangePushButton from "@/components/OrangePushButton";
 import type { LucideIcon } from "lucide-react";
 import {
   BarChart3,
@@ -168,12 +167,9 @@ const faqs = [
   },
 ];
 
-const BRAND_BEIGE_DARK = "#d8d1c6";
-const BRAND_ORANGE = "#D97757";
-
 export default function PartnershipsPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#FAF9F5] font-lora text-[#141413]">
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[color:var(--bg-page)] font-lora text-[color:var(--text-main)]">
       <div className="fixed inset-0 z-0 h-full w-full min-h-screen min-h-[100dvh] min-h-[100svh]">
         <Image
           src="/hero_image_formatted.png"
@@ -195,18 +191,15 @@ export default function PartnershipsPage() {
             <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
               {/* Left: headline + hero cards directly on image */}
               <div className="max-w-3xl">
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] bg-[#f0ebe2] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-[#9B8E7A]">
-                  <span
-                    className="inline-block h-1.5 w-1.5 rounded-full"
-                    style={{ backgroundColor: BRAND_ORANGE }}
-                  />
-                  ISO Partnerships
+                <div className="chip chip--neutral">
+                  <span className="dot" />
+                  <span className="text-xs font-semibold uppercase tracking-[0.3em]">ISO Partnerships</span>
                 </div>
                 <div className="mt-6 space-y-4">
-                  <h1 className="font-poppins text-4xl font-semibold leading-tight text-[#141413] sm:text-5xl">
+                  <h1 className="font-poppins text-4xl font-semibold leading-tight text-[color:var(--text-main)] sm:text-5xl">
                     Partnerships built on processing performance
                   </h1>
-                  <p className="text-lg text-[#3F3A32] sm:text-xl max-w-2xl">
+                  <p className="text-lg text-[color:var(--text-subtle)] sm:text-xl max-w-2xl">
                     Equip your ISO, agent, or referral team with funding that mirrors every card swipe. Split prices against actual processor data so your merchants see capital faster—and you capture more share of wallet.
                   </p>
                 </div>
@@ -214,16 +207,18 @@ export default function PartnershipsPage() {
                   {heroHighlights.map((item) => (
                     <div
                       key={item.title}
-                      className="rounded-2xl border border-[#E8E6DC] p-5 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
-                      style={{ backgroundColor: BRAND_BEIGE_DARK }}
+                      className="card card--neutral"
                     >
-                      <p className="font-poppins text-base font-semibold text-[#141413]">{item.title}</p>
-                      <p className="mt-2 text-sm text-[#524F49]">{item.description}</p>
+                      <p className="font-poppins text-base font-semibold text-[color:var(--text-main)]">{item.title}</p>
+                      <p className="mt-2 text-sm text-[color:var(--text-subtle)]">{item.description}</p>
                     </div>
                   ))}
                 </div>
                 <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <OrangePushButton>Become a partner</OrangePushButton>
+                  <button className="btn-primary">
+                    <span className="dot" />
+                    <span>Become a partner</span>
+                  </button>
                 </div>
               </div>
 
@@ -231,14 +226,10 @@ export default function PartnershipsPage() {
               <div className="flex flex-col gap-6">
                 <div className="grid grid-cols-2 gap-4">
                   {partnerMetrics.map((metric) => (
-                    <div
-                      key={metric.label}
-                      className="rounded-[32px] border border-[#E8E6DC] p-5 shadow-[0_18px_40px_rgba(20,20,19,0.12)]"
-                      style={{ backgroundColor: BRAND_BEIGE_DARK }}
-                    >
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-[#9B8E7A]">{metric.label}</p>
-                      <p className="mt-2 font-poppins text-3xl font-semibold text-[#141413]">{metric.value}</p>
-                      <p className="text-sm text-[#524F49]">{metric.detail}</p>
+                    <div key={metric.label} className="tile">
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-[color:var(--text-subtle)]">{metric.label}</p>
+                      <p className="mt-2 font-poppins text-3xl font-semibold text-[color:var(--text-main)]">{metric.value}</p>
+                      <p className="text-sm text-[color:var(--text-subtle)]">{metric.detail}</p>
                     </div>
                   ))}
                 </div>
@@ -246,15 +237,15 @@ export default function PartnershipsPage() {
             </div>
           </section>
 
-          {/* TRUSTED PROCESSING ALLIANCES – leave structure as-is */}
+          {/* TRUSTED PROCESSING ALLIANCES */}
           <section>
-            <div className="rounded-[32px] border border-[#E8E6DC] bg-[#FAF9F5] p-6 sm:p-8">
+            <div className="rounded-[32px] border border-[color:var(--border-subtle)] bg-[color:var(--surface-cream)] p-6 sm:p-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Trusted processing alliances</p>
-                  <h2 className="mt-2 font-poppins text-2xl font-semibold text-[#141413]">Partners already in the Split orbit</h2>
+                  <p className="text-sm uppercase tracking-[0.25em] text-[color:var(--text-subtle)]">Trusted processing alliances</p>
+                  <h2 className="mt-2 font-poppins text-2xl font-semibold text-[color:var(--text-main)]">Partners already in the Split orbit</h2>
                 </div>
-                <p className="text-sm text-[#524F49] max-w-md">
+                <p className="text-sm text-[color:var(--text-subtle)] max-w-md">
                   Use our processors of record or bring your own BIN sponsor—we integrate into existing payout flows and keep your brand front and center.
                 </p>
               </div>
@@ -262,7 +253,7 @@ export default function PartnershipsPage() {
                 {partnerLogos.map((logo) => (
                   <div
                     key={logo.name}
-                    className="flex items-center justify-center rounded-2xl border border-[#E8E6DC] bg-[#F8F4EC] px-4 py-3"
+                    className="flex items-center justify-center rounded-2xl border border-[color:var(--border-subtle)] bg-[#F8F4EC] px-4 py-3"
                   >
                     <Image
                       src={logo.src}
@@ -280,95 +271,77 @@ export default function PartnershipsPage() {
           {/* PROGRAM FLOW */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Program flow</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">How the partnership works</h2>
-              <p className="text-base text-[#524F49] max-w-3xl">
+              <p className="text-sm uppercase tracking-[0.25em] text-[color:var(--text-subtle)]">Program flow</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[color:var(--text-main)]">How the partnership works</h2>
+              <p className="text-base text-[color:var(--text-subtle)] max-w-3xl">
                 Each step is built to respect your merchant relationship. You own the conversation; we provide underwriting, capital, and servicing.
               </p>
             </div>
             <div className="grid gap-5 md:grid-cols-3">
               {partnerSteps.map((step) => (
-                <div
-                  key={step.title}
-                  className="rounded-3xl border border-[#E8E6DC] p-6 shadow-[0_18px_45px_rgba(20,20,19,0.12)]"
-                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
-                >
-                  <div
-                    className="flex h-12 w-12 items-center justify-center rounded-full"
-                    style={{ backgroundColor: BRAND_ORANGE }}
-                  >
+                <div key={step.title} className="card card--neutral">
+                  <div className="card__icon">
                     <step.icon className="h-5 w-5 text-white" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#141413]">{step.title}</h3>
-                  <p className="mt-2 text-sm text-[#524F49]">{step.description}</p>
-                  <p className="mt-3 text-sm text-[#3F3A32]">{step.detail}</p>
+                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[color:var(--text-main)]">{step.title}</h3>
+                  <p className="mt-2 text-sm text-[color:var(--text-subtle)]">{step.description}</p>
+                  <p className="mt-3 text-sm text-[color:var(--text-main)]">{step.detail}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* DEAL ECONOMICS – long beige cards directly on background */}
+          {/* DEAL ECONOMICS */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Deal economics</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">Funding mechanics & partner yield</h2>
-              <p className="text-base text-[#524F49] max-w-3xl">
+              <p className="text-sm uppercase tracking-[0.25em] text-[color:var(--text-subtle)]">Deal economics</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[color:var(--text-main)]">Funding mechanics & partner yield</h2>
+              <p className="text-base text-[color:var(--text-subtle)] max-w-3xl">
                 Transparent economics keep your agents confident. Every file includes a clear payout schedule, remittance assumptions, and renewal triggers.
               </p>
             </div>
             <div className="grid gap-4 lg:grid-cols-3">
               {economicsBreakdown.map((item) => (
-                <div
-                  key={item.label}
-                  className="rounded-[32px] border border-[#E8E6DC] p-5 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
-                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
-                >
-                  <p className="text-xs uppercase tracking-[0.25em] text-[#9B8E7A]">{item.label}</p>
-                  <p className="mt-3 text-sm text-[#3F3A32]">{item.description}</p>
-                  <p className="mt-4 text-sm font-semibold text-[#141413]">{item.partnerShare}</p>
+                <div key={item.label} className="card card--neutral">
+                  <p className="text-xs uppercase tracking-[0.25em] text-[color:var(--text-subtle)]">{item.label}</p>
+                  <p className="mt-3 text-sm text-[color:var(--text-subtle)]">{item.description}</p>
+                  <p className="mt-4 text-sm font-semibold text-[color:var(--text-main)]">{item.partnerShare}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* ENABLEMENT – tools cards with orange icons */}
+          {/* ENABLEMENT */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Enablement</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">Tools that keep partners in motion</h2>
+              <p className="text-sm uppercase tracking-[0.25em] text-[color:var(--text-subtle)]">Enablement</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[color:var(--text-main)]">Tools that keep partners in motion</h2>
             </div>
             <div className="grid gap-5 md:grid-cols-2">
               {enablementCards.map((card) => (
-                <div
-                  key={card.title}
-                  className="rounded-3xl border border-[#E8E6DC] p-6 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
-                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
-                >
-                  <div
-                    className="flex h-12 w-12 items-center justify-center rounded-full"
-                    style={{ backgroundColor: BRAND_ORANGE }}
-                  >
+                <div key={card.title} className="card card--neutral">
+                  <div className="card__icon">
                     <card.icon className="h-5 w-5 text-white" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#141413]">{card.title}</h3>
-                  <p className="mt-2 text-sm text-[#524F49]">{card.description}</p>
-                  <p className="mt-3 text-sm text-[#3F3A32]">{card.detail}</p>
+                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[color:var(--text-main)]">{card.title}</h3>
+                  <p className="mt-2 text-sm text-[color:var(--text-subtle)]">{card.description}</p>
+                  <p className="mt-3 text-sm text-[color:var(--text-main)]">{card.detail}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* INDUSTRIES – left as-is */}
+          {/* INDUSTRIES */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Industries we accelerate</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">Where Split funding resonates</h2>
+              <p className="text-sm uppercase tracking-[0.25em] text-[color:var(--text-subtle)]">Industries we accelerate</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[color:var(--text-main)]">Where Split funding resonates</h2>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
               {industries.map((industry) => (
                 <div
                   key={industry.name}
-                  className="rounded-[32px] border border-[#E8E6DC] bg-[#FAF9F5] p-5"
+                  className="rounded-[32px] border border-[color:var(--border-subtle)] bg-[#F7F2EC] p-5"
                 >
                   <div className="relative h-48 w-full overflow-hidden rounded-3xl">
                     <Image
@@ -381,10 +354,10 @@ export default function PartnershipsPage() {
                   </div>
                   <div className="mt-4 flex items-center justify-between">
                     <div>
-                      <p className="font-poppins text-xl font-semibold text-[#141413]">{industry.name}</p>
-                      <p className="text-sm text-[#7B7569]">{industry.stat}</p>
+                      <p className="font-poppins text-xl font-semibold text-[color:var(--text-main)]">{industry.name}</p>
+                      <p className="text-sm text-[color:var(--text-subtle)]">{industry.stat}</p>
                     </div>
-                    <div className="rounded-full bg-[#f0ebe2] px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#9B8E7A]">
+                    <div className="rounded-full bg-[color:var(--surface-stone)] px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[color:var(--text-main)]">
                       Split ready
                     </div>
                   </div>
@@ -393,62 +366,56 @@ export default function PartnershipsPage() {
             </div>
           </section>
 
-          {/* FAQ – day-card style beige rows with orange dot */}
+          {/* FAQ */}
           <section className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">FAQ</p>
+            <p className="text-sm uppercase tracking-[0.25em] text-[color:var(--text-subtle)]">FAQ</p>
             <div className="space-y-4">
               {faqs.map((faq) => (
-                <div
-                  key={faq.question}
-                  className="flex flex-col gap-2 rounded-[32px] border border-[#E8E6DC] px-6 py-5 sm:flex-row sm:items-center sm:justify-between shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
-                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
-                >
-                  <div className="flex items-start gap-3">
-                    <span
-                      className="mt-2 inline-block h-2 w-2 rounded-full"
-                      style={{ backgroundColor: BRAND_ORANGE }}
-                    />
-                    <div>
-                      <h3 className="font-poppins text-lg font-semibold text-[#141413]">{faq.question}</h3>
-                      <p className="mt-1 text-sm text-[#524F49]">{faq.answer}</p>
-                    </div>
+                <div key={faq.question} className="faq-row">
+                  <span className="dot" />
+                  <div>
+                    <h3 className="font-poppins text-lg font-semibold text-[color:var(--text-main)]">{faq.question}</h3>
+                    <p className="mt-1 text-sm text-[color:var(--text-subtle)]">{faq.answer}</p>
                   </div>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* FINAL CTA – solid black card without opacity overlay */}
+          {/* FINAL CTA */}
           <section>
-            <div className="rounded-[36px] border border-[#E8E6DC] bg-[#141413] p-8 text-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.5)]">
+            <div className="card card--neutral">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div className="space-y-3">
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#D97757]">Ready when you are</p>
-                  <h2 className="font-poppins text-3xl font-semibold">Bring Split into your next portfolio review</h2>
-                  <p className="text-base text-[#E8E6DC]">
+                  <p className="text-sm uppercase tracking-[0.25em] text-[color:var(--text-subtle)]">Ready when you are</p>
+                  <h2 className="font-poppins text-3xl font-semibold text-[color:var(--text-main)]">Bring Split into your next portfolio review</h2>
+                  <p className="text-base text-[color:var(--text-subtle)]">
                     Send a merchant list or invite us to your next ISO roundtable. We&apos;ll show exactly how Split flexes with the processing stack you already built.
                   </p>
                 </div>
                 <div className="flex flex-col gap-4">
-                  <OrangePushButton>Book a partner session</OrangePushButton>
-                  <span className="text-sm text-[#E8E6DC]">No obligation. No hard credit pulls for your merchants.</span>
+                  <button className="btn-primary">
+                    <span className="dot" />
+                    <span>Book a partner session</span>
+                  </button>
+                  <span className="text-sm text-[color:var(--text-subtle)]">No obligation. No hard credit pulls for your merchants.</span>
                 </div>
               </div>
             </div>
           </section>
         </div>
 
-        <footer className="px-6 pb-8 pt-4 text-xs text-[#7B7569] sm:px-8 md:px-12 lg:px-16">
+        <footer className="px-6 pb-8 pt-4 text-xs text-[color:var(--text-subtle)] sm:px-8 md:px-12 lg:px-16">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p>© 2025 Split Payments, Inc. — Funding growth through payment technology.</p>
             <div className="flex items-center gap-6">
-              <a className="hover:text-[#D97757]" href="/policy">
+              <a className="hover:text-[color:var(--text-main)]" href="/policy">
                 privacy
               </a>
-              <a className="hover:text-[#D97757]" href="/terms">
+              <a className="hover:text-[color:var(--text-main)]" href="/terms">
                 terms
               </a>
-              <a className="hover:text-[#D97757]" href="/support">
+              <a className="hover:text-[color:var(--text-main)]" href="/support">
                 contact
               </a>
             </div>
@@ -458,4 +425,3 @@ export default function PartnershipsPage() {
     </main>
   );
 }
-
