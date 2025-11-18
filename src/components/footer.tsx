@@ -1,139 +1,64 @@
-import { LogoLarge } from "@/components/logo-large";
-import { SubscribeInput } from "@/components/subscribe-input";
 import Link from "next/link";
-import { GithubStars } from "./github-stars";
-import { SocialLinks } from "./social-links";
-import { StatusWidget } from "./status-widget";
+import Image from "next/image";
 
 export function Footer() {
+  const footerLinks = {
+    Product: [
+      { title: "Payments", path: "/payments" },
+      { title: "Funding", path: "/funding" },
+      { title: "CC Split", path: "/cc-split" },
+      { title: "Partnerships", path: "/partnerships" },
+    ],
+    Resources: [
+      { title: "Blog", path: "#" },
+      { title: "Help Center", path: "#" },
+      { title: "Contact Us", path: "#" },
+    ],
+    Company: [
+        { title: "About Us", path: "#" },
+        { title: "Careers", path: "#" },
+        { title: "Brand", path: "#" },
+    ],
+  };
+
   return (
-    <footer className="border-t-[1px] border-border px-4 md:px-6 pt-10 md:pt-16 bg-[#fff] dark:bg-[#0C0C0C] overflow-hidden md:max-h-[820px]">
-      <div className="container">
-        <div className="flex justify-between items-center border-border border-b-[1px] pb-10 md:pb-16 mb-12">
-          <Link href="/" className="scale-50 -ml-[52px] md:ml-0 md:scale-100">
-            <LogoLarge />
-            <span className="sr-only">Midday</span>
-          </Link>
-
-          <span className="font-normal md:text-2xl text-right">
-            Run your business smarter.
-          </span>
+    <footer className="bg-white border-t border-[var(--border-subtle)] px-4 md:px-6 py-12">
+      <div className="container mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="col-span-2 md:col-span-1">
+            <Link href="/" className="flex items-center">
+              <Image
+                alt="Split logo"
+                src="/new_logo.svg"
+                width={80}
+                height={24}
+              />
+            </Link>
+          </div>
+          {Object.entries(footerLinks).map(([title, links]) => (
+            <div key={title}>
+              <h3 className="font-serif text-base font-semibold text-[var(--text-main)] mb-4">
+                {title}
+              </h3>
+              <ul className="space-y-2">
+                {links.map((link) => (
+                  <li key={link.title}>
+                    <Link
+                      href={link.path}
+                      className="text-sm text-[var(--text-body)] hover:text-[var(--text-main)] transition-colors"
+                    >
+                      {link.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-
-        <div className="flex flex-col md:flex-row w-full">
-          <div className="flex flex-col space-y-8 md:space-y-0 md:flex-row md:w-6/12 justify-between leading-8">
-            <div>
-              <span className="font-medium">Features</span>
-              <ul>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/overview">Overview</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/inbox">Inbox</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/vault">Vault</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/tracker">Tracker</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/invoice">Invoice</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/pricing">Pricing</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/engine">Engine</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/download">Download</Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <span>Resources</span>
-              <ul>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="https://git.new/midday">Github</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/support">Support</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/policy">Privacy policy</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/terms">Terms and Conditions</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/branding">Branding</Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <span>Company</span>
-              <ul>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/story">Story</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/updates">Updates</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/open-startup">Open startup</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/oss-friends">OSS friends</Link>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <span>New Pages</span>
-              <ul>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/ccsplit-iso">CCSplit ISO</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/connect">Connect</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/ecom">E-commerce</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/finance">Finance</Link>
-                </li>
-                <li className="transition-colors text-[#878787]">
-                  <Link href="/cc-split">CC Split</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="md:w-6/12 flex mt-8 md:mt-0 md:justify-end">
-            <div className="flex md:items-end flex-col">
-              <div className="flex items-start md:items-center flex-col md:flex-row space-y-6 md:space-y-0 mb-8">
-                <GithubStars />
-                <SocialLinks />
-              </div>
-
-              <div className="mb-8">
-                <SubscribeInput />
-              </div>
-              <div className="md:mr-0 mt-auto mr-auto">
-                <StatusWidget />
-              </div>
-            </div>
-          </div>
+        <div className="mt-12 pt-8 border-t border-[var(--border-subtle)] text-center text-sm text-[var(--text-muted)]">
+          <p>&copy; {new Date().getFullYear()} Split. All rights reserved.</p>
         </div>
       </div>
-
-      <h5 className="dark:text-[#161616] text-[#F4F4F3] text-[500px] leading-none text-center pointer-events-none">
-        midday
-      </h5>
     </footer>
   );
 }
