@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/stub";
-import splitSphere from "public/new_logo_no_bg_smooth.png";
 
 type DynamicIslandNavProps = {
   className?: string;
@@ -54,9 +53,10 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
             className="flex items-center gap-2"
           >
             <Image
-              src={splitSphere}
+              src="/new_logo_no_bg_smooth.png"
               alt="Split"
               height={32}
+              width={32}
               className="h-8 w-auto object-contain"
               priority={logoPriority}
             />
