@@ -5,18 +5,14 @@ import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
 import { motion } from "framer-motion";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-transparent">
-      {/* Twinkling stars background from public/pure-css-twinkling-stars-background */}
-      <TwinklingStarsBackground />
-
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-[#161616] bg-[#F5F5F3]">
       <div className="relative z-10">
         <DynamicIslandNav />
 
-        {/* LANDING HERO – full-bleed over background image */}
+        {/* LANDING HERO */}
         <section
           id="home"
           data-section-id="home"
@@ -29,15 +25,15 @@ export default function HomePage() {
             className="flex flex-col items-center gap-10 max-w-4xl px-6"
             style={{ willChange: "transform, opacity" }}
           >
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-light">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-[#161616]">
               Funding growth through payment technology
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl font-lora text-light/80">
-              A Smarter Way to Fund Your Business
+            <p className="text-lg md:text-xl lg:text-2xl font-lora text-[#555555]">
+              A smarter way to turn card volume into working capital.
             </p>
 
             <motion.div
-              className="flex flex-col items-center text-[0.7rem] uppercase tracking-[0.3em] text-light/80"
+              className="flex flex-col items-center text-[0.7rem] uppercase tracking-[0.3em] text-[#777777]"
               initial={{ opacity: 0, translateY: 10 }}
               animate={{ opacity: 1, translateY: 0 }}
               transition={{ delay: 0.2, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
@@ -56,7 +52,7 @@ export default function HomePage() {
                   viewBox="0 0 24 32"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="text-light/80"
+                  className="text-[#777777]"
                 >
                   <path
                     d="M12 4v20m0 0l-6-6m6 6 6-6"
@@ -71,7 +67,7 @@ export default function HomePage() {
           </motion.div>
         </section>
 
-        {/* HOW FUNDING WORKS – content floats directly over the starry canvas */}
+        {/* HOW FUNDING WORKS */}
         <section
           id="how-funding-works"
           data-section-id="how-funding-works"
@@ -80,7 +76,7 @@ export default function HomePage() {
           <HowFundingWorksBlock />
         </section>
 
-        {/* FLEXIBLE FUNDING HERO – standalone interactive card */}
+        {/* FLEXIBLE FUNDING HERO */}
         <section
           id="funding"
           data-section-id="funding"
@@ -89,7 +85,7 @@ export default function HomePage() {
           <FlexibleFundingHero />
         </section>
 
-        {/* HOME PAYMENTS SECTION – copy and floating cards */}
+        {/* HOME PAYMENTS SECTION */}
         <section
           id="payments"
           data-section-id="payments"
@@ -98,7 +94,7 @@ export default function HomePage() {
           <PaymentsSection />
         </section>
 
-        {/* BOTTOM GET STARTED – containerless copy and CTA */}
+        {/* BOTTOM GET STARTED */}
         <section id="get-started" data-section-id="get-started">
           <GetStartedSection />
         </section>

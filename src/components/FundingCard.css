@@ -1,28 +1,27 @@
 .funding-card {
   width: min(100%, 360px);
   margin: 0 auto;
-  padding: 1.35rem 1.75rem 1.75rem;
+  padding: 1.5rem 1.75rem 1.75rem;
   font-family: var(--font-lora);
   display: flex;
   flex-direction: column;
   gap: 1.1rem;
-  background: #e7ded0;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 32px;
-  box-shadow: 0 24px 60px rgba(20, 20, 19, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    inset 0 -1px 0 rgba(20, 20, 19, 0.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  box-shadow: none;
 }
 
 .funding-title {
   font-family: var(--font-poppins);
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 600;
-  color: #141413;
+  color: #161616;
 }
 
 .funding-subtitle {
-  font-size: 0.95rem;
-  color: #524f49;
+  font-size: 0.9rem;
+  color: #555555;
 }
 
 .slider {
@@ -38,23 +37,21 @@
 
 .slider label {
   font-weight: 500;
-  font-size: 0.92rem;
-  color: #141413;
+  font-size: 0.9rem;
+  color: #161616;
 }
 
 .slider-value {
   font-family: var(--font-poppins);
-  font-size: 0.95rem;
-  color: #141413;
+  font-size: 0.9rem;
+  color: #161616;
 }
 
 .slider-helper {
   margin-top: 0.15rem;
-  font-size: 0.8rem;
-  color: #524f49;
+  font-size: 0.78rem;
+  color: #555555;
 }
-
-/* Track wrapper & custom bars (no gradients) */
 
 .slider-track-wrapper {
   position: relative;
@@ -69,19 +66,19 @@
   left: 0;
   top: 50%;
   transform: translateY(-50%);
-  height: 6px;
+  height: 4px;
   border-radius: 9999px;
 }
 
 .slider-track-base {
   width: 100%;
+  background-color: #e0e0dd;
 }
 
 .slider-track-fill {
   width: 0%;
+  background-color: #161616;
 }
-
-/* Native range overlaid on top, but transparent */
 
 .slider-track-wrapper input[type="range"] {
   position: absolute;
@@ -95,43 +92,37 @@
   appearance: none;
 }
 
-/* hide default track visuals; we use our own bars */
-
 .slider-track-wrapper input[type="range"]::-webkit-slider-runnable-track {
-  height: 6px;
+  height: 4px;
   border-radius: 9999px;
   background: transparent;
 }
 
 .slider-track-wrapper input[type="range"]::-moz-range-track {
-  height: 6px;
+  height: 4px;
   border-radius: 9999px;
   background: transparent;
 }
 
-/* Orange thumb (drag circle) */
-
 .slider-track-wrapper input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  height: 18px;
-  width: 18px;
+  height: 16px;
+  width: 16px;
   border-radius: 9999px;
-  background-color: #d97757; /* brand orange */
+  background-color: #ff4306;
   cursor: pointer;
-  margin-top: -6px; /* centers thumb over 6px track */
+  margin-top: -6px;
   border: none;
 }
 
 .slider-track-wrapper input[type="range"]::-moz-range-thumb {
-  height: 18px;
-  width: 18px;
+  height: 16px;
+  width: 16px;
   border-radius: 9999px;
-  background-color: #d97757;
+  background-color: #ff4306;
   cursor: pointer;
   border: none;
 }
-
-/* Metrics + disclaimer */
 
 .metrics {
   display: flex;
@@ -140,20 +131,19 @@
 }
 
 .metrics .label {
-  font-size: 0.9rem;
-  color: #7b7569;
+  font-size: 0.85rem;
+  color: #777777;
 }
 
 .metrics .value {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 600;
   font-family: var(--font-poppins);
-  color: #141413;
+  color: #161616;
 }
 
 .disclaimer {
   margin-top: 0.25rem;
-  color: #7b7569;
-  font-size: 0.75rem;
+  color: #777777;
+  font-size: 0.7rem;
 }
-

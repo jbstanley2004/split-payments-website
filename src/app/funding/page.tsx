@@ -1,33 +1,29 @@
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
-import TwinklingStarsBackground from "@/components/TwinklingStarsBackground";
 
 export default function FundingPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-text bg-[#FAF9F5]">
-      {/* Twinkling stars background replaces hero_image_formatted.png here */}
-      <TwinklingStarsBackground />
-
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#F5F5F3] font-lora text-[#161616]">
       <div className="relative z-10">
         <DynamicIslandNav />
 
-        {/* HOW FUNDING WORKS – mirrors homepage, no enclosing card */}
+        {/* HOW FUNDING WORKS */}
         <section
           id="how-funding-works"
-          className="px-6 md:px-10 lg:px-16 pt-24 sm:pt-28 md:pt-32"
+          className="px-6 md:px-10 lg:px-16 pt-20 sm:pt-24 md:pt-28"
         >
           <HowFundingWorksBlock />
         </section>
 
-        {/* Standalone Funding card mirrors the home version and sits last */}
+        {/* Interactive funding settings card */}
         <section
-          id="funding"
-          className="px-6 md:px-10 lg:px-16 pb-16 pt-2 sm:pb-20 md:pb-24"
+          id="funding-settings"
+          className="px-6 md:px-10 lg:px-16 pb-16 pt-4 sm:pb-20 md:pb-24 flex justify-center"
         >
           <FlexibleFundingHero />
         </section>
 
-        <footer className="px-6 md:px-10 lg:px-16 pb-10 text-xs text-[#7B7569] flex flex-col md:flex-row items-center justify-between gap-4">
+        <footer className="px-6 md:px-10 lg:px-16 pb-10 text-xs text-[#666] flex flex-col md:flex-row items-center justify-between gap-4 border-t border-black/5">
           <div>© 2025 Split Payments, Inc. — Empowering merchants through smarter payments and funding.</div>
           <div className="flex items-center gap-6">
             <a href="/policy">privacy</a>
