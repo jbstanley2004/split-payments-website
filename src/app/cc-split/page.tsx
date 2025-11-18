@@ -2,6 +2,7 @@ import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
 import type { LucideIcon } from "lucide-react";
 import { BarChart3, Building2, CheckCircle2, Clock3, CreditCard, LineChart, PieChart, ShieldCheck, Users2 } from "lucide-react";
+import Image from "next/image";
 
 type IconCard = {
   title: string;
@@ -115,8 +116,8 @@ const METRICS = [
 
 export default function CCSplitPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
-      <div className="relative z-10">
+    <main className="min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
+      <div className="relative">
         <DynamicIslandNav />
 
         {/* HERO */}
