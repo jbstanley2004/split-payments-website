@@ -7,7 +7,7 @@
   flex-direction: column;
   gap: 1.1rem;
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border-subtle);
   border-radius: 16px;
   box-shadow: none;
 }
@@ -16,12 +16,12 @@
   font-family: var(--font-poppins);
   font-size: 1.6rem;
   font-weight: 600;
-  color: #161616;
+  color: var(--text-main);
 }
 
 .funding-subtitle {
   font-size: 0.9rem;
-  color: #555555;
+  color: var(--text-subtle);
 }
 
 .slider {
@@ -38,19 +38,19 @@
 .slider label {
   font-weight: 500;
   font-size: 0.9rem;
-  color: #161616;
+  color: var(--text-main);
 }
 
 .slider-value {
   font-family: var(--font-poppins);
   font-size: 0.9rem;
-  color: #161616;
+  color: var(--text-main);
 }
 
 .slider-helper {
   margin-top: 0.15rem;
   font-size: 0.78rem;
-  color: #555555;
+  color: var(--text-subtle);
 }
 
 .slider-track-wrapper {
@@ -72,12 +72,12 @@
 
 .slider-track-base {
   width: 100%;
-  background-color: #e0e0dd;
+  background-color: #D0CCC5;
 }
 
 .slider-track-fill {
   width: 0%;
-  background-color: #161616;
+  background-color: var(--blue-deep);
 }
 
 .slider-track-wrapper input[type="range"] {
@@ -109,7 +109,7 @@
   height: 16px;
   width: 16px;
   border-radius: 9999px;
-  background-color: #ff4306;
+  background-color: var(--accent-orange);
   cursor: pointer;
   margin-top: -6px;
   border: none;
@@ -119,7 +119,7 @@
   height: 16px;
   width: 16px;
   border-radius: 9999px;
-  background-color: #ff4306;
+  background-color: var(--accent-orange);
   cursor: pointer;
   border: none;
 }
@@ -132,18 +132,18 @@
 
 .metrics .label {
   font-size: 0.85rem;
-  color: #777777;
+  color: var(--text-subtle);
 }
 
 .metrics .value {
   font-size: 1.3rem;
   font-weight: 600;
   font-family: var(--font-poppins);
-  color: #161616;
+  color: var(--text-main);
 }
 
 .disclaimer {
   margin-top: 0.25rem;
-  color: #777777;
+  color: var(--text-subtle);
   font-size: 0.7rem;
 }

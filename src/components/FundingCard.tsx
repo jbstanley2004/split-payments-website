@@ -11,10 +11,6 @@ type FundingCardProps = {
   setSales: (value: number) => void;
 };
 
-const TRACK_DARK = "#3b3a36";
-// Use the same green progress color for all sliders
-const PROGRESS_COLOR = "#BCD1CA"; // brand greenish
-
 function percentage(value: number, min: number, max: number): number {
   const clamped = Math.min(Math.max(value, min), max);
   return ((clamped - min) / (max - min)) * 100;
@@ -57,13 +53,11 @@ export default function FundingCard({
         <div className="slider-track-wrapper">
           <div
             className="slider-track-base"
-            style={{ backgroundColor: TRACK_DARK }}
           />
           <div
             className="slider-track-fill"
             style={{
               width: `${advancePercent}%`,
-              backgroundColor: PROGRESS_COLOR,
             }}
           />
           <input
@@ -88,13 +82,11 @@ export default function FundingCard({
         <div className="slider-track-wrapper">
           <div
             className="slider-track-base"
-            style={{ backgroundColor: TRACK_DARK }}
           />
           <div
             className="slider-track-fill"
             style={{
               width: `${holdbackPercent}%`,
-              backgroundColor: PROGRESS_COLOR,
             }}
           />
           <input
@@ -121,13 +113,11 @@ export default function FundingCard({
         <div className="slider-track-wrapper">
           <div
             className="slider-track-base"
-            style={{ backgroundColor: TRACK_DARK }}
           />
           <div
             className="slider-track-fill"
             style={{
               width: `${salesPercent}%`,
-              backgroundColor: PROGRESS_COLOR,
             }}
           />
           <input

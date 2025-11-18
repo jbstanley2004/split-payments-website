@@ -3,7 +3,7 @@ import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 
 export default function FundingPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#F5F5F3] font-lora text-[#161616]">
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
       <div className="relative z-10">
         <DynamicIslandNav />
 

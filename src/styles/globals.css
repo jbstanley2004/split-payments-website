@@ -5,6 +5,33 @@
 @tailwind utilities;
 
 :root {
+  /* Backgrounds */
+  --bg-page: #F4F2EE;
+  --bg-section-cream: #E8DDD0;
+  --bg-section-stone: #C5B092;
+
+  /* Brand surfaces */
+  --blue-soft: #8196A9;
+  --blue-deep: #3F6587;
+  --sage: #7E987C;
+  --rose: #B099A2;
+
+  /* Accent (sparingly) */
+  --accent-orange: #D97757;
+
+  /* Text */
+  --text-main: #151515;
+  --text-subtle: #5B534B;
+  --text-on-dark: #FFFFFF;
+
+  /* Border & shadow */
+  --border-subtle: #D5C8B9;
+  --shadow-soft: 0 18px 40px rgba(15, 7, 0, 0.10);
+
+  /* Radius */
+  --radius-pill: 999px;
+  --radius-card: 24px;
+
   --sh-class: #ffffff;
   --sh-identifier: #ffffff;
   --sh-sign: #8996a3;
@@ -43,8 +70,8 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   min-height: 100svh;
-  background-color: transparent;
-  color: #141413;
+  background-color: var(--bg-page);
+  color: var(--text-main);
   font-family: var(--font-lora, "Lora"), var(--font-poppins, "Poppins"), "Inter Tight", system-ui, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -53,6 +80,134 @@ body {
   padding-bottom: var(--safe-area-bottom);
   padding-left: var(--safe-area-left);
   padding-right: var(--safe-area-right);
+}
+
+@layer components {
+  .btn-primary {
+    background: var(--blue-deep);
+    color: var(--text-on-dark);
+    border-radius: var(--radius-pill);
+    padding: 10px 22px;
+    font-weight: 600;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .btn-primary .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent-orange);
+  }
+
+  .btn-primary:hover { background: #567EA3; }
+  .btn-primary:active { background: var(--blue-deep); }
+  .btn-primary:focus {
+    outline: 2px solid #2B4963;
+    outline-offset: 2px;
+  }
+
+  .chip {
+    border-radius: var(--radius-pill);
+    padding: 4px 12px 4px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+
+  .chip .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--accent-orange);
+  }
+
+  .chip--neutral { background: #F8F3EC; color: var(--text-subtle); }
+  .chip--blue { background: var(--blue-soft); color: var(--text-on-dark); }
+  .chip--sage { background: var(--sage); color: var(--text-on-dark); }
+  .chip--rose { background: var(--rose); color: var(--text-on-dark); }
+
+  .card {
+    border-radius: var(--radius-card);
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .card__icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--accent-orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    margin-bottom: 16px;
+  }
+
+  .card--neutral { background: var(--bg-section-stone); color: var(--text-main); }
+  .card--blue { background: var(--blue-soft); color: var(--text-on-dark); }
+  .card--sage { background: var(--sage); color: var(--text-on-dark); }
+  .card--rose { background: var(--rose); color: var(--text-on-dark); }
+
+  .tile {
+    background: #F8F3EC;
+    border-radius: 18px;
+    padding: 16px;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .tile__value {
+    font-weight: 600;
+    color: var(--text-main);
+  }
+
+  .tile__label {
+    font-size: 14px;
+    color: var(--text-subtle);
+  }
+
+  .faq-row {
+    background: var(--bg-section-cream);
+    border-radius: var(--radius-pill);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--border-subtle);
+  }
+
+  .faq-row .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent-orange);
+  }
+
+  .nav-pill {
+    background: #FFFFFF;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-soft);
+    padding: 6px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--accent-orange);
+  }
+
+  .nav-pill--active {
+    outline: 1px solid var(--blue-soft);
+  }
 }
 
 /* Funding page cards: flatten heavy shadows so they sit flat against the canvas */
