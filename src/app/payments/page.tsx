@@ -73,7 +73,7 @@ export default function PaymentsPage() {
                 let chipClass = "chip chip--neutral";
                 if (item === "ACH") chipClass = "chip chip--blue";
                 if (item === "Terminals") chipClass = "chip chip--sage";
-                if (item === "ONLINE") chipClass = "chip chip--rose";
+                if (item === "Online") chipClass = "chip chip--rose";
 
                 return (
                   <span key={item} className={chipClass}>
