@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { cn } from "@/lib/stub";
 
@@ -19,22 +20,19 @@ const NAV_ITEMS = [
   { label: "Partnerships", href: "/partnerships" },
 ] as const;
 
-// Expanded pills: pure white with black text and orange accent dot
-const CHIP_COLORS: Record<(typeof NAV_ITEMS)[number]["label"], string> = {
-  Home: "#FFFFFF",
-  Payments: "#FFFFFF",
-  Funding: "#FFFFFF",
-  "CC Split": "#FFFFFF",
-  Partnerships: "#FFFFFF",
-};
-
 const SAFE_AREA_TOP_OFFSET = "calc(env(safe-area-inset-top, 0px) + 1.25rem)";
 
 const PILL_BASE_CLASSES =
-  "inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] text-[11px] font-poppins font-medium uppercase tracking-[0.16em] text-[#161616] shadow-[0_18px_40px_rgba(20,20,19,0.14)] whitespace-nowrap";
+  "nav-pill";
 
 export function DynamicIslandNav({ className, logoPriority = false }: DynamicIslandNavProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const pathname = usePathname();
+  const [activePath, setActivePath] = useState(pathname);
+
+  useEffect(() => {
+    setActivePath(pathname);
+  }, [pathname]);
 
   return (
     <header
@@ -67,14 +65,10 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
             <Link
               key={item.label}
               href={item.href}
-              className={cn(PILL_BASE_CLASSES, "px-4 py-2.5")}
-              style={{ backgroundColor: CHIP_COLORS[item.label] }}
+              className={cn(PILL_BASE_CLASSES, { "nav-pill--active": activePath === item.href })}
             >
-              <span
-                aria-hidden
-                className="inline-block h-1.5 w-1.5 rounded-full bg-[#FF4306]"
-              />
-              {item.label}
+              <span className="dot" />
+              <span>{item.label}</span>
             </Link>
           ))}
         </nav>
@@ -82,12 +76,12 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
         {/* Mobile menu toggle on the right */}
         <button
           type="button"
-          className="md:hidden inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] bg-white px-3 py-1.5 text-[11px] font-poppins font-medium uppercase tracking-[0.16em] text-[#161616] shadow-[0_12px_28px_rgba(20,20,19,0.14)]"
+          className="md:hidden inline-flex items-center gap-2 rounded-full border border-border-subtle bg-white px-3 py-1.5 text-[11px] font-poppins font-medium uppercase tracking-[0.16em] text-main shadow-soft"
           onClick={() => setIsMobileOpen((open) => !open)}
           aria-expanded={isMobileOpen}
           aria-label={isMobileOpen ? "Hide navigation menu" : "Open navigation menu"}
         >
-          <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#FF4306]" />
+          <span className="dot" />
           Menu
         </button>
       </div>
@@ -99,15 +93,11 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
             <Link
               key={item.label}
               href={item.href}
-              className={cn(PILL_BASE_CLASSES, "px-3.5 py-2 shadow-[0_14px_32px_rgba(20,20,19,0.14)]")}
-              style={{ backgroundColor: CHIP_COLORS[item.label] }}
+              className={cn(PILL_BASE_CLASSES, { "nav-pill--active": activePath === item.href })}
               onClick={() => setIsMobileOpen(false)}
             >
-              <span
-                aria-hidden
-                className="inline-block h-1.5 w-1.5 rounded-full bg-[#FF4306]"
-              />
-              {item.label}
+              <span className="dot" />
+              <span>{item.label}</span>
             </Link>
           ))}
         </nav>
