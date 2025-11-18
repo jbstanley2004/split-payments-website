@@ -14,23 +14,23 @@
   --sh-jsxliterals: #ffffff;
   --sh-property: #a7a7a7;
   --sh-entity: #a7a7a7;
-  /* Anthropic Brand Colors */
-  --bg: 250 249 245;
-  --text: 20 20 19;
-  --line: 232 230 220;
-  --theme-background: #F9F7F3;
-  --theme-surface: #ffffff;
-  --theme-text-primary: #0A0A0A;
+  /* Split brand tokens */
+  --bg: 216 217 212; /* #D8D9D4 */
+  --text: 22 22 22; /* #161616 */
+  --line: 216 217 212; /* reuse light gray for hairlines */
+  --theme-background: #D8D9D4;
+  --theme-surface: #F5F5F3;
+  --theme-text-primary: #161616;
   --theme-text-secondary: #2C2C2C;
-  --theme-border: #e8e6dc;
-  --theme-accent: #141413;
-  --theme-accent-hover: #2C2C2C;
-  --theme-accent-blue: #6a9bcc;
-  --theme-accent-green: #788c5d;
-  --theme-accent-gray: #b0aea5;
-  color-scheme: light dark;
-  background-color: transparent;
-  color: #0A0A0A;
+  --theme-border: #D8D9D4;
+  --theme-accent: #FF4306;
+  --theme-accent-hover: #E23A05;
+  --theme-accent-blue: #6A9BCC;
+  --theme-accent-green: #788C5D;
+  --theme-accent-gray: #B0AEA5;
+  color-scheme: light;
+  background-color: var(--theme-background);
+  color: var(--theme-text-primary);
   font-family: "Inter Tight", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   --safe-area-top: env(safe-area-inset-top, 0px);
@@ -43,8 +43,8 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   min-height: 100svh;
-  background-color: transparent;
-  color: #141413;
+  background-color: var(--theme-background);
+  color: var(--theme-text-primary);
   font-family: var(--font-lora, "Lora"), var(--font-poppins, "Poppins"), "Inter Tight", system-ui, sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -55,7 +55,7 @@ body {
   padding-right: var(--safe-area-right);
 }
 
-/* Funding page cards: flatten heavy shadows so they sit flat against the canvas */
+/* Funding + card beams: remove old heavy drop shadows so layouts feel crisp */
 [class*="shadow-[0_18px_45px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"],
 [class*="shadow-[0_14px_30px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"],
 [class*="shadow-[0_14px_32px_rgba(20,20,19,0.10)]"] {
