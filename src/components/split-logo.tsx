@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import splitLogoLight from "public/light_logo.png";
 
 type SplitLogoProps = {
   imageClassName?: string;
@@ -13,7 +12,9 @@ export function SplitLogo({ imageClassName = "h-12 w-auto", priority }: SplitLog
     <span className="inline-flex items-center">
       <Image
         alt="Split logo"
-        src={splitLogoLight}
+        src="/new_logo.svg"
+        width={120}
+        height={30}
         className={`bg-transparent ${imageClassName}`}
         priority={priority}
       />

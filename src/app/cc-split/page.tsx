@@ -1,8 +1,12 @@
+"use client";
+
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
 import type { LucideIcon } from "lucide-react";
 import { BarChart3, Building2, CheckCircle2, Clock3, CreditCard, LineChart, PieChart, ShieldCheck, Users2 } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 type IconCard = {
   title: string;
@@ -120,41 +124,36 @@ export default function CCSplitPage() {
       <div className="relative">
         <DynamicIslandNav />
 
-        {/* HERO */}
-        <section className="px-6 md:px-10 lg:px-16 pt-24 sm:pt-28 md:pt-32 pb-10 md:pb-12">
-          <div className="mx-auto max-w-4xl text-left">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-subtle">
-              CC Split
-            </p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-semibold tracking-tight text-main">
-              Split large card payments without changing how customers pay.
-            </h1>
-            <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-subtle max-w-3xl">
-              Offer flexible schedules on your terms while customers keep using the cards, workflows, and approvals they
-              already trust.
-            </p>
-          </div>
-
-          {/* Pills – strictly follow beige / blue / green / purple rules, using dark beige pill color */}
-          <div className="mt-8 flex justify-start">
-            <div className="flex flex-wrap gap-2">
-              <div className="chip chip--neutral">
-                <span className="dot" />
-                <span>CARDS</span>
+        {/* HERO - matching home page style */}
+        <section className="relative min-h-screen flex items-center justify-center px-6 md:px-10 lg:px-16 pt-32 pb-24">
+          <div className="max-w-6xl w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center max-w-4xl mx-auto"
+            >
+              <p className="text-sm font-medium text-[#161616] uppercase tracking-wider mb-4">
+                CC Split
+              </p>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-[#161616] mb-6">
+                Split large card payments
+                <br />
+                without changing how customers pay.
+              </h1>
+              <p className="text-xl md:text-2xl font-lora text-[#161616] mb-10 max-w-2xl mx-auto">
+                Offer flexible schedules on your terms while customers keep using the cards, workflows, and approvals they
+                already trust.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link href="/get-started">
+                  <button className="btn-primary">
+                    <span className="dot" />
+                    <span>Get started</span>
+                  </button>
+                </Link>
               </div>
-              <div className="chip chip--sage">
-                <span className="dot" />
-                <span>WORKFLOWS</span>
-              </div>
-              <div className="chip chip--rose">
-                <span className="dot" />
-                <span>APPROVALS</span>
-              </div>
-              <div className="chip chip--blue">
-                <span className="dot" />
-                <span>FLEXIBLE BILLING</span>
-              </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
@@ -182,7 +181,7 @@ export default function CCSplitPage() {
                   Let customers split bigger card payments while you keep clean, predictable cash flow on your side.
                 </p>
               </article>
-              <article className="card card--blue flex flex-col p-6 text-left">
+              <article className="card card--neutral flex flex-col p-6 text-left">
                 <div className="card__icon">
                   <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
                 </div>
@@ -193,7 +192,7 @@ export default function CCSplitPage() {
                   Turn multi-step signoffs into a single, card-based flow that feels familiar to every buyer.
                 </p>
               </article>
-              <article className="card card--sage flex flex-col p-6 text-left">
+              <article className="card card--neutral flex flex-col p-6 text-left">
                 <div className="card__icon">
                   <BarChart3 className="h-4 w-4" aria-hidden="true" />
                 </div>
@@ -204,7 +203,7 @@ export default function CCSplitPage() {
                   Structure splits around milestones or usage so customers only pay as they see value.
                 </p>
               </article>
-              <article className="card card--rose flex flex-col p-6 text-left">
+              <article className="card card--neutral flex flex-col p-6 text-left">
                 <div className="card__icon">
                   <ShieldCheck className="h-4 w-4" aria-hidden="true" />
                 </div>
@@ -253,8 +252,8 @@ export default function CCSplitPage() {
             {/* CC Split overview card – now built directly off the FundingCard visual language */}
             <div className="mt-4 lg:mt-0">
               <div
-                className="rounded-[40px] border border-border-subtle p-7 shadow-soft"
-                style={{ backgroundColor: "var(--bg-section-cream)" }}
+                className="rounded-[40px] border border-[#161616] p-7 shadow-soft"
+                style={{ backgroundColor: "var(--brand-gray)" }}
               >
                 <div className="mb-5 flex items-center justify-between text-xs font-semibold uppercase tracking-[0.16em] text-subtle">
                   <span>CC Split overview</span>
@@ -262,19 +261,19 @@ export default function CCSplitPage() {
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <div className="rounded-3xl bg-white p-4 shadow-soft border border-border-subtle">
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-subtle">
+                  <div className="rounded-3xl bg-white p-4 shadow-soft border border-[#161616]">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#161616]">
                       Available funding
                     </p>
-                    <p className="mt-2 text-3xl font-poppins font-semibold text-main">$85,000</p>
-                    <p className="mt-2 text-sm font-lora text-subtle">Dynamic, tied to 90-day card volume.</p>
+                    <p className="mt-2 text-3xl font-poppins font-semibold text-[#161616]">$85,000</p>
+                    <p className="mt-2 text-sm font-lora text-[#161616]">Dynamic, tied to 90-day card volume.</p>
                   </div>
-                  <div className="rounded-3xl bg-white p-4 shadow-soft border border-border-subtle">
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-subtle">
+                  <div className="rounded-3xl bg-white p-4 shadow-soft border border-[#161616]">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#161616]">
                       Current split rate
                     </p>
-                    <p className="mt-2 text-3xl font-poppins font-semibold text-main">9.5%</p>
-                    <p className="mt-2 text-sm font-lora text-subtle">Adjusts automatically with performance.</p>
+                    <p className="mt-2 text-3xl font-poppins font-semibold text-[#161616]">9.5%</p>
+                    <p className="mt-2 text-sm font-lora text-[#161616]">Adjusts automatically with performance.</p>
                   </div>
                 </div>
 
@@ -282,18 +281,18 @@ export default function CCSplitPage() {
                   {["Breakfast rush", "Lunch", "Dinner"].map((period, idx) => (
                     <div
                       key={period}
-                      className="rounded-3xl bg-white px-4 py-3 shadow-soft border border-border-subtle"
+                      className="rounded-3xl bg-white px-4 py-3 shadow-soft border border-[#161616]"
                     >
-                      <div className="flex items-center justify-between text-xs font-lora text-subtle">
+                      <div className="flex items-center justify-between text-xs font-lora text-[#161616]">
                         <span>{period}</span>
                         <span>{idx === 1 ? "Split remit 9.3%" : "Split remit 9.5%"}</span>
                       </div>
-                      <div className="mt-2 h-[6px] rounded-full bg-border-subtle">
+                      <div className="mt-2 h-[6px] rounded-full bg-[#D8D9D4]">
                         <div
                           className="h-full rounded-full"
                           style={{
                             width: idx === 0 ? "62%" : idx === 1 ? "86%" : "74%",
-                            backgroundColor: "var(--accent-orange)",
+                            backgroundColor: "var(--brand-orange)",
                           }}
                         />
                       </div>
@@ -328,7 +327,7 @@ export default function CCSplitPage() {
                   Merchants keep swiping the way they always have — CC Split just changes how the capital flows.
                 </p>
               </article>
-              <article className="card card--blue flex flex-col p-6 text-left">
+              <article className="card card--neutral flex flex-col p-6 text-left">
                 <div className="card__icon">
                   <BarChart3 className="h-4 w-4" aria-hidden="true" />
                 </div>
@@ -339,7 +338,7 @@ export default function CCSplitPage() {
                   Dynamic remits map to volume curves so forecasts track real performance instead of guesses.
                 </p>
               </article>
-              <article className="card card--sage flex flex-col p-6 text-left">
+              <article className="card card--neutral flex flex-col p-6 text-left">
                 <div className="card__icon">
                   <CheckCircle2 className="h-4 w-4" aria-hidden="true" />
                 </div>
@@ -350,7 +349,7 @@ export default function CCSplitPage() {
                   Split large renewals across the term and remove pricing as a blocker for high-intent customers.
                 </p>
               </article>
-              <article className="card card--rose flex flex-col p-6 text-left">
+              <article className="card card--neutral flex flex-col p-6 text-left">
                 <div className="card__icon">
                   <ShieldCheck className="h-4 w-4" aria-hidden="true" />
                 </div>
@@ -368,8 +367,8 @@ export default function CCSplitPage() {
         {/* CTA – single card, aligned with Payments CTA and without Talk to sales link */}
         <section className="px-6 md:px-10 lg:px-16 pb-16 pt-10 md:pb-24">
           <div
-            className="mx-auto max-w-4xl rounded-[40px] border border-border-subtle p-8 shadow-soft"
-            style={{ backgroundColor: "var(--bg-section-stone)" }}
+            className="mx-auto max-w-4xl rounded-[40px] border border-[#161616] p-8 shadow-soft"
+            style={{ backgroundColor: "var(--brand-gray)" }}
           >
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
               <div className="space-y-3">

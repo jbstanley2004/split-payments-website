@@ -1,0 +1,1535 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2024-01-01",
+  "images": [
+    {
+      "path": "/amex.png",
+      "category": "payment-card-logo",
+      "labels": ["American Express", "payment card", "credit card brand"],
+      "tags": ["amex", "payment", "card", "logo", "brand", "credit-card", "financial"],
+      "description": "American Express payment card logo",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/Amex2.png",
+      "category": "payment-card-logo",
+      "labels": ["American Express", "payment card", "credit card brand", "variant 2"],
+      "tags": ["amex", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "American Express payment card logo variant",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/amex3.png",
+      "category": "payment-card-logo",
+      "labels": ["American Express", "payment card", "credit card brand", "variant 3"],
+      "tags": ["amex", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "American Express payment card logo variant",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/assistant-bg-light.png",
+      "category": "ui-screenshot",
+      "labels": ["assistant", "background", "light mode", "UI interface"],
+      "tags": ["assistant", "background", "light-mode", "ui", "interface", "screenshot", "product"],
+      "description": "Assistant feature background image in light mode",
+      "context": "Product feature showcase, light theme"
+    },
+    {
+      "path": "/assistant-bg.png",
+      "category": "ui-screenshot",
+      "labels": ["assistant", "background", "dark mode", "UI interface"],
+      "tags": ["assistant", "background", "dark-mode", "ui", "interface", "screenshot", "product"],
+      "description": "Assistant feature background image in dark mode",
+      "context": "Product feature showcase, dark theme"
+    },
+    {
+      "path": "/breakdown-light.png",
+      "category": "ui-screenshot",
+      "labels": ["breakdown", "financial data", "light mode", "dashboard"],
+      "tags": ["breakdown", "financial", "light-mode", "dashboard", "data-visualization", "ui"],
+      "description": "Financial breakdown view in light mode",
+      "context": "Product dashboard, financial analysis"
+    },
+    {
+      "path": "/breakdown.png",
+      "category": "ui-screenshot",
+      "labels": ["breakdown", "financial data", "dark mode", "dashboard"],
+      "tags": ["breakdown", "financial", "dark-mode", "dashboard", "data-visualization", "ui"],
+      "description": "Financial breakdown view in dark mode",
+      "context": "Product dashboard, financial analysis"
+    },
+    {
+      "path": "/computer-light.png",
+      "category": "ui-screenshot",
+      "labels": ["computer", "desktop interface", "light mode", "application"],
+      "tags": ["computer", "desktop", "light-mode", "application", "ui", "screenshot"],
+      "description": "Computer desktop application interface in light mode",
+      "context": "Product showcase, desktop app"
+    },
+    {
+      "path": "/computer.png",
+      "category": "ui-screenshot",
+      "labels": ["computer", "desktop interface", "dark mode", "application"],
+      "tags": ["computer", "desktop", "dark-mode", "application", "ui", "screenshot"],
+      "description": "Computer desktop application interface in dark mode",
+      "context": "Product showcase, desktop app"
+    },
+    {
+      "path": "/dock-dark.png",
+      "category": "ui-screenshot",
+      "labels": ["dock", "navigation", "dark mode", "macOS style"],
+      "tags": ["dock", "navigation", "dark-mode", "macos", "ui", "interface"],
+      "description": "Application dock interface in dark mode",
+      "context": "Product interface, navigation"
+    },
+    {
+      "path": "/dock.png",
+      "category": "ui-screenshot",
+      "labels": ["dock", "navigation", "light mode", "macOS style"],
+      "tags": ["dock", "navigation", "light-mode", "macos", "ui", "interface"],
+      "description": "Application dock interface in light mode",
+      "context": "Product interface, navigation"
+    },
+    {
+      "path": "/engine-sdk.png",
+      "category": "ui-screenshot",
+      "labels": ["engine SDK", "developer tools", "code", "API"],
+      "tags": ["engine", "sdk", "developer", "api", "code", "technical", "ui"],
+      "description": "Engine SDK interface showing developer tools and code",
+      "context": "Developer documentation, SDK showcase"
+    },
+    {
+      "path": "/engine-ui-light.png",
+      "category": "ui-screenshot",
+      "labels": ["engine UI", "interface", "light mode", "developer tools"],
+      "tags": ["engine", "ui", "light-mode", "developer", "interface", "tools"],
+      "description": "Engine UI interface in light mode",
+      "context": "Product feature, developer tools"
+    },
+    {
+      "path": "/engine-ui.png",
+      "category": "ui-screenshot",
+      "labels": ["engine UI", "interface", "dark mode", "developer tools"],
+      "tags": ["engine", "ui", "dark-mode", "developer", "interface", "tools"],
+      "description": "Engine UI interface in dark mode",
+      "context": "Product feature, developer tools"
+    },
+    {
+      "path": "/exporting.png",
+      "category": "ui-screenshot",
+      "labels": ["export", "data export", "file download", "feature"],
+      "tags": ["export", "data", "download", "file", "feature", "ui"],
+      "description": "Data export feature interface",
+      "context": "Product feature showcase"
+    },
+    {
+      "path": "/favicon.ico",
+      "category": "icon",
+      "labels": ["favicon", "site icon", "browser icon"],
+      "tags": ["favicon", "icon", "brand", "site-icon"],
+      "description": "Website favicon",
+      "context": "Browser tab icon"
+    },
+    {
+      "path": "/favicon.png",
+      "category": "icon",
+      "labels": ["favicon", "site icon", "PNG format"],
+      "tags": ["favicon", "icon", "brand", "site-icon", "png"],
+      "description": "Website favicon in PNG format",
+      "context": "Browser tab icon"
+    },
+    {
+      "path": "/favicon.svg",
+      "category": "icon",
+      "labels": ["favicon", "site icon", "SVG format"],
+      "tags": ["favicon", "icon", "brand", "site-icon", "svg"],
+      "description": "Website favicon in SVG format",
+      "context": "Browser tab icon"
+    },
+    {
+      "path": "/founders.png",
+      "category": "photo",
+      "labels": ["founders", "team photo", "people", "leadership"],
+      "tags": ["founders", "team", "people", "leadership", "photo", "about"],
+      "description": "Photo of company founders",
+      "context": "About page, team section"
+    },
+    {
+      "path": "/graphic3.png",
+      "category": "illustration",
+      "labels": ["graphic", "illustration", "visual element", "design"],
+      "tags": ["graphic", "illustration", "visual", "design", "decoration"],
+      "description": "Decorative graphic illustration",
+      "context": "Visual design element"
+    },
+    {
+      "path": "/graphic4.png",
+      "category": "illustration",
+      "labels": ["graphic", "illustration", "visual element", "design"],
+      "tags": ["graphic", "illustration", "visual", "design", "decoration"],
+      "description": "Decorative graphic illustration",
+      "context": "Visual design element"
+    },
+    {
+      "path": "/hero-light.png",
+      "category": "ui-screenshot",
+      "labels": ["hero", "dashboard", "main interface", "light mode"],
+      "tags": ["hero", "dashboard", "light-mode", "main", "interface", "screenshot"],
+      "description": "Hero dashboard screenshot in light mode",
+      "context": "Homepage hero section, main product showcase"
+    },
+    {
+      "path": "/icon.png",
+      "category": "icon",
+      "labels": ["app icon", "application icon", "brand icon"],
+      "tags": ["icon", "app", "brand", "application"],
+      "description": "Application icon",
+      "context": "App icon, brand identity"
+    },
+    {
+      "path": "/industries-hero.png",
+      "category": "ui-screenshot",
+      "labels": ["industries", "hero section", "industry showcase"],
+      "tags": ["industries", "hero", "showcase", "ui", "screenshot"],
+      "description": "Industries page hero section",
+      "context": "Industries page, hero section"
+    },
+    {
+      "path": "/inbox.png",
+      "category": "ui-screenshot",
+      "labels": ["inbox", "email", "messages", "communication"],
+      "tags": ["inbox", "email", "messages", "communication", "ui", "feature"],
+      "description": "Inbox interface showing messages and communications",
+      "context": "Product feature, inbox functionality"
+    },
+    {
+      "path": "/inbox-actions-light.png",
+      "category": "ui-screenshot",
+      "labels": ["inbox actions", "light mode", "UI controls"],
+      "tags": ["inbox", "actions", "light-mode", "ui", "controls", "feature"],
+      "description": "Inbox actions interface in light mode",
+      "context": "Product feature, inbox actions"
+    },
+    {
+      "path": "/inbox-actions.png",
+      "category": "ui-screenshot",
+      "labels": ["inbox actions", "dark mode", "UI controls"],
+      "tags": ["inbox", "actions", "dark-mode", "ui", "controls", "feature"],
+      "description": "Inbox actions interface in dark mode",
+      "context": "Product feature, inbox actions"
+    },
+    {
+      "path": "/inbox-suggested-light.png",
+      "category": "ui-screenshot",
+      "labels": ["inbox suggested", "light mode", "AI suggestions"],
+      "tags": ["inbox", "suggested", "light-mode", "ai", "suggestions", "feature"],
+      "description": "Inbox with AI suggestions in light mode",
+      "context": "Product feature, AI-powered inbox"
+    },
+    {
+      "path": "/inbox-suggested.png",
+      "category": "ui-screenshot",
+      "labels": ["inbox suggested", "dark mode", "AI suggestions"],
+      "tags": ["inbox", "suggested", "dark-mode", "ai", "suggestions", "feature"],
+      "description": "Inbox with AI suggestions in dark mode",
+      "context": "Product feature, AI-powered inbox"
+    },
+    {
+      "path": "/invoice-comments-light.png",
+      "category": "ui-screenshot",
+      "labels": ["invoice comments", "light mode", "collaboration"],
+      "tags": ["invoice", "comments", "light-mode", "collaboration", "ui", "feature"],
+      "description": "Invoice comments interface in light mode",
+      "context": "Product feature, invoice collaboration"
+    },
+    {
+      "path": "/invoice-comments.png",
+      "category": "ui-screenshot",
+      "labels": ["invoice comments", "dark mode", "collaboration"],
+      "tags": ["invoice", "comments", "dark-mode", "collaboration", "ui", "feature"],
+      "description": "Invoice comments interface in dark mode",
+      "context": "Product feature, invoice collaboration"
+    },
+    {
+      "path": "/invoice-toolbar-light.png",
+      "category": "ui-screenshot",
+      "labels": ["invoice toolbar", "light mode", "tools"],
+      "tags": ["invoice", "toolbar", "light-mode", "tools", "ui", "feature"],
+      "description": "Invoice toolbar interface in light mode",
+      "context": "Product feature, invoice tools"
+    },
+    {
+      "path": "/invoice-toolbar.png",
+      "category": "ui-screenshot",
+      "labels": ["invoice toolbar", "dark mode", "tools"],
+      "tags": ["invoice", "toolbar", "dark-mode", "tools", "ui", "feature"],
+      "description": "Invoice toolbar interface in dark mode",
+      "context": "Product feature, invoice tools"
+    },
+    {
+      "path": "/invoicing-light.png",
+      "category": "ui-screenshot",
+      "labels": ["invoicing", "light mode", "billing"],
+      "tags": ["invoicing", "light-mode", "billing", "ui", "feature"],
+      "description": "Invoicing interface in light mode",
+      "context": "Product feature, invoicing"
+    },
+    {
+      "path": "/invoicing.png",
+      "category": "ui-screenshot",
+      "labels": ["invoicing", "dark mode", "billing"],
+      "tags": ["invoicing", "dark-mode", "billing", "ui", "feature"],
+      "description": "Invoicing interface in dark mode",
+      "context": "Product feature, invoicing"
+    },
+    {
+      "path": "/keyboard-light.png",
+      "category": "ui-screenshot",
+      "labels": ["keyboard", "shortcuts", "light mode", "productivity"],
+      "tags": ["keyboard", "shortcuts", "light-mode", "productivity", "ui", "feature"],
+      "description": "Keyboard shortcuts interface in light mode",
+      "context": "Product feature, keyboard shortcuts"
+    },
+    {
+      "path": "/keyboard.png",
+      "category": "ui-screenshot",
+      "labels": ["keyboard", "shortcuts", "dark mode", "productivity"],
+      "tags": ["keyboard", "shortcuts", "dark-mode", "productivity", "ui", "feature"],
+      "description": "Keyboard shortcuts interface in dark mode",
+      "context": "Product feature, keyboard shortcuts"
+    },
+    {
+      "path": "/mastercard.png",
+      "category": "payment-card-logo",
+      "labels": ["Mastercard", "payment card", "credit card brand"],
+      "tags": ["mastercard", "payment", "card", "logo", "brand", "credit-card", "financial"],
+      "description": "Mastercard payment card logo",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/MasterCard2.png",
+      "category": "payment-card-logo",
+      "labels": ["Mastercard", "payment card", "credit card brand", "variant 2"],
+      "tags": ["mastercard", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "Mastercard payment card logo variant",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/masterCard3.png",
+      "category": "payment-card-logo",
+      "labels": ["Mastercard", "payment card", "credit card brand", "variant 3"],
+      "tags": ["mastercard", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "Mastercard payment card logo variant",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/menu-assistant-light.jpg",
+      "category": "ui-screenshot",
+      "labels": ["menu assistant", "light mode", "navigation"],
+      "tags": ["menu", "assistant", "light-mode", "navigation", "ui", "feature"],
+      "description": "Menu with assistant feature in light mode",
+      "context": "Product navigation, assistant menu"
+    },
+    {
+      "path": "/menu-assistant.jpg",
+      "category": "ui-screenshot",
+      "labels": ["menu assistant", "dark mode", "navigation"],
+      "tags": ["menu", "assistant", "dark-mode", "navigation", "ui", "feature"],
+      "description": "Menu with assistant feature in dark mode",
+      "context": "Product navigation, assistant menu"
+    },
+    {
+      "path": "/menu-engine-light.png",
+      "category": "ui-screenshot",
+      "labels": ["menu engine", "light mode", "navigation"],
+      "tags": ["menu", "engine", "light-mode", "navigation", "ui", "feature"],
+      "description": "Menu with engine feature in light mode",
+      "context": "Product navigation, engine menu"
+    },
+    {
+      "path": "/menu-engine.png",
+      "category": "ui-screenshot",
+      "labels": ["menu engine", "dark mode", "navigation"],
+      "tags": ["menu", "engine", "dark-mode", "navigation", "ui", "feature"],
+      "description": "Menu with engine feature in dark mode",
+      "context": "Product navigation, engine menu"
+    },
+    {
+      "path": "/merchants.png",
+      "category": "ui-screenshot",
+      "labels": ["merchants", "businesses", "partners"],
+      "tags": ["merchants", "businesses", "partners", "ui", "screenshot"],
+      "description": "Merchants or business partners interface",
+      "context": "Partnerships, merchant showcase"
+    },
+    {
+      "path": "/new_logo.png",
+      "category": "logo",
+      "labels": ["logo", "brand", "company logo", "primary"],
+      "tags": ["logo", "brand", "company", "primary", "identity"],
+      "description": "Primary company logo",
+      "context": "Brand identity, header, footer"
+    },
+    {
+      "path": "/new_logo.svg",
+      "category": "logo",
+      "labels": ["logo", "brand", "company logo", "SVG format"],
+      "tags": ["logo", "brand", "company", "svg", "identity", "vector"],
+      "description": "Company logo in SVG format",
+      "context": "Brand identity, scalable logo"
+    },
+    {
+      "path": "/new_logo_no_bg_smooth.png",
+      "category": "logo",
+      "labels": ["logo", "transparent background", "no background"],
+      "tags": ["logo", "transparent", "no-background", "brand", "identity"],
+      "description": "Company logo with transparent background",
+      "context": "Brand identity, overlays"
+    },
+    {
+      "path": "/new_logo_watermark.png",
+      "category": "logo",
+      "labels": ["logo", "watermark", "brand"],
+      "tags": ["logo", "watermark", "brand", "identity"],
+      "description": "Company logo watermark version",
+      "context": "Brand identity, watermark usage"
+    },
+    {
+      "path": "/new_logo_cuttout.svg",
+      "category": "logo",
+      "labels": ["logo", "cutout", "SVG format"],
+      "tags": ["logo", "cutout", "svg", "brand", "identity"],
+      "description": "Company logo cutout version in SVG",
+      "context": "Brand identity, special effects"
+    },
+    {
+      "path": "/overview.png",
+      "category": "ui-screenshot",
+      "labels": ["overview", "dashboard", "summary"],
+      "tags": ["overview", "dashboard", "summary", "ui", "screenshot"],
+      "description": "Overview dashboard interface",
+      "context": "Product dashboard, overview page"
+    },
+    {
+      "path": "/payments-hero.png",
+      "category": "ui-screenshot",
+      "labels": ["payments", "hero section", "payment processing"],
+      "tags": ["payments", "hero", "payment-processing", "ui", "screenshot"],
+      "description": "Payments page hero section",
+      "context": "Payments page, hero section"
+    },
+    {
+      "path": "/ph.png",
+      "category": "logo",
+      "labels": ["Product Hunt", "logo", "badge"],
+      "tags": ["product-hunt", "logo", "badge", "external"],
+      "description": "Product Hunt logo or badge",
+      "context": "External link, Product Hunt page"
+    },
+    {
+      "path": "/product-bulk-light.png",
+      "category": "ui-screenshot",
+      "labels": ["bulk operations", "light mode", "productivity"],
+      "tags": ["bulk", "light-mode", "productivity", "operations", "ui", "feature"],
+      "description": "Bulk operations interface in light mode",
+      "context": "Product feature, bulk operations"
+    },
+    {
+      "path": "/product-bulk.png",
+      "category": "ui-screenshot",
+      "labels": ["bulk operations", "dark mode", "productivity"],
+      "tags": ["bulk", "dark-mode", "productivity", "operations", "ui", "feature"],
+      "description": "Bulk operations interface in dark mode",
+      "context": "Product feature, bulk operations"
+    },
+    {
+      "path": "/product-files-light.png",
+      "category": "ui-screenshot",
+      "labels": ["files", "file management", "light mode"],
+      "tags": ["files", "file-management", "light-mode", "ui", "feature"],
+      "description": "File management interface in light mode",
+      "context": "Product feature, file management"
+    },
+    {
+      "path": "/product-files.png",
+      "category": "ui-screenshot",
+      "labels": ["files", "file management", "dark mode"],
+      "tags": ["files", "file-management", "dark-mode", "ui", "feature"],
+      "description": "File management interface in dark mode",
+      "context": "Product feature, file management"
+    },
+    {
+      "path": "/product-inbox-light.jpg",
+      "category": "ui-screenshot",
+      "labels": ["inbox", "product feature", "light mode"],
+      "tags": ["inbox", "product", "light-mode", "ui", "feature", "screenshot"],
+      "description": "Product inbox feature in light mode",
+      "context": "Product feature showcase, inbox"
+    },
+    {
+      "path": "/product-inbox.jpg",
+      "category": "ui-screenshot",
+      "labels": ["inbox", "product feature", "dark mode"],
+      "tags": ["inbox", "product", "dark-mode", "ui", "feature", "screenshot"],
+      "description": "Product inbox feature in dark mode",
+      "context": "Product feature showcase, inbox"
+    },
+    {
+      "path": "/product-invoice-light.jpg",
+      "category": "ui-screenshot",
+      "labels": ["invoice", "product feature", "light mode"],
+      "tags": ["invoice", "product", "light-mode", "ui", "feature", "screenshot"],
+      "description": "Product invoice feature in light mode",
+      "context": "Product feature showcase, invoicing"
+    },
+    {
+      "path": "/product-invoice.jpg",
+      "category": "ui-screenshot",
+      "labels": ["invoice", "product feature", "dark mode"],
+      "tags": ["invoice", "product", "dark-mode", "ui", "feature", "screenshot"],
+      "description": "Product invoice feature in dark mode",
+      "context": "Product feature showcase, invoicing"
+    },
+    {
+      "path": "/product-match-light.png",
+      "category": "ui-screenshot",
+      "labels": ["matching", "data matching", "light mode"],
+      "tags": ["matching", "data-matching", "light-mode", "ui", "feature"],
+      "description": "Data matching interface in light mode",
+      "context": "Product feature, data matching"
+    },
+    {
+      "path": "/product-match.png",
+      "category": "ui-screenshot",
+      "labels": ["matching", "data matching", "dark mode"],
+      "tags": ["matching", "data-matching", "dark-mode", "ui", "feature"],
+      "description": "Data matching interface in dark mode",
+      "context": "Product feature, data matching"
+    },
+    {
+      "path": "/product-overview-light.jpg",
+      "category": "ui-screenshot",
+      "labels": ["overview", "product feature", "light mode"],
+      "tags": ["overview", "product", "light-mode", "ui", "feature", "screenshot"],
+      "description": "Product overview feature in light mode",
+      "context": "Product feature showcase, overview"
+    },
+    {
+      "path": "/product-overview.jpg",
+      "category": "ui-screenshot",
+      "labels": ["overview", "product feature", "dark mode"],
+      "tags": ["overview", "product", "dark-mode", "ui", "feature", "screenshot"],
+      "description": "Product overview feature in dark mode",
+      "context": "Product feature showcase, overview"
+    },
+    {
+      "path": "/product-pdf-light.png",
+      "category": "ui-screenshot",
+      "labels": ["PDF", "document", "light mode"],
+      "tags": ["pdf", "document", "light-mode", "ui", "feature"],
+      "description": "PDF document interface in light mode",
+      "context": "Product feature, PDF handling"
+    },
+    {
+      "path": "/product-pdf.png",
+      "category": "ui-screenshot",
+      "labels": ["PDF", "document", "dark mode"],
+      "tags": ["pdf", "document", "dark-mode", "ui", "feature"],
+      "description": "PDF document interface in dark mode",
+      "context": "Product feature, PDF handling"
+    },
+    {
+      "path": "/product-projects-light.png",
+      "category": "ui-screenshot",
+      "labels": ["projects", "project management", "light mode"],
+      "tags": ["projects", "project-management", "light-mode", "ui", "feature"],
+      "description": "Project management interface in light mode",
+      "context": "Product feature, project management"
+    },
+    {
+      "path": "/product-projects.png",
+      "category": "ui-screenshot",
+      "labels": ["projects", "project management", "dark mode"],
+      "tags": ["projects", "project-management", "dark-mode", "ui", "feature"],
+      "description": "Project management interface in dark mode",
+      "context": "Product feature, project management"
+    },
+    {
+      "path": "/product-slot-light.png",
+      "category": "ui-screenshot",
+      "labels": ["slot", "allocation", "light mode"],
+      "tags": ["slot", "allocation", "light-mode", "ui", "feature"],
+      "description": "Slot allocation interface in light mode",
+      "context": "Product feature, slot management"
+    },
+    {
+      "path": "/product-slot.png",
+      "category": "ui-screenshot",
+      "labels": ["slot", "allocation", "dark mode"],
+      "tags": ["slot", "allocation", "dark-mode", "ui", "feature"],
+      "description": "Slot allocation interface in dark mode",
+      "context": "Product feature, slot management"
+    },
+    {
+      "path": "/product-spending-light.png",
+      "category": "ui-screenshot",
+      "labels": ["spending", "expenses", "light mode"],
+      "tags": ["spending", "expenses", "light-mode", "ui", "feature"],
+      "description": "Spending and expenses interface in light mode",
+      "context": "Product feature, expense tracking"
+    },
+    {
+      "path": "/product-spending.png",
+      "category": "ui-screenshot",
+      "labels": ["spending", "expenses", "dark mode"],
+      "tags": ["spending", "expenses", "dark-mode", "ui", "feature"],
+      "description": "Spending and expenses interface in dark mode",
+      "context": "Product feature, expense tracking"
+    },
+    {
+      "path": "/product-status-light.png",
+      "category": "ui-screenshot",
+      "labels": ["status", "tracking", "light mode"],
+      "tags": ["status", "tracking", "light-mode", "ui", "feature"],
+      "description": "Status tracking interface in light mode",
+      "context": "Product feature, status tracking"
+    },
+    {
+      "path": "/product-status.png",
+      "category": "ui-screenshot",
+      "labels": ["status", "tracking", "dark mode"],
+      "tags": ["status", "tracking", "dark-mode", "ui", "feature"],
+      "description": "Status tracking interface in dark mode",
+      "context": "Product feature, status tracking"
+    },
+    {
+      "path": "/product-tracker-light.jpg",
+      "category": "ui-screenshot",
+      "labels": ["tracker", "time tracking", "light mode"],
+      "tags": ["tracker", "time-tracking", "light-mode", "ui", "feature", "screenshot"],
+      "description": "Time tracker interface in light mode",
+      "context": "Product feature showcase, time tracking"
+    },
+    {
+      "path": "/product-tracker.jpg",
+      "category": "ui-screenshot",
+      "labels": ["tracker", "time tracking", "dark mode"],
+      "tags": ["tracker", "time-tracking", "dark-mode", "ui", "feature", "screenshot"],
+      "description": "Time tracker interface in dark mode",
+      "context": "Product feature showcase, time tracking"
+    },
+    {
+      "path": "/product-vault-light.jpg",
+      "category": "ui-screenshot",
+      "labels": ["vault", "secure storage", "light mode"],
+      "tags": ["vault", "secure-storage", "light-mode", "ui", "feature", "screenshot"],
+      "description": "Vault secure storage interface in light mode",
+      "context": "Product feature showcase, vault"
+    },
+    {
+      "path": "/product-vault.jpg",
+      "category": "ui-screenshot",
+      "labels": ["vault", "secure storage", "dark mode"],
+      "tags": ["vault", "secure-storage", "dark-mode", "ui", "feature", "screenshot"],
+      "description": "Vault secure storage interface in dark mode",
+      "context": "Product feature showcase, vault"
+    },
+    {
+      "path": "/time-format-light.png",
+      "category": "ui-screenshot",
+      "labels": ["time format", "settings", "light mode"],
+      "tags": ["time-format", "settings", "light-mode", "ui", "feature"],
+      "description": "Time format settings in light mode",
+      "context": "Product feature, time settings"
+    },
+    {
+      "path": "/time-format.png",
+      "category": "ui-screenshot",
+      "labels": ["time format", "settings", "dark mode"],
+      "tags": ["time-format", "settings", "dark-mode", "ui", "feature"],
+      "description": "Time format settings in dark mode",
+      "context": "Product feature, time settings"
+    },
+    {
+      "path": "/time-tracker-light.png",
+      "category": "ui-screenshot",
+      "labels": ["time tracker", "light mode", "productivity"],
+      "tags": ["time-tracker", "light-mode", "productivity", "ui", "feature"],
+      "description": "Time tracker interface in light mode",
+      "context": "Product feature, time tracking"
+    },
+    {
+      "path": "/time-tracker.png",
+      "category": "ui-screenshot",
+      "labels": ["time tracker", "dark mode", "productivity"],
+      "tags": ["time-tracker", "dark-mode", "productivity", "ui", "feature"],
+      "description": "Time tracker interface in dark mode",
+      "context": "Product feature, time tracking"
+    },
+    {
+      "path": "/vault-light.png",
+      "category": "ui-screenshot",
+      "labels": ["vault", "secure storage", "light mode"],
+      "tags": ["vault", "secure-storage", "light-mode", "ui", "feature"],
+      "description": "Vault secure storage interface in light mode",
+      "context": "Product feature, vault"
+    },
+    {
+      "path": "/vault.png",
+      "category": "ui-screenshot",
+      "labels": ["vault", "secure storage", "dark mode"],
+      "tags": ["vault", "secure-storage", "dark-mode", "ui", "feature"],
+      "description": "Vault secure storage interface in dark mode",
+      "context": "Product feature, vault"
+    },
+    {
+      "path": "/visa.png",
+      "category": "payment-card-logo",
+      "labels": ["Visa", "payment card", "credit card brand"],
+      "tags": ["visa", "payment", "card", "logo", "brand", "credit-card", "financial"],
+      "description": "Visa payment card logo",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/Visa2.png",
+      "category": "payment-card-logo",
+      "labels": ["Visa", "payment card", "credit card brand", "variant 2"],
+      "tags": ["visa", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "Visa payment card logo variant",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/visa3.png",
+      "category": "payment-card-logo",
+      "labels": ["Visa", "payment card", "credit card brand", "variant 3"],
+      "tags": ["visa", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "Visa payment card logo variant",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/cards/amex.png",
+      "category": "payment-card-logo",
+      "labels": ["American Express", "payment card", "credit card brand", "cards folder"],
+      "tags": ["amex", "payment", "card", "logo", "brand", "credit-card", "financial"],
+      "description": "American Express payment card logo from cards folder",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/cards/Amex2.png",
+      "category": "payment-card-logo",
+      "labels": ["American Express", "payment card", "credit card brand", "variant 2", "cards folder"],
+      "tags": ["amex", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "American Express payment card logo variant from cards folder",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/cards/amex3.png",
+      "category": "payment-card-logo",
+      "labels": ["American Express", "payment card", "credit card brand", "variant 3", "cards folder"],
+      "tags": ["amex", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "American Express payment card logo variant from cards folder",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/cards/MasterCard2.png",
+      "category": "payment-card-logo",
+      "labels": ["Mastercard", "payment card", "credit card brand", "variant 2", "cards folder"],
+      "tags": ["mastercard", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "Mastercard payment card logo variant from cards folder",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/cards/masterCard3.png",
+      "category": "payment-card-logo",
+      "labels": ["Mastercard", "payment card", "credit card brand", "variant 3", "cards folder"],
+      "tags": ["mastercard", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "Mastercard payment card logo variant from cards folder",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/cards/visa.png",
+      "category": "payment-card-logo",
+      "labels": ["Visa", "payment card", "credit card brand", "cards folder"],
+      "tags": ["visa", "payment", "card", "logo", "brand", "credit-card", "financial"],
+      "description": "Visa payment card logo from cards folder",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/cards/Visa2.png",
+      "category": "payment-card-logo",
+      "labels": ["Visa", "payment card", "credit card brand", "variant 2", "cards folder"],
+      "tags": ["visa", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "Visa payment card logo variant from cards folder",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/cards/visa3.png",
+      "category": "payment-card-logo",
+      "labels": ["Visa", "payment card", "credit card brand", "variant 3", "cards folder"],
+      "tags": ["visa", "payment", "card", "logo", "brand", "credit-card", "financial", "variant"],
+      "description": "Visa payment card logo variant from cards folder",
+      "context": "Payment processing, brand display"
+    },
+    {
+      "path": "/branding/1.png",
+      "category": "branding",
+      "labels": ["branding", "keyboard", "marketing material"],
+      "tags": ["branding", "keyboard", "marketing", "visual", "design"],
+      "description": "Branding image showing keyboard",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/branding/2.png",
+      "category": "branding",
+      "labels": ["branding", "founders", "team", "marketing material"],
+      "tags": ["branding", "founders", "team", "marketing", "visual", "design"],
+      "description": "Branding image showing founders",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/branding/3.png",
+      "category": "branding",
+      "labels": ["branding", "screens", "interface", "marketing material"],
+      "tags": ["branding", "screens", "interface", "marketing", "visual", "design"],
+      "description": "Branding image showing screens",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/branding/4.png",
+      "category": "branding",
+      "labels": ["branding", "screens", "interface", "marketing material"],
+      "tags": ["branding", "screens", "interface", "marketing", "visual", "design"],
+      "description": "Branding image showing screens",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/branding/5.png",
+      "category": "branding",
+      "labels": ["branding", "screens", "interface", "marketing material"],
+      "tags": ["branding", "screens", "interface", "marketing", "visual", "design"],
+      "description": "Branding image showing screens",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/branding/7.png",
+      "category": "branding",
+      "labels": ["branding", "screens", "interface", "marketing material"],
+      "tags": ["branding", "screens", "interface", "marketing", "visual", "design"],
+      "description": "Branding image showing screens",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/branding/8.png",
+      "category": "branding",
+      "labels": ["branding", "screens", "interface", "marketing material"],
+      "tags": ["branding", "screens", "interface", "marketing", "visual", "design"],
+      "description": "Branding image showing screens",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/branding/9.png",
+      "category": "branding",
+      "labels": ["branding", "screens", "interface", "marketing material"],
+      "tags": ["branding", "screens", "interface", "marketing", "visual", "design"],
+      "description": "Branding image showing screens",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/branding/10.png",
+      "category": "branding",
+      "labels": ["branding", "screens", "interface", "marketing material"],
+      "tags": ["branding", "screens", "interface", "marketing", "visual", "design"],
+      "description": "Branding image showing screens",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/branding/11.png",
+      "category": "branding",
+      "labels": ["branding", "screens", "interface", "marketing material"],
+      "tags": ["branding", "screens", "interface", "marketing", "visual", "design"],
+      "description": "Branding image showing screens",
+      "context": "Branding materials, marketing"
+    },
+    {
+      "path": "/email/discord.png",
+      "category": "logo",
+      "labels": ["Discord", "social media", "logo", "email footer"],
+      "tags": ["discord", "social-media", "logo", "email", "external"],
+      "description": "Discord logo for email footer",
+      "context": "Email templates, social links"
+    },
+    {
+      "path": "/email/founders.jpeg",
+      "category": "photo",
+      "labels": ["founders", "team photo", "people", "email"],
+      "tags": ["founders", "team", "people", "photo", "email"],
+      "description": "Founders photo for email",
+      "context": "Email templates, team section"
+    },
+    {
+      "path": "/email/github.png",
+      "category": "logo",
+      "labels": ["GitHub", "social media", "logo", "email footer"],
+      "tags": ["github", "social-media", "logo", "email", "external"],
+      "description": "GitHub logo for email footer",
+      "context": "Email templates, social links"
+    },
+    {
+      "path": "/email/linkedin.png",
+      "category": "logo",
+      "labels": ["LinkedIn", "social media", "logo", "email footer"],
+      "tags": ["linkedin", "social-media", "logo", "email", "external"],
+      "description": "LinkedIn logo for email footer",
+      "context": "Email templates, social links"
+    },
+    {
+      "path": "/email/logo.png",
+      "category": "logo",
+      "labels": ["logo", "email", "brand"],
+      "tags": ["logo", "email", "brand", "identity"],
+      "description": "Company logo for email",
+      "context": "Email templates, header"
+    },
+    {
+      "path": "/email/logo-footer.png",
+      "category": "logo",
+      "labels": ["logo", "email footer", "brand"],
+      "tags": ["logo", "email", "footer", "brand", "identity"],
+      "description": "Company logo for email footer",
+      "context": "Email templates, footer"
+    },
+    {
+      "path": "/email/midday-ai.png",
+      "category": "logo",
+      "labels": ["Midday AI", "partner", "logo", "email"],
+      "tags": ["midday-ai", "partner", "logo", "email", "external"],
+      "description": "Midday AI partner logo for email",
+      "context": "Email templates, partnerships"
+    },
+    {
+      "path": "/email/producthunt.png",
+      "category": "logo",
+      "labels": ["Product Hunt", "logo", "badge", "email"],
+      "tags": ["product-hunt", "logo", "badge", "email", "external"],
+      "description": "Product Hunt logo for email",
+      "context": "Email templates, external link"
+    },
+    {
+      "path": "/email/signature-dark.png",
+      "category": "logo",
+      "labels": ["signature", "email signature", "dark mode"],
+      "tags": ["signature", "email", "dark-mode", "brand"],
+      "description": "Email signature in dark mode",
+      "context": "Email templates, signature"
+    },
+    {
+      "path": "/email/signature.png",
+      "category": "logo",
+      "labels": ["signature", "email signature", "light mode"],
+      "tags": ["signature", "email", "light-mode", "brand"],
+      "description": "Email signature in light mode",
+      "context": "Email templates, signature"
+    },
+    {
+      "path": "/email/x.png",
+      "category": "logo",
+      "labels": ["X", "Twitter", "social media", "logo", "email footer"],
+      "tags": ["x", "twitter", "social-media", "logo", "email", "external"],
+      "description": "X (Twitter) logo for email footer",
+      "context": "Email templates, social links"
+    },
+    {
+      "path": "/images/assistant.png",
+      "category": "ui-screenshot",
+      "labels": ["assistant", "AI assistant", "feature"],
+      "tags": ["assistant", "ai", "feature", "ui", "screenshot"],
+      "description": "AI assistant feature interface",
+      "context": "Product feature, AI assistant"
+    },
+    {
+      "path": "/images/dub.png",
+      "category": "logo",
+      "labels": ["Dub", "partner", "logo", "integration"],
+      "tags": ["dub", "partner", "logo", "integration", "external"],
+      "description": "Dub partner logo",
+      "context": "Integrations, partnerships"
+    },
+    {
+      "path": "/images/engine.png",
+      "category": "ui-screenshot",
+      "labels": ["engine", "developer tools", "feature"],
+      "tags": ["engine", "developer", "tools", "feature", "ui", "screenshot"],
+      "description": "Engine developer tools interface",
+      "context": "Product feature, developer tools"
+    },
+    {
+      "path": "/images/graph.png",
+      "category": "ui-screenshot",
+      "labels": ["graph", "data visualization", "charts"],
+      "tags": ["graph", "data-visualization", "charts", "ui", "screenshot"],
+      "description": "Data visualization graph or chart",
+      "context": "Product feature, analytics"
+    },
+    {
+      "path": "/images/logsnag.png",
+      "category": "logo",
+      "labels": ["LogSnag", "partner", "logo", "integration"],
+      "tags": ["logsnag", "partner", "logo", "integration", "external"],
+      "description": "LogSnag partner logo",
+      "context": "Integrations, partnerships"
+    },
+    {
+      "path": "/images/notification-center.gif",
+      "category": "ui-screenshot",
+      "labels": ["notification center", "notifications", "animated"],
+      "tags": ["notification-center", "notifications", "animated", "gif", "ui", "feature"],
+      "description": "Animated notification center interface",
+      "context": "Product feature, notifications"
+    },
+    {
+      "path": "/images/notification-settings.gif",
+      "category": "ui-screenshot",
+      "labels": ["notification settings", "settings", "animated"],
+      "tags": ["notification-settings", "settings", "animated", "gif", "ui", "feature"],
+      "description": "Animated notification settings interface",
+      "context": "Product feature, notification settings"
+    },
+    {
+      "path": "/images/novu.png",
+      "category": "logo",
+      "labels": ["Novu", "partner", "logo", "integration"],
+      "tags": ["novu", "partner", "logo", "integration", "external"],
+      "description": "Novu partner logo",
+      "context": "Integrations, partnerships"
+    },
+    {
+      "path": "/images/overview.png",
+      "category": "ui-screenshot",
+      "labels": ["overview", "dashboard", "summary"],
+      "tags": ["overview", "dashboard", "summary", "ui", "screenshot"],
+      "description": "Overview dashboard interface",
+      "context": "Product dashboard, overview"
+    },
+    {
+      "path": "/images/plan.png",
+      "category": "ui-screenshot",
+      "labels": ["plan", "pricing", "subscription"],
+      "tags": ["plan", "pricing", "subscription", "ui", "screenshot"],
+      "description": "Pricing plan interface",
+      "context": "Pricing page, plans"
+    },
+    {
+      "path": "/images/providers.png",
+      "category": "ui-screenshot",
+      "labels": ["providers", "integrations", "partners"],
+      "tags": ["providers", "integrations", "partners", "ui", "screenshot"],
+      "description": "Service providers and integrations interface",
+      "context": "Integrations page, providers"
+    },
+    {
+      "path": "/images/public-beta.jpg",
+      "category": "ui-screenshot",
+      "labels": ["public beta", "announcement", "feature"],
+      "tags": ["public-beta", "announcement", "feature", "ui", "screenshot"],
+      "description": "Public beta announcement interface",
+      "context": "Announcements, beta launch"
+    },
+    {
+      "path": "/images/resend.png",
+      "category": "logo",
+      "labels": ["Resend", "partner", "logo", "integration"],
+      "tags": ["resend", "partner", "logo", "integration", "external"],
+      "description": "Resend partner logo",
+      "context": "Integrations, partnerships"
+    },
+    {
+      "path": "/images/signin.png",
+      "category": "ui-screenshot",
+      "labels": ["sign in", "authentication", "login"],
+      "tags": ["signin", "authentication", "login", "ui", "screenshot"],
+      "description": "Sign in authentication interface",
+      "context": "Authentication, login page"
+    },
+    {
+      "path": "/images/trigger.png",
+      "category": "ui-screenshot",
+      "labels": ["trigger", "automation", "workflow"],
+      "tags": ["trigger", "automation", "workflow", "ui", "screenshot"],
+      "description": "Trigger automation interface",
+      "context": "Product feature, automation"
+    },
+    {
+      "path": "/images/variables.png",
+      "category": "ui-screenshot",
+      "labels": ["variables", "configuration", "settings"],
+      "tags": ["variables", "configuration", "settings", "ui", "screenshot"],
+      "description": "Variables configuration interface",
+      "context": "Product feature, configuration"
+    },
+    {
+      "path": "/images/update/october-product-updates/web-invoice.jpg",
+      "category": "ui-screenshot",
+      "labels": ["web invoice", "invoice", "October update", "product update"],
+      "tags": ["web-invoice", "invoice", "october", "update", "product-update", "ui", "screenshot"],
+      "description": "Web invoice feature from October product update",
+      "context": "Product updates, October 2024"
+    },
+    {
+      "path": "/images/update/october-product-updates/invoicing.jpg",
+      "category": "ui-screenshot",
+      "labels": ["invoicing", "October update", "product update"],
+      "tags": ["invoicing", "october", "update", "product-update", "ui", "screenshot"],
+      "description": "Invoicing feature from October product update",
+      "context": "Product updates, October 2024"
+    },
+    {
+      "path": "/images/update/october-product-updates/invoice-status.png",
+      "category": "ui-screenshot",
+      "labels": ["invoice status", "October update", "product update"],
+      "tags": ["invoice-status", "october", "update", "product-update", "ui", "screenshot"],
+      "description": "Invoice status feature from October product update",
+      "context": "Product updates, October 2024"
+    },
+    {
+      "path": "/images/update/invoice-pdf/web-invoice.jpg",
+      "category": "ui-screenshot",
+      "labels": ["web invoice", "PDF", "invoice"],
+      "tags": ["web-invoice", "pdf", "invoice", "ui", "screenshot"],
+      "description": "Web invoice PDF interface",
+      "context": "Product feature, invoice PDF"
+    },
+    {
+      "path": "/images/update/invoice-pdf/pdf.jpg",
+      "category": "ui-screenshot",
+      "labels": ["PDF", "document", "invoice"],
+      "tags": ["pdf", "document", "invoice", "ui", "screenshot"],
+      "description": "PDF document interface for invoices",
+      "context": "Product feature, PDF invoices"
+    },
+    {
+      "path": "/images/update/invoice-pdf/pdf-invoice.jpg",
+      "category": "ui-screenshot",
+      "labels": ["PDF invoice", "document", "invoice"],
+      "tags": ["pdf-invoice", "document", "invoice", "ui", "screenshot"],
+      "description": "PDF invoice document interface",
+      "context": "Product feature, PDF invoices"
+    },
+    {
+      "path": "/images/update/invoice-pdf/invoice.jpg",
+      "category": "ui-screenshot",
+      "labels": ["invoice", "billing", "document"],
+      "tags": ["invoice", "billing", "document", "ui", "screenshot"],
+      "description": "Invoice interface",
+      "context": "Product feature, invoicing"
+    },
+    {
+      "path": "/images/update/august-product-updates/vault.jpg",
+      "category": "ui-screenshot",
+      "labels": ["vault", "August update", "product update"],
+      "tags": ["vault", "august", "update", "product-update", "ui", "screenshot"],
+      "description": "Vault feature from August product update",
+      "context": "Product updates, August 2024"
+    },
+    {
+      "path": "/images/update/august-product-updates/tracker.jpg",
+      "category": "ui-screenshot",
+      "labels": ["tracker", "August update", "product update"],
+      "tags": ["tracker", "august", "update", "product-update", "ui", "screenshot"],
+      "description": "Tracker feature from August product update",
+      "context": "Product updates, August 2024"
+    },
+    {
+      "path": "/images/update/august-product-updates/invoice.jpg",
+      "category": "ui-screenshot",
+      "labels": ["invoice", "August update", "product update"],
+      "tags": ["invoice", "august", "update", "product-update", "ui", "screenshot"],
+      "description": "Invoice feature from August product update",
+      "context": "Product updates, August 2024"
+    },
+    {
+      "path": "/images/update/august-product-updates/import.jpg",
+      "category": "ui-screenshot",
+      "labels": ["import", "August update", "product update"],
+      "tags": ["import", "august", "update", "product-update", "ui", "screenshot"],
+      "description": "Import feature from August product update",
+      "context": "Product updates, August 2024"
+    },
+    {
+      "path": "/images/update/august-product-updates/filters.jpg",
+      "category": "ui-screenshot",
+      "labels": ["filters", "August update", "product update"],
+      "tags": ["filters", "august", "update", "product-update", "ui", "screenshot"],
+      "description": "Filters feature from August product update",
+      "context": "Product updates, August 2024"
+    },
+    {
+      "path": "/images/update/july-product-updates/inbox.png",
+      "category": "ui-screenshot",
+      "labels": ["inbox", "July update", "product update"],
+      "tags": ["inbox", "july", "update", "product-update", "ui", "screenshot"],
+      "description": "Inbox feature from July product update",
+      "context": "Product updates, July 2024"
+    },
+    {
+      "path": "/images/update/july-product-updates/engine.png",
+      "category": "ui-screenshot",
+      "labels": ["engine", "July update", "product update"],
+      "tags": ["engine", "july", "update", "product-update", "ui", "screenshot"],
+      "description": "Engine feature from July product update",
+      "context": "Product updates, July 2024"
+    },
+    {
+      "path": "/images/update/july-product-updates/assistant.png",
+      "category": "ui-screenshot",
+      "labels": ["assistant", "July update", "product update"],
+      "tags": ["assistant", "july", "update", "product-update", "ui", "screenshot"],
+      "description": "Assistant feature from July product update",
+      "context": "Product updates, July 2024"
+    },
+    {
+      "path": "/images/update/january/inbox.png",
+      "category": "ui-screenshot",
+      "labels": ["inbox", "January update", "product update"],
+      "tags": ["inbox", "january", "update", "product-update", "ui", "screenshot"],
+      "description": "Inbox feature from January product update",
+      "context": "Product updates, January 2024"
+    },
+    {
+      "path": "/images/update/january/banks.png",
+      "category": "ui-screenshot",
+      "labels": ["banks", "banking", "January update", "product update"],
+      "tags": ["banks", "banking", "january", "update", "product-update", "ui", "screenshot"],
+      "description": "Banking feature from January product update",
+      "context": "Product updates, January 2024"
+    },
+    {
+      "path": "/images/update/january/app.png",
+      "category": "ui-screenshot",
+      "labels": ["app", "application", "January update", "product update"],
+      "tags": ["app", "application", "january", "update", "product-update", "ui", "screenshot"],
+      "description": "App feature from January product update",
+      "context": "Product updates, January 2024"
+    },
+    {
+      "path": "/images/update/january/api.png",
+      "category": "ui-screenshot",
+      "labels": ["API", "developer", "January update", "product update"],
+      "tags": ["api", "developer", "january", "update", "product-update", "ui", "screenshot"],
+      "description": "API feature from January product update",
+      "context": "Product updates, January 2024"
+    },
+    {
+      "path": "/images/update/apps/slack.png",
+      "category": "ui-screenshot",
+      "labels": ["Slack", "integration", "apps"],
+      "tags": ["slack", "integration", "apps", "ui", "screenshot"],
+      "description": "Slack integration interface",
+      "context": "Integrations, Slack app"
+    },
+    {
+      "path": "/images/update/apps/apps.jpg",
+      "category": "ui-screenshot",
+      "labels": ["apps", "integrations", "applications"],
+      "tags": ["apps", "integrations", "applications", "ui", "screenshot"],
+      "description": "Apps and integrations interface",
+      "context": "Integrations, apps showcase"
+    },
+    {
+      "path": "/images/update/apps/apps-1.png",
+      "category": "ui-screenshot",
+      "labels": ["apps", "integrations", "applications", "variant 1"],
+      "tags": ["apps", "integrations", "applications", "ui", "screenshot"],
+      "description": "Apps and integrations interface variant 1",
+      "context": "Integrations, apps showcase"
+    },
+    {
+      "path": "/images/update/apps/apps-2.png",
+      "category": "ui-screenshot",
+      "labels": ["apps", "integrations", "applications", "variant 2"],
+      "tags": ["apps", "integrations", "applications", "ui", "screenshot"],
+      "description": "Apps and integrations interface variant 2",
+      "context": "Integrations, apps showcase"
+    },
+    {
+      "path": "/industries/restaurants.webp",
+      "category": "industry",
+      "labels": ["restaurants", "food service", "industry"],
+      "tags": ["restaurants", "food-service", "industry", "business", "vertical"],
+      "description": "Restaurant industry image",
+      "context": "Industries page, restaurant vertical"
+    },
+    {
+      "path": "/industries/professional_services.webp",
+      "category": "industry",
+      "labels": ["professional services", "consulting", "industry"],
+      "tags": ["professional-services", "consulting", "industry", "business", "vertical"],
+      "description": "Professional services industry image",
+      "context": "Industries page, professional services vertical"
+    },
+    {
+      "path": "/industries/pharmacy.webp",
+      "category": "industry",
+      "labels": ["pharmacy", "healthcare", "industry"],
+      "tags": ["pharmacy", "healthcare", "industry", "business", "vertical"],
+      "description": "Pharmacy industry image",
+      "context": "Industries page, pharmacy vertical"
+    },
+    {
+      "path": "/industries/hotels.webp",
+      "category": "industry",
+      "labels": ["hotels", "hospitality", "industry"],
+      "tags": ["hotels", "hospitality", "industry", "business", "vertical"],
+      "description": "Hotels industry image",
+      "context": "Industries page, hospitality vertical"
+    },
+    {
+      "path": "/industries/home_goods_furniture.webp",
+      "category": "industry",
+      "labels": ["home goods", "furniture", "retail", "industry"],
+      "tags": ["home-goods", "furniture", "retail", "industry", "business", "vertical"],
+      "description": "Home goods and furniture industry image",
+      "context": "Industries page, retail vertical"
+    },
+    {
+      "path": "/industries/hair_beauty.webp",
+      "category": "industry",
+      "labels": ["hair", "beauty", "salon", "industry"],
+      "tags": ["hair", "beauty", "salon", "industry", "business", "vertical"],
+      "description": "Hair and beauty industry image",
+      "context": "Industries page, beauty vertical"
+    },
+    {
+      "path": "/industries/franchise.webp",
+      "category": "industry",
+      "labels": ["franchise", "business", "industry"],
+      "tags": ["franchise", "business", "industry", "vertical"],
+      "description": "Franchise industry image",
+      "context": "Industries page, franchise vertical"
+    },
+    {
+      "path": "/industries/convenience_store.webp",
+      "category": "industry",
+      "labels": ["convenience store", "retail", "industry"],
+      "tags": ["convenience-store", "retail", "industry", "business", "vertical"],
+      "description": "Convenience store industry image",
+      "context": "Industries page, retail vertical"
+    },
+    {
+      "path": "/industries/clothing.webp",
+      "category": "industry",
+      "labels": ["clothing", "fashion", "retail", "industry"],
+      "tags": ["clothing", "fashion", "retail", "industry", "business", "vertical"],
+      "description": "Clothing and fashion industry image",
+      "context": "Industries page, fashion vertical"
+    },
+    {
+      "path": "/industries/car_repair.webp",
+      "category": "industry",
+      "labels": ["car repair", "automotive", "industry"],
+      "tags": ["car-repair", "automotive", "industry", "business", "vertical"],
+      "description": "Car repair and automotive industry image",
+      "context": "Industries page, automotive vertical"
+    },
+    {
+      "path": "/stories/richard.jpeg",
+      "category": "photo",
+      "labels": ["Richard", "team member", "person", "story"],
+      "tags": ["richard", "team", "person", "photo", "story", "people"],
+      "description": "Photo of team member Richard",
+      "context": "Stories section, team stories"
+    },
+    {
+      "path": "/stories/pawel.jpeg",
+      "category": "photo",
+      "labels": ["Pawel", "team member", "person", "story"],
+      "tags": ["pawel", "team", "person", "photo", "story", "people"],
+      "description": "Photo of team member Pawel",
+      "context": "Stories section, team stories"
+    },
+    {
+      "path": "/stories/guy.jpeg",
+      "category": "photo",
+      "labels": ["Guy", "team member", "person", "story"],
+      "tags": ["guy", "team", "person", "photo", "story", "people"],
+      "description": "Photo of team member Guy",
+      "context": "Stories section, team stories"
+    },
+    {
+      "path": "/stories/facu.jpeg",
+      "category": "photo",
+      "labels": ["Facu", "team member", "person", "story"],
+      "tags": ["facu", "team", "person", "photo", "story", "people"],
+      "description": "Photo of team member Facu",
+      "context": "Stories section, team stories"
+    },
+    {
+      "path": "/stories/guy-cover.png",
+      "category": "photo",
+      "labels": ["Guy", "cover photo", "team member", "story"],
+      "tags": ["guy", "cover", "team", "person", "photo", "story", "people"],
+      "description": "Cover photo of team member Guy",
+      "context": "Stories section, cover image"
+    },
+    {
+      "path": "/brand_images/amex/",
+      "category": "payment-card-logo",
+      "labels": ["American Express", "brand images", "SVG logos", "payment processor"],
+      "tags": ["amex", "brand-images", "svg", "payment-processor", "logo", "brand"],
+      "description": "Collection of American Express brand images and SVG logos",
+      "context": "Brand assets, payment processor logos"
+    },
+    {
+      "path": "/brand_images/auth.net/1673195478253.png",
+      "category": "logo",
+      "labels": ["Authorize.net", "payment processor", "logo"],
+      "tags": ["authorize-net", "payment-processor", "logo", "brand", "payment"],
+      "description": "Authorize.net payment processor logo",
+      "context": "Brand assets, payment processor"
+    },
+    {
+      "path": "/brand_images/clover/",
+      "category": "payment-card-logo",
+      "labels": ["Clover", "POS system", "brand images", "SVG logos", "payment processor"],
+      "tags": ["clover", "pos", "brand-images", "svg", "payment-processor", "logo", "brand"],
+      "description": "Collection of Clover POS system brand images and SVG logos",
+      "context": "Brand assets, POS system logos"
+    },
+    {
+      "path": "/brand_images/fiserv/",
+      "category": "payment-card-logo",
+      "labels": ["Fiserv", "payment processor", "brand images", "SVG logos"],
+      "tags": ["fiserv", "payment-processor", "brand-images", "svg", "logo", "brand"],
+      "description": "Collection of Fiserv payment processor brand images and SVG logos",
+      "context": "Brand assets, payment processor logos"
+    },
+    {
+      "path": "/brand_images/global/",
+      "category": "payment-card-logo",
+      "labels": ["Global Payments", "payment processor", "brand images", "SVG logos"],
+      "tags": ["global-payments", "payment-processor", "brand-images", "svg", "logo", "brand"],
+      "description": "Collection of Global Payments brand images and SVG logos",
+      "context": "Brand assets, payment processor logos"
+    },
+    {
+      "path": "/brand_images/global2/",
+      "category": "payment-card-logo",
+      "labels": ["Global Payments", "payment processor", "brand images", "SVG logos", "variant 2"],
+      "tags": ["global-payments", "payment-processor", "brand-images", "svg", "logo", "brand", "variant"],
+      "description": "Collection of Global Payments brand images and SVG logos variant 2",
+      "context": "Brand assets, payment processor logos"
+    },
+    {
+      "path": "/brand_images/global3/",
+      "category": "payment-card-logo",
+      "labels": ["Global Payments", "payment processor", "brand images", "SVG logos", "variant 3"],
+      "tags": ["global-payments", "payment-processor", "brand-images", "svg", "logo", "brand", "variant"],
+      "description": "Collection of Global Payments brand images and SVG logos variant 3",
+      "context": "Brand assets, payment processor logos"
+    },
+    {
+      "path": "/brand_images/ingenico/terminal1.webp",
+      "category": "ui-screenshot",
+      "labels": ["Ingenico", "payment terminal", "hardware", "POS terminal"],
+      "tags": ["ingenico", "payment-terminal", "hardware", "pos-terminal", "device"],
+      "description": "Ingenico payment terminal hardware image",
+      "context": "Brand assets, payment terminal hardware"
+    },
+    {
+      "path": "/brand_images/ingenico/Ingenico-moby5500-contactless-card.png.webp",
+      "category": "ui-screenshot",
+      "labels": ["Ingenico", "Moby 5500", "contactless", "payment terminal", "hardware"],
+      "tags": ["ingenico", "moby-5500", "contactless", "payment-terminal", "hardware", "device"],
+      "description": "Ingenico Moby 5500 contactless payment terminal",
+      "context": "Brand assets, payment terminal hardware"
+    },
+    {
+      "path": "/brand_images/ingenico/",
+      "category": "payment-card-logo",
+      "labels": ["Ingenico", "payment processor", "brand images", "SVG logos"],
+      "tags": ["ingenico", "payment-processor", "brand-images", "svg", "logo", "brand"],
+      "description": "Collection of Ingenico payment processor brand images and SVG logos",
+      "context": "Brand assets, payment processor logos"
+    },
+    {
+      "path": "/brand_images/pax/",
+      "category": "payment-card-logo",
+      "labels": ["PAX", "payment terminal", "brand images", "SVG logos", "POS terminal"],
+      "tags": ["pax", "payment-terminal", "brand-images", "svg", "logo", "brand", "pos-terminal"],
+      "description": "Collection of PAX payment terminal brand images and SVG logos",
+      "context": "Brand assets, payment terminal logos"
+    },
+    {
+      "path": "/brand_images/paynt/",
+      "category": "payment-card-logo",
+      "labels": ["Paynt", "payment processor", "brand images", "SVG logos"],
+      "tags": ["paynt", "payment-processor", "brand-images", "svg", "logo", "brand"],
+      "description": "Collection of Paynt payment processor brand images and SVG logos",
+      "context": "Brand assets, payment processor logos"
+    },
+    {
+      "path": "/brand_images/pipe/pipe.png",
+      "category": "logo",
+      "labels": ["Pipe", "payment processor", "logo"],
+      "tags": ["pipe", "payment-processor", "logo", "brand", "payment"],
+      "description": "Pipe payment processor logo",
+      "context": "Brand assets, payment processor"
+    },
+    {
+      "path": "/brand_images/pipe/pip2.avif",
+      "category": "logo",
+      "labels": ["Pipe", "payment processor", "logo", "AVIF format"],
+      "tags": ["pipe", "payment-processor", "logo", "brand", "payment", "avif"],
+      "description": "Pipe payment processor logo in AVIF format",
+      "context": "Brand assets, payment processor"
+    },
+    {
+      "path": "/brand_images/pipe/",
+      "category": "payment-card-logo",
+      "labels": ["Pipe", "payment processor", "brand images", "SVG logos", "screenshots"],
+      "tags": ["pipe", "payment-processor", "brand-images", "svg", "logo", "brand", "screenshots"],
+      "description": "Collection of Pipe payment processor brand images, SVG logos, and screenshots",
+      "context": "Brand assets, payment processor logos and screenshots"
+    },
+    {
+      "path": "/brand_images/pipe/pipe-media-kit-US/",
+      "category": "ui-screenshot",
+      "labels": ["Pipe", "media kit", "screenshots", "marketing materials"],
+      "tags": ["pipe", "media-kit", "screenshots", "marketing", "brand-assets"],
+      "description": "Pipe media kit with screenshots and marketing materials",
+      "context": "Brand assets, media kit, marketing materials"
+    },
+    {
+      "path": "/brand_images/ppt2/",
+      "category": "illustration",
+      "labels": ["presentation", "PPT", "slides", "SVG graphics"],
+      "tags": ["presentation", "ppt", "slides", "svg", "graphics", "illustration"],
+      "description": "Presentation slides and SVG graphics collection",
+      "context": "Presentations, slides, graphics"
+    },
+    {
+      "path": "/brand_images/ppt4/",
+      "category": "illustration",
+      "labels": ["presentation", "PPT", "slides", "SVG graphics", "variant 4"],
+      "tags": ["presentation", "ppt", "slides", "svg", "graphics", "illustration", "variant"],
+      "description": "Presentation slides and SVG graphics collection variant 4",
+      "context": "Presentations, slides, graphics"
+    },
+    {
+      "path": "/brand_images/verifone/",
+      "category": "payment-card-logo",
+      "labels": ["Verifone", "payment terminal", "brand images", "SVG logos", "POS terminal"],
+      "tags": ["verifone", "payment-terminal", "brand-images", "svg", "logo", "brand", "pos-terminal"],
+      "description": "Collection of Verifone payment terminal brand images and SVG logos",
+      "context": "Brand assets, payment terminal logos"
+    },
+    {
+      "path": "/brand_images/visa/",
+      "category": "payment-card-logo",
+      "labels": ["Visa", "payment card", "brand images", "SVG logos", "credit card brand"],
+      "tags": ["visa", "payment", "card", "brand-images", "svg", "logo", "brand", "credit-card"],
+      "description": "Collection of Visa payment card brand images and SVG logos",
+      "context": "Brand assets, payment card logos"
+    }
+  ]
+}
+

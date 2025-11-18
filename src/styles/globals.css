@@ -5,32 +5,32 @@
 @tailwind utilities;
 
 :root {
+  /* Brand Colors - New Palette */
+  --brand-black: #161616;
+  --brand-orange: #FF4306;
+  --brand-gray: #D8D9D4;
+
   /* Backgrounds */
-  --bg-page: #F4F2EE;
-  --bg-section-cream: #E8DDD0;
-  --bg-section-stone: #C5B092;
+  --bg-page: #FFFFFF;
+  --bg-section-cream: #D8D9D4;
+  --bg-section-stone: #D8D9D4;
 
-  /* Brand surfaces */
-  --blue-soft: #8196A9;
-  --blue-deep: #3F6587;
-  --sage: #7E987C;
-  --rose: #B099A2;
-
-  /* Accent (sparingly) */
-  --accent-orange: #D97757;
-
-  /* Text */
-  --text-main: #151515;
-  --text-subtle: #5B534B;
+  /* Text - All black for consistency */
+  --text-main: #161616;
+  --text-subtle: #161616;
   --text-on-dark: #FFFFFF;
 
-  /* Border & shadow */
-  --border-subtle: #D5C8B9;
-  --shadow-soft: 0 18px 40px rgba(15, 7, 0, 0.10);
+  /* Accent - Brand orange */
+  --accent-orange: #FF4306;
 
-  /* Radius */
+  /* Border & shadow - Brand black borders */
+  --border-subtle: #161616;
+  --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  /* Radius - Notion-style rounded corners */
   --radius-pill: 999px;
-  --radius-card: 24px;
+  --radius-card: 8px;
 
   --sh-class: #ffffff;
   --sh-identifier: #ffffff;
@@ -80,68 +80,95 @@ body {
   padding-bottom: var(--safe-area-bottom);
   padding-left: var(--safe-area-left);
   padding-right: var(--safe-area-right);
+  line-height: 1.6;
 }
 
 @layer components {
   .btn-primary {
-    background: var(--blue-deep);
+    background: var(--brand-black);
     color: var(--text-on-dark);
-    border-radius: var(--radius-pill);
-    padding: 10px 22px;
+    border-radius: 6px;
+    padding: 12px 24px;
     font-weight: 600;
     border: none;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     box-shadow: var(--shadow-soft);
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-family: "Inter Tight", system-ui, sans-serif;
   }
 
   .btn-primary .dot {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 999px;
-    background: var(--accent-orange);
+    background: var(--brand-orange);
   }
 
-  .btn-primary:hover { background: #567EA3; }
-  .btn-primary:active { background: var(--blue-deep); }
+  .btn-primary:hover { 
+    background: #0A0A0A; 
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  .btn-primary:active { 
+    background: var(--brand-black);
+    transform: translateY(0);
+  }
   .btn-primary:focus {
-    outline: 2px solid #2B4963;
+    outline: 2px solid var(--brand-orange);
     outline-offset: 2px;
   }
 
   .chip {
-    border-radius: var(--radius-pill);
-    padding: 4px 12px 4px 10px;
+    border-radius: 4px;
+    padding: 6px 12px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 12px;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid transparent;
   }
 
   .chip .dot {
     width: 6px;
     height: 6px;
     border-radius: 999px;
-    background: var(--accent-orange);
+    background: var(--brand-orange);
   }
 
-  .chip--neutral { background: #F8F3EC; color: var(--text-subtle); }
-  .chip--blue { background: var(--blue-soft); color: var(--text-on-dark); }
-  .chip--sage { background: var(--sage); color: var(--text-on-dark); }
-  .chip--rose { background: var(--rose); color: var(--text-on-dark); }
+  .chip--neutral { 
+    background: var(--brand-gray); 
+    color: var(--brand-black); 
+    border-color: var(--brand-black);
+    border-width: 1px;
+  }
+  /* Remove pastel color variants - all chips use neutral */
+  .chip--blue { background: var(--brand-gray); color: var(--brand-black); border-color: var(--brand-black); border-width: 1px; }
+  .chip--sage { background: var(--brand-gray); color: var(--brand-black); border-color: var(--brand-black); border-width: 1px; }
+  .chip--rose { background: var(--brand-gray); color: var(--brand-black); border-color: var(--brand-black); border-width: 1px; }
 
   .card {
     border-radius: var(--radius-card);
     padding: 24px;
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-card);
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    transition: all 0.2s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
   }
 
   .card__icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 999px;
-    background: var(--accent-orange);
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--brand-black);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -149,16 +176,16 @@ body {
     margin-bottom: 16px;
   }
 
-  .card--neutral { background: var(--bg-section-stone); color: var(--text-main); }
-  .card--blue { background: var(--blue-soft); color: var(--text-on-dark); }
-  .card--sage { background: var(--sage); color: var(--text-on-dark); }
-  .card--rose { background: var(--rose); color: var(--text-on-dark); }
+  .card--neutral { background: #FFFFFF; color: var(--brand-black); border-color: var(--brand-black); border-width: 1px; }
+  .card--blue { background: #FFFFFF; color: var(--brand-black); border-color: var(--brand-black); border-width: 1px; }
+  .card--sage { background: #FFFFFF; color: var(--brand-black); border-color: var(--brand-black); border-width: 1px; }
+  .card--rose { background: #FFFFFF; color: var(--brand-black); border-color: var(--brand-black); border-width: 1px; }
 
   .tile {
-    background: #F8F3EC;
+    background: var(--brand-gray);
     border-radius: 18px;
     padding: 16px;
-    border: 1px solid var(--border-subtle);
+    border: 1px solid var(--brand-black);
   }
 
   .tile__value {
@@ -185,28 +212,42 @@ body {
     width: 8px;
     height: 8px;
     border-radius: 999px;
-    background: var(--accent-orange);
+    background: var(--brand-orange);
   }
 
   .nav-pill {
     background: #FFFFFF;
-    border-radius: var(--radius-pill);
+    border-radius: 6px;
     box-shadow: var(--shadow-soft);
-    padding: 6px 16px;
+    padding: 8px 16px;
     display: inline-flex;
     align-items: center;
     gap: 8px;
+    border: 1px solid var(--border-subtle);
+    transition: all 0.2s ease;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .nav-pill:hover {
+    background: var(--bg-section-cream);
   }
 
   .nav-pill .dot {
     width: 6px;
     height: 6px;
     border-radius: 999px;
-    background: var(--accent-orange);
+    background: var(--brand-orange);
   }
 
   .nav-pill--active {
-    outline: 1px solid var(--blue-soft);
+    background: var(--brand-black);
+    color: var(--text-on-dark);
+    border-color: var(--brand-black);
+  }
+
+  .nav-pill--active .dot {
+    background: var(--brand-orange);
   }
 }
 

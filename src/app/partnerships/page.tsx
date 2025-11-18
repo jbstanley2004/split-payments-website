@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import OrangePushButton from "@/components/OrangePushButton";
@@ -11,18 +13,20 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
+// Using brand logos from brand_logos directory
 const partnerLogos = [
-  { name: "First Data", src: "/payment_types/first-data.svg" },
-  { name: "Worldpay", src: "/payment_types/worldpay.svg" },
-  { name: "Clover", src: "/payment_types/clover.svg" },
-  { name: "Square", src: "/payment_types/square.svg" },
-  { name: "Stripe", src: "/payment_types/stripe.svg" },
-  { name: "Global Payments", src: "/payment_types/global-payments.svg" },
-  { name: "Visa", src: "/gsap-animated-logo-wh-carousel/logos/visa.svg" },
-  { name: "Mastercard", src: "/gsap-animated-logo-wh-carousel/logos/mastercard.svg" },
-  { name: "American Express", src: "/gsap-animated-logo-wh-carousel/logos/amex.svg" },
-  { name: "PayPal", src: "/gsap-animated-logo-wh-carousel/logos/paypal.svg" },
+  { name: "Brand 1", src: "/brand_logos/svg0.svg" },
+  { name: "Brand 2", src: "/brand_logos/svg1.svg" },
+  { name: "Brand 3", src: "/brand_logos/svg2.svg" },
+  { name: "Brand 4", src: "/brand_logos/svg7.svg" },
+  { name: "Brand 5", src: "/brand_logos/svg15.svg" },
+  { name: "Brand 6", src: "/brand_logos/svg18.svg" },
+  { name: "Brand 7", src: "/brand_logos/svg19.svg" },
+  { name: "Brand 8", src: "/brand_logos/svg33.svg" },
+  { name: "Brand 9", src: "/brand_logos/svg34.svg" },
+  { name: "Brand 10", src: "/brand_logos/svg35.svg" },
 ];
 
 const heroHighlights = [
@@ -168,8 +172,9 @@ const faqs = [
   },
 ];
 
-const BRAND_BEIGE_DARK = "#d8d1c6";
-const BRAND_ORANGE = "#D97757";
+const BRAND_GRAY = "#D8D9D4";
+const BRAND_ORANGE = "#FF4306";
+const BRAND_BLACK = "#161616";
 
 export default function PartnershipsPage() {
   return (
@@ -177,60 +182,76 @@ export default function PartnershipsPage() {
       <div className="relative">
         <DynamicIslandNav />
 
+        {/* HERO - matching home page style */}
+        <section className="relative min-h-screen flex items-center justify-center px-6 md:px-10 lg:px-16 pt-32 pb-24">
+          <div className="max-w-6xl w-full">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center max-w-4xl mx-auto"
+            >
+              <p className="text-sm font-medium text-[#161616] uppercase tracking-wider mb-4">
+                ISO Partnerships
+              </p>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-[#161616] mb-6">
+                Partnerships built on
+                <br />
+                processing performance.
+              </h1>
+              <p className="text-xl md:text-2xl font-lora text-[#161616] mb-10 max-w-2xl mx-auto">
+                Equip your ISO, agent, or referral team with funding that mirrors every card swipe. Split prices against actual processor data so your merchants see capital faster—and you capture more share of wallet.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button className="btn-primary">
+                  <span className="dot" />
+                  <span>Become a partner</span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         <div className="px-6 pb-16 pt-24 sm:px-8 md:px-12 lg:px-16 space-y-12 sm:space-y-16">
-          {/* HERO */}
+          {/* HERO CARDS SECTION */}
           <section className="space-y-8">
             <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-              {/* Left: headline + hero cards directly on image */}
+              {/* Left: hero cards */}
               <div className="max-w-3xl">
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] bg-[#f0ebe2] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-[#9B8E7A]">
-                  <span
-                    className="inline-block h-1.5 w-1.5 rounded-full"
-                    style={{ backgroundColor: BRAND_ORANGE }}
-                  />
-                  ISO Partnerships
-                </div>
-                <div className="mt-6 space-y-4">
-                  <h1 className="font-poppins text-4xl font-semibold leading-tight text-[#141413] sm:text-5xl">
-                    Partnerships built on processing performance
-                  </h1>
-                  <p className="text-lg text-[#3F3A32] sm:text-xl max-w-2xl">
-                    Equip your ISO, agent, or referral team with funding that mirrors every card swipe. Split prices against actual processor data so your merchants see capital faster—and you capture more share of wallet.
-                  </p>
-                </div>
                 <div className="mt-8 grid gap-4 sm:grid-cols-3">
                   {heroHighlights.map((item) => (
-                    <div
+                    <motion.div
                       key={item.title}
-                      className="rounded-2xl border border-[#E8E6DC] p-5 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
-                      style={{ backgroundColor: BRAND_BEIGE_DARK }}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      className="rounded-2xl border border-[#161616] p-5 shadow-[0_18px_40px_rgba(22,22,22,0.10)]"
+                      style={{ backgroundColor: BRAND_GRAY }}
                     >
-                      <p className="font-poppins text-base font-semibold text-[#141413]">{item.title}</p>
-                      <p className="mt-2 text-sm text-[#524F49]">{item.description}</p>
-                    </div>
+                      <p className="font-poppins text-base font-semibold text-[#161616]">{item.title}</p>
+                      <p className="mt-2 text-sm text-[#161616]">{item.description}</p>
+                    </motion.div>
                   ))}
-                </div>
-                <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <button className="btn-primary">
-                    <span className="dot" />
-                    <span>Become a partner</span>
-                  </button>
                 </div>
               </div>
 
-              {/* Right: metrics cards, no outer container */}
+              {/* Right: metrics cards */}
               <div className="flex flex-col gap-6">
                 <div className="grid grid-cols-2 gap-4">
-                  {partnerMetrics.map((metric) => (
-                    <div
+                  {partnerMetrics.map((metric, index) => (
+                    <motion.div
                       key={metric.label}
-                      className="rounded-[32px] border border-[#E8E6DC] p-5 shadow-[0_18px_40px_rgba(20,20,19,0.12)]"
-                      style={{ backgroundColor: BRAND_BEIGE_DARK }}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="rounded-[32px] border border-[#161616] p-5 shadow-[0_18px_40px_rgba(22,22,22,0.12)]"
+                      style={{ backgroundColor: BRAND_GRAY }}
                     >
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-[#9B8E7A]">{metric.label}</p>
-                      <p className="mt-2 font-poppins text-3xl font-semibold text-[#141413]">{metric.value}</p>
-                      <p className="text-sm text-[#524F49]">{metric.detail}</p>
-                    </div>
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-[#161616]">{metric.label}</p>
+                      <p className="mt-2 font-poppins text-3xl font-semibold text-[#161616]">{metric.value}</p>
+                      <p className="text-sm text-[#161616]">{metric.detail}</p>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -239,13 +260,13 @@ export default function PartnershipsPage() {
 
           {/* TRUSTED PROCESSING ALLIANCES – leave structure as-is */}
           <section>
-            <div className="rounded-[32px] border border-[#E8E6DC] bg-[#FAF9F5] p-6 sm:p-8">
+            <div className="rounded-[32px] border border-[#161616] bg-[#D8D9D4] p-6 sm:p-8">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Trusted processing alliances</p>
-                  <h2 className="mt-2 font-poppins text-2xl font-semibold text-[#141413]">Partners already in the Split orbit</h2>
+                  <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Trusted processing alliances</p>
+                  <h2 className="mt-2 font-poppins text-2xl font-semibold text-[#161616]">Partners already in the Split orbit</h2>
                 </div>
-                <p className="text-sm text-[#524F49] max-w-md">
+                <p className="text-sm text-[#161616] max-w-md">
                   Use our processors of record or bring your own BIN sponsor—we integrate into existing payout flows and keep your brand front and center.
                 </p>
               </div>
@@ -253,7 +274,7 @@ export default function PartnershipsPage() {
                 {partnerLogos.map((logo) => (
                   <div
                     key={logo.name}
-                    className="flex items-center justify-center rounded-2xl border border-[#E8E6DC] bg-[#F8F4EC] px-4 py-3"
+                    className="flex items-center justify-center rounded-2xl border border-[#161616] bg-white px-4 py-3"
                   >
                     <Image
                       src={logo.src}
@@ -271,9 +292,9 @@ export default function PartnershipsPage() {
           {/* PROGRAM FLOW */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Program flow</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">How the partnership works</h2>
-              <p className="text-base text-[#524F49] max-w-3xl">
+              <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Program flow</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[#161616]">How the partnership works</h2>
+              <p className="text-base text-[#161616] max-w-3xl">
                 Each step is built to respect your merchant relationship. You own the conversation; we provide underwriting, capital, and servicing.
               </p>
             </div>
@@ -281,8 +302,8 @@ export default function PartnershipsPage() {
               {partnerSteps.map((step) => (
                 <div
                   key={step.title}
-                  className="rounded-3xl border border-[#E8E6DC] p-6 shadow-[0_18px_45px_rgba(20,20,19,0.12)]"
-                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
+                  className="rounded-3xl border border-[#161616] p-6 shadow-[0_18px_45px_rgba(22,22,22,0.12)]"
+                  style={{ backgroundColor: BRAND_GRAY }}
                 >
                   <div
                     className="flex h-12 w-12 items-center justify-center rounded-full"
@@ -290,9 +311,9 @@ export default function PartnershipsPage() {
                   >
                     <step.icon className="h-5 w-5 text-white" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#141413]">{step.title}</h3>
-                  <p className="mt-2 text-sm text-[#524F49]">{step.description}</p>
-                  <p className="mt-3 text-sm text-[#3F3A32]">{step.detail}</p>
+                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#161616]">{step.title}</h3>
+                  <p className="mt-2 text-sm text-[#161616]">{step.description}</p>
+                  <p className="mt-3 text-sm text-[#161616]">{step.detail}</p>
                 </div>
               ))}
             </div>
@@ -301,9 +322,9 @@ export default function PartnershipsPage() {
           {/* DEAL ECONOMICS – long beige cards directly on background */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Deal economics</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">Funding mechanics & partner yield</h2>
-              <p className="text-base text-[#524F49] max-w-3xl">
+              <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Deal economics</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[#161616]">Funding mechanics & partner yield</h2>
+              <p className="text-base text-[#161616] max-w-3xl">
                 Transparent economics keep your agents confident. Every file includes a clear payout schedule, remittance assumptions, and renewal triggers.
               </p>
             </div>
@@ -311,12 +332,12 @@ export default function PartnershipsPage() {
               {economicsBreakdown.map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-[32px] border border-[#E8E6DC] p-5 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
-                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
+                  className="rounded-[32px] border border-[#161616] p-5 shadow-[0_18px_40px_rgba(22,22,22,0.10)]"
+                  style={{ backgroundColor: BRAND_GRAY }}
                 >
-                  <p className="text-xs uppercase tracking-[0.25em] text-[#9B8E7A]">{item.label}</p>
-                  <p className="mt-3 text-sm text-[#3F3A32]">{item.description}</p>
-                  <p className="mt-4 text-sm font-semibold text-[#141413]">{item.partnerShare}</p>
+                  <p className="text-xs uppercase tracking-[0.25em] text-[#161616]">{item.label}</p>
+                  <p className="mt-3 text-sm text-[#161616]">{item.description}</p>
+                  <p className="mt-4 text-sm font-semibold text-[#161616]">{item.partnerShare}</p>
                 </div>
               ))}
             </div>
@@ -325,15 +346,15 @@ export default function PartnershipsPage() {
           {/* ENABLEMENT – tools cards with orange icons */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Enablement</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">Tools that keep partners in motion</h2>
+              <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Enablement</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[#161616]">Tools that keep partners in motion</h2>
             </div>
             <div className="grid gap-5 md:grid-cols-2">
               {enablementCards.map((card) => (
                 <div
                   key={card.title}
-                  className="rounded-3xl border border-[#E8E6DC] p-6 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
-                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
+                  className="rounded-3xl border border-[#161616] p-6 shadow-[0_18px_40px_rgba(22,22,22,0.10)]"
+                  style={{ backgroundColor: BRAND_GRAY }}
                 >
                   <div
                     className="flex h-12 w-12 items-center justify-center rounded-full"
@@ -341,9 +362,9 @@ export default function PartnershipsPage() {
                   >
                     <card.icon className="h-5 w-5 text-white" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#141413]">{card.title}</h3>
-                  <p className="mt-2 text-sm text-[#524F49]">{card.description}</p>
-                  <p className="mt-3 text-sm text-[#3F3A32]">{card.detail}</p>
+                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#161616]">{card.title}</h3>
+                  <p className="mt-2 text-sm text-[#161616]">{card.description}</p>
+                  <p className="mt-3 text-sm text-[#161616]">{card.detail}</p>
                 </div>
               ))}
             </div>
@@ -352,16 +373,16 @@ export default function PartnershipsPage() {
           {/* INDUSTRIES – left as-is */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Industries we accelerate</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">Where Split funding resonates</h2>
+              <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Industries we accelerate</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[#161616]">Where Split funding resonates</h2>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
               {industries.map((industry) => (
                 <div
                   key={industry.name}
-                  className="rounded-[32px] border border-[#E8E6DC] bg-[#FAF9F5] p-5"
+                  className="rounded-[32px] border border-[#161616] bg-[#D8D9D4] p-5"
                 >
-                  <div className="relative h-48 w-full overflow-hidden rounded-3xl">
+                  <div className="relative h-48 w-full overflow-hidden rounded-3xl border border-[#161616]">
                     <Image
                       src={industry.image}
                       alt={industry.name}
@@ -372,10 +393,10 @@ export default function PartnershipsPage() {
                   </div>
                   <div className="mt-4 flex items-center justify-between">
                     <div>
-                      <p className="font-poppins text-xl font-semibold text-[#141413]">{industry.name}</p>
-                      <p className="text-sm text-[#7B7569]">{industry.stat}</p>
+                      <p className="font-poppins text-xl font-semibold text-[#161616]">{industry.name}</p>
+                      <p className="text-sm text-[#161616]">{industry.stat}</p>
                     </div>
-                    <div className="rounded-full bg-[#f0ebe2] px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#9B8E7A]">
+                    <div className="rounded-full bg-[#161616] px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-white">
                       Split ready
                     </div>
                   </div>
@@ -386,13 +407,13 @@ export default function PartnershipsPage() {
 
           {/* FAQ – day-card style beige rows with orange dot */}
           <section className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">FAQ</p>
+            <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">FAQ</p>
             <div className="space-y-4">
               {faqs.map((faq) => (
                 <div
                   key={faq.question}
-                  className="flex flex-col gap-2 rounded-[32px] border border-[#E8E6DC] px-6 py-5 sm:flex-row sm:items-center sm:justify-between shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
-                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
+                  className="flex flex-col gap-2 rounded-[32px] border border-[#161616] px-6 py-5 sm:flex-row sm:items-center sm:justify-between shadow-[0_18px_40px_rgba(22,22,22,0.10)]"
+                  style={{ backgroundColor: BRAND_GRAY }}
                 >
                   <div className="flex items-start gap-3">
                     <span
@@ -400,8 +421,8 @@ export default function PartnershipsPage() {
                       style={{ backgroundColor: BRAND_ORANGE }}
                     />
                     <div>
-                      <h3 className="font-poppins text-lg font-semibold text-[#141413]">{faq.question}</h3>
-                      <p className="mt-1 text-sm text-[#524F49]">{faq.answer}</p>
+                      <h3 className="font-poppins text-lg font-semibold text-[#161616]">{faq.question}</h3>
+                      <p className="mt-1 text-sm text-[#161616]">{faq.answer}</p>
                     </div>
                   </div>
                 </div>
@@ -411,12 +432,12 @@ export default function PartnershipsPage() {
 
           {/* FINAL CTA – solid black card without opacity overlay */}
           <section>
-            <div className="rounded-[36px] border border-[#E8E6DC] bg-[#141413] p-8 text-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.5)]">
+            <div className="rounded-[36px] border border-[#161616] bg-[#161616] p-8 text-white shadow-[0_30px_80px_rgba(22,22,22,0.5)]">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div className="space-y-3">
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#D97757]">Ready when you are</p>
+                  <p className="text-sm uppercase tracking-[0.25em] text-[#FF4306]">Ready when you are</p>
                   <h2 className="font-poppins text-3xl font-semibold">Bring Split into your next portfolio review</h2>
-                  <p className="text-base text-[#E8E6DC]">
+                  <p className="text-base text-white">
                     Send a merchant list or invite us to your next ISO roundtable. We&apos;ll show exactly how Split flexes with the processing stack you already built.
                   </p>
                 </div>
@@ -432,17 +453,17 @@ export default function PartnershipsPage() {
           </section>
         </div>
 
-        <footer className="px-6 pb-8 pt-4 text-xs text-[#7B7569] sm:px-8 md:px-12 lg:px-16">
+        <footer className="px-6 pb-8 pt-4 text-xs text-[#161616] sm:px-8 md:px-12 lg:px-16">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p>© 2025 Split Payments, Inc. — Funding growth through payment technology.</p>
             <div className="flex items-center gap-6">
-              <a className="hover:text-[#D97757]" href="/policy">
+              <a className="hover:text-[#FF4306]" href="/policy">
                 privacy
               </a>
-              <a className="hover:text-[#D97757]" href="/terms">
+              <a className="hover:text-[#FF4306]" href="/terms">
                 terms
               </a>
-              <a className="hover:text-[#D97757]" href="/support">
+              <a className="hover:text-[#FF4306]" href="/support">
                 contact
               </a>
             </div>

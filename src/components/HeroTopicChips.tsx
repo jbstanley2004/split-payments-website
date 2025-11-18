@@ -21,7 +21,7 @@ export const HeroTopicChips = () => {
       {chipsData.map(({ label, type, variant }) => {
         if (type === 'text') {
           return (
-            <span key={label} className="text-sm font-medium text-main uppercase tracking-widest">
+            <span key={label} className="text-sm font-medium text-[#2E2E2E] uppercase tracking-widest">
               {label}
             </span>
           );

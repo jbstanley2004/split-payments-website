@@ -50,7 +50,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
           className="flex items-center gap-2"
         >
           <Image
-            src="/new_logo_no_bg_smooth.png"
+            src="/new_logo.svg"
             alt="Split"
             height={32}
             width={32}

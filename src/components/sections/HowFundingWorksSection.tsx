@@ -228,7 +228,7 @@ function FundingLoopVisual() {
                     className="inline-flex items-center gap-1.5 rounded-full border bg-white px-3 py-1.5"
                     style={{ rotate: inverseRotation }}
                     animate={{
-                      borderColor: isActive ? "var(--accent-orange)" : "var(--border-subtle)",
+                      borderColor: isActive ? "var(--brand-orange)" : "var(--border-subtle)",
                       scale: isActive ? 1.04 : 0.96,
                       opacity: isActive ? 1 : 0.8,
                     }}
