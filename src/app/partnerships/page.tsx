@@ -168,22 +168,13 @@ const faqs = [
   },
 ];
 
+const BRAND_BEIGE_DARK = "#d8d1c6";
+const BRAND_ORANGE = "#D97757";
+
 export default function PartnershipsPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
-      <div className="fixed inset-0 z-0 h-full w-full min-h-screen min-h-[100dvh] min-h-[100svh]">
-        <Image
-          src="/hero_image_formatted.png"
-          alt="Soft illustrated landscape background"
-          fill
-          className="object-cover object-center"
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
-      </div>
-
-      <div className="relative z-10">
+    <main className="min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
+      <div className="relative">
         <DynamicIslandNav />
 
         <div className="px-6 pb-16 pt-24 sm:px-8 md:px-12 lg:px-16 space-y-12 sm:space-y-16">
@@ -192,15 +183,18 @@ export default function PartnershipsPage() {
             <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
               {/* Left: headline + hero cards directly on image */}
               <div className="max-w-3xl">
-                <div className="chip chip--neutral">
-                  <span className="dot" />
-                  <span>ISO Partnerships</span>
+                <div className="inline-flex items-center gap-2 rounded-full border border-[#E8E6DC] bg-[#f0ebe2] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.3em] text-[#9B8E7A]">
+                  <span
+                    className="inline-block h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: BRAND_ORANGE }}
+                  />
+                  ISO Partnerships
                 </div>
                 <div className="mt-6 space-y-4">
-                  <h1 className="font-poppins text-4xl font-semibold leading-tight text-main sm:text-5xl">
+                  <h1 className="font-poppins text-4xl font-semibold leading-tight text-[#141413] sm:text-5xl">
                     Partnerships built on processing performance
                   </h1>
-                  <p className="text-lg text-subtle sm:text-xl max-w-2xl">
+                  <p className="text-lg text-[#3F3A32] sm:text-xl max-w-2xl">
                     Equip your ISO, agent, or referral team with funding that mirrors every card swipe. Split prices against actual processor data so your merchants see capital faster—and you capture more share of wallet.
                   </p>
                 </div>
@@ -208,11 +202,11 @@ export default function PartnershipsPage() {
                   {heroHighlights.map((item) => (
                     <div
                       key={item.title}
-                      className="rounded-2xl border border-border-subtle p-5 shadow-soft"
-                      style={{ backgroundColor: "var(--bg-section-stone)" }}
+                      className="rounded-2xl border border-[#E8E6DC] p-5 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
+                      style={{ backgroundColor: BRAND_BEIGE_DARK }}
                     >
-                      <p className="font-poppins text-base font-semibold text-main">{item.title}</p>
-                      <p className="mt-2 text-sm text-subtle">{item.description}</p>
+                      <p className="font-poppins text-base font-semibold text-[#141413]">{item.title}</p>
+                      <p className="mt-2 text-sm text-[#524F49]">{item.description}</p>
                     </div>
                   ))}
                 </div>
@@ -230,11 +224,12 @@ export default function PartnershipsPage() {
                   {partnerMetrics.map((metric) => (
                     <div
                       key={metric.label}
-                      className="tile"
+                      className="rounded-[32px] border border-[#E8E6DC] p-5 shadow-[0_18px_40px_rgba(20,20,19,0.12)]"
+                      style={{ backgroundColor: BRAND_BEIGE_DARK }}
                     >
-                      <p className="tile__label text-[11px] uppercase tracking-[0.2em]">{metric.label}</p>
-                      <p className="tile__value mt-2 text-3xl">{metric.value}</p>
-                      <p className="tile__label text-sm">{metric.detail}</p>
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-[#9B8E7A]">{metric.label}</p>
+                      <p className="mt-2 font-poppins text-3xl font-semibold text-[#141413]">{metric.value}</p>
+                      <p className="text-sm text-[#524F49]">{metric.detail}</p>
                     </div>
                   ))}
                 </div>
@@ -276,9 +271,9 @@ export default function PartnershipsPage() {
           {/* PROGRAM FLOW */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-subtle">Program flow</p>
-              <h2 className="font-poppins text-3xl font-semibold text-main">How the partnership works</h2>
-              <p className="text-base text-subtle max-w-3xl">
+              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Program flow</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">How the partnership works</h2>
+              <p className="text-base text-[#524F49] max-w-3xl">
                 Each step is built to respect your merchant relationship. You own the conversation; we provide underwriting, capital, and servicing.
               </p>
             </div>
@@ -286,16 +281,18 @@ export default function PartnershipsPage() {
               {partnerSteps.map((step) => (
                 <div
                   key={step.title}
-                  className="card card--neutral"
+                  className="rounded-3xl border border-[#E8E6DC] p-6 shadow-[0_18px_45px_rgba(20,20,19,0.12)]"
+                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
                 >
                   <div
-                    className="card__icon"
+                    className="flex h-12 w-12 items-center justify-center rounded-full"
+                    style={{ backgroundColor: BRAND_ORANGE }}
                   >
                     <step.icon className="h-5 w-5 text-white" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-poppins text-xl font-semibold text-main">{step.title}</h3>
-                  <p className="mt-2 text-sm text-subtle">{step.description}</p>
-                  <p className="mt-3 text-sm text-main">{step.detail}</p>
+                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#141413]">{step.title}</h3>
+                  <p className="mt-2 text-sm text-[#524F49]">{step.description}</p>
+                  <p className="mt-3 text-sm text-[#3F3A32]">{step.detail}</p>
                 </div>
               ))}
             </div>
@@ -304,9 +301,9 @@ export default function PartnershipsPage() {
           {/* DEAL ECONOMICS – long beige cards directly on background */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-subtle">Deal economics</p>
-              <h2 className="font-poppins text-3xl font-semibold text-main">Funding mechanics & partner yield</h2>
-              <p className="text-base text-subtle max-w-3xl">
+              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Deal economics</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">Funding mechanics & partner yield</h2>
+              <p className="text-base text-[#524F49] max-w-3xl">
                 Transparent economics keep your agents confident. Every file includes a clear payout schedule, remittance assumptions, and renewal triggers.
               </p>
             </div>
@@ -314,11 +311,12 @@ export default function PartnershipsPage() {
               {economicsBreakdown.map((item) => (
                 <div
                   key={item.label}
-                  className="card card--neutral"
+                  className="rounded-[32px] border border-[#E8E6DC] p-5 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
+                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
                 >
-                  <p className="text-xs uppercase tracking-[0.25em] text-subtle">{item.label}</p>
-                  <p className="mt-3 text-sm text-main">{item.description}</p>
-                  <p className="mt-4 text-sm font-semibold text-main">{item.partnerShare}</p>
+                  <p className="text-xs uppercase tracking-[0.25em] text-[#9B8E7A]">{item.label}</p>
+                  <p className="mt-3 text-sm text-[#3F3A32]">{item.description}</p>
+                  <p className="mt-4 text-sm font-semibold text-[#141413]">{item.partnerShare}</p>
                 </div>
               ))}
             </div>
@@ -327,23 +325,25 @@ export default function PartnershipsPage() {
           {/* ENABLEMENT – tools cards with orange icons */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-subtle">Enablement</p>
-              <h2 className="font-poppins text-3xl font-semibold text-main">Tools that keep partners in motion</h2>
+              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Enablement</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">Tools that keep partners in motion</h2>
             </div>
             <div className="grid gap-5 md:grid-cols-2">
               {enablementCards.map((card) => (
                 <div
                   key={card.title}
-                  className="card card--neutral"
+                  className="rounded-3xl border border-[#E8E6DC] p-6 shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
+                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
                 >
                   <div
-                    className="card__icon"
+                    className="flex h-12 w-12 items-center justify-center rounded-full"
+                    style={{ backgroundColor: BRAND_ORANGE }}
                   >
                     <card.icon className="h-5 w-5 text-white" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-poppins text-xl font-semibold text-main">{card.title}</h3>
-                  <p className="mt-2 text-sm text-subtle">{card.description}</p>
-                  <p className="mt-3 text-sm text-main">{card.detail}</p>
+                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#141413]">{card.title}</h3>
+                  <p className="mt-2 text-sm text-[#524F49]">{card.description}</p>
+                  <p className="mt-3 text-sm text-[#3F3A32]">{card.detail}</p>
                 </div>
               ))}
             </div>
@@ -352,15 +352,14 @@ export default function PartnershipsPage() {
           {/* INDUSTRIES – left as-is */}
           <section className="space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-subtle">Industries we accelerate</p>
-              <h2 className="font-poppins text-3xl font-semibold text-main">Where Split funding resonates</h2>
+              <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">Industries we accelerate</p>
+              <h2 className="font-poppins text-3xl font-semibold text-[#141413]">Where Split funding resonates</h2>
             </div>
             <div className="grid gap-6 md:grid-cols-2">
               {industries.map((industry) => (
                 <div
                   key={industry.name}
-                  className="rounded-[32px] border border-border-subtle p-5"
-                  style={{ backgroundColor: '#F7F2EC' }}
+                  className="rounded-[32px] border border-[#E8E6DC] bg-[#FAF9F5] p-5"
                 >
                   <div className="relative h-48 w-full overflow-hidden rounded-3xl">
                     <Image
@@ -373,13 +372,10 @@ export default function PartnershipsPage() {
                   </div>
                   <div className="mt-4 flex items-center justify-between">
                     <div>
-                      <p className="font-poppins text-xl font-semibold text-main">{industry.name}</p>
-                      <p className="text-sm text-subtle">{industry.stat}</p>
+                      <p className="font-poppins text-xl font-semibold text-[#141413]">{industry.name}</p>
+                      <p className="text-sm text-[#7B7569]">{industry.stat}</p>
                     </div>
-                    <div
-                      className="rounded-full px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-main"
-                      style={{ backgroundColor: "var(--bg-section-stone)" }}
-                    >
+                    <div className="rounded-full bg-[#f0ebe2] px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-[#9B8E7A]">
                       Split ready
                     </div>
                   </div>
@@ -390,17 +386,23 @@ export default function PartnershipsPage() {
 
           {/* FAQ – day-card style beige rows with orange dot */}
           <section className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.25em] text-subtle">FAQ</p>
+            <p className="text-sm uppercase tracking-[0.25em] text-[#9B8E7A]">FAQ</p>
             <div className="space-y-4">
               {faqs.map((faq) => (
                 <div
                   key={faq.question}
-                  className="faq-row"
+                  className="flex flex-col gap-2 rounded-[32px] border border-[#E8E6DC] px-6 py-5 sm:flex-row sm:items-center sm:justify-between shadow-[0_18px_40px_rgba(20,20,19,0.10)]"
+                  style={{ backgroundColor: BRAND_BEIGE_DARK }}
                 >
-                  <div className="dot" />
-                  <div>
-                    <h3 className="font-poppins text-lg font-semibold text-main">{faq.question}</h3>
-                    <p className="mt-1 text-sm text-subtle">{faq.answer}</p>
+                  <div className="flex items-start gap-3">
+                    <span
+                      className="mt-2 inline-block h-2 w-2 rounded-full"
+                      style={{ backgroundColor: BRAND_ORANGE }}
+                    />
+                    <div>
+                      <h3 className="font-poppins text-lg font-semibold text-[#141413]">{faq.question}</h3>
+                      <p className="mt-1 text-sm text-[#524F49]">{faq.answer}</p>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -409,15 +411,12 @@ export default function PartnershipsPage() {
 
           {/* FINAL CTA – solid black card without opacity overlay */}
           <section>
-            <div
-              className="rounded-[36px] border border-border-subtle p-8 text-white shadow-soft"
-              style={{ backgroundColor: "var(--bg-section-stone)" }}
-            >
+            <div className="rounded-[36px] border border-[#E8E6DC] bg-[#141413] p-8 text-[#FAF9F5] shadow-[0_30px_80px_rgba(20,20,19,0.5)]">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div className="space-y-3">
-                  <p className="text-sm uppercase tracking-[0.25em] text-white">Ready when you are</p>
+                  <p className="text-sm uppercase tracking-[0.25em] text-[#D97757]">Ready when you are</p>
                   <h2 className="font-poppins text-3xl font-semibold">Bring Split into your next portfolio review</h2>
-                  <p className="text-base text-white">
+                  <p className="text-base text-[#E8E6DC]">
                     Send a merchant list or invite us to your next ISO roundtable. We&apos;ll show exactly how Split flexes with the processing stack you already built.
                   </p>
                 </div>

@@ -4,6 +4,7 @@ import { PageBackdrop } from "@/components/page-backdrop";
 import { CreditCard, Check, Laptop } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 type PaymentSolution = {
   title: string;
@@ -43,11 +44,8 @@ const SUMMARY_COLORS = ["#d8d1c6", "#6A9BCC", "#BCD1CA"];
 
 export default function PaymentsPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
-      {/* Shared backdrop image, same treatment as other editorial pages */}
-      <PageBackdrop priority />
-
-      <div className="relative z-10">
+    <main className="min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
+      <div className="relative">
         <DynamicIslandNav />
 
         {/* HERO – copy sits directly on the beige background */}

@@ -6,11 +6,12 @@ import PaymentsSection from "@/components/sections/PaymentsSection";
 import GetStartedSection from "@/components/sections/GetStartedSection";
 import { motion } from "framer-motion";
 import { HeroTopicChips } from "@/components/HeroTopicChips";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
-      <div className="relative z-10">
+    <main className="min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
+      <div className="relative">
         <DynamicIslandNav />
 
         {/* LANDING HERO */}

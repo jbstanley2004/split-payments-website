@@ -1,10 +1,11 @@
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
+import Image from "next/image";
 
 export default function FundingPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
-      <div className="relative z-10">
+    <main className="min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
+      <div className="relative">
         <DynamicIslandNav />
 
         {/* HOW FUNDING WORKS */}
