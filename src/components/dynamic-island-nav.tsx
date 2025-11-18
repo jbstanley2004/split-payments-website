@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/stub";
-import splitLogo from "public/new_logo.svg";
+import splitLogo from "public/new_logo_cuttout.svg";
 
 type DynamicIslandNavProps = {
   className?: string;
@@ -56,8 +56,8 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
             <Image
               src={splitLogo}
               alt="Split"
-              height={28}
-              className="h-7 w-auto object-contain"
+              height={32}
+              className="h-8 w-auto object-contain"
               priority={logoPriority}
             />
           </Link>
