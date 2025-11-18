@@ -1,199 +1,86 @@
-import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import OrangePushButton from "@/components/OrangePushButton";
-import { PageBackdrop } from "@/components/page-backdrop";
-import { CreditCard, Check, Laptop } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
-import Link from "next/link";
+
 import Image from "next/image";
-
-type PaymentSolution = {
-  title: string;
-  description: string;
-  icon: LucideIcon;
-};
-
-const SOLUTIONS: PaymentSolution[] = [
-  {
-    title: "Credit Card Acceptance",
-    description:
-      "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale with your business.",
-    icon: CreditCard,
-  },
-  {
-    title: "Check Processing",
-    description:
-      "Modernize your check acceptance with automated verification, faster deposits, and lower transaction costs.",
-    icon: Check,
-  },
-  {
-    title: "Point of Sale (POS) systems",
-    description:
-      "Power your business with flexible POS systems — tailored for retail, restaurants, and service providers, in-store or on-the-go.",
-    icon: Laptop,
-  },
-];
-
-const SOLUTION_CARD_STYLES = [
-  { bg: "bg-[#d8d1c6]" }, // darkest beige
-  { bg: "bg-[#6A9BCC]" }, // blue
-  { bg: "bg-[#BCD1CA]" }, // green
-];
-
-const SUMMARY_ITEMS = ["Cards", "ACH", "Terminals", "POS", "Online"];
-const SUMMARY_COLORS = ["#d8d1c6", "#6A9BCC", "#BCD1CA"];
 
 export default function PaymentsPage() {
   return (
-    <main className="min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
-      <div className="relative">
-        <DynamicIslandNav />
-
-        {/* HERO – copy sits directly on the beige background */}
-        <section className="px-6 md:px-10 lg:px-16 pt-24 sm:pt-28 md:pt-32 pb-10 md:pb-12">
-          <div className="mx-auto max-w-4xl text-left">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-subtle">
-              Payments
-            </p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-poppins font-semibold tracking-tight text-main">
-              Smarter payments. Stronger cash flow.
+    <main>
+      {/* HERO */}
+      <section className="py-24 text-left">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl">
+            <h1 className="text-5xl md:text-6xl font-semibold">
+              Smarter payments. <br /> Stronger cash flow.
             </h1>
-            <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-subtle max-w-3xl">
-              Simplify every transaction — from cards to ACH — while unlocking
-              funding that moves at the speed of your business. Split unites
-              payment processing, merchant services, and split-funding into one
-              seamless experience so your cash flow stays strong and predictable.
+            <p className="mt-4 text-lg text-[var(--text-body)]">
+              Simplify every transaction — from cards to ACH — while unlocking funding that moves at the speed of your business.
             </p>
           </div>
+        </div>
+      </section>
 
-          {/* Summary chips: Cards / ACH / Terminals / POS / Online */}
-          <div className="mt-8 flex justify-start">
-            <div className="flex flex-wrap gap-2">
-              <div className="chip chip--neutral">
-                <span className="dot" />
-                <span>CARDS</span>
+      {/* FEATURE GRID */}
+      <section className="py-16">
+        <div className="container mx-auto px-6">
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="notion-card">
+              <h3 className="text-2xl font-semibold">No new behavior for your customers.</h3>
+              <p className="mt-2 text-[var(--text-body)]">
+                Your customers pay exactly as they do today. We automatically split a small portion of card sales to repay your funding. No extra steps. No new portals.
+              </p>
+              <div className="mt-6 p-5 bg-white rounded-lg shadow-sm border border-[var(--border-subtle)]">
+                <Image src="/placeholder.png" alt="Payment flow diagram" width={800} height={450} />
               </div>
-              <div className="chip chip--blue">
-                <span className="dot" />
-                <span>ACH</span>
-              </div>
-              <div className="chip chip--sage">
-                <span className="dot" />
-                <span>TERMINALS</span>
-              </div>
-              <div className="chip chip--neutral">
-                <span className="dot" />
-                <span>POS</span>
-              </div>
-              <div className="chip chip--rose">
-                <span className="dot" />
-                <span>ONLINE</span>
+            </div>
+            <div className="notion-card">
+              <h3 className="text-2xl font-semibold">Predictable cash flow you can count on.</h3>
+              <p className="mt-2 text-[var(--text-body)]">
+                Because funding is repaid as a percentage of sales, you pay less during slow periods and more when sales are strong. It’s a flexible model that works with your natural business cycles.
+              </p>
+              <div className="mt-6 p-5 bg-white rounded-lg shadow-sm border border-[var(--border-subtle)]">
+                <Image src="/placeholder.png" alt="Cash flow chart" width={800} height={450} />
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* COVERAGE + SOLUTIONS GRID – floating cards only */}
-        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-20">
-          <div className="mx-auto max-w-5xl">
-            <div className="text-left">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-subtle">
-                Coverage
-              </p>
-              <h2 className="mt-2 text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-main">
-                Built for every way you accept payments.
-              </h2>
-              <p className="mt-3 text-sm sm:text-base md:text-lg font-lora text-subtle max-w-3xl">
-                From in-person swipes to online checkouts, Split brings cards,
-                ACH, terminals, and POS together under one transparent platform
-                so you don&apos;t have to stitch together multiple providers.
-              </p>
-            </div>
-
-            <div className="mx-auto mt-10 grid max-w-5xl gap-6 md:grid-cols-3">
-              <article className="card card--neutral flex flex-col p-6 text-left">
-                <div className="card__icon">
-                  <CreditCard className="h-4 w-4" aria-hidden="true" />
-                </div>
-                <h3 className="font-poppins text-base md:text-lg font-semibold">
-                  Credit Card Acceptance
-                </h3>
-                <p className="mt-1 text-sm font-lora">
-                  Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale with your business.
-                </p>
-              </article>
-              <article className="card card--blue flex flex-col p-6 text-left">
-                <div className="card__icon">
-                  <Check className="h-4 w-4" aria-hidden="true" />
-                </div>
-                <h3 className="font-poppins text-base md:text-lg font-semibold">
-                  Check Processing
-                </h3>
-                <p className="mt-1 text-sm font-lora">
-                  Modernize your check acceptance with automated verification, faster deposits, and lower transaction costs.
-                </p>
-              </article>
-              <article className="card card--sage flex flex-col p-6 text-left">
-                <div className="card__icon">
-                  <Laptop className="h-4 w-4" aria-hidden="true" />
-                </div>
-                <h3 className="font-poppins text-base md:text-lg font-semibold">
-                  Point of Sale (POS) systems
-                </h3>
-                <p className="mt-1 text-sm font-lora">
-                  Power your business with flexible POS systems — tailored for retail, restaurants, and service providers, in-store or on-the-go.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        {/* REASSURANCE STRIP – text only, no section card */}
-        <section className="px-6 md:px-10 lg:px-16 py-10">
-          <div className="mx-auto flex max-w-5xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="space-y-1 text-left">
-              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-subtle">
-                Why merchants switch to Split
-              </p>
-              <p className="max-w-xl text-sm md:text-base font-lora text-subtle">
-                We combine payment processing and funding so you get one
-                relationship for your card volume and your working capital.
-              </p>
-            </div>
-            <div className="flex flex-wrap items-center gap-3 text-xs md:text-sm text-subtle">
-              <div className="chip chip--neutral">
-                <span className="dot" />
-                <span>Simple, transparent pricing</span>
-              </div>
-              <div className="chip chip--neutral">
-                <span className="dot" />
-                <span>Funding-ready payment rails</span>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA SECTION – containerless copy + CTA */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 md:py-20">
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-2xl md:text-3xl font-poppins font-semibold tracking-tight text-main">
-              See how Split can improve your processing.
-            </h2>
-            <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-subtle">
-              Share a recent statement and we&apos;ll review your current setup,
-              uncover potential savings, and show how funding and payments work
-              together in one platform.
+      {/* BENTO GRID */}
+      <section className="py-16">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-2xl mx-auto">
+            <h2 className="text-4xl md:text-5xl font-semibold">Less friction at renewal.</h2>
+            <p className="mt-4 text-lg text-[var(--text-body)]">
+              Our integrated system uses your real payment data to automate renewals, making it easier than ever to access ongoing funding.
             </p>
-            <div className="mt-8 flex justify-center">
-              <Link href="/get-started">
-                <button className="btn-primary">
-                  <span className="dot" />
-                  <span>Start my cost review</span>
-                </button>
-              </Link>
+          </div>
+          <div className="mt-12 grid md:grid-cols-2 gap-8">
+            <div className="notion-card">
+              <h3 className="text-2xl font-semibold">Automated Renewals</h3>
+              <p className="mt-2 text-[var(--text-body)]">
+                Your payment processing data automatically qualifies you for renewals. No new applications needed.
+              </p>
+            </div>
+            <div className="notion-card">
+              <h3 className="text-2xl font-semibold">Transparent Pricing</h3>
+              <p className="mt-2 text-[var(--text-body)]">
+                Clear, simple pricing on payment processing and funding. No hidden fees, no surprises.
+              </p>
+            </div>
+            <div className="notion-card">
+              <h3 className="text-2xl font-semibold">Unified Dashboard</h3>
+              <p className="mt-2 text-[var(--text-body)]">
+                Manage payments and funding from a single dashboard. See your complete financial picture in one place.
+              </p>
+            </div>
+            <div className="notion-card">
+              <h3 className="text-2xl font-semibold">Dedicated Support</h3>
+              <p className="mt-2 text-[var(--text-body)]">
+                Our team is here to help with both your payments and funding questions. One contact, one solution.
+              </p>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }

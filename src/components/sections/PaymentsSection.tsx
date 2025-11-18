@@ -2,7 +2,6 @@
 
 import { CreditCard, Check, Laptop } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import Link from "next/link";
 
 type PaymentFeature = {
   title: string;
@@ -31,70 +30,25 @@ const PAYMENT_FEATURES: PaymentFeature[] = [
   },
 ];
 
-const CARD_STYLES = [
-  "card--neutral",
-  "card--blue",
-  "card--sage",
-];
-
 export default function PaymentsSection() {
   return (
-    <section id="payments-inner" className="pt-16 md:pt-24 pb-4 md:pb-6">
-      {/* Copy block sits directly on the page background */}
-      <div className="mx-auto max-w-4xl px-0 md:px-2 lg:px-4 text-left">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-subtle">
-          Payments
-        </p>
-        <h2 className="text-3xl md:text-4xl font-poppins font-semibold tracking-tight text-main">
-          Smarter payments. Stronger cash flow.
+    <div className="container mx-auto px-6">
+      <div className="text-center max-w-2xl mx-auto">
+        <h2 className="text-4xl md:text-5xl font-semibold">
+          Built for every way you get paid.
         </h2>
-        <p className="mt-4 text-sm sm:text-base md:text-lg font-lora text-subtle max-w-3xl">
-          Simplify every transaction — from cards to ACH — while unlocking
-          funding that moves at the speed of your business. Split unites payment
-          processing, merchant services, and split-funding into one seamless
-          experience so your cash flow stays strong and predictable.
-        </p>
-
-        {/* Learn more link to standalone payments page */}
-        <div className="mt-5">
-          <Link
-            href="/payments"
-            className="inline-flex items-center text-sm md:text-base font-lora text-main hover:text-accent-orange transition-colors duration-300"
-          >
-            <span>Learn more about payments</span>
-            <span aria-hidden className="ml-1">
-              →
-            </span>
-          </Link>
-        </div>
       </div>
-
-      {/* Floating feature cards as their own band */}
-      <div className="mt-10 px-0 md:px-2 lg:px-4">
-        <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-3">
-          {PAYMENT_FEATURES.map((feature, index) => {
-            const cardClass =
-              CARD_STYLES[index] || CARD_STYLES[CARD_STYLES.length - 1];
-
-            return (
-              <article
-                key={feature.title}
-                className={`card ${cardClass} flex flex-col p-6 text-left`}
-              >
-                <div className="card__icon">
-                  <feature.icon className="h-4 w-4" aria-hidden="true" />
-                </div>
-                <h3 className="font-poppins text-base md:text-lg font-semibold">
-                  {feature.title}
-                </h3>
-                <p className="mt-1 text-sm font-lora">
-                  {feature.description}
-                </p>
-              </article>
-            );
-          })}
-        </div>
+      <div className="mt-12 grid gap-8 md:grid-cols-3">
+        {PAYMENT_FEATURES.map((feature) => (
+          <div key={feature.title} className="notion-card text-left">
+            <feature.icon className="h-6 w-6 mb-4 text-[var(--text-main)]" />
+            <h3 className="text-xl font-semibold">{feature.title}</h3>
+            <p className="mt-2 text-[var(--text-body)]">
+              {feature.description}
+            </p>
+          </div>
+        ))}
       </div>
-    </section>
+    </div>
   );
 }

@@ -1,237 +1,67 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Source+Serif+4:wght@400;500&display=swap');
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+/* ROOT VARIABLES - NOTION THEME */
 :root {
-  /* Backgrounds */
-  --bg-page: #F4F2EE;
-  --bg-section-cream: #E8DDD0;
-  --bg-section-stone: #C5B092;
-
-  /* Brand surfaces */
-  --blue-soft: #8196A9;
-  --blue-deep: #3F6587;
-  --sage: #7E987C;
-  --rose: #B099A2;
-
-  /* Accent (sparingly) */
-  --accent-orange: #D97757;
-
-  /* Text */
-  --text-main: #151515;
-  --text-subtle: #5B534B;
-  --text-on-dark: #FFFFFF;
-
-  /* Border & shadow */
-  --border-subtle: #D5C8B9;
-  --shadow-soft: 0 18px 40px rgba(15, 7, 0, 0.10);
-
-  /* Radius */
-  --radius-pill: 999px;
-  --radius-card: 24px;
-
-  --sh-class: #ffffff;
-  --sh-identifier: #ffffff;
-  --sh-sign: #8996a3;
-  --sh-string: #a7a7a7;
-  --sh-keyword: #a7a7a7;
-  --sh-comment: #a19595;
-  --sh-jsxliterals: #ffffff;
-  --sh-property: #a7a7a7;
-  --sh-entity: #a7a7a7;
-  /* Anthropic Brand Colors */
-  --bg: 250 249 245;
-  --text: 20 20 19;
-  --line: 232 230 220;
-  --theme-background: #F9F7F3;
-  --theme-surface: #ffffff;
-  --theme-text-primary: #0A0A0A;
-  --theme-text-secondary: #2C2C2C;
-  --theme-border: #e8e6dc;
-  --theme-accent: #141413;
-  --theme-accent-hover: #2C2C2C;
-  --theme-accent-blue: #6a9bcc;
-  --theme-accent-green: #788c5d;
-  --theme-accent-gray: #b0aea5;
-  color-scheme: light dark;
-  background-color: transparent;
-  color: #0A0A0A;
-  font-family: "Inter Tight", system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  --safe-area-top: env(safe-area-inset-top, 0px);
-  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-area-left: env(safe-area-inset-left, 0px);
-  --safe-area-right: env(safe-area-inset-right, 0px);
+--bg-primary: #FFFFFF;
+--bg-secondary: #F7F7F5; /* The Notion Grey Block */
+--text-main: #000000;
+--text-body: #37352F;
+--text-muted: #7A7C85;
+--border-subtle: #E9E9E7;
+--radius-block: 16px;
+--radius-button: 6px;
+--font-serif: "Lyon-Text", Georgia, serif; /* Use similar if Lyon unavailable */
+--font-sans: "Inter", sans-serif;
 }
 
+/* RESET & BASICS */
 body {
-  min-height: 100vh;
-  min-height: 100dvh;
-  min-height: 100svh;
-  background-color: var(--bg-page);
-  color: var(--text-main);
-  font-family: var(--font-lora, "Lora"), var(--font-poppins, "Poppins"), "Inter Tight", system-ui, sans-serif;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  padding: 0;
-  padding-top: var(--safe-area-top);
-  padding-bottom: var(--safe-area-bottom);
-  padding-left: var(--safe-area-left);
-  padding-right: var(--safe-area-right);
+background-color: var(--bg-primary);
+color: var(--text-body);
+font-family: var(--font-sans);
+-webkit-font-smoothing: antialiased;
 }
 
-@layer components {
-  .btn-primary {
-    background: var(--blue-deep);
-    color: var(--text-on-dark);
-    border-radius: var(--radius-pill);
-    padding: 10px 22px;
-    font-weight: 600;
-    border: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: var(--shadow-soft);
-  }
-
-  .btn-primary .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--accent-orange);
-  }
-
-  .btn-primary:hover { background: #567EA3; }
-  .btn-primary:active { background: var(--blue-deep); }
-  .btn-primary:focus {
-    outline: 2px solid #2B4963;
-    outline-offset: 2px;
-  }
-
-  .chip {
-    border-radius: var(--radius-pill);
-    padding: 4px 12px 4px 10px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-  }
-
-  .chip .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 999px;
-    background: var(--accent-orange);
-  }
-
-  .chip--neutral { background: #F8F3EC; color: var(--text-subtle); }
-  .chip--blue { background: var(--blue-soft); color: var(--text-on-dark); }
-  .chip--sage { background: var(--sage); color: var(--text-on-dark); }
-  .chip--rose { background: var(--rose); color: var(--text-on-dark); }
-
-  .card {
-    border-radius: var(--radius-card);
-    padding: 24px;
-    box-shadow: var(--shadow-soft);
-  }
-
-  .card__icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 999px;
-    background: var(--accent-orange);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #FFFFFF;
-    margin-bottom: 16px;
-  }
-
-  .card--neutral { background: var(--bg-section-stone); color: var(--text-main); }
-  .card--blue { background: var(--blue-soft); color: var(--text-on-dark); }
-  .card--sage { background: var(--sage); color: var(--text-on-dark); }
-  .card--rose { background: var(--rose); color: var(--text-on-dark); }
-
-  .tile {
-    background: #F8F3EC;
-    border-radius: 18px;
-    padding: 16px;
-    border: 1px solid var(--border-subtle);
-  }
-
-  .tile__value {
-    font-weight: 600;
-    color: var(--text-main);
-  }
-
-  .tile__label {
-    font-size: 14px;
-    color: var(--text-subtle);
-  }
-
-  .faq-row {
-    background: var(--bg-section-cream);
-    border-radius: var(--radius-pill);
-    padding: 12px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border: 1px solid var(--border-subtle);
-  }
-
-  .faq-row .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--accent-orange);
-  }
-
-  .nav-pill {
-    background: #FFFFFF;
-    border-radius: var(--radius-pill);
-    box-shadow: var(--shadow-soft);
-    padding: 6px 16px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .nav-pill .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 999px;
-    background: var(--accent-orange);
-  }
-
-  .nav-pill--active {
-    outline: 1px solid var(--blue-soft);
-  }
+/* TYPOGRAPHY SWAP */
+h1, h2, h3, h4, h5 {
+font-family: var(--font-serif);
+font-weight: 700;
+color: var(--text-main);
+letter-spacing: -0.02em;
 }
 
-/* Funding page cards: flatten heavy shadows so they sit flat against the canvas */
-[class*="shadow-[0_18px_45px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"],
-[class*="shadow-[0_14px_30px_rgba(20,20,19,0.08),_0_1px_0_rgba(255,255,255,0.85)_inset,_0_-1px_0_rgba(20,20,19,0.08)_inset]"],
-[class*="shadow-[0_14px_32px_rgba(20,20,19,0.10)]"] {
-  box-shadow: none !important;
+p, li, a, span {
+font-family: var(--font-sans);
+line-height: 1.5;
 }
 
-@layer utilities {
-  @keyframes logo-marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
+/* BLOCK COMPONENT (The Bento Card) */
+.notion-card {
+background-color: var(--bg-secondary);
+border-radius: var(--radius-block);
+padding: 32px;
+border: none; /* No borders on grey blocks usually, or very subtle */
+}
 
-  .animate-logo-marquee {
-    animation: logo-marquee 36s linear infinite;
-  }
+/* BUTTONS */
+.btn-primary {
+background-color: #000000;
+color: #FFFFFF;
+border-radius: var(--radius-button);
+padding: 12px 24px;
+font-weight: 500;
+font-family: var(--font-sans);
+text-decoration: none;
+display: inline-block;
+}
 
-  .animate-logo-marquee-reverse {
-    animation: logo-marquee 36s linear infinite reverse;
-  }
+/* NAVIGATION BAR */
+nav {
+border-bottom: 1px solid var(--border-subtle);
+background: rgba(255, 255, 255, 0.8);
+backdrop-filter: blur(10px);
+}
+
+/* LOGOS */
+.partner-logo {
+filter: grayscale(100%);
+opacity: 0.8;
 }
