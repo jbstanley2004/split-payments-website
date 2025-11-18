@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-[#141413] bg-[#FAF9F5]">
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-[#161616] bg-[#D8D9D4]">
       <div className="relative z-10">
         <DynamicIslandNav />
 
@@ -22,39 +22,38 @@ export default function HomePage() {
             initial={{ opacity: 0, translateY: 30 }}
             animate={{ opacity: 1, translateY: 0 }}
             transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-            className="flex flex-col items-center gap-10 max-w-4xl px-6"
+            className="flex flex-col items-center gap-8 max-w-4xl px-6"
             style={{ willChange: "transform, opacity" }}
           >
-            <p className="text-[0.7rem] uppercase tracking-[0.3em] text-[#b0aea5]">
+            <p className="text-[0.7rem] uppercase tracking-[0.3em] text-[#B0AEA5]">
               Payments • Funding • Partnerships
             </p>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-[#141413]">
+            <h1 className="text-5xl md:text-[3.5rem] lg:text-[4.25rem] font-poppins font-semibold leading-tight text-[#161616]">
               Funding growth through payment technology.
             </h1>
-            <p className="text-lg md:text-xl lg:text-2xl font-lora text-[#524F49]">
-              Split helps mid-market merchants turn everyday card volume into working capital
-              while keeping payments, funding, and partnerships on one calm, predictable stack.
+            <p className="text-base md:text-lg lg:text-xl font-lora text-[#2C2C2C] max-w-2xl">
+              Split helps mid-market merchants turn everyday card volume into working capital while keeping payments, funding, and partnerships on one calm, predictable stack.
             </p>
 
             <motion.div
-              className="flex flex-wrap items-center justify-center gap-2 mt-4"
+              className="flex flex-wrap items-center justify-center gap-2 mt-2"
               initial={{ opacity: 0, translateY: 10 }}
               animate={{ opacity: 1, translateY: 0 }}
               transition={{ delay: 0.15, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
             >
               {["Cards", "Funding", "Workflows", "Approvals", "Partners"].map((pill, index) => {
-                const palette = ["#e8e6dc", "#6a9bcc", "#788c5d", "#cbcadb", "#e8e6dc"];
+                const palette = ["#D8D9D4", "#6A9BCC", "#788C5D", "#CBCADB", "#D8D9D4"];
                 const bg = palette[index % palette.length];
-                const isBeige = bg === "#e8e6dc";
-                const textColor = isBeige ? "#141413" : "#faf9f5";
+                const isBeige = bg === "#D8D9D4";
+                const textColor = isBeige ? "#161616" : "#F5F5F3";
 
                 return (
                   <span
                     key={pill}
-                    className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-medium tracking-[0.16em] uppercase border border-[#e8e6dc]"
+                    className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-[11px] font-medium tracking-[0.16em] uppercase border border-[#D8D9D4]"
                     style={{ backgroundColor: bg, color: textColor }}
                   >
-                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#d97757]" />
+                    <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#FF4306]" />
                     <span>{pill}</span>
                   </span>
                 );
@@ -62,7 +61,7 @@ export default function HomePage() {
             </motion.div>
 
             <motion.div
-              className="flex flex-col items-center text-[0.7rem] uppercase tracking-[0.3em] text-[#b0aea5] mt-10"
+              className="flex flex-col items-center text-[0.7rem] uppercase tracking-[0.3em] text-[#B0AEA5] mt-8"
               initial={{ opacity: 0, translateY: 10 }}
               animate={{ opacity: 1, translateY: 0 }}
               transition={{ delay: 0.25, duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
@@ -81,7 +80,7 @@ export default function HomePage() {
                   viewBox="0 0 24 32"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="text-[#b0aea5]"
+                  className="text-[#B0AEA5]"
                 >
                   <path
                     d="M12 4v20m0 0l-6-6m6 6 6-6"
