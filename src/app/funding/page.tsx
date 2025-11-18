@@ -3,7 +3,7 @@ import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/Hero";
 
 export default function FundingPage() {
   return (
-    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#F5F5F3] font-lora text-[#161616]">
+    <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-[#FAF9F5] font-lora text-[#141413]">
       <div className="relative z-10">
         <DynamicIslandNav />
 
@@ -23,8 +23,8 @@ export default function FundingPage() {
           <FlexibleFundingHero />
         </section>
 
-        <footer className="px-6 md:px-10 lg:px-16 pb-10 text-xs text-[#666] flex flex-col md:flex-row items-center justify-between gap-4 border-t border-black/5">
-          <div>© 2025 Split Payments, Inc. — Empowering merchants through smarter payments and funding.</div>
+        <footer className="px-6 md:px-10 lg:px-16 pb-10 text-xs text-[#7b7569] flex flex-col md:flex-row items-center justify-between gap-4 border-t border-[#e8e6dc]">
+          <div>© 2025 Split Payments, Inc. — Funding growth through payment technology.</div>
           <div className="flex items-center gap-6">
             <a href="/policy">privacy</a>
             <a href="/terms">terms</a>
