@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@/lib/stub";
-import splitLogo from "public/new_logo_cuttout.svg";
+import splitSphere from "public/new_logo_no_bg_smooth.png";
 
 type DynamicIslandNavProps = {
   className?: string;
@@ -47,14 +47,14 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
     >
       <div className="pointer-events-auto w-full max-w-6xl mx-auto">
         <div className="relative flex items-center justify-between">
-          {/* Left: real Split logo in the traditional logo spot (top-left) */}
+          {/* Left: sphere-only Split logo in the traditional logo spot (top-left) */}
           <Link
             href="/"
             aria-label="Split home"
             className="flex items-center gap-2"
           >
             <Image
-              src={splitLogo}
+              src={splitSphere}
               alt="Split"
               height={32}
               className="h-8 w-auto object-contain"
