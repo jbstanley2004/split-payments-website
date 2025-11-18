@@ -187,6 +187,27 @@ body {
     border-radius: 999px;
     background: var(--accent-orange);
   }
+
+  .nav-pill {
+    background: #FFFFFF;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-soft);
+    padding: 6px 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .nav-pill .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--accent-orange);
+  }
+
+  .nav-pill--active {
+    outline: 1px solid var(--blue-soft);
+  }
 }
 
 /* Funding page cards: flatten heavy shadows so they sit flat against the canvas */

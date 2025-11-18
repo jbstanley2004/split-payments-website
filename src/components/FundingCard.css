@@ -77,7 +77,7 @@
 
 .slider-track-fill {
   width: 0%;
-  background-color: #161616;
+  background-color: var(--blue-deep);
 }
 
 .slider-track-wrapper input[type="range"] {
