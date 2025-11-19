@@ -25,9 +25,6 @@ export default function HomePage() {
               transition={{ duration: 0.6 }}
               className="text-center max-w-4xl mx-auto"
             >
-              <p className="text-sm font-medium text-[#161616] uppercase tracking-wider mb-4">
-                Welcome to Split Payments
-              </p>
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-[#161616] mb-6">
                 Payments and funding.
                 <br />
@@ -59,14 +56,14 @@ export default function HomePage() {
         </section>
 
         {/* STATISTICS SECTION - Brand colors */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 bg-[#D8D9D4]">
+        <section className="px-6 md:px-10 lg:px-16 py-16 bg-[#F8F7F4]">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-lg p-8 border border-[#161616]"
+                className="bg-white rounded-lg p-8 border border-[#E8E6DC]"
               >
                 <div className="text-5xl font-bold text-[#161616] mb-2">#1</div>
                 <div className="text-sm text-[#161616]">Most trusted payment platform</div>
@@ -76,7 +73,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
-                className="bg-white rounded-lg p-8 border border-[#161616]"
+                className="bg-white rounded-lg p-8 border border-[#E8E6DC]"
               >
                 <div className="text-5xl font-bold text-[#161616] mb-2">98%</div>
                 <div className="text-sm text-[#161616]">Of merchants recommend us</div>
@@ -86,7 +83,7 @@ export default function HomePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="bg-white rounded-lg p-8 border border-[#161616]"
+                className="bg-white rounded-lg p-8 border border-[#E8E6DC]"
               >
                 <div className="text-5xl font-bold text-[#161616] mb-2">62%</div>
                 <div className="text-sm text-[#161616]">Choose us over competitors</div>
@@ -129,7 +126,7 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 className="relative"
               >
-                <div className="bg-[#D8D9D4] rounded-lg p-8 border border-[#161616] flex items-center justify-center">
+                <div className="bg-[#F8F7F4] rounded-lg p-8 border border-[#E8E6DC] flex items-center justify-center">
                   <Image
                     src="/product-overview.jpg"
                     alt="Payment Terminal Dashboard"
@@ -164,7 +161,7 @@ export default function HomePage() {
         </section>
 
         {/* FEATURES SECTION - Brand colors */}
-        <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-24 bg-[#D8D9D4]">
+        <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-24 bg-[#F8F7F4]">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -295,7 +292,7 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-[#D8D9D4] rounded-lg p-6 border border-[#161616]"
+                  className="bg-[#F8F7F4] rounded-lg p-6 border border-[#E8E6DC]"
                 >
                   <p className="text-[#161616] mb-4 italic">"{testimonial.quote}"</p>
                   <div>
@@ -309,7 +306,7 @@ export default function HomePage() {
         </section>
 
         {/* CTA SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-24 bg-[#D8D9D4]">
+        <section className="px-6 md:px-10 lg:px-16 py-24 bg-[#F8F7F4]">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
