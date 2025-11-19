@@ -4,19 +4,18 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const brandLogos = [
-  "/images_card_payments_funding/brand_logos/svg0.svg",
-  "/images_card_payments_funding/brand_logos/svg1.svg",
-  "/images_card_payments_funding/brand_logos/svg2.svg",
-  "/images_card_payments_funding/brand_logos/svg7.svg",
-  "/images_card_payments_funding/brand_logos/svg15.svg",
-  "/images_card_payments_funding/brand_logos/svg18.svg",
-  "/images_card_payments_funding/brand_logos/svg19.svg",
-  "/images_card_payments_funding/brand_logos/svg33.svg",
-  "/images_card_payments_funding/brand_logos/svg34.svg",
-  "/images_card_payments_funding/brand_logos/svg35.svg",
-  "/images_card_payments_funding/brand_logos/svg36.svg",
-  "/images_card_payments_funding/brand_logos/svg37.svg",
-  "/images_card_payments_funding/brand_logos/svg92.svg",
+  "/brand_images/global/svg0.svg",
+  "/brand_images/global/svg1.svg",
+  "/brand_images/global/svg2.svg",
+  "/brand_images/global/svg3.svg",
+  "/brand_images/global/svg4.svg",
+  "/brand_images/global/svg5.svg",
+  "/brand_images/global/svg6.svg",
+  "/brand_images/global/svg7.svg",
+  "/brand_images/global/svg8.svg",
+  "/brand_images/global/svg9.svg",
+  "/brand_images/global/svg10.svg",
+  "/brand_images/global/svg11.svg",
 ];
 
 export default function TrustedByCarousel() {
@@ -28,7 +27,7 @@ export default function TrustedByCarousel() {
       className="mt-16 w-full"
     >
       <div className="text-xs font-medium text-[#161616] uppercase tracking-wider font-semibold text-center mb-8">
-        Trusted by
+        We Work With
       </div>
       
       {/* Carousel Container */}
