@@ -24,6 +24,7 @@
 
   /* Border & shadow - Subtle Notion-style */
   --border-subtle: #E8E6DC;
+  --border-dark: #161616;
   --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
   --shadow-card: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
 
@@ -220,7 +221,7 @@ body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    border: 1px solid var(--border-subtle);
+    border: 1px solid var(--border-dark);
     transition: all 0.2s ease;
     font-size: 14px;
     font-weight: 500;
@@ -228,6 +229,7 @@ body {
 
   .nav-pill:hover {
     background: var(--bg-section);
+    border-color: transparent;
   }
 
   .nav-pill .dot {
