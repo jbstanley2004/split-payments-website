@@ -9,51 +9,36 @@ interface Thick3DButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   travel?: number;
   tilt?: number;
   className?: string;
-  colorScheme?: 'orange' | 'blue' | 'gold';
+  colorScheme?: 'orange';
 }
 
 const colorSchemes = {
   orange: {
-    '--cap-top': '#e07b66',
-    '--cap-bottom': '#c75a45',
-    '--side-top': '#b55642',
-    '--side-bottom': '#8d3a2c',
-    '--base': '#5e2a22',
+    '--cap-top': '#FF5319',    // Slightly lighter than brand
+    '--cap-bottom': '#FF4306', // Brand Orange
+    '--side-top': '#D63905',   // Smooth transition
+    '--side-bottom': '#B33004', // Deep shadow
+    '--base': '#8F2603',       // Anchoring dark
     '--text': '#ffffff',
-  },
-  blue: {
-    '--cap-top': '#6aa6ff',
-    '--cap-bottom': '#3f7ce0',
-    '--side-top': '#3a74cd',
-    '--side-bottom': '#2a57a0',
-    '--base': '#1f3666',
-    '--text': '#ffffff',
-  },
-  gold: {
-    '--cap-top': '#f1c56b',
-    '--cap-bottom': '#d39c2e',
-    '--side-top': '#c38f39',
-    '--side-bottom': '#8b611f',
-    '--base': '#5a3f16',
-    '--text': '#1a1308',
   },
 };
 
 const Thick3DButton = ({
   children,
-  thickness = 30,
-  travel = 22,
-  tilt = 10,
+  thickness = 12, // Reduced from 30
+  travel = 6,     // Reduced from 22
+  tilt = 5,       // Reduced tilt
   className = '',
   colorScheme = 'orange',
   ...props
 }: Thick3DButtonProps) => {
+  // ... rest of the component remains the same, just using these cleaner defaults
   const ref = useRef<HTMLButtonElement>(null);
 
   const mouseX = useMotionValue(Infinity);
   const mouseY = useMotionValue(Infinity);
 
-  const springConfig = { damping: 15, stiffness: 200, mass: 0.1 };
+  const springConfig = { damping: 20, stiffness: 300, mass: 0.1 }; // Tighter spring
   const rotateX = useSpring(useMotionValue(0), springConfig);
   const rotateY = useSpring(useMotionValue(0), springConfig);
 
@@ -79,16 +64,14 @@ const Thick3DButton = ({
   };
 
   const handleTapStart = () => {
-    // Strong haptic feedback on button press
     if (typeof navigator !== "undefined" && "vibrate" in navigator) {
-      navigator.vibrate(20); // Stronger feedback for this big button
+      navigator.vibrate(10);
     }
   };
 
   const handleHoverStart = () => {
-    // Subtle haptic feedback on hover
     if (typeof navigator !== "undefined" && "vibrate" in navigator) {
-      navigator.vibrate(5); // Very subtle
+      navigator.vibrate(2);
     }
   };
 
@@ -96,9 +79,9 @@ const Thick3DButton = ({
     ...colorSchemes[colorScheme],
     '--thickness': `${thickness}px`,
     '--travel': `${travel}px`,
-    '--radius': '22px', // Can be customized if needed
-    '--specular': 'rgba(255,255,255,.65)',
-    '--specular-falloff': 'rgba(255,255,255,.10)',
+    '--radius': '12px', // More refined radius
+    '--specular': 'rgba(255,255,255,.3)', // Softer shine
+    '--specular-falloff': 'rgba(255,255,255,.05)',
   } as React.CSSProperties;
 
   return (
@@ -111,10 +94,10 @@ const Thick3DButton = ({
       style={{
         ...cssVariables,
         perspective: '800px',
-        transformStyle: 'preserve-d',
+        transformStyle: 'preserve-3d',
       }}
-      whileTap={{ scale: 0.98 }}
-      className={`relative inline-block border-0 bg-transparent cursor-pointer rounded-[var(--radius)] select-none appearance-none outline-none focus-visible:shadow-[0_0_0_3px_rgba(255,255,255,.8),_0_0_0_6px_rgba(36,120,255,.6)] [-webkit-tap-highlight-color:transparent] ${className}`}
+      whileTap={{ scale: 0.99 }}
+      className={`relative inline-block border-0 bg-transparent cursor-pointer rounded-[var(--radius)] select-none appearance-none outline-none focus-visible:shadow-[0_0_0_3px_rgba(255,255,255,.8),_0_0_0_6px_rgba(255,67,6,.6)] [-webkit-tap-highlight-color:transparent] ${className}`}
       {...props}
     >
       {/* Base plate */}
@@ -122,18 +105,18 @@ const Thick3DButton = ({
         className="absolute inset-0 rounded-[var(--radius)] bg-[var(--base)]"
         style={{
           boxShadow: `
-            0 calc(var(--thickness) + 18px) 44px rgba(0,0,0,.32),
-            0 calc(var(--thickness) + 8px) 18px rgba(0,0,0,.26),
-            0 var(--thickness) 8px rgba(0,0,0,.42)
+            0 calc(var(--thickness) + 8px) 20px rgba(0,0,0,.15),
+            0 calc(var(--thickness) + 3px) 6px rgba(0,0,0,.10),
+            0 var(--thickness) 4px rgba(0,0,0,.15)
           `,
         }}
       />
 
       {/* Specular Highlight */}
       <motion.div
-        className="absolute inset-[-1px] rounded-[var(--radius)] [mix-blend-mode:screen] blur-lg pointer-events-none z-[5] opacity-90 transition-opacity duration-150"
+        className="absolute inset-[-1px] rounded-[var(--radius)] [mix-blend-mode:screen] blur-md pointer-events-none z-[5] opacity-90 transition-opacity duration-150"
         style={{
-          background: `radial-gradient(140px 70px at ${mouseX.get()}px ${mouseY.get()}px, var(--specular), var(--specular-falloff) 45%, transparent 70%)`,
+          background: `radial-gradient(100px 50px at ${mouseX.get()}px ${mouseY.get()}px, var(--specular), var(--specular-falloff) 50%, transparent 80%)`,
         }}
       />
 
@@ -143,9 +126,9 @@ const Thick3DButton = ({
             rotateY,
             y: `calc(-1 * var(--thickness))`,
         }}
-        className="relative inline-block py-5 px-11 rounded-[calc(var(--radius)-2px)] z-[2] [transform-style:preserve-3d] transition-transform duration-100 ease-[cubic-bezier(.2,.8,.1,1)]"
+        className="relative inline-block py-4 px-8 rounded-[calc(var(--radius)-2px)] z-[2] [transform-style:preserve-3d] transition-transform duration-100 ease-[cubic-bezier(.2,.8,.1,1)]"
 
-        whileHover={{ y: `calc(-1 * var(--thickness) + 2px)`}}
+        whileHover={{ y: `calc(-1 * var(--thickness) + 1px)`}}
         whileTap={{ y: `calc(-1 * var(--thickness) + var(--travel))` }}
       >
         {/* Cap Front */}
@@ -153,8 +136,8 @@ const Thick3DButton = ({
             className='absolute inset-0 bg-gradient-to-b from-[var(--cap-top)] to-[var(--cap-bottom)] rounded-[calc(var(--radius)-2px)]'
             style={{
                 boxShadow: `
-                    inset 0 2px 0 rgba(255,255,255,.40),
-                    inset 0 -3px 8px rgba(0,0,0,.28)
+                    inset 0 1px 0 rgba(255,255,255,.3),
+                    inset 0 -2px 4px rgba(0,0,0,.15)
                 `
             }}
         />
@@ -168,8 +151,8 @@ const Thick3DButton = ({
             background: 'linear-gradient(180deg, var(--side-top), var(--side-bottom))',
             borderRadius: '0 0 calc(var(--radius) - 2px) calc(var(--radius) - 2px)',
             boxShadow: `
-              inset 0 1px 0 rgba(255,255,255,.12),
-              inset 0 -3px 6px rgba(0,0,0,.28)
+              inset 0 1px 0 rgba(255,255,255,.1),
+              inset 0 -2px 4px rgba(0,0,0,.15)
             `,
           }}
           whileTap={{
@@ -179,13 +162,10 @@ const Thick3DButton = ({
         />
 
         <span
-          className="relative inline-block text-[var(--text)] font-sans font-extrabold text-[28px] leading-tight"
+          className="relative inline-block text-[var(--text)] font-sans font-bold text-lg leading-tight tracking-wide"
           style={{
-            transform: 'translateZ(8px)',
-            textShadow: `
-              0 1px 0 rgba(255,255,255,.22),
-              0 2px 6px rgba(0,0,0,.25)
-            `,
+            transform: 'translateZ(4px)',
+            textShadow: `0 1px 2px rgba(0,0,0,.1)`,
           }}
         >
           {children}

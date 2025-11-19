@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import OrangePushButton from "@/components/OrangePushButton";
+import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import type { LucideIcon } from "lucide-react";
 import {
   BarChart3,
@@ -12,8 +12,10 @@ import {
   LineChart,
   ShieldCheck,
   Sparkles,
+  ArrowRight
 } from "lucide-react";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 // Using brand logos from brand_logos directory
 const partnerLogos = [
@@ -172,109 +174,93 @@ const faqs = [
   },
 ];
 
-const BRAND_GRAY = "#D8D9D4";
-const BRAND_ORANGE = "#FF4306";
-const BRAND_BLACK = "#161616";
-
 export default function PartnershipsPage() {
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
+  };
+
   return (
-    <main className="min-h-screen min-h-[100dvh] min-h-[100svh] font-lora text-main">
+    <main className="min-h-screen bg-white text-brand-black font-lora selection:bg-black/10 selection:text-black">
       <div className="relative">
         <DynamicIslandNav />
 
-        {/* HERO - matching home page style */}
-        <section className="relative min-h-screen flex items-center justify-center px-6 md:px-10 lg:px-16 pt-32 pb-24">
-          <div className="max-w-6xl w-full">
+        {/* HERO - Clean Bright */}
+        <section className="relative min-h-[85vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-32 pb-24">
+          <div className="max-w-6xl w-full grid lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-4xl mx-auto"
+              initial="hidden"
+              animate="visible"
+              variants={fadeInUp}
+              className="text-left"
             >
-              <p className="text-sm font-medium text-[#161616] uppercase tracking-wider mb-4">
-                ISO Partnerships
-              </p>
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-poppins font-semibold leading-tight text-[#161616] mb-6">
+
+              <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-brand-black mb-8 font-semibold">
                 Partnerships built on
                 <br />
-                processing performance.
+                <span className="text-brand-charcoal">processing performance.</span>
               </h1>
-              <p className="text-xl md:text-2xl font-lora text-[#161616] mb-10 max-w-2xl mx-auto">
-                Equip your ISO, agent, or referral team with funding that mirrors every card swipe. Split prices against actual processor data so your merchants see capital faster—and you capture more share of wallet.
+              
+              <p className="text-xl md:text-2xl font-lora text-brand-black/70 mb-12 leading-relaxed">
+                Equip your ISO, agent, or referral team with funding that mirrors every card swipe.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <button className="btn-primary">
-                  <span className="dot" />
-                  <span>Become a partner</span>
-                </button>
+              
+              <div className="flex flex-col sm:flex-row gap-4">
+                   <PrimaryButton>Become a partner</PrimaryButton>
+                   <button className="px-8 py-4 rounded-full border border-gray-200 font-bold text-black hover:bg-gray-50 transition-colors">View Commission Structure</button>
               </div>
             </motion.div>
+
+            {/* Hero Visual */}
+             <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                className="relative h-[600px] hidden lg:block rounded-3xl overflow-hidden bg-gray-100"
+             >
+                 <Image
+                    src="/assets/new_photos/style/clover-lifestyle.webp"
+                    alt="Partner Success"
+                    fill
+                    className="object-cover"
+                    priority
+                 />
+                 <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20">
+                     <div className="grid grid-cols-2 gap-4">
+                         <div>
+                             <div className="text-xs font-bold uppercase text-gray-500 mb-1">Avg Rev Share</div>
+                             <div className="text-2xl font-bold text-black">35%</div>
+                         </div>
+                         <div>
+                             <div className="text-xs font-bold uppercase text-gray-500 mb-1">Retention</div>
+                             <div className="text-2xl font-bold text-black">94%</div>
+                         </div>
+                     </div>
+                 </div>
+             </motion.div>
           </div>
         </section>
 
-        <div className="px-6 pb-16 pt-24 sm:px-8 md:px-12 lg:px-16 space-y-12 sm:space-y-16">
-          {/* HERO CARDS SECTION */}
-          <section className="space-y-8">
-            <div className="grid gap-8 lg:grid-cols-[1.2fr_0.8fr]">
-              {/* Left: hero cards */}
-              <div className="max-w-3xl">
-                <div className="mt-8 grid gap-4 sm:grid-cols-3">
-                  {heroHighlights.map((item) => (
-                    <motion.div
-                      key={item.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      className="rounded-2xl border border-[#161616] p-5 shadow-[0_18px_40px_rgba(22,22,22,0.10)]"
-                      style={{ backgroundColor: BRAND_GRAY }}
-                    >
-                      <p className="font-poppins text-base font-semibold text-[#161616]">{item.title}</p>
-                      <p className="mt-2 text-sm text-[#161616]">{item.description}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Right: metrics cards */}
-              <div className="flex flex-col gap-6">
-                <div className="grid grid-cols-2 gap-4">
-                  {partnerMetrics.map((metric, index) => (
-                    <motion.div
-                      key={metric.label}
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="rounded-[32px] border border-[#161616] p-5 shadow-[0_18px_40px_rgba(22,22,22,0.12)]"
-                      style={{ backgroundColor: BRAND_GRAY }}
-                    >
-                      <p className="text-[11px] uppercase tracking-[0.2em] text-[#161616]">{metric.label}</p>
-                      <p className="mt-2 font-poppins text-3xl font-semibold text-[#161616]">{metric.value}</p>
-                      <p className="text-sm text-[#161616]">{metric.detail}</p>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* TRUSTED PROCESSING ALLIANCES – leave structure as-is */}
-          <section>
-            <div className="rounded-[32px] border border-[#161616] bg-[#D8D9D4] p-6 sm:p-8">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="px-6 pb-16 pt-24 sm:px-8 md:px-12 lg:px-16 space-y-24">
+          {/* HERO CARDS REPLACED BY NEW HERO LAYOUT, SKIPPING DIRECTLY TO CONTENT */}
+          
+          {/* TRUSTED PROCESSING ALLIANCES */}
+          <section className="max-w-6xl mx-auto">
+            <div className="rounded-[40px] border border-brand-stone bg-white p-8 sm:p-12 shadow-elevation-mid">
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between mb-10">
                 <div>
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Trusted processing alliances</p>
-                  <h2 className="mt-2 font-poppins text-2xl font-semibold text-[#161616]">Partners already in the Split orbit</h2>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-black/40 mb-2">Trusted processing alliances</p>
+                  <h2 className="font-poppins text-3xl font-bold text-brand-black">Partners already in the Split orbit</h2>
                 </div>
-                <p className="text-sm text-[#161616] max-w-md">
-                  Use our processors of record or bring your own BIN sponsor—we integrate into existing payout flows and keep your brand front and center.
+                <p className="text-base text-brand-black/70 max-w-md font-lora">
+                  Use our processors of record or bring your own BIN sponsor—we integrate into existing payout flows.
                 </p>
               </div>
-              <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 lg:grid-cols-5">
+              <div className="grid grid-cols-2 gap-6 sm:grid-cols-4 lg:grid-cols-5">
                 {partnerLogos.map((logo) => (
                   <div
                     key={logo.name}
-                    className="flex items-center justify-center rounded-2xl border border-[#161616] bg-white px-4 py-3"
+                    className="flex items-center justify-center rounded-xl border border-brand-stone bg-white px-6 py-4 shadow-sm hover:shadow-md transition-shadow grayscale hover:grayscale-0 opacity-70 hover:opacity-100 duration-300"
                   >
                     <Image
                       src={logo.src}
@@ -290,114 +276,104 @@ export default function PartnershipsPage() {
           </section>
 
           {/* PROGRAM FLOW */}
-          <section className="space-y-6">
-            <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Program flow</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#161616]">How the partnership works</h2>
-              <p className="text-base text-[#161616] max-w-3xl">
-                Each step is built to respect your merchant relationship. You own the conversation; we provide underwriting, capital, and servicing.
+          <section className="max-w-6xl mx-auto space-y-10">
+            <div className="text-center">
+              <h2 className="font-poppins text-4xl font-bold text-brand-black mb-4">How the partnership works</h2>
+              <p className="text-lg text-brand-black/60 max-w-2xl mx-auto font-lora">
+                Each step is built to respect your merchant relationship.
               </p>
             </div>
-            <div className="grid gap-5 md:grid-cols-3">
-              {partnerSteps.map((step) => (
-                <div
+            <div className="grid gap-8 md:grid-cols-3">
+              {partnerSteps.map((step, i) => (
+                <motion.div
                   key={step.title}
-                  className="rounded-3xl border border-[#161616] p-6 shadow-[0_18px_45px_rgba(22,22,22,0.12)]"
-                  style={{ backgroundColor: BRAND_GRAY }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="rounded-3xl border border-brand-stone bg-white p-8 shadow-elevation-low hover:shadow-elevation-mid hover:-translate-y-1 transition-all duration-300"
                 >
-                  <div
-                    className="flex h-12 w-12 items-center justify-center rounded-full"
-                    style={{ backgroundColor: BRAND_ORANGE }}
-                  >
-                    <step.icon className="h-5 w-5 text-white" aria-hidden />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-gray text-black mb-6">
+                    <step.icon className="h-6 w-6" aria-hidden />
                   </div>
-                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#161616]">{step.title}</h3>
-                  <p className="mt-2 text-sm text-[#161616]">{step.description}</p>
-                  <p className="mt-3 text-sm text-[#161616]">{step.detail}</p>
-                </div>
+                  <h3 className="font-poppins text-xl font-bold text-brand-black mb-3">{step.title}</h3>
+                  <p className="text-sm text-brand-black/80 mb-4 leading-relaxed font-lora">{step.description}</p>
+                  <div className="pt-4 border-t border-brand-stone/50">
+                    <p className="text-xs text-brand-black/50 font-lora">{step.detail}</p>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </section>
 
-          {/* DEAL ECONOMICS – long beige cards directly on background */}
-          <section className="space-y-6">
-            <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Deal economics</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#161616]">Funding mechanics & partner yield</h2>
-              <p className="text-base text-[#161616] max-w-3xl">
-                Transparent economics keep your agents confident. Every file includes a clear payout schedule, remittance assumptions, and renewal triggers.
-              </p>
+          {/* DEAL ECONOMICS */}
+          <section className="max-w-6xl mx-auto space-y-10">
+            <div className="text-center">
+              <h2 className="font-poppins text-4xl font-bold text-brand-black mb-4">Funding mechanics & partner yield</h2>
             </div>
-            <div className="grid gap-4 lg:grid-cols-3">
+            <div className="grid gap-6 lg:grid-cols-3">
               {economicsBreakdown.map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-[32px] border border-[#161616] p-5 shadow-[0_18px_40px_rgba(22,22,22,0.10)]"
-                  style={{ backgroundColor: BRAND_GRAY }}
+                  className="rounded-3xl border border-brand-stone bg-white p-8 shadow-elevation-low hover:shadow-elevation-mid transition-shadow"
                 >
-                  <p className="text-xs uppercase tracking-[0.25em] text-[#161616]">{item.label}</p>
-                  <p className="mt-3 text-sm text-[#161616]">{item.description}</p>
-                  <p className="mt-4 text-sm font-semibold text-[#161616]">{item.partnerShare}</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-black/40 mb-4">{item.label}</p>
+                  <p className="text-base text-brand-black/80 mb-4 font-lora">{item.description}</p>
+                  <p className="text-sm font-semibold text-brand-black bg-brand-gray inline-block px-3 py-1 rounded-lg">{item.partnerShare}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* ENABLEMENT – tools cards with orange icons */}
-          <section className="space-y-6">
-            <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Enablement</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#161616]">Tools that keep partners in motion</h2>
+          {/* ENABLEMENT */}
+          <section className="max-w-6xl mx-auto space-y-10">
+            <div className="text-center">
+              <h2 className="font-poppins text-4xl font-bold text-brand-black mb-4">Tools that keep partners in motion</h2>
             </div>
-            <div className="grid gap-5 md:grid-cols-2">
+            <div className="grid gap-8 md:grid-cols-2">
               {enablementCards.map((card) => (
                 <div
                   key={card.title}
-                  className="rounded-3xl border border-[#161616] p-6 shadow-[0_18px_40px_rgba(22,22,22,0.10)]"
-                  style={{ backgroundColor: BRAND_GRAY }}
+                  className="flex gap-6 rounded-3xl border border-brand-stone bg-white p-8 shadow-elevation-low hover:shadow-elevation-mid transition-all duration-300 group"
                 >
-                  <div
-                    className="flex h-12 w-12 items-center justify-center rounded-full"
-                    style={{ backgroundColor: BRAND_ORANGE }}
-                  >
-                    <card.icon className="h-5 w-5 text-white" aria-hidden />
+                  <div className="shrink-0">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-gray text-black group-hover:bg-black group-hover:text-white transition-colors">
+                        <card.icon className="h-6 w-6" aria-hidden />
+                      </div>
                   </div>
-                  <h3 className="mt-4 font-poppins text-xl font-semibold text-[#161616]">{card.title}</h3>
-                  <p className="mt-2 text-sm text-[#161616]">{card.description}</p>
-                  <p className="mt-3 text-sm text-[#161616]">{card.detail}</p>
+                  <div>
+                    <h3 className="font-poppins text-xl font-bold text-brand-black mb-2">{card.title}</h3>
+                    <p className="text-sm text-brand-black/80 mb-2 font-lora">{card.description}</p>
+                    <p className="text-xs text-brand-black/50 font-lora">{card.detail}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* INDUSTRIES – left as-is */}
-          <section className="space-y-6">
-            <div className="flex flex-col gap-3">
-              <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">Industries we accelerate</p>
-              <h2 className="font-poppins text-3xl font-semibold text-[#161616]">Where Split funding resonates</h2>
+          {/* INDUSTRIES */}
+          <section className="max-w-6xl mx-auto space-y-10">
+             <div className="text-center">
+              <h2 className="font-poppins text-4xl font-bold text-brand-black mb-4">Where Split funding resonates</h2>
             </div>
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-8 md:grid-cols-2">
               {industries.map((industry) => (
                 <div
                   key={industry.name}
-                  className="rounded-[32px] border border-[#161616] bg-[#D8D9D4] p-5"
+                  className="group rounded-[32px] overflow-hidden bg-white shadow-elevation-low hover:shadow-elevation-mid transition-all duration-300 border border-brand-stone"
                 >
-                  <div className="relative h-48 w-full overflow-hidden rounded-3xl border border-[#161616]">
+                  <div className="relative h-64 w-full overflow-hidden">
                     <Image
                       src={industry.image}
                       alt={industry.name}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale hover:grayscale-0"
                       sizes="(min-width: 768px) 50vw, 100vw"
                     />
-                  </div>
-                  <div className="mt-4 flex items-center justify-between">
-                    <div>
-                      <p className="font-poppins text-xl font-semibold text-[#161616]">{industry.name}</p>
-                      <p className="text-sm text-[#161616]">{industry.stat}</p>
-                    </div>
-                    <div className="rounded-full bg-[#161616] px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-white">
-                      Split ready
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                    <div className="absolute bottom-6 left-6 text-white">
+                         <p className="font-poppins text-2xl font-bold mb-1">{industry.name}</p>
+                         <p className="text-sm opacity-90 font-lora">{industry.stat}</p>
                     </div>
                   </div>
                 </div>
@@ -405,72 +381,51 @@ export default function PartnershipsPage() {
             </div>
           </section>
 
-          {/* FAQ – day-card style beige rows with orange dot */}
-          <section className="space-y-4">
-            <p className="text-sm uppercase tracking-[0.25em] text-[#161616]">FAQ</p>
+          {/* FAQ */}
+          <section className="max-w-4xl mx-auto space-y-6">
+            <p className="text-center text-xs font-bold uppercase tracking-[0.2em] text-brand-black/40">FAQ</p>
             <div className="space-y-4">
               {faqs.map((faq) => (
                 <div
                   key={faq.question}
-                  className="flex flex-col gap-2 rounded-[32px] border border-[#161616] px-6 py-5 sm:flex-row sm:items-center sm:justify-between shadow-[0_18px_40px_rgba(22,22,22,0.10)]"
-                  style={{ backgroundColor: BRAND_GRAY }}
+                  className="rounded-2xl border border-brand-stone bg-white px-8 py-6 shadow-elevation-low hover:shadow-elevation-mid transition-all duration-300"
                 >
-                  <div className="flex items-start gap-3">
-                    <span
-                      className="mt-2 inline-block h-2 w-2 rounded-full"
-                      style={{ backgroundColor: BRAND_ORANGE }}
-                    />
-                    <div>
-                      <h3 className="font-poppins text-lg font-semibold text-[#161616]">{faq.question}</h3>
-                      <p className="mt-1 text-sm text-[#161616]">{faq.answer}</p>
-                    </div>
-                  </div>
+                  <h3 className="font-poppins text-lg font-bold text-brand-black mb-2">{faq.question}</h3>
+                  <p className="text-sm text-brand-black/70 leading-relaxed font-lora">{faq.answer}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* FINAL CTA – solid black card without opacity overlay */}
-          <section>
-            <div className="rounded-[36px] border border-[#161616] bg-[#161616] p-8 text-white shadow-[0_30px_80px_rgba(22,22,22,0.5)]">
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-                <div className="space-y-3">
-                  <p className="text-sm uppercase tracking-[0.25em] text-[#FF4306]">Ready when you are</p>
-                  <h2 className="font-poppins text-3xl font-semibold">Bring Split into your next portfolio review</h2>
-                  <p className="text-base text-white">
-                    Send a merchant list or invite us to your next ISO roundtable. We&apos;ll show exactly how Split flexes with the processing stack you already built.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-4">
-                  <button className="btn-primary">
-                    <span className="dot" />
-                    <span>Book a partner session</span>
-                  </button>
-                  <span className="text-sm text-white">No obligation. No hard credit pulls for your merchants.</span>
-                </div>
+          {/* FINAL CTA - Consistent White/Black Style */}
+          <section className="max-w-6xl mx-auto pb-12">
+            <div className="rounded-[40px] bg-black text-white p-12 text-center shadow-2xl relative overflow-hidden">
+               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/10 blur-[100px] rounded-full pointer-events-none" />
+              
+              <h2 className="font-poppins text-3xl md:text-4xl font-bold mb-6 relative z-10">Bring Split into your next portfolio review</h2>
+              <p className="text-lg text-white/70 max-w-2xl mx-auto mb-10 relative z-10 font-lora">
+                Send a merchant list or invite us to your next ISO roundtable. We&apos;ll show exactly how Split flexes with the processing stack you already built.
+              </p>
+              
+              <div className="flex flex-col items-center gap-4 relative z-10">
+                   <button className="bg-white text-black px-10 py-5 rounded-full font-poppins font-semibold text-lg hover:scale-105 transition-transform shadow-lg">
+                      Book a partner session
+                   </button>
+                  <span className="text-xs text-white/40 font-bold uppercase tracking-wide">No obligation. No hard credit pulls.</span>
               </div>
             </div>
           </section>
         </div>
 
-        <footer className="px-6 pb-8 pt-4 text-xs text-[#161616] sm:px-8 md:px-12 lg:px-16">
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p>© 2025 Split Payments, Inc. — Funding growth through payment technology.</p>
-            <div className="flex items-center gap-6">
-              <a className="hover:text-[#FF4306]" href="/policy">
-                privacy
-              </a>
-              <a className="hover:text-[#FF4306]" href="/terms">
-                terms
-              </a>
-              <a className="hover:text-[#FF4306]" href="/support">
-                contact
-              </a>
-            </div>
+        <footer className="px-6 md:px-10 lg:px-16 py-12 bg-white border-t border-brand-stone text-sm text-brand-black/60 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>© 2025 Split Payments, Inc. — Empowering merchants through smarter payments and funding.</div>
+          <div className="flex items-center gap-8 font-medium">
+            <a href="/policy" className="hover:text-black transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-black transition-colors">Terms</a>
+            <a href="/support" className="hover:text-black transition-colors">Contact</a>
           </div>
         </footer>
       </div>
     </main>
   );
 }
-

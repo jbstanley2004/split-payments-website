@@ -1,0 +1,60 @@
+{
+  "cards": [
+    {
+      "name": "The Platinum Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/The_Platinum_Card.png"
+    },
+    {
+      "name": "Aeroplan Reserve Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/aeroplan-reserve-card.png"
+    },
+    {
+      "name": "Marriott Bonvoy Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/marriott-bonvoy-card.png"
+    },
+    {
+      "name": "Business Platinum Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/Business_Platinum_Card.png"
+    },
+    {
+      "name": "Aeroplan Business Reserve Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/American_Express_Aeroplan_Business_Reserve_Card_prem_sbs.png"
+    },
+    {
+      "name": "Amex Cobalt Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/American_Express_Cobalt_Card.png"
+    },
+    {
+      "name": "Gold Rewards Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/Gold_Rewards_Card.png"
+    },
+    {
+      "name": "Business Gold Rewards Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/Business_Gold_Rewards_Card.png"
+    },
+    {
+      "name": "Marriott Bonvoy Business Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/marriott-bonvoy-Business_Credit_Card.png"
+    },
+    {
+      "name": "Aeroplan Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/aeroplan-card.png"
+    },
+    {
+      "name": "Green Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/Green-Card-Art.png"
+    },
+    {
+      "name": "SimplyCash Preferred Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/SimplyCash_Preferred_Card.png"
+    },
+    {
+      "name": "SimplyCash Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/SimplyCash_Card.png"
+    },
+    {
+      "name": "Essential Credit Card",
+      "image_url": "https://www.americanexpress.com/en-ca/credit-cards/all-cards/Essential_Credit_Card_new.png"
+    }
+  ]
+}

@@ -1,0 +1,640 @@
+[
+  {
+    "model": "Ingenico iCT250 Dual Comm (2) and Ingenico iSC250",
+    "description": "Dual Comm, iSC250 bundle",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/ingenico-ict250-isc250.png?v=1668027074"
+  },
+  {
+    "model": "Ingenico Moby/C150 | Bluetooth/Wifi/Ethernet | All-in-one Device",
+    "description": "Bluetooth/WiFi/Ethernet, All-in-One",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Moby-C150.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Lane 8000 Credit Card Terminal (PRH30312953A)",
+    "description": "Lane 8000 EMV Credit Card Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane8000.png?v=1668026956"
+  },
+  {
+    "model": "Ingenico Lane 8000 Credit Card Terminal BridgePay / PayGuardian",
+    "description": "Lane 8000 BridgePay, PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane8000.png?v=1668026956"
+  },
+  {
+    "model": "Ingenico Move 5000 Bluetooth / WiFi / 4G with Camera",
+    "description": "Move 5000 4G/LTE, Camera, WiFi, Bluetooth",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Move5000-Camera.png?v=1668027070"
+  },
+  {
+    "model": "Ingenico Lane 7000 Credit Card Terminal (PRG30312951R)",
+    "description": "Lane 7000 EMV Credit Card Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane7000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Lane 7000 Credit Card Terminal BridgePay / PayGuardian",
+    "description": "Lane 7000 BridgePay, PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane7000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Move 5000 Bluetooth / WiFi / 4G",
+    "description": "Move 5000 BT/WIFI/4G",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Move5000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Move/5000, Bluetooth, WiFi Terminal BridgePay / PayGuardian",
+    "description": "Move/5000, BridgePay, PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Move5000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Move 5000 Bluetooth / WiFi Credit Card Machine",
+    "description": "Move 5000 WiFi Only Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Move5000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Axium DX8000 Payment Terminal (Axium DX8000-N)",
+    "description": "Axium DX8000 Android Payment Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/axium-dx8000.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico iWL250 Wireless GPRS (iWL250-USSCN01A)",
+    "description": "iWL250 Wireless GPRS",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/IWL250.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Terminals iWL255 (iWL255-01P2070A)",
+    "description": "iWL255 EMV NFC GPRS",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/IWL255.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Lane 5000 PIN Pad BridgePay / PayGuardian",
+    "description": "Lane 5000 BridgePay, PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane5000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Lane 5000 PIN Pad (PRB30311574I)",
+    "description": "Lane 5000 PIN Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane5000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Lane 3000 PIN Pad BridgePay / PayGuardian",
+    "description": "Lane 3000 BridgePay/PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane3000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Lane/3000 PIN Pad - First Data FD701",
+    "description": "Lane/3000 First Data",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane3000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Desk 3500 Dial / ETH / WiFi",
+    "description": "Desk 3500 Multi-Connectivity",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk3500.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Desk 3500 Dial/Ethernet (PCD30012573S)",
+    "description": "Desk 3500 Dial/Ethernet",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk3500.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Moby 8500 Next Gen Chip & PIN Mobile Card Reader",
+    "description": "Moby 8500 Chip & PIN Mobile Reader",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Moby-8500.png?v=1668026954"
+  },
+
+  {
+    "model": "Ingenico Desk 5000 Dial/Ethernet (PCD50017850A)",
+    "description": "Desk 5000 Credit Card Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk5000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Desk 5000 Dial/ETH/WiFi | Credit Card Machine",
+    "description": "Desk 5000 Dial/Ethernet/WiFi Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk5000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Desk 5000 Dial/Ethernet | Credit Card Machine BridgePay / PayGuardian",
+    "description": "Desk 5000 Dial/Ethernet BridgePay/PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk5000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Desk 3500 Dial/Ethernet | Credit Card Machine BridgePay / PayGuardian",
+    "description": "Desk 3500 BridgePay/PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk3500.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Desk 3500 Dial/ETH/WiFi | Credit Card Machine",
+    "description": "Desk 3500 Dial/Ethernet/WiFi",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk3500.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Desk 3500 Dial/Ethernet | Credit Card Machine",
+    "description": "Desk 3500 Dial/Ethernet",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk3500.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico iPP 320 PIN Pad, USB, EMV/NFC (iPP320-11P2106A)",
+    "description": "iPP 320 PIN Pad, USB, EMV/NFC",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/iPP320.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico iPP 350 Pin Pad, USB, EMV/NFC (iPP350-11P2179A)",
+    "description": "iPP 350 Pin Pad, USB, EMV/NFC",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/iPP350.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico iSC250 PIN Pad, USB, EMV/NFC (iSC250-11P5673A)",
+    "description": "iSC250 PIN Pad, USB, EMV/NFC",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/iSC250.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico iSC350 PIN Pad, USB, EMV/NFC (iSC350-11P5674A)",
+    "description": "iSC350 PIN Pad, USB, EMV/NFC",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/iSC350.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico iPP 320 PIN Pad, USB, EMV/NFC BridgePay / PayGuardian",
+    "description": "iPP 320 PIN Pad BridgePay/PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/iPP320.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico iSC250 PIN Pad, USB, EMV/NFC BridgePay / PayGuardian",
+    "description": "iSC250 PIN Pad BridgePay/PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/iSC250.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico iWL250 Wireless GPRS Terminal BridgePay / PayGuardian",
+    "description": "iWL250 GPRS BridgePay/PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/IWL250.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Moby/C150 Bluetooth/WiFi/Ethernet BridgePay / PayGuardian",
+    "description": "Moby/C150 BridgePay/PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Moby-C150.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Lane/3000 USB Pin Pad BridgePay / PayGuardian",
+    "description": "Lane/3000 USB Pin Pad BridgePay/PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane3000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Lane/3000 Ethernet Pin Pad BridgePay / PayGuardian",
+    "description": "Lane/3000 Ethernet Pin Pad BridgePay/PayGuardian",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane3000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Lane 3000 Credit Card Terminal",
+    "description": "Lane 3000 Credit Card Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Lane3000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Desk 3500 Credit Card Terminal",
+    "description": "Desk 3500 Credit Card Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk3500.png?v=1668026954"
+  },
+  {
+    "model": "Ingenico Desk 5000 Credit Card Terminal",
+    "description": "Desk 5000 Credit Card Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Desk5000.png?v=1668026955"
+  },
+  {
+    "model": "Ingenico Axium DX8000 Android Payment Terminal",
+    "description": "Axium DX8000 Android Payment Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/axium-dx8000.png?v=1668026954"
+  },
+
+  {
+    "model": "Verifone MX925 PCI 4.X SC EMV TouchScreen, Signature Capture, NFC (M132-409-01-R)",
+    "description": "Touchscreen, Signature Capture, NFC",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/MX925-Front-01-R.png?v=1668027071"
+  },
+  {
+    "model": "Verifone MX870 SIG CAP, 128Mb, Ethernet, Terminal, PIN Pad, EMV (M094-109-01)",
+    "description": "Signature Capture, PIN Pad, EMV",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/MX870-Front-109-01.png?v=1668027072"
+  },
+  {
+    "model": "Verifone MX870 SIG CAP, 128Mb, Ethernet, Terminal, PIN Pad, EMV NFC (M094-107-01-R)",
+    "description": "Signature Capture, PIN Pad, EMV, NFC",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/MX870-Front-107-01-R.png?v=1668027071"
+  },
+  {
+    "model": "Verifone E355 Mobile POS (M087-351-11-WWA)",
+    "description": "Mobile POS Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/E355-Front-11-WWA.png?v=1668026957"
+  },
+  {
+    "model": "Verifone MX860 EMV TCH SIG, 128Mb, Ethernet, Terminal, PIN Pad (M094-409-01-R)",
+    "description": "Touch Signature Capture, PIN Pad, EMV",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/MX860-Front-409-01-R.png?v=1668026957"
+  },
+  {
+    "model": "Verifone VX670 GPRS EMV 6Mb (M267-032-11-USA)",
+    "description": "Wireless GPRS, EMV, PIN Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/VX670-Front-11-USA.png?v=1668027071"
+  },
+  {
+    "model": "Verifone MX860 TCH SIG, 128Mb, Ethernet, Terminal, PIN Pad (M094-407-01-R)",
+    "description": "Touch Signature Capture, PIN Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/MX860-Front-407-01-R.png?v=1668026957"
+  },
+  {
+    "model": "Verifone MX850 EMV - Color Screen Signature Capture Pin Pad (M094-209-01-R)",
+    "description": "Color Screen, Signature Capture, PIN Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/MX850-Front-209-01-R.png?v=1668026955"
+  },
+  {
+    "model": "Verifone MX850 - Color Screen Signature Capture Pin Pad (M094-207-01-R)",
+    "description": "Color Screen, Signature Capture, PIN Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/MX850-Front-207-01-R.png?v=1668026955"
+  },
+  {
+    "model": "Verifone M425 Payment Terminal (VERIFONEM425)",
+    "description": "Payment Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/M425-Front-Payment-Terminal.png?v=1668027071"
+  },
+  {
+    "model": "Verifone Engage V400M (4G, WiFi, EMV, NFC)",
+    "description": "Wireless, EMV, NFC Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/V400M-Front.png?v=1668026957"
+  },
+  {
+    "model": "Verifone MX830 EMV - Grey Scale Signature Capture Pin Pad (M094-309-04-R)",
+    "description": "Grey Scale, Signature Capture, PIN Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/MX830-Front-309-04-R.png?v=1668026957"
+  },
+  {
+    "model": "Verifone E285 (M087-501-15-WWA)",
+    "description": "Mobile Payment Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/E285-Front-15-WWA.png?v=1668026957"
+  },
+  {
+    "model": "Verifone MX830 - Grey Scale Signature Capture Pin Pad (M094-307-04-R)",
+    "description": "Grey Scale, Signature Capture, PIN Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/MX830-Front-307-04-R.png?v=1668026957"
+  },
+  {
+    "model": "Verifone VX680 GPRS EMV 192Mb (M268-773-14-USA-2)",
+    "description": "Mobile Wireless, EMV",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/VX680-Front-14-USA-2.png?v=1668026957"
+  },
+  {
+    "model": "Verifone VX680 WIFI EMV Contactless (M268-783-C4-USA-3)",
+    "description": "Wifi Enabled, EMV Contactless",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/VX680-Front-C4-USA-3.png?v=1668026957"
+  },
+  {
+    "model": "Verifone VX570 Dual Comm 12Mb EMV",
+    "description": "Dual Communication Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/VX570-Front.png?v=1668027071"
+  },
+  {
+    "model": "Verifone E285p (M087-500-01-WWA)",
+    "description": "Mobile Payment Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/E285p-Front-01-WWA.png?v=1668026958"
+  },
+  {
+    "model": "Verifone P400 Plus Pinpad (M435-003-04-NAA-5)",
+    "description": "Pinpad, Touchscreen",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/P400-Plus-Front.png?v=1668026958"
+  },
+  {
+    "model": "Verifone VX680 Full Featured Base (M268-U32-00-WWA)",
+    "description": "Base for VX680",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/VX680-Base-Front.png?v=1668026956"
+  },
+  {
+    "model": "Verifone Cigarette Lighter Adapter Vx 610 (CPS10923-4A-R)",
+    "description": "Lighter Adapter for Vx 610",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/CPS10923-4A-R-Verifone.jpg?v=1668026956"
+  },
+  {
+    "model": "Refurbished Verifone VX 520 Dual Comm EMV 160Mb (M252-753-03-NAA-3)",
+    "description": "Dual Comm EMV Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/vx520-front.jpg?v=1668026956"
+  },
+  {
+    "model": "Universal Stand, MX9xx Low Contour (vfn-met 132-009-01-a)",
+    "description": "MX9xx Stand",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Swivel-Stand-MX9xx.jpg?v=1668026957"
+  },
+  {
+    "model": "Verifone VX 520 Dual Comm 160Mb (M252-153-03-NAA-2)",
+    "description": "Dual Comm Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/vx520-front.jpg?v=1668026956"
+  },
+  {
+    "model": "Verifone Vx520 Dual Comm EMV NFC Contactless",
+    "description": "Dual Comm EMV NFC Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/vx520-front.jpg?v=1668026956"
+  },
+  {
+    "model": "Verifone Vx680 Dongle Dial (M267-D10-00)",
+    "description": "Dongle Dial for Vx680",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Vx680-Dongle-Dial.jpg?v=1668026957"
+  },
+  {
+    "model": "External Modem Verifone Vx 680 Ethernet Dongle",
+    "description": "Ethernet Dongle for Vx680",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Vx680-Ethernet-Dongle.jpg?v=1668026957"
+  },
+  {
+    "model": "External Modem VFN Vx 680 Dial Dongle",
+    "description": "Dial Dongle for Vx680",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Vx680-Dial-Dongle.jpg?v=1668026957"
+  },
+  {
+    "model": "Verifone Mx 8xx / 9xx Purple (24173-02-R)",
+    "description": "MX8xx / 9xx Cable (Purple)",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Mx8xx-9xx-Purple-Cable.jpg?v=1668026957"
+  },
+  {
+    "model": "Verifone VX 510 Dial 3Mb (M251-000-33-NAA)",
+    "description": "Dial 3Mb Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/VX510-front.jpg?v=1668026956"
+  },
+  {
+    "model": "Verifone M400 Ice Cube Cable Assembly, USB, Ethernet Port (MSC445-011-00-A)",
+    "description": "USB/Ethernet Cable Assembly for M400",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/M400-USB-Ethernet-Cable.jpg?v=1668026957"
+  },
+  {
+    "model": "2085 NOS 6 Terminal (2085-US-M03-GRY)",
+    "description": "2085 Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/2085-Terminal.jpg?v=1668026958"
+  },
+  {
+    "model": "NURIT 8000 or 8020 External Modem-14.4k (113617)",
+    "description": "External Modem",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/NURIT-8000-8020-External-Modem.jpg?v=1668026957"
+  },
+  {
+    "model": "Verifone Way Systems S40 Wireless Printer (A60011-01)",
+    "description": "S40 Wireless Printer",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Way-Systems-S40-Wireless-Printer.jpg?v=1668026956"
+  },
+  {
+    "model": "Refurb-Verifone VX 520 Dual Comm EMV, NFC 160Mb Contactless (M252-653-A3-NAA-3-RF)",
+    "description": "Dual Comm EMV, NFC Contactless Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/vx520-front.jpg?v=1668026956"
+  },
+  {
+    "model": "FlexiPole SafeBase Complete for Verifone VX 520 Contactless (127187)",
+    "description": "Stand for VX 520 Contactless",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/FlexiPole-SafeBase-Complete.jpg?v=1668026957"
+  },
+  {
+    "model": "FlexiPole SafeBase Complete for Verifone VX 805 VX 820 (vx8xxstand8)",
+    "description": "Stand for VX 805/VX 820",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/FlexiPole-SafeBase-Complete.jpg?v=1668026957"
+  },
+  {
+    "model": "FlexiPole SafeBase Contour for Verifone VX 805 (vx8xxstand6)",
+    "description": "Stand for VX 805",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/FlexiPole-SafeBase-Contour.jpg?v=1668026957"
+  },
+  {
+    "model": "FlexiPole SafeBase Compact for Verifone VX 805 (vx8xxstand5)",
+    "description": "Compact Stand for VX 805",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/FlexiPole-SafeBase-Compact.jpg?v=1668026957"
+  },
+  {
+    "model": "FlexiPole SafeBase Connect for Verifone VX 805 VX 820 (vx8xxstand3)",
+    "description": "Connect Stand for VX 805 / VX 820",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/FlexiPole-SafeBase-Connect.jpg?v=1668026957"
+  },
+
+  {
+    "model": "PAX SK700 Android Self-Service Kiosk Terminal (SK700-A6214-3320-EA)",
+    "description": "Android Self-Service Kiosk Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/SK700-Ft.png?v=1678397590"
+  },
+  {
+    "model": "PAX Elys Workstation L1400 Android POS & A3700 Payment Tablet Bundle (L1400-A3700)",
+    "description": "Android POS & A3700 Payment Tablet Bundle",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_ELYS_A3700_Bundle.png?v=1668026954"
+  },
+  {
+    "model": "PAX IM30 Android Unattended Self-Service Terminal (IM30-0AA-RD5-02A0)",
+    "description": "Android Unattended Self-Service Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX-IM30_front-grande.png?v=1668026674"
+  },
+  {
+    "model": "PAX IM20 Unattended Self-Service Terminal (IM20-0BW-R65-14L0)",
+    "description": "Unattended Self-Service Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX-IM20_Front.png?v=1668027076"
+  },
+  {
+    "model": "PAX Elys Workstation L1400 Android POS (L1400-AA200-2600-2N1-EA)",
+    "description": "Android POS",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_ELYS_L1400.png?v=1668026953"
+  },
+  {
+    "model": "PAX Aries 8 | WiFi-Bluetooth-Ethernet | Optional 4G | Smart Tablet (AR8-A1100-0301-5P5-EA)",
+    "description": "WiFi/Bluetooth/Ethernet/Optional 4G Smart Tablet",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/aries8-A1100-0301-5P5.png?v=1678397591"
+  },
+  {
+    "model": "PAX Elys A3700 Payment Tablet (A3700-0AW-RE6-00AA)",
+    "description": "Payment Tablet",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX-A3700-front-image.png?v=1668026953"
+  },
+  {
+    "model": "PAX IM10 Unattended Self-Service Terminal (IM10-0BA-R65-03L0)",
+    "description": "Unattended Self-Service Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX-IM10-Front-03L0.png?v=1668026874"
+  },
+  {
+    "model": "PAX A77 SmartMobile Android Bluetooth 5.0, Dual Band Wi-Fi PIN Pad",
+    "description": "SmartMobile Android Bluetooth 5.0/Dual Band Wi-Fi PIN Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX-A77_front-grande.png?v=1668026673"
+  },
+  {
+    "model": "PAX S90 cdma with EMV (S90-0C0-032-11EA)",
+    "description": "cdma with EMV",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAXS90.png?v=1668026957"
+  },
+  {
+    "model": "New PAX A80 Countertop Smart Card Terminal And New White SP30 Mono PIN Pad Bundle (A80-N-SP30-N-MONO-WHITE-KIT)",
+    "description": "Countertop Smart Card Terminal & PIN Pad Bundle",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/A80-SP30-MONO-WHITE-BUNDLE.png?v=1668027071"
+  },
+  {
+    "model": "PAX MT30, 32Mb, Dial/Ethernet, Terminal, PIN Pad, EMV (30-00L-0520-01EA)",
+    "description": "Terminal, PIN Pad, EMV",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_MT30.png?v=1668026958"
+  },
+  {
+    "model": "PAX E600Mini 8\" IPS All-In-One Android Payment Terminal (E600M-A9400-1429-5C0-EA)",
+    "description": "8\" IPS Android Payment Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/E600MINI-front-image.png?v=1668026955"
+  },
+  {
+    "model": "PAX A920Pro Android SmartPOS (Latest Model)",
+    "description": "Android SmartPOS",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/A920Pro-Front-image-with-Cover.png?v=1668027072"
+  },
+  {
+    "model": "PAX A80S WiFi-Bluetooth-Ethernet (A80-0BA-RD6-00AA)",
+    "description": "WiFi-Bluetooth-Ethernet Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_A80S_Front.png?v=1668026958"
+  },
+  {
+    "model": "PAX A920 Smart Terminal (A920-2AW-RD5-12LA)",
+    "description": "Smart Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/A920-Front-image.png?v=1668026958"
+  },
+  {
+    "model": "PAX S300 INTEGRATED RETAIL PINPAD EMV NFC (S300)",
+    "description": "Integrated Retail Pin Pad (EMV/NFC)",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_S300_PinPad_Front.png?v=1668026957"
+  },
+  {
+    "model": "PAX A80 Countertop Smart Card Terminal And PAX SP20 V4 PIN Pad Bundle (PAXA80SP20)",
+    "description": "Countertop Terminal & PIN Pad Bundle",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX-A80-SP20-Bundle.png?v=1668027074"
+  },
+  {
+    "model": "PAX S920 Mobile Payment Terminal (S920-0QW-R74-12LA)",
+    "description": "Mobile Payment Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_S920_Mobile_Terminal_Front.png?v=1668026956"
+  },
+  {
+    "model": "PAX A800 Android 10.0 Desktop EMV/CTLS, Wifi/4G/BT (5.0), PCI 6.X (A800-0AW-RE6-10AA)",
+    "description": "Desktop Android Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/A800-front-image.png?v=1668027070"
+  },
+  {
+    "model": "PAX S90 gprs 3G with EMV and Contactless (S90-MW0-063-01EA)",
+    "description": "gprs 3G Terminal with EMV/NFC",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAXS90.png?v=1668026957"
+  },
+  {
+    "model": "PAX SP30 PIN PAD (SP30-00L264-01EA)",
+    "description": "Pin Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_SP30_FRONT_IMAGE.png?v=1668026957"
+  },
+  {
+    "model": "PAX Elys T3180 Thermal Receipt Printer (T3180-CE-0EA)",
+    "description": "Thermal Receipt Printer",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX-Elys-T3180-Front.png?v=1668027073"
+  },
+  {
+    "model": "PAX SP30 EMV NFC V4 BLACK W/MONO CABLE (SP30-26403E)",
+    "description": "EMV NFC V4 Pin Pad (Black)",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_SP30_FRONT_IMAGE.png?v=1668026957"
+  },
+  {
+    "model": "PAX SP30 EMV NFC V4 WHITE W/MONO CABLE (SP30-26402E)",
+    "description": "EMV NFC V4 Pin Pad (White)",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_SP30_FRONT_IMAGE.png?v=1668026957"
+  },
+  {
+    "model": "PAX Q25 Smart PIN Pad (Q25-0UL-R75-04L0)",
+    "description": "Smart PIN Pad",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/Q25_Front.png?v=1668027074"
+  },
+  {
+    "model": "PAX Elys Eye Touch Scanner (T3300-TBA)",
+    "description": "Eye Touch Scanner",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX-Elys-T3300-Eye-Front.png?v=1668027074"
+  },
+  {
+    "model": "PAX SP30 Smart Card And CTLS Black Pin Pad W/ Rainbow Cable For POS Integration (SP30-RBOW-BLACK-V4-R)",
+    "description": "Smart Card/CTLS Black Pin Pad (POS Rainbow Cable)",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_SP30_FRONT_IMAGE.png?v=1668026957"
+  },
+  {
+    "model": "PAX SP30 Smart Card And CTLS White Pin Pad W/ Rainbow Cable - For POS Integration (SP30-RBOW-WHITE-V4-N)",
+    "description": "Smart Card/CTLS White Pin Pad (POS Rainbow Cable)",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_SP30_FRONT_IMAGE.png?v=1668026957"
+  },
+  {
+    "model": "PAX S80 Dual Comm 16Mb (S80-EML0)",
+    "description": "Dual Communication Terminal",
+    "image": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_S80_FRONT_IMAGE.png?v=1668026958"
+  },
+  {
+    "model": "Clover Flex",
+    "description": "Clover Flex portable POS terminal. Dip, swipe, tap, enter a pin and sign. Integrated receipt printer and scanner.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/CloverFlex.png" 
+  },
+  {
+    "model": "PAX E800 POS Payment Terminal (E800-A4222-1431-501-EA)",
+    "description": "PAX E800 Android POS Payment Terminal, robust design.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/E800.png"
+  },
+  {
+    "model": "Clover Mini WIFI & 3G (FDMINIYJ33G)",
+    "description": "Clover Mini, connects via WiFi & 3G. Compact retail point of sale solution.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/CloverMini.png"
+  },
+  {
+    "model": "PAX A60 MiniPOS (A60-0AW-RD5-01EA)",
+    "description": "PAX A60 MiniPOS portable Android POS terminal.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/A60.png"
+  },
+  {
+    "model": "PAX E600 Portable POS (E600-A1100-0341-502-EA)",
+    "description": "PAX E600 All-in-one portable POS terminal.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/E600.png"
+  },
+  {
+    "model": "Clover Mobile WIFI & 3G+SIM",
+    "description": "Clover Mobile, WiFi & 3G connectivity, SIM enabled.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/CloverMobile.png"
+  },
+  {
+    "model": "Clover POS Retail All In One System with First Data FD 40 Bundle",
+    "description": "Clover POS all-in-one retail system, bundled with First Data FD 40 for expanded payment capabilities.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/CloverPOS_Retail.png"
+  },
+  {
+    "model": "Ingenico Moby/C150 | Bluetooth/Wifi/Ethernet | All-in-one Device",
+    "description": "Ingenico Moby/C150, supports Bluetooth, WiFi, Ethernet, versatile all-in-one device.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/Moby-C150.png"
+  },
+  {
+    "model": "Clover Station 2018 with printer bundle",
+    "description": "Clover Station 2018, bundled with integrated printer for full POS functionality.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/CloverStation2018.png"
+  },
+  {
+    "model": "Verifone E285 (M087-501-15-WWA)",
+    "description": "Verifone E285 mobile payment terminal, WiFi/Bluetooth.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/E285-Front-15-WWA.png?v=1668026957"
+  },
+  {
+    "model": "Verifone E355 Mobile POS (M087-351-11-WWA)",
+    "description": "Verifone E355 mobile POS device.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/E355-Front-11-WWA.png?v=1668026957"
+  },
+  {
+    "model": "PAX SP30 Smart Card And CTLS Black Pin Pad W/ Rainbow Cable For POS Integration (SP30-RBOW-BLACK-V4-R)",
+    "description": "PAX SP30 smart card and contactless black PIN pad for POS integration.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_SP30_FRONT_IMAGE.png?v=1668026957"
+  },
+  {
+    "model": "PAX Elys Workstation L1400 Android POS (L1400-AA200-2600-2N1-EA)",
+    "description": "PAX Elys L1400 Android POS workstation.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_ELYS_L1400.png?v=1668026953"
+  },
+  {
+    "model": "PAX Elys Workstation L1400 Android POS & A3700 Payment Tablet Bundle (L1400-A3700)",
+    "description": "PAX Elys L1400 Android POS workstation and A3700 payment tablet bundle.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/PAX_ELYS_A3700_Bundle.png?v=1668026954"
+  },
+  {
+    "model": "PayAnywhere Smart Flex Complete System",
+    "description": "PayAnywhere Smart Flex complete POS system.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/PayAnywhereSmartFlex.png"
+  },
+  {
+    "model": "QuickBooks POS powered by Revel Retail Bundle with Barcode Scanner (POSBUNDLE1)",
+    "description": "QuickBooks POS bundle powered by Revel, includes retail barcode scanner.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/QuickBooksPOS_Revel_Bundle.png"
+  },
+  {
+    "model": "QuickBooks POS powered by Revel Lite Bundle 2 (POSBUNDLE2)",
+    "description": "QuickBooks POS Lite bundle powered by Revel, bundle 2.",
+    "image_url": "https://cdn.shopify.com/s/files/1/2170/4739/products/QuickBooksPOS_Revel_Bundle2.png"
+  }
+]

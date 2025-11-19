@@ -27,10 +27,6 @@ export default function TrustedByCarousel() {
       transition={{ delay: 0.3, duration: 0.6 }}
       className="mt-16 w-full"
     >
-      <div className="text-xs font-medium text-[#161616] uppercase tracking-wider font-semibold text-center mb-8">
-        Trusted by
-      </div>
-      
       {/* Carousel Container */}
       <div className="relative overflow-hidden w-full">
         <div className="flex items-center gap-8 md:gap-12 animate-scroll">
@@ -45,7 +41,7 @@ export default function TrustedByCarousel() {
                 alt={`Brand ${index}`}
                 width={100}
                 height={50}
-                className="opacity-70 hover:opacity-100 transition-opacity duration-300 object-contain h-8 w-auto"
+                className="object-contain h-8 w-auto"
               />
             </div>
           ))}
@@ -73,4 +69,3 @@ export default function TrustedByCarousel() {
     </motion.div>
   );
 }
-

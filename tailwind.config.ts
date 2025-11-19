@@ -17,8 +17,9 @@ export default {
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
         background: {
-          DEFAULT: '#F9F7F3', // warm off-white background
-          dark: '#0A0A0A',    // deep neutral black for dark mode
+          DEFAULT: '#FFFFFF', 
+          subtle: '#FAFAFA',
+          dark: '#0A0A0A',
         },
         foreground: "hsl(var(--foreground))",
         primary: {
@@ -49,35 +50,29 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        bg: "rgb(var(--bg) / <alpha-value>)",
-        text: {
-          DEFAULT: '#0A0A0A', // near-black for body copy
-          subtle: '#2C2C2C',  // secondary dark gray
-          soft: '#4B4B4B',    // tertiary gray
+        // Refined Brand Colors - Monochrome with depth
+        brand: {
+          black: "#111111",     // Slightly softer than pure black
+          charcoal: "#222222",   // Secondary dark
+          gray: "#F5F5F5",      // Very light gray for hover states
+          stone: "#E5E5E5",     // Border gray
         },
-        line: "rgb(var(--line) / <alpha-value>)",
       },
       fontFamily: {
-        poppins: ["var(--font-poppins)", "Arial", "sans-serif"],
-        lora: ["var(--font-lora)", "Georgia", "serif"],
-        sans: ['"Inter Tight"', "var(--font-poppins)", "system-ui", "sans-serif"],
-        serif: ['"Source Serif 4"', "var(--font-lora)", "Georgia", "serif"],
+        // Reverting to cleaner stack preference
+        sans: ['"Inter Tight"', "system-ui", "sans-serif"],
+        serif: ['"Source Serif 4"', "Georgia", "serif"],
+        poppins: ["var(--font-poppins)", "sans-serif"],
+        lora: ["var(--font-lora)", "serif"],
       },
-      fontWeight: {
-        normal: "400",
-        medium: "500",
-        semibold: "600",
-        bold: "700",
+      boxShadow: {
+        'elevation-low': '0 2px 4px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.02)',
+        'elevation-mid': '0 8px 16px rgba(0,0,0,0.04), 0 2px 4px rgba(0,0,0,0.02)',
+        'elevation-high': '0 24px 48px rgba(0,0,0,0.06), 0 4px 8px rgba(0,0,0,0.02)',
+        'glow-white': '0 0 20px rgba(255,255,255,0.5)',
       },
-      lineHeight: {
-        snug: "1.25",
-        relaxed: "1.5",
-        loose: "1.7",
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+      backgroundImage: {
+        'shimmer': 'linear-gradient(45deg, rgba(255,255,255,0) 40%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 60%)',
       },
       keyframes: {
         "accordion-down": {
@@ -88,10 +83,15 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "fade-in-up": {
+            "0%": { opacity: "0", transform: "translateY(10px)" },
+            "100%": { opacity: "1", transform: "translateY(0)" },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in-up": "fade-in-up 0.6s ease-out forwards",
       },
     },
   },

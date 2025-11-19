@@ -16,7 +16,6 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
-  { label: "CC Split", href: "/cc-split" },
   { label: "Partnerships", href: "/partnerships" },
 ] as const;
 
@@ -50,24 +49,29 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
           className="flex items-center gap-2"
         >
           <Image
-            src="/new_logo.svg"
+            src="/new_logo_no_bg_smooth.png"
             alt="Split"
-            height={32}
-            width={32}
-            className="h-8 w-auto object-contain"
+            height={36}
+            width={90}
+            className="h-9 w-auto object-contain"
             priority={logoPriority}
           />
         </Link>
 
         {/* Center: nav pills, independent of logo, similar to Notion's centered header */}
-        <nav className="hidden md:flex items-center gap-2 absolute left-1/2 -translate-x-1/2">
+        <nav className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.label}
               href={item.href}
-              className={cn(PILL_BASE_CLASSES, { "nav-pill--active": activePath === item.href })}
+              className={cn(
+                "flex items-center gap-2 text-sm font-medium transition-all duration-300 rounded-full px-4 py-2 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] text-brand-black border border-black hover:border-black/5", 
+                {
+                  "bg-gray-50": activePath === item.href,
+                }
+              )}
             >
-              <span className="dot" />
+              <span className="w-1 h-1 rounded-full bg-[#FF4306]" />
               <span>{item.label}</span>
             </Link>
           ))}

@@ -14,9 +14,15 @@ const config = {
     styledComponents: true,
   },
   images: {
-    loader: "custom",
-    loaderFile: "./image-loader.ts",
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "cdn.shopify.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.cardmachineoutlet.com",
+      },
       {
         protocol: "https",
         hostname: "**",
@@ -39,6 +45,15 @@ const config = {
       '@midday/jobs': './src/lib/stub.ts',
       '@midday/email': './src/lib/stub.ts',
     },
+  },
+  webpack: (config) => {
+    // Enable importing SVG source via ?raw
+    config.module.rules.push({
+      test: /\.svg$/i,
+      resourceQuery: /raw/,    // only when you do `import x from 'file.svg?raw'`
+      type: 'asset/source',
+    });
+    return config;
   },
 };
 

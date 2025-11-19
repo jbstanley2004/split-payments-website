@@ -1,0 +1,24 @@
+{
+  "cards": [
+    {
+      "name": "Citi Double Cash Card",
+      "image_url": "https://www.bankrate.com/credit-cards/issuers/mastercard/9ea24330-ae9f-11ec-81f6-95945bae99c9.jpg"
+    },
+    {
+      "name": "Capital One Platinum Credit Card",
+      "image_url": "https://www.bankrate.com/credit-cards/issuers/mastercard/1b1ddd50-5981-11ef-a79b-ddd94e41e6b3.png"
+    },
+    {
+      "name": "Capital One QuicksilverOne Cash Rewards Credit Card",
+      "image_url": "https://www.bankrate.com/credit-cards/issuers/mastercard/8c8c4310-ee0e-11ef-82bd-cd0926ad3410.png"
+    },
+    {
+      "name": "Capital One Savor Student Cash Rewards Credit Card",
+      "image_url": "https://www.bankrate.com/credit-cards/issuers/mastercard/7027dca0-9087-11ef-9b25-ab59e8af7111.png"
+    },
+    {
+      "name": "Citi Strata Premier Card",
+      "image_url": "https://www.bankrate.com/credit-cards/issuers/mastercard/cc4c54f0-0d3f-11ef-8061-419b99b523ee.png"
+    }
+  ]
+}
