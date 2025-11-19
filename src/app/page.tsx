@@ -55,7 +55,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* STATISTICS SECTION - Brand colors */}
+        {/* STATISTICS SECTION */}
         <section className="px-6 md:px-10 lg:px-16 py-16 bg-[#F8F7F4]">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -118,7 +118,7 @@ export default function HomePage() {
               </div>
             </motion.div>
 
-            {/* Payment Terminal Showcase */}
+            {/* Payment Terminal Showcase - No container border */}
             <div className="grid md:grid-cols-2 gap-12 items-center mt-16">
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -126,15 +126,13 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 className="relative"
               >
-                <div className="bg-[#F8F7F4] rounded-lg p-8 border border-[#E8E6DC] flex items-center justify-center">
-                  <Image
-                    src="/product-overview.jpg"
-                    alt="Payment Terminal Dashboard"
-                    width={600}
-                    height={400}
-                    className="w-full h-auto rounded-lg"
-                  />
-                </div>
+                <Image
+                  src="/product-overview.jpg"
+                  alt="Payment Terminal Dashboard"
+                  width={600}
+                  height={400}
+                  className="w-full h-auto rounded-lg"
+                />
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
@@ -150,7 +148,7 @@ export default function HomePage() {
                 <div className="space-y-3">
                   {["Point of Sale systems", "Mobile card readers", "Online payment gateways", "Virtual terminals"].map((feature) => (
                     <div key={feature} className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-[#FF4306]" />
+                      <CheckCircle2 className="w-5 h-5 text-[#161616]" />
                       <span className="text-[#161616]">{feature}</span>
                     </div>
                   ))}
@@ -160,7 +158,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* FEATURES SECTION - Brand colors */}
+        {/* FEATURES SECTION */}
         <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-24 bg-[#F8F7F4]">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -233,7 +231,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* TESTIMONIALS SECTION - Notion-style testimonial cards */}
+        {/* TESTIMONIALS SECTION */}
         <section className="px-6 md:px-10 lg:px-16 py-24 bg-white">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -292,7 +290,7 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-[#F8F7F4] rounded-lg p-6 border border-[#E8E6DC]"
+                  className="bg-white rounded-lg p-6 border border-[#E8E6DC]"
                 >
                   <p className="text-[#161616] mb-4 italic">"{testimonial.quote}"</p>
                   <div>
