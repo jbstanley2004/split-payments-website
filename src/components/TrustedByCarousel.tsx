@@ -4,19 +4,19 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 
 const brandLogos = [
-  "/images_card_payments_funding/brand_logos/svg0.svg",
-  "/images_card_payments_funding/brand_logos/svg1.svg",
-  "/images_card_payments_funding/brand_logos/svg2.svg",
-  "/images_card_payments_funding/brand_logos/svg7.svg",
-  "/images_card_payments_funding/brand_logos/svg15.svg",
-  "/images_card_payments_funding/brand_logos/svg18.svg",
-  "/images_card_payments_funding/brand_logos/svg19.svg",
-  "/images_card_payments_funding/brand_logos/svg33.svg",
-  "/images_card_payments_funding/brand_logos/svg34.svg",
-  "/images_card_payments_funding/brand_logos/svg35.svg",
-  "/images_card_payments_funding/brand_logos/svg36.svg",
-  "/images_card_payments_funding/brand_logos/svg37.svg",
-  "/images_card_payments_funding/brand_logos/svg92.svg",
+  "/brand_logos/svg0.svg",
+  "/brand_logos/svg1.svg",
+  "/brand_logos/svg2.svg",
+  "/brand_logos/svg7.svg",
+  "/brand_logos/svg15.svg",
+  "/brand_logos/svg18.svg",
+  "/brand_logos/svg19.svg",
+  "/brand_logos/svg33.svg",
+  "/brand_logos/svg34.svg",
+  "/brand_logos/svg35.svg",
+  "/brand_logos/svg36.svg",
+  "/brand_logos/svg37.svg",
+  "/brand_logos/svg92.svg",
 ];
 
 export default function TrustedByCarousel() {

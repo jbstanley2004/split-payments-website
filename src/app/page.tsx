@@ -30,234 +30,240 @@ export default function HomePage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-brand-black selection:bg-black/10 selection:text-black font-poppins overflow-x-hidden">
+    <main className="min-h-screen text-brand-black selection:bg-black/10 selection:text-black font-poppins overflow-x-hidden">
       <InteractiveCardWall />
       <div className="relative z-10">
         <DynamicIslandNav />
 
         {/* HERO SECTION - Pure White, High Contrast, Elegant */}
-        <section
-          id="home"
-          className="relative min-h-[90vh] flex flex-col items-center justify-center px-6 md:px-10 lg:px-16 pt-32 pb-24"
-        >
-          <div className="max-w-5xl w-full relative flex flex-col items-center text-center mb-16">
-            
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
-              className="max-w-4xl mx-auto"
-            >
-              
-              <motion.h1 
-                variants={fadeInUp}
-                className="text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight text-brand-black mb-8 font-semibold"
-              >
-                Payments and funding.
-                <br />
-                <span className="text-brand-charcoal">
-                  Connected.
-                </span>
-              </motion.h1>
-              
-              <motion.p 
-                variants={fadeInUp}
-                className="text-xl md:text-2xl font-lora text-brand-black/70 mb-12 max-w-2xl mx-auto leading-relaxed"
-              >
-                One secure platform where your business can process payments, access working capital, and grow with confidence.
-              </motion.p>
-              
-              <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6">
-                <Link href="/get-started">
-                  <PrimaryButton>
-                    Get Started
-                  </PrimaryButton>
-                </Link>
-                <Link
-                  href="/#how-it-works"
-                  className="group text-brand-black font-medium text-lg hover:text-brand-charcoal transition-colors inline-flex items-center gap-2 py-4"
-                >
-                  Learn more
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </motion.div>
-            </motion.div>
-          </div>
+        <div className="w-full bg-white pt-32 pb-16">
+          <section
+            id="home"
+            className="relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-16"
+          >
+            <div className="max-w-5xl w-full relative flex flex-col items-center text-center mb-16">
 
-          {/* Brands We Work With - Moved here */}
-          <motion.div 
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
+                className="max-w-4xl mx-auto"
+              >
+
+                <motion.h1
+                  variants={fadeInUp}
+                  className="text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight text-brand-black mb-8 font-semibold"
+                >
+                  Payments and funding.
+                  <br />
+                  <span className="text-brand-charcoal">
+                    Connected.
+                  </span>
+                </motion.h1>
+
+                <motion.p
+                  variants={fadeInUp}
+                  className="text-xl md:text-2xl font-lora text-brand-black/70 mb-12 max-w-2xl mx-auto leading-relaxed"
+                >
+                  One secure platform where your business can process payments, access working capital, and grow with confidence.
+                </motion.p>
+
+                <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                  <Link href="/get-started">
+                    <PrimaryButton>
+                      Get Started
+                    </PrimaryButton>
+                  </Link>
+                  <Link
+                    href="/#how-it-works"
+                    className="group text-brand-black font-medium text-lg hover:text-brand-charcoal transition-colors inline-flex items-center gap-2 py-4"
+                  >
+                    Learn more
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </div>
+
+            {/* Brands We Work With - Moved here */}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 1 }}
               className="w-full max-w-7xl mt-8 text-center"
-          >
-             <h3 className="text-sm font-medium text-brand-black/50 uppercase tracking-widest mb-8 font-poppins">Brands we work with</h3>
-             <TrustedByCarousel />
-          </motion.div>
-        </section>
+            >
+              <h3 className="text-sm font-medium text-brand-black/50 uppercase tracking-widest mb-8 font-poppins">Brands we work with</h3>
+              <TrustedByCarousel />
+            </motion.div>
+          </section>
+        </div>
 
         {/* HARDWARE TEASER */}
-        <section className="px-6 md:px-10 lg:px-16 py-24 border-b border-brand-stone/30">
-           <div className="max-w-6xl mx-auto mb-16 text-center">
+        <div className="w-full bg-white">
+          <section className="px-6 md:px-10 lg:px-16 py-24 border-b border-brand-stone/30">
+            <div className="max-w-6xl mx-auto mb-16 text-center">
               <h2 className="text-3xl md:text-5xl font-bold text-brand-black mb-6 font-poppins">
-                 Powering the world's best hardware.
+                Powering the world's best hardware.
               </h2>
               <p className="text-xl text-brand-black/60 font-lora">
-                 From mobile readers to full countertop POS systems.
+                From mobile readers to full countertop POS systems.
               </p>
-           </div>
-           <HardwareSpotlight />
-        </section>
+            </div>
+            <HardwareSpotlight />
+          </section>
+        </div>
 
         {/* ALL-IN-ONE SECTION */}
-        <section className="relative px-6 md:px-10 lg:px-16 py-32 overflow-hidden">
-          <div className="max-w-6xl mx-auto relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center max-w-3xl mx-auto mb-24"
-            >
-              <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-8 tracking-tight font-poppins">
-                All-in-one FinTech, <br/>
-                <span className="font-lora italic text-brand-charcoal font-normal">right where you work.</span>
-              </h2>
-              <p className="text-xl text-brand-black/70 leading-relaxed font-lora">
-                We've unified the fragmented financial stack into one cohesive operating system.
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-               {/* Feature Text */}
+        <div className="w-full bg-white mt-24">
+          <section className="relative px-6 md:px-10 lg:px-16 py-32 overflow-hidden">
+            <div className="max-w-6xl mx-auto relative z-10">
               <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="space-y-12"
+                transition={{ duration: 0.6 }}
+                className="text-center max-w-3xl mx-auto mb-24"
               >
-                 <div className="space-y-4">
+                <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-8 tracking-tight font-poppins">
+                  All-in-one FinTech, <br />
+                  <span className="font-lora italic text-brand-charcoal font-normal">right where you work.</span>
+                </h2>
+                <p className="text-xl text-brand-black/70 leading-relaxed font-lora">
+                  We've unified the fragmented financial stack into one cohesive operating system.
+                </p>
+              </motion.div>
+
+              <div className="grid md:grid-cols-2 gap-16 items-center">
+                {/* Feature Text */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="space-y-12"
+                >
+                  <div className="space-y-4">
                     <h3 className="text-2xl font-bold text-brand-black font-poppins">Seamless Integration</h3>
                     <p className="text-lg text-brand-black/70 leading-relaxed font-lora">
-                        Payment processing built into every transaction. From card acceptance to ACH transfers, everything you need is integrated and ready to scale.
+                      Payment processing built into every transaction. From card acceptance to ACH transfers, everything you need is integrated and ready to scale.
                     </p>
-                 </div>
-                 <div className="w-full h-px bg-brand-stone" />
-                 <div className="space-y-4">
+                  </div>
+                  <div className="w-full h-px bg-brand-stone" />
+                  <div className="space-y-4">
                     <h3 className="text-2xl font-bold text-brand-black font-poppins">Unified Dashboard</h3>
                     <p className="text-lg text-brand-black/70 leading-relaxed font-lora">
-                        One platform for everything. Payments, funding, reporting, and analytics—all connected and powered by intelligent automation.
+                      One platform for everything. Payments, funding, reporting, and analytics—all connected and powered by intelligent automation.
                     </p>
-                 </div>
-              </motion.div>
-
-              {/* Feature Image - Clean, White Frame */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="relative"
-              >
-                 <div className="relative rounded-3xl overflow-hidden shadow-elevation-mid bg-white p-3 ring-1 ring-black/5">
-                    <div className="rounded-2xl overflow-hidden bg-brand-gray">
-                      <Image
-                          src="/product-overview.jpg"
-                          alt="Payment Terminal Dashboard"
-                          width={800}
-                          height={600}
-                          className="w-full h-auto object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
-                      />
-                    </div>
-                 </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* FEATURES SECTION - Wrapped in Container */}
-        <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-32 bg-brand-gray/30">
-          <div className="max-w-7xl mx-auto">
-             <div className="bg-white rounded-3xl border border-black/5 shadow-sm p-8 md:p-16">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="text-center mb-20"
-                >
-                  <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-6 tracking-tight font-poppins">
-                    Easy to start. <span className="italic font-lora font-normal">Powerful to use.</span>
-                  </h2>
+                  </div>
                 </motion.div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {[
-                    {
-                      icon: CreditCard,
-                      title: "Credit Card Processing",
-                      description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
-                      image: "/product-spending-light.png"
-                    },
-                    {
-                      icon: TrendingUp,
-                      title: "Working Capital",
-                      description: "Turn card volume into working capital. Get funding based on your actual sales, not projections.",
-                      image: "/product-vault-light.jpg"
-                    },
-                    {
-                      icon: Shield,
-                      title: "Enterprise Security",
-                      description: "Bank-level security with PCI compliance, encryption, and fraud protection built into every transaction.",
-                      image: "/vault-light.png"
-                    },
-                    {
-                      icon: Zap,
-                      title: "Real-time Analytics",
-                      description: "Track every transaction, monitor cash flow, and make data-driven decisions with comprehensive reporting.",
-                      image: "/product-overview-light.jpg"
-                    },
-                    {
-                      icon: CreditCard,
-                      title: "Flexible Payment Types",
-                      description: "Accept cards, ACH, checks, and more. One platform for all your payment needs.",
-                      image: "/product-invoice-light.jpg"
-                    },
-                    {
-                      icon: TrendingUp,
-                      title: "Automated Workflows",
-                      description: "Streamline operations with automated reconciliation, reporting, and funding deployment.",
-                      image: "/inbox-actions-light.png"
-                    },
-                  ].map((feature, index) => (
-                    <motion.div
-                        key={feature.title}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: index * 0.1 }}
-                        className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300"
-                    >
-                        <div className="h-48 bg-gray-50 relative border-b border-gray-100">
-                            <Image 
-                                src={feature.image}
-                                alt={feature.title}
-                                fill
-                                className="object-cover object-top grayscale-[10%] group-hover:grayscale-0 transition-all duration-500"
-                            />
-                        </div>
-                        <div className="p-8">
-                            <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center mb-4 text-white">
-                                <feature.icon className="w-5 h-5" />
-                            </div>
-                            <h3 className="text-xl font-bold text-brand-black mb-3 font-poppins">{feature.title}</h3>
-                            <p className="text-brand-black/70 leading-relaxed text-sm font-lora">
-                                {feature.description}
-                            </p>
-                        </div>
-                    </motion.div>
-                  ))}
-                </div>
-             </div>
+                {/* Feature Image - Clean, White Frame */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.8 }}
+                  className="relative"
+                >
+                  <div className="relative rounded-3xl overflow-hidden shadow-elevation-mid bg-white p-3 ring-1 ring-black/5">
+                    <div className="rounded-2xl overflow-hidden bg-brand-gray">
+                      <Image
+                        src="/product-overview.jpg"
+                        alt="Payment Terminal Dashboard"
+                        width={800}
+                        height={600}
+                        className="w-full h-auto object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* FEATURES SECTION - Wrapped in Container */}
+        <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-32">
+          <div className="max-w-7xl mx-auto">
+            <div className="bg-white rounded-3xl border border-black/5 shadow-sm p-8 md:p-16">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center mb-20"
+              >
+                <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-6 tracking-tight font-poppins">
+                  Easy to start. <span className="italic font-lora font-normal">Powerful to use.</span>
+                </h2>
+              </motion.div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[
+                  {
+                    icon: CreditCard,
+                    title: "Credit Card Processing",
+                    description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
+                    image: "/product-spending-light.png"
+                  },
+                  {
+                    icon: TrendingUp,
+                    title: "Working Capital",
+                    description: "Turn card volume into working capital. Get funding based on your actual sales, not projections.",
+                    image: "/product-vault-light.jpg"
+                  },
+                  {
+                    icon: Shield,
+                    title: "Enterprise Security",
+                    description: "Bank-level security with PCI compliance, encryption, and fraud protection built into every transaction.",
+                    image: "/vault-light.png"
+                  },
+                  {
+                    icon: Zap,
+                    title: "Real-time Analytics",
+                    description: "Track every transaction, monitor cash flow, and make data-driven decisions with comprehensive reporting.",
+                    image: "/product-overview-light.jpg"
+                  },
+                  {
+                    icon: CreditCard,
+                    title: "Flexible Payment Types",
+                    description: "Accept cards, ACH, checks, and more. One platform for all your payment needs.",
+                    image: "/product-invoice-light.jpg"
+                  },
+                  {
+                    icon: TrendingUp,
+                    title: "Automated Workflows",
+                    description: "Streamline operations with automated reconciliation, reporting, and funding deployment.",
+                    image: "/inbox-actions-light.png"
+                  },
+                ].map((feature, index) => (
+                  <motion.div
+                    key={feature.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300"
+                  >
+                    <div className="h-48 bg-gray-50 relative border-b border-gray-100">
+                      <Image
+                        src={feature.image}
+                        alt={feature.title}
+                        fill
+                        className="object-cover object-top grayscale-[10%] group-hover:grayscale-0 transition-all duration-500"
+                      />
+                    </div>
+                    <div className="p-8">
+                      <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center mb-4 text-white">
+                        <feature.icon className="w-5 h-5" />
+                      </div>
+                      <h3 className="text-xl font-bold text-brand-black mb-3 font-poppins">{feature.title}</h3>
+                      <p className="text-brand-black/70 leading-relaxed text-sm font-lora">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -303,11 +309,11 @@ export default function HomePage() {
                   </div>
                   <div className="flex items-center gap-4 border-t border-black/5 pt-6 mt-auto">
                     <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm font-poppins">
-                        {testimonial.author[0]}
+                      {testimonial.author[0]}
                     </div>
                     <div>
-                        <div className="font-bold text-sm text-brand-black font-poppins">{testimonial.author}</div>
-                        <div className="text-xs text-brand-black/50 uppercase tracking-wide">{testimonial.company}</div>
+                      <div className="font-bold text-sm text-brand-black font-poppins">{testimonial.author}</div>
+                      <div className="text-xs text-brand-black/50 uppercase tracking-wide">{testimonial.company}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -327,7 +333,7 @@ export default function HomePage() {
             >
               <div className="absolute inset-0 bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/5 blur-[100px] rounded-full pointer-events-none" />
-                
+
               <h2 className="text-4xl md:text-6xl font-bold mb-8 relative z-10 font-poppins tracking-tight">
                 Ready to scale?
               </h2>
@@ -335,11 +341,11 @@ export default function HomePage() {
                 Get started today and see how Split can transform your payment processing and working capital access.
               </p>
               <div className="relative z-10">
-                  <Link href="/get-started">
-                    <button className="bg-white text-black px-10 py-5 rounded-full font-poppins font-semibold text-lg hover:scale-105 transition-transform shadow-lg">
-                        Create free account
-                    </button>
-                  </Link>
+                <Link href="/get-started">
+                  <button className="bg-white text-black px-10 py-5 rounded-full font-poppins font-semibold text-lg hover:scale-105 transition-transform shadow-lg">
+                    Create free account
+                  </button>
+                </Link>
               </div>
             </motion.div>
           </div>
