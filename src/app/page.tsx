@@ -11,6 +11,7 @@ import CardStackAnimation from "@/components/animations/CardStackAnimation";
 import CloverSpotlight from "@/components/CloverSpotlight";
 import Image from "next/image";
 import InteractiveCardWall from "@/components/InteractiveCardWall";
+import { AntigravityHero } from "@/components/AntigravityHero";
 
 export default function HomePage() {
   const fadeInUp = {
@@ -85,12 +86,15 @@ export default function HomePage() {
               </motion.div>
             </div>
 
+            {/* Antigravity-style hero card with cursor-following specs */}
+            <AntigravityHero />
+
             {/* Brands We Work With - Moved here */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 1 }}
-              className="w-full max-w-7xl mt-8 text-center"
+              className="w-full max-w-7xl mt-12 text-center"
             >
               <h3 className="text-sm font-medium text-brand-black/50 uppercase tracking-widest mb-8 font-poppins">Brands we work with</h3>
               <TrustedByCarousel />
