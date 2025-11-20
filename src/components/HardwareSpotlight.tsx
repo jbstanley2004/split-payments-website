@@ -54,7 +54,7 @@ const HardwareSpotlight = () => {
       <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center min-h-[500px]">
 
         {/* Left Column: Image */}
-        <div className="relative h-[400px] w-full flex items-center justify-center bg-gray-100/5 rounded-[3rem] p-8 group">
+        <div className="relative h-[450px] w-full flex items-center justify-center group">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentIndex}
@@ -66,15 +66,18 @@ const HardwareSpotlight = () => {
               transition={{ duration: 0.5, ease: "circOut" }}
               className="relative w-full h-full flex items-center justify-center"
             >
-              <div className="relative w-full h-full">
-                <Image
-                  src={currentHardware.image}
-                  alt={`${currentHardware.make} ${currentHardware.model}`}
-                  fill
-                  className="object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
-                  priority
-                  unoptimized
-                />
+              {/* Elegant white container for all hardware images */}
+              <div className="relative w-full h-full bg-white rounded-[3rem] p-12 shadow-elevation-mid ring-1 ring-black/5 transition-all duration-500 group-hover:shadow-elevation-high group-hover:scale-[1.02]">
+                <div className="w-full h-full flex items-center justify-center">
+                  <Image
+                    src={currentHardware.image}
+                    alt={`${currentHardware.make} ${currentHardware.model}`}
+                    fill
+                    className="object-contain max-h-[360px]"
+                    priority
+                    unoptimized
+                  />
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>
@@ -83,13 +86,15 @@ const HardwareSpotlight = () => {
           <div className="absolute bottom-6 right-6 flex gap-3 z-10">
             <button
               onClick={prevSlide}
-              className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-black hover:bg-black hover:text-white transition-colors"
+              aria-label="Previous hardware"
+              className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextSlide}
-              className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-black hover:bg-black hover:text-white transition-colors"
+              aria-label="Next hardware"
+              className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
@@ -107,29 +112,28 @@ const HardwareSpotlight = () => {
               transition={{ duration: 0.4 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <span className="px-3 py-1 rounded-full bg-gray-200 text-xs font-semibold uppercase tracking-wider text-gray-600">
+                <span className="px-3 py-1 rounded-full bg-brand-gray/10 text-xs font-semibold uppercase tracking-wider text-brand-black/60">
                   {currentHardware.make}
                 </span>
-                {/* Placeholder for category if we had it, or maybe price? */}
                 {currentHardware.price && (
-                  <span className="px-3 py-1 rounded-full bg-blue-100 text-xs font-semibold uppercase tracking-wider text-blue-600">
+                  <span className="px-3 py-1 rounded-full bg-brand-gray/10 text-xs font-semibold uppercase tracking-wider text-brand-black/60">
                     {currentHardware.price}
                   </span>
                 )}
               </div>
 
-              <h3 className="text-5xl font-medium text-white mb-6 leading-tight">
+              <h3 className="text-5xl font-lora font-medium text-brand-black mb-6 leading-tight">
                 {currentHardware.model}
               </h3>
 
               <div className="space-y-6">
-                <div className="h-px w-full bg-white/10" />
+                <div className="h-px w-full bg-brand-black/10" />
 
-                <div className="text-gray-300 leading-relaxed">
+                <div className="text-brand-black/70 leading-relaxed font-lora">
                   {currentHardware.description}
                 </div>
 
-                <div className="h-px w-full bg-white/10" />
+                <div className="h-px w-full bg-brand-black/10" />
               </div>
 
               {currentHardware.productUrl && (
@@ -138,7 +142,7 @@ const HardwareSpotlight = () => {
                     href={currentHardware.productUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full transition-colors"
+                    className="inline-block bg-brand-black hover:bg-brand-charcoal text-white font-medium py-3 px-6 rounded-full transition-colors shadow-lg"
                   >
                     View Details
                   </a>
@@ -156,7 +160,7 @@ const HardwareSpotlight = () => {
                   setDirection(idx > currentIndex ? 1 : -1);
                   setCurrentIndex(idx);
                 }}
-                className={`h-1 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-white' : 'w-2 bg-white/20 hover:bg-white/40'
+                className={`h-1 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-brand-black' : 'w-2 bg-brand-black/20 hover:bg-brand-black/40'
                   }`}
               />
             ))}
