@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import productsData from '../data/products-data.json';
@@ -194,7 +196,7 @@ const HardwareSpotlight = () => {
         <div className="md:w-1/2 flex flex-col justify-center">
           <h2 className="text-3xl font-bold mb-2">{currentHardware.make}</h2>
           <h3 className="text-xl text-gray-400 mb-4">{currentHardware.model}</h3>
-          
+
           <div className="mb-6">
             <h4 className="text-lg font-semibold mb-2 text-gray-300">Description</h4>
             <p className="text-gray-400 leading-relaxed">
@@ -203,15 +205,15 @@ const HardwareSpotlight = () => {
           </div>
 
           {currentHardware.price && (
-             <div className="mt-auto">
-               <span className="text-2xl font-bold text-blue-400">{currentHardware.price}</span>
-             </div>
+            <div className="mt-auto">
+              <span className="text-2xl font-bold text-blue-400">{currentHardware.price}</span>
+            </div>
           )}
-          
+
           {currentHardware.productUrl && (
-            <a 
-              href={currentHardware.productUrl} 
-              target="_blank" 
+            <a
+              href={currentHardware.productUrl}
+              target="_blank"
               rel="noopener noreferrer"
               className="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors self-start"
             >
