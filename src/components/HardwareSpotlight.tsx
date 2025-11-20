@@ -115,7 +115,6 @@ const HardwareSpotlight = () => {
                 <span className="px-3 py-1 rounded-full bg-brand-gray/10 text-xs font-semibold uppercase tracking-wider text-brand-black/60">
                   {currentHardware.make}
                 </span>
-                {/* Placeholder for category if we had it, or maybe price? */}
                 {currentHardware.price && (
                   <span className="px-3 py-1 rounded-full bg-brand-gray/10 text-xs font-semibold uppercase tracking-wider text-brand-black/60">
                     {currentHardware.price}
