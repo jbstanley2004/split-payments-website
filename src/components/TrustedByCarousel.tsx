@@ -29,9 +29,13 @@ export default function TrustedByCarousel() {
     >
       {/* Carousel Container */}
       <div className="relative overflow-hidden w-full">
-        <div className="flex items-center gap-8 md:gap-12 animate-scroll">
-          {/* Duplicate logos for seamless loop */}
-          {[...brandLogos, ...brandLogos].map((logo, index) => (
+        {/* Gradient Masks */}
+        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+
+        <div className="flex items-center gap-16 md:gap-24 animate-scroll w-max">
+          {/* Duplicate logos for seamless loop - tripled to ensure coverage */}
+          {[...brandLogos, ...brandLogos, ...brandLogos].map((logo, index) => (
             <div
               key={`${logo}-${index}`}
               className="flex-shrink-0"
@@ -39,9 +43,9 @@ export default function TrustedByCarousel() {
               <Image
                 src={logo}
                 alt={`Brand ${index}`}
-                width={100}
-                height={50}
-                className="object-contain h-8 w-auto"
+                width={120}
+                height={60}
+                className="object-contain h-10 w-auto opacity-80 hover:opacity-100 transition-opacity"
               />
             </div>
           ))}

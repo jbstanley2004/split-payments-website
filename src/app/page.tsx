@@ -36,7 +36,7 @@ export default function HomePage() {
         <DynamicIslandNav />
 
         {/* HERO SECTION - Pure White, High Contrast, Elegant */}
-        <div className="w-full bg-white pt-32 pb-16">
+        <div className="w-full bg-white pt-24 pb-16">
           <section
             id="home"
             className="relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-16"
@@ -114,8 +114,8 @@ export default function HomePage() {
         </div>
 
         {/* ALL-IN-ONE SECTION */}
-        <div className="w-full bg-white mt-24">
-          <section className="relative px-6 md:px-10 lg:px-16 py-32 overflow-hidden">
+        <div className="w-full bg-white mt-16">
+          <section className="relative px-6 md:px-10 lg:px-16 py-24 overflow-hidden">
             <div className="max-w-6xl mx-auto relative z-10">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -268,59 +268,61 @@ export default function HomePage() {
         </section>
 
         {/* TESTIMONIALS SECTION - Whiter cards */}
-        <section className="px-6 md:px-10 lg:px-16 py-32">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {[
-                {
-                  quote: "Split has transformed how we manage payments and access capital. The platform is intuitive and powerful.",
-                  author: "Mark Kim",
-                  role: "Head of Product",
-                  company: "TechCorp",
-                },
-                {
-                  quote: "Seamlessly integrates into our existing workflows. We couldn't imagine running our business without it.",
-                  author: "Sarah Chen",
-                  role: "CTO",
-                  company: "StartupXYZ",
-                },
-                {
-                  quote: "Streamlined our entire payment and funding process. It's truly a game-changer for growing businesses.",
-                  author: "John Miller",
-                  role: "CEO",
-                  company: "GrowthCo",
-                },
-              ].map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex flex-col justify-between h-full p-10 rounded-3xl bg-white hover:shadow-elevation-mid transition-all duration-300 border border-brand-stone hover:border-black/10"
-                >
-                  <div className="mb-8">
-                    <div className="flex gap-1 mb-6">
-                      {[...Array(5)].map((_, i) => (
-                        <span key={i} className="text-black text-sm">★</span>
-                      ))}
+        <div className="w-full bg-white">
+          <section className="px-6 md:px-10 lg:px-16 py-32">
+            <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                  {
+                    quote: "Split has transformed how we manage payments and access capital. The platform is intuitive and powerful.",
+                    author: "Mark Kim",
+                    role: "Head of Product",
+                    company: "TechCorp",
+                  },
+                  {
+                    quote: "Seamlessly integrates into our existing workflows. We couldn't imagine running our business without it.",
+                    author: "Sarah Chen",
+                    role: "CTO",
+                    company: "StartupXYZ",
+                  },
+                  {
+                    quote: "Streamlined our entire payment and funding process. It's truly a game-changer for growing businesses.",
+                    author: "John Miller",
+                    role: "CEO",
+                    company: "GrowthCo",
+                  },
+                ].map((testimonial, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex flex-col justify-between h-full p-10 rounded-3xl bg-white hover:shadow-elevation-mid transition-all duration-300 border border-brand-stone hover:border-black/10"
+                  >
+                    <div className="mb-8">
+                      <div className="flex gap-1 mb-6">
+                        {[...Array(5)].map((_, i) => (
+                          <span key={i} className="text-black text-sm">★</span>
+                        ))}
+                      </div>
+                      <p className="text-xl font-lora text-brand-black/90 leading-relaxed italic">"{testimonial.quote}"</p>
                     </div>
-                    <p className="text-xl font-lora text-brand-black/90 leading-relaxed italic">"{testimonial.quote}"</p>
-                  </div>
-                  <div className="flex items-center gap-4 border-t border-black/5 pt-6 mt-auto">
-                    <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm font-poppins">
-                      {testimonial.author[0]}
+                    <div className="flex items-center gap-4 border-t border-black/5 pt-6 mt-auto">
+                      <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm font-poppins">
+                        {testimonial.author[0]}
+                      </div>
+                      <div>
+                        <div className="font-bold text-sm text-brand-black font-poppins">{testimonial.author}</div>
+                        <div className="text-xs text-brand-black/50 uppercase tracking-wide">{testimonial.company}</div>
+                      </div>
                     </div>
-                    <div>
-                      <div className="font-bold text-sm text-brand-black font-poppins">{testimonial.author}</div>
-                      <div className="text-xs text-brand-black/50 uppercase tracking-wide">{testimonial.company}</div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
 
         {/* CTA SECTION */}
         <section className="px-6 md:px-10 lg:px-16 py-32">
