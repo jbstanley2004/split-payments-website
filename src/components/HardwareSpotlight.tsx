@@ -112,29 +112,29 @@ const HardwareSpotlight = () => {
               transition={{ duration: 0.4 }}
             >
               <div className="flex items-center gap-3 mb-4">
-                <span className="px-3 py-1 rounded-full bg-gray-200 text-xs font-semibold uppercase tracking-wider text-gray-600">
+                <span className="px-3 py-1 rounded-full bg-brand-gray/10 text-xs font-semibold uppercase tracking-wider text-brand-black/60">
                   {currentHardware.make}
                 </span>
                 {/* Placeholder for category if we had it, or maybe price? */}
                 {currentHardware.price && (
-                  <span className="px-3 py-1 rounded-full bg-blue-100 text-xs font-semibold uppercase tracking-wider text-blue-600">
+                  <span className="px-3 py-1 rounded-full bg-brand-gray/10 text-xs font-semibold uppercase tracking-wider text-brand-black/60">
                     {currentHardware.price}
                   </span>
                 )}
               </div>
 
-              <h3 className="text-5xl font-medium text-white mb-6 leading-tight">
+              <h3 className="text-5xl font-lora font-medium text-brand-black mb-6 leading-tight">
                 {currentHardware.model}
               </h3>
 
               <div className="space-y-6">
-                <div className="h-px w-full bg-white/10" />
+                <div className="h-px w-full bg-brand-black/10" />
 
-                <div className="text-gray-300 leading-relaxed">
+                <div className="text-brand-black/70 leading-relaxed font-lora">
                   {currentHardware.description}
                 </div>
 
-                <div className="h-px w-full bg-white/10" />
+                <div className="h-px w-full bg-brand-black/10" />
               </div>
 
               {currentHardware.productUrl && (
@@ -143,7 +143,7 @@ const HardwareSpotlight = () => {
                     href={currentHardware.productUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-full transition-colors"
+                    className="inline-block bg-brand-black hover:bg-brand-charcoal text-white font-medium py-3 px-6 rounded-full transition-colors shadow-lg"
                   >
                     View Details
                   </a>
@@ -161,7 +161,7 @@ const HardwareSpotlight = () => {
                   setDirection(idx > currentIndex ? 1 : -1);
                   setCurrentIndex(idx);
                 }}
-                className={`h-1 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-white' : 'w-2 bg-white/20 hover:bg-white/40'
+                className={`h-1 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-brand-black' : 'w-2 bg-brand-black/20 hover:bg-brand-black/40'
                   }`}
               />
             ))}
