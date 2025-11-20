@@ -100,7 +100,7 @@ export default function HomePage() {
 
         {/* HARDWARE TEASER */}
         <div className="w-full bg-white">
-          <section className="px-6 md:px-10 lg:px-16 py-24 border-b border-brand-stone/30">
+          <section className="px-6 md:px-10 lg:px-16 py-16 border-b border-brand-stone/30">
             <div className="max-w-6xl mx-auto mb-16 text-center">
               <h2 className="text-3xl md:text-5xl font-bold text-brand-black mb-6 font-poppins">
                 Powering the world's best hardware.
@@ -115,7 +115,7 @@ export default function HomePage() {
 
         {/* ALL-IN-ONE SECTION */}
         <div className="w-full bg-white mt-16">
-          <section className="relative px-6 md:px-10 lg:px-16 py-24 overflow-hidden">
+          <section className="relative px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
             <div className="max-w-6xl mx-auto relative z-10">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -183,7 +183,7 @@ export default function HomePage() {
 
         {/* FEATURES SECTION - Wrapped in Container */}
         <div className="w-full bg-white">
-          <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-32">
+          <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-16">
             <div className="max-w-7xl mx-auto">
               <div className="bg-white rounded-3xl border border-black/5 shadow-sm p-8 md:p-16">
                 <motion.div
@@ -271,7 +271,7 @@ export default function HomePage() {
 
         {/* TESTIMONIALS SECTION - Whiter cards */}
         <div className="w-full bg-white">
-          <section className="px-6 md:px-10 lg:px-16 py-32">
+          <section className="px-6 md:px-10 lg:px-16 py-16">
             <div className="max-w-7xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
@@ -327,7 +327,7 @@ export default function HomePage() {
         </div>
 
         {/* CTA SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-32">
+        <section className="px-6 md:px-10 lg:px-16 py-20">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
