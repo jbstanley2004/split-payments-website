@@ -8,7 +8,7 @@ import TrustedByCarousel from "@/components/TrustedByCarousel";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import HeroAnimation from "@/components/animations/HeroAnimation";
 import CardStackAnimation from "@/components/animations/CardStackAnimation";
-import HardwareSpotlight from "@/components/HardwareSpotlight";
+import CloverSpotlight from "@/components/CloverSpotlight";
 import Image from "next/image";
 import InteractiveCardWall from "@/components/InteractiveCardWall";
 
@@ -109,7 +109,7 @@ export default function HomePage() {
                 From mobile readers to full countertop POS systems.
               </p>
             </div>
-            <HardwareSpotlight />
+            <CloverSpotlight />
           </section>
         </div>
 
