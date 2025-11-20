@@ -93,14 +93,14 @@ const CloverSpotlight = () => {
                             transition={{ duration: 0.5, ease: "circOut" }}
                             className="relative w-full h-full flex items-center justify-center"
                         >
-                            {/* Elegant white container for all hardware images */}
-                            <div className="relative w-full h-full bg-white rounded-[3rem] p-12 shadow-elevation-mid ring-1 ring-black/5 transition-all duration-500 group-hover:shadow-elevation-high group-hover:scale-[1.02]">
+                            {/* Modified container: No white bg, rounded-3xl, overflow-hidden */}
+                            <div className="relative w-full h-full rounded-3xl overflow-hidden transition-all duration-500 group-hover:scale-[1.02]">
                                 <div className="w-full h-full flex items-center justify-center">
                                     <Image
                                         src={currentHardware.image}
                                         alt={`Clover ${currentHardware.model}`}
                                         fill
-                                        className="object-contain max-h-[360px]"
+                                        className="object-cover"
                                         priority
                                         unoptimized
                                     />
@@ -110,7 +110,7 @@ const CloverSpotlight = () => {
                     </AnimatePresence>
 
                     {/* Navigation Buttons (Floating) */}
-                    <div className="absolute bottom-6 right-6 flex gap-3 z-10">
+                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
                         <button
                             onClick={prevSlide}
                             aria-label="Previous hardware"
