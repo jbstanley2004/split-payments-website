@@ -185,85 +185,83 @@ export default function HomePage() {
         <div className="w-full bg-white">
           <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-16">
             <div className="max-w-7xl mx-auto">
-              <div className="bg-white rounded-3xl border border-black/5 shadow-sm p-8 md:p-16">
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="text-center mb-20"
-                >
-                  <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-6 tracking-tight font-poppins">
-                    Easy to start. <span className="italic font-lora font-normal">Powerful to use.</span>
-                  </h2>
-                </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center mb-20"
+              >
+                <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-6 tracking-tight font-poppins">
+                  Easy to start. <span className="italic font-lora font-normal">Powerful to use.</span>
+                </h2>
+              </motion.div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {[
-                    {
-                      icon: CreditCard,
-                      title: "Credit Card Processing",
-                      description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
-                      image: "/product-spending-light.png"
-                    },
-                    {
-                      icon: TrendingUp,
-                      title: "Working Capital",
-                      description: "Turn card volume into working capital. Get funding based on your actual sales, not projections.",
-                      image: "/product-vault-light.jpg"
-                    },
-                    {
-                      icon: Shield,
-                      title: "Enterprise Security",
-                      description: "Bank-level security with PCI compliance, encryption, and fraud protection built into every transaction.",
-                      image: "/vault-light.png"
-                    },
-                    {
-                      icon: Zap,
-                      title: "Real-time Analytics",
-                      description: "Track every transaction, monitor cash flow, and make data-driven decisions with comprehensive reporting.",
-                      image: "/product-overview-light.jpg"
-                    },
-                    {
-                      icon: CreditCard,
-                      title: "Flexible Payment Types",
-                      description: "Accept cards, ACH, checks, and more. One platform for all your payment needs.",
-                      image: "/product-invoice-light.jpg"
-                    },
-                    {
-                      icon: TrendingUp,
-                      title: "Automated Workflows",
-                      description: "Streamline operations with automated reconciliation, reporting, and funding deployment.",
-                      image: "/inbox-actions-light.png"
-                    },
-                  ].map((feature, index) => (
-                    <motion.div
-                      key={feature.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="group bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-lg transition-all duration-300"
-                    >
-                      <div className="h-48 bg-gray-50 relative border-b border-gray-100">
-                        <Image
-                          src={feature.image}
-                          alt={feature.title}
-                          fill
-                          className="object-cover object-top transition-all duration-500"
-                        />
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[
+                  {
+                    icon: CreditCard,
+                    title: "Credit Card Processing",
+                    description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
+                    image: "/product-spending-light.png"
+                  },
+                  {
+                    icon: TrendingUp,
+                    title: "Working Capital",
+                    description: "Turn card volume into working capital. Get funding based on your actual sales, not projections.",
+                    image: "/product-vault-light.jpg"
+                  },
+                  {
+                    icon: Shield,
+                    title: "Enterprise Security",
+                    description: "Bank-level security with PCI compliance, encryption, and fraud protection built into every transaction.",
+                    image: "/vault-light.png"
+                  },
+                  {
+                    icon: Zap,
+                    title: "Real-time Analytics",
+                    description: "Track every transaction, monitor cash flow, and make data-driven decisions with comprehensive reporting.",
+                    image: "/product-overview-light.jpg"
+                  },
+                  {
+                    icon: CreditCard,
+                    title: "Flexible Payment Types",
+                    description: "Accept cards, ACH, checks, and more. One platform for all your payment needs.",
+                    image: "/product-invoice-light.jpg"
+                  },
+                  {
+                    icon: TrendingUp,
+                    title: "Automated Workflows",
+                    description: "Streamline operations with automated reconciliation, reporting, and funding deployment.",
+                    image: "/inbox-actions-light.png"
+                  },
+                ].map((feature, index) => (
+                  <motion.div
+                    key={feature.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="group bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-lg transition-all duration-300"
+                  >
+                    <div className="h-48 bg-gray-50 relative border-b border-gray-100">
+                      <Image
+                        src={feature.image}
+                        alt={feature.title}
+                        fill
+                        className="object-cover object-top transition-all duration-500"
+                      />
+                    </div>
+                    <div className="p-8">
+                      <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center mb-4 text-white">
+                        <feature.icon className="w-5 h-5" />
                       </div>
-                      <div className="p-8">
-                        <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center mb-4 text-white">
-                          <feature.icon className="w-5 h-5" />
-                        </div>
-                        <h3 className="text-xl font-bold text-brand-black mb-3 font-poppins">{feature.title}</h3>
-                        <p className="text-brand-black/70 leading-relaxed text-sm font-lora">
-                          {feature.description}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
+                      <h3 className="text-xl font-bold text-brand-black mb-3 font-poppins">{feature.title}</h3>
+                      <p className="text-brand-black/70 leading-relaxed text-sm font-lora">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
             </div>
           </section>
