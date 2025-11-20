@@ -27,11 +27,6 @@ const PILL_BASE_CLASSES =
 export function DynamicIslandNav({ className, logoPriority = false }: DynamicIslandNavProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
-  const [activePath, setActivePath] = useState(pathname);
-
-  useEffect(() => {
-    setActivePath(pathname);
-  }, [pathname]);
 
   return (
     <>
@@ -70,15 +65,16 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                 key={item.label}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-2 text-sm font-medium transition-all duration-300 text-brand-black/70 hover:text-brand-black relative",
+                  "flex items-center gap-2 text-sm font-medium transition-all duration-300 text-brand-black hover:text-brand-black relative",
+                  "[text-shadow:_0_0_12px_rgb(255_255_255_/_90%),_0_0_4px_rgb(255_255_255_/_80%)]",
                   {
-                    "text-brand-black font-semibold": activePath === item.href,
+                    "font-semibold": pathname === item.href,
                   }
                 )}
               >
                 <span className="w-1 h-1 rounded-full bg-[#FF4306]" />
                 <span>{item.label}</span>
-                {activePath === item.href && (
+                {pathname === item.href && (
                   <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-black rounded-full" />
                 )}
               </Link>
@@ -105,7 +101,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
               <Link
                 key={item.label}
                 href={item.href}
-                className={cn(PILL_BASE_CLASSES, { "nav-pill--active": activePath === item.href })}
+                className={cn(PILL_BASE_CLASSES, { "nav-pill--active": pathname === item.href })}
                 onClick={() => setIsMobileOpen(false)}
               >
                 <span className="dot" />
@@ -114,7 +110,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
             ))}
           </nav>
         )}
-      </header>
+      </header >
     </>
   );
 }
