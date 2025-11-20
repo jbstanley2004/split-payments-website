@@ -77,7 +77,7 @@ const CloverSpotlight = () => {
     };
 
     return (
-        <div className="relative w-full max-w-6xl mx-auto">
+        <div className="relative w-full max-w-6xl mx-auto pb-24">
             <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center min-h-[500px]">
 
                 {/* Left Column: Image */}
@@ -109,23 +109,7 @@ const CloverSpotlight = () => {
                         </motion.div>
                     </AnimatePresence>
 
-                    {/* Navigation Buttons (Floating) */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-10">
-                        <button
-                            onClick={prevSlide}
-                            aria-label="Previous hardware"
-                            className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
-                        >
-                            <ChevronLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                            onClick={nextSlide}
-                            aria-label="Next hardware"
-                            className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
-                        >
-                            <ChevronRight className="w-5 h-5" />
-                        </button>
-                    </div>
+
                 </div>
 
                 {/* Right Column: Content */}
@@ -181,6 +165,24 @@ const CloverSpotlight = () => {
                         ))}
                     </div>
                 </div>
+            </div>
+
+            {/* Navigation Buttons (Bottom Center) */}
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-3 z-10">
+                <button
+                    onClick={prevSlide}
+                    aria-label="Previous hardware"
+                    className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
+                >
+                    <ChevronLeft className="w-5 h-5" />
+                </button>
+                <button
+                    onClick={nextSlide}
+                    aria-label="Next hardware"
+                    className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
+                >
+                    <ChevronRight className="w-5 h-5" />
+                </button>
             </div>
         </div>
     );
