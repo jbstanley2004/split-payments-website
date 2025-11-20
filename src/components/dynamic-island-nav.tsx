@@ -63,21 +63,24 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
             />
           </Link>
 
-          {/* Center: nav pills, independent of logo, similar to Notion's centered header */}
-          <nav className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
+          {/* Center: nav links, clean text-only design */}
+          <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-2 text-sm font-medium transition-all duration-300 rounded-full px-4 py-2 bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.12)] text-brand-black border border-black hover:border-black/5",
+                  "flex items-center gap-2 text-sm font-medium transition-all duration-300 text-brand-black/70 hover:text-brand-black relative",
                   {
-                    "bg-gray-50": activePath === item.href,
+                    "text-brand-black font-semibold": activePath === item.href,
                   }
                 )}
               >
                 <span className="w-1 h-1 rounded-full bg-[#FF4306]" />
                 <span>{item.label}</span>
+                {activePath === item.href && (
+                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-black rounded-full" />
+                )}
               </Link>
             ))}
           </nav>
