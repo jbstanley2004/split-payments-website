@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import productsData from '../data/products-data.json';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -134,19 +133,11 @@ const HardwareSpotlight = () => {
   const [direction, setDirection] = useState(0);
 
   useEffect(() => {
-    if (productsData.length === 0) return;
+    if (hardwareData.length === 0) return;
     const timer = setTimeout(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % productsData.length);
-    }, 5000); // Rotate every 5 seconds
-
-    return () => clearTimeout(timer);
-  }, [currentIndex]);
-
-  if (productsData.length === 0) {
-    return <div className="text-center text-red-500">No hardware data to display.</div>;
-  }
       nextSlide();
-    }, 6000);
+    }, 6000); // Rotate every 6 seconds
+
     return () => clearTimeout(timer);
   }, [currentIndex]);
 
@@ -162,7 +153,7 @@ const HardwareSpotlight = () => {
 
   if (hardwareData.length === 0) return null;
 
-  const currentHardware = productsData[currentIndex];
+  const currentHardware = hardwareData[currentIndex];
 
   const variants = {
     enter: (direction: number) => ({
@@ -180,51 +171,11 @@ const HardwareSpotlight = () => {
   };
 
   return (
-    <div className="relative bg-gray-900 text-white p-8 rounded-lg shadow-2xl overflow-hidden">
-      <div className="flex flex-col md:flex-row gap-8">
-        <div className="md:w-1/2 flex items-center justify-center bg-white/5 rounded-lg p-4">
-          <div className="relative w-full h-[300px]">
-            <Image
-              src={currentHardware.image}
-              alt={`${currentHardware.make} ${currentHardware.model}`}
-              fill
-              className="object-contain"
-              unoptimized
-            />
-          </div>
-        </div>
-        <div className="md:w-1/2 flex flex-col justify-center">
-          <h2 className="text-3xl font-bold mb-2">{currentHardware.make}</h2>
-          <h3 className="text-xl text-gray-400 mb-4">{currentHardware.model}</h3>
-
-          <div className="mb-6">
-            <h4 className="text-lg font-semibold mb-2 text-gray-300">Description</h4>
-            <p className="text-gray-400 leading-relaxed">
-              {currentHardware.description}
-            </p>
-          </div>
-
-          {currentHardware.price && (
-            <div className="mt-auto">
-              <span className="text-2xl font-bold text-blue-400">{currentHardware.price}</span>
-            </div>
-          )}
-
-          {currentHardware.productUrl && (
-            <a
-              href={currentHardware.productUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded transition-colors self-start"
-            >
-              View Details
-            </a>
-          )}
     <div className="relative w-full max-w-6xl mx-auto">
       <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center min-h-[500px]">
 
         {/* Left Column: Image */}
-        <div className="relative h-[400px] w-full flex items-center justify-center bg-brand-gray/5 rounded-[3rem] p-8 group">
+        <div className="relative h-[450px] w-full flex items-center justify-center group">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentIndex}
@@ -236,15 +187,20 @@ const HardwareSpotlight = () => {
               transition={{ duration: 0.5, ease: "circOut" }}
               className="relative w-full h-full flex items-center justify-center"
             >
-              <Image
-                src={currentHardware.image}
-                alt={currentHardware.model}
-                width={500}
-                height={500}
-                className="object-contain max-h-[320px] w-auto drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
-                priority
-                unoptimized
-              />
+              {/* Elegant white container for all hardware images */}
+              <div className="relative w-full h-full bg-white rounded-[3rem] p-12 shadow-elevation-mid ring-1 ring-black/5 transition-all duration-500 group-hover:shadow-elevation-high group-hover:scale-[1.02]">
+                <div className="w-full h-full flex items-center justify-center">
+                  <Image
+                    src={currentHardware.image}
+                    alt={currentHardware.model}
+                    width={500}
+                    height={500}
+                    className="object-contain max-h-[360px] w-auto"
+                    priority
+                    unoptimized
+                  />
+                </div>
+              </div>
             </motion.div>
           </AnimatePresence>
 
@@ -252,13 +208,15 @@ const HardwareSpotlight = () => {
           <div className="absolute bottom-6 right-6 flex gap-3 z-10">
             <button
               onClick={prevSlide}
-              className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-brand-black hover:bg-black hover:text-white transition-colors"
+              aria-label="Previous hardware"
+              className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
             <button
               onClick={nextSlide}
-              className="w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center text-brand-black hover:bg-black hover:text-white transition-colors"
+              aria-label="Next hardware"
+              className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
