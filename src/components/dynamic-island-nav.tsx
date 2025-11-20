@@ -66,17 +66,11 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                 href={item.href}
                 className={cn(
                   "flex items-center gap-2 text-sm font-medium transition-all duration-300 text-brand-black hover:text-brand-black relative",
-                  "[text-shadow:_0_0_12px_rgb(255_255_255_/_90%),_0_0_4px_rgb(255_255_255_/_80%)]",
-                  {
-                    "font-semibold": pathname === item.href,
-                  }
+                  "[text-shadow:_0_0_12px_rgb(255_255_255_/_90%),_0_0_4px_rgb(255_255_255_/_80%)]"
                 )}
               >
                 <span className="w-1 h-1 rounded-full bg-[#FF4306]" />
                 <span>{item.label}</span>
-                {pathname === item.href && (
-                  <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-brand-black rounded-full" />
-                )}
               </Link>
             ))}
           </nav>
