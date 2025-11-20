@@ -112,4 +112,4 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
     </>
   );
 }
-```
+
