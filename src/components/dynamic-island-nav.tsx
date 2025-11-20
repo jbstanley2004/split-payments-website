@@ -35,7 +35,10 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
 
   return (
     <>
-      <div className="fixed inset-x-0 top-0 h-32 z-40 bg-gradient-to-b from-white via-white/80 to-transparent backdrop-blur-[2px] pointer-events-none" />
+      <div
+        className="fixed inset-x-0 top-0 h-24 z-40 bg-white/80 backdrop-blur-md pointer-events-none"
+        style={{ maskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 60%, transparent 100%)' }}
+      />
       <header
         className={cn(
           "fixed inset-x-0 top-5 sm:top-6 md:top-8 z-50 flex items-center justify-between px-6 pointer-events-none",

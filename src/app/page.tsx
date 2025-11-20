@@ -241,14 +241,14 @@ export default function HomePage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-lg transition-all duration-300"
+                    className="group bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-lg transition-all duration-300"
                   >
                     <div className="h-48 bg-gray-50 relative border-b border-gray-100">
                       <Image
                         src={feature.image}
                         alt={feature.title}
                         fill
-                        className="object-cover object-top grayscale-[10%] group-hover:grayscale-0 transition-all duration-500"
+                        className="object-cover object-top transition-all duration-500"
                       />
                     </div>
                     <div className="p-8">
@@ -298,7 +298,7 @@ export default function HomePage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex flex-col justify-between h-full p-10 rounded-3xl bg-white hover:shadow-elevation-mid transition-all duration-300 border border-brand-stone hover:border-black/10"
+                    className="flex flex-col justify-between h-full p-10 rounded-3xl bg-white shadow-elevation-mid transition-all duration-300 border border-black/10"
                   >
                     <div className="mb-8">
                       <div className="flex gap-1 mb-6">
