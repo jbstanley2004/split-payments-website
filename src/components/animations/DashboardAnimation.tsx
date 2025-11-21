@@ -119,12 +119,12 @@ const LineAreaChart = ({ config }: LineAreaChartProps) => {
     const vMax = Math.max(...values);
     const range = vMax - vMin || 1;
 
-    // Calculate points using consistent logic
+    // Calculate points using consistent logic - with padding to prevent edge clipping
     const calculatedPoints = values.map((v, i) => {
       const t = values.length === 1 ? 0 : i / (values.length - 1);
-      const x = t * w;
+      const x = padding + t * (w - 2 * padding);
       // Map value to y range with padding
-      const y = (h - padding) - ((v - vMin) / range) * (h - 2 * padding);
+      const y = padding + (h - 2 * padding) - ((v - vMin) / range) * (h - 2 * padding);
       return { x, y };
     });
 
@@ -563,16 +563,28 @@ export default function DashboardAnimation() {
     return () => clearInterval(interval);
   }, []);
 
-  // Measure container
+  // Measure container with ResizeObserver
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const observer = new ResizeObserver(([entry]) => {
-      if (entry && entry.contentRect) {
-        setDimensions({
-          width: entry.contentRect.width,
-          height: entry.contentRect.height,
-        });
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.contentBoxSize) {
+          // Use contentBoxSize for more accurate measurements
+          const contentBoxSize = Array.isArray(entry.contentBoxSize)
+            ? entry.contentBoxSize[0]
+            : entry.contentBoxSize;
+          setDimensions({
+            width: contentBoxSize.inlineSize,
+            height: contentBoxSize.blockSize,
+          });
+        } else {
+          // Fallback for older browsers
+          setDimensions({
+            width: entry.contentRect.width,
+            height: entry.contentRect.height,
+          });
+        }
       }
     });
 
