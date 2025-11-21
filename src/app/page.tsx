@@ -175,15 +175,18 @@ export default function HomePage() {
                 ))}
               </div>
 
-              {/* Real-time Analytics Dashboard - Full Width Below */}
+              {/* Real-time Analytics Dashboard - Full Width Below with Aspect Ratio Container */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="w-full h-[600px] md:h-[750px] relative mt-8"
+                className="w-full relative"
               >
-                <DashboardAnimation />
+                {/* Aspect ratio container: 1200/750 = 1.6 = 8/5 */}
+                <div className="w-full" style={{ aspectRatio: '8 / 5' }}>
+                  <DashboardAnimation />
+                </div>
               </motion.div>
             </div>
           </section>
