@@ -30,7 +30,7 @@ export default function FundingPage() {
         <DynamicIslandNav />
 
         {/* HERO SECTION */}
-        <section className="relative min-h-[85vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-32 pb-24">
+        <section className="relative min-h-[85vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-32 pb-40">
           <div className="max-w-6xl w-full text-center">
             <motion.div
               initial="hidden"
