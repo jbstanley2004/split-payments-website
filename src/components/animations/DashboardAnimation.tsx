@@ -107,37 +107,40 @@ const LineAreaChart = ({ config }: LineAreaChartProps) => {
   const { values, x, label, unit } = config;
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
-  const { path, areaPath, min, max } = useMemo(() => {
+  const { path, areaPath, points, min, max } = useMemo(() => {
     if (!values.length) {
-      return { path: "", areaPath: "", min: 0, max: 0 };
+      return { path: "", areaPath: "", points: [], min: 0, max: 0 };
     }
 
     const w = 260;
     const h = 120;
-    const padding = 8; // Add padding to prevent clipping
+    const padding = 10;
     const vMin = Math.min(...values);
     const vMax = Math.max(...values);
     const range = vMax - vMin || 1;
 
-    const points = values.map((v, i) => {
+    // Calculate points using consistent logic
+    const calculatedPoints = values.map((v, i) => {
       const t = values.length === 1 ? 0 : i / (values.length - 1);
       const x = t * w;
-      // Map value to y range [h - padding, padding] (inverted y-axis)
+      // Map value to y range with padding
       const y = (h - padding) - ((v - vMin) / range) * (h - 2 * padding);
       return { x, y };
     });
 
-    const d = points
+    // Build path from the calculated points
+    const d = calculatedPoints
       .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
       .join(" ");
 
     const area =
-      `${d} L ${points[points.length - 1].x} ${h} ` +
-      `L ${points[0].x} ${h} Z`;
+      `${d} L ${calculatedPoints[calculatedPoints.length - 1].x} ${h} ` +
+      `L ${calculatedPoints[0].x} ${h} Z`;
 
     return {
       path: d,
       areaPath: area,
+      points: calculatedPoints,
       min: vMin,
       max: vMax,
     };
@@ -180,7 +183,8 @@ const LineAreaChart = ({ config }: LineAreaChartProps) => {
       <div className="mt-5 flex-1">
         <svg
           viewBox="0 0 260 130"
-          className="h-full w-full overflow-visible"
+          className="h-full w-full"
+          preserveAspectRatio="xMidYMid meet"
         >
           <defs>
             <linearGradient
@@ -239,6 +243,7 @@ const LineAreaChart = ({ config }: LineAreaChartProps) => {
                 stroke="#fb923c"
                 strokeWidth={2}
                 strokeLinecap="round"
+                strokeLinejoin="round"
                 initial={{ pathLength: 0 }}
                 animate={{ pathLength: 1 }}
                 exit={{ pathLength: 0 }}
@@ -247,17 +252,8 @@ const LineAreaChart = ({ config }: LineAreaChartProps) => {
             )}
           </AnimatePresence>
 
-          {/* points */}
-          {values.map((v, i) => {
-            const t =
-              values.length === 1
-                ? 0
-                : i / (values.length - 1);
-            const xCoord = t * 260;
-            const yCoord =
-              120 -
-              ((v - min) / (max - min || 1)) * 120;
-
+          {/* points - using the same calculated points as the path */}
+          {points.map((point, i) => {
             const active = hoverIndex === i;
 
             return (
@@ -275,8 +271,8 @@ const LineAreaChart = ({ config }: LineAreaChartProps) => {
                 onMouseLeave={() => setHoverIndex(null)}
               >
                 <circle
-                  cx={xCoord}
-                  cy={yCoord}
+                  cx={point.x}
+                  cy={point.y}
                   r={5}
                   fill="#020617"
                   stroke="#fb923c"
@@ -284,8 +280,8 @@ const LineAreaChart = ({ config }: LineAreaChartProps) => {
                 />
                 {active && (
                   <motion.circle
-                    cx={xCoord}
-                    cy={yCoord}
+                    cx={point.x}
+                    cy={point.y}
                     r={9}
                     stroke="#fb923c"
                     strokeWidth={1}
@@ -478,7 +474,7 @@ const VIEWS: ViewConfig[] = [
       "Daily transaction reports aligned to your report time.",
     periodLabel: "Report time · 12:00 AM in company timezone",
     primaryHighlight:
-      "Today’s activity is tracking ahead of the last 7-day average.",
+      "Today's activity is tracking ahead of the last 7-day average.",
     kpis: [
       {
         id: "daily-sales",
@@ -590,22 +586,14 @@ export default function DashboardAnimation() {
   );
 
   // Calculate scale to fit container while maintaining aspect ratio
-  // We design for a "base" size that looks good
   const baseWidth = 1200;
   const baseHeight = 750;
 
   const scaleX = dimensions.width > 0 ? dimensions.width / baseWidth : 1;
   const scaleY = dimensions.height > 0 ? dimensions.height / baseHeight : 1;
 
-  // Use the smaller scale to ensure it fits both dimensions (contain)
-  // Or use scaleX to fill width and let height adjust?
-  // The user said "entire dashboard isn't being rendered inside", implying overflow.
-  // "Contain" strategy is safest.
-  const scale = Math.min(scaleX, scaleY);
-
-  // If container is very small, we might want to switch to a mobile layout instead of scaling too small.
-  // But for now, let's stick to the "graphic replacement" goal which implies preserving the look.
-  // We'll clamp the scale slightly to avoid microscopic rendering, but mostly let it scale.
+  // Use the smaller scale to ensure it fits both dimensions (contain strategy)
+  const scale = Math.min(scaleX, scaleY, 1);
 
   return (
     <div
