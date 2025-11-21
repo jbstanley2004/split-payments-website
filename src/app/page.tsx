@@ -175,7 +175,7 @@ export default function HomePage() {
                 ))}
               </div>
 
-              {/* Real-time Analytics Dashboard - Compact size with proper padding */}
+              {/* Real-time Analytics Dashboard - Wide console card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -183,8 +183,7 @@ export default function HomePage() {
                 transition={{ delay: 0.2 }}
                 className="w-full relative"
               >
-                {/* Compact container with padding for shadows and glow effects */}
-                <div className="w-full max-w-sm mx-auto p-8" style={{ aspectRatio: '8 / 5' }}>
+                <div className="w-full max-w-6xl mx-auto px-0 md:px-4 lg:px-0">
                   <DashboardAnimation />
                 </div>
               </motion.div>
