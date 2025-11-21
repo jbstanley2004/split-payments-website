@@ -11,6 +11,10 @@ import CardStackAnimation from "@/components/animations/CardStackAnimation";
 import CloverSpotlight from "@/components/CloverSpotlight";
 import Image from "next/image";
 import InteractiveCardWall from "@/components/InteractiveCardWall";
+import WorkingCapitalAnimation from "@/components/animations/WorkingCapitalAnimation";
+import CreditCardVideo from "@/components/CreditCardVideo";
+import DashboardAnimation from "@/components/animations/DashboardAnimation";
+
 
 export default function HomePage() {
   const fadeInUp = {
@@ -49,7 +53,6 @@ export default function HomePage() {
                 variants={staggerContainer}
                 className="max-w-4xl mx-auto"
               >
-
                 <motion.h1
                   variants={fadeInUp}
                   className="text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight text-brand-black mb-8 font-semibold"
@@ -84,7 +87,6 @@ export default function HomePage() {
                 </motion.div>
               </motion.div>
             </div>
-
             {/* Brands We Work With - Moved here */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -113,75 +115,9 @@ export default function HomePage() {
           </section>
         </div>
 
-        {/* ALL-IN-ONE SECTION */}
-        <div className="w-full bg-white mt-16">
-          <section className="relative px-6 md:px-10 lg:px-16 py-16 overflow-hidden">
-            <div className="max-w-6xl mx-auto relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="text-center max-w-3xl mx-auto mb-24"
-              >
-                <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-8 tracking-tight font-poppins">
-                  All-in-one FinTech, <br />
-                  <span className="font-lora italic text-brand-charcoal font-normal">right where you work.</span>
-                </h2>
-                <p className="text-xl text-brand-black/70 leading-relaxed font-lora">
-                  We've unified the fragmented financial stack into one cohesive operating system.
-                </p>
-              </motion.div>
 
-              <div className="grid md:grid-cols-2 gap-16 items-center">
-                {/* Feature Text */}
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  className="space-y-12"
-                >
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-brand-black font-poppins">Seamless Integration</h3>
-                    <p className="text-lg text-brand-black/70 leading-relaxed font-lora">
-                      Payment processing built into every transaction. From card acceptance to ACH transfers, everything you need is integrated and ready to scale.
-                    </p>
-                  </div>
-                  <div className="w-full h-px bg-brand-stone" />
-                  <div className="space-y-4">
-                    <h3 className="text-2xl font-bold text-brand-black font-poppins">Unified Dashboard</h3>
-                    <p className="text-lg text-brand-black/70 leading-relaxed font-lora">
-                      One platform for everything. Payments, funding, reporting, and analytics—all connected and powered by intelligent automation.
-                    </p>
-                  </div>
-                </motion.div>
 
-                {/* Feature Image - Clean, White Frame */}
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8 }}
-                  className="relative"
-                >
-                  <div className="relative rounded-3xl overflow-hidden shadow-elevation-mid bg-white p-3 ring-1 ring-black/5">
-                    <div className="rounded-2xl overflow-hidden bg-brand-gray">
-                      <Image
-                        src="/product-overview.jpg"
-                        alt="Payment Terminal Dashboard"
-                        width={800}
-                        height={600}
-                        className="w-full h-auto object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700"
-                      />
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </section>
-        </div>
-
-        {/* FEATURES SECTION - Wrapped in Container */}
+        {/* EVERYTHING YOU NEED SECTION */}
         <div className="w-full bg-white">
           <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-16">
             <div className="max-w-7xl mx-auto">
@@ -192,47 +128,27 @@ export default function HomePage() {
                 className="text-center mb-20"
               >
                 <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-6 tracking-tight font-poppins">
-                  Easy to start. <span className="italic font-lora font-normal">Powerful to use.</span>
+                  Everything you need <br />
+                  <span className="italic font-lora font-normal">all in one place.</span>
                 </h2>
+                <p className="text-xl text-brand-black/70 leading-relaxed font-lora max-w-3xl mx-auto">
+                  We've unified the fragmented financial stack into one cohesive operating system.
+                </p>
               </motion.div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid md:grid-cols-2 gap-8 mb-16">
                 {[
                   {
                     icon: CreditCard,
                     title: "Credit Card Processing",
                     description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
-                    image: "/product-spending-light.png"
+                    component: <CreditCardVideo />
                   },
                   {
                     icon: TrendingUp,
                     title: "Working Capital",
                     description: "Turn card volume into working capital. Get funding based on your actual sales, not projections.",
-                    image: "/product-vault-light.jpg"
-                  },
-                  {
-                    icon: Shield,
-                    title: "Enterprise Security",
-                    description: "Bank-level security with PCI compliance, encryption, and fraud protection built into every transaction.",
-                    image: "/vault-light.png"
-                  },
-                  {
-                    icon: Zap,
-                    title: "Real-time Analytics",
-                    description: "Track every transaction, monitor cash flow, and make data-driven decisions with comprehensive reporting.",
-                    image: "/product-overview-light.jpg"
-                  },
-                  {
-                    icon: CreditCard,
-                    title: "Flexible Payment Types",
-                    description: "Accept cards, ACH, checks, and more. One platform for all your payment needs.",
-                    image: "/product-invoice-light.jpg"
-                  },
-                  {
-                    icon: TrendingUp,
-                    title: "Automated Workflows",
-                    description: "Streamline operations with automated reconciliation, reporting, and funding deployment.",
-                    image: "/inbox-actions-light.png"
+                    component: <WorkingCapitalAnimation />
                   },
                 ].map((feature, index) => (
                   <motion.div
@@ -241,15 +157,10 @@ export default function HomePage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="group bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-lg transition-all duration-300"
+                    className="group bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl"
                   >
-                    <div className="h-48 bg-gray-50 relative border-b border-gray-100">
-                      <Image
-                        src={feature.image}
-                        alt={feature.title}
-                        fill
-                        className="object-cover object-top transition-all duration-500"
-                      />
+                    <div className="h-64 bg-gray-50 relative border-b border-gray-100 overflow-hidden">
+                      {feature.component}
                     </div>
                     <div className="p-8">
                       <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center mb-4 text-white">
@@ -263,6 +174,17 @@ export default function HomePage() {
                   </motion.div>
                 ))}
               </div>
+
+              {/* Real-time Analytics Dashboard - Full Width Below */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="w-full h-[600px] md:h-[750px] relative mt-8"
+              >
+                <DashboardAnimation />
+              </motion.div>
             </div>
           </section>
         </div>
@@ -352,7 +274,7 @@ export default function HomePage() {
             </motion.div>
           </div>
         </section>
-      </div>
-    </main>
+      </div >
+    </main >
   );
 }

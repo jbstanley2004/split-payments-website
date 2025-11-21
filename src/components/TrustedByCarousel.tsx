@@ -28,10 +28,14 @@ export default function TrustedByCarousel() {
       className="mt-16 w-full"
     >
       {/* Carousel Container */}
-      <div className="relative overflow-hidden w-full">
-        {/* Gradient Masks */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+      <div
+        className="relative overflow-hidden w-full"
+        style={{
+          maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
+        }}
+      >
+        {/* Removed overlay divs for cleaner mask-based transition */}
 
         <div className="flex items-center gap-16 md:gap-24 animate-scroll w-max">
           {/* Duplicate logos for seamless loop - tripled to ensure coverage */}
@@ -45,7 +49,7 @@ export default function TrustedByCarousel() {
                 alt={`Brand ${index}`}
                 width={120}
                 height={60}
-                className="object-contain h-10 w-auto opacity-80 hover:opacity-100 transition-opacity"
+                className="object-contain h-10 w-auto"
               />
             </div>
           ))}

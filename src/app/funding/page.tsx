@@ -8,6 +8,8 @@ import { TrendingUp, Zap, Shield, BarChart3, Users2, CheckCircle2, ShieldCheck }
 import Link from "next/link";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import FundingGraphAnimation from "@/components/animations/FundingGraphAnimation";
+import FundingSimulation from "@/components/animations/FundingSimulation";
+import RepeatFundingAnimation from "@/components/animations/RepeatFundingAnimation";
 
 const METRICS = [
   { label: "Increase in upmarket close rate", value: "+18", suffix: "%" },
@@ -42,14 +44,14 @@ export default function FundingPage() {
                 <br />
                 <span className="text-brand-charcoal">powered by your sales.</span>
               </h1>
-              
+
               <p className="text-xl md:text-2xl font-lora text-brand-black/70 mb-12 max-w-2xl mx-auto leading-relaxed">
                 Split large card payments without changing how customers pay. Automatic qualification, fast deployment, and repeat funding.
               </p>
-              
+
               <div className="flex justify-center">
                 <Link href="/get-started">
-                   <PrimaryButton>Get Started</PrimaryButton>
+                  <PrimaryButton>Get Started</PrimaryButton>
                 </Link>
               </div>
             </motion.div>
@@ -62,7 +64,7 @@ export default function FundingPage() {
               className="mt-20 flex justify-center"
             >
               <div className="relative w-full max-w-5xl">
-                 <FundingGraphAnimation />
+                <FundingGraphAnimation />
               </div>
             </motion.div>
           </div>
@@ -72,7 +74,7 @@ export default function FundingPage() {
         <section className="px-6 md:px-10 lg:px-16 py-24 bg-white border-t border-brand-stone/50">
           <div className="mx-auto max-w-6xl">
             <div className="mb-16">
-               <h2 className="text-3xl md:text-4xl font-poppins font-bold tracking-tight text-brand-black mb-6 text-center">
+              <h2 className="text-3xl md:text-4xl font-poppins font-bold tracking-tight text-brand-black mb-6 text-center">
                 Impact on a typical SaaS portfolio.
               </h2>
               <p className="text-lg font-lora text-brand-black/70 mb-10 leading-relaxed text-center max-w-2xl mx-auto">
@@ -110,7 +112,7 @@ export default function FundingPage() {
                   icon: TrendingUp,
                   title: "Automatic Qualification",
                   description: "No lengthy application. We proactively extend offers based on your processing history.",
-                  image: "/assets/new_photos/style/mini-3-flex-3-solo-developer.webp",
+                  component: <FundingSimulation />,
                 },
                 {
                   icon: Zap,
@@ -122,7 +124,7 @@ export default function FundingPage() {
                   icon: Shield,
                   title: "Repeat Funding",
                   description: "As long as your volume stays healthy, funding becomes available again automatically.",
-                  image: "/assets/new_photos/style/apple-pay-colorful.jpeg",
+                  component: <RepeatFundingAnimation />,
                 },
               ].map((feature, index) => (
                 <motion.div
@@ -133,23 +135,29 @@ export default function FundingPage() {
                   transition={{ delay: index * 0.1 }}
                   className="group bg-white rounded-2xl overflow-hidden shadow-elevation-low hover:shadow-elevation-mid transition-all duration-300 border border-brand-stone/50 hover:border-brand-stone hover:-translate-y-1"
                 >
-                  <div className="h-48 overflow-hidden bg-brand-gray/30 relative border-b border-brand-stone/50">
-                    <Image
-                      src={feature.image}
-                      alt={feature.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[20%] group-hover:grayscale-0"
-                    />
+                  <div className={`${feature.component ? "h-64" : "h-48"} overflow-hidden bg-brand-gray/30 relative border-b border-brand-stone/50`}>
+                    {feature.component ? (
+                      <div className="w-full h-64 bg-white relative">
+                        {feature.component}
+                      </div>
+                    ) : (
+                      <Image
+                        src={feature.image!}
+                        alt={feature.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[20%] group-hover:grayscale-0"
+                      />
+                    )}
                   </div>
                   <div className="p-8">
                     <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center mb-4 text-white">
-                        <feature.icon className="h-5 w-5" />
+                      <feature.icon className="h-5 w-5" />
                     </div>
                     <h3 className="text-xl font-poppins font-bold text-brand-black mb-3">
-                        {feature.title}
+                      {feature.title}
                     </h3>
                     <p className="text-brand-black/70 leading-relaxed text-sm font-lora">
-                        {feature.description}
+                      {feature.description}
                     </p>
                   </div>
                 </motion.div>
@@ -160,24 +168,24 @@ export default function FundingPage() {
 
         {/* LIFESTYLE / GROWTH SECTION */}
         <section className="w-full bg-black overflow-hidden relative">
-            <div className="absolute inset-0 opacity-60">
-                <Image
-                    src="/assets/new_photos/style/clover-lifestyle.webp"
-                    alt="Business Growth"
-                    fill
-                    className="object-cover"
-                />
+          <div className="absolute inset-0 opacity-60">
+            <Image
+              src="/assets/new_photos/style/clover-lifestyle.webp"
+              alt="Business Growth"
+              fill
+              className="object-cover"
+            />
+          </div>
+          <div className="relative z-10 px-6 md:px-10 lg:px-16 py-32 flex items-center">
+            <div className="max-w-2xl">
+              <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 font-poppins tracking-tight">
+                Fuel your growth without slowing down.
+              </h2>
+              <p className="text-xl text-white/90 font-lora leading-relaxed">
+                Whether you need inventory, equipment, or expansion capital, our split funding model works with your cash flow, not against it.
+              </p>
             </div>
-            <div className="relative z-10 px-6 md:px-10 lg:px-16 py-32 flex items-center">
-                <div className="max-w-2xl">
-                    <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 font-poppins tracking-tight">
-                        Fuel your growth without slowing down.
-                    </h2>
-                    <p className="text-xl text-white/90 font-lora leading-relaxed">
-                        Whether you need inventory, equipment, or expansion capital, our split funding model works with your cash flow, not against it.
-                    </p>
-                </div>
-            </div>
+          </div>
         </section>
 
         {/* REASONS SECTION – operator-focused (From CC Split) */}
@@ -195,22 +203,22 @@ export default function FundingPage() {
                 { title: "Less friction at renewal", desc: "Split large renewals across the term and remove pricing as a blocker.", icon: CheckCircle2 },
                 { title: "Fewer exceptions", desc: "Turn one-off payment plans into a single, standardized program.", icon: ShieldCheck },
               ].map((card, i) => (
-                <motion.div 
-                    key={card.title}
-                    initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    className="flex gap-6 rounded-3xl p-8 bg-white shadow-elevation-low hover:shadow-elevation-mid transition-all duration-300 border border-brand-stone/50"
+                <motion.div
+                  key={card.title}
+                  initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  className="flex gap-6 rounded-3xl p-8 bg-white shadow-elevation-low hover:shadow-elevation-mid transition-all duration-300 border border-brand-stone/50"
                 >
-                    <div className="shrink-0">
-                        <div className="w-12 h-12 rounded-xl bg-brand-gray flex items-center justify-center text-black">
-                            <card.icon className="h-6 w-6" />
-                        </div>
+                  <div className="shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-brand-gray flex items-center justify-center text-black">
+                      <card.icon className="h-6 w-6" />
                     </div>
-                    <div>
-                        <h3 className="font-poppins text-xl font-bold text-brand-black mb-2">{card.title}</h3>
-                        <p className="text-brand-black/70 leading-relaxed font-lora text-sm">{card.desc}</p>
-                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-poppins text-xl font-bold text-brand-black mb-2">{card.title}</h3>
+                    <p className="text-brand-black/70 leading-relaxed font-lora text-sm">{card.desc}</p>
+                  </div>
                 </motion.div>
               ))}
             </div>
