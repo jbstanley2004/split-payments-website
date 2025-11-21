@@ -134,15 +134,15 @@ const LineChart = ({ config }: LineChartProps) => {
     <div className="flex h-full flex-col justify-between">
       <div className="flex items-center justify-between gap-4">
         <div className="space-y-1">
-          <p className="text-xs font-medium uppercase tracking-[0.16em] text-slate-300">
+          <p className="text-xs font-medium uppercase tracking-[0.16em] text-slate-500">
             {label}
           </p>
-          <p className="text-lg font-semibold text-slate-50">
+          <p className="text-lg font-semibold text-slate-900">
             {formattedCurrent}
           </p>
         </div>
-        <div className="inline-flex items-center gap-1 rounded-full bg-emerald-500/15 px-3 py-1 text-[11px] font-medium text-emerald-200">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+        <div className="inline-flex items-center gap-1 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-[11px] font-medium text-emerald-700">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
           <span>Live volume</span>
         </div>
       </div>
@@ -173,7 +173,7 @@ const LineChart = ({ config }: LineChartProps) => {
                 key="line"
                 d={path}
                 fill="none"
-                stroke="#e5e7eb"
+                stroke="#0f172a"
                 strokeWidth={1.5}
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -205,8 +205,8 @@ const LineChart = ({ config }: LineChartProps) => {
                   cx={point.x}
                   cy={point.y}
                   r={3.5}
-                  fill="#020617"
-                  stroke="#e5e7eb"
+                  fill="#ffffff"
+                  stroke="#0f172a"
                   strokeWidth={1.5}
                 />
                 {active && (
@@ -214,7 +214,7 @@ const LineChart = ({ config }: LineChartProps) => {
                     cx={point.x}
                     cy={point.y}
                     r={7}
-                    stroke="#e5e7eb"
+                    stroke="#0f172a"
                     strokeWidth={1}
                     fill="transparent"
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -227,7 +227,7 @@ const LineChart = ({ config }: LineChartProps) => {
         </svg>
       </div>
 
-      <div className="mt-2 flex items-center justify-between text-[11px] text-slate-300/80">
+      <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500">
         {x.map((label) => (
           <span key={label}>{label}</span>
         ))}
@@ -391,37 +391,31 @@ export default function DashboardAnimation() {
   );
 
   return (
-    // IMPORTANT: no fixed height, no outer dark shell.
-    // This sits directly on the page’s white background and scales horizontally.
+    // Sits directly on the page’s white background and scales horizontally.
     <section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-0">
-        <div className="relative overflow-hidden rounded-[2rem] bg-slate-950 p-7 text-slate-50 shadow-[0_28px_120px_rgba(15,23,42,0.9)] sm:p-8">
-          {/* Gradient glows, anchored to card */}
-          <div className="pointer-events-none absolute -right-24 -top-40 h-72 w-72 rounded-full bg-gradient-to-br from-fuchsia-500 via-rose-500 to-amber-400 opacity-80 blur-3xl" />
-          <div className="pointer-events-none absolute -left-20 bottom-[-5rem] h-64 w-64 rounded-full bg-emerald-500/45 opacity-80 blur-3xl" />
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.22)_0,_transparent_55%)]" />
-
-          <div className="relative z-10 space-y-5">
+        <div className="relative overflow-hidden rounded-[2rem] bg-white p-7 text-brand-black shadow-lg border border-gray-200 sm:p-8">
+          <div className="relative z-10 space-y-6">
             {/* Top row: brand + tabs */}
             <div className="flex flex-wrap items-start justify-between gap-4 lg:items-center">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-black/40 shadow-inner shadow-black/60">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-black text-white shadow-inner">
                   <span className="text-sm font-semibold tracking-tight">S</span>
                 </div>
                 <div className="space-y-0.5">
-                  <p className="text-sm font-semibold text-slate-100">
+                  <p className="text-sm font-semibold text-brand-black">
                     Settlement feed
                   </p>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-brand-black/60">
                     Card-present &amp; online channels
                   </p>
                 </div>
               </div>
 
               <div className="flex flex-col items-end gap-2 text-right">
-                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/45 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-200">
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-[11px] font-medium text-emerald-700">
                   <motion.span
-                    className="inline-flex h-2 w-2 rounded-full bg-emerald-400"
+                    className="inline-flex h-2 w-2 rounded-full bg-emerald-500"
                     animate={{ opacity: [0.3, 1, 0.3], scale: [1, 1.08, 1] }}
                     transition={{
                       repeat: Infinity,
@@ -432,7 +426,7 @@ export default function DashboardAnimation() {
                   Live processor feed
                 </div>
 
-                <div className="flex items-center gap-1 rounded-full bg-white/10 p-1 text-[11px]">
+                <div className="flex items-center gap-1 rounded-full bg-slate-100 p-1 text-[11px]">
                   {PERIODS.map((period) => {
                     const isActive = period.id === active.id;
                     return (
@@ -454,7 +448,7 @@ export default function DashboardAnimation() {
                         )}
                         <span
                           className={`relative z-10 font-medium ${
-                            isActive ? "text-slate-900" : "text-slate-200/85"
+                            isActive ? "text-brand-black" : "text-slate-500"
                           }`}
                         >
                           {period.label}
@@ -471,26 +465,26 @@ export default function DashboardAnimation() {
               {/* Left: headings + total */}
               <div className="space-y-4 lg:col-span-4">
                 <div>
-                  <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-slate-400">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.25em] text-brand-black/40">
                     Real-time analytics
                   </p>
-                  <p className="mt-2 text-base font-medium text-slate-100">
+                  <p className="mt-2 text-base font-medium text-brand-black">
                     Net card volume
                   </p>
                 </div>
 
-                <p className="text-4xl font-semibold tracking-tight text-slate-50 xl:text-[2.6rem]">
+                <p className="text-4xl font-semibold tracking-tight text-brand-black xl:text-[2.6rem]">
                   {formattedTotal}
                 </p>
 
-                <div className="space-y-1 text-xs text-slate-300">
+                <div className="space-y-1 text-xs text-brand-black/70">
                   <p>{active.totalLabel}</p>
-                  <p className="flex items-center gap-1 text-slate-400">
-                    <CalendarClock className="h-3 w-3" />
+                  <p className="flex items-center gap-1">
+                    <CalendarClock className="h-3 w-3 text-slate-500" />
                     {active.meta}
                   </p>
-                  <p className="flex items-center gap-1 text-slate-400">
-                    <WalletCards className="h-3 w-3" />
+                  <p className="flex items-center gap-1">
+                    <WalletCards className="h-3 w-3 text-slate-500" />
                     TSYS · FD Omaha · Unified deposits
                   </p>
                 </div>
@@ -504,36 +498,36 @@ export default function DashboardAnimation() {
                   return (
                     <div
                       key={row.id}
-                      className="flex items-center justify-between gap-3 rounded-2xl bg-white/6 px-4 py-3 backdrop-blur-sm"
+                      className="flex items-center justify-between gap-3 rounded-2xl bg-slate-50 px-4 py-3 border border-gray-200"
                     >
                       <div className="flex items-center gap-3">
                         {Icon && (
-                          <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-black/40">
-                            <Icon className="h-4 w-4 text-slate-100" />
+                          <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-black text-white">
+                            <Icon className="h-4 w-4" />
                           </span>
                         )}
                         <div className="space-y-0.5">
-                          <p className="text-xs font-medium text-slate-50">
+                          <p className="text-xs font-medium text-brand-black">
                             {row.label}
                           </p>
-                          <p className="text-[11px] text-slate-400">
+                          <p className="text-[11px] text-brand-black/60">
                             {row.descriptor}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-xs font-semibold text-slate-50">
+                        <p className="text-xs font-semibold text-brand-black">
                           {currencyCompact.format(row.amountK * 1000)}
                         </p>
                         <div className="mt-0.5 inline-flex items-center justify-end gap-1 text-[11px] font-medium">
                           {positive ? (
-                            <ArrowUpRight className="h-3 w-3 text-emerald-400" />
+                            <ArrowUpRight className="h-3 w-3 text-emerald-600" />
                           ) : (
-                            <ArrowDownRight className="h-3 w-3 text-rose-400" />
+                            <ArrowDownRight className="h-3 w-3 text-rose-500" />
                           )}
                           <span
                             className={
-                              positive ? "text-emerald-200" : "text-rose-200"
+                              positive ? "text-emerald-600" : "text-rose-600"
                             }
                           >
                             {positive ? "+" : ""}
@@ -547,7 +541,17 @@ export default function DashboardAnimation() {
               </div>
 
               {/* Right: chart card */}
-              <div className="rounded-2xl bg-black/35 px-4 py-4 lg:col-span-3">
+              <div className="rounded-2xl bg-slate-50 px-4 py-4 border border-gray-200 lg:col-span-3">
+                <div className="mb-3 flex items-center justify-between text-xs text-slate-500">
+                  <div className="flex items-center gap-2">
+                    <Timer className="h-4 w-4 text-slate-500" />
+                    <span>Weekly trend</span>
+                  </div>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-medium text-emerald-700">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    Live volume
+                  </div>
+                </div>
                 <LineChart config={active.chart} />
               </div>
             </div>
@@ -557,4 +561,3 @@ export default function DashboardAnimation() {
     </section>
   );
 }
-
