@@ -361,7 +361,7 @@ const PERIODS: PeriodConfig[] = [
   },
 ];
 
-// ---------- Main component: wide dashboard card ------------------------------
+// ---------- Main component: wide light-mode gradient dashboard card ----------
 
 export default function DashboardAnimation() {
   const [activePeriodId, setActivePeriodId] = useState<PeriodId>("week");
@@ -391,15 +391,20 @@ export default function DashboardAnimation() {
   );
 
   return (
-    // Sits directly on the page’s white background and scales horizontally.
+    // Light-mode version of the wide gradient console card.
     <section className="w-full">
       <div className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-0">
-        <div className="relative overflow-hidden rounded-[2rem] bg-white p-7 text-brand-black shadow-lg border border-gray-200 sm:p-8">
+        <div className="relative overflow-hidden rounded-[2rem] bg-white/95 p-7 text-brand-black shadow-[0_28px_120px_rgba(15,23,42,0.12)] border border-slate-100 sm:p-8">
+          {/* Light-mode gradient glows (inverse of dark version) */}
+          <div className="pointer-events-none absolute -right-32 -top-40 h-72 w-72 rounded-full bg-gradient-to-br from-rose-100 via-fuchsia-100 to-amber-100 opacity-80 blur-3xl" />
+          <div className="pointer-events-none absolute -left-24 bottom-[-5rem] h-64 w-64 rounded-full bg-emerald-100 opacity-80 blur-3xl" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(148,163,184,0.15)_0,_transparent_55%)]" />
+
           <div className="relative z-10 space-y-6">
             {/* Top row: brand + tabs */}
             <div className="flex flex-wrap items-start justify-between gap-4 lg:items-center">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-black text-white shadow-inner">
+                <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-black text-white shadow-inner shadow-black/50">
                   <span className="text-sm font-semibold tracking-tight">S</span>
                 </div>
                 <div className="space-y-0.5">
@@ -426,7 +431,7 @@ export default function DashboardAnimation() {
                   Live processor feed
                 </div>
 
-                <div className="flex items-center gap-1 rounded-full bg-slate-100 p-1 text-[11px]">
+                <div className="flex items-center gap-1 rounded-full bg-slate-100/80 p-1 text-[11px] shadow-sm ring-1 ring-black/5">
                   {PERIODS.map((period) => {
                     const isActive = period.id === active.id;
                     return (
@@ -438,7 +443,7 @@ export default function DashboardAnimation() {
                         {isActive && (
                           <motion.span
                             layoutId="split-period-pill"
-                            className="absolute inset-0 rounded-full bg-white text-slate-900 shadow-sm"
+                            className="absolute inset-0 rounded-full bg-white shadow-sm"
                             transition={{
                               type: "spring",
                               stiffness: 260,
@@ -448,7 +453,7 @@ export default function DashboardAnimation() {
                         )}
                         <span
                           className={`relative z-10 font-medium ${
-                            isActive ? "text-brand-black" : "text-slate-500"
+                            isActive ? "text-slate-900" : "text-slate-500"
                           }`}
                         >
                           {period.label}
@@ -498,7 +503,7 @@ export default function DashboardAnimation() {
                   return (
                     <div
                       key={row.id}
-                      className="flex items-center justify-between gap-3 rounded-2xl bg-slate-50 px-4 py-3 border border-gray-200"
+                      className="flex items-center justify-between gap-3 rounded-2xl bg-white/80 px-4 py-3 border border-white/60 shadow-[0_14px_40px_rgba(15,23,42,0.08)] backdrop-blur-sm"
                     >
                       <div className="flex items-center gap-3">
                         {Icon && (
@@ -541,8 +546,8 @@ export default function DashboardAnimation() {
               </div>
 
               {/* Right: chart card */}
-              <div className="rounded-2xl bg-slate-50 px-4 py-4 border border-gray-200 lg:col-span-3">
-                <div className="mb-3 flex items-center justify-between text-xs text-slate-500">
+              <div className="rounded-2xl bg-white/80 px-4 py-4 border border-white/60 shadow-[0_20px_60px_rgba(15,23,42,0.08)] backdrop-blur-sm lg:col-span-3">
+                <div className="mb-3 flex items-center justify-between text-xs text-slate-600">
                   <div className="flex items-center gap-2">
                     <Timer className="h-4 w-4 text-slate-500" />
                     <span>Weekly trend</span>
