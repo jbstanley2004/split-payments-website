@@ -75,8 +75,8 @@ const DynamicIsland = styled.div<{ $isExpanded: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
+  /* Background and backdrop-filter moved to ::before to fix halo effect */
+  
   border-radius: 50px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
@@ -85,6 +85,7 @@ const DynamicIsland = styled.div<{ $isExpanded: boolean }>`
   min-width: 120px;
   max-width: 800px;
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  isolation: isolate;
 
   @media (max-width: 820px) {
     display: none;
@@ -92,6 +93,17 @@ const DynamicIsland = styled.div<{ $isExpanded: boolean }>`
 
   &:hover {
     box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 50px;
   }
 `;
 
@@ -102,6 +114,8 @@ const IslandContent = styled.div<{ $isExpanded: boolean }>`
   width: 100%;
   justify-content: center;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 `;
 
 const Logo = styled.a`
@@ -112,6 +126,8 @@ const Logo = styled.a`
   white-space: nowrap;
   flex-shrink: 0;
   font-family: var(--font-poppins), Arial, sans-serif;
+  position: relative;
+  z-index: 2;
 `;
 
 const Links = styled.div<{ $isExpanded: boolean }>`
@@ -123,6 +139,8 @@ const Links = styled.div<{ $isExpanded: boolean }>`
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: ${({ $isExpanded }) => ($isExpanded ? "all" : "none")};
   overflow: hidden;
+  position: relative;
+  z-index: 2;
 
   a {
     color: rgba(255, 255, 255, 0.8);
@@ -141,19 +159,33 @@ const Links = styled.div<{ $isExpanded: boolean }>`
 const MobileMenuButton = styled.button`
   display: none;
   border: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(20px) saturate(180%);
+  /* Background and backdrop-filter moved to ::before */
+  
   color: ${({ theme }) => theme.colors.accent};
   font-size: 1.8rem;
   padding: 12px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  isolation: isolate;
+  z-index: 1000;
 
   @media (max-width: 820px) {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 50%;
   }
 `;
 
@@ -169,22 +201,36 @@ const MobileLinks = styled.div<{ $open: boolean }>`
     flex-direction: column;
     gap: 1rem;
     padding: 1.5rem 8%;
-    background: rgba(0, 0, 0, 0.95);
-    backdrop-filter: blur(20px) saturate(180%);
+    /* Background and backdrop-filter moved to ::before */
+    
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     transform: ${({ $open }) => ($open ? "translateY(0)" : "translateY(-120%)")};
+    isolation: isolate;
     opacity: ${({ $open }) => ($open ? 1 : 0)};
     pointer-events: ${({ $open }) => ($open ? "all" : "none")};
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 999;
 
     a {
       color: rgba(255, 255, 255, 0.8);
       font-family: var(--font-poppins), Arial, sans-serif;
+      position: relative;
+      z-index: 2;
     }
 
     a:hover {
       color: ${({ theme }) => theme.colors.accent};
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
     }
   }
 `;
@@ -199,6 +245,8 @@ const CTA = styled.a`
   font-family: var(--font-poppins), Arial, sans-serif;
   white-space: nowrap;
   transition: all 0.2s ease;
+  position: relative;
+  z-index: 2;
 
   @media (max-width: 820px) {
     width: 100%;
