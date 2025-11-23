@@ -26,7 +26,7 @@ export default function FundingPage() {
         <DynamicIslandNav />
 
         {/* HERO SECTION */}
-        <section className="relative min-h-[75vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-24 pb-12 overflow-hidden bg-white">
+        <section className="relative min-h-[60vh] md:min-h-[75vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden bg-white">
           <div className="max-w-6xl w-full text-center relative z-10">
             <motion.div
               initial="hidden"
@@ -34,24 +34,24 @@ export default function FundingPage() {
               variants={fadeInUp}
               className="max-w-4xl mx-auto"
             >
-              <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-black mb-6 font-semibold">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-black mb-6 font-semibold">
                 Access fast, flexible capital
                 <br />
                 <span className="text-black">powered by your sales.</span>
               </h1>
 
-              <p className="text-xl md:text-2xl font-lora text-black mb-8 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl font-lora text-black mb-8 max-w-2xl mx-auto leading-relaxed">
                 Split Funding offers access to funding that lets you repay as you sell, at every growth stage.
               </p>
 
               {/* Hero Visual - RepeatFundingAnimation */}
-              <div className="max-w-2xl mx-auto mt-8 mb-8 h-[300px] flex items-center justify-center">
+              <div className="max-w-2xl mx-auto mt-4 mb-8 h-[250px] md:h-[300px] flex items-center justify-center">
                 <div className="w-full h-full transform scale-100 origin-center">
                   <RepeatFundingAnimation />
                 </div>
               </div>
 
-              <div className="flex justify-center mb-12">
+              <div className="flex justify-center mb-8 md:mb-12">
                 <Link href="/get-started">
                   <PrimaryButton>Check your offer</PrimaryButton>
                 </Link>

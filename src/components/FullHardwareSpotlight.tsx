@@ -100,6 +100,7 @@ const FullHardwareSpotlight = () => {
                                         className="object-contain"
                                         priority
                                         unoptimized
+                                        sizes="(max-width: 768px) 100vw, 50vw"
                                     />
                                 </div>
                             </div>

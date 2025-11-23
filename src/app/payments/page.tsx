@@ -83,7 +83,7 @@ export default function PaymentsPage() {
         <DynamicIslandNav />
 
         {/* HERO – Clean, Bright */}
-        <section className="relative min-h-[75vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-24 pb-12 overflow-hidden">
+        <section className="relative min-h-[60vh] md:min-h-[75vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden">
           <CursorParticles />
           <div className="max-w-6xl w-full text-center relative z-10">
             <motion.div
@@ -93,21 +93,21 @@ export default function PaymentsPage() {
               className="max-w-4xl mx-auto"
             >
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-black mb-6 font-semibold">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-black mb-6 font-semibold">
                 Smarter payments.
                 <br />
                 <span className="text-black">Stronger cash flow.</span>
               </h1>
 
-              <p className="text-xl md:text-2xl font-lora text-black mb-8 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl font-lora text-black mb-8 max-w-2xl mx-auto leading-relaxed">
                 Simplify every transaction while unlocking funding that moves at the speed of your business.
               </p>
 
-              <div className="max-w-2xl mx-auto mt-8 mb-8">
+              <div className="max-w-2xl mx-auto mt-4 mb-8">
                 <PaymentTerminalCard />
               </div>
 
-              <div className="flex justify-center mb-12">
+              <div className="flex justify-center mb-8 md:mb-12">
                 <Link href="/get-started">
                   <PrimaryButton>Get Started</PrimaryButton>
                 </Link>
