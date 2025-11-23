@@ -99,6 +99,7 @@ const FullHardwareSpotlight = () => {
                                         fill
                                         className="object-contain"
                                         priority
+                                        unoptimized
                                         sizes="(max-width: 768px) 100vw, 50vw"
                                     />
                                 </div>
@@ -165,7 +166,7 @@ const FullHardwareSpotlight = () => {
                     </AnimatePresence>
 
                     {/* Progress Indicator */}
-                    <div className="flex gap-2 mt-4">
+                    <div className="flex gap-2 mt-4 flex-wrap justify-center md:justify-start">
                         {productsData.map((_, idx) => (
                             <button
                                 key={idx}
