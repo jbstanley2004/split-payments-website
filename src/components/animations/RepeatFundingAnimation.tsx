@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { RefreshCw, Check, ArrowUpRight, DollarSign } from "lucide-react";
-import { SplitLogoPaths } from "./SplitLogoPaths";
+
 
 export default function RepeatFundingAnimation() {
     const [stage, setStage] = useState<"repaying" | "eligible" | "renewed" | "morph" | "logo">("repaying");
@@ -131,72 +131,16 @@ export default function RepeatFundingAnimation() {
                     {/* 3. The Wordmark Animation (Visible during Logo Phase) */}
                     {stage === "logo" && (
                         <motion.div
-                            className="absolute top-full mt-4 flex items-center justify-center gap-1"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                            className="absolute top-full mt-6 flex items-center justify-center"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.5, delay: 0.2 }}
                         >
-                            {/* S */}
-                            <svg viewBox="0 0 4000 4000" className="h-12 w-auto overflow-visible">
-                                <motion.path
-                                    d={SplitLogoPaths.S}
-                                    fill="#111111"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.4, delay: 0.1 }}
-                                />
-                            </svg>
-                            {/* p */}
-                            <svg viewBox="0 0 4000 4000" className="h-12 w-auto overflow-visible -ml-4">
-                                <motion.path
-                                    d={SplitLogoPaths.p}
-                                    fill="#111111"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.4, delay: 0.2 }}
-                                />
-                            </svg>
-                            {/* l */}
-                            <svg viewBox="0 0 4000 4000" className="h-12 w-auto overflow-visible -ml-4">
-                                <motion.path
-                                    d={SplitLogoPaths.l}
-                                    fill="#111111"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.4, delay: 0.3 }}
-                                />
-                            </svg>
-                            {/* i (body + dot) */}
-                            <div className="relative h-12 w-4 -ml-2">
-                                <svg viewBox="0 0 4000 4000" className="absolute inset-0 h-full w-auto overflow-visible">
-                                    <motion.path
-                                        d={SplitLogoPaths.i_body}
-                                        fill="#111111"
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.4, delay: 0.4 }}
-                                    />
-                                </svg>
-                                <svg viewBox="0 0 4000 4000" className="absolute inset-0 h-full w-auto overflow-visible">
-                                    <motion.path
-                                        d={SplitLogoPaths.i_dot}
-                                        fill="#FF5F00" // Orange dot
-                                        initial={{ opacity: 0, scale: 0 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        transition={{ duration: 0.3, delay: 0.6, type: "spring" }}
-                                    />
-                                </svg>
-                            </div>
-                            {/* t */}
-                            <svg viewBox="0 0 4000 4000" className="h-12 w-auto overflow-visible -ml-2">
-                                <motion.path
-                                    d={SplitLogoPaths.t}
-                                    fill="#111111"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ duration: 0.4, delay: 0.5 }}
-                                />
-                            </svg>
+                            <img
+                                src="/assets/split-wordmark.png"
+                                alt="Split"
+                                className="h-8 w-auto"
+                            />
                         </motion.div>
                     )}
 

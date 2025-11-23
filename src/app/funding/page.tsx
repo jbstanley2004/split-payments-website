@@ -1,254 +1,379 @@
 "use client";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
-import { FlexibleFundingHero, HowFundingWorksBlock } from "@/components/hero";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { TrendingUp, Zap, Shield, BarChart3, Users2, CheckCircle2, ShieldCheck } from "lucide-react";
-import Link from "next/link";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
-import FundingGraphAnimation from "@/components/animations/FundingGraphAnimation";
-import FundingSimulation from "@/components/animations/FundingSimulation";
+import { motion } from "framer-motion";
+import { Shield, TrendingUp, Check, Zap } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
 import RepeatFundingAnimation from "@/components/animations/RepeatFundingAnimation";
-
-const METRICS = [
-  { label: "Increase in upmarket close rate", value: "+18", suffix: "%" },
-  { label: "Time-to-cash from swipe", value: "≤ 2", suffix: " days" },
-  { label: "Reduction in invoice churn", value: "-24", suffix: "%" },
-  { label: "NPS lift for funded merchants", value: "+12", suffix: " pts" },
-];
+import WorkingCapitalAnimation from "@/components/animations/WorkingCapitalAnimation";
+import RefillAnimation from "@/components/animations/RefillAnimation";
+import QualificationAnimation from "@/components/animations/QualificationAnimation";
+import TimelineSignAnimation from "@/components/animations/TimelineSignAnimation";
+import TimelineActivationAnimation from "@/components/animations/TimelineActivationAnimation";
+import TimelineFundingAnimation from "@/components/animations/TimelineFundingAnimation";
 
 export default function FundingPage() {
   const fadeInUp = {
     hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
   };
 
   return (
-    <main className="min-h-screen bg-white text-brand-black font-lora selection:bg-black/10 selection:text-black">
-      <div className="relative">
+    <main className="min-h-screen bg-white text-black font-lora selection:bg-black/10 selection:text-black">
+      <div className="relative z-10">
         <DynamicIslandNav />
 
         {/* HERO SECTION */}
-        <section className="relative min-h-[85vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-32 pb-40">
-          <div className="max-w-6xl w-full text-center">
+        <section className="relative min-h-[75vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-24 pb-12 overflow-hidden bg-white">
+          <div className="max-w-6xl w-full text-center relative z-10">
             <motion.div
               initial="hidden"
               animate="visible"
               variants={fadeInUp}
               className="max-w-4xl mx-auto"
             >
-
-              <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-brand-black mb-8 font-semibold">
+              <h1 className="text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-black mb-6 font-semibold">
                 Access fast, flexible capital
                 <br />
-                <span className="text-brand-charcoal">powered by your sales.</span>
+                <span className="text-black">powered by your sales.</span>
               </h1>
 
-              <p className="text-xl md:text-2xl font-lora text-brand-black/70 mb-12 max-w-2xl mx-auto leading-relaxed">
-                Split large card payments without changing how customers pay. Automatic qualification, fast deployment, and repeat funding.
+              <p className="text-xl md:text-2xl font-lora text-black mb-8 max-w-2xl mx-auto leading-relaxed">
+                Split Funding offers access to funding that lets you repay as you sell, at every growth stage.
               </p>
 
-              <div className="flex justify-center">
+              {/* Hero Visual - RepeatFundingAnimation */}
+              <div className="max-w-2xl mx-auto mt-8 mb-8 h-[300px] flex items-center justify-center">
+                <div className="w-full h-full transform scale-100 origin-center">
+                  <RepeatFundingAnimation />
+                </div>
+              </div>
+
+              <div className="flex justify-center mb-12">
                 <Link href="/get-started">
-                  <PrimaryButton>Get Started</PrimaryButton>
+                  <PrimaryButton>Check your offer</PrimaryButton>
                 </Link>
               </div>
             </motion.div>
+          </div>
+        </section>
 
-            {/* Clean Visualization - Replaced static image with live animation */}
+        {/* ELIGIBILITY SECTION */}
+        <section className="px-6 md:px-10 lg:px-16 py-16 bg-[#F6F5F4]">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-6">
+              Eligibility
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-black mb-6 font-poppins">
+              You don't apply. <br /> You qualify automatically.
+            </h2>
+            <p className="text-xl text-black/70 font-lora leading-relaxed mb-12">
+              If your volume and history fit our model, we proactively extend funding offers based on your processing. No lengthy application or hard credit pull to get started. If you’re processing with us and your numbers qualify, we’ll tap you on the shoulder.
+            </p>
+
+            <div className="grid md:grid-cols-3 gap-8 text-left">
+              <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+                <h4 className="font-bold font-poppins text-black mb-2">Real sales, not projections</h4>
+                <p className="text-sm text-black/60 font-lora">Based on your actual processing history.</p>
+              </div>
+              <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+                <h4 className="font-bold font-poppins text-black mb-2">No underwriting package</h4>
+                <p className="text-sm text-black/60 font-lora">No need to compile tax returns or P&Ls.</p>
+              </div>
+              <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
+                <h4 className="font-bold font-poppins text-black mb-2">Scalable offers</h4>
+                <p className="text-sm text-black/60 font-lora">Offers grow as your processing volume grows.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* TIMELINE SECTION */}
+        <section className="px-6 md:px-10 lg:px-16 py-16 bg-white">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-16">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-6">
+                Timeline
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6 font-poppins">
+                Funding in days, not months.
+              </h2>
+              <p className="text-xl text-black/70 font-lora leading-relaxed max-w-3xl mx-auto">
+                Because we underwrite off your card-processing history, we can move much faster than traditional lenders. Here’s how a typical deployment looks once you’re processing with us.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 relative">
+              {/* Connecting Line (Desktop) */}
+              <div className="hidden md:block absolute top-24 left-[16%] right-[16%] h-0.5 bg-gray-200 -z-0"></div>
+
+              {/* Step 1 */}
+              <div className="relative z-10">
+                <TimelineSignAnimation />
+                <div className="mt-8 text-center md:text-left">
+                  <div className="text-sm font-bold text-[#FF4306] uppercase tracking-wider mb-2">Day 0</div>
+                  <h3 className="text-2xl font-bold text-black font-poppins mb-3">Sign your funding agreement</h3>
+                  <p className="text-black/70 font-lora">
+                    Once we confirm your processing history, we send a simple agreement. As soon as it’s signed, we move straight into activation.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="relative z-10">
+                <TimelineActivationAnimation />
+                <div className="mt-8 text-center md:text-left">
+                  <div className="text-sm font-bold text-[#FF4306] uppercase tracking-wider mb-2">Day 0–2</div>
+                  <h3 className="text-2xl font-bold text-black font-poppins mb-3">Merchant account & equipment activated</h3>
+                  <p className="text-black/70 font-lora">
+                    We set up your merchant account and whatever you need for processing—software integration, online gateway, or physical terminal.
+                  </p>
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="relative z-10">
+                <TimelineFundingAnimation />
+                <div className="mt-8 text-center md:text-left">
+                  <div className="text-sm font-bold text-[#FF4306] uppercase tracking-wider mb-2">Day 3–5</div>
+                  <h3 className="text-2xl font-bold text-black font-poppins mb-3">Funding deployed</h3>
+                  <p className="text-black/70 font-lora">
+                    As soon as your account is active, we deploy your funding directly into your business bank account so you can put it to work.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* METRICS SECTION - Clean Grid */}
+        <section className="px-6 md:px-10 lg:px-16 py-16 bg-[#F6F5F4] border-t border-brand-stone/50">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+              {[
+                {
+                  value: "Immediate",
+                  label: "Approval time",
+                  description: null
+                },
+                {
+                  value: "1x monthly sales",
+                  label: "Max funding",
+                  description: null
+                },
+                {
+                  value: "100%",
+                  label: "Approval rate",
+                  description: "For $8,000+ monthly volume"
+                },
+              ].map((metric, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="text-center"
+                >
+                  <div className="text-5xl md:text-6xl font-bold font-poppins text-black mb-3 tracking-tight">
+                    {metric.value}
+                  </div>
+                  <div className="text-base font-semibold text-black/80 font-poppins mb-1">
+                    {metric.label}
+                  </div>
+                  {metric.description && (
+                    <div className="text-sm text-black/50 font-lora">
+                      {metric.description}
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FEATURE CARDS GRID */}
+        <section className="px-6 md:px-10 lg:px-16 py-16 bg-white">
+          <div className="max-w-[1400px] mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+              {/* Repayment Card */}
+              <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
+                <div className="p-8 pb-0 flex flex-col relative z-10 bg-white">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="space-y-2">
+                      <span className="text-sm font-semibold text-black/60">Repayment</span>
+                      <h3 className="text-2xl font-bold text-black font-poppins leading-tight">
+                        Repay as you earn. <br />Pay it off faster.
+                      </h3>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white shrink-0">
+                      <TrendingUp className="w-5 h-5" />
+                    </div>
+                  </div>
+                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-sm">
+                    Repayments are a fixed percentage of your daily card sales. Slow day? Lower payment. Busy day? Pay it off faster.
+                  </p>
+                </div>
+                <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
+                  <div className="h-80 w-full">
+                    <RefillAnimation />
+                  </div>
+                </div>
+              </div>
+
+              {/* Qualification Card (Restored) */}
+              <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
+                <div className="p-8 pb-0 flex flex-col relative z-10 bg-white">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="space-y-2">
+                      <span className="text-sm font-semibold text-black/60">Qualification</span>
+                      <h3 className="text-2xl font-bold text-black font-poppins leading-tight">
+                        Automatic Qualification.
+                      </h3>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white shrink-0">
+                      <Zap className="w-5 h-5" />
+                    </div>
+                  </div>
+                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-sm">
+                    No lengthy application. We proactively extend offers based on your processing history.
+                  </p>
+                </div>
+                <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
+                  <div className="h-80 w-full">
+                    <QualificationAnimation />
+                  </div>
+                </div>
+              </div>
+
+              {/* Refill Card */}
+              <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
+                <div className="p-8 pb-0 flex flex-col relative z-10 bg-white">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="space-y-2">
+                      <span className="text-sm font-semibold text-black/60">Renewal</span>
+                      <h3 className="text-2xl font-bold text-black font-poppins leading-tight">
+                        Always there when you need it.
+                      </h3>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white shrink-0">
+                      <Shield className="w-5 h-5" />
+                    </div>
+                  </div>
+                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-sm">
+                    Once you're funded, you're in the ecosystem. As you repay your balance, more funds become available automatically.
+                  </p>
+                </div>
+                <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
+                  <div className="h-80 w-full">
+                    <WorkingCapitalAnimation />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* COMPARISON TABLE SECTION */}
+        <section className="px-6 md:px-10 lg:px-16 py-16 bg-[#F6F5F4] border-t border-brand-stone/50">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6 font-poppins">
+                Split Funding vs. traditional loans
+              </h2>
+            </div>
+
+            <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
+              <div className="grid grid-cols-12 border-b border-gray-100 bg-gray-50/50">
+                <div className="col-span-6 p-6 text-sm font-bold text-black/50 uppercase tracking-wider font-poppins">Features</div>
+                <div className="col-span-3 p-6 text-center text-sm font-bold text-black uppercase tracking-wider font-poppins border-l border-gray-100">Split Funding</div>
+                <div className="col-span-3 p-6 text-center text-sm font-bold text-black/50 uppercase tracking-wider font-poppins border-l border-gray-100">Traditional loans</div>
+              </div>
+
+              {[
+                { feature: "Funds deposited directly into your account", split: true, trad: true },
+                { feature: "Real-time offers based on your sales, funding up to $2M", split: true, trad: false },
+                { feature: "No credit checks or impact to your personal credit score", split: true, trad: false },
+                { feature: "No personal liability, no compounding interest", split: true, trad: false },
+                { feature: "Hassle-free, online application", split: true, trad: false },
+                { feature: "Funding in as quick as 2 business days, if approved", split: true, trad: false },
+                { feature: "Early renewals with same streamlined application process", split: true, trad: false },
+                { feature: "Flexible, automated payments from your store's sales", split: true, trad: false },
+                { feature: "Fully integrated solution, so you can run your business from one place", split: true, trad: false },
+              ].map((row, i) => (
+                <div key={i} className="grid grid-cols-12 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+                  <div className="col-span-6 p-6 text-black font-lora font-medium flex items-center">{row.feature}</div>
+                  <div className="col-span-3 p-6 flex items-center justify-center border-l border-gray-100">
+                    {row.split && <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center"><Check className="w-5 h-5" /></div>}
+                  </div>
+                  <div className="col-span-3 p-6 flex items-center justify-center border-l border-gray-100">
+                    {row.trad && <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center"><Check className="w-5 h-5" /></div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* SPLIT APP SECTION */}
+        <section className="px-6 md:px-10 lg:px-16 py-16 bg-white">
+          <div className="max-w-6xl mx-auto">
+            <div className="bg-black rounded-[3rem] p-12 md:p-24 relative overflow-hidden text-white">
+              <div className="relative z-10 max-w-2xl">
+                <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium mb-8 backdrop-blur-sm">
+                  <span className="w-2 h-2 rounded-full bg-[#FF4306] mr-2"></span>
+                  Coming Soon
+                </div>
+                <h2 className="text-4xl md:text-6xl font-bold mb-8 font-poppins leading-tight">
+                  Take Split Funding with you—anywhere
+                </h2>
+                <p className="text-xl text-white/70 font-lora max-w-xl">
+                  One app to manage your finances and business. Track your sales, monitor your funding, and access capital on the go.
+                </p>
+              </div>
+
+              {/* App Teaser Image */}
+              <div className="absolute right-[-10%] bottom-[-15%] w-[70%] h-[140%] hidden md:block pointer-events-none select-none">
+                <div className="relative w-full h-full transform rotate-[-12deg]">
+                  <Image
+                    src="/assets/app-teaser.jpg"
+                    alt="Split App Interface"
+                    fill
+                    className="object-contain blur-sm drop-shadow-2xl opacity-90"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA SECTION */}
+        <section className="px-6 md:px-10 lg:px-16 py-32 text-center bg-white border-t border-brand-stone/50">
+          <div className="max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="mt-20 flex justify-center"
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
             >
-              <div className="relative w-full max-w-5xl">
-                <FundingGraphAnimation />
-              </div>
+              <h2 className="text-5xl md:text-6xl font-bold tracking-tight text-black mb-6 font-poppins leading-tight">
+                Ready to fuel your growth?
+              </h2>
+              <p className="text-xl text-black/70 mb-10 font-lora max-w-2xl mx-auto">
+                See how much funding you qualify for today. No commitment required.
+              </p>
+              <Link href="/get-started">
+                <PrimaryButton className="shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] transform hover:-translate-y-1 transition-all scale-110">
+                  Get Started
+                </PrimaryButton>
+              </Link>
             </motion.div>
           </div>
         </section>
 
-        {/* METRICS SECTION - From old CC Split */}
-        <section className="px-6 md:px-10 lg:px-16 py-24 bg-white border-t border-brand-stone/50">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-16">
-              <h2 className="text-3xl md:text-4xl font-poppins font-bold tracking-tight text-brand-black mb-6 text-center">
-                Impact on a typical SaaS portfolio.
-              </h2>
-              <p className="text-lg font-lora text-brand-black/70 mb-10 leading-relaxed text-center max-w-2xl mx-auto">
-                These numbers show how split funding on the card rails can strengthen close rates, time-to-cash, and renewal quality.
-              </p>
-
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-                {METRICS.map((metric, i) => (
-                  <motion.div
-                    key={metric.label}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.1 }}
-                    className="p-6 rounded-2xl bg-white shadow-elevation-low border border-brand-stone hover:shadow-elevation-mid transition-all"
-                  >
-                    <div className="text-3xl md:text-4xl font-bold text-brand-black font-poppins mb-2">
-                      {metric.value}
-                      <span className="ml-1 text-xl font-normal text-brand-black/40">{metric.suffix}</span>
-                    </div>
-                    <p className="text-xs font-bold uppercase tracking-wide text-brand-black/50">{metric.label}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* FEATURE BLOCKS */}
-        <section className="px-6 md:px-10 lg:px-16 py-24 bg-brand-gray/10 border-t border-brand-stone/50">
-          <div className="max-w-6xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-8">
-              {[
-                {
-                  icon: TrendingUp,
-                  title: "Automatic Qualification",
-                  description: "No lengthy application. We proactively extend offers based on your processing history.",
-                  component: <FundingSimulation />,
-                },
-                {
-                  icon: Zap,
-                  title: "Fast Deployment",
-                  description: "Funding in days, not months. Get capital when you need it most.",
-                  image: "/assets/new_photos/in_person/tap-payment.jpeg",
-                },
-                {
-                  icon: Shield,
-                  title: "Repeat Funding",
-                  description: "As long as your volume stays healthy, funding becomes available again automatically.",
-                  component: <RepeatFundingAnimation />,
-                },
-              ].map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-elevation-low hover:shadow-elevation-mid transition-all duration-300 border border-brand-stone/50 hover:border-brand-stone hover:-translate-y-1"
-                >
-                  <div className={`${feature.component ? "h-64" : "h-48"} overflow-hidden bg-brand-gray/30 relative border-b border-brand-stone/50`}>
-                    {feature.component ? (
-                      <div className="w-full h-64 bg-white relative">
-                        {feature.component}
-                      </div>
-                    ) : (
-                      <Image
-                        src={feature.image!}
-                        alt={feature.title}
-                        fill
-                        className="object-cover transition-transform duration-700 group-hover:scale-105 grayscale-[20%] group-hover:grayscale-0"
-                      />
-                    )}
-                  </div>
-                  <div className="p-8">
-                    <div className="w-10 h-10 rounded-lg bg-black flex items-center justify-center mb-4 text-white">
-                      <feature.icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="text-xl font-poppins font-bold text-brand-black mb-3">
-                      {feature.title}
-                    </h3>
-                    <p className="text-brand-black/70 leading-relaxed text-sm font-lora">
-                      {feature.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* LIFESTYLE / GROWTH SECTION */}
-        <section className="w-full bg-black overflow-hidden relative">
-          <div className="absolute inset-0 opacity-60">
-            <Image
-              src="/assets/new_photos/style/clover-lifestyle.webp"
-              alt="Business Growth"
-              fill
-              className="object-cover"
-            />
-          </div>
-          <div className="relative z-10 px-6 md:px-10 lg:px-16 py-32 flex items-center">
-            <div className="max-w-2xl">
-              <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 font-poppins tracking-tight">
-                Fuel your growth without slowing down.
-              </h2>
-              <p className="text-xl text-white/90 font-lora leading-relaxed">
-                Whether you need inventory, equipment, or expansion capital, our split funding model works with your cash flow, not against it.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* REASONS SECTION – operator-focused (From CC Split) */}
-        <section className="px-6 md:px-10 lg:px-16 py-24 bg-white border-t border-brand-stone/50">
-          <div className="mx-auto max-w-6xl">
-            <div className="mb-16 text-center">
-              <h2 className="text-4xl md:text-5xl font-poppins font-bold tracking-tight text-brand-black mb-4">
-                Built so sales, RevOps, and finance all say yes.
-              </h2>
-            </div>
-            <div className="grid gap-8 md:grid-cols-2">
-              {[
-                { title: "No new behavior", desc: "Merchants keep swiping the way they always have.", icon: Users2 },
-                { title: "Cleaner forecasting", desc: "Dynamic remits map to volume curves so forecasts track real performance.", icon: BarChart3 },
-                { title: "Less friction at renewal", desc: "Split large renewals across the term and remove pricing as a blocker.", icon: CheckCircle2 },
-                { title: "Fewer exceptions", desc: "Turn one-off payment plans into a single, standardized program.", icon: ShieldCheck },
-              ].map((card, i) => (
-                <motion.div
-                  key={card.title}
-                  initial={{ opacity: 0, x: i % 2 === 0 ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  className="flex gap-6 rounded-3xl p-8 bg-white shadow-elevation-low hover:shadow-elevation-mid transition-all duration-300 border border-brand-stone/50"
-                >
-                  <div className="shrink-0">
-                    <div className="w-12 h-12 rounded-xl bg-brand-gray flex items-center justify-center text-black">
-                      <card.icon className="h-6 w-6" />
-                    </div>
-                  </div>
-                  <div>
-                    <h3 className="font-poppins text-xl font-bold text-brand-black mb-2">{card.title}</h3>
-                    <p className="text-brand-black/70 leading-relaxed font-lora text-sm">{card.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* HOW FUNDING WORKS */}
-        <section
-          id="how-funding-works"
-          className="px-6 md:px-10 lg:px-16 py-24 bg-brand-gray/20"
-        >
-          <HowFundingWorksBlock />
-        </section>
-
-        {/* Interactive funding settings card */}
-        <section
-          id="funding-settings"
-          className="px-6 md:px-10 lg:px-16 py-24 bg-white flex justify-center"
-        >
-          <FlexibleFundingHero />
-        </section>
-
-        <footer className="px-6 md:px-10 lg:px-16 py-12 bg-white border-t border-brand-stone text-sm text-brand-black/60 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>© 2025 Split Payments, Inc. — Empowering merchants through smarter payments and funding.</div>
-          <div className="flex items-center gap-8 font-medium">
-            <a href="/policy" className="hover:text-black transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-black transition-colors">Terms</a>
-            <a href="/support" className="hover:text-black transition-colors">Contact</a>
-          </div>
-        </footer>
       </div>
     </main>
   );

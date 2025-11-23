@@ -3,7 +3,9 @@ import { DynamicThemeColor } from '@/components/dynamic-theme-color';
 import StyledComponentsRegistry from '@/lib/styled-components';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import { Inter, Lora } from 'next/font/google';
+import { Inter } from 'next/font/google';
+import { Lora } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import '@/styles/globals.css';
 import ScrollStitch from '@/components/ScrollStitch';
 import FooterBeamClient from '@/components/FooterBeamClient';
@@ -18,6 +20,13 @@ const lora = Lora({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
   variable: '--font-lora',
+  display: 'swap',
+});
+
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-poppins',
   display: 'swap',
 });
 
@@ -80,7 +89,7 @@ export const viewport = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang='en' className={`${inter.variable} ${lora.variable}`} suppressHydrationWarning>
+    <html lang='en' className={`${inter.variable} ${lora.variable} ${poppins.variable}`} suppressHydrationWarning>
       <head>
         <meta name='mobile-web-app-capable' content='yes' />
         <meta name='apple-mobile-web-app-capable' content='yes' />

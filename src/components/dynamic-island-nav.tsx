@@ -16,7 +16,7 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
-  { label: "Partnerships", href: "/partnerships" },
+  // { label: "Partnerships", href: "/partnerships" },
 ] as const;
 
 const SAFE_AREA_TOP_OFFSET = "calc(env(safe-area-inset-top, 0px) + 1.25rem)";

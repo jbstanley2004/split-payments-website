@@ -200,50 +200,50 @@ export default function PartnershipsPage() {
                 <br />
                 <span className="text-brand-charcoal">processing performance.</span>
               </h1>
-              
+
               <p className="text-xl md:text-2xl font-lora text-brand-black/70 mb-12 leading-relaxed">
                 Equip your ISO, agent, or referral team with funding that mirrors every card swipe.
               </p>
-              
+
               <div className="flex flex-col sm:flex-row gap-4">
-                   <PrimaryButton>Become a partner</PrimaryButton>
-                   <button className="px-8 py-4 rounded-full border border-gray-200 font-bold text-black hover:bg-gray-50 transition-colors">View Commission Structure</button>
+                <PrimaryButton>Become a partner</PrimaryButton>
+                <button className="px-8 py-4 rounded-full border border-gray-200 font-bold text-black hover:bg-gray-50 transition-colors">View Commission Structure</button>
               </div>
             </motion.div>
 
             {/* Hero Visual */}
-             <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8 }}
-                className="relative h-[600px] hidden lg:block rounded-3xl overflow-hidden bg-gray-100"
-             >
-                 <Image
-                    src="/assets/new_photos/style/clover-lifestyle.webp"
-                    alt="Partner Success"
-                    fill
-                    className="object-cover"
-                    priority
-                 />
-                 <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20">
-                     <div className="grid grid-cols-2 gap-4">
-                         <div>
-                             <div className="text-xs font-bold uppercase text-gray-500 mb-1">Avg Rev Share</div>
-                             <div className="text-2xl font-bold text-black">35%</div>
-                         </div>
-                         <div>
-                             <div className="text-xs font-bold uppercase text-gray-500 mb-1">Retention</div>
-                             <div className="text-2xl font-bold text-black">94%</div>
-                         </div>
-                     </div>
-                 </div>
-             </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative h-[600px] hidden lg:block rounded-3xl overflow-hidden bg-gray-100"
+            >
+              <Image
+                src="/assets/new_photos/style/clover-lifestyle.webp"
+                alt="Partner Success"
+                fill
+                className="object-cover"
+                priority
+              />
+              <div className="absolute bottom-8 left-8 right-8 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-lg border border-white/20">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="text-xs font-bold uppercase text-gray-500 mb-1">Avg Rev Share</div>
+                    <div className="text-2xl font-bold text-black">35%</div>
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold uppercase text-gray-500 mb-1">Retention</div>
+                    <div className="text-2xl font-bold text-black">94%</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
         <div className="px-6 pb-16 pt-24 sm:px-8 md:px-12 lg:px-16 space-y-24">
           {/* HERO CARDS REPLACED BY NEW HERO LAYOUT, SKIPPING DIRECTLY TO CONTENT */}
-          
+
           {/* TRUSTED PROCESSING ALLIANCES */}
           <section className="max-w-6xl mx-auto">
             <div className="rounded-[40px] border border-brand-stone bg-white p-8 sm:p-12 shadow-elevation-mid">
@@ -337,9 +337,9 @@ export default function PartnershipsPage() {
                   className="flex gap-6 rounded-3xl border border-brand-stone bg-white p-8 shadow-elevation-low hover:shadow-elevation-mid transition-all duration-300 group"
                 >
                   <div className="shrink-0">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-gray text-black group-hover:bg-black group-hover:text-white transition-colors">
-                        <card.icon className="h-6 w-6" aria-hidden />
-                      </div>
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-gray text-black group-hover:bg-black group-hover:text-white transition-colors">
+                      <card.icon className="h-6 w-6" aria-hidden />
+                    </div>
                   </div>
                   <div>
                     <h3 className="font-poppins text-xl font-bold text-brand-black mb-2">{card.title}</h3>
@@ -353,7 +353,7 @@ export default function PartnershipsPage() {
 
           {/* INDUSTRIES */}
           <section className="max-w-6xl mx-auto space-y-10">
-             <div className="text-center">
+            <div className="text-center">
               <h2 className="font-poppins text-4xl font-bold text-brand-black mb-4">Where Split funding resonates</h2>
             </div>
             <div className="grid gap-8 md:grid-cols-2">
@@ -372,8 +372,8 @@ export default function PartnershipsPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                     <div className="absolute bottom-6 left-6 text-white">
-                         <p className="font-poppins text-2xl font-bold mb-1">{industry.name}</p>
-                         <p className="text-sm opacity-90 font-lora">{industry.stat}</p>
+                      <p className="font-poppins text-2xl font-bold mb-1">{industry.name}</p>
+                      <p className="text-sm opacity-90 font-lora">{industry.stat}</p>
                     </div>
                   </div>
                 </div>
@@ -400,31 +400,24 @@ export default function PartnershipsPage() {
           {/* FINAL CTA - Consistent White/Black Style */}
           <section className="max-w-6xl mx-auto pb-12">
             <div className="rounded-[40px] bg-black text-white p-12 text-center shadow-2xl relative overflow-hidden">
-               <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/10 blur-[100px] rounded-full pointer-events-none" />
-              
+              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-white/10 blur-[100px] rounded-full pointer-events-none" />
+
               <h2 className="font-poppins text-3xl md:text-4xl font-bold mb-6 relative z-10">Bring Split into your next portfolio review</h2>
               <p className="text-lg text-white/70 max-w-2xl mx-auto mb-10 relative z-10 font-lora">
                 Send a merchant list or invite us to your next ISO roundtable. We&apos;ll show exactly how Split flexes with the processing stack you already built.
               </p>
-              
+
               <div className="flex flex-col items-center gap-4 relative z-10">
-                   <button className="bg-white text-black px-10 py-5 rounded-full font-poppins font-semibold text-lg hover:scale-105 transition-transform shadow-lg">
-                      Book a partner session
-                   </button>
-                  <span className="text-xs text-white/40 font-bold uppercase tracking-wide">No obligation. No hard credit pulls.</span>
+                <button className="bg-white text-black px-10 py-5 rounded-full font-poppins font-semibold text-lg hover:scale-105 transition-transform shadow-lg">
+                  Book a partner session
+                </button>
+                <span className="text-xs text-white/40 font-bold uppercase tracking-wide">No obligation. No hard credit pulls.</span>
               </div>
             </div>
           </section>
         </div>
 
-        <footer className="px-6 md:px-10 lg:px-16 py-12 bg-white border-t border-brand-stone text-sm text-brand-black/60 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>© 2025 Split Payments, Inc. — Empowering merchants through smarter payments and funding.</div>
-          <div className="flex items-center gap-8 font-medium">
-            <a href="/policy" className="hover:text-black transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-black transition-colors">Terms</a>
-            <a href="/support" className="hover:text-black transition-colors">Contact</a>
-          </div>
-        </footer>
+
       </div>
     </main>
   );

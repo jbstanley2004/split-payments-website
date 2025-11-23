@@ -11,7 +11,7 @@ import CardStackAnimation from "@/components/animations/CardStackAnimation";
 import CloverSpotlight from "@/components/CloverSpotlight";
 import Image from "next/image";
 import WorkingCapitalAnimation from "@/components/animations/WorkingCapitalAnimation";
-import CreditCardVideo from "@/components/CreditCardVideo";
+import PaymentTerminalCard from "@/components/animations/PaymentTerminalCard";
 import DashboardAnimation from "@/components/animations/DashboardAnimation";
 
 
@@ -144,7 +144,7 @@ export default function HomePage() {
                     label: "Payments",
                     title: "Credit Card Processing",
                     description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
-                    component: <CreditCardVideo />,
+                    component: <PaymentTerminalCard />,
                     href: "/payments"
                   },
                   {
@@ -306,11 +306,11 @@ export default function HomePage() {
                 One platform, tailored to every business.
               </h2>
               <p className="text-xl text-brand-black/70 mb-10 font-lora">
-                Connect with an expert to explore what's possible with Split.
+                Explore what's possible with Split.
               </p>
               <Link href="/get-started">
                 <button className="bg-black text-white px-8 py-4 rounded-full font-poppins font-semibold text-lg hover:scale-105 transition-transform shadow-lg">
-                  Request a demo
+                  Get started
                 </button>
               </Link>
             </motion.div>

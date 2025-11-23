@@ -1,3 +1,9 @@
+:root {
+  --border-subtle: #E5E5E5;
+  --blue-deep: #111111;
+  --accent-orange: #FF4306;
+}
+
 .funding-card {
   width: min(100%, 360px);
   margin: 0 auto;

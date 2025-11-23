@@ -15,7 +15,7 @@ export default function WorkingCapitalAnimation() {
     }, []);
 
     return (
-        <div className="w-full h-full bg-gray-50 relative overflow-hidden flex items-center justify-center p-6">
+        <div className="w-full h-full bg-transparent relative overflow-hidden flex items-center justify-center p-6">
             <AnimatePresence mode="wait">
                 {step === 0 && <PreApprovedCard key="step0" />}
                 {step === 1 && <SliderCard key="step1" />}

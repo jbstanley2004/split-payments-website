@@ -993,49 +993,41 @@
   },
   {
     "make": "Clover",
-    "model": "Clover Station Duo",
-    "description": "Tackle your daily traffic spikes without breaking a sweat. Station Duo is designed for speed, security and engagement with a screen for you and a screen for the customer.",
-    "image": "No image found",
+    "model": "Station Duo",
+    "description": "The powerful point-of-sale system that lets you run your business your way.",
+    "image": "/assets/clover/duo.png",
     "price": "Contact for pricing",
     "productUrl": "https://merchants.fiserv.com/en-us/products/small-business/"
   },
   {
     "make": "Clover",
-    "model": "Clover Flex",
-    "description": "​Serve your customers better – whether at the counter, in line, at the table, or on the go – with this all-in-one, hand-held small business card processing solution.",
-    "image": "No image found",
+    "model": "Flex",
+    "description": "Take orders and payments from the floor, tableside, or on the go.",
+    "image": "/assets/clover/flex.png",
     "price": "Contact for pricing",
     "productUrl": "https://merchants.fiserv.com/en-us/products/small-business/"
   },
   {
     "make": "Clover",
-    "model": "Clover Mini",
-    "description": "​Run your operations more efficiently in one integrated system that scales with your business as it grows.",
-    "image": "No image found",
+    "model": "Mini",
+    "description": "A complete POS in one compact package.",
+    "image": "/assets/clover/mini.png",
     "price": "Contact for pricing",
     "productUrl": "https://merchants.fiserv.com/en-us/products/small-business/"
   },
   {
     "make": "Clover",
-    "model": "Clover Go",
-    "description": "​Take both credit and debit EMV chip or contactless cards securely and reliably using your smartphone or tablet paired with this compact card reader.",
-    "image": "No image found",
-    "price": "Contact for pricing",
-    "productUrl": "https://www.firstdata.com/en_us/insights/emv-chip-card-technology.html"
-  },
-  {
-    "make": "Clover",
-    "model": "Clover Virtual Terminal",
-    "description": "​Accept credit and debit card payments directly on a computer, tablet, or smartphone. Take care of all incoming payments: in-store orders, mail orders, or invoices.",
-    "image": "No image found",
+    "model": "Kitchen Display",
+    "description": "The Clover Kitchen Display System has plenty of room to manage all your orders.",
+    "image": "/assets/clover/kds.png",
     "price": "Contact for pricing",
     "productUrl": "https://merchants.fiserv.com/en-us/products/small-business/"
   },
   {
-    "make": "First Data",
-    "model": "FD150 Terminal & RP10 PIN Pad",
-    "description": "​Accept payments however customers want to pay with this compact, feature-rich small business credit card reader.",
-    "image": "No image found",
+    "make": "Clover",
+    "model": "Kiosk",
+    "description": "Our all-in-one self-ordering device features a 24\" display, versatile payment terminal and a built-in printer.",
+    "image": "/assets/clover/kiosk.png",
     "price": "Contact for pricing",
     "productUrl": "https://merchants.fiserv.com/en-us/products/small-business/"
   }
