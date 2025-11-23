@@ -11,7 +11,7 @@ export default function HeroAnimation() {
         initial={{ opacity: 0, y: 40, rotateX: 10 }}
         animate={{ opacity: 1, y: 0, rotateX: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="relative z-10 w-[600px] rounded-2xl shadow-2xl overflow-hidden border border-gray-100 bg-white"
+        className="relative z-10 w-full max-w-[600px] rounded-2xl shadow-2xl overflow-hidden border border-gray-100 bg-white mx-4"
       >
         <Image
           src="/brand_images/funding/json-example-platform.svg"
@@ -20,7 +20,7 @@ export default function HeroAnimation() {
           height={400}
           className="w-full h-auto"
         />
-        
+
         {/* Simulated UI Interaction Pulse */}
         <motion.div
           animate={{ opacity: [0, 0.5, 0] }}
@@ -34,20 +34,20 @@ export default function HeroAnimation() {
         initial={{ opacity: 0, x: 50, y: 50 }}
         animate={{ opacity: 1, x: 0, y: 0 }}
         transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
-        className="absolute -bottom-10 -right-10 z-20 w-[250px] rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden border-4 border-white bg-white"
+        className="absolute -bottom-10 -right-4 md:-right-10 z-20 w-[180px] md:w-[250px] rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden border-4 border-white bg-white"
       >
-         <motion.div
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-         >
-            <Image
+        <motion.div
+          animate={{ y: [0, -10, 0] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <Image
             src="/brand_images/funding/mobile-screenshot.svg"
             alt="Split Mobile App"
             width={250}
             height={500}
             className="w-full h-auto"
-            />
-         </motion.div>
+          />
+        </motion.div>
       </motion.div>
 
       {/* Connecting Lines/Particles */}

@@ -51,10 +51,10 @@ const HardwareSpotlight = () => {
 
   return (
     <div className="relative w-full max-w-6xl mx-auto">
-      <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center min-h-[500px]">
+      <div className="grid md:grid-cols-2 gap-8 md:gap-24 items-center min-h-[400px] md:min-h-[500px]">
 
         {/* Left Column: Image */}
-        <div className="relative h-[450px] w-full flex items-center justify-center group">
+        <div className="relative h-[300px] md:h-[450px] w-full flex items-center justify-center group">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={currentIndex}
@@ -67,13 +67,13 @@ const HardwareSpotlight = () => {
               className="relative w-full h-full flex items-center justify-center"
             >
               {/* Elegant white container for all hardware images */}
-              <div className="relative w-full h-full bg-white rounded-[3rem] p-12 shadow-elevation-mid ring-1 ring-black/5 transition-all duration-500 group-hover:shadow-elevation-high group-hover:scale-[1.02]">
+              <div className="relative w-full h-full bg-white rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 shadow-elevation-mid ring-1 ring-black/5 transition-all duration-500 group-hover:shadow-elevation-high group-hover:scale-[1.02]">
                 <div className="w-full h-full flex items-center justify-center">
                   <Image
                     src={currentHardware.image}
                     alt={`${currentHardware.make} ${currentHardware.model}`}
                     fill
-                    className="object-contain max-h-[360px]"
+                    className="object-contain max-h-[200px] md:max-h-[360px]"
                     priority
                     unoptimized
                   />
@@ -83,20 +83,26 @@ const HardwareSpotlight = () => {
           </AnimatePresence>
 
           {/* Navigation Buttons (Floating) */}
-          <div className="absolute bottom-6 right-6 flex gap-3 z-10">
+          <div className="absolute -bottom-4 right-4 md:bottom-6 md:right-6 flex gap-3 z-10">
             <button
-              onClick={prevSlide}
+              onClick={() => {
+                if (navigator.vibrate) navigator.vibrate(10);
+                prevSlide();
+              }}
               aria-label="Previous hardware"
-              className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
             >
-              <ChevronLeft className="w-5 h-5" />
+              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
             </button>
             <button
-              onClick={nextSlide}
+              onClick={() => {
+                if (navigator.vibrate) navigator.vibrate(10);
+                nextSlide();
+              }}
               aria-label="Next hardware"
-              className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
             >
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
             </button>
           </div>
         </div>

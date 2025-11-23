@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
 
 import { cn } from "@/lib/stub";
 
@@ -52,12 +51,16 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
         )}
         style={{ top: SAFE_AREA_TOP_OFFSET }}
       >
-        <div className="pointer-events-auto flex w-full items-center justify-between">
-          {/* Left: Split logo */}
-          <Link
-            href="/"
-            aria-label="Split home"
-            className="flex items-center gap-2 relative z-[60]"
+        <div className="pointer-events-auto flex w-full items-center justify-between relative">
+          {/* Logo - Centered on mobile, Left on desktop */}
+          <div
+            className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:flex md:items-center md:gap-2 z-[60] cursor-pointer"
+            onClick={() => {
+              if (window.innerWidth < 768) {
+                if (navigator.vibrate) navigator.vibrate(10);
+                setIsMobileOpen(!isMobileOpen);
+              }
+            }}
           >
             <Image
               src="/new_logo_no_bg_smooth.png"
@@ -67,7 +70,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
               className="h-9 w-auto object-contain"
               priority={logoPriority}
             />
-          </Link>
+          </div>
 
           {/* Desktop: nav links */}
           <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
@@ -86,17 +89,8 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
             ))}
           </nav>
 
-          {/* Mobile: Hamburger/Close button */}
-          <button
-            type="button"
-            className="md:hidden inline-flex items-center gap-2 rounded-full border border-border-subtle bg-white px-3 py-1.5 text-[11px] font-poppins font-medium uppercase tracking-[0.16em] text-main shadow-soft relative z-[60]"
-            onClick={() => setIsMobileOpen((open) => !open)}
-            aria-expanded={isMobileOpen}
-            aria-label={isMobileOpen ? "Close navigation menu" : "Open navigation menu"}
-          >
-            <span className="dot" />
-            {isMobileOpen ? "Close" : "Menu"}
-          </button>
+          {/* Empty div to balance flex layout on desktop if needed, or just keep existing structure */}
+          <div className="hidden md:block w-[90px]"></div>
         </div>
       </header>
 
@@ -120,23 +114,26 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                 opacity: 0,
                 scale: 0.5,
                 y: -20,
+                x: "-50%"
               }}
               animate={{
                 opacity: 1,
                 scale: 1,
                 y: 0,
+                x: "-50%"
               }}
               exit={{
                 opacity: 0,
                 scale: 0.5,
                 y: -20,
+                x: "-50%"
               }}
               transition={{
                 type: "spring",
                 damping: 25,
                 stiffness: 300,
               }}
-              className="fixed top-28 left-1/2 -translate-x-1/2 w-[85%] max-w-sm z-50 md:hidden pointer-events-auto"
+              className="fixed top-24 left-1/2 w-[85%] max-w-sm z-50 md:hidden pointer-events-auto"
             >
               <div className="bg-white/95 backdrop-blur-xl rounded-[32px] shadow-2xl border border-gray-200/50 overflow-hidden">
                 {/* Menu Items */}
@@ -144,8 +141,8 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                   {NAV_ITEMS.map((item, index) => (
                     <motion.div
                       key={item.label}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
                       transition={{
                         delay: index * 0.1,
                         type: "spring",
@@ -163,10 +160,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                             : "text-brand-black hover:bg-gray-100"
                         )}
                       >
-                        <span className={cn(
-                          "w-2 h-2 rounded-full",
-                          pathname === item.href ? "bg-[#FF4306]" : "bg-gray-300"
-                        )} />
+                        <span className="w-2 h-2 rounded-full bg-[#FF4306]" />
                         <span className="text-lg font-medium font-poppins">{item.label}</span>
                       </Link>
                     </motion.div>

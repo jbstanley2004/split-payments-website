@@ -17,7 +17,7 @@ export default function VideoIntro({ onComplete }: VideoIntroProps) {
   useEffect(() => {
     if (videoRef.current) {
       const video = videoRef.current;
-      
+
       // Simple muted autoplay
       video.muted = true;
       video.play().catch((error) => {
@@ -29,6 +29,7 @@ export default function VideoIntro({ onComplete }: VideoIntroProps) {
 
   const toggleMute = () => {
     if (videoRef.current) {
+      if (navigator.vibrate) navigator.vibrate(10);
       videoRef.current.muted = !videoRef.current.muted;
       setIsMuted(videoRef.current.muted);
       // Keep button visible so they can toggle back if desired, 
@@ -45,7 +46,7 @@ export default function VideoIntro({ onComplete }: VideoIntroProps) {
       // I'll change it to toggle the icon but keep the button visible?
       // Or maybe just hide it like before to be less intrusive.
       // Let's stick to the "unmute" action. Once unmuted, maybe they don't need to mute again for a short intro.
-      setShowUnmute(false); 
+      setShowUnmute(false);
     }
   };
 
@@ -75,7 +76,7 @@ export default function VideoIntro({ onComplete }: VideoIntroProps) {
           muted={true} // Enforce muted by default
           onEnded={handleVideoEnded}
         />
-        
+
         {showUnmute && !videoEnded && (
           <motion.button
             initial={{ opacity: 0, scale: 0.8 }}
