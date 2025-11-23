@@ -241,25 +241,26 @@ export default function HomePage() {
         <div className="w-full bg-[#F6F5F4]">
           <section className="px-6 md:px-10 lg:px-16 py-16">
             <div className="max-w-7xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="text-center mb-12"
+              >
+                <h2 className="text-3xl md:text-5xl font-bold text-brand-black mb-6 font-poppins">
+                  What people are saying about us.
+                </h2>
+              </motion.div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
                   {
-                    quote: "Split has transformed how we manage payments and access capital. The platform is intuitive and powerful.",
-                    author: "Mark Kim",
-                    role: "Head of Product",
-                    company: "TechCorp",
+                    quote: "Although the cost was higher than traditional lending, the quick and easy underwriting process and the fact that I did not have to sign a personal guarantee made it well worth it for my business.",
                   },
                   {
-                    quote: "Seamlessly integrates into our existing workflows. We couldn't imagine running our business without it.",
-                    author: "Sarah Chen",
-                    role: "CTO",
-                    company: "StartupXYZ",
+                    quote: "I've had merchant cash advances before, but this one stood out because the payback structure was much friendlier.",
                   },
                   {
-                    quote: "Streamlined our entire payment and funding process. It's truly a game-changer for growing businesses.",
-                    author: "John Miller",
-                    role: "CEO",
-                    company: "GrowthCo",
+                    quote: "They did everything they said they would do.",
                   },
                 ].map((testimonial, index) => (
                   <motion.div
@@ -270,22 +271,8 @@ export default function HomePage() {
                     transition={{ delay: index * 0.1 }}
                     className="flex flex-col justify-between h-full p-10 rounded-3xl bg-white shadow-elevation-mid transition-all duration-300 border border-black/10"
                   >
-                    <div className="mb-8">
-                      <div className="flex gap-1 mb-6">
-                        {[...Array(5)].map((_, i) => (
-                          <span key={i} className="text-black text-sm">★</span>
-                        ))}
-                      </div>
+                    <div>
                       <p className="text-xl font-lora text-brand-black/90 leading-relaxed italic">"{testimonial.quote}"</p>
-                    </div>
-                    <div className="flex items-center gap-4 border-t border-black/5 pt-6 mt-auto">
-                      <div className="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center font-bold text-sm font-poppins">
-                        {testimonial.author[0]}
-                      </div>
-                      <div>
-                        <div className="font-bold text-sm text-brand-black font-poppins">{testimonial.author}</div>
-                        <div className="text-xs text-brand-black/50 uppercase tracking-wide">{testimonial.company}</div>
-                      </div>
                     </div>
                   </motion.div>
                 ))}
