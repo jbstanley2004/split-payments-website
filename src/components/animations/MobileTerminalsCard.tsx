@@ -12,11 +12,8 @@ export default function MobileTerminalsCard() {
                     <div className="space-y-2">
                         <span className="text-sm font-semibold text-brand-black/60">Payments</span>
                         <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight max-w-[80%]">
-                            Mobile Terminals.
+                            Mobile wireless.
                         </h3>
-                        <p className="text-brand-black/70 font-lora leading-relaxed mt-4">
-                            Take payments tableside, curbside, or on the go with long-range wireless terminals.
-                        </p>
                     </div>
                     <Link href="/get-started" className="flex-shrink-0">
                         <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">

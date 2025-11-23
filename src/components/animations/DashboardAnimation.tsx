@@ -231,16 +231,15 @@ const LineChart = ({ config }: LineChartProps) => {
                 <circle
                   cx={point.x}
                   cy={point.y}
-                  r={4}
-                  fill="#ffffff"
-                  stroke="#FF4306"
-                  strokeWidth={1.5}
+                  r={1.5}
+                  fill="#FF4306"
+                  stroke="none"
                 />
                 {active && (
                   <motion.circle
                     cx={point.x}
                     cy={point.y}
-                    r={8}
+                    r={4}
                     stroke="#FF4306"
                     strokeWidth={1}
                     fill="transparent"

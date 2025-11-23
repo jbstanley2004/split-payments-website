@@ -14,7 +14,6 @@ import Image from "next/image";
 import WorkingCapitalAnimation from "@/components/animations/WorkingCapitalAnimation";
 import PaymentTerminalCard from "@/components/animations/PaymentTerminalCard";
 import DashboardAnimation from "@/components/animations/DashboardAnimation";
-import CursorParticles from "@/components/animations/CursorParticles";
 
 
 export default function HomePage() {
@@ -57,8 +56,6 @@ export default function HomePage() {
           >
             <div className="max-w-5xl w-full relative flex flex-col items-center text-center mb-8 md:mb-16">
 
-
-              <CursorParticles />
               <motion.div
                 initial="hidden"
                 animate="visible"
@@ -84,18 +81,11 @@ export default function HomePage() {
                   One secure platform where your business can process payments, access working capital, and grow with confidence.
                 </motion.p>
 
-                <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
+                <motion.div variants={fadeInUp} className="flex justify-center">
                   <Link href="/get-started">
                     <PrimaryButton>
                       Get Started
                     </PrimaryButton>
-                  </Link>
-                  <Link
-                    href="/#how-it-works"
-                    className="group text-brand-black font-medium text-base sm:text-lg hover:text-brand-charcoal transition-colors inline-flex items-center gap-2 py-2 sm:py-4"
-                  >
-                    Learn more
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </motion.div>
               </motion.div>
@@ -136,14 +126,14 @@ export default function HomePage() {
                 {[
                   {
                     label: "Payments",
-                    title: "Credit Card Processing",
+                    title: "Credit card processing",
                     description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
                     component: <PaymentTerminalCard />,
                     href: "/payments"
                   },
                   {
                     label: "Funding",
-                    title: "Working Capital",
+                    title: "Working capital",
                     description: "Turn card volume into working capital. Get funding based on your actual sales, not projections.",
                     component: <WorkingCapitalAnimation />,
                     href: "/funding"
@@ -221,10 +211,10 @@ export default function HomePage() {
           <section className="px-6 md:px-10 lg:px-16 py-16 border-b border-brand-stone/30">
             <div className="max-w-6xl mx-auto mb-16 text-center">
               <h2 className="text-3xl md:text-5xl font-bold text-brand-black mb-6 font-poppins">
-                Powering the world's best hardware.
+                Powering the world's best payment tech.
               </h2>
               <p className="text-xl text-brand-black/60 font-lora">
-                From mobile readers to full countertop POS systems.
+                From mobile readers and full countertop POS systems to autonomous self-service stations.
               </p>
             </div>
             <CloverSpotlight />

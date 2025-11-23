@@ -34,18 +34,16 @@ export default function FundingPage() {
               variants={fadeInUp}
               className="max-w-4xl mx-auto"
             >
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-black mb-6 font-semibold">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] md:leading-[1.05] tracking-tight text-black mb-6 md:mb-8 font-semibold">
                 Access fast, flexible capital
                 <br />
-                <span className="text-black">powered by your sales.</span>
+                <span className="text-brand-charcoal">powered by your sales.</span>
               </h1>
 
-              <p className="text-lg sm:text-xl md:text-2xl font-lora text-black mb-8 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl font-lora text-black/70 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed">
                 Split Funding offers access to funding that lets you repay as you sell, at every growth stage.
               </p>
 
-              {/* Hero Visual - Removed as requested */}
-              <div className="max-w-2xl mx-auto mt-4 mb-8 h-0 md:h-12" />
 
               <div className="flex justify-center mb-8 md:mb-12">
                 <Link href="/get-started">
@@ -227,7 +225,7 @@ export default function FundingPage() {
                     <div className="space-y-2">
                       <span className="text-sm font-semibold text-black/60">Qualification</span>
                       <h3 className="text-2xl font-bold text-black font-poppins leading-tight">
-                        Automatic Qualification.
+                        Automatic qualification.
                       </h3>
                     </div>
                     <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white shrink-0">
@@ -371,7 +369,7 @@ export default function FundingPage() {
             <div className="max-w-6xl mx-auto">
               <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
                 <div className="p-10 md:w-1/2 flex flex-col relative z-10 bg-white justify-center">
-                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-6 w-fit">
+                  <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-100 text-[10px] font-bold uppercase tracking-wider text-black/60 mb-6 w-fit">
                     Coming Soon
                   </div>
                   <h2 className="text-4xl md:text-5xl font-bold mb-6 font-poppins leading-tight text-black">
@@ -383,13 +381,13 @@ export default function FundingPage() {
                 </div>
 
                 {/* App Teaser Image */}
-                <div className="md:w-1/2 bg-gray-50 relative border-t md:border-t-0 md:border-l border-gray-100 overflow-hidden min-h-[400px]">
-                  <div className="relative w-full h-full transform md:rotate-[-12deg] md:translate-y-12 md:translate-x-12">
+                <div className="md:w-1/2 bg-gray-50 relative border-t md:border-t-0 md:border-l border-gray-100 overflow-hidden min-h-[300px] md:min-h-[400px]">
+                  <div className="relative w-full h-full">
                     <Image
                       src="/assets/app-teaser.jpg"
                       alt="Split App Interface"
                       fill
-                      className="object-contain md:object-contain drop-shadow-2xl"
+                      className="object-cover scale-110 md:scale-100 md:object-contain md:transform md:rotate-[-12deg] md:translate-y-12 md:translate-x-12 drop-shadow-2xl"
                     />
                   </div>
                 </div>

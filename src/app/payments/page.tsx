@@ -1,13 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { CreditCard, Check, Laptop, Zap, Shield, TrendingUp, ArrowRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import WorkingCapitalAnimation from "@/components/animations/WorkingCapitalAnimation";
 
 import MobileTerminalsCard from "@/components/animations/MobileTerminalsCard";
@@ -16,9 +15,7 @@ import TapToPayCard from "@/components/animations/TapToPayCard";
 import InPersonPOSCard from "@/components/animations/InPersonPOSCard";
 import EChecksCard from "@/components/animations/EChecksCard";
 import HardwareSpotlight from "@/components/HardwareSpotlight";
-import CursorParticles from "@/components/animations/CursorParticles";
 import HardwareAgnosticCard from "@/components/animations/HardwareAgnosticCard";
-import VideoIntro from "@/components/VideoIntro";
 
 type PaymentSolution = {
   title: string;
@@ -29,51 +26,49 @@ type PaymentSolution = {
 
 const SOLUTIONS = [
   {
-    title: "In-Person POS",
-    description:
-      "Powerful point-of-sale systems for retail and dining. Accept every payment type with speed and reliability.",
-    icon: Laptop,
-    image: "/assets/new_photos/in_person/clover-full-pos.webp"
+    title: "Brand Agnostic",
+    description: "Our favorite is your favorite. We integrate seamlessly with hardware and software you already know and trust.",
+    icon: Laptop, // Placeholder, not used in custom card
+    image: ""
   },
   {
-    title: "Mobile Terminals",
+    title: "Mobile Wireless",
     description:
-      "Take payments tableside, curbside, or on the go with long-range wireless terminals.",
+      "Take wireless payments tableside, curbside, or on the go with long-range wireless terminals.",
     icon: CreditCard,
     image: "/assets/new_photos/in_person/ingenico-wireless.webp"
   },
   {
-    title: "Online & E-Commerce",
+    title: "Payment Gateway",
     description:
       "Seamless checkout experiences for your digital store, integrated directly with your inventory.",
     icon: Zap,
     image: "/assets/new_photos/ecom/ingenico-ecommerce.webp"
   },
   {
-    title: "Tap to Pay",
+    title: "Contactless Tap to Pay",
     description:
-      "Turn your smartphone into a secure payment terminal with contactless tap-to-pay technology.",
+      "Turn your smartphone into a secure contactless payment terminal with contactless tap-to-pay technology.",
     icon: Shield,
     image: "/assets/new_photos/in_person/tap-payment.jpeg"
   },
   {
-    title: "E-Checks",
+    title: "Integrations",
     description:
       "Modernize your check acceptance with automated verification, faster deposits, and lower transaction costs.",
     icon: Check,
     image: ""
   },
   {
-    title: "Hardware Agnostic",
-    description: "Our favorite is your favorite. We integrate seamlessly with the hardware you already know and trust.",
-    icon: Laptop, // Placeholder, not used in custom card
-    image: ""
+    title: "Integrated POS",
+    description:
+      "Powerful point-of-sale systems for retail and dining. Accept every payment type with speed and reliability.",
+    icon: Laptop,
+    image: "/assets/new_photos/in_person/clover-full-pos.webp"
   }
 ];
 
 export default function PaymentsPage() {
-  const [videoComplete, setVideoComplete] = useState(false);
-
   const fadeInUp = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
@@ -88,42 +83,25 @@ export default function PaymentsPage() {
 
         {/* HERO – Clean, Bright */}
         <section className="relative min-h-screen bg-white flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden">
-          <CursorParticles />
           <div className="max-w-6xl w-full text-center relative z-10">
-            {/* Video Intro Overlay */}
-            <AnimatePresence>
-              {!videoComplete && (
-                <motion.div
-                  className="absolute inset-0 z-20 flex items-center justify-center bg-white"
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  <div className="w-full max-w-4xl aspect-video">
-                    <VideoIntro onComplete={() => setVideoComplete(true)} loop={false} />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
 
             <motion.div
               initial="hidden"
-              animate={videoComplete ? "visible" : "hidden"}
+              animate="visible"
               variants={fadeInUp}
               className="max-w-4xl mx-auto"
             >
 
-              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.1] tracking-tight text-black mb-6 font-semibold">
+              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] md:leading-[1.05] tracking-tight text-black mb-6 md:mb-8 font-semibold">
                 Smarter payments.
                 <br />
-                <span className="text-black">Stronger cash flow.</span>
+                <span className="text-brand-charcoal">Stronger cash flow.</span>
               </h1>
 
-              <p className="text-lg sm:text-xl md:text-2xl font-lora text-black mb-8 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl font-lora text-black/70 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed">
                 Simplify every transaction while unlocking funding that moves at the speed of your business.
               </p>
 
-              {/* Placeholder for layout stability or static visual if needed */}
-              <div className="max-w-4xl mx-auto mt-8 mb-12 h-0 md:h-12" />
 
               <div className="flex justify-center mb-8 md:mb-12">
                 <Link href="/get-started">
@@ -149,8 +127,8 @@ export default function PaymentsPage() {
 
             <div className="grid gap-8 md:grid-cols-2">
               {SOLUTIONS.map((solution, index) => {
-                // Special handling for In-Person POS - use the new card component
-                if (solution.title === "In-Person POS") {
+                // Special handling for Integrated POS - use the new card component
+                if (solution.title === "Integrated POS") {
                   return (
                     <motion.div
                       key={solution.title}
@@ -164,8 +142,8 @@ export default function PaymentsPage() {
                   );
                 }
 
-                // Special handling for Mobile Terminals - use the new card component
-                if (solution.title === "Mobile Terminals") {
+                // Special handling for Mobile Wireless - use the new card component
+                if (solution.title === "Mobile Wireless") {
                   return (
                     <motion.div
                       key={solution.title}
@@ -179,8 +157,8 @@ export default function PaymentsPage() {
                   );
                 }
 
-                // Special handling for Online & E-Commerce - use the new card component
-                if (solution.title === "Online & E-Commerce") {
+                // Special handling for Payment Gateway - use the new card component
+                if (solution.title === "Payment Gateway") {
                   return (
                     <motion.div
                       key={solution.title}
@@ -194,8 +172,8 @@ export default function PaymentsPage() {
                   );
                 }
 
-                // Special handling for Tap to Pay - use the new card component
-                if (solution.title === "Tap to Pay") {
+                // Special handling for Contactless Tap to Pay - use the new card component
+                if (solution.title === "Contactless Tap to Pay") {
                   return (
                     <motion.div
                       key={solution.title}
@@ -209,8 +187,8 @@ export default function PaymentsPage() {
                   );
                 }
 
-                // Special handling for E-Checks - use the new card component
-                if (solution.title === "E-Checks") {
+                // Special handling for Integrations - use the new card component
+                if (solution.title === "Integrations") {
                   return (
                     <motion.div
                       key={solution.title}
@@ -224,8 +202,8 @@ export default function PaymentsPage() {
                   );
                 }
 
-                // Special handling for Hardware Agnostic - use the new card component
-                if (solution.title === "Hardware Agnostic") {
+                // Special handling for Brand Agnostic - use the new card component
+                if (solution.title === "Brand Agnostic") {
                   return (
                     <motion.div
                       key={solution.title}
@@ -280,7 +258,7 @@ export default function PaymentsPage() {
         <section className="px-6 md:px-10 lg:px-16 py-24 bg-white border-t border-brand-stone/50">
           <div className="max-w-6xl mx-auto text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-poppins font-bold text-black mb-6">
-              Industry-leading payment terminals
+              Industry leading payment tech.
             </h2>
             <p className="text-lg text-black max-w-2xl mx-auto font-lora">
               We support the most trusted payment hardware from Ingenico, Verifone, Pax, and Clover.

@@ -11,11 +11,8 @@ export default function OnlineEcommerceCard() {
                     <div className="space-y-2">
                         <span className="text-sm font-semibold text-brand-black/60">Payments</span>
                         <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight max-w-[80%]">
-                            Online & E-Commerce.
+                            Payment gateway.
                         </h3>
-                        <p className="text-brand-black/70 font-lora leading-relaxed mt-4">
-                            Seamless checkout experiences for your digital store, integrated directly with your inventory.
-                        </p>
                     </div>
                     <Link href="/get-started" className="flex-shrink-0">
                         <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">

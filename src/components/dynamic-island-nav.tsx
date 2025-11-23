@@ -41,7 +41,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
   return (
     <>
       <div
-        className="fixed inset-x-0 top-0 h-20 z-40 bg-white/10 backdrop-blur-xl backdrop-saturate-150 pointer-events-none"
+        className="fixed inset-x-0 top-0 h-20 z-40 bg-white/40 backdrop-blur-xl backdrop-saturate-150 pointer-events-none"
         style={{ maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)' }}
       />
       <header
@@ -82,8 +82,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                   "flex items-center gap-2 text-sm font-medium transition-all duration-300 relative",
                   (pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href)))
                     ? "text-black font-semibold"
-                    : "text-brand-black/60 hover:text-brand-black",
-                  "[text-shadow:_0_0_12px_rgb(255_255_255_/_90%),_0_0_4px_rgb(255_255_255_/_80%)]"
+                    : "text-black/70 hover:text-black"
                 )}
               >
                 {(pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href))) && (
