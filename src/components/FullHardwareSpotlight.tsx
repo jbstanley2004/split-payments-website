@@ -74,11 +74,11 @@ const FullHardwareSpotlight = () => {
     const brandUrl = getBrandUrl(currentHardware.make);
 
     return (
-        <div className="relative w-full max-w-6xl mx-auto pb-24">
-            <div className="grid md:grid-cols-2 gap-12 md:gap-24 items-center min-h-[500px]">
+        <div className="relative w-full max-w-6xl mx-auto pb-12 md:pb-24">
+            <div className="grid md:grid-cols-2 gap-8 md:gap-24 items-center min-h-[400px] md:min-h-[500px]">
 
                 {/* Left Column: Image */}
-                <div className="relative h-[450px] w-full flex items-center justify-center group">
+                <div className="relative h-[300px] md:h-[450px] w-full flex items-center justify-center group">
                     <AnimatePresence mode="wait" custom={direction}>
                         <motion.div
                             key={currentIndex}
@@ -108,7 +108,7 @@ const FullHardwareSpotlight = () => {
                 </div>
 
                 {/* Right Column: Content */}
-                <div className="flex flex-col justify-center space-y-8">
+                <div className="flex flex-col justify-center space-y-6 md:space-y-8">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={currentIndex}
@@ -117,9 +117,9 @@ const FullHardwareSpotlight = () => {
                             exit={{ opacity: 0, y: -10 }}
                             transition={{ duration: 0.4 }}
                         >
-                            <div className="flex items-center gap-3 mb-6">
+                            <div className="flex items-center gap-3 mb-4 md:mb-6">
                                 {brandLogo ? (
-                                    <div className="relative w-32 h-12">
+                                    <div className="relative w-24 h-10 md:w-32 md:h-12">
                                         <Image
                                             src={brandLogo}
                                             alt={`${currentHardware.make} Logo`}
@@ -134,14 +134,14 @@ const FullHardwareSpotlight = () => {
                                 )}
                             </div>
 
-                            <h3 className="text-5xl font-lora font-medium text-brand-black mb-6 leading-tight">
+                            <h3 className="text-3xl md:text-5xl font-lora font-medium text-brand-black mb-4 md:mb-6 leading-tight">
                                 {currentHardware.model}
                             </h3>
 
-                            <div className="space-y-6">
+                            <div className="space-y-4 md:space-y-6">
                                 <div className="h-px w-full bg-brand-black/10" />
 
-                                <div className="text-brand-black/70 leading-relaxed font-lora text-lg">
+                                <div className="text-brand-black/70 leading-relaxed font-lora text-base md:text-lg">
                                     {currentHardware.description}
                                 </div>
 
@@ -149,7 +149,7 @@ const FullHardwareSpotlight = () => {
                             </div>
 
                             {brandUrl && (
-                                <div className="mt-8 pt-4">
+                                <div className="mt-6 md:mt-8 pt-4">
                                     <a
                                         href={brandUrl}
                                         target="_blank"
@@ -184,18 +184,24 @@ const FullHardwareSpotlight = () => {
             {/* Navigation Buttons (Bottom Center) */}
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-3 z-10">
                 <button
-                    onClick={prevSlide}
+                    onClick={() => {
+                        if (navigator.vibrate) navigator.vibrate(10);
+                        prevSlide();
+                    }}
                     aria-label="Previous hardware"
-                    className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
                 >
-                    <ChevronLeft className="w-5 h-5" />
+                    <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
                 <button
-                    onClick={nextSlide}
+                    onClick={() => {
+                        if (navigator.vibrate) navigator.vibrate(10);
+                        nextSlide();
+                    }}
                     aria-label="Next hardware"
-                    className="w-12 h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
                 >
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
             </div>
         </div>

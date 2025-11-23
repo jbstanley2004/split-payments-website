@@ -288,33 +288,37 @@ export default function FundingPage() {
             </div>
 
             <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
-              <div className="grid grid-cols-12 border-b border-gray-100 bg-gray-50/50">
-                <div className="col-span-6 p-6 text-sm font-bold text-black/50 uppercase tracking-wider font-poppins">Features</div>
-                <div className="col-span-3 p-6 text-center text-sm font-bold text-black uppercase tracking-wider font-poppins border-l border-gray-100">Split Funding</div>
-                <div className="col-span-3 p-6 text-center text-sm font-bold text-black/50 uppercase tracking-wider font-poppins border-l border-gray-100">Traditional loans</div>
-              </div>
+              <div className="overflow-x-auto">
+                <div className="min-w-[700px]">
+                  <div className="grid grid-cols-12 border-b border-gray-100 bg-gray-50/50">
+                    <div className="col-span-6 p-6 text-sm font-bold text-black/50 uppercase tracking-wider font-poppins">Features</div>
+                    <div className="col-span-3 p-6 text-center text-sm font-bold text-black uppercase tracking-wider font-poppins border-l border-gray-100">Split Funding</div>
+                    <div className="col-span-3 p-6 text-center text-sm font-bold text-black/50 uppercase tracking-wider font-poppins border-l border-gray-100">Traditional loans</div>
+                  </div>
 
-              {[
-                { feature: "Funds deposited directly into your account", split: true, trad: true },
-                { feature: "Real-time offers based on your sales, funding up to $2M", split: true, trad: false },
-                { feature: "No credit checks or impact to your personal credit score", split: true, trad: false },
-                { feature: "No personal liability, no compounding interest", split: true, trad: false },
-                { feature: "Hassle-free, online application", split: true, trad: false },
-                { feature: "Funding in as quick as 2 business days, if approved", split: true, trad: false },
-                { feature: "Early renewals with same streamlined application process", split: true, trad: false },
-                { feature: "Flexible, automated payments from your store's sales", split: true, trad: false },
-                { feature: "Fully integrated solution, so you can run your business from one place", split: true, trad: false },
-              ].map((row, i) => (
-                <div key={i} className="grid grid-cols-12 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
-                  <div className="col-span-6 p-6 text-black font-lora font-medium flex items-center">{row.feature}</div>
-                  <div className="col-span-3 p-6 flex items-center justify-center border-l border-gray-100">
-                    {row.split && <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center"><Check className="w-5 h-5" /></div>}
-                  </div>
-                  <div className="col-span-3 p-6 flex items-center justify-center border-l border-gray-100">
-                    {row.trad && <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center"><Check className="w-5 h-5" /></div>}
-                  </div>
+                  {[
+                    { feature: "Funds deposited directly into your account", split: true, trad: true },
+                    { feature: "Real-time offers based on your sales, funding up to $2M", split: true, trad: false },
+                    { feature: "No credit checks or impact to your personal credit score", split: true, trad: false },
+                    { feature: "No personal liability, no compounding interest", split: true, trad: false },
+                    { feature: "Hassle-free, online application", split: true, trad: false },
+                    { feature: "Funding in as quick as 2 business days, if approved", split: true, trad: false },
+                    { feature: "Early renewals with same streamlined application process", split: true, trad: false },
+                    { feature: "Flexible, automated payments from your store's sales", split: true, trad: false },
+                    { feature: "Fully integrated solution, so you can run your business from one place", split: true, trad: false },
+                  ].map((row, i) => (
+                    <div key={i} className="grid grid-cols-12 border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+                      <div className="col-span-6 p-6 text-black font-lora font-medium flex items-center">{row.feature}</div>
+                      <div className="col-span-3 p-6 flex items-center justify-center border-l border-gray-100">
+                        {row.split && <div className="w-8 h-8 rounded-full bg-black text-white flex items-center justify-center"><Check className="w-5 h-5" /></div>}
+                      </div>
+                      <div className="col-span-3 p-6 flex items-center justify-center border-l border-gray-100">
+                        {row.trad && <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center"><Check className="w-5 h-5" /></div>}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </section>
@@ -322,7 +326,7 @@ export default function FundingPage() {
         {/* SPLIT APP SECTION */}
         <section className="px-6 md:px-10 lg:px-16 py-16 bg-white">
           <div className="max-w-6xl mx-auto">
-            <div className="bg-black rounded-[3rem] p-12 md:p-24 relative overflow-hidden text-white">
+            <div className="bg-black rounded-[3rem] p-8 md:p-24 relative overflow-hidden text-white">
               <div className="relative z-10 max-w-2xl">
                 <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium mb-8 backdrop-blur-sm">
                   <span className="w-2 h-2 rounded-full bg-[#FF4306] mr-2"></span>
@@ -331,19 +335,19 @@ export default function FundingPage() {
                 <h2 className="text-4xl md:text-6xl font-bold mb-8 font-poppins leading-tight">
                   Take Split Funding with you—anywhere
                 </h2>
-                <p className="text-xl text-white/70 font-lora max-w-xl">
+                <p className="text-xl text-white/70 font-lora max-w-xl mb-8 md:mb-0">
                   One app to manage your finances and business. Track your sales, monitor your funding, and access capital on the go.
                 </p>
               </div>
 
               {/* App Teaser Image */}
-              <div className="absolute right-[-10%] bottom-[-15%] w-[70%] h-[140%] hidden md:block pointer-events-none select-none">
-                <div className="relative w-full h-full transform rotate-[-12deg]">
+              <div className="relative md:absolute md:right-[-10%] md:bottom-[-15%] w-full h-[300px] md:w-[70%] md:h-[140%] block pointer-events-none select-none mt-8 md:mt-0">
+                <div className="relative w-full h-full transform md:rotate-[-12deg]">
                   <Image
                     src="/assets/app-teaser.jpg"
                     alt="Split App Interface"
                     fill
-                    className="object-contain blur-sm drop-shadow-2xl opacity-90"
+                    className="object-contain md:object-contain blur-sm drop-shadow-2xl opacity-90"
                   />
                 </div>
               </div>

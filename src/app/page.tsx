@@ -44,12 +44,12 @@ export default function HomePage() {
         <DynamicIslandNav />
 
         {/* HERO SECTION - Pure White, High Contrast, Elegant */}
-        <div className="w-full bg-white pt-24 pb-16">
+        <div className="w-full bg-white pt-20 pb-12 md:pt-24 md:pb-16">
           <section
             id="home"
             className="relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-16"
           >
-            <div className="max-w-5xl w-full relative flex flex-col items-center text-center mb-16">
+            <div className="max-w-5xl w-full relative flex flex-col items-center text-center mb-8 md:mb-16">
 
               <AnimatePresence mode="wait">
                 {showIntro ? (
@@ -72,7 +72,7 @@ export default function HomePage() {
                   >
                     <motion.h1
                       variants={fadeInUp}
-                      className="text-5xl md:text-7xl lg:text-8xl leading-[1.05] tracking-tight text-brand-black mb-8 font-semibold"
+                      className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] md:leading-[1.05] tracking-tight text-brand-black mb-6 md:mb-8 font-semibold"
                     >
                       Payments and funding.
                       <br />
@@ -83,12 +83,12 @@ export default function HomePage() {
 
                     <motion.p
                       variants={fadeInUp}
-                      className="text-xl md:text-2xl font-lora text-brand-black/70 mb-12 max-w-2xl mx-auto leading-relaxed"
+                      className="text-lg sm:text-xl md:text-2xl font-lora text-brand-black/70 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed"
                     >
                       One secure platform where your business can process payments, access working capital, and grow with confidence.
                     </motion.p>
 
-                    <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
                       <Link href="/get-started">
                         <PrimaryButton>
                           Get Started
@@ -96,7 +96,7 @@ export default function HomePage() {
                       </Link>
                       <Link
                         href="/#how-it-works"
-                        className="group text-brand-black font-medium text-lg hover:text-brand-charcoal transition-colors inline-flex items-center gap-2 py-4"
+                        className="group text-brand-black font-medium text-base sm:text-lg hover:text-brand-charcoal transition-colors inline-flex items-center gap-2 py-2 sm:py-4"
                       >
                         Learn more
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
