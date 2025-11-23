@@ -162,13 +162,18 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                         href={item.href}
                         onClick={() => setIsMobileOpen(false)}
                         className={cn(
-                          "flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-200",
+                          "flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-200 relative",
                           (pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href)))
-                            ? "bg-black text-white"
+                            ? "text-black font-semibold"
                             : "text-brand-black hover:bg-gray-100"
                         )}
                       >
-                        <span className="w-2 h-2 rounded-full bg-[#FF4306]" />
+                        {(pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href))) && (
+                          <motion.span
+                            layoutId="activeNavDotMobile"
+                            className="absolute left-2 w-1.5 h-1.5 rounded-full bg-[#FF4306]"
+                          />
+                        )}
                         <span className="text-lg font-medium font-poppins">{item.label}</span>
                       </Link>
                     </motion.div>

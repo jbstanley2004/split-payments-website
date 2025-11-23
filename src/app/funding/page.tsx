@@ -379,7 +379,7 @@ export default function FundingPage() {
                   Coming Soon
                 </div>
                 <h2 className="text-4xl md:text-6xl font-bold mb-8 font-poppins leading-tight">
-                  Take Split Funding with you—anywhere
+                  Take Split Funding with you everywhere
                 </h2>
                 <p className="text-xl text-white/70 font-lora max-w-xl mb-8 md:mb-0">
                   One app to manage your finances and business. Track your sales, monitor your funding, and access capital on the go.
