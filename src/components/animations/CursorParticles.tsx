@@ -34,7 +34,13 @@ export default function CursorParticles() {
 
         // Configuration
         const particleCount = 150; // More particles
-        const colors = ["#4A90E2", "#50E3C2", "#007AFF", "#B8E986", "#A0C4FF"];
+        const colors = [
+            "#1434CB", // Visa Blue
+            "#EB001B", // MasterCard Red
+            "#FF5F00", // MasterCard Orange
+            "#F79E1B", // MasterCard Yellow-Orange
+            "#1A1F71", // Darker Visa Blue
+        ];
         const baseSpeed = 0.005; // Very slow base speed
         const orbitRadius = 160; // Larger orbit
 

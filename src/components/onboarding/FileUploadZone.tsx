@@ -18,6 +18,7 @@ export function FileUploadZone({
     acceptedTypes = "application/pdf,image/*,.doc,.docx"
 }: FileUploadZoneProps) {
     const [isDragging, setIsDragging] = useState(false);
+    const [animationKey, setAnimationKey] = useState(0);
 
     const handleDragOver = useCallback((e: React.DragEvent) => {
         e.preventDefault();
@@ -36,6 +37,9 @@ export function FileUploadZone({
         const droppedFiles = Array.from(e.dataTransfer.files);
         const newFiles = [...files, ...droppedFiles].slice(0, maxFiles);
         onChange(newFiles);
+
+        // Trigger icon animation
+        setAnimationKey(prev => prev + 1);
     }, [files, maxFiles, onChange]);
 
     const handleFileSelect = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +47,9 @@ export function FileUploadZone({
             const selectedFiles = Array.from(e.target.files);
             const newFiles = [...files, ...selectedFiles].slice(0, maxFiles);
             onChange(newFiles);
+
+            // Trigger icon animation
+            setAnimationKey(prev => prev + 1);
         }
     }, [files, maxFiles, onChange]);
 
@@ -65,9 +72,9 @@ export function FileUploadZone({
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
-                className={`relative rounded-2xl border-2 border-dashed transition-all duration-300 ${isDragging
-                        ? 'border-black bg-black/5'
-                        : 'border-gray-200 bg-white/50'
+                className={`relative rounded-2xl border-2 border-dashed transition-all duration-300 overflow-hidden ${isDragging
+                    ? 'border-black bg-black/5'
+                    : 'border-gray-200 bg-white/50'
                     }`}
             >
                 <input
@@ -81,16 +88,46 @@ export function FileUploadZone({
 
                 <label
                     htmlFor="file-upload"
-                    className="flex flex-col items-center justify-center gap-3 px-6 py-12 cursor-pointer"
+                    className="flex flex-col items-center justify-center gap-3 px-6 py-12 cursor-pointer relative"
                 >
                     <motion.div
                         animate={isDragging ? { scale: 1.1 } : { scale: 1 }}
-                        className="rounded-full p-4 bg-white"
+                        className="rounded-full p-4 bg-white relative z-10 overflow-hidden"
                     >
-                        <Upload className="h-8 w-8 text-black/70" />
+                        <AnimatePresence mode="wait">
+                            {files.length > 0 ? (
+                                <motion.div
+                                    key={`check-${animationKey}`}
+                                    initial={{ scale: 0, rotate: -180 }}
+                                    animate={{ scale: 1, rotate: 0 }}
+                                    exit={{ scale: 0, rotate: 180 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 200,
+                                        damping: 15
+                                    }}
+                                >
+                                    <CheckCircle className="h-8 w-8 text-[#FF4306]" />
+                                </motion.div>
+                            ) : (
+                                <motion.div
+                                    key={`upload-${animationKey}`}
+                                    initial={{ scale: 0, rotate: -180 }}
+                                    animate={{ scale: 1, rotate: 0 }}
+                                    exit={{ scale: 0, rotate: 180 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 200,
+                                        damping: 15
+                                    }}
+                                >
+                                    <Upload className="h-8 w-8 text-black/70" />
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </motion.div>
 
-                    <div className="text-center">
+                    <div className="text-center relative z-10">
                         <p className="text-sm font-semibold text-black">
                             Drop merchant statements here or click to browse
                         </p>
@@ -100,7 +137,7 @@ export function FileUploadZone({
                     </div>
 
                     {files.length > 0 && (
-                        <div className="text-xs text-black/60">
+                        <div className="text-xs text-black/60 relative z-10">
                             {files.length} file{files.length !== 1 ? 's' : ''} uploaded
                         </div>
                     )}
@@ -113,33 +150,84 @@ export function FileUploadZone({
                         {files.map((file, index) => (
                             <motion.div
                                 key={`${file.name}-${index}`}
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, x: -20 }}
-                                className="flex items-center gap-3 rounded-xl bg-white border border-[gray-200] px-4 py-3"
+                                initial={{
+                                    opacity: 0,
+                                    y: -50,
+                                    rotate: index % 2 === 0 ? -5 : 5,
+                                    scale: 0.9
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                    rotate: 0,
+                                    scale: 1
+                                }}
+                                exit={{
+                                    opacity: 0,
+                                    scale: 0.9,
+                                    x: -40,
+                                    transition: { duration: 0.2 }
+                                }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 260,
+                                    damping: 20,
+                                    mass: 0.8,
+                                    delay: index * 0.08
+                                }}
+                                whileHover={{
+                                    y: -2,
+                                    boxShadow: "0 10px 30px rgba(0, 0, 0, 0.12)"
+                                }}
+                                className="flex items-center gap-3 rounded-xl bg-white border border-gray-200 px-4 py-3"
+                                style={{
+                                    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)"
+                                }}
                             >
-                                <div className="flex-shrink-0">
-                                    <div className="rounded-lg bg-[white] p-2">
-                                        <FileText className="h-5 w-5 text-[brand-black/70]" />
+                                <motion.div
+                                    className="flex-shrink-0"
+                                    initial={{ rotate: -15, scale: 0 }}
+                                    animate={{ rotate: 0, scale: 1 }}
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 300,
+                                        damping: 15,
+                                        delay: index * 0.08 + 0.1
+                                    }}
+                                >
+                                    <div className="rounded-lg bg-gray-50 p-2">
+                                        <FileText className="h-5 w-5 text-black/70" />
                                     </div>
-                                </div>
+                                </motion.div>
 
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-[brand-black] truncate">
+                                    <motion.p
+                                        className="text-sm font-medium text-black truncate"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: index * 0.08 + 0.15 }}
+                                    >
                                         {file.name}
-                                    </p>
-                                    <p className="text-xs text-[brand-black/50]">
+                                    </motion.p>
+                                    <motion.p
+                                        className="text-xs text-black/50"
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: index * 0.08 + 0.2 }}
+                                    >
                                         {formatFileSize(file.size)}
-                                    </p>
+                                    </motion.p>
                                 </div>
 
-                                <button
+                                <motion.button
+                                    whileHover={{ scale: 1.15 }}
+                                    whileTap={{ scale: 0.9 }}
                                     onClick={() => removeFile(index)}
-                                    className="flex-shrink-0 rounded-full p-1.5 hover:bg-red-50 text-[brand-black/50] hover:text-red-600 transition-colors"
+                                    className="flex-shrink-0 rounded-full p-1.5 hover:bg-red-50 text-black/50 hover:text-red-600 transition-colors"
                                     aria-label="Remove file"
                                 >
                                     <X className="h-4 w-4" />
-                                </button>
+                                </motion.button>
                             </motion.div>
                         ))}
                     </div>

@@ -5,61 +5,100 @@ import { motion } from "framer-motion";
 import { Volume2, VolumeX } from "lucide-react";
 
 interface VideoIntroProps {
-  onComplete: () => void;
+  onComplete?: () => void;
+  loop?: boolean;
 }
 
-export default function VideoIntro({ onComplete }: VideoIntroProps) {
+export default function VideoIntro({ onComplete, loop = false }: VideoIntroProps) {
   const [videoEnded, setVideoEnded] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
-  const [showUnmute, setShowUnmute] = useState(true); // Always show unmute option initially
+  const [showUnmute, setShowUnmute] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (videoRef.current) {
-      const video = videoRef.current;
+    const video = videoRef.current;
+    if (!video) return;
 
-      // Simple muted autoplay
-      video.muted = true;
-      video.play().catch((error) => {
-        console.error("Autoplay failed:", error);
-        onComplete();
-      });
+    let playPromise: Promise<void> | undefined;
+
+    const safePlay = () => {
+      if (video.paused && !playPromise) {
+        playPromise = video.play();
+        playPromise
+          .then(() => {
+            playPromise = undefined;
+          })
+          .catch((error) => {
+            playPromise = undefined;
+            // AbortError is expected if we pause quickly, ignore it
+            if (error.name !== 'AbortError') {
+              console.error("Autoplay failed:", error);
+              if (onComplete) onComplete();
+            }
+          });
+      }
+    };
+
+    const safePause = () => {
+      if (playPromise) {
+        playPromise.then(() => {
+          video.pause();
+        });
+      } else if (!video.paused) {
+        video.pause();
+      }
+    };
+
+    // Intersection Observer for scroll pausing
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting && !videoEnded) {
+            safePause();
+          } else if (entry.isIntersecting && !videoEnded) {
+            safePlay();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
     }
-  }, [onComplete]);
+
+    // Initial play handled by observer if visible, or force it if needed
+    // But observer usually fires initially. Let's rely on observer for cleaner logic
+    // or call safePlay() initially to be sure.
+    safePlay();
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [onComplete, videoEnded]);
 
   const toggleMute = () => {
     if (videoRef.current) {
       if (navigator.vibrate) navigator.vibrate(10);
       videoRef.current.muted = !videoRef.current.muted;
       setIsMuted(videoRef.current.muted);
-      // Keep button visible so they can toggle back if desired, 
-      // or hide it? User just said "muted by default". 
-      // Usually toggle buttons stay or fade out. 
-      // I'll keep the previous behavior: hide on interaction? 
-      // Actually, if I unmute, I might want to mute again. 
-      // Let's keep it visible but maybe subtle? 
-      // The previous code hid it: setShowUnmute(false). 
-      // I'll stick to the previous pattern but allow it to be toggled.
-      // Actually, let's just let it toggle state and stay visible or fade out?
-      // Simpler: Toggle mute state, keep button visible for a moment or always?
-      // Previous code: setShowUnmute(false) on click.
-      // I'll change it to toggle the icon but keep the button visible?
-      // Or maybe just hide it like before to be less intrusive.
-      // Let's stick to the "unmute" action. Once unmuted, maybe they don't need to mute again for a short intro.
       setShowUnmute(false);
     }
   };
 
   const handleVideoEnded = () => {
+    if (loop) return;
     setVideoEnded(true);
     setTimeout(() => {
-      onComplete();
+      if (onComplete) onComplete();
     }, 500);
   };
 
   return (
     <motion.div
-      className="w-full h-full flex items-center justify-center overflow-hidden rounded-3xl relative group"
+      ref={containerRef}
+      className="w-full h-full flex items-center justify-center overflow-hidden relative group"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
     >
@@ -73,7 +112,8 @@ export default function VideoIntro({ onComplete }: VideoIntroProps) {
           src="/brand.mp4"
           className="w-full h-full object-cover"
           playsInline
-          muted={true} // Enforce muted by default
+          muted={true}
+          loop={loop}
           onEnded={handleVideoEnded}
         />
 

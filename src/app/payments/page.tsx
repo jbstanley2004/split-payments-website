@@ -1,22 +1,24 @@
 "use client";
 
+import { useState } from "react";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { CreditCard, Check, Laptop, Zap, Shield, TrendingUp, ArrowRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import WorkingCapitalAnimation from "@/components/animations/WorkingCapitalAnimation";
-import PaymentTerminalCard from "@/components/animations/PaymentTerminalCard";
+
 import MobileTerminalsCard from "@/components/animations/MobileTerminalsCard";
 import OnlineEcommerceCard from "@/components/animations/OnlineEcommerceCard";
 import TapToPayCard from "@/components/animations/TapToPayCard";
 import InPersonPOSCard from "@/components/animations/InPersonPOSCard";
 import EChecksCard from "@/components/animations/EChecksCard";
-import FullHardwareSpotlight from "@/components/FullHardwareSpotlight";
+import HardwareSpotlight from "@/components/HardwareSpotlight";
 import CursorParticles from "@/components/animations/CursorParticles";
 import HardwareAgnosticCard from "@/components/animations/HardwareAgnosticCard";
+import VideoIntro from "@/components/VideoIntro";
 
 type PaymentSolution = {
   title: string;
@@ -70,25 +72,42 @@ const SOLUTIONS = [
 ];
 
 export default function PaymentsPage() {
+  const [videoComplete, setVideoComplete] = useState(false);
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
   };
 
   return (
-    <main className="min-h-screen bg-white text-black font-lora selection:bg-black/10 selection:text-black">
+    <main className="min-h-screen bg-white text-black font-poppins selection:bg-black/10 selection:text-black">
       {/* Global Background Layer */}
 
       <div className="relative z-10">
         <DynamicIslandNav />
 
         {/* HERO – Clean, Bright */}
-        <section className="relative min-h-[60vh] md:min-h-[75vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden">
+        <section className="relative min-h-screen bg-white flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden">
           <CursorParticles />
           <div className="max-w-6xl w-full text-center relative z-10">
+            {/* Video Intro Overlay */}
+            <AnimatePresence>
+              {!videoComplete && (
+                <motion.div
+                  className="absolute inset-0 z-20 flex items-center justify-center bg-white"
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.8 }}
+                >
+                  <div className="w-full max-w-4xl aspect-video">
+                    <VideoIntro onComplete={() => setVideoComplete(true)} loop={false} />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <motion.div
               initial="hidden"
-              animate="visible"
+              animate={videoComplete ? "visible" : "hidden"}
               variants={fadeInUp}
               className="max-w-4xl mx-auto"
             >
@@ -103,9 +122,8 @@ export default function PaymentsPage() {
                 Simplify every transaction while unlocking funding that moves at the speed of your business.
               </p>
 
-              <div className="max-w-2xl mx-auto mt-4 mb-8">
-                <PaymentTerminalCard />
-              </div>
+              {/* Placeholder for layout stability or static visual if needed */}
+              <div className="max-w-4xl mx-auto mt-8 mb-12 h-0 md:h-12" />
 
               <div className="flex justify-center mb-8 md:mb-12">
                 <Link href="/get-started">
@@ -268,7 +286,9 @@ export default function PaymentsPage() {
               We support the most trusted payment hardware from Ingenico, Verifone, Pax, and Clover.
             </p>
           </div>
-          <FullHardwareSpotlight />
+          <div className="max-w-xl mx-auto">
+            <HardwareSpotlight />
+          </div>
         </section>
 
 

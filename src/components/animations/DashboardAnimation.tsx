@@ -167,7 +167,7 @@ const LineChart = ({ config }: LineChartProps) => {
         >
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FF4306" stopOpacity="0.15" />
+              <stop offset="0%" stopColor="#FF4306" stopOpacity="0.1" />
               <stop offset="100%" stopColor="#FF4306" stopOpacity="0" />
             </linearGradient>
           </defs>
@@ -202,7 +202,7 @@ const LineChart = ({ config }: LineChartProps) => {
                 d={path}
                 fill="none"
                 stroke="#FF4306"
-                strokeWidth={2.5}
+                strokeWidth={1.5}
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 animate={{ pathLength: 1 }}
@@ -234,7 +234,7 @@ const LineChart = ({ config }: LineChartProps) => {
                   r={4}
                   fill="#ffffff"
                   stroke="#FF4306"
-                  strokeWidth={2.5}
+                  strokeWidth={1.5}
                 />
                 {active && (
                   <motion.circle

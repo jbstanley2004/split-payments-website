@@ -33,10 +33,10 @@ export function OnboardingLayout({ children, title, subtitle, showBack = true }:
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     onClick={prevStep}
-                    className="inline-flex items-center gap-2 text-sm font-medium text-black/60 hover:text-black transition-colors"
+                    className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center hover:scale-105 transition-transform"
+                    aria-label="Go back"
                 >
-                    <ChevronLeft className="w-4 h-4" />
-                    Back
+                    <ChevronLeft className="w-6 h-6" />
                 </motion.button>
             )}
 

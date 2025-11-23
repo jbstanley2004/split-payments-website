@@ -3,36 +3,42 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 const CLOVER_PRODUCTS = [
     {
         id: 'duo',
         model: 'Duo',
+        make: 'Clover',
         description: 'The powerful point-of-sale system that lets you run your business your way.',
         image: '/assets/clover/duo.png',
     },
     {
         id: 'flex',
         model: 'Flex',
+        make: 'Clover',
         description: 'Take orders and payments from the floor, tableside, or on the go.',
         image: '/assets/clover/flex.png',
     },
     {
         id: 'kds',
         model: 'Kitchen Display',
+        make: 'Clover',
         description: 'The Clover Kitchen Display System has plenty of room to manage all your orders.',
         image: '/assets/clover/kds.png',
     },
     {
         id: 'kiosk',
         model: 'Kiosk',
+        make: 'Clover',
         description: 'Our all-in-one self-ordering device features a 24" display, versatile payment terminal and a built-in printer.',
         image: '/assets/clover/kiosk.png',
     },
     {
         id: 'mini',
         model: 'Mini',
+        make: 'Clover',
         description: 'A complete POS in one compact package.',
         image: '/assets/clover/mini.png',
     },
@@ -77,11 +83,75 @@ const CloverSpotlight = () => {
     };
 
     return (
-        <div className="relative w-full max-w-6xl mx-auto pb-12 md:pb-24">
-            <div className="grid md:grid-cols-2 gap-8 md:gap-24 items-center min-h-[400px] md:min-h-[500px]">
+        <div className="w-full relative">
+            <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
+                {/* Left Column: Content */}
+                <div className="p-10 md:w-1/3 flex flex-col relative z-10 bg-white justify-between min-h-[400px]">
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3">
+                            <div className="relative w-24 h-8">
+                                <Image
+                                    src="/brand_animations/clover_1.svg"
+                                    alt="Clover Logo"
+                                    fill
+                                    className="object-contain object-left"
+                                />
+                            </div>
+                        </div>
 
-                {/* Left Column: Image */}
-                <div className="relative h-[300px] md:h-[450px] w-full flex items-center justify-center group">
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={currentIndex}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.4 }}
+                            >
+                                <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight mb-4">
+                                    {currentHardware.model}
+                                </h3>
+                                <p className="text-brand-black/70 leading-relaxed font-lora">
+                                    {currentHardware.description}
+                                </p>
+                            </motion.div>
+                        </AnimatePresence>
+                    </div>
+
+                    <div className="flex items-center justify-between mt-8">
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => {
+                                    if (navigator.vibrate) navigator.vibrate(10);
+                                    prevSlide();
+                                }}
+                                className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-black hover:bg-gray-200 transition-colors"
+                            >
+                                <ChevronLeft className="w-5 h-5" />
+                            </button>
+                            <button
+                                onClick={() => {
+                                    if (navigator.vibrate) navigator.vibrate(10);
+                                    nextSlide();
+                                }}
+                                className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-black hover:bg-gray-200 transition-colors"
+                            >
+                                <ChevronRight className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <Link href="/payments" className="inline-block">
+                            <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
+                                <ArrowRight className="w-6 h-6" />
+                            </div>
+                        </Link>
+                    </div>
+                </div>
+
+                {/* Right Column: Image */}
+                <motion.div
+                    layout
+                    className="md:w-2/3 relative border-t md:border-t-0 md:border-l border-gray-100 overflow-hidden flex items-center justify-center"
+                >
                     <AnimatePresence mode="wait" custom={direction}>
                         <motion.div
                             key={currentIndex}
@@ -93,102 +163,19 @@ const CloverSpotlight = () => {
                             transition={{ duration: 0.5, ease: "circOut" }}
                             className="relative w-full h-full flex items-center justify-center"
                         >
-                            {/* Modified container: No white bg, rounded-3xl, overflow-hidden */}
-                            <div className="relative w-full h-full rounded-3xl overflow-hidden transition-all duration-500 group-hover:scale-[1.02]">
-                                <div className="w-full h-full flex items-center justify-center">
-                                    <Image
-                                        src={currentHardware.image}
-                                        alt={`Clover ${currentHardware.model}`}
-                                        fill
-                                        className="object-cover"
-                                        priority
-                                        unoptimized
-                                    />
-                                </div>
+                            <div className="relative w-full h-[300px] md:h-[400px]">
+                                <Image
+                                    src={currentHardware.image}
+                                    alt={`${currentHardware.make} ${currentHardware.model}`}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                    unoptimized
+                                />
                             </div>
                         </motion.div>
                     </AnimatePresence>
-
-
-                </div>
-
-                {/* Right Column: Content */}
-                <div className="flex flex-col justify-center space-y-6 md:space-y-8">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={currentIndex}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.4 }}
-                        >
-                            <div className="flex items-center gap-3 mb-4 md:mb-6">
-                                <div className="relative w-24 h-10 md:w-32 md:h-12">
-                                    <Image
-                                        src="/assets/clover/logo.svg"
-                                        alt="Clover Logo"
-                                        fill
-                                        className="object-contain object-left"
-                                    />
-                                </div>
-                            </div>
-
-                            <h3 className="text-3xl md:text-5xl font-lora font-medium text-brand-black mb-4 md:mb-6 leading-tight">
-                                {currentHardware.model}
-                            </h3>
-
-                            <div className="space-y-4 md:space-y-6">
-                                <div className="h-px w-full bg-brand-black/10" />
-
-                                <div className="text-brand-black/70 leading-relaxed font-lora text-base md:text-lg">
-                                    {currentHardware.description}
-                                </div>
-
-                                <div className="h-px w-full bg-brand-black/10" />
-                            </div>
-
-                        </motion.div>
-                    </AnimatePresence>
-
-                    {/* Progress Indicator */}
-                    <div className="flex gap-2 mt-4">
-                        {CLOVER_PRODUCTS.map((_, idx) => (
-                            <button
-                                key={idx}
-                                onClick={() => {
-                                    setDirection(idx > currentIndex ? 1 : -1);
-                                    setCurrentIndex(idx);
-                                }}
-                                className={`h-1 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-brand-black' : 'w-2 bg-brand-black/20 hover:bg-brand-black/40'
-                                    }`}
-                            />
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* Navigation Buttons (Bottom Center) */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-3 z-10">
-                <button
-                    onClick={() => {
-                        if (navigator.vibrate) navigator.vibrate(10);
-                        prevSlide();
-                    }}
-                    aria-label="Previous hardware"
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
-                >
-                    <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
-                </button>
-                <button
-                    onClick={() => {
-                        if (navigator.vibrate) navigator.vibrate(10);
-                        nextSlide();
-                    }}
-                    aria-label="Next hardware"
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
-                >
-                    <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
-                </button>
+                </motion.div>
             </div>
         </div>
     );

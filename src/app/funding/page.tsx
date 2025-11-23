@@ -21,12 +21,12 @@ export default function FundingPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white text-black font-lora selection:bg-black/10 selection:text-black">
+    <main className="min-h-screen bg-white text-black font-poppins selection:bg-black/10 selection:text-black">
       <div className="relative z-10">
         <DynamicIslandNav />
 
         {/* HERO SECTION */}
-        <section className="relative min-h-[60vh] md:min-h-[75vh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden bg-white">
+        <section className="relative min-h-screen flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden bg-white">
           <div className="max-w-6xl w-full text-center relative z-10">
             <motion.div
               initial="hidden"
@@ -44,12 +44,8 @@ export default function FundingPage() {
                 Split Funding offers access to funding that lets you repay as you sell, at every growth stage.
               </p>
 
-              {/* Hero Visual - RepeatFundingAnimation */}
-              <div className="max-w-2xl mx-auto mt-4 mb-8 h-[250px] md:h-[300px] flex items-center justify-center">
-                <div className="w-full h-full transform scale-100 origin-center">
-                  <RepeatFundingAnimation />
-                </div>
-              </div>
+              {/* Hero Visual - Removed as requested */}
+              <div className="max-w-2xl mx-auto mt-4 mb-8 h-0 md:h-12" />
 
               <div className="flex justify-center mb-8 md:mb-12">
                 <Link href="/get-started">
@@ -269,7 +265,7 @@ export default function FundingPage() {
                 </div>
                 <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
                   <div className="h-80 w-full">
-                    <WorkingCapitalAnimation />
+                    <RepeatFundingAnimation />
                   </div>
                 </div>
               </div>
@@ -372,29 +368,30 @@ export default function FundingPage() {
         {/* SPLIT APP SECTION */}
         <section className="px-6 md:px-10 lg:px-16 py-16 bg-white">
           <div className="max-w-6xl mx-auto">
-            <div className="bg-black rounded-[3rem] p-8 md:p-24 relative overflow-hidden text-white">
-              <div className="relative z-10 max-w-2xl">
-                <div className="inline-flex items-center px-4 py-2 rounded-full bg-white/10 border border-white/20 text-sm font-medium mb-8 backdrop-blur-sm">
-                  <span className="w-2 h-2 rounded-full bg-[#FF4306] mr-2"></span>
-                  Coming Soon
+            <div className="max-w-6xl mx-auto">
+              <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
+                <div className="p-10 md:w-1/2 flex flex-col relative z-10 bg-white justify-center">
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-6 w-fit">
+                    Coming Soon
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-bold mb-6 font-poppins leading-tight text-black">
+                    Take Split Funding with you everywhere
+                  </h2>
+                  <p className="text-xl text-black/70 font-lora mb-8">
+                    One app to manage your finances and business. Track your sales, monitor your funding, and access capital on the go.
+                  </p>
                 </div>
-                <h2 className="text-4xl md:text-6xl font-bold mb-8 font-poppins leading-tight">
-                  Take Split Funding with you everywhere
-                </h2>
-                <p className="text-xl text-white/70 font-lora max-w-xl mb-8 md:mb-0">
-                  One app to manage your finances and business. Track your sales, monitor your funding, and access capital on the go.
-                </p>
-              </div>
 
-              {/* App Teaser Image */}
-              <div className="relative md:absolute md:right-[-10%] md:bottom-[-15%] w-full h-[300px] md:w-[70%] md:h-[140%] block pointer-events-none select-none mt-8 md:mt-0">
-                <div className="relative w-full h-full transform md:rotate-[-12deg]">
-                  <Image
-                    src="/assets/app-teaser.jpg"
-                    alt="Split App Interface"
-                    fill
-                    className="object-contain md:object-contain blur-sm drop-shadow-2xl opacity-90"
-                  />
+                {/* App Teaser Image */}
+                <div className="md:w-1/2 bg-gray-50 relative border-t md:border-t-0 md:border-l border-gray-100 overflow-hidden min-h-[400px]">
+                  <div className="relative w-full h-full transform md:rotate-[-12deg] md:translate-y-12 md:translate-x-12">
+                    <Image
+                      src="/assets/app-teaser.jpg"
+                      alt="Split App Interface"
+                      fill
+                      className="object-contain md:object-contain drop-shadow-2xl"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -402,7 +399,7 @@ export default function FundingPage() {
         </section>
 
         {/* CTA SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-32 text-center bg-white border-t border-brand-stone/50">
+        <section className="px-6 md:px-10 lg:px-16 py-32 text-center bg-[#F6F5F4] border-t border-brand-stone/50">
           <div className="max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

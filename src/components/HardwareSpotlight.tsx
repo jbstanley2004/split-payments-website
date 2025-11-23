@@ -2,179 +2,164 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import productsData from '../data/products-data.json';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
+import productsData from '../data/products-data.json';
 
 const HardwareSpotlight = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [direction, setDirection] = useState(0);
 
-  useEffect(() => {
-    if (productsData.length === 0) return;
-    const timer = setTimeout(() => {
-      nextSlide();
-    }, 6000);
-    return () => clearTimeout(timer);
-  }, [currentIndex]);
+    useEffect(() => {
+        if (productsData.length === 0) return;
+        const timer = setTimeout(() => {
+            nextSlide();
+        }, 6000);
+        return () => clearTimeout(timer);
+    }, [currentIndex]);
 
-  const nextSlide = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % productsData.length);
-  };
+    const nextSlide = () => {
+        setDirection(1);
+        setCurrentIndex((prev) => (prev + 1) % productsData.length);
+    };
 
-  const prevSlide = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + productsData.length) % productsData.length);
-  };
+    const prevSlide = () => {
+        setDirection(-1);
+        setCurrentIndex((prev) => (prev - 1 + productsData.length) % productsData.length);
+    };
 
-  if (productsData.length === 0) {
-    return <div className="text-center text-red-500">No hardware data to display.</div>;
-  }
+    if (productsData.length === 0) {
+        return null;
+    }
 
-  const currentHardware = productsData[currentIndex];
+    const currentHardware = productsData[currentIndex];
 
-  const variants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 50 : -50,
-      opacity: 0,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-    },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 50 : -50,
-      opacity: 0,
-    }),
-  };
+    const variants = {
+        enter: (direction: number) => ({
+            x: direction > 0 ? 50 : -50,
+            opacity: 0,
+        }),
+        center: {
+            x: 0,
+            opacity: 1,
+        },
+        exit: (direction: number) => ({
+            x: direction < 0 ? 50 : -50,
+            opacity: 0,
+        }),
+    };
 
-  return (
-    <div className="relative w-full max-w-6xl mx-auto">
-      <div className="grid md:grid-cols-2 gap-8 md:gap-24 items-center min-h-[400px] md:min-h-[500px]">
+    const getBrandLogo = (make: string) => {
+        const normalizedMake = make.toLowerCase();
+        if (normalizedMake.includes('pax')) return '/brand_animations/pax.svg';
+        if (normalizedMake.includes('clover')) return '/brand_animations/clover_1.svg';
+        if (normalizedMake.includes('ingenico')) return '/brand_animations/ingenico.svg';
+        if (normalizedMake.includes('verifone')) return '/brand_animations/verifone_1.svg';
+        if (normalizedMake.includes('dejavoo')) return '/brand_animations/dejavoo.webp';
+        return null;
+    };
 
-        {/* Left Column: Image */}
-        <div className="relative h-[300px] md:h-[450px] w-full flex items-center justify-center group">
-          <AnimatePresence mode="wait" custom={direction}>
-            <motion.div
-              key={currentIndex}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{ duration: 0.5, ease: "circOut" }}
-              className="relative w-full h-full flex items-center justify-center"
-            >
-              {/* Elegant white container for all hardware images */}
-              <div className="relative w-full h-full bg-white rounded-[2rem] md:rounded-[3rem] p-8 md:p-12 shadow-elevation-mid ring-1 ring-black/5 transition-all duration-500 group-hover:shadow-elevation-high group-hover:scale-[1.02]">
-                <div className="w-full h-full flex items-center justify-center">
-                  <Image
-                    src={currentHardware.image}
-                    alt={`${currentHardware.make} ${currentHardware.model}`}
-                    fill
-                    className="object-contain max-h-[200px] md:max-h-[360px]"
-                    priority
-                    unoptimized
-                  />
+    const brandLogo = getBrandLogo(currentHardware.make);
+
+    return (
+        <div className="w-full relative">
+            <div className="group flex flex-col bg-gray-50 rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md min-h-[600px]">
+                {/* Top Section: Content */}
+                <div className="p-10 pb-0 flex flex-col relative z-10 bg-gray-50">
+                    <div className="flex items-start justify-between mb-6">
+                        <div className="space-y-4 max-w-[70%]">
+                            <div className="flex items-center gap-3">
+                                {brandLogo ? (
+                                    <div className="relative w-24 h-8">
+                                        <Image
+                                            src={brandLogo}
+                                            alt={`${currentHardware.make} Logo`}
+                                            fill
+                                            className="object-contain object-left"
+                                        />
+                                    </div>
+                                ) : (
+                                    <span className="text-sm font-semibold text-brand-black/60 uppercase tracking-wider">
+                                        {currentHardware.make}
+                                    </span>
+                                )}
+                            </div>
+
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={currentIndex}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.4 }}
+                                >
+                                    <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight mb-4">
+                                        {currentHardware.model}
+                                    </h3>
+                                    <p className="text-brand-black/70 leading-relaxed font-lora">
+                                        {currentHardware.description}
+                                    </p>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+
+                        {/* Navigation Buttons */}
+                        <div className="flex gap-2">
+                            <button
+                                onClick={() => {
+                                    if (navigator.vibrate) navigator.vibrate(10);
+                                    prevSlide();
+                                }}
+                                className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-brand-black hover:bg-gray-200 transition-colors shadow-sm"
+                            >
+                                <ChevronLeft className="w-6 h-6" />
+                            </button>
+                            <button
+                                onClick={() => {
+                                    if (navigator.vibrate) navigator.vibrate(10);
+                                    nextSlide();
+                                }}
+                                className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white hover:bg-brand-charcoal transition-colors shadow-sm"
+                            >
+                                <ChevronRight className="w-6 h-6" />
+                            </button>
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </motion.div>
-          </AnimatePresence>
 
-          {/* Navigation Buttons (Floating) */}
-          <div className="absolute -bottom-4 right-4 md:bottom-6 md:right-6 flex gap-3 z-10">
-            <button
-              onClick={() => {
-                if (navigator.vibrate) navigator.vibrate(10);
-                prevSlide();
-              }}
-              aria-label="Previous hardware"
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
-            >
-              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5" />
-            </button>
-            <button
-              onClick={() => {
-                if (navigator.vibrate) navigator.vibrate(10);
-                nextSlide();
-              }}
-              aria-label="Next hardware"
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-black shadow-lg flex items-center justify-center text-white hover:bg-brand-charcoal transition-all hover:scale-110 active:scale-95"
-            >
-              <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
-            </button>
-          </div>
+                {/* Bottom Section: Image */}
+                <motion.div
+                    layout
+                    className="mt-auto w-full bg-white relative border-t border-gray-200 overflow-hidden flex items-center justify-center h-[400px]"
+                >
+                    <AnimatePresence mode="wait" custom={direction}>
+                        <motion.div
+                            key={currentIndex}
+                            custom={direction}
+                            variants={variants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            transition={{ duration: 0.5, ease: "circOut" }}
+                            className="relative w-full h-full flex items-center justify-center"
+                        >
+                            <div className="relative w-full h-full">
+                                <Image
+                                    src={currentHardware.image}
+                                    alt={`${currentHardware.make} ${currentHardware.model}`}
+                                    fill
+                                    className="object-contain p-8"
+                                    priority
+                                    unoptimized
+                                />
+                            </div>
+                        </motion.div>
+                    </AnimatePresence>
+                </motion.div>
+            </div>
         </div>
-
-        {/* Right Column: Content */}
-        <div className="flex flex-col justify-center space-y-8">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.4 }}
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="px-3 py-1 rounded-full bg-brand-gray/10 text-xs font-semibold uppercase tracking-wider text-brand-black/60">
-                  {currentHardware.make}
-                </span>
-                {currentHardware.price && (
-                  <span className="px-3 py-1 rounded-full bg-brand-gray/10 text-xs font-semibold uppercase tracking-wider text-brand-black/60">
-                    {currentHardware.price}
-                  </span>
-                )}
-              </div>
-
-              <h3 className="text-5xl font-lora font-medium text-brand-black mb-6 leading-tight">
-                {currentHardware.model}
-              </h3>
-
-              <div className="space-y-6">
-                <div className="h-px w-full bg-brand-black/10" />
-
-                <div className="text-brand-black/70 leading-relaxed font-lora">
-                  {currentHardware.description}
-                </div>
-
-                <div className="h-px w-full bg-brand-black/10" />
-              </div>
-
-              {currentHardware.productUrl && (
-                <div className="mt-8 pt-4">
-                  <a
-                    href={currentHardware.productUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block bg-brand-black hover:bg-brand-charcoal text-white font-medium py-3 px-6 rounded-full transition-colors shadow-lg"
-                  >
-                    View Details
-                  </a>
-                </div>
-              )}
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Progress Indicator */}
-          <div className="flex gap-2 mt-4">
-            {productsData.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => {
-                  setDirection(idx > currentIndex ? 1 : -1);
-                  setCurrentIndex(idx);
-                }}
-                className={`h-1 rounded-full transition-all duration-300 ${idx === currentIndex ? 'w-8 bg-brand-black' : 'w-2 bg-brand-black/20 hover:bg-brand-black/40'
-                  }`}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default HardwareSpotlight;
