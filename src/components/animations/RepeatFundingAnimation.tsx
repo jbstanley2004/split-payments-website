@@ -1,18 +1,22 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { RefreshCw, Check, ArrowUpRight, DollarSign } from "lucide-react";
+import { useInViewport } from "@/hooks/useInViewport";
 
 
 export default function RepeatFundingAnimation() {
     const [stage, setStage] = useState<"repaying" | "eligible" | "renewed" | "morph" | "logo">("repaying");
     const [progress, setProgress] = useState(25);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInViewport = useInViewport(containerRef);
 
     useEffect(() => {
+        if (!isInViewport) return;
         let mounted = true;
         const runCycle = async () => {
-            while (mounted) {
+            while (mounted && isInViewport) {
                 // 1. Repayment Phase
                 setStage("repaying");
                 for (let i = 25; i <= 100; i += 2) {
@@ -48,17 +52,21 @@ export default function RepeatFundingAnimation() {
         };
         runCycle();
         return () => { mounted = false; };
-    }, []);
+    }, [isInViewport]);
 
     const startBalance = 20000;
     const currentBalance = startBalance - (startBalance * (progress / 100));
 
     return (
-        <div className="w-full h-full bg-white flex flex-col font-sans text-black relative select-none overflow-hidden">
+        <div ref={containerRef} className="w-full h-full bg-white flex flex-col font-sans text-black relative select-none overflow-hidden">
             <div className="flex-1 flex items-center justify-center relative p-6">
 
                 {/* Container for the main graphic */}
-                <div className="relative w-48 h-48 flex items-center justify-center">
+                <motion.div
+                    className="relative w-48 h-48 flex items-center justify-center"
+                    animate={{ y: stage === "logo" ? -35 : (stage === "eligible" ? -32 : 0) }}
+                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                >
 
                     {/* 1. The Progress Ring (Visible during Repaying/Eligible/Renewed) */}
                     {(stage === "repaying" || stage === "eligible" || stage === "renewed") && (
@@ -185,7 +193,7 @@ export default function RepeatFundingAnimation() {
                             )}
                         </AnimatePresence>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Renewal Notification Overlay */}
                 <AnimatePresence>
@@ -208,6 +216,6 @@ export default function RepeatFundingAnimation() {
                 </AnimatePresence>
 
             </div>
-        </div>
+        </div >
     );
 }

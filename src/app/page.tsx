@@ -147,7 +147,7 @@ export default function HomePage() {
                     transition={{ delay: index * 0.1 }}
                     className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full"
                   >
-                    <div className="p-10 pb-0 flex flex-col relative z-10 bg-white">
+                    <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
                       <div className="flex items-start justify-between mb-4">
                         <div className="space-y-2">
                           <span className="text-sm font-semibold text-brand-black/60">{feature.label}</span>
@@ -163,7 +163,7 @@ export default function HomePage() {
                       </div>
                     </div>
                     <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
-                      <div className="h-96 w-full">
+                      <div className="h-72 w-full">
                         {feature.component}
                       </div>
                     </div>
@@ -180,15 +180,15 @@ export default function HomePage() {
                 className="w-full relative"
               >
                 <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
-                  <div className="p-10 md:w-1/3 flex flex-col relative z-10 bg-white">
-                    <div className="space-y-2">
-                      <span className="text-sm font-semibold text-brand-black/60">Analytics</span>
-                      <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight">
-                        Real-time analytics.
-                      </h3>
-                    </div>
-                    <div className="mt-auto pt-8">
-                      <Link href="/payments" className="inline-block">
+                  <div className="p-6 md:w-1/3 flex flex-col relative z-10 bg-white min-h-[300px]">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="space-y-2">
+                        <span className="text-sm font-semibold text-brand-black/60">Analytics</span>
+                        <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight">
+                          Real-time analytics.
+                        </h3>
+                      </div>
+                      <Link href="/payments" className="flex-shrink-0">
                         <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
                           <ArrowRight className="w-6 h-6" />
                         </div>
@@ -196,7 +196,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="md:w-2/3 bg-gray-50 relative border-t md:border-t-0 md:border-l border-gray-100 overflow-hidden">
-                    <div className="w-full h-full min-h-[400px]">
+                    <div className="w-full h-full min-h-[300px]">
                       <DashboardAnimation />
                     </div>
                   </div>

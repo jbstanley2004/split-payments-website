@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import { useInViewport } from '@/hooks/useInViewport';
 
 const CLOVER_PRODUCTS = [
     {
@@ -47,13 +48,16 @@ const CLOVER_PRODUCTS = [
 const CloverSpotlight = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInViewport = useInViewport(containerRef);
 
     useEffect(() => {
+        if (!isInViewport) return;
         const timer = setTimeout(() => {
             nextSlide();
         }, 6000);
         return () => clearTimeout(timer);
-    }, [currentIndex]);
+    }, [currentIndex, isInViewport]);
 
     const nextSlide = () => {
         setDirection(1);
@@ -83,67 +87,56 @@ const CloverSpotlight = () => {
     };
 
     return (
-        <div className="w-full relative">
+        <div ref={containerRef} className="w-full relative">
             <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
                 {/* Left Column: Content */}
-                <div className="p-10 md:w-1/3 flex flex-col relative z-10 bg-white justify-between min-h-[400px]">
-                    <div className="space-y-6">
-                        <div className="flex items-center gap-3">
-                            <div className="relative w-24 h-8">
-                                <Image
-                                    src="/brand_animations/clover_1.svg"
-                                    alt="Clover Logo"
-                                    fill
-                                    className="object-contain object-left"
-                                />
-                            </div>
+                <div className="p-6 md:w-1/3 flex flex-col relative z-10 bg-white justify-between min-h-[300px]">
+                    <div className="flex items-start justify-between w-full">
+                        <div className="max-w-[80%]">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={currentIndex}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.4 }}
+                                >
+                                    <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight mb-4">
+                                        {currentHardware.model}
+                                    </h3>
+                                    <p className="text-brand-black/70 leading-relaxed font-lora">
+                                        {currentHardware.description}
+                                    </p>
+                                </motion.div>
+                            </AnimatePresence>
                         </div>
 
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={currentIndex}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.4 }}
-                            >
-                                <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight mb-4">
-                                    {currentHardware.model}
-                                </h3>
-                                <p className="text-brand-black/70 leading-relaxed font-lora">
-                                    {currentHardware.description}
-                                </p>
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-
-                    <div className="flex items-center justify-between mt-8">
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() => {
-                                    if (navigator.vibrate) navigator.vibrate(10);
-                                    prevSlide();
-                                }}
-                                className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-black hover:bg-gray-200 transition-colors"
-                            >
-                                <ChevronLeft className="w-5 h-5" />
-                            </button>
-                            <button
-                                onClick={() => {
-                                    if (navigator.vibrate) navigator.vibrate(10);
-                                    nextSlide();
-                                }}
-                                className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-black hover:bg-gray-200 transition-colors"
-                            >
-                                <ChevronRight className="w-5 h-5" />
-                            </button>
-                        </div>
-
-                        <Link href="/payments" className="inline-block">
+                        <Link href="/payments" className="flex-shrink-0">
                             <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
                                 <ArrowRight className="w-6 h-6" />
                             </div>
                         </Link>
+                    </div>
+
+                    <div className="flex items-center gap-2 mt-8">
+                        <button
+                            onClick={() => {
+                                if (navigator.vibrate) navigator.vibrate(10);
+                                prevSlide();
+                            }}
+                            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-black hover:bg-gray-200 transition-colors"
+                        >
+                            <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={() => {
+                                if (navigator.vibrate) navigator.vibrate(10);
+                                nextSlide();
+                            }}
+                            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-black hover:bg-gray-200 transition-colors"
+                        >
+                            <ChevronRight className="w-5 h-5" />
+                        </button>
                     </div>
                 </div>
 
@@ -163,7 +156,7 @@ const CloverSpotlight = () => {
                             transition={{ duration: 0.5, ease: "circOut" }}
                             className="relative w-full h-full flex items-center justify-center"
                         >
-                            <div className="relative w-full h-[300px] md:h-[400px]">
+                            <div className="relative w-full h-[250px] md:h-[300px]">
                                 <Image
                                     src={currentHardware.image}
                                     alt={`${currentHardware.make} ${currentHardware.model}`}

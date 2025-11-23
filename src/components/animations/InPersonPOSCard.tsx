@@ -3,8 +3,9 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useInViewport } from "@/hooks/useInViewport";
 
 const POS_DEVICES = [
     { src: "/assets/pos-hardware/pos-device-1.png", alt: "Clover POS System" },
@@ -16,18 +17,21 @@ const POS_DEVICES = [
 
 export default function InPersonPOSCard() {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInViewport = useInViewport(containerRef);
 
     useEffect(() => {
+        if (!isInViewport) return;
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % POS_DEVICES.length);
         }, 3000); // Change image every 3 seconds
 
         return () => clearInterval(interval);
-    }, []);
+    }, [isInViewport]);
 
     return (
-        <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
-            <div className="p-10 pb-0 flex flex-col relative z-10 bg-white">
+        <div ref={containerRef} className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
+            <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
                 <div className="flex items-start justify-between mb-4">
                     <div className="space-y-2">
                         <span className="text-sm font-semibold text-brand-black/60">POS Systems</span>
@@ -43,7 +47,7 @@ export default function InPersonPOSCard() {
                 </div>
             </div>
             <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
-                <div className="h-96 w-full relative overflow-hidden flex items-center justify-center">
+                <div className="h-72 w-full relative overflow-hidden flex items-center justify-center">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={currentIndex}

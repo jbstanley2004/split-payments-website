@@ -1,21 +1,25 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Check, ChevronRight, DollarSign, SlidersHorizontal } from "lucide-react";
+import { useInViewport } from "@/hooks/useInViewport";
 
 export default function WorkingCapitalAnimation() {
     const [step, setStep] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInViewport = useInViewport(containerRef);
 
     useEffect(() => {
+        if (!isInViewport) return;
         const timer = setInterval(() => {
             setStep((prev) => (prev + 1) % 3);
         }, 4000); // Change slide every 4 seconds
         return () => clearInterval(timer);
-    }, []);
+    }, [isInViewport]);
 
     return (
-        <div className="w-full h-full bg-transparent relative overflow-hidden flex items-center justify-center p-6">
+        <div ref={containerRef} className="w-full h-full bg-transparent relative overflow-hidden flex items-center justify-center p-6">
             <AnimatePresence mode="wait">
                 {step === 0 && <PreApprovedCard key="step0" />}
                 {step === 1 && <SliderCard key="step1" />}

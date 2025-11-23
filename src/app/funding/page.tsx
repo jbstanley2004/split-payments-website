@@ -3,7 +3,7 @@
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
 import { motion } from "framer-motion";
-import { Shield, TrendingUp, Check, Zap } from "lucide-react";
+import { Shield, TrendingUp, Check, Zap, Smartphone } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import RepeatFundingAnimation from "@/components/animations/RepeatFundingAnimation";
@@ -195,7 +195,7 @@ export default function FundingPage() {
 
               {/* Repayment Card */}
               <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
-                <div className="p-8 pb-0 flex flex-col relative z-10 bg-white">
+                <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
                   <div className="flex items-start justify-between mb-4">
                     <div className="space-y-2">
                       <span className="text-sm font-semibold text-black/60">Repayment</span>
@@ -212,7 +212,7 @@ export default function FundingPage() {
                   </p>
                 </div>
                 <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
-                  <div className="h-80 w-full">
+                  <div className="h-64 w-full">
                     <RefillAnimation />
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export default function FundingPage() {
 
               {/* Qualification Card (Restored) */}
               <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
-                <div className="p-8 pb-0 flex flex-col relative z-10 bg-white">
+                <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
                   <div className="flex items-start justify-between mb-4">
                     <div className="space-y-2">
                       <span className="text-sm font-semibold text-black/60">Qualification</span>
@@ -237,7 +237,7 @@ export default function FundingPage() {
                   </p>
                 </div>
                 <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
-                  <div className="h-80 w-full">
+                  <div className="h-64 w-full">
                     <QualificationAnimation />
                   </div>
                 </div>
@@ -245,7 +245,7 @@ export default function FundingPage() {
 
               {/* Refill Card */}
               <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
-                <div className="p-8 pb-0 flex flex-col relative z-10 bg-white">
+                <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
                   <div className="flex items-start justify-between mb-4">
                     <div className="space-y-2">
                       <span className="text-sm font-semibold text-black/60">Renewal</span>
@@ -262,7 +262,7 @@ export default function FundingPage() {
                   </p>
                 </div>
                 <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
-                  <div className="h-80 w-full">
+                  <div className="h-64 w-full">
                     <RepeatFundingAnimation />
                   </div>
                 </div>
@@ -294,7 +294,7 @@ export default function FundingPage() {
 
                   {[
                     { feature: "Funds deposited directly into your account", split: true, trad: true },
-                    { feature: "Real-time offers based on your sales, funding up to $2M", split: true, trad: false },
+                    { feature: "Real-time offers based on your credit card processing sales", split: true, trad: false },
                     { feature: "No credit checks or impact to your personal credit score", split: true, trad: false },
                     { feature: "No personal liability, no compounding interest", split: true, trad: false },
                     { feature: "Hassle-free, online application", split: true, trad: false },
@@ -320,7 +320,7 @@ export default function FundingPage() {
               <div className="md:hidden p-6 space-y-6">
                 {[
                   { feature: "Funds deposited directly into your account", split: true, trad: true },
-                  { feature: "Real-time offers based on your sales, funding up to $2M", split: true, trad: false },
+                  { feature: "Real-time offers based on your credit card processing sales", split: true, trad: false },
                   { feature: "No credit checks or impact to your personal credit score", split: true, trad: false },
                   { feature: "No personal liability, no compounding interest", split: true, trad: false },
                   { feature: "Hassle-free, online application", split: true, trad: false },
@@ -365,29 +365,34 @@ export default function FundingPage() {
 
         {/* SPLIT APP SECTION */}
         <section className="px-6 md:px-10 lg:px-16 py-16 bg-white">
-          <div className="max-w-6xl mx-auto">
-            <div className="max-w-6xl mx-auto">
-              <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
-                <div className="p-10 md:w-1/2 flex flex-col relative z-10 bg-white justify-center">
-                  <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-gray-100 text-[10px] font-bold uppercase tracking-wider text-black/60 mb-6 w-fit">
-                    Coming Soon
+          <div className="max-w-6xl mx-auto flex justify-center">
+            <div className="w-full max-w-md">
+              <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-[600px]">
+                <div className="p-6 pb-0 flex flex-col relative z-10 bg-white shrink-0">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="space-y-2">
+                      <span className="text-sm font-semibold text-black/60">Coming Soon</span>
+                      <h3 className="text-2xl font-bold text-black font-poppins leading-tight">
+                        Take Split Funding with you everywhere.
+                      </h3>
+                    </div>
+                    <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white shrink-0">
+                      <Smartphone className="w-5 h-5" />
+                    </div>
                   </div>
-                  <h2 className="text-4xl md:text-5xl font-bold mb-6 font-poppins leading-tight text-black">
-                    Take Split Funding with you everywhere
-                  </h2>
-                  <p className="text-xl text-black/70 font-lora mb-8">
+                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-sm">
                     One app to manage your finances and business. Track your sales, monitor your funding, and access capital on the go.
                   </p>
                 </div>
 
                 {/* App Teaser Image */}
-                <div className="md:w-1/2 bg-gray-50 relative border-t md:border-t-0 md:border-l border-gray-100 overflow-hidden min-h-[300px] md:min-h-[400px]">
+                <div className="w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden flex-grow">
                   <div className="relative w-full h-full">
                     <Image
                       src="/assets/app-teaser.jpg"
                       alt="Split App Interface"
                       fill
-                      className="object-cover scale-110 md:scale-100 md:object-contain md:transform md:rotate-[-12deg] md:translate-y-12 md:translate-x-12 drop-shadow-2xl"
+                      className="object-cover object-top blur-sm"
                     />
                   </div>
                 </div>

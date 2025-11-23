@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useInViewport } from "@/hooks/useInViewport";
 
 // All brand logos
 const ALL_LOGOS = [
@@ -39,8 +40,11 @@ const CELL_COUNT = GRID_ROWS * GRID_COLS;
 export default function LivingGridAnimation() {
     // Initialize grid with first N logos
     const [activeLogos, setActiveLogos] = useState(ALL_LOGOS.slice(0, CELL_COUNT));
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInViewport = useInViewport(containerRef);
 
     useEffect(() => {
+        if (!isInViewport) return;
         // Randomly swap a logo every 1.5s
         const interval = setInterval(() => {
             setActiveLogos(current => {
@@ -63,10 +67,10 @@ export default function LivingGridAnimation() {
         }, 1500);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [isInViewport]);
 
     return (
-        <div className="w-full h-full flex items-center justify-center p-8">
+        <div ref={containerRef} className="w-full h-full flex items-center justify-center p-8">
             <div className="grid grid-cols-4 gap-4 w-full max-w-2xl">
                 {activeLogos.map((logo, index) => (
                     <GridCell key={`${index}`} logo={logo} index={index} />

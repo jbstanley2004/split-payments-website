@@ -1,14 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Check, Lock, Unlock } from "lucide-react";
+import { useInViewport } from "@/hooks/useInViewport";
 
 export default function RefillAnimation() {
     const [progress, setProgress] = useState(0);
     const [unlocked, setUnlocked] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInViewport = useInViewport(containerRef);
 
     useEffect(() => {
+        if (!isInViewport) return;
         const interval = setInterval(() => {
             setUnlocked(false);
             setProgress(0);
@@ -28,10 +32,10 @@ export default function RefillAnimation() {
 
         }, 4000);
         return () => clearInterval(interval);
-    }, []);
+    }, [isInViewport]);
 
     return (
-        <div className="w-full h-full flex flex-col items-center justify-center bg-gray-50 p-8">
+        <div ref={containerRef} className="w-full h-full flex flex-col items-center justify-center bg-gray-50 p-8">
 
             {/* Status Indicator */}
             <div className="mb-8 flex items-center gap-2">

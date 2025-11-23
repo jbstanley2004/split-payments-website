@@ -1,17 +1,21 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Check, TrendingUp, ArrowRight, Activity, Lock } from "lucide-react";
 import Image from "next/image";
+import { useInViewport } from "@/hooks/useInViewport";
 
 export default function QualificationAnimation() {
     const [stage, setStage] = useState<"sales" | "offer" | "funded">("sales");
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInViewport = useInViewport(containerRef);
 
     useEffect(() => {
+        if (!isInViewport) return;
         let mounted = true;
         const runSequence = async () => {
-            while (mounted) {
+            while (mounted && isInViewport) {
                 // 1. Sales Phase
                 setStage("sales");
                 await new Promise(r => setTimeout(r, 4500));
@@ -30,12 +34,12 @@ export default function QualificationAnimation() {
         };
         runSequence();
         return () => { mounted = false; };
-    }, []);
+    }, [isInViewport]);
 
     return (
-        <div className="w-full h-full bg-white flex flex-col font-sans text-black relative select-none">
+        <div ref={containerRef} className="w-full h-full bg-gray-50 flex flex-col font-sans text-black relative select-none">
             {/* Header - Minimal */}
-            <div className="h-12 border-b border-gray-100 flex items-center justify-between px-5 shrink-0 bg-white z-10">
+            <div className="h-12 flex items-center justify-between px-5 shrink-0 bg-gray-50 z-10">
                 <div className="flex items-center gap-3">
                     <div className="w-9 h-9 relative flex items-center justify-center">
                         <Image src="/new_logo.svg" alt="Split Logo" width={36} height={36} className="object-contain" />
