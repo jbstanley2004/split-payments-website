@@ -288,7 +288,9 @@ export default function FundingPage() {
             </div>
 
             <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
+
+              {/* Desktop Table View */}
+              <div className="hidden md:block overflow-x-auto">
                 <div className="min-w-[700px]">
                   <div className="grid grid-cols-12 border-b border-gray-100 bg-gray-50/50">
                     <div className="col-span-6 p-6 text-sm font-bold text-black/50 uppercase tracking-wider font-poppins">Features</div>
@@ -319,6 +321,50 @@ export default function FundingPage() {
                   ))}
                 </div>
               </div>
+
+              {/* Mobile Card View */}
+              <div className="md:hidden p-6 space-y-6">
+                {[
+                  { feature: "Funds deposited directly into your account", split: true, trad: true },
+                  { feature: "Real-time offers based on your sales, funding up to $2M", split: true, trad: false },
+                  { feature: "No credit checks or impact to your personal credit score", split: true, trad: false },
+                  { feature: "No personal liability, no compounding interest", split: true, trad: false },
+                  { feature: "Hassle-free, online application", split: true, trad: false },
+                  { feature: "Funding in as quick as 2 business days, if approved", split: true, trad: false },
+                  { feature: "Early renewals with same streamlined application process", split: true, trad: false },
+                  { feature: "Flexible, automated payments from your store's sales", split: true, trad: false },
+                  { feature: "Fully integrated solution, so you can run your business from one place", split: true, trad: false },
+                ].map((row, i) => (
+                  <div key={i} className="bg-gray-50 rounded-2xl p-6 border border-gray-100 shadow-sm">
+                    <h3 className="text-lg font-bold font-poppins text-black mb-4 leading-tight">
+                      {row.feature}
+                    </h3>
+
+                    <div className="space-y-3">
+                      {/* Split Funding Row */}
+                      <div className="flex items-center justify-between p-3 bg-white rounded-xl border border-gray-100">
+                        <span className="text-sm font-bold text-black uppercase tracking-wide">Split Funding</span>
+                        {row.split ? (
+                          <div className="w-6 h-6 rounded-full bg-black text-white flex items-center justify-center"><Check className="w-3.5 h-3.5" /></div>
+                        ) : (
+                          <div className="w-6 h-6 rounded-full bg-gray-100 text-gray-300 flex items-center justify-center"><span className="text-xs">✕</span></div>
+                        )}
+                      </div>
+
+                      {/* Traditional Loans Row */}
+                      <div className="flex items-center justify-between p-3 bg-transparent rounded-xl border border-transparent opacity-60">
+                        <span className="text-sm font-bold text-black uppercase tracking-wide">Traditional</span>
+                        {row.trad ? (
+                          <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center"><Check className="w-3.5 h-3.5" /></div>
+                        ) : (
+                          <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center"><span className="text-xs">✕</span></div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
             </div>
           </div>
         </section>

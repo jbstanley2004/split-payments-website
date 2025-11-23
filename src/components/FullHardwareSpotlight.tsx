@@ -78,7 +78,7 @@ const FullHardwareSpotlight = () => {
             <div className="grid md:grid-cols-2 gap-8 md:gap-24 items-center min-h-[400px] md:min-h-[500px]">
 
                 {/* Left Column: Image */}
-                <div className="relative h-[300px] md:h-[450px] w-full flex items-center justify-center group">
+                <div className="relative h-[300px] md:h-[450px] w-full group">
                     <AnimatePresence mode="wait" custom={direction}>
                         <motion.div
                             key={currentIndex}
@@ -88,7 +88,7 @@ const FullHardwareSpotlight = () => {
                             animate="center"
                             exit="exit"
                             transition={{ duration: 0.5, ease: "circOut" }}
-                            className="relative w-full h-full flex items-center justify-center"
+                            className="absolute inset-0 w-full h-full flex items-center justify-center"
                         >
                             {/* Modified container: No white bg, rounded-3xl, overflow-hidden - Matching CloverSpotlight */}
                             <div className="relative w-full h-full rounded-3xl overflow-hidden transition-all duration-500 group-hover:scale-[1.02]">
