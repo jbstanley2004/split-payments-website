@@ -42,12 +42,12 @@ export const metadata: Metadata = {
     'Accept payments, access fast working capital, and grow with Split credit card split funding.',
   icons: {
     icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/new_logo.svg', type: 'image/svg+xml' },
+      { url: '/new_logo.png', type: 'image/png', sizes: '32x32' },
+      // fallback icons if needed
       { url: '/favicon.ico' },
-      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
-      { url: '/icon.png', type: 'image/png', sizes: '192x192' },
     ],
-    apple: [{ url: '/apple-icon.png', type: 'image/png', sizes: '180x180' }],
+    apple: [{ url: '/new_logo.png', type: 'image/png', sizes: '180x180' }],
   },
   openGraph: {
     title: 'Split — Payments & Merchant Funding',
