@@ -13,6 +13,7 @@ import QualificationAnimation from "@/components/animations/QualificationAnimati
 import TimelineSignAnimation from "@/components/animations/TimelineSignAnimation";
 import TimelineActivationAnimation from "@/components/animations/TimelineActivationAnimation";
 import TimelineFundingAnimation from "@/components/animations/TimelineFundingAnimation";
+import TickerMatrixBackground from "@/components/TickerMatrixBackground";
 
 export default function FundingPage() {
   const fadeInUp = {
@@ -27,6 +28,7 @@ export default function FundingPage() {
 
         {/* HERO SECTION */}
         <section className="relative min-h-[100dvh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden bg-white">
+          <TickerMatrixBackground />
           <div className="max-w-6xl w-full text-center relative z-10">
             <motion.div
               initial="hidden"
