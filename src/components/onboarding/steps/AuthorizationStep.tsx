@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { OnboardingLayout } from '../OnboardingLayout';
 import { FormInput } from '../FormInput';
 import { useOnboarding } from '@/contexts/onboarding-context';
-import OrangePushButton from '@/components/OrangePushButton';
+import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
 
@@ -209,12 +209,14 @@ export function AuthorizationStep() {
                     transition={{ delay: 0.3 }}
                     className="flex flex-col items-end gap-3"
                 >
-                    <OrangePushButton
+                    <PrimaryButton
+                        variant="outline-orange"
+                        className="px-6 py-3 text-base"
                         onClick={handleSubmit}
                         disabled={!canSubmit}
                     >
                         Submit Application
-                    </OrangePushButton>
+                    </PrimaryButton>
                     {!canSubmit && (
                         <p className="text-xs text-[brand-black/50]">
                             Please accept the terms and provide all required signatures
