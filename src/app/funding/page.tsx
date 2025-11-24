@@ -35,7 +35,7 @@ export default function FundingPage() {
               className="max-w-4xl mx-auto"
             >
               <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] md:leading-[1.05] tracking-tight text-black mb-6 md:mb-8 font-semibold">
-                Access fast, flexible capital
+                Fast, flexible capital
                 <br />
                 <span className="text-brand-charcoal">powered by your sales.</span>
               </h1>
@@ -45,10 +45,36 @@ export default function FundingPage() {
               </p>
 
 
-              <div className="flex justify-center mb-8 md:mb-12">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
                 <Link href="/get-started">
-                  <PrimaryButton>Check your offer</PrimaryButton>
+                  <PrimaryButton className="w-full sm:w-auto shadow-none">
+                    Get started
+                  </PrimaryButton>
                 </Link>
+                <Link href="/get-started">
+                  <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black font-poppins font-medium text-lg hover:bg-[#F6F5F4] transition-all border-2 border-[#FF4306]">
+                    Contact sales
+                  </button>
+                </Link>
+              </div>
+
+              {/* Feature highlights */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto pt-8 border-t border-gray-200">
+                <div className="text-center">
+                  <p className="text-base font-semibold text-black font-poppins">
+                    Qualify in minutes,<br />no long forms
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-base font-semibold text-black font-poppins">
+                    No interest, just one flat fee
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-base font-semibold text-black font-poppins">
+                    Get funds instantly
+                  </p>
+                </div>
               </div>
             </motion.div>
           </div>
