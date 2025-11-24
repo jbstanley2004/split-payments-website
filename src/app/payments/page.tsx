@@ -314,7 +314,7 @@ export default function PaymentsPage() {
         </section>
 
         {/* Metrics Strip at Bottom */}
-        <section className="w-full bg-white py-8 border-t border-gray-100">
+        <section className="w-full bg-white py-8">
           <MetricsStrip />
         </section>
 
