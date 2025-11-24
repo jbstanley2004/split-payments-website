@@ -47,7 +47,7 @@ export default function FundingPage() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
                 <Link href="/get-started">
-                  <PrimaryButton className="w-full sm:w-auto shadow-none">
+                  <PrimaryButton className="w-full sm:w-auto shadow-none border-2 border-transparent">
                     Get started
                   </PrimaryButton>
                 </Link>
