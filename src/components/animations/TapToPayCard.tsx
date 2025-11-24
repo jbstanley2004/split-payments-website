@@ -34,25 +34,25 @@ export default function TapToPayCard({
         >
             {/* Header Section */}
             <motion.div layout="position" className="p-6 flex items-start justify-between relative z-20">
-                <div className="space-y-1 flex-1 min-w-0">
+                <div className="space-y-2 flex-1 min-w-0">
+                    <motion.span
+                        layout="position"
+                        className={`text-sm font-semibold uppercase tracking-[0.08em] block transition-colors duration-500 ${isExpanded ? 'text-brand-orange' : 'text-brand-black/60'}`}
+                    >
+                        {subtitle}
+                    </motion.span>
                     <motion.h3
                         layout="position"
                         className={`text-[32px] font-bold font-poppins leading-tight transition-colors duration-500 ${isExpanded ? 'text-white' : 'text-brand-black'}`}
                     >
                         {title}
                     </motion.h3>
-                    <motion.span
-                        layout="position"
-                        className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-500 ${isExpanded ? 'text-brand-orange' : 'text-brand-black/60'}`}
-                    >
-                        {subtitle}
-                    </motion.span>
                     <motion.p
                         layout="position"
-                        className={`text-base leading-relaxed pt-2 transition-colors duration-500 ${isExpanded ? 'text-gray-300' : 'text-gray-500 hidden'}`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: isExpanded ? 1 : 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 }}
+                        className={`text-base leading-relaxed transition-colors duration-500 ${isExpanded ? 'text-gray-300' : 'text-gray-500'}`}
+                        initial={false}
+                        animate={{ opacity: isExpanded ? 1 : 0, height: isExpanded ? "auto" : 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
                         {description}
                     </motion.p>
@@ -68,11 +68,20 @@ export default function TapToPayCard({
             <motion.div
                 layout
                 className="relative w-full overflow-hidden"
-                animate={{ height: isExpanded ? 240 : 0, opacity: isExpanded ? 1 : 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                animate={{
+                    height: isExpanded ? 320 : 0,
+                    opacity: isExpanded ? 1 : 0,
+                    paddingLeft: isExpanded ? 14 : 0,
+                    paddingRight: isExpanded ? 14 : 0
+                }}
+                transition={{ duration: 0.55, ease: "easeInOut" }}
             >
-                <div className="absolute inset-0 w-full h-full bg-black">
-                    <div className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:object-cover">
+                <motion.div
+                    className="relative w-full h-full rounded-2xl overflow-hidden bg-brand-black"
+                    animate={{ scaleX: isExpanded ? 0.96 : 1 }}
+                    transition={{ duration: 0.55, ease: "easeInOut" }}
+                >
+                    <div className="absolute inset-0 w-full h-full [&>iframe]:absolute [&>iframe]:inset-0 [&>iframe]:w-[115%] [&>iframe]:h-[115%] [&>iframe]:-left-[7.5%] [&>iframe]:-top-[7.5%]">
                         <YouTubeEmbed videoId="z9x_BPf-VVo" title="Credit Card Processing Video" isMuted={isMuted} />
                     </div>
 
@@ -82,7 +91,7 @@ export default function TapToPayCard({
                             e.stopPropagation();
                             setIsMuted(!isMuted);
                         }}
-                        className="absolute bottom-4 right-4 z-30 p-2 bg-black/40 hover:bg-black/60 rounded-full text-white backdrop-blur-md transition-all"
+                        className="absolute bottom-4 right-4 z-30 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all"
                     >
                         {isMuted ? (
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,25 +100,24 @@ export default function TapToPayCard({
                             </svg>
                         ) : (
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                             </svg>
                         )}
                     </button>
-                </div>
+                </motion.div>
             </motion.div>
 
-            {/* Footer Section - Removed Description */}
             <motion.div
                 layout
-                className="px-6 overflow-hidden"
+                className="px-6 bg-brand-black"
                 animate={{
                     height: isExpanded && features.length > 0 ? "auto" : 0,
                     opacity: isExpanded ? 1 : 0,
+                    paddingTop: isExpanded && features.length > 0 ? 16 : 0,
                     paddingBottom: isExpanded && features.length > 0 ? 24 : 0
                 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
             >
-                {/* Features or other footer content if needed */}
                 <div className="pt-4 border-t border-white/10">
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {features.map((feature, i) => (
