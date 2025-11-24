@@ -1,21 +1,25 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Check, CreditCard, Loader2, Receipt } from "lucide-react";
+import { useInViewport } from "@/hooks/useInViewport";
 
 export default function PaymentTerminalCard() {
     const [step, setStep] = useState(0);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isInViewport = useInViewport(containerRef);
 
     useEffect(() => {
+        if (!isInViewport) return;
         const timer = setInterval(() => {
             setStep((prev) => (prev + 1) % 3);
         }, 4000); // Change slide every 4 seconds
         return () => clearInterval(timer);
-    }, []);
+    }, [isInViewport]);
 
     return (
-        <div className="w-full h-full bg-transparent relative overflow-hidden flex items-center justify-center p-6">
+        <div ref={containerRef} className="w-full h-full bg-transparent relative overflow-hidden flex items-center justify-center p-6">
             <AnimatePresence mode="wait">
                 {step === 0 && <PaymentInitCard key="step0" />}
                 {step === 1 && <ProcessingCard key="step1" />}
@@ -44,7 +48,7 @@ function PaymentInitCard() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-[320px] border border-gray-100"
+            className="bg-white rounded-2xl p-6 w-full max-w-[320px] border border-gray-100"
         >
             <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-4">
                 <CreditCard className="text-white w-6 h-6" />
@@ -85,7 +89,7 @@ function ProcessingCard() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="bg-black rounded-2xl shadow-2xl p-6 w-full max-w-[320px] text-white"
+            className="bg-black rounded-2xl p-6 w-full max-w-[320px] text-white"
         >
             <div className="flex justify-between items-center mb-8">
                 <span className="text-sm text-white/60 font-poppins">Processing</span>
@@ -142,7 +146,7 @@ function SuccessCard() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-[320px] border border-gray-100"
+            className="bg-white rounded-2xl p-6 w-full max-w-[320px] border border-gray-100"
         >
             {/* Success Icon */}
             <motion.div

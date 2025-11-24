@@ -48,7 +48,7 @@ function PreApprovedCard() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-[320px] border border-gray-100"
+            className="bg-white rounded-2xl p-6 w-full max-w-[320px] border border-gray-100"
         >
             <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-4">
                 <Check className="text-white w-6 h-6" />
@@ -78,7 +78,7 @@ function SliderCard() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="bg-black rounded-2xl shadow-2xl p-6 w-full max-w-[320px] text-white"
+            className="bg-black rounded-2xl p-6 w-full max-w-[320px] text-white"
         >
             <div className="flex justify-between items-center mb-8">
                 <span className="text-sm text-white/60 font-poppins">Advance amount</span>
@@ -134,7 +134,7 @@ function AdvancesListCard() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-[320px] border border-gray-100"
+            className="bg-white rounded-2xl p-6 w-full max-w-[320px] border border-gray-100"
         >
             <div className="flex justify-between items-center mb-6">
                 <h3 className="font-bold text-brand-black font-poppins">Advances</h3>

@@ -180,7 +180,7 @@ export default function HomePage() {
                 className="w-full relative"
               >
                 <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
-                  <div className="p-6 md:w-1/3 flex flex-col relative z-10 bg-white justify-between min-h-[400px]">
+                  <div className="p-6 md:w-1/3 flex flex-col relative z-10 bg-white justify-between md:min-h-[400px]">
                     <div className="flex items-start justify-between mb-4">
                       <div className="space-y-2">
                         <span className="text-sm font-semibold text-brand-black/60">Analytics</span>
