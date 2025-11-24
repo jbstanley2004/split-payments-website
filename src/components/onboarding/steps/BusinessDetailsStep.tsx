@@ -5,7 +5,7 @@ import { OnboardingLayout } from '../OnboardingLayout';
 import { FormInput } from '../FormInput';
 import { FormSelect } from '../FormSelect';
 import { useOnboarding } from '@/contexts/onboarding-context';
-import OrangePushButton from '@/components/OrangePushButton';
+import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { motion } from 'framer-motion';
 
 const entityTypes = [
@@ -110,9 +110,13 @@ export function BusinessDetailsStep() {
                     transition={{ delay: 0.3 }}
                     className="flex justify-end"
                 >
-                    <OrangePushButton onClick={handleContinue}>
+                    <PrimaryButton
+                        variant="outline-orange"
+                        className="px-6 py-3 text-base"
+                        onClick={handleContinue}
+                    >
                         Continue
-                    </OrangePushButton>
+                    </PrimaryButton>
                 </motion.div>
             </div>
         </OnboardingLayout>

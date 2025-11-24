@@ -81,10 +81,18 @@ export default function HomePage() {
                   One secure platform where your business can process payments, access working capital, and grow with confidence.
                 </motion.p>
 
-                <motion.div variants={fadeInUp} className="flex justify-center">
-                  <Link href="/get-started">
-                    <PrimaryButton>
+                <motion.div
+                  variants={fadeInUp}
+                  className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto sm:max-w-lg md:flex md:flex-row md:flex-nowrap md:justify-center md:items-center"
+                >
+                  <Link href="/get-started" className="w-full min-w-0">
+                    <PrimaryButton variant="outline-orange" className="w-full">
                       Get Started
+                    </PrimaryButton>
+                  </Link>
+                  <Link href="/get-started" className="w-full min-w-0">
+                    <PrimaryButton className="w-full bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
+                      Contact sales
                     </PrimaryButton>
                   </Link>
                 </motion.div>
@@ -237,11 +245,18 @@ export default function HomePage() {
               <p className="text-xl text-brand-black/70 mb-10 font-lora">
                 Explore what's possible with Split.
               </p>
-              <Link href="/get-started">
-                <button className="bg-black text-white px-8 py-4 rounded-full font-poppins font-semibold text-lg hover:scale-105 transition-transform shadow-lg">
-                  Get started
-                </button>
-              </Link>
+              <div className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto sm:max-w-lg md:flex md:flex-row md:flex-nowrap md:justify-center md:items-center">
+                <Link href="/get-started" className="w-full min-w-0">
+                  <PrimaryButton variant="outline-orange" className="w-full">
+                    Get started
+                  </PrimaryButton>
+                </Link>
+                <Link href="/get-started" className="w-full min-w-0">
+                  <PrimaryButton className="w-full bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
+                    Contact sales
+                  </PrimaryButton>
+                </Link>
+              </div>
             </motion.div>
           </div>
         </section>
