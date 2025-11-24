@@ -120,7 +120,7 @@ export default function PaymentsPage() {
             </motion.div>
 
             {/* Dynamic Metrics Strip */}
-            <MetricsStrip />
+
           </div>
         </section>
 
@@ -313,6 +313,10 @@ export default function PaymentsPage() {
           </div>
         </section>
 
+        {/* Metrics Strip at Bottom */}
+        <section className="w-full bg-white py-8 border-t border-gray-100">
+          <MetricsStrip />
+        </section>
 
       </div >
     </main >
