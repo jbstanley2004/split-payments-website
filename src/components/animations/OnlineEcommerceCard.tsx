@@ -30,28 +30,33 @@ export default function OnlineEcommerceCard({
             className={`group relative flex flex-col rounded-3xl border overflow-hidden shadow-sm transition-colors duration-500 ${isExpanded ? 'bg-brand-black border-black' : 'bg-white border-gray-200 hover:shadow-md'}`}
             onMouseEnter={onExpand}
             initial={{ borderRadius: "1.5rem" }}
+            animate={{
+                scaleX: isExpanded ? 0.9 : 1,
+                scaleY: isExpanded ? 1.06 : 1
+            }}
+            transition={{ duration: 0.55, ease: "easeInOut" }}
         >
             {/* Header Section */}
             <motion.div layout="position" className="p-6 flex items-start justify-between relative z-20">
-                <div className="space-y-1 flex-1 min-w-0">
+                <div className="space-y-2 flex-1 min-w-0">
+                    <motion.span
+                        layout="position"
+                        className={`text-sm font-semibold uppercase tracking-[0.08em] block transition-colors duration-500 ${isExpanded ? 'text-brand-orange' : 'text-brand-black/60'}`}
+                    >
+                        {subtitle}
+                    </motion.span>
                     <motion.h3
                         layout="position"
                         className={`text-[32px] font-bold font-poppins leading-tight transition-colors duration-500 ${isExpanded ? 'text-white' : 'text-brand-black'}`}
                     >
                         {title}
                     </motion.h3>
-                    <motion.span
-                        layout="position"
-                        className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-500 ${isExpanded ? 'text-brand-orange' : 'text-brand-black/60'}`}
-                    >
-                        {subtitle}
-                    </motion.span>
                     <motion.p
                         layout="position"
-                        className={`text-base leading-relaxed pt-2 transition-colors duration-500 ${isExpanded ? 'text-gray-300' : 'text-gray-500 hidden'}`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: isExpanded ? 1 : 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 }}
+                        className={`text-base leading-relaxed transition-colors duration-500 ${isExpanded ? 'text-gray-300' : 'text-gray-500'}`}
+                        initial={false}
+                        animate={{ opacity: isExpanded ? 1 : 0, height: isExpanded ? "auto" : 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
                         {description}
                     </motion.p>
@@ -67,11 +72,24 @@ export default function OnlineEcommerceCard({
             <motion.div
                 layout
                 className="relative w-full overflow-hidden"
-                animate={{ height: isExpanded ? 240 : 0, opacity: isExpanded ? 1 : 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                animate={{
+                    height: isExpanded ? 320 : 0,
+                    opacity: isExpanded ? 1 : 0,
+                    paddingLeft: isExpanded ? 0 : 16,
+                    paddingRight: isExpanded ? 0 : 16
+                }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
             >
-                <div className="absolute inset-0 w-full h-full bg-black">
-                    <div className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:object-cover">
+                <motion.div
+                    className="relative w-full h-full overflow-hidden bg-brand-black"
+                    animate={{
+                        scaleX: isExpanded ? 1 : 0.96,
+                        scaleY: isExpanded ? 1.06 : 0.96,
+                        borderRadius: isExpanded ? "1.5rem" : "1.25rem"
+                    }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                >
+                    <div className="absolute inset-0 w-full h-full [&>iframe]:absolute [&>iframe]:inset-0 [&>iframe]:w-full [&>iframe]:h-full">
                         <WistiaEmbed videoId="q985br4zll" title="Online & E-Commerce Video" isMuted={isMuted} />
                     </div>
 
@@ -81,7 +99,7 @@ export default function OnlineEcommerceCard({
                             e.stopPropagation();
                             setIsMuted(!isMuted);
                         }}
-                        className="absolute bottom-4 right-4 z-30 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md flex items-center justify-center text-white transition-all"
+                        className="absolute bottom-4 right-4 z-30 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all"
                     >
                         {isMuted ? (
                             <VolumeX className="w-4 h-4" />
@@ -89,33 +107,31 @@ export default function OnlineEcommerceCard({
                             <Volume2 className="w-4 h-4" />
                         )}
                     </button>
-                </div>
+                </motion.div>
             </motion.div>
 
-            {/* Footer Section - Removed Description */}
             <motion.div
                 layout
-                className="px-6 overflow-hidden"
+                className="px-6 bg-brand-black"
                 animate={{
                     height: isExpanded && features.length > 0 ? "auto" : 0,
                     opacity: isExpanded ? 1 : 0,
+                    paddingTop: isExpanded && features.length > 0 ? 16 : 0,
                     paddingBottom: isExpanded && features.length > 0 ? 24 : 0
                 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }}
             >
-                {/* Features or other footer content if needed */}
+                <div className="pt-4 border-t border-white/10">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {features.map((feature, i) => (
+                            <li key={i} className="flex items-center text-sm font-medium text-white/90">
+                                <div className="w-1.5 h-1.5 rounded-full bg-brand-orange mr-2 flex-shrink-0" />
+                                {feature}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </motion.div>
-
-            <div className="pt-4 border-t border-white/10">
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {features.map((feature, i) => (
-                        <li key={i} className="flex items-center text-sm font-medium text-white/90">
-                            <div className="w-1.5 h-1.5 rounded-full bg-brand-orange mr-2 flex-shrink-0" />
-                            {feature}
-                        </li>
-                    ))}
-                </ul>
-            </div>
         </motion.div>
 
     );
