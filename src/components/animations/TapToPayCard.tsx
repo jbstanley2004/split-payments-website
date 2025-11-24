@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from "framer-motion";
 import YouTubeEmbed from "@/components/YouTubeEmbed";
+import { useInViewport } from "@/hooks/useInViewport";
 
 interface TapToPayCardProps {
     isExpanded?: boolean;
@@ -13,6 +14,9 @@ interface TapToPayCardProps {
     subtitle?: string;
     description?: string;
     features?: string[];
+    videoId?: string;
+    videoTitle?: string;
+    videoUrl?: string;
 }
 
 export default function TapToPayCard({
@@ -21,38 +25,74 @@ export default function TapToPayCard({
     title = "Tap to Pay",
     subtitle = "Digital Payments",
     description = "Turn your smartphone into a secure contactless payment terminal with contactless tap-to-pay technology.",
-    features = []
+    features = [],
+    videoId = "2Srv8GJaATY",
+    videoTitle = "Tap to Pay Demo",
+    videoUrl
 }: TapToPayCardProps = {}) {
     const [isMuted, setIsMuted] = useState(true);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const frameContainerRef = useRef<HTMLDivElement | null>(null);
+    const isInViewport = useInViewport(frameContainerRef);
+    const spring = { type: "spring", stiffness: 320, damping: 34 } as const;
+
+    useEffect(() => {
+        if (!videoRef.current) return;
+
+        if (isMuted) {
+            videoRef.current.muted = true;
+        } else {
+            videoRef.current.muted = false;
+        }
+    }, [isMuted]);
+
+    useEffect(() => {
+        if (!videoRef.current) return;
+
+        if (isInViewport) {
+            videoRef.current.play().catch(() => { /* noop */ });
+        } else {
+            videoRef.current.pause();
+        }
+    }, [isInViewport]);
 
     return (
         <motion.div
             layout
-            className={`group relative flex flex-col rounded-3xl border overflow-hidden shadow-sm transition-colors duration-500 ${isExpanded ? 'bg-brand-black border-black' : 'bg-white border-gray-200 hover:shadow-md'}`}
+            className={`group relative flex flex-col rounded-3xl border overflow-hidden shadow-sm transition-colors duration-500
+ ${isExpanded ? 'bg-brand-black border-black' : 'bg-white border-gray-200 hover:shadow-md'}`}
             onMouseEnter={onExpand}
             initial={{ borderRadius: "1.5rem" }}
+            animate={{
+                backgroundColor: isExpanded ? "#0B0B0D" : "#FFFFFF",
+                borderColor: isExpanded ? "#000000" : "#E5E7EB",
+                paddingInline: isExpanded ? 4 : 0
+            }}
+            transition={{ layout: spring, ...spring }}
         >
             {/* Header Section */}
-            <motion.div layout="position" className="p-6 flex items-start justify-between relative z-20">
-                <div className="space-y-1 flex-1 min-w-0">
-                    <motion.h3
-                        layout="position"
-                        className={`text-[32px] font-bold font-poppins leading-tight transition-colors duration-500 ${isExpanded ? 'text-white' : 'text-brand-black'}`}
-                    >
-                        {title}
-                    </motion.h3>
+            <motion.div layout="position" className="px-6 pt-7 pb-5 flex items-start justify-between relative z-20" transition={spring}>
+                <div className="space-y-2 flex-1 min-w-0">
                     <motion.span
                         layout="position"
-                        className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-500 ${isExpanded ? 'text-brand-orange' : 'text-brand-black/60'}`}
+                        className={`text-sm font-semibold uppercase tracking-[0.08em] block transition-colors duration-500 ${isExpanded ? 'text-brand-orange' : 'text-brand-black/60'}`}
+                        transition={spring}
                     >
                         {subtitle}
                     </motion.span>
+                    <motion.h3
+                        layout="position"
+                        className={`text-[32px] font-bold font-poppins leading-tight transition-colors duration-500 ${isExpanded ? 'text-white' : 'text-brand-black'}`}
+                        transition={spring}
+                    >
+                        {title}
+                    </motion.h3>
                     <motion.p
                         layout="position"
-                        className={`text-base leading-relaxed pt-2 transition-colors duration-500 ${isExpanded ? 'text-gray-300' : 'text-gray-500 hidden'}`}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: isExpanded ? 1 : 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 }}
+                        className={`text-base leading-relaxed transition-colors duration-500 ${isExpanded ? 'text-gray-300' : 'text-gray-500'}`}
+                        initial={false}
+                        animate={{ opacity: isExpanded ? 1 : 0, height: isExpanded ? "auto" : 0 }}
+                        transition={{ ...spring, duration: 0.35 }}
                     >
                         {description}
                     </motion.p>
@@ -67,49 +107,86 @@ export default function TapToPayCard({
             {/* Video Section */}
             <motion.div
                 layout
-                className="relative w-full overflow-hidden"
-                animate={{ height: isExpanded ? 240 : 0, opacity: isExpanded ? 1 : 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                className="relative w-full"
+                initial={false}
+                animate={{ opacity: isExpanded ? 1 : 0, height: isExpanded ? 'auto' : 0 }}
+                transition={{ ...spring, duration: 0.55 }}
             >
-                <div className="absolute inset-0 w-full h-full bg-black">
-                    <div className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:object-cover">
-                        <YouTubeEmbed videoId="z9x_BPf-VVo" title="Credit Card Processing Video" isMuted={isMuted} />
-                    </div>
-
-                    {/* Mute button */}
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsMuted(!isMuted);
+                <motion.div
+                    ref={frameContainerRef}
+                    className="relative w-full max-w-4xl mx-auto overflow-hidden bg-brand-black"
+                    initial={false}
+                    animate={{
+                        paddingLeft: isExpanded ? 0 : 12,
+                        paddingRight: isExpanded ? 0 : 12,
+                        borderRadius: isExpanded ? 24 : 28
+                    }}
+                    transition={{ ...spring, duration: 0.55 }}
+                >
+                    <motion.div
+                        className="relative w-full overflow-hidden"
+                        layout
+                        animate={{
+                            borderRadius: isExpanded ? 24 : 28,
+                            boxShadow: isExpanded ? "0px 24px 50px rgba(0,0,0,0.35)" : "0px 12px 26px rgba(0,0,0,0.12)"
                         }}
-                        className="absolute bottom-4 right-4 z-30 p-2 bg-black/40 hover:bg-black/60 rounded-full text-white backdrop-blur-md transition-all"
+                        transition={{ ...spring, duration: 0.6 }}
                     >
-                        {isMuted ? (
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
-                            </svg>
-                        ) : (
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                            </svg>
-                        )}
-                    </button>
-                </div>
+                        <div className="relative aspect-[16/9] w-full min-h-[240px] max-h-[420px] bg-brand-black">
+                            {videoUrl ? (
+                                <div className="absolute inset-0 w-full h-full">
+                                    <video
+                                        ref={videoRef}
+                                        src={videoUrl}
+                                        className="absolute inset-0 h-full w-full object-cover"
+                                        muted
+                                        playsInline
+                                        loop
+                                        autoPlay
+                                        controls={false}
+                                    />
+                                </div>
+                            ) : (
+                                <div className="absolute inset-0 w-full h-full [&>iframe]:absolute [&>iframe]:inset-0 [&>iframe]:w-full [&>iframe]:h-full">
+                                    <YouTubeEmbed videoId={videoId} title={videoTitle} isMuted={isMuted} />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Mute button */}
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsMuted(!isMuted);
+                            }}
+                            className="absolute bottom-4 right-4 z-30 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-white transition-all"
+                        >
+                            {isMuted ? (
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" clipRule="evenodd" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                                </svg>
+                            ) : (
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                </svg>
+                            )}
+                        </button>
+                    </motion.div>
+                </motion.div>
             </motion.div>
 
-            {/* Footer Section - Removed Description */}
             <motion.div
                 layout
-                className="px-6 overflow-hidden"
+                className="px-6 bg-brand-black"
                 animate={{
                     height: isExpanded && features.length > 0 ? "auto" : 0,
                     opacity: isExpanded ? 1 : 0,
+                    paddingTop: isExpanded && features.length > 0 ? 16 : 0,
                     paddingBottom: isExpanded && features.length > 0 ? 24 : 0
                 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ ...spring, duration: 0.5 }}
             >
-                {/* Features or other footer content if needed */}
                 <div className="pt-4 border-t border-white/10">
                     <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {features.map((feature, i) => (
