@@ -4,7 +4,7 @@ import React from 'react';
 import { OnboardingLayout } from '../OnboardingLayout';
 import { FileUploadZone } from '../FileUploadZone';
 import { useOnboarding } from '@/contexts/onboarding-context';
-import OrangePushButton from '@/components/OrangePushButton';
+import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { motion } from 'framer-motion';
 
 export function WelcomeStep() {
@@ -84,9 +84,13 @@ export function WelcomeStep() {
                     transition={{ delay: 0.4 }}
                     className="flex justify-end"
                 >
-                    <OrangePushButton onClick={handleContinue}>
+                    <PrimaryButton
+                        variant="outline-orange"
+                        className="px-6 py-3 text-base"
+                        onClick={handleContinue}
+                    >
                         Continue
-                    </OrangePushButton>
+                    </PrimaryButton>
                 </motion.div>
             </div>
         </OnboardingLayout>
