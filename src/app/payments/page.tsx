@@ -271,7 +271,7 @@ export default function PaymentsPage() {
 
 
         {/* CTA SECTION */}
-        <section className="relative w-full min-h-[100dvh] overflow-hidden flex items-center justify-center bg-[#F6F5F4]">
+        <section className="relative w-full min-h-[600px] md:min-h-[100dvh] overflow-hidden flex items-center justify-center bg-[#F6F5F4]">
           <div className="relative z-10 px-6 md:px-10 lg:px-16 py-24 mx-auto max-w-4xl text-center">
             <h2 className="text-4xl md:text-6xl font-poppins font-bold tracking-tight text-black mb-8 drop-shadow-[0_0_25px_rgba(255,255,255,1)]">
               See how Split can improve your processing.

@@ -49,12 +49,12 @@ export default function HomePage() {
         <DynamicIslandNav />
 
         {/* HERO SECTION - Pure White, High Contrast, Elegant */}
-        <div className="w-full bg-white pt-20 pb-12 md:pt-24 md:pb-16 min-h-[100dvh] flex flex-col justify-center">
+        <div className="w-full bg-white pt-20 pb-12 md:pt-20 md:pb-10 min-h-[100dvh] flex flex-col justify-center">
           <section
             id="home"
             className="relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-16"
           >
-            <div className="max-w-5xl w-full relative flex flex-col items-center text-center mb-8 md:mb-16">
+            <div className="max-w-5xl w-full relative flex flex-col items-center text-center mb-8 md:mb-12">
 
               <motion.div
                 initial="hidden"
@@ -65,7 +65,7 @@ export default function HomePage() {
               >
                 <motion.h1
                   variants={fadeInUp}
-                  className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] md:leading-[1.05] tracking-tight text-brand-black mb-6 md:mb-8 font-semibold"
+                  className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] md:leading-[1.05] tracking-tight text-brand-black mb-6 font-semibold"
                 >
                   Payments and funding.
                   <br />
@@ -76,7 +76,7 @@ export default function HomePage() {
 
                 <motion.p
                   variants={fadeInUp}
-                  className="text-lg sm:text-xl md:text-2xl font-lora text-brand-black/70 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed"
+                  className="text-lg sm:text-xl md:text-2xl font-lora text-brand-black/70 mb-8 max-w-2xl mx-auto leading-relaxed"
                 >
                   One secure platform where your business can process payments, access working capital, and grow with confidence.
                 </motion.p>
@@ -95,7 +95,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 1 }}
-              className="w-full max-w-7xl mt-8 text-center"
+              className="w-full max-w-7xl mt-6 text-center"
             >
               <h3 className="text-sm font-medium text-brand-black/50 uppercase tracking-widest mb-8 font-poppins">Brands we work with</h3>
               <TrustedByCarousel />
@@ -224,7 +224,7 @@ export default function HomePage() {
 
 
         {/* CTA SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-20 md:py-32 text-center bg-[#F6F5F4] min-h-[100dvh] flex items-center justify-center">
+        <section className="px-6 md:px-10 lg:px-16 py-20 md:py-32 text-center bg-[#F6F5F4] md:min-h-[100dvh] flex items-center justify-center">
           <div className="max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
