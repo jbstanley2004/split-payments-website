@@ -30,7 +30,7 @@ const poppins = Poppins({
   display: 'swap',
 });
 
-const baseUrl = 'https://splitpayments.com';
+const baseUrl = 'https://ccsplit.org';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -40,21 +40,12 @@ export const metadata: Metadata = {
   },
   description:
     'Accept payments, access fast working capital, and grow with Split credit card split funding.',
-  icons: {
-    icon: [
-      { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico' },
-      { url: '/favicon.png', type: 'image/png', sizes: '32x32' },
-      { url: '/icon.png', type: 'image/png', sizes: '192x192' },
-    ],
-    apple: [{ url: '/apple-icon.png', type: 'image/png', sizes: '180x180' }],
-  },
   openGraph: {
     title: 'Split — Payments & Merchant Funding',
     description:
       'Accept payments, access fast working capital, and grow with Split credit card split funding.',
     url: baseUrl,
-    siteName: 'Split',
+    images: '/social_preview.png',
     locale: 'en_US',
     type: 'website',
   },
@@ -63,6 +54,7 @@ export const metadata: Metadata = {
     description:
       'Accept payments, access fast working capital, and grow with Split credit card split funding.',
     card: 'summary_large_image',
+    images: '/social_preview.png',
   },
   robots: {
     index: true,
