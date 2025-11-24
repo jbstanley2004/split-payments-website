@@ -186,12 +186,10 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                   transition={{ delay: 0.3 }}
                   className="border-t border-gray-200/50 p-4"
                 >
-                  <Link
-                    href="/get-started"
-                    onClick={() => setIsMobileOpen(false)}
-                    className="block w-full bg-black text-white text-center py-4 rounded-2xl font-poppins font-semibold hover:bg-brand-charcoal transition-colors"
-                  >
-                    Get Started
+                  <Link href="/get-started" onClick={() => setIsMobileOpen(false)} className="block w-full">
+                    <span className="inline-flex w-full items-center justify-center rounded-full border-2 border-[#111111] bg-transparent px-7 sm:px-8 py-4 font-poppins font-medium text-base sm:text-lg tracking-tight text-[#111111] transition-all duration-300 hover:bg-[#111111]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#111111] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap text-center">
+                      Get Started
+                    </span>
                   </Link>
                 </motion.div>
               </div>
