@@ -117,27 +117,6 @@ const CloverSpotlight = () => {
                             </div>
                         </Link>
                     </div>
-
-                    <div className="flex items-center gap-2 mt-8">
-                        <button
-                            onClick={() => {
-                                if (navigator.vibrate) navigator.vibrate(10);
-                                prevSlide();
-                            }}
-                            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-black hover:bg-gray-200 transition-colors"
-                        >
-                            <ChevronLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                            onClick={() => {
-                                if (navigator.vibrate) navigator.vibrate(10);
-                                nextSlide();
-                            }}
-                            className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-brand-black hover:bg-gray-200 transition-colors"
-                        >
-                            <ChevronRight className="w-5 h-5" />
-                        </button>
-                    </div>
                 </div>
 
                 {/* Right Column: Image */}
