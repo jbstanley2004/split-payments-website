@@ -52,7 +52,7 @@ export default function FundingPage() {
                   </PrimaryButton>
                 </Link>
                 <Link href="/get-started">
-                  <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black font-poppins font-medium text-lg hover:bg-[#F6F5F4] transition-all border-2 border-[#FF4306]">
+                  <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#F6F5F4] text-black font-poppins font-medium text-lg transition-all border-2 border-[#ff4306]/30 shadow-[0_14px_38px_-28px_rgba(255,67,6,0.5)] hover:border-[#ff4306]/45 hover:bg-[#f1efed]">
                     Contact sales
                   </button>
                 </Link>
