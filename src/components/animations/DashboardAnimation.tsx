@@ -142,24 +142,35 @@ const LineChart = ({ config }: LineChartProps) => {
   const gradientId = `chart-grad-${id}`;
 
   return (
-    <div className="flex h-full flex-col justify-between">
-      <div className="flex items-center justify-between gap-4">
-        <div className="space-y-1">
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-400">
+    <div className="flex h-full flex-col justify-between bg-slate-50/50">
+      <div className="flex items-center justify-between gap-2 px-4">
+        <div className="space-y-0.5">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
             {label}
           </p>
-          <p className="text-xl font-bold text-slate-900" suppressHydrationWarning>
+          <p className="text-lg font-bold text-slate-900" suppressHydrationWarning>
             {formattedCurrent}
           </p>
         </div>
-        {/* Single Live Indicator in Chart */}
-        <div className="relative flex h-2 w-2">
-          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF4306] opacity-75"></span>
-          <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF4306]"></span>
+        {/* Live Indicator and Meta */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 text-[9px] font-medium text-slate-500">
+            <CalendarClock className="h-3 w-3 text-slate-400" />
+            <span className="hidden sm:inline">Deposits expected T+1 · Eastern cutoff</span>
+          </div>
+          <div className="hidden sm:block w-px h-3 bg-slate-200" />
+          <div className="flex items-center gap-1.5 text-[9px] font-medium text-slate-500">
+            <WalletCards className="h-3 w-3 text-slate-400" />
+            <span>TSYS · FD Omaha</span>
+          </div>
+          <div className="relative flex h-2 w-2 ml-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF4306] opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF4306]"></span>
+          </div>
         </div>
       </div>
 
-      <div className="mt-6 flex-1 relative">
+      <div className="flex-1 relative px-4 pb-4">
         <svg
           viewBox="0 0 260 130"
           className="h-full w-full overflow-visible"
@@ -418,38 +429,57 @@ export default function DashboardAnimation() {
 
   return (
     <div className="w-full h-full">
-      {/* Main Card Content - Removed outer container styling */}
-      <div className="relative h-full bg-white/50 backdrop-blur-sm p-6 sm:p-8">
+      {/* Main Card Content */}
+      <div className="relative h-full bg-white/50 backdrop-blur-sm">
 
         {/* Content Grid */}
-        <div className="flex flex-col h-full gap-6">
+        <div className="flex flex-col h-full">
 
-          {/* Header: Metric & Meta */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 shrink-0">
-            <div className="space-y-1">
-              <h3 className="text-5xl font-bold tracking-tight text-slate-900 md:text-6xl" suppressHydrationWarning>
+          {/* Top Row: Left Metric AND Chart Header (SAME LINE) */}
+          <div className="shrink-0 px-3 pt-3 sm:px-4 sm:pt-4 flex flex-col lg:flex-row gap-4">
+            {/* Left: Metric */}
+            <div className="lg:w-[30%] space-y-1">
+              <h3 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl" suppressHydrationWarning>
                 {formattedTotal}
               </h3>
-              <p className="text-sm font-semibold text-slate-500">{active.totalLabel}</p>
+              <p className="text-[10px] font-semibold text-slate-500">{active.totalLabel}</p>
             </div>
 
-            <div className="flex items-center gap-4 text-sm font-medium text-slate-500 pb-1">
-              <div className="flex items-center gap-2">
-                <CalendarClock className="h-4 w-4 text-slate-400" />
-                <span>{active.meta}</span>
-              </div>
-              <div className="hidden sm:block w-px h-4 bg-slate-200" />
-              <div className="flex items-center gap-2">
-                <WalletCards className="h-4 w-4 text-slate-400" />
-                <span>TSYS · FD Omaha</span>
+            {/* Right: Chart Background with Header Inline */}
+            <div className="lg:w-[70%] relative bg-slate-50/50 rounded-2xl overflow-hidden">
+              <div className="flex items-center justify-between gap-2 px-4 py-2">
+                <div className="space-y-0.5">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                    {active.chart.label}
+                  </p>
+                  <p className="text-lg font-bold text-slate-900">
+                    {currencyCompact.format(active.chart.values[active.chart.values.length - 1] * 1000)}
+                  </p>
+                </div>
+                {/* Live Indicator and Meta */}
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5 text-[9px] font-medium text-slate-500">
+                    <CalendarClock className="h-3 w-3 text-slate-400" />
+                    <span className="hidden sm:inline">{active.meta}</span>
+                  </div>
+                  <div className="hidden sm:block w-px h-3 bg-slate-200" />
+                  <div className="flex items-center gap-1.5 text-[9px] font-medium text-slate-500">
+                    <WalletCards className="h-3 w-3 text-slate-400" />
+                    <span>TSYS · FD Omaha</span>
+                  </div>
+                  <div className="relative flex h-2 w-2 ml-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF4306] opacity-75"></span>
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF4306]"></span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Main Content Area */}
-          <div className="flex flex-col lg:flex-row gap-8 h-full min-h-0">
+          {/* Bottom Row: Channel List AND Chart Content */}
+          <div className="flex flex-col lg:flex-row gap-4 flex-1 min-h-0 px-3 sm:px-4 pb-3 sm:pb-4">
 
-            {/* Left: Channel List (Clean, Borderless) */}
+            {/* Left: Channel List */}
             <div className="lg:w-[30%] flex flex-col justify-center gap-2">
               {active.channels.map((row) => {
                 const positive = row.deltaPct >= 0;
@@ -457,24 +487,24 @@ export default function DashboardAnimation() {
                 return (
                   <div
                     key={row.id}
-                    className="group flex items-center justify-between rounded-xl p-3 transition-colors hover:bg-slate-50"
+                    className="group flex items-center justify-between rounded-xl p-2 transition-colors hover:bg-slate-50"
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       {Icon && (
-                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-50 text-slate-600 group-hover:bg-white group-hover:shadow-sm transition-all">
-                          <Icon className="h-5 w-5" />
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-50 text-slate-600 group-hover:bg-white group-hover:shadow-sm transition-all">
+                          <Icon className="h-4 w-4" />
                         </div>
                       )}
                       <div>
-                        <p className="text-sm font-bold text-slate-900">{row.label}</p>
-                        <p className="text-xs font-medium text-slate-500">{row.descriptor}</p>
+                        <p className="text-xs font-bold text-slate-900">{row.label}</p>
+                        <p className="text-[10px] font-medium text-slate-500">{row.descriptor}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-bold text-slate-900">
+                      <p className="text-xs font-bold text-slate-900">
                         {currencyCompact.format(row.amountK * 1000)}
                       </p>
-                      <div className={`flex items-center justify-end gap-0.5 text-xs font-bold ${positive ? "text-emerald-600" : "text-rose-600"}`}>
+                      <div className={`flex items-center justify-end gap-0.5 text-[10px] font-bold ${positive ? "text-emerald-600" : "text-rose-600"}`}>
                         {positive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                         <span>{positive ? "+" : ""}{row.deltaPct.toFixed(1)}%</span>
                       </div>
@@ -484,10 +514,103 @@ export default function DashboardAnimation() {
               })}
             </div>
 
-            {/* Right: Chart (Large, Fluid) */}
-            <div className="lg:w-[70%] bg-slate-50/50 rounded-3xl p-6 border border-slate-100">
-              <LineChart config={active.chart} />
+            {/* Right: Chart Content (extends the background from above) */}
+            <div className="lg:w-[70%] relative -mt-4 lg:-mt-14">
+              <div className="absolute inset-0 bg-slate-50/50 rounded-b-2xl overflow-hidden flex flex-col">
+                {/* Chart SVG directly */}
+                <div className="flex-1 px-4 pt-4 pb-1">
+                  <svg
+                    viewBox="0 0 260 130"
+                    className="h-full w-full overflow-visible"
+                    preserveAspectRatio="none"
+                  >
+                    <defs>
+                      <linearGradient id="main-chart-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#FF4306" stopOpacity="0.1" />
+                        <stop offset="100%" stopColor="#FF4306" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+
+                    {/* Grid lines */}
+                    {[0.25, 0.5, 0.75].map((t) => (
+                      <line
+                        key={t}
+                        x1={0}
+                        x2={260}
+                        y1={130 * t}
+                        y2={130 * t}
+                        stroke="rgba(148,163,184,0.15)"
+                        strokeWidth={1}
+                        strokeDasharray="4 4"
+                      />
+                    ))}
+
+                    {/* Render chart based on active.chart data */}
+                    {(() => {
+                      const values = active.chart.values;
+                      if (!values.length) return null;
+
+                      // Add padding so chart points don't get clipped
+                      const padding = { top: 15, bottom: 15, left: 10, right: 10 };
+                      const w = 260 - padding.left - padding.right;
+                      const h = 130 - padding.top - padding.bottom;
+
+                      const vMin = Math.min(...values);
+                      const vMax = Math.max(...values);
+                      const vRange = vMax - vMin || 1;
+
+                      const points = values.map((val, i) => ({
+                        x: padding.left + (i / (values.length - 1)) * w,
+                        y: padding.top + ((vMax - val) / vRange) * h
+                      }));
+
+                      const linePath = points.map((p, i) =>
+                        `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`
+                      ).join(' ');
+
+                      const areaPath = `${linePath} L ${260 - padding.right} ${130 - padding.bottom} L ${padding.left} ${130 - padding.bottom} Z`;
+
+                      return (
+                        <>
+                          <motion.path
+                            d={areaPath}
+                            fill="url(#main-chart-grad)"
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5 }}
+                          />
+                          <motion.path
+                            d={linePath}
+                            fill="none"
+                            stroke="#FF4306"
+                            strokeWidth={1.5}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            animate={{ pathLength: 1 }}
+                            transition={{ duration: 0.7, ease: "easeOut" }}
+                          />
+                          {points.map((point, i) => (
+                            <circle
+                              key={i}
+                              cx={point.x}
+                              cy={point.y}
+                              r={1.5}
+                              fill="#FF4306"
+                            />
+                          ))}
+                        </>
+                      );
+                    })()}
+                  </svg>
+                </div>
+                {/* X-axis labels */}
+                <div className="px-4 pb-3 flex items-center justify-between text-[10px] font-semibold text-slate-400">
+                  {active.chart.x.map((label, i) => (
+                    <span key={i}>{label}</span>
+                  ))}
+                </div>
+              </div>
             </div>
+
           </div>
 
         </div>
