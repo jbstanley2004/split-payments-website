@@ -103,7 +103,7 @@ export default function PaymentsPage() {
               </p>
 
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+              <div className="flex flex-row gap-4 justify-center items-center mb-12">
                 <Link href="/get-started">
                   <PrimaryButton className="w-full sm:w-auto shadow-none border-2 border-transparent">
                     Get started
@@ -117,7 +117,7 @@ export default function PaymentsPage() {
               </div>
 
               {/* Feature highlights */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto pt-8 border-t border-gray-200">
+              <div className="grid grid-cols-3 gap-6 max-w-4xl mx-auto pt-8 border-t border-gray-200">
                 <div className="text-center">
                   <p className="text-base font-semibold text-black font-poppins">
                     Flexible, reliable payment methods
