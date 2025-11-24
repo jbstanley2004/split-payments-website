@@ -34,7 +34,7 @@ export default function FundingPage() {
               variants={fadeInUp}
               className="max-w-4xl mx-auto"
             >
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] md:leading-[1.05] tracking-tight text-black mb-6 md:mb-8 font-semibold">
+              <h1 className="text-4xl md:text-6xl leading-tight tracking-tight text-black mb-6 md:mb-8 font-semibold">
                 Fast, flexible capital
                 <br />
                 <span className="text-brand-charcoal">powered by your sales.</span>
@@ -45,17 +45,17 @@ export default function FundingPage() {
               </p>
 
 
-              <div className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto sm:max-w-lg md:flex md:flex-row md:flex-nowrap md:justify-center md:items-center mb-12">
-                <Link href="/get-started" className="w-full min-w-0">
+              <div className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto">
+                <Link href="/get-started">
                   <PrimaryButton
                     variant="outline-orange"
-                    className="w-full shadow-none hover:shadow-none hover:scale-100 active:scale-100"
+                    className="shadow-none hover:shadow-none hover:scale-100 active:scale-100"
                   >
                     Get started
                   </PrimaryButton>
                 </Link>
-                <Link href="/get-started" className="w-full min-w-0">
-                  <PrimaryButton className="w-full bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
+                <Link href="/get-started">
+                  <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
                     Contact sales
                   </PrimaryButton>
                 </Link>
@@ -206,10 +206,10 @@ export default function FundingPage() {
               {/* Repayment Card */}
               <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
                 <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between mb-6">
                     <div className="space-y-2">
                       <span className="text-sm font-semibold text-black/60">Repayment</span>
-                      <h3 className="text-2xl font-bold text-black font-poppins leading-tight">
+                      <h3 className="text-[32px] font-bold text-black font-poppins leading-tight">
                         Repay as you earn. <br />Pay it off faster.
                       </h3>
                     </div>
@@ -217,7 +217,7 @@ export default function FundingPage() {
                       <TrendingUp className="w-5 h-5" />
                     </div>
                   </div>
-                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-sm">
+                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-base">
                     Repayments are a fixed percentage of your daily card sales. Slow day? Lower payment. Busy day? Pay it off faster.
                   </p>
                 </div>
@@ -231,10 +231,10 @@ export default function FundingPage() {
               {/* Qualification Card (Restored) */}
               <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
                 <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between mb-6">
                     <div className="space-y-2">
                       <span className="text-sm font-semibold text-black/60">Qualification</span>
-                      <h3 className="text-2xl font-bold text-black font-poppins leading-tight">
+                      <h3 className="text-[32px] font-bold text-black font-poppins leading-tight">
                         Automatic qualification.
                       </h3>
                     </div>
@@ -242,7 +242,7 @@ export default function FundingPage() {
                       <Zap className="w-5 h-5" />
                     </div>
                   </div>
-                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-sm">
+                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-base">
                     No lengthy application. We proactively extend offers based on your processing history.
                   </p>
                 </div>
@@ -256,10 +256,10 @@ export default function FundingPage() {
               {/* Refill Card */}
               <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
                 <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between mb-6">
                     <div className="space-y-2">
                       <span className="text-sm font-semibold text-black/60">Renewal</span>
-                      <h3 className="text-2xl font-bold text-black font-poppins leading-tight">
+                      <h3 className="text-[32px] font-bold text-black font-poppins leading-tight">
                         Always there when you need it.
                       </h3>
                     </div>
@@ -267,7 +267,7 @@ export default function FundingPage() {
                       <Shield className="w-5 h-5" />
                     </div>
                   </div>
-                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-sm">
+                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-base">
                     Once you're funded, you're in the ecosystem. As you repay your balance, more funds become available automatically.
                   </p>
                 </div>
@@ -379,10 +379,10 @@ export default function FundingPage() {
             <div className="w-full max-w-md">
               <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-[600px]">
                 <div className="p-6 pb-0 flex flex-col relative z-10 bg-white shrink-0">
-                  <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start justify-between mb-6">
                     <div className="space-y-2">
                       <span className="text-sm font-semibold text-black/60">Coming Soon</span>
-                      <h3 className="text-2xl font-bold text-black font-poppins leading-tight">
+                      <h3 className="text-[32px] font-bold text-black font-poppins leading-tight">
                         Take Split Funding with you everywhere.
                       </h3>
                     </div>
@@ -390,7 +390,7 @@ export default function FundingPage() {
                       <Smartphone className="w-5 h-5" />
                     </div>
                   </div>
-                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-sm">
+                  <p className="text-black/70 font-lora leading-relaxed mb-8 text-base">
                     One app to manage your finances and business. Track your sales, monitor your funding, and access capital on the go.
                   </p>
                 </div>

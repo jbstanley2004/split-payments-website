@@ -41,7 +41,7 @@ export default function YouTubeEmbed({ videoId, title, isMuted }: YouTubeEmbedPr
 
             <iframe
                 ref={iframeRef}
-                className="absolute top-1/2 left-1/2 w-[150%] h-[150%] -translate-x-1/2 -translate-y-1/2 object-cover pointer-events-none"
+                className="absolute inset-0 w-full h-full object-cover pointer-events-none"
                 src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&enablejsapi=1&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1`}
                 title={title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

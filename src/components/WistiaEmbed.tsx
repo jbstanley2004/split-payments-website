@@ -45,7 +45,7 @@ export default function WistiaEmbed({ videoId, title, isMuted }: WistiaEmbedProp
                 title={title}
                 allow="autoplay; fullscreen"
                 allowFullScreen
-                className="absolute top-1/2 left-1/2 w-[150%] h-[150%] -translate-x-1/2 -translate-y-1/2 object-cover pointer-events-none"
+                className="absolute inset-0 w-full h-full object-cover pointer-events-none"
                 style={{ border: 'none' }}
             />
         </div>

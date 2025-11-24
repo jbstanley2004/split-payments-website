@@ -40,18 +40,21 @@ const HardwareSpotlight = () => {
     const currentHardware = productsData[currentIndex];
 
     const variants = {
-        enter: (direction: number) => ({
-            x: direction > 0 ? 50 : -50,
+        enter: {
             opacity: 0,
-        }),
-        center: {
-            x: 0,
-            opacity: 1,
+            scale: 0.8,
+            filter: "blur(4px)",
         },
-        exit: (direction: number) => ({
-            x: direction < 0 ? 50 : -50,
+        center: {
+            opacity: 1,
+            scale: 1,
+            filter: "blur(0px)",
+        },
+        exit: {
             opacity: 0,
-        }),
+            scale: 1.1,
+            filter: "blur(4px)",
+        },
     };
 
     const getBrandLogo = (make: string) => {
@@ -67,87 +70,24 @@ const HardwareSpotlight = () => {
     const brandLogo = getBrandLogo(currentHardware.make);
 
     return (
-        <div ref={containerRef} className="w-full relative">
-            <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
-                {/* Top Section: Content */}
-                <div className="p-6 pb-6 flex flex-col relative z-10 bg-[#F6F5F4]">
-                    <div className="flex items-start justify-between mb-6">
-                        <div className="relative w-24 h-8">
-                            {brandLogo ? (
-                                <Image
-                                    src={brandLogo}
-                                    alt={`${currentHardware.make} Logo`}
-                                    fill
-                                    className="object-contain object-left"
-                                />
-                            ) : (
-                                <span className="text-sm font-semibold text-brand-black/60 uppercase tracking-wider">
-                                    {currentHardware.make}
-                                </span>
-                            )}
-                        </div>
-
-                        {/* Navigation Buttons */}
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() => {
-                                    if (navigator.vibrate) navigator.vibrate(10);
-                                    prevSlide();
-                                }}
-                                className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center text-brand-black hover:bg-gray-50 transition-colors shadow-sm"
-                            >
-                                <ChevronLeft className="w-5 h-5" />
-                            </button>
-                            <button
-                                onClick={() => {
-                                    if (navigator.vibrate) navigator.vibrate(10);
-                                    nextSlide();
-                                }}
-                                className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white hover:bg-brand-charcoal transition-colors shadow-sm"
-                            >
-                                <ChevronRight className="w-5 h-5" />
-                            </button>
-                        </div>
-                    </div>
-
+        <div ref={containerRef} className="w-full relative h-full">
+            <div className="group relative bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-[500px] flex flex-col">
+                {/* Full-card Background Animation */}
+                <div className="absolute inset-0 bg-gray-50">
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={currentIndex}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            transition={{ duration: 0.4 }}
-                        >
-                            <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight mb-2">
-                                {currentHardware.model}
-                            </h3>
-                            <p className="text-brand-black/70 leading-relaxed font-lora text-sm">
-                                {currentHardware.description}
-                            </p>
-                        </motion.div>
-                    </AnimatePresence>
-                </div>
-
-                {/* Bottom Section: Image placed directly on background */}
-                <motion.div
-                    layout
-                    className="mt-auto w-full bg-white relative overflow-hidden flex items-center justify-center h-[250px] border-t border-gray-100"
-                >
-                    <AnimatePresence mode="wait" custom={direction}>
-                        <motion.div
-                            key={currentIndex}
-                            custom={direction}
                             variants={variants}
                             initial="enter"
                             animate="center"
                             exit="exit"
-                            transition={{ duration: 0.5, ease: "circOut" }}
-                            className="relative w-full h-full flex items-center justify-center p-6 z-10"
+                            transition={{ duration: 0.5, ease: "easeOut" }}
+                            className="absolute inset-0 flex items-center justify-center p-8"
                         >
-                            <div className="relative w-full h-full max-w-[220px] max-h-[220px]">
+                            <div className="relative w-full h-full">
                                 <Image
                                     src={currentHardware.image}
-                                    alt={`${currentHardware.make} ${currentHardware.model} `}
+                                    alt={`${currentHardware.make} ${currentHardware.model}`}
                                     fill
                                     className="object-contain mix-blend-multiply"
                                     priority
@@ -156,7 +96,79 @@ const HardwareSpotlight = () => {
                             </div>
                         </motion.div>
                     </AnimatePresence>
-                </motion.div>
+                </div>
+
+                {/* Subtle gradient overlay - just at top for minimal interference */}
+                <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent pointer-events-none" />
+
+                {/* Content Layer */}
+                <div className="relative z-10 p-6 flex flex-col h-full">
+                    <div className="flex items-start justify-between w-full mb-4">
+                        <div className="max-w-[75%]">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={currentIndex}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    transition={{ duration: 0.4 }}
+                                    className="space-y-2"
+                                >
+                                    <h3
+                                        className="text-[32px] font-bold text-brand-black font-poppins leading-tight"
+                                        style={{
+                                            textShadow: `
+                                                0 0 20px rgba(255,255,255,0.9),
+                                                0 0 10px rgba(255,255,255,0.9),
+                                                0 1px 3px rgba(255,255,255,0.9),
+                                                0 2px 6px rgba(255,255,255,0.7)
+                                            `
+                                        }}
+                                    >
+                                        {currentHardware.model}
+                                    </h3>
+                                    <p
+                                        className="text-brand-black leading-relaxed font-lora text-sm"
+                                        style={{
+                                            textShadow: `
+                                                0 0 15px rgba(255,255,255,1),
+                                                0 0 8px rgba(255,255,255,1),
+                                                0 1px 2px rgba(255,255,255,0.9),
+                                                0 2px 4px rgba(255,255,255,0.8)
+                                            `
+                                        }}
+                                    >
+                                        {currentHardware.description}
+                                    </p>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+
+                        <Link href="/payments" className="flex-shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
+                                <ArrowRight className="w-5 h-5" />
+                            </div>
+                        </Link>
+                    </div>
+
+                    {/* Brand Logo - pushed to bottom */}
+                    <div className="mt-auto">
+                        <div className="relative w-24 h-8">
+                            {brandLogo ? (
+                                <Image
+                                    src={brandLogo}
+                                    alt={`${currentHardware.make} Logo`}
+                                    fill
+                                    className="object-contain object-left drop-shadow-sm"
+                                />
+                            ) : (
+                                <span className="text-base font-medium text-brand-black/60 uppercase tracking-wider drop-shadow-sm">
+                                    {currentHardware.make}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

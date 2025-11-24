@@ -112,8 +112,8 @@ const CloverSpotlight = () => {
                         </div>
 
                         <Link href="/payments" className="flex-shrink-0">
-                            <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
-                                <ArrowRight className="w-6 h-6" />
+                            <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
+                                <ArrowRight className="w-5 h-5" />
                             </div>
                         </Link>
                     </div>

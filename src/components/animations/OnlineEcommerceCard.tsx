@@ -1,39 +1,65 @@
 "use client";
-import { Volume2, VolumeX } from "lucide-react";
+import { Volume2, VolumeX, ArrowRight } from "lucide-react";
 import { useState } from "react";
+import Link from "next/link";
 import WistiaEmbed from "@/components/WistiaEmbed";
 
-export default function OnlineEcommerceCard() {
+interface OnlineEcommerceCardProps {
+    isExpanded?: boolean;
+    onExpand?: () => void;
+}
+
+export default function OnlineEcommerceCard({ isExpanded = false, onExpand }: OnlineEcommerceCardProps = {}) {
     const [isMuted, setIsMuted] = useState(true);
 
     return (
-        <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full">
-            <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
-                <div className="flex items-start justify-between mb-4">
-                    <div className="space-y-2">
-                        <span className="text-sm font-semibold text-brand-black/60">Payments</span>
-                        <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight max-w-[80%]">
-                            Payment gateway.
-                        </h3>
+        <div
+            className={`group bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${isExpanded ? 'scale-110' : 'hover:scale-110'} origin-center`}
+            onMouseEnter={onExpand}
+        >
+            {/* Wrapper expands to video size when isExpanded */}
+            <div className={`relative transition-all duration-700 ease-out ${isExpanded ? 'h-[350px]' : ''}`}>
+                {/* Video - positioned above, rolls down when expanded */}
+                <div className={`absolute inset-x-0 w-full h-full transition-transform duration-700 ease-out ${isExpanded ? 'translate-y-0' : '-translate-y-full'}`}>
+                    <div className="relative w-full h-full bg-gray-50">
+                        <WistiaEmbed videoId="q985br4zll" title="Online & E-Commerce Video" isMuted={isMuted} />
+
+                        {/* Mute button - overlaid on video */}
+                        <button
+                            onClick={() => setIsMuted(!isMuted)}
+                            className="absolute bottom-3 right-3 z-20 w-9 h-9 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white transition-all hover:scale-110"
+                            aria-label={isMuted ? "Unmute video" : "Mute video"}
+                        >
+                            {isMuted ? (
+                                <VolumeX className="w-4 h-4" />
+                            ) : (
+                                <Volume2 className="w-4 h-4" />
+                            )}
+                        </button>
                     </div>
-                    <button
-                        onClick={() => setIsMuted(!isMuted)}
-                        className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110 flex-shrink-0"
-                        aria-label={isMuted ? "Unmute video" : "Mute video"}
-                    >
-                        {isMuted ? (
-                            <VolumeX className="w-5 h-5" />
-                        ) : (
-                            <Volume2 className="w-5 h-5" />
-                        )}
-                    </button>
+                </div>
+
+                {/* Title Card - visible by default, stays in place on hover */}
+                <div className="bg-white transition-transform duration-700 ease-out">
+                    <div className="p-4">
+                        <div className="flex items-start justify-between">
+                            <div className="space-y-1 flex-1 min-w-0">
+                                <span className="text-xs font-semibold text-brand-black/60 block">Payments</span>
+                                <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">
+                                    Payment gateway.
+                                </h3>
+                            </div>
+                            <Link href="/get-started" className="flex-shrink-0 ml-3">
+                                <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
+                                    <ArrowRight className="w-4 h-4" />
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
-                <div className="h-72 w-full relative overflow-hidden">
-                    <WistiaEmbed videoId="q985br4zll" title="Online & E-Commerce Video" isMuted={isMuted} />
-                </div>
-            </div>
+
+
         </div>
     );
 }

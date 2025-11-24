@@ -7,16 +7,16 @@ import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 import MobileTerminalsCard from "@/components/animations/MobileTerminalsCard";
 import OnlineEcommerceCard from "@/components/animations/OnlineEcommerceCard";
 import TapToPayCard from "@/components/animations/TapToPayCard";
 import InPersonPOSCard from "@/components/animations/InPersonPOSCard";
 import EChecksCard from "@/components/animations/EChecksCard";
-import HardwareSpotlight from "@/components/HardwareSpotlight";
-import HardwareAgnosticCard from "@/components/animations/HardwareAgnosticCard";
+import HardwareGridShowcase from "@/components/HardwareGridShowcase";
 import MetricsStrip from "@/components/MetricsStrip";
-import DataMatrixBackground from "@/components/DataMatrixBackground";
+
 
 type PaymentSolution = {
   title: string;
@@ -27,10 +27,11 @@ type PaymentSolution = {
 
 const SOLUTIONS = [
   {
-    title: "Brand Agnostic",
-    description: "Our favorite is your favorite. We integrate seamlessly with hardware and software you already know and trust.",
-    icon: Laptop, // Placeholder, not used in custom card
-    image: ""
+    title: "Payment Gateway",
+    description:
+      "Seamless checkout experiences for your digital store, integrated directly with your inventory.",
+    icon: Zap,
+    image: "/assets/new_photos/ecom/ingenico-ecommerce.webp"
   },
   {
     title: "Mobile Wireless",
@@ -40,20 +41,6 @@ const SOLUTIONS = [
     image: "/assets/new_photos/in_person/ingenico-wireless.webp"
   },
   {
-    title: "Payment Gateway",
-    description:
-      "Seamless checkout experiences for your digital store, integrated directly with your inventory.",
-    icon: Zap,
-    image: "/assets/new_photos/ecom/ingenico-ecommerce.webp"
-  },
-  {
-    title: "Contactless Tap to Pay",
-    description:
-      "Turn your smartphone into a secure contactless payment terminal with contactless tap-to-pay technology.",
-    icon: Shield,
-    image: "/assets/new_photos/in_person/tap-payment.jpeg"
-  },
-  {
     title: "Integrations",
     description:
       "Modernize your check acceptance with automated verification, faster deposits, and lower transaction costs.",
@@ -61,15 +48,17 @@ const SOLUTIONS = [
     image: ""
   },
   {
-    title: "Integrated POS",
+    title: "Contactless Tap to Pay",
     description:
-      "Powerful point-of-sale systems for retail and dining. Accept every payment type with speed and reliability.",
-    icon: Laptop,
-    image: "/assets/new_photos/in_person/clover-full-pos.webp"
+      "Turn your smartphone into a secure contactless payment terminal with contactless tap-to-pay technology.",
+    icon: Shield,
+    image: "/assets/new_photos/in_person/tap-payment.jpeg"
   }
 ];
 
 export default function PaymentsPage() {
+  const [expandedCard, setExpandedCard] = useState<string | null>(null);
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
@@ -84,7 +73,7 @@ export default function PaymentsPage() {
 
         {/* HERO – Clean, Bright */}
         <section className="relative min-h-[100dvh] bg-white flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-20 md:pt-24 overflow-hidden">
-          <DataMatrixBackground />
+
           <div className="max-w-6xl w-full text-center relative z-10">
 
             <motion.div
@@ -94,7 +83,7 @@ export default function PaymentsPage() {
               className="max-w-4xl mx-auto"
             >
 
-              <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] md:leading-[1.05] tracking-tight text-black mb-6 md:mb-8 font-semibold">
+              <h1 className="text-4xl md:text-6xl leading-tight tracking-tight text-black mb-6 md:mb-8 font-semibold">
                 Smarter payments.
                 <br />
                 <span className="text-brand-charcoal">Stronger cash flow.</span>
@@ -105,17 +94,17 @@ export default function PaymentsPage() {
               </p>
 
 
-              <div className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto sm:max-w-lg md:flex md:flex-row md:flex-nowrap md:justify-center md:items-center mb-12">
-                <Link href="/get-started" className="w-full min-w-0">
+              <div className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto">
+                <Link href="/get-started">
                   <PrimaryButton
                     variant="outline-orange"
-                    className="w-full shadow-none hover:shadow-none hover:scale-100 active:scale-100"
+                    className="shadow-none hover:shadow-none hover:scale-100 active:scale-100"
                   >
                     Get started
                   </PrimaryButton>
                 </Link>
-                <Link href="/get-started" className="w-full min-w-0">
-                  <PrimaryButton className="w-full bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
+                <Link href="/get-started">
+                  <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
                     Contact sales
                   </PrimaryButton>
                 </Link>
@@ -140,149 +129,77 @@ export default function PaymentsPage() {
               </h2>
             </div>
 
-            <div className="grid gap-8 md:grid-cols-2">
-              {SOLUTIONS.map((solution, index) => {
-                // Special handling for Integrated POS - use the new card component
-                if (solution.title === "Integrated POS") {
-                  return (
-                    <motion.div
-                      key={solution.title}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
-                    >
-                      <InPersonPOSCard />
-                    </motion.div>
-                  );
-                }
+            {/* Row 1: Payment Gateway + Mobile Wireless */}
+            <div className="grid gap-8 md:grid-cols-2 mb-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0, duration: 0.5 }}
+              >
+                <OnlineEcommerceCard
+                  isExpanded={expandedCard === 'payment-gateway'}
+                  onExpand={() => setExpandedCard('payment-gateway')}
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.1, duration: 0.5 }}
+              >
+                <MobileTerminalsCard
+                  isExpanded={expandedCard === 'mobile-wireless'}
+                  onExpand={() => setExpandedCard('mobile-wireless')}
+                />
+              </motion.div>
+            </div>
 
-                // Special handling for Mobile Wireless - use the new card component
-                if (solution.title === "Mobile Wireless") {
-                  return (
-                    <motion.div
-                      key={solution.title}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
-                    >
-                      <MobileTerminalsCard />
-                    </motion.div>
-                  );
-                }
+            {/* Row 2: Integrations + Contactless Tap to Pay */}
+            <div className="grid gap-8 md:grid-cols-2 mb-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2, duration: 0.5 }}
+              >
+                <EChecksCard
+                  isExpanded={expandedCard === 'integrations'}
+                  onExpand={() => setExpandedCard('integrations')}
+                />
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
+                <TapToPayCard
+                  isExpanded={expandedCard === 'tap-to-pay'}
+                  onExpand={() => setExpandedCard('tap-to-pay')}
+                />
+              </motion.div>
+            </div>
 
-                // Special handling for Payment Gateway - use the new card component
-                if (solution.title === "Payment Gateway") {
-                  return (
-                    <motion.div
-                      key={solution.title}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
-                    >
-                      <OnlineEcommerceCard />
-                    </motion.div>
-                  );
-                }
-
-                // Special handling for Contactless Tap to Pay - use the new card component
-                if (solution.title === "Contactless Tap to Pay") {
-                  return (
-                    <motion.div
-                      key={solution.title}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
-                    >
-                      <TapToPayCard />
-                    </motion.div>
-                  );
-                }
-
-                // Special handling for Integrations - use the new card component
-                if (solution.title === "Integrations") {
-                  return (
-                    <motion.div
-                      key={solution.title}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
-                    >
-                      <EChecksCard />
-                    </motion.div>
-                  );
-                }
-
-                // Special handling for Brand Agnostic - use the new card component
-                if (solution.title === "Brand Agnostic") {
-                  return (
-                    <motion.div
-                      key={solution.title}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1, duration: 0.5 }}
-                    >
-                      <HardwareAgnosticCard />
-                    </motion.div>
-                  );
-                }
-
-                // Regular cards for other solutions (if any)
-                return (
-                  <motion.article
-                    key={solution.title}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                    className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300"
-                  >
-                    <div className="h-48 bg-gray-50 relative border-b border-gray-100">
-                      <Image
-                        src={solution.image}
-                        alt={solution.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                        className="object-cover object-top grayscale-[10%] group-hover:grayscale-0 transition-all duration-500"
-                      />
-                    </div>
-                    <div className="p-8">
-                      <div className="w-12 h-12 rounded-xl bg-black flex items-center justify-center mb-6 text-white">
-                        <solution.icon className="h-6 w-6" aria-hidden="true" />
-                      </div>
-                      <h3 className="font-poppins text-xl font-bold text-black mb-3">
-                        {solution.title}
-                      </h3>
-                      <p className="text-black leading-relaxed text-sm font-lora">
-                        {solution.description}
-                      </p>
-                    </div>
-                  </motion.article>
-                );
-              })}
+            {/* Row 3: Brand Agnostic (centered) */}
+            <div className="flex justify-center">
+              <motion.div
+                className="w-full md:w-1/2"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                <HardwareGridShowcase
+                  isExpanded={expandedCard === 'brand-agnostic'}
+                  onExpand={() => setExpandedCard('brand-agnostic')}
+                />
+              </motion.div>
             </div>
           </div>
         </section>
 
-        {/* HARDWARE SHOWCASE */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 md:py-24 bg-white border-t border-brand-stone/50">
-          <div className="max-w-6xl mx-auto text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-poppins font-bold text-black mb-6">
-              Industry leading payment tech.
-            </h2>
-            <p className="text-lg text-black max-w-2xl mx-auto font-lora">
-              We support the most trusted payment hardware from Ingenico, Verifone, Pax, and Clover.
-            </p>
-          </div>
-          <div className="max-w-xl mx-auto">
-            <HardwareSpotlight />
-          </div>
-        </section>
+
 
 
         {/* CTA SECTION */}

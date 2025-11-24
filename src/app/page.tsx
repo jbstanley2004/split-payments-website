@@ -65,7 +65,7 @@ export default function HomePage() {
               >
                 <motion.h1
                   variants={fadeInUp}
-                  className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.1] md:leading-[1.05] tracking-tight text-brand-black mb-6 font-semibold"
+                  className="text-4xl md:text-6xl leading-tight tracking-tight text-brand-black mb-6 font-semibold"
                 >
                   Payments and funding.
                   <br />
@@ -83,15 +83,15 @@ export default function HomePage() {
 
                 <motion.div
                   variants={fadeInUp}
-                  className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto sm:max-w-lg md:flex md:flex-row md:flex-nowrap md:justify-center md:items-center"
+                  className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto"
                 >
-                  <Link href="/get-started" className="w-full min-w-0">
-                    <PrimaryButton variant="outline-orange" className="w-full">
+                  <Link href="/get-started">
+                    <PrimaryButton variant="outline-orange">
                       Get Started
                     </PrimaryButton>
                   </Link>
-                  <Link href="/get-started" className="w-full min-w-0">
-                    <PrimaryButton className="w-full bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
+                  <Link href="/get-started">
+                    <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
                       Contact sales
                     </PrimaryButton>
                   </Link>
@@ -159,19 +159,19 @@ export default function HomePage() {
                       <div className="flex items-start justify-between mb-4">
                         <div className="space-y-2">
                           <span className="text-sm font-semibold text-brand-black/60">{feature.label}</span>
-                          <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight max-w-[80%]">
+                          <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight max-w-[90%]">
                             {feature.title}.
                           </h3>
                         </div>
                         <Link href={feature.href} className="flex-shrink-0">
-                          <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
-                            <ArrowRight className="w-6 h-6" />
+                          <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
+                            <ArrowRight className="w-5 h-5" />
                           </div>
                         </Link>
                       </div>
                     </div>
                     <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
-                      <div className="h-72 w-full">
+                      <div className="h-80 w-full">
                         {feature.component}
                       </div>
                     </div>
@@ -187,18 +187,20 @@ export default function HomePage() {
                 transition={{ delay: 0.2 }}
                 className="w-full relative"
               >
-                <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
+                <div className="flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
                   <div className="p-6 md:w-1/3 flex flex-col relative z-10 bg-white justify-between md:min-h-[400px]">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="space-y-2">
-                        <span className="text-sm font-semibold text-brand-black/60">Analytics</span>
+                    <div className="flex items-start justify-between w-full">
+                      <div className="max-w-[80%]">
+                        <span className="text-sm font-bold text-brand-black/60 uppercase tracking-wider mb-2 block font-poppins">Analytics</span>
                         <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight">
-                          Real-time analytics.
+                          Real-time
+                          <br />
+                          analytics.
                         </h3>
                       </div>
-                      <Link href="/payments" className="flex-shrink-0">
-                        <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
-                          <ArrowRight className="w-6 h-6" />
+                      <Link href="/dashboard" className="flex-shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
+                          <ArrowRight className="w-5 h-5" />
                         </div>
                       </Link>
                     </div>
@@ -245,14 +247,14 @@ export default function HomePage() {
               <p className="text-xl text-brand-black/70 mb-10 font-lora">
                 Explore what's possible with Split.
               </p>
-              <div className="grid grid-cols-2 gap-3 w-full max-w-md mx-auto sm:max-w-lg md:flex md:flex-row md:flex-nowrap md:justify-center md:items-center">
-                <Link href="/get-started" className="w-full min-w-0">
-                  <PrimaryButton variant="outline-orange" className="w-full">
+              <div className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto">
+                <Link href="/get-started">
+                  <PrimaryButton variant="outline-orange">
                     Get started
                   </PrimaryButton>
                 </Link>
-                <Link href="/get-started" className="w-full min-w-0">
-                  <PrimaryButton className="w-full bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
+                <Link href="/get-started">
+                  <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
                     Contact sales
                   </PrimaryButton>
                 </Link>
