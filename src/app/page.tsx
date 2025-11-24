@@ -83,7 +83,7 @@ export default function HomePage() {
 
                 <motion.div variants={fadeInUp} className="flex justify-center">
                   <Link href="/get-started">
-                    <PrimaryButton>
+                    <PrimaryButton variant="gradient-border">
                       Get Started
                     </PrimaryButton>
                   </Link>
@@ -238,9 +238,9 @@ export default function HomePage() {
                 Explore what's possible with Split.
               </p>
               <Link href="/get-started">
-                <button className="bg-black text-white px-8 py-4 rounded-full font-poppins font-semibold text-lg hover:scale-105 transition-transform shadow-lg">
+                <PrimaryButton variant="gradient-border">
                   Get started
-                </button>
+                </PrimaryButton>
               </Link>
             </motion.div>
           </div>
