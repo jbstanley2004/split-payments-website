@@ -45,16 +45,19 @@ export default function FundingPage() {
               </p>
 
 
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-                <Link href="/get-started">
-                  <PrimaryButton className="w-full sm:w-auto shadow-none border-2 border-transparent">
+              <div className="flex flex-row flex-wrap gap-3 justify-center items-center mb-12 max-w-2xl mx-auto">
+                <Link href="/get-started" className="flex-1 min-w-[150px] max-w-[240px]">
+                  <PrimaryButton
+                    variant="outline-orange"
+                    className="w-full shadow-none hover:shadow-none hover:scale-100 active:scale-100"
+                  >
                     Get started
                   </PrimaryButton>
                 </Link>
-                <Link href="/get-started">
-                  <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black font-poppins font-medium text-lg hover:bg-[#F6F5F4] transition-all border-2 border-[#FF4306]">
+                <Link href="/get-started" className="flex-1 min-w-[150px] max-w-[240px]">
+                  <PrimaryButton className="w-full bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
                     Contact sales
-                  </button>
+                  </PrimaryButton>
                 </Link>
               </div>
             </motion.div>
@@ -423,7 +426,10 @@ export default function FundingPage() {
                 See how much funding you qualify for today. No commitment required.
               </p>
               <Link href="/get-started">
-                <PrimaryButton className="shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] transform hover:-translate-y-1 transition-all scale-110">
+                <PrimaryButton
+                  variant="outline-orange"
+                  className="shadow-none hover:shadow-none hover:scale-100 active:scale-100"
+                >
                   Get Started
                 </PrimaryButton>
               </Link>

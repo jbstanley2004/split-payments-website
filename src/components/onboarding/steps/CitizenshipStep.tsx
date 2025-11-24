@@ -3,7 +3,7 @@
 import React from 'react';
 import { OnboardingLayout } from '../OnboardingLayout';
 import { useOnboarding } from '@/contexts/onboarding-context';
-import OrangePushButton from '@/components/OrangePushButton';
+import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { motion } from 'framer-motion';
 
 export function CitizenshipStep() {
@@ -101,12 +101,14 @@ export function CitizenshipStep() {
                     transition={{ delay: 0.3 }}
                     className="flex justify-end"
                 >
-                    <OrangePushButton
+                    <PrimaryButton
+                        variant="outline-orange"
+                        className="px-6 py-3 text-base"
                         onClick={handleContinue}
                         disabled={!data.ownerUsCitizen}
                     >
                         Continue
-                    </OrangePushButton>
+                    </PrimaryButton>
                 </motion.div>
             </div>
         </OnboardingLayout>
