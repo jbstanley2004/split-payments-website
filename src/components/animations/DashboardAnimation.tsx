@@ -452,7 +452,7 @@ export default function DashboardAnimation() {
                   <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
                     {active.chart.label}
                   </p>
-                  <p className="text-lg font-bold text-slate-900">
+                  <p className="text-lg font-bold text-slate-900" suppressHydrationWarning>
                     {currencyCompact.format(active.chart.values[active.chart.values.length - 1] * 1000)}
                   </p>
                 </div>
@@ -501,7 +501,7 @@ export default function DashboardAnimation() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs font-bold text-slate-900">
+                      <p className="text-xs font-bold text-slate-900" suppressHydrationWarning>
                         {currencyCompact.format(row.amountK * 1000)}
                       </p>
                       <div className={`flex items-center justify-end gap-0.5 text-[10px] font-bold ${positive ? "text-emerald-600" : "text-rose-600"}`}>

@@ -49,7 +49,7 @@ export default function HomePage() {
         <DynamicIslandNav />
 
         {/* HERO SECTION - Pure White, High Contrast, Elegant */}
-        <div className="w-full bg-white pt-20 pb-12 md:pt-24 md:pb-16 min-h-screen flex flex-col justify-center">
+        <div className="w-full bg-white pt-20 pb-12 md:pt-24 md:pb-16 min-h-[100dvh] flex flex-col justify-center">
           <section
             id="home"
             className="relative flex flex-col items-center justify-center px-6 md:px-10 lg:px-16"
@@ -105,7 +105,7 @@ export default function HomePage() {
 
         {/* EVERYTHING YOU NEED SECTION */}
         <div className="w-full bg-[#F6F5F4]">
-          <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-16">
+          <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-12 md:py-16">
             <div className="max-w-7xl mx-auto">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -180,7 +180,7 @@ export default function HomePage() {
                 className="w-full relative"
               >
                 <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
-                  <div className="p-6 md:w-1/3 flex flex-col relative z-10 bg-white justify-between min-h-[300px]">
+                  <div className="p-6 md:w-1/3 flex flex-col relative z-10 bg-white justify-between min-h-[400px]">
                     <div className="flex items-start justify-between mb-4">
                       <div className="space-y-2">
                         <span className="text-sm font-semibold text-brand-black/60">Analytics</span>
@@ -196,7 +196,7 @@ export default function HomePage() {
                     </div>
                   </div>
                   <div className="md:w-2/3 bg-gray-50 relative border-t md:border-t-0 md:border-l border-gray-100 overflow-hidden">
-                    <div className="w-full h-full h-[250px] md:h-[300px]">
+                    <div className="w-full h-full h-[350px] md:h-[400px]">
                       <DashboardAnimation />
                     </div>
                   </div>
@@ -208,7 +208,7 @@ export default function HomePage() {
 
         {/* HARDWARE TEASER */}
         <div className="w-full bg-white">
-          <section className="px-6 md:px-10 lg:px-16 py-16 border-b border-brand-stone/30">
+          <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 border-b border-brand-stone/30">
             <div className="max-w-6xl mx-auto mb-16 text-center">
               <h2 className="text-3xl md:text-5xl font-bold text-brand-black mb-6 font-poppins">
                 Powering the world's best payment tech.
@@ -224,7 +224,7 @@ export default function HomePage() {
 
 
         {/* CTA SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-32 text-center bg-white">
+        <section className="px-6 md:px-10 lg:px-16 py-20 md:py-32 text-center bg-[#F6F5F4] min-h-[100dvh] flex items-center justify-center">
           <div className="max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -40,15 +40,7 @@ export const metadata: Metadata = {
   },
   description:
     'Accept payments, access fast working capital, and grow with Split credit card split funding.',
-  icons: {
-    icon: [
-      { url: '/new_logo.svg', type: 'image/svg+xml' },
-      { url: '/new_logo.png', type: 'image/png', sizes: '32x32' },
-      // fallback icons if needed
-      { url: '/favicon.ico' },
-    ],
-    apple: [{ url: '/new_logo.png', type: 'image/png', sizes: '180x180' }],
-  },
+
   openGraph: {
     title: 'Split — Payments & Merchant Funding',
     description:

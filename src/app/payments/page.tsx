@@ -82,7 +82,7 @@ export default function PaymentsPage() {
         <DynamicIslandNav />
 
         {/* HERO – Clean, Bright */}
-        <section className="relative min-h-screen bg-white flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden">
+        <section className="relative min-h-[100dvh] bg-white flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden">
           <div className="max-w-6xl w-full text-center relative z-10">
 
             <motion.div
@@ -117,7 +117,7 @@ export default function PaymentsPage() {
 
 
         {/* COVERAGE + SOLUTIONS GRID */}
-        <section className="w-full bg-[#F6F5F4] px-6 md:px-10 lg:px-16 py-24">
+        <section className="w-full bg-[#F6F5F4] px-6 md:px-10 lg:px-16 py-16 md:py-24">
           <div className="mx-auto max-w-6xl">
             <div className="text-center mb-20">
               <h2 className="text-4xl md:text-5xl font-poppins font-bold tracking-tight text-black mb-6">
@@ -255,7 +255,7 @@ export default function PaymentsPage() {
         </section>
 
         {/* HARDWARE SHOWCASE */}
-        <section className="px-6 md:px-10 lg:px-16 py-24 bg-white border-t border-brand-stone/50">
+        <section className="px-6 md:px-10 lg:px-16 py-16 md:py-24 bg-white border-t border-brand-stone/50">
           <div className="max-w-6xl mx-auto text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-poppins font-bold text-black mb-6">
               Industry leading payment tech.
@@ -271,7 +271,7 @@ export default function PaymentsPage() {
 
 
         {/* CTA SECTION */}
-        <section className="relative w-full min-h-[600px] overflow-hidden flex items-center justify-center bg-[#F6F5F4]">
+        <section className="relative w-full min-h-[100dvh] overflow-hidden flex items-center justify-center bg-[#F6F5F4]">
           <div className="relative z-10 px-6 md:px-10 lg:px-16 py-24 mx-auto max-w-4xl text-center">
             <h2 className="text-4xl md:text-6xl font-poppins font-bold tracking-tight text-black mb-8 drop-shadow-[0_0_25px_rgba(255,255,255,1)]">
               See how Split can improve your processing.

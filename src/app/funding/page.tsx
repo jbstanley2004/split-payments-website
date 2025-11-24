@@ -17,7 +17,7 @@ import TimelineFundingAnimation from "@/components/animations/TimelineFundingAni
 export default function FundingPage() {
   const fadeInUp = {
     hidden: { opacity: 0, y: 10 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
   };
 
   return (
@@ -26,7 +26,7 @@ export default function FundingPage() {
         <DynamicIslandNav />
 
         {/* HERO SECTION */}
-        <section className="relative min-h-screen flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden bg-white">
+        <section className="relative min-h-[100dvh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden bg-white">
           <div className="max-w-6xl w-full text-center relative z-10">
             <motion.div
               initial="hidden"
@@ -55,7 +55,7 @@ export default function FundingPage() {
         </section>
 
         {/* ELIGIBILITY SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 bg-[#F6F5F4]">
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-[#F6F5F4]">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-6">
               Eligibility
@@ -85,7 +85,7 @@ export default function FundingPage() {
         </section>
 
         {/* TIMELINE SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 bg-white">
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-white">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
               <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-6">
@@ -143,7 +143,7 @@ export default function FundingPage() {
         </section>
 
         {/* METRICS SECTION - Clean Grid */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 bg-[#F6F5F4] border-t border-brand-stone/50">
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-[#F6F5F4] border-t border-brand-stone/50">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
               {[
@@ -189,7 +189,7 @@ export default function FundingPage() {
         </section>
 
         {/* FEATURE CARDS GRID */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 bg-white">
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-white">
           <div className="max-w-[1400px] mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -273,7 +273,7 @@ export default function FundingPage() {
         </section>
 
         {/* COMPARISON TABLE SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 bg-[#F6F5F4] border-t border-brand-stone/50">
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-[#F6F5F4] border-t border-brand-stone/50">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold text-black mb-6 font-poppins">
@@ -364,7 +364,7 @@ export default function FundingPage() {
         </section>
 
         {/* SPLIT APP SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-16 bg-white">
+        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-white">
           <div className="max-w-6xl mx-auto flex justify-center">
             <div className="w-full max-w-md">
               <div className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-[600px]">
@@ -402,7 +402,7 @@ export default function FundingPage() {
         </section>
 
         {/* CTA SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-32 text-center bg-[#F6F5F4] border-t border-brand-stone/50">
+        <section className="px-6 md:px-10 lg:px-16 py-20 md:py-32 text-center bg-[#F6F5F4] border-t border-brand-stone/50 min-h-[100dvh] flex items-center justify-center">
           <div className="max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

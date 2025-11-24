@@ -70,8 +70,8 @@ export default function LivingGridAnimation() {
     }, [isInViewport]);
 
     return (
-        <div ref={containerRef} className="w-full h-full flex items-center justify-center p-8">
-            <div className="grid grid-cols-4 gap-4 w-full max-w-2xl">
+        <div ref={containerRef} className="w-full h-full flex items-center justify-center p-4">
+            <div className="grid grid-cols-4 gap-2 md:gap-6 w-full max-w-2xl h-full">
                 {activeLogos.map((logo, index) => (
                     <GridCell key={`${index}`} logo={logo} index={index} />
                 ))}
