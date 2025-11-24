@@ -122,223 +122,196 @@ export default function PaymentsPage() {
             {/* Dynamic Metrics Strip */}
             <MetricsStrip />
           </div>
-          {/* Subtle Metrics Strip */}
-          <div className="absolute bottom-8 left-0 right-0 px-6 md:px-10 lg:px-16 opacity-40">
-            <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
-              {/* Left - Net card volume */}
-              <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-black font-poppins">$48.2K</span>
-                <span className="text-xs text-black/60 font-lora">Net card volume</span>
-              </div>
+        </section>
 
-              {/* Middle - Volume by hour */}
-              <div className="hidden md:flex items-center gap-2">
-                <span className="text-xs text-black/40 uppercase tracking-wider font-poppins">Volume by hour</span>
-                <span className="text-lg font-semibold text-black font-poppins">$6.3K</span>
-              </div>
 
-              {/* Right - Status text with orange dot */}
-              <div className="flex items-center gap-3">
-                <div className="hidden lg:flex flex-col items-end text-xs text-black/50">
-                  <span className="font-poppins">Deposits expected T+1 • Eastern cutoff</span>
-                  <span className="font-poppins">TSYS • FD Omaha</span>
-                </div>
-                <div className="relative">
-                  <div className="w-2 h-2 rounded-full bg-[#FF4306] animate-pulse"></div>
-                </div>
+
+
+
+
+        {/* COVERAGE + SOLUTIONS GRID */}
+        <section className="w-full bg-[#F6F5F4] px-6 md:px-10 lg:px-16 py-16 md:py-24">
+          <div className="mx-auto max-w-6xl">
+            <div className="text-center mb-20">
+              <h2 className="text-4xl md:text-5xl font-poppins font-bold tracking-tight text-black mb-6">
+                Built for every way <br /> you accept payments.
+              </h2>
+            </div>
+
+            <div className="grid gap-8 md:grid-cols-2">
+              {SOLUTIONS.map((solution, index) => {
+                // Special handling for Integrated POS - use the new card component
+                if (solution.title === "Integrated POS") {
+                  return (
+                    <motion.div
+                      key={solution.title}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                    >
+                      <InPersonPOSCard />
+                    </motion.div>
+                  );
+                }
+
+                // Special handling for Mobile Wireless - use the new card component
+                if (solution.title === "Mobile Wireless") {
+                  return (
+                    <motion.div
+                      key={solution.title}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                    >
+                      <MobileTerminalsCard />
+                    </motion.div>
+                  );
+                }
+
+                // Special handling for Payment Gateway - use the new card component
+                if (solution.title === "Payment Gateway") {
+                  return (
+                    <motion.div
+                      key={solution.title}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                    >
+                      <OnlineEcommerceCard />
+                    </motion.div>
+                  );
+                }
+
+                // Special handling for Contactless Tap to Pay - use the new card component
+                if (solution.title === "Contactless Tap to Pay") {
+                  return (
+                    <motion.div
+                      key={solution.title}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                    >
+                      <TapToPayCard />
+                    </motion.div>
+                  );
+                }
+
+                // Special handling for Integrations - use the new card component
+                if (solution.title === "Integrations") {
+                  return (
+                    <motion.div
+                      key={solution.title}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                    >
+                      <EChecksCard />
+                    </motion.div>
+                  );
+                }
+
+                // Special handling for Brand Agnostic - use the new card component
+                if (solution.title === "Brand Agnostic") {
+                  return (
+                    <motion.div
+                      key={solution.title}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1, duration: 0.5 }}
+                    >
+                      <HardwareAgnosticCard />
+                    </motion.div>
+                  );
+                }
+
+                // Regular cards for other solutions (if any)
+                return (
+                  <motion.article
+                    key={solution.title}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300"
+                  >
+                    <div className="h-48 bg-gray-50 relative border-b border-gray-100">
+                      <Image
+                        src={solution.image}
+                        alt={solution.title}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                        className="object-cover object-top grayscale-[10%] group-hover:grayscale-0 transition-all duration-500"
+                      />
+                    </div>
+                    <div className="p-8">
+                      <div className="w-12 h-12 rounded-xl bg-black flex items-center justify-center mb-6 text-white">
+                        <solution.icon className="h-6 w-6" aria-hidden="true" />
+                      </div>
+                      <h3 className="font-poppins text-xl font-bold text-black mb-3">
+                        {solution.title}
+                      </h3>
+                      <p className="text-black leading-relaxed text-sm font-lora">
+                        {solution.description}
+                      </p>
+                    </div>
+                  </motion.article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* HARDWARE SHOWCASE */}
+        <section className="px-6 md:px-10 lg:px-16 py-16 md:py-24 bg-white border-t border-brand-stone/50">
+          <div className="max-w-6xl mx-auto text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-poppins font-bold text-black mb-6">
+              Industry leading payment tech.
+            </h2>
+            <p className="text-lg text-black max-w-2xl mx-auto font-lora">
+              We support the most trusted payment hardware from Ingenico, Verifone, Pax, and Clover.
+            </p>
+          </div>
+          <div className="max-w-xl mx-auto">
+            <HardwareSpotlight />
+          </div>
+        </section>
+
+
+        {/* CTA SECTION */}
+        <section className="relative w-full min-h-[600px] md:min-h-[100dvh] overflow-hidden flex items-center justify-center bg-[#F6F5F4]">
+          {/* Faded Dashboard Background */}
+          <div className="absolute inset-0 opacity-30 pointer-events-none">
+            <div className="w-full h-full flex items-center justify-center">
+              <div className="w-full max-w-7xl">
+                <DashboardAnimation />
               </div>
             </div>
           </div>
-      </div>
-    </section>
 
-
-
-
-
-        {/* COVERAGE + SOLUTIONS GRID */ }
-  <section className="w-full bg-[#F6F5F4] px-6 md:px-10 lg:px-16 py-16 md:py-24">
-    <div className="mx-auto max-w-6xl">
-      <div className="text-center mb-20">
-        <h2 className="text-4xl md:text-5xl font-poppins font-bold tracking-tight text-black mb-6">
-          Built for every way <br /> you accept payments.
-        </h2>
-      </div>
-
-      <div className="grid gap-8 md:grid-cols-2">
-        {SOLUTIONS.map((solution, index) => {
-          // Special handling for Integrated POS - use the new card component
-          if (solution.title === "Integrated POS") {
-            return (
-              <motion.div
-                key={solution.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
-                <InPersonPOSCard />
-              </motion.div>
-            );
-          }
-
-          // Special handling for Mobile Wireless - use the new card component
-          if (solution.title === "Mobile Wireless") {
-            return (
-              <motion.div
-                key={solution.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
-                <MobileTerminalsCard />
-              </motion.div>
-            );
-          }
-
-          // Special handling for Payment Gateway - use the new card component
-          if (solution.title === "Payment Gateway") {
-            return (
-              <motion.div
-                key={solution.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
-                <OnlineEcommerceCard />
-              </motion.div>
-            );
-          }
-
-          // Special handling for Contactless Tap to Pay - use the new card component
-          if (solution.title === "Contactless Tap to Pay") {
-            return (
-              <motion.div
-                key={solution.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
-                <TapToPayCard />
-              </motion.div>
-            );
-          }
-
-          // Special handling for Integrations - use the new card component
-          if (solution.title === "Integrations") {
-            return (
-              <motion.div
-                key={solution.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
-                <EChecksCard />
-              </motion.div>
-            );
-          }
-
-          // Special handling for Brand Agnostic - use the new card component
-          if (solution.title === "Brand Agnostic") {
-            return (
-              <motion.div
-                key={solution.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
-              >
-                <HardwareAgnosticCard />
-              </motion.div>
-            );
-          }
-
-          // Regular cards for other solutions (if any)
-          return (
-            <motion.article
-              key={solution.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.5 }}
-              className="group bg-white rounded-2xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300"
-            >
-              <div className="h-48 bg-gray-50 relative border-b border-gray-100">
-                <Image
-                  src={solution.image}
-                  alt={solution.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                  className="object-cover object-top grayscale-[10%] group-hover:grayscale-0 transition-all duration-500"
-                />
-              </div>
-              <div className="p-8">
-                <div className="w-12 h-12 rounded-xl bg-black flex items-center justify-center mb-6 text-white">
-                  <solution.icon className="h-6 w-6" aria-hidden="true" />
-                </div>
-                <h3 className="font-poppins text-xl font-bold text-black mb-3">
-                  {solution.title}
-                </h3>
-                <p className="text-black leading-relaxed text-sm font-lora">
-                  {solution.description}
-                </p>
-              </div>
-            </motion.article>
-          );
-        })}
-      </div>
-    </div>
-  </section>
-
-  {/* HARDWARE SHOWCASE */ }
-  <section className="px-6 md:px-10 lg:px-16 py-16 md:py-24 bg-white border-t border-brand-stone/50">
-    <div className="max-w-6xl mx-auto text-center mb-16">
-      <h2 className="text-4xl md:text-5xl font-poppins font-bold text-black mb-6">
-        Industry leading payment tech.
-      </h2>
-      <p className="text-lg text-black max-w-2xl mx-auto font-lora">
-        We support the most trusted payment hardware from Ingenico, Verifone, Pax, and Clover.
-      </p>
-    </div>
-    <div className="max-w-xl mx-auto">
-      <HardwareSpotlight />
-    </div>
-  </section>
-
-
-  {/* CTA SECTION */ }
-  <section className="relative w-full min-h-[600px] md:min-h-[100dvh] overflow-hidden flex items-center justify-center bg-[#F6F5F4]">
-    {/* Faded Dashboard Background */}
-    <div className="absolute inset-0 opacity-30 pointer-events-none">
-      <div className="w-full h-full flex items-center justify-center">
-        <div className="w-full max-w-7xl">
-          <DashboardAnimation />
-        </div>
-      </div>
-    </div>
-
-    <div className="relative z-10 px-6 md:px-10 lg:px-16 py-24 mx-auto max-w-4xl text-center">
-      <h2 className="text-4xl md:text-6xl font-poppins font-bold tracking-tight text-black mb-8 drop-shadow-[0_0_25px_rgba(255,255,255,1)]">
-        See how Split can improve your processing.
-      </h2>
-      <p className="text-xl md:text-2xl font-lora text-black mb-12 leading-relaxed max-w-3xl mx-auto drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">
-        Share a recent statement and we'll review your current setup,
-        uncover potential savings, and show how funding and payments work
-        together in one platform.
-      </p>
-      <div className="flex justify-center">
-        <Link href="/get-started">
-          <PrimaryButton className="shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] transform hover:-translate-y-1 transition-all scale-110">
-            Get started
-          </PrimaryButton>
-        </Link>
-      </div>
-    </div>
-  </section>
+          <div className="relative z-10 px-6 md:px-10 lg:px-16 py-24 mx-auto max-w-4xl text-center">
+            <h2 className="text-4xl md:text-6xl font-poppins font-bold tracking-tight text-black mb-8 drop-shadow-[0_0_25px_rgba(255,255,255,1)]">
+              See how Split can improve your processing.
+            </h2>
+            <p className="text-xl md:text-2xl font-lora text-black mb-12 leading-relaxed max-w-3xl mx-auto drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]">
+              Share a recent statement and we'll review your current setup,
+              uncover potential savings, and show how funding and payments work
+              together in one platform.
+            </p>
+            <div className="flex justify-center">
+              <Link href="/get-started">
+                <PrimaryButton className="shadow-2xl hover:shadow-[0_20px_50px_rgba(0,0,0,0.2)] transform hover:-translate-y-1 transition-all scale-110">
+                  Get started
+                </PrimaryButton>
+              </Link>
+            </div>
+          </div>
+        </section>
 
 
       </div >
