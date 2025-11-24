@@ -27,32 +27,78 @@ type PaymentSolution = {
 
 const SOLUTIONS = [
   {
+    id: 'payment-gateway',
     title: "Payment Gateway",
+    subtitle: "E-Commerce",
     description:
       "Seamless checkout experiences for your digital store, integrated directly with your inventory.",
+    features: [
+      "One-click checkout",
+      "Recurring billing support",
+      "Fraud protection tools",
+      "Real-time analytics"
+    ],
     icon: Zap,
     image: "/assets/new_photos/ecom/ingenico-ecommerce.webp"
   },
   {
-    title: "Mobile Wireless",
+    id: 'mobile-wireless',
+    title: "Mobile & Wireless",
+    subtitle: "Payments",
     description:
       "Take wireless payments tableside, curbside, or on the go with long-range wireless terminals.",
+    features: [
+      "4G LTE & Wi-Fi connectivity",
+      "All-day battery life",
+      "Built-in receipt printer",
+      "Tip adjustment on screen"
+    ],
     icon: CreditCard,
     image: "/assets/new_photos/in_person/ingenico-wireless.webp"
   },
   {
-    title: "Integrations",
+    id: 'integrations',
+    title: "E-checks",
+    subtitle: "Payment Integrations",
     description:
       "Modernize your check acceptance with automated verification, faster deposits, and lower transaction costs.",
+    features: [
+      "Instant verification",
+      "Remote deposit capture",
+      "ACH processing",
+      "Lower processing fees"
+    ],
     icon: Check,
     image: ""
   },
   {
-    title: "Contactless Tap to Pay",
+    id: 'tap-to-pay',
+    title: "Tap to Pay",
+    subtitle: "Digital Payments",
     description:
       "Turn your smartphone into a secure contactless payment terminal with contactless tap-to-pay technology.",
+    features: [
+      "No hardware required",
+      "Secure NFC technology",
+      "Accept Apple Pay & Google Pay",
+      "Instant setup"
+    ],
     icon: Shield,
     image: "/assets/new_photos/in_person/tap-payment.jpeg"
+  },
+  {
+    id: 'brand-agnostic',
+    title: "Brand Agnostic",
+    subtitle: "Hardware and Software",
+    description: "We work with the hardware you already own, or help you find the perfect fit for your business needs.",
+    features: [
+      "Support for major brands",
+      "Seamless integration",
+      "Custom configuration",
+      "24/7 Technical support"
+    ],
+    icon: Laptop,
+    image: ""
   }
 ];
 
@@ -129,59 +175,70 @@ export default function PaymentsPage() {
               </h2>
             </div>
 
-            {/* Row 1: Payment Gateway + Mobile Wireless */}
-            <div className="grid gap-8 md:grid-cols-2 mb-8">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0, duration: 0.5 }}
-              >
-                <OnlineEcommerceCard
-                  isExpanded={expandedCard === 'payment-gateway'}
-                  onExpand={() => setExpandedCard('payment-gateway')}
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1, duration: 0.5 }}
-              >
-                <MobileTerminalsCard
-                  isExpanded={expandedCard === 'mobile-wireless'}
-                  onExpand={() => setExpandedCard('mobile-wireless')}
-                />
-              </motion.div>
+            {/* 2-Column Layout for Cards */}
+            <div className="flex flex-col md:flex-row gap-8 mb-8 items-start">
+
+              {/* Left Column */}
+              <div className="flex-1 flex flex-col gap-8 w-full">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0, duration: 0.5 }}
+                >
+                  <OnlineEcommerceCard
+                    isExpanded={expandedCard === 'payment-gateway'}
+                    onExpand={() => setExpandedCard('payment-gateway')}
+                    {...SOLUTIONS.find(s => s.id === 'payment-gateway')}
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2, duration: 0.5 }}
+                >
+                  <EChecksCard
+                    isExpanded={expandedCard === 'integrations'}
+                    onExpand={() => setExpandedCard('integrations')}
+                    {...SOLUTIONS.find(s => s.id === 'integrations')}
+                  />
+                </motion.div>
+              </div>
+
+              {/* Right Column */}
+              <div className="flex-1 flex flex-col gap-8 w-full">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1, duration: 0.5 }}
+                >
+                  <MobileTerminalsCard
+                    isExpanded={expandedCard === 'mobile-wireless'}
+                    onExpand={() => setExpandedCard('mobile-wireless')}
+                    {...SOLUTIONS.find(s => s.id === 'mobile-wireless')}
+                  />
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3, duration: 0.5 }}
+                >
+                  <TapToPayCard
+                    isExpanded={expandedCard === 'tap-to-pay'}
+                    onExpand={() => setExpandedCard('tap-to-pay')}
+                    {...SOLUTIONS.find(s => s.id === 'tap-to-pay')}
+                  />
+                </motion.div>
+              </div>
+
             </div>
 
-            {/* Row 2: Integrations + Contactless Tap to Pay */}
-            <div className="grid gap-8 md:grid-cols-2 mb-8">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.2, duration: 0.5 }}
-              >
-                <EChecksCard
-                  isExpanded={expandedCard === 'integrations'}
-                  onExpand={() => setExpandedCard('integrations')}
-                />
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-              >
-                <TapToPayCard
-                  isExpanded={expandedCard === 'tap-to-pay'}
-                  onExpand={() => setExpandedCard('tap-to-pay')}
-                />
-              </motion.div>
-            </div>
-
-            {/* Row 3: Brand Agnostic (centered) */}
+            {/* Brand Agnostic (centered) */}
             <div className="flex justify-center">
               <motion.div
                 className="w-full md:w-1/2"
@@ -193,6 +250,7 @@ export default function PaymentsPage() {
                 <HardwareGridShowcase
                   isExpanded={expandedCard === 'brand-agnostic'}
                   onExpand={() => setExpandedCard('brand-agnostic')}
+                  {...SOLUTIONS.find(s => s.id === 'brand-agnostic')}
                 />
               </motion.div>
             </div>

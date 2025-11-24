@@ -2,64 +2,121 @@
 import { Volume2, VolumeX, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import WistiaEmbed from "@/components/WistiaEmbed";
 
 interface OnlineEcommerceCardProps {
     isExpanded?: boolean;
     onExpand?: () => void;
+    title?: string;
+    subtitle?: string;
+    description?: string;
+    features?: string[];
 }
 
-export default function OnlineEcommerceCard({ isExpanded = false, onExpand }: OnlineEcommerceCardProps = {}) {
+export default function OnlineEcommerceCard({
+    isExpanded = false,
+    onExpand,
+    title = "Payment Gateway",
+    subtitle = "E-Commerce",
+    description = "Seamless checkout experiences for your digital store, integrated directly with your inventory.",
+    features = []
+}: OnlineEcommerceCardProps = {}) {
     const [isMuted, setIsMuted] = useState(true);
 
     return (
-        <div
-            className={`group bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${isExpanded ? 'scale-110' : 'hover:scale-110'} origin-center`}
+        <motion.div
+            layout
+            className={`group relative flex flex-col rounded-3xl border overflow-hidden shadow-sm transition-colors duration-500 ${isExpanded ? 'bg-brand-black border-black' : 'bg-white border-gray-200 hover:shadow-md'}`}
             onMouseEnter={onExpand}
+            initial={{ borderRadius: "1.5rem" }}
         >
-            {/* Wrapper expands to video size when isExpanded */}
-            <div className={`relative transition-all duration-700 ease-out ${isExpanded ? 'h-[350px]' : ''}`}>
-                {/* Video - positioned above, rolls down when expanded */}
-                <div className={`absolute inset-x-0 w-full h-full transition-transform duration-700 ease-out ${isExpanded ? 'translate-y-0' : '-translate-y-full'}`}>
-                    <div className="relative w-full h-full bg-gray-50">
+            {/* Header Section */}
+            <motion.div layout="position" className="p-6 flex items-start justify-between relative z-20">
+                <div className="space-y-1 flex-1 min-w-0">
+                    <motion.h3
+                        layout="position"
+                        className={`text-[32px] font-bold font-poppins leading-tight transition-colors duration-500 ${isExpanded ? 'text-white' : 'text-brand-black'}`}
+                    >
+                        {title}
+                    </motion.h3>
+                    <motion.span
+                        layout="position"
+                        className={`text-xs font-bold uppercase tracking-wider block transition-colors duration-500 ${isExpanded ? 'text-brand-orange' : 'text-brand-black/60'}`}
+                    >
+                        {subtitle}
+                    </motion.span>
+                    <motion.p
+                        layout="position"
+                        className={`text-base leading-relaxed pt-2 transition-colors duration-500 ${isExpanded ? 'text-gray-300' : 'text-gray-500 hidden'}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: isExpanded ? 1 : 0 }}
+                        transition={{ duration: 0.3, delay: 0.1 }}
+                    >
+                        {description}
+                    </motion.p>
+                </div>
+                <Link href="/get-started" className="flex-shrink-0 ml-4">
+                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 ${isExpanded ? 'bg-white text-black' : 'bg-black text-white'}`}>
+                        <ArrowRight className="w-5 h-5" />
+                    </div>
+                </Link>
+            </motion.div>
+
+            {/* Video Section */}
+            <motion.div
+                layout
+                className="relative w-full overflow-hidden"
+                animate={{ height: isExpanded ? 240 : 0, opacity: isExpanded ? 1 : 0 }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+                <div className="absolute inset-0 w-full h-full bg-black">
+                    <div className="w-full h-full [&>iframe]:w-full [&>iframe]:h-full [&>iframe]:object-cover">
                         <WistiaEmbed videoId="q985br4zll" title="Online & E-Commerce Video" isMuted={isMuted} />
-
-                        {/* Mute button - overlaid on video */}
-                        <button
-                            onClick={() => setIsMuted(!isMuted)}
-                            className="absolute bottom-3 right-3 z-20 w-9 h-9 rounded-full bg-black/80 backdrop-blur-sm flex items-center justify-center text-white transition-all hover:scale-110"
-                            aria-label={isMuted ? "Unmute video" : "Mute video"}
-                        >
-                            {isMuted ? (
-                                <VolumeX className="w-4 h-4" />
-                            ) : (
-                                <Volume2 className="w-4 h-4" />
-                            )}
-                        </button>
                     </div>
-                </div>
 
-                {/* Title Card - visible by default, stays in place on hover */}
-                <div className="bg-white transition-transform duration-700 ease-out">
-                    <div className="p-4">
-                        <div className="flex items-start justify-between">
-                            <div className="space-y-1 flex-1 min-w-0">
-                                <span className="text-xs font-semibold text-brand-black/60 block">Payments</span>
-                                <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">
-                                    Payment gateway.
-                                </h3>
-                            </div>
-                            <Link href="/get-started" className="flex-shrink-0 ml-3">
-                                <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
-                                    <ArrowRight className="w-4 h-4" />
-                                </div>
-                            </Link>
-                        </div>
-                    </div>
+                    {/* Mute button */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setIsMuted(!isMuted);
+                        }}
+                        className="absolute bottom-4 right-4 z-30 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-md flex items-center justify-center text-white transition-all"
+                    >
+                        {isMuted ? (
+                            <VolumeX className="w-4 h-4" />
+                        ) : (
+                            <Volume2 className="w-4 h-4" />
+                        )}
+                    </button>
                 </div>
+            </motion.div>
+
+            {/* Footer Section - Removed Description */}
+            <motion.div
+                layout
+                className="px-6 overflow-hidden"
+                animate={{
+                    height: isExpanded && features.length > 0 ? "auto" : 0,
+                    opacity: isExpanded ? 1 : 0,
+                    paddingBottom: isExpanded && features.length > 0 ? 24 : 0
+                }}
+                transition={{ duration: 0.5, ease: "easeInOut" }}
+            >
+                {/* Features or other footer content if needed */}
+            </motion.div>
+
+            <div className="pt-4 border-t border-white/10">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {features.map((feature, i) => (
+                        <li key={i} className="flex items-center text-sm font-medium text-white/90">
+                            <div className="w-1.5 h-1.5 rounded-full bg-brand-orange mr-2 flex-shrink-0" />
+                            {feature}
+                        </li>
+                    ))}
+                </ul>
             </div>
+        </motion.div>
 
-
-        </div>
     );
 }
