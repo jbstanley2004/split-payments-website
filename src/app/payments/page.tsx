@@ -2,12 +2,11 @@
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { PrimaryButton } from "@/components/ui/PrimaryButton";
-import { CreditCard, Check, Laptop, Zap, Shield, TrendingUp, ArrowRight } from "lucide-react";
+import { CreditCard, Check, Laptop, Zap, Shield, ArrowRight } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import WorkingCapitalAnimation from "@/components/animations/WorkingCapitalAnimation";
 
 import MobileTerminalsCard from "@/components/animations/MobileTerminalsCard";
 import OnlineEcommerceCard from "@/components/animations/OnlineEcommerceCard";
@@ -16,7 +15,6 @@ import InPersonPOSCard from "@/components/animations/InPersonPOSCard";
 import EChecksCard from "@/components/animations/EChecksCard";
 import HardwareSpotlight from "@/components/HardwareSpotlight";
 import HardwareAgnosticCard from "@/components/animations/HardwareAgnosticCard";
-import DashboardAnimation from "@/components/animations/DashboardAnimation";
 import MetricsStrip from "@/components/MetricsStrip";
 
 type PaymentSolution = {
@@ -285,15 +283,6 @@ export default function PaymentsPage() {
 
         {/* CTA SECTION */}
         <section className="relative w-full min-h-[600px] md:min-h-[100dvh] overflow-hidden flex items-center justify-center bg-[#F6F5F4]">
-          {/* Faded Dashboard Background */}
-          <div className="absolute inset-0 opacity-30 pointer-events-none">
-            <div className="w-full h-full flex items-center justify-center">
-              <div className="w-full max-w-7xl">
-                <DashboardAnimation />
-              </div>
-            </div>
-          </div>
-
           <div className="relative z-10 px-6 md:px-10 lg:px-16 py-24 mx-auto max-w-4xl text-center">
             <h2 className="text-4xl md:text-6xl font-poppins font-bold tracking-tight text-black mb-8 drop-shadow-[0_0_25px_rgba(255,255,255,1)]">
               See how Split can improve your processing.
@@ -311,14 +300,10 @@ export default function PaymentsPage() {
               </Link>
             </div>
           </div>
-        </section>
-
-        {/* Metrics Strip at Bottom */}
-        <section className="w-full bg-white py-8">
           <MetricsStrip />
         </section>
 
-      </div >
-    </main >
+      </div>
+    </main>
   );
 }
