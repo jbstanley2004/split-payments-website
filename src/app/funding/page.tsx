@@ -47,12 +47,14 @@ export default function FundingPage() {
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
                 <Link href="/get-started">
-                  <PrimaryButton className="w-full sm:w-auto shadow-none border-2 border-transparent">
+                  <PrimaryButton
+                    className="w-full sm:w-auto shadow-[0_18px_38px_-28px_rgba(255,84,0,0.65)] border-2 border-transparent bg-gradient-to-r from-[#ff8454] via-[#ff5400] to-[#ff8454]"
+                  >
                     Get started
                   </PrimaryButton>
                 </Link>
                 <Link href="/get-started">
-                  <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black font-poppins font-medium text-lg hover:bg-[#F6F5F4] transition-all border-2 border-[#FF4306]">
+                  <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#F6F5F4] text-black font-poppins font-medium text-lg transition-all border-2 border-[#e6e1d8] shadow-none hover:bg-[#f1efed]">
                     Contact sales
                   </button>
                 </Link>
