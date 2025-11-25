@@ -34,7 +34,7 @@ type ChartConfig = {
 
 type Point = { x: number; y: number };
 
-const CHART_ACCENT = "#d7d9e0";
+const CHART_ACCENT = "#ffffff";
 const BRAND_ORANGE = "#d97757";
 
 function createSmoothPath(points: Point[], smoothing = 0.2) {
@@ -112,7 +112,7 @@ const numberCompact = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1,
 });
 
-// ---------- Chart (Gradient Area - Light Mode) ------------------------------
+// ---------- Chart (Gradient Area - Dark Mode) ------------------------------
 
 type LineChartProps = {
   config: ChartConfig;
@@ -178,25 +178,25 @@ const LineChart = ({ config }: LineChartProps) => {
   const gradientId = `chart-grad-${id}`;
 
   return (
-    <div className="flex h-full flex-col justify-between bg-slate-50/50">
+    <div className="flex h-full flex-col justify-between bg-transparent">
       <div className="flex items-center justify-between gap-2 px-4">
         <div className="space-y-0.5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
             {label}
           </p>
-          <p className="text-lg font-bold text-slate-900" suppressHydrationWarning>
+          <p className="text-lg font-bold text-white" suppressHydrationWarning>
             {formattedCurrent}
           </p>
         </div>
         {/* Live Indicator and Meta */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1.5 text-[9px] font-medium text-slate-500">
-            <CalendarClock className="h-3 w-3 text-slate-400" />
+          <div className="flex items-center gap-1.5 text-[9px] font-medium text-gray-400">
+            <CalendarClock className="h-3 w-3 text-gray-500" />
             <span className="hidden sm:inline">Deposits expected T+1 · Eastern cutoff</span>
           </div>
-          <div className="hidden sm:block w-px h-3 bg-slate-200" />
-          <div className="flex items-center gap-1.5 text-[9px] font-medium text-slate-500">
-            <WalletCards className="h-3 w-3 text-slate-400" />
+          <div className="hidden sm:block w-px h-3 bg-gray-800" />
+          <div className="flex items-center gap-1.5 text-[9px] font-medium text-gray-400">
+            <WalletCards className="h-3 w-3 text-gray-500" />
             <span>TSYS · FD Omaha</span>
           </div>
           <div className="relative flex h-2 w-2 ml-2">
@@ -220,7 +220,7 @@ const LineChart = ({ config }: LineChartProps) => {
         >
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={CHART_ACCENT} stopOpacity="0.25" />
+              <stop offset="0%" stopColor={CHART_ACCENT} stopOpacity="0.15" />
               <stop offset="100%" stopColor={CHART_ACCENT} stopOpacity="0" />
             </linearGradient>
           </defs>
@@ -233,7 +233,7 @@ const LineChart = ({ config }: LineChartProps) => {
               x2={260}
               y1={130 * t}
               y2={130 * t}
-              stroke="rgba(148,163,184,0.15)"
+              stroke="rgba(255,255,255,0.05)"
               strokeWidth={1}
               strokeDasharray="4 4"
             />
@@ -317,7 +317,7 @@ const LineChart = ({ config }: LineChartProps) => {
         </svg>
       </div>
 
-      <div className="mt-2 flex items-center justify-between text-[10px] font-semibold text-slate-400">
+      <div className="mt-2 flex items-center justify-between text-[10px] font-semibold text-gray-500">
         {x.map((label, i) => (
           <span key={i}>{label}</span>
         ))}
@@ -483,7 +483,7 @@ export default function DashboardAnimation() {
   return (
     <div className="w-full h-full">
       {/* Main Card Content */}
-      <div className="relative h-full bg-white/50 backdrop-blur-sm">
+      <div className="relative h-full bg-[#111111]">
 
         {/* Content Grid */}
         <div className="flex flex-col h-full">
@@ -492,32 +492,32 @@ export default function DashboardAnimation() {
           <div className="shrink-0 px-3 pt-3 sm:px-4 sm:pt-4 flex flex-col lg:flex-row gap-4">
             {/* Left: Metric */}
             <div className="lg:w-[30%] space-y-1">
-              <h3 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl" suppressHydrationWarning>
+              <h3 className="text-3xl font-bold tracking-tight text-white md:text-4xl" suppressHydrationWarning>
                 {formattedTotal}
               </h3>
-              <p className="text-[10px] font-semibold text-slate-500">{active.totalLabel}</p>
+              <p className="text-[10px] font-semibold text-gray-400">{active.totalLabel}</p>
             </div>
 
             {/* Right: Chart Background with Header Inline */}
-            <div className="lg:w-[70%] relative bg-slate-50/50 rounded-2xl overflow-hidden">
+            <div className="lg:w-[70%] relative bg-transparent rounded-2xl overflow-hidden">
               <div className="flex items-center justify-between gap-2 px-4 py-2">
                 <div className="space-y-0.5">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-gray-500">
                     {active.chart.label}
                   </p>
-                  <p className="text-lg font-bold text-slate-900" suppressHydrationWarning>
+                  <p className="text-lg font-bold text-white" suppressHydrationWarning>
                     {currencyCompact.format(active.chart.values[active.chart.values.length - 1] * 1000)}
                   </p>
                 </div>
                 {/* Live Indicator and Meta */}
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1.5 text-[9px] font-medium text-slate-500">
-                    <CalendarClock className="h-3 w-3 text-slate-400" />
+                  <div className="flex items-center gap-1.5 text-[9px] font-medium text-gray-400">
+                    <CalendarClock className="h-3 w-3 text-gray-500" />
                     <span className="hidden sm:inline">{active.meta}</span>
                   </div>
-                  <div className="hidden sm:block w-px h-3 bg-slate-200" />
-                  <div className="flex items-center gap-1.5 text-[9px] font-medium text-slate-500">
-                    <WalletCards className="h-3 w-3 text-slate-400" />
+                  <div className="hidden sm:block w-px h-3 bg-gray-800" />
+                  <div className="flex items-center gap-1.5 text-[9px] font-medium text-gray-400">
+                    <WalletCards className="h-3 w-3 text-gray-500" />
                     <span>TSYS · FD Omaha</span>
                   </div>
                   <div className="relative flex h-2 w-2 ml-2">
@@ -546,24 +546,24 @@ export default function DashboardAnimation() {
                 return (
                   <div
                     key={row.id}
-                    className="group flex items-center justify-between rounded-xl p-2 transition-colors hover:bg-slate-50"
+                    className="group flex items-center justify-between rounded-xl p-2 transition-colors hover:bg-white/5"
                   >
                     <div className="flex items-center gap-2">
                       {Icon && (
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-50 text-slate-600 group-hover:bg-white group-hover:shadow-sm transition-all">
+                        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#222222] text-white group-hover:bg-[#333333] group-hover:shadow-sm transition-all">
                           <Icon className="h-4 w-4" />
                         </div>
                       )}
                       <div>
-                        <p className="text-xs font-bold text-slate-900">{row.label}</p>
-                        <p className="text-[10px] font-medium text-slate-500">{row.descriptor}</p>
+                        <p className="text-xs font-bold text-white">{row.label}</p>
+                        <p className="text-[10px] font-medium text-gray-500">{row.descriptor}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs font-bold text-slate-900" suppressHydrationWarning>
+                      <p className="text-xs font-bold text-white" suppressHydrationWarning>
                         {currencyCompact.format(row.amountK * 1000)}
                       </p>
-                      <div className={`flex items-center justify-end gap-0.5 text-[10px] font-bold ${positive ? "text-emerald-600" : "text-rose-600"}`}>
+                      <div className={`flex items-center justify-end gap-0.5 text-[10px] font-bold ${positive ? "text-emerald-500" : "text-rose-500"}`}>
                         {positive ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}
                         <span>{positive ? "+" : ""}{row.deltaPct.toFixed(1)}%</span>
                       </div>
@@ -575,7 +575,7 @@ export default function DashboardAnimation() {
 
             {/* Right: Chart Content (extends the background from above) */}
             <div className="lg:w-[70%] relative -mt-4 lg:-mt-14">
-              <div className="absolute inset-0 bg-slate-50/50 rounded-b-2xl overflow-hidden flex flex-col">
+              <div className="absolute inset-0 bg-transparent rounded-b-2xl overflow-hidden flex flex-col">
                 {/* Chart SVG directly */}
                 <div className="flex-1 px-4 pt-4 pb-1">
                   <svg
@@ -585,7 +585,7 @@ export default function DashboardAnimation() {
                   >
                     <defs>
                       <linearGradient id="main-chart-grad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor={CHART_ACCENT} stopOpacity="0.25" />
+                        <stop offset="0%" stopColor={CHART_ACCENT} stopOpacity="0.15" />
                         <stop offset="100%" stopColor={CHART_ACCENT} stopOpacity="0" />
                       </linearGradient>
                     </defs>
@@ -598,13 +598,12 @@ export default function DashboardAnimation() {
                         x2={260}
                         y1={130 * t}
                         y2={130 * t}
-                        stroke="rgba(148,163,184,0.15)"
+                        stroke="rgba(255,255,255,0.05)"
                         strokeWidth={1}
                         strokeDasharray="4 4"
                       />
                     ))}
 
-                    {/* Render chart based on active.chart data */}
                     {(() => {
                       const values = active.chart.values;
                       if (!values.length) return null;
@@ -660,7 +659,7 @@ export default function DashboardAnimation() {
                   </svg>
                 </div>
                 {/* X-axis labels */}
-                <div className="px-4 pb-3 flex items-center justify-between text-[10px] font-semibold text-slate-400">
+                <div className="px-4 pb-3 flex items-center justify-between text-[10px] font-semibold text-gray-500">
                   {active.chart.x.map((label, i) => (
                     <span key={i}>{label}</span>
                   ))}

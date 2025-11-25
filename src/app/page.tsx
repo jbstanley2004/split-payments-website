@@ -138,8 +138,7 @@ export default function HomePage() {
                     description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
                     component: <PaymentTerminalCard />,
                     href: "/payments",
-                    backgroundClass: "bg-[#f7f4ed]",
-                    headerBackgroundClass: "bg-[#f7f4ed]",
+                    headerBackgroundClass: "bg-white",
                   },
                   {
                     label: "Funding",
@@ -147,7 +146,7 @@ export default function HomePage() {
                     description: "Turn card volume into working capital. Get funding based on your actual sales, not projections.",
                     component: <WorkingCapitalAnimation />,
                     href: "/funding",
-                    headerBackgroundClass: "bg-[#f7f4ed]",
+                    headerBackgroundClass: "bg-white",
                   },
                 ].map((feature, index) => (
                   <motion.div
@@ -159,7 +158,7 @@ export default function HomePage() {
                     className={`group flex flex-col ${feature.backgroundClass ?? "bg-white"} rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full`}
                   >
                     <div
-                      className={`p-6 pb-2 flex flex-col relative z-10 rounded-t-3xl min-h-[158px] ${feature.headerBackgroundClass ?? ""}`}
+                      className={`p-6 pb-2 flex flex-col relative z-10 rounded-t-3xl h-[180px] flex-none overflow-hidden ${feature.headerBackgroundClass ?? ""}`}
                     >
                       <div className="flex items-start justify-between mb-4">
                         <div className="space-y-2">
@@ -191,7 +190,7 @@ export default function HomePage() {
                 className="w-full relative"
               >
                 <div className="flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
-                  <div className="p-6 md:w-1/3 flex flex-col relative z-10 bg-white justify-between md:min-h-[400px]">
+                  <div className="p-6 pb-0 flex flex-col relative z-10 bg-white flex-1 justify-between md:min-h-[400px]">
                     <div className="flex items-start justify-between w-full">
                       <div className="max-w-[80%]">
                         <span className="text-sm font-bold text-brand-black/60 uppercase tracking-wider mb-2 block font-poppins">Analytics</span>

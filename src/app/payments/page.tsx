@@ -185,8 +185,8 @@ export default function PaymentsPage() {
                 {expandedCard === 'mobile-wireless' && (
                   <CopyBubble
                     eyebrow="Wireless terminals"
-                    title="Wireless demo walkthrough"
-                    body="With the wireless video active to the right, we spotlight patio-to-curb range, smarter tipping prompts, and battery life that keeps drivers running an entire shift."
+                    title="Mobile freedom, powered by Android"
+                    body="We offer the best mobile wireless devices on the market, powered by Android for seamless performance. Choose from industry-leading brands including PAX, Ingenico, Clover, Dejavoo, and Verifone—all designed to keep your business moving."
                   />
                 )}
               </motion.div>
@@ -209,9 +209,9 @@ export default function PaymentsPage() {
                 </div>
                 {expandedCard === 'payment-gateway' && (
                   <CopyBubble
-                    eyebrow="Checkout flows"
-                    title="Gateway demo highlights"
-                    body="While the ecommerce video plays to the left, we call out conversion boosts, tokenized vaults for repeat orders, and recovery prompts that bring abandoned carts back."
+                    eyebrow="E-commerce integration"
+                    title="Seamless Shopify & online platform connections"
+                    body="We integrate safely and securely with Shopify and other leading e-commerce platforms through our NMI and Authorize.net gateway connections. Accept payments with confidence, protect customer data, and streamline your checkout experience."
                   />
                 )}
               </motion.div>
@@ -238,9 +238,9 @@ export default function PaymentsPage() {
                 </div>
                 {expandedCard === 'tap-to-pay' && (
                   <CopyBubble
-                    eyebrow="Contactless playbook"
-                    title="Tap-to-pay in action"
-                    body="When tap to pay is expanding on the right, we highlight instant device provisioning, staff PIN controls, and speedy receipts that keep every register moving."
+                    eyebrow="Contactless payments"
+                    title="Google Pay, Apple Pay & Samsung Pay"
+                    body="We offer the best equipment from the best brands with the latest technology. Accept contactless payments from Google Pay, Apple Pay, and Samsung Pay seamlessly. We work with everyone to keep your business moving forward."
                   />
                 )}
               </motion.div>
@@ -263,9 +263,9 @@ export default function PaymentsPage() {
                 </div>
                 {expandedCard === 'integrations' && (
                   <CopyBubble
-                    eyebrow="ACH + eCheck stack"
-                    title="Integrations demo takeaways"
-                    body="With the eCheck video expanded to the left, we spell out verification automation, funds guarantees, and reconciliation that syncs straight to your back office."
+                    eyebrow="Payment flexibility"
+                    title="Electronic checks and invoicing"
+                    body="We accept all types of payments including electronic checks (eChecks), offering lower transaction costs and faster deposits. Integrated with QuickBooks and powered by NMI and Authorize.net, our solution automates reconciliation and streamlines your back-office operations."
                   />
                 )}
               </motion.div>

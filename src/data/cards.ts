@@ -11,11 +11,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Chase Freedom Unlimited®",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "Fizz Credit-Building Visa® Card",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "Ramp Business Card",
@@ -23,11 +23,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "The secured Self Visa® Credit Card¹",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "Chase Freedom Rise®",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "Ink Business Unlimited® Credit Card",
@@ -35,11 +35,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Revenued Business Card",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "Chase Sapphire Preferred® Card",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "Ink Business Cash® Credit Card",
@@ -47,11 +47,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "opensky® Launch Secured Visa® Credit Card",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "USAA Preferred Cash Rewards Credit Card",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "Credit One Bank® Platinum Rewards Visa® with No Annual Fee",
@@ -59,11 +59,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Sapphire Reserve for Business℠",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "Varo Believe Secured Credit Card¹",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "BILL Divvy Corporate Card",
@@ -71,11 +71,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Chase Sapphire Reserve®",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "opensky® Plus Secured Visa® Credit Card",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "opensky® Secured Visa® Credit Card",
@@ -83,11 +83,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Revvi Card",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "Imagine® Visa® Credit Card",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "Upgrade Triple Cash Rewards Visa®",
@@ -95,11 +95,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "cashRewards",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "Upgrade Cash Rewards Visa®",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "Platinum",
@@ -107,11 +107,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Sony Visa® Credit Card",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "Total Visa® Card",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "Coast Fuel Card",
@@ -119,11 +119,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Edenred Essentials Visa Fleet Card",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   {
     name: "Visa Signature® Flagship Rewards",
-    image: "/visa3.png"
+    image: "/visa.png"
   },
   {
     name: "GO REWARDS®",
@@ -131,7 +131,7 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Chime Card™",
-    image: "/Visa2.png"
+    image: "/visa.png"
   },
   // Mastercard
   {
@@ -140,11 +140,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Capital One Platinum Credit Card",
-    image: "/MasterCard2.png"
+    image: "/mastercard.png"
   },
   {
     name: "Capital One QuicksilverOne Cash Rewards Credit Card",
-    image: "/masterCard3.png"
+    image: "/mastercard.png"
   },
   {
     name: "Capital One Savor Student Cash Rewards Credit Card",
@@ -152,7 +152,7 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Citi Strata Premier Card",
-    image: "/MasterCard2.png"
+    image: "/mastercard.png"
   },
   // Amex
   {
@@ -161,11 +161,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Aeroplan Reserve Card",
-    image: "/Amex2.png"
+    image: "/amex.png"
   },
   {
     name: "Marriott Bonvoy Card",
-    image: "/amex3.png"
+    image: "/amex.png"
   },
   {
     name: "Business Platinum Card",
@@ -173,11 +173,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Aeroplan Business Reserve Card",
-    image: "/Amex2.png"
+    image: "/amex.png"
   },
   {
     name: "Amex Cobalt Card",
-    image: "/amex3.png"
+    image: "/amex.png"
   },
   {
     name: "Gold Rewards Card",
@@ -185,11 +185,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Business Gold Rewards Card",
-    image: "/Amex2.png"
+    image: "/amex.png"
   },
   {
     name: "Marriott Bonvoy Business Card",
-    image: "/amex3.png"
+    image: "/amex.png"
   },
   {
     name: "Aeroplan Card",
@@ -197,11 +197,11 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Green Card",
-    image: "/Amex2.png"
+    image: "/amex.png"
   },
   {
     name: "SimplyCash Preferred Card",
-    image: "/amex3.png"
+    image: "/amex.png"
   },
   {
     name: "SimplyCash Card",
@@ -209,6 +209,6 @@ export const CARDS: CreditCard[] = [
   },
   {
     name: "Essential Credit Card",
-    image: "/Amex2.png"
+    image: "/amex.png"
   }
 ];

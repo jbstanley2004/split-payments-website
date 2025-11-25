@@ -17,18 +17,18 @@ import {
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-// Using brand logos from brand_logos directory
+// Using brand logos from brand_animations directory
 const partnerLogos = [
-  { name: "Brand 1", src: "/brand_logos/svg0.svg" },
-  { name: "Brand 2", src: "/brand_logos/svg1.svg" },
-  { name: "Brand 3", src: "/brand_logos/svg2.svg" },
-  { name: "Brand 4", src: "/brand_logos/svg7.svg" },
-  { name: "Brand 5", src: "/brand_logos/svg15.svg" },
-  { name: "Brand 6", src: "/brand_logos/svg18.svg" },
-  { name: "Brand 7", src: "/brand_logos/svg19.svg" },
-  { name: "Brand 8", src: "/brand_logos/svg33.svg" },
-  { name: "Brand 9", src: "/brand_logos/svg34.svg" },
-  { name: "Brand 10", src: "/brand_logos/svg35.svg" },
+  { name: "Brand 1", src: "/brand_animations/svg0.svg" },
+  { name: "Brand 2", src: "/brand_animations/svg1.svg" },
+  { name: "Brand 3", src: "/brand_animations/svg2.svg" },
+  { name: "Brand 4", src: "/brand_animations/svg7.svg" },
+  { name: "Brand 5", src: "/brand_animations/svg15.svg" },
+  { name: "Brand 6", src: "/brand_animations/svg18.svg" },
+  { name: "Brand 7", src: "/brand_animations/svg19.svg" },
+  { name: "Brand 8", src: "/brand_animations/svg33.svg" },
+  { name: "Brand 9", src: "/brand_animations/svg34.svg" },
+  { name: "Brand 10", src: "/brand_animations/svg35.svg" },
 ];
 
 const heroHighlights = [

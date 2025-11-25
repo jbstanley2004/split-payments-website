@@ -105,10 +105,10 @@ export default function HardwareGridShowcase({ isExpanded = false, onExpand }: H
                             <div className="space-y-1 flex-1 min-w-0">
                                 <span className="text-xs font-semibold text-brand-black/60 block">Hardware and Software</span>
                                 <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">
-                                    Brand agnostic.
+                                    We don't play favorites. Our favorite is yours.
                                 </h3>
                                 <p className="text-sm text-brand-black/70 leading-snug">
-                                    Mix-and-match terminals, gateways, and apps without vendor lock-in.
+                                    Choose from the industry's leading brands and platforms—we work with them all.
                                 </p>
                             </div>
                             <Link href="/get-started" className="flex-shrink-0 ml-3">
