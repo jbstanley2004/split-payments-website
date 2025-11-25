@@ -59,6 +59,25 @@ const SOLUTIONS = [
 export default function PaymentsPage() {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
+  const CopyCard = ({
+    eyebrow,
+    title,
+    body
+  }: {
+    eyebrow: string;
+    title: string;
+    body: string;
+  }) => (
+    <div className="bg-white rounded-3xl border border-gray-200 shadow-sm h-full p-6 flex flex-col justify-between">
+      <div className="space-y-2">
+        <p className="text-xs font-semibold text-brand-black/60">{eyebrow}</p>
+        <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">{title}</h3>
+        <p className="text-sm text-brand-black/70 leading-relaxed">{body}</p>
+      </div>
+      <p className="text-sm font-semibold text-brand-black mt-4">Hover another card to keep exploring.</p>
+    </div>
+  );
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
@@ -137,10 +156,18 @@ export default function PaymentsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: 0, duration: 0.5 }}
               >
-                <OnlineEcommerceCard
-                  isExpanded={expandedCard === 'payment-gateway'}
-                  onExpand={() => setExpandedCard('payment-gateway')}
-                />
+                {expandedCard === 'mobile-wireless' ? (
+                  <CopyCard
+                    eyebrow="Payments"
+                    title="Checkout copy"
+                    body="Cart recovery prompts, saved credentials, and intelligent routing keep customers moving even while the demo plays."
+                  />
+                ) : (
+                  <OnlineEcommerceCard
+                    isExpanded={expandedCard === 'payment-gateway'}
+                    onExpand={() => setExpandedCard('payment-gateway')}
+                  />
+                )}
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -148,10 +175,18 @@ export default function PaymentsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.1, duration: 0.5 }}
               >
-                <MobileTerminalsCard
-                  isExpanded={expandedCard === 'mobile-wireless'}
-                  onExpand={() => setExpandedCard('mobile-wireless')}
-                />
+                {expandedCard === 'payment-gateway' ? (
+                  <CopyCard
+                    eyebrow="Payments"
+                    title="Mobile momentum"
+                    body="When the wireless demo opens, we swap in key talking points—signal failover, on-the-go tipping, and fleet-ready device controls."
+                  />
+                ) : (
+                  <MobileTerminalsCard
+                    isExpanded={expandedCard === 'mobile-wireless'}
+                    onExpand={() => setExpandedCard('mobile-wireless')}
+                  />
+                )}
               </motion.div>
             </div>
 
@@ -163,10 +198,18 @@ export default function PaymentsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                <EChecksCard
-                  isExpanded={expandedCard === 'integrations'}
-                  onExpand={() => setExpandedCard('integrations')}
-                />
+                {expandedCard === 'tap-to-pay' ? (
+                  <CopyCard
+                    eyebrow="Payment Integrations"
+                    title="Digital deposits"
+                    body="While Tap to Pay is live, we spell out how guaranteed funds, risk filters, and faster settlement fit into your back office."
+                  />
+                ) : (
+                  <EChecksCard
+                    isExpanded={expandedCard === 'integrations'}
+                    onExpand={() => setExpandedCard('integrations')}
+                  />
+                )}
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -174,10 +217,18 @@ export default function PaymentsPage() {
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                <TapToPayCard
-                  isExpanded={expandedCard === 'tap-to-pay'}
-                  onExpand={() => setExpandedCard('tap-to-pay')}
-                />
+                {expandedCard === 'integrations' ? (
+                  <CopyCard
+                    eyebrow="Digital Payments"
+                    title="Contactless clarity"
+                    body="Tap-to-Pay frees up your staff—here's the playbook: quick device provisioning, staff PINs, and automatic receipts."
+                  />
+                ) : (
+                  <TapToPayCard
+                    isExpanded={expandedCard === 'tap-to-pay'}
+                    onExpand={() => setExpandedCard('tap-to-pay')}
+                  />
+                )}
               </motion.div>
             </div>
 
