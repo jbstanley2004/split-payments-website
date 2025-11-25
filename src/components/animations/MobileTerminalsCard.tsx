@@ -8,20 +8,23 @@ import YouTubeEmbed from "@/components/YouTubeEmbed";
 interface MobileTerminalsCardProps {
     isExpanded?: boolean;
     onExpand?: () => void;
+    expandDirection?: "down" | "up";
 }
 
-export default function MobileTerminalsCard({ isExpanded = false, onExpand }: MobileTerminalsCardProps = {}) {
+export default function MobileTerminalsCard({ isExpanded = false, onExpand, expandDirection = "down" }: MobileTerminalsCardProps = {}) {
     const [isMuted, setIsMuted] = useState(true);
+
+    const closedTranslateClass = expandDirection === "up" ? "translate-y-full" : "-translate-y-full";
 
     return (
         <div
-            className={`group bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${isExpanded ? 'scale-110' : 'hover:scale-110'} origin-center`}
+            className={`group bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${isExpanded ? 'scale-110' : 'hover:scale-110'} origin-center h-full`}
             onMouseEnter={onExpand}
         >
             {/* Wrapper expands to video size when isExpanded */}
-            <div className={`relative transition-all duration-700 ease-out ${isExpanded ? 'h-[350px]' : ''}`}>
+            <div className={`relative transition-all duration-700 ease-out ${isExpanded ? 'h-[350px]' : 'h-full'}`}>
                 {/* Video - positioned above, rolls down when expanded */}
-                <div className={`absolute inset-x-0 w-full h-full transition-transform duration-700 ease-out ${isExpanded ? 'translate-y-0' : '-translate-y-full'}`}>
+                <div className={`absolute inset-x-0 w-full h-full transition-transform duration-700 ease-out ${isExpanded ? 'translate-y-0' : closedTranslateClass}`}>
                     <div className="relative w-full h-full bg-gray-50">
                         <YouTubeEmbed videoId="z9x_BPf-VVo" title="Credit Card Processing Video" isMuted={isMuted} />
 
@@ -54,6 +57,9 @@ export default function MobileTerminalsCard({ isExpanded = false, onExpand }: Mo
                                 <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">
                                     Mobile & wireless.
                                 </h3>
+                                <p className="text-sm text-brand-black/70 leading-snug">
+                                    Table, curb, or queue—every payment stays fast and fully connected.
+                                </p>
                             </div>
                             <Link href="/get-started" className="flex-shrink-0 ml-3">
                                 <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
