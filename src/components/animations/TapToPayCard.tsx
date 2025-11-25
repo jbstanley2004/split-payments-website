@@ -54,6 +54,9 @@ export default function TapToPayCard({ isExpanded = false, onExpand }: TapToPayC
                                 <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">
                                     Tap to pay.
                                 </h3>
+                                <p className="text-sm text-brand-black/70 leading-snug">
+                                    Secure contactless acceptance right from the devices your team already uses.
+                                </p>
                             </div>
                             <Link href="/get-started" className="flex-shrink-0 ml-3">
                                 <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
