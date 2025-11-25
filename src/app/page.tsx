@@ -159,6 +159,7 @@ export default function HomePage() {
                     className={`group flex flex-col ${feature.backgroundClass ?? "bg-white"} rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full`}
                   >
                     <div
+                      className={`p-6 pb-2 flex flex-col relative z-10 rounded-t-3xl ${feature.headerBackgroundClass ?? ""}`}
                       className={`p-6 pb-2 flex flex-col relative z-10 rounded-t-3xl min-h-[158px] ${feature.headerBackgroundClass ?? ""}`}
                     >
                       <div className="flex items-start justify-between mb-4">
