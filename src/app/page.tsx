@@ -137,14 +137,15 @@ export default function HomePage() {
                     title: "Credit card processing",
                     description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
                     component: <PaymentTerminalCard />,
-                    href: "/payments"
+                    href: "/payments",
+                    backgroundClass: "bg-[#f7f4ed]",
                   },
                   {
                     label: "Funding",
                     title: "Working capital",
                     description: "Turn card volume into working capital. Get funding based on your actual sales, not projections.",
                     component: <WorkingCapitalAnimation />,
-                    href: "/funding"
+                    href: "/funding",
                   },
                 ].map((feature, index) => (
                   <motion.div
@@ -153,9 +154,9 @@ export default function HomePage() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full"
+                    className={`group flex flex-col ${feature.backgroundClass ?? "bg-white"} rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full`}
                   >
-                    <div className="p-6 pb-2 flex flex-col relative z-10 bg-white">
+                    <div className="p-6 pb-2 flex flex-col relative z-10">
                       <div className="flex items-start justify-between mb-4">
                         <div className="space-y-2">
                           <span className="text-sm font-semibold text-brand-black/60">{feature.label}</span>
