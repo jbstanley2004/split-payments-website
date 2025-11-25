@@ -59,6 +59,33 @@ const SOLUTIONS = [
 export default function PaymentsPage() {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
 
+  const handleExpand = (cardId: string) => {
+    if (expandedCard !== cardId) {
+      setExpandedCard(cardId);
+    }
+  };
+
+  const CopyBubble = ({
+    eyebrow,
+    title,
+    body
+  }: {
+    eyebrow: string;
+    title: string;
+    body: string;
+  }) => (
+    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+      <div className="max-w-md w-full rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5">
+        <div className="space-y-2">
+          <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">{eyebrow}</p>
+          <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">{title}</h3>
+          <p className="text-sm md:text-base leading-relaxed text-brand-black/80">{body}</p>
+          <p className="text-[11px] md:text-xs font-semibold text-brand-black/70">Hover another card to keep exploring.</p>
+        </div>
+      </div>
+    </div>
+  );
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" as any } }
@@ -130,54 +157,102 @@ export default function PaymentsPage() {
             </div>
 
             {/* Row 1: Payment Gateway + Mobile Wireless */}
-            <div className="grid gap-8 md:grid-cols-2 mb-8">
+            <div className="grid gap-8 md:grid-cols-2 mb-8 relative">
               <motion.div
+                className="relative min-h-[360px]"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0, duration: 0.5 }}
               >
-                <OnlineEcommerceCard
-                  isExpanded={expandedCard === 'payment-gateway'}
-                  onExpand={() => setExpandedCard('payment-gateway')}
-                />
+                <div
+                  className={`transition-opacity duration-300 ${expandedCard === 'mobile-wireless' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                >
+                  <OnlineEcommerceCard
+                    isExpanded={expandedCard === 'payment-gateway'}
+                    onExpand={() => handleExpand('payment-gateway')}
+                  />
+                </div>
+                {expandedCard === 'mobile-wireless' && (
+                  <CopyBubble
+                    eyebrow="Wireless terminals"
+                    title="Wireless demo walkthrough"
+                    body="With the wireless video active to the right, we spotlight patio-to-curb range, smarter tipping prompts, and battery life that keeps drivers running an entire shift."
+                  />
+                )}
               </motion.div>
               <motion.div
+                className="relative min-h-[360px]"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1, duration: 0.5 }}
               >
-                <MobileTerminalsCard
-                  isExpanded={expandedCard === 'mobile-wireless'}
-                  onExpand={() => setExpandedCard('mobile-wireless')}
-                />
+                <div
+                  className={`transition-opacity duration-300 ${expandedCard === 'payment-gateway' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                >
+                  <MobileTerminalsCard
+                    isExpanded={expandedCard === 'mobile-wireless'}
+                    onExpand={() => handleExpand('mobile-wireless')}
+                  />
+                </div>
+                {expandedCard === 'payment-gateway' && (
+                  <CopyBubble
+                    eyebrow="Checkout flows"
+                    title="Gateway demo highlights"
+                    body="While the ecommerce video plays to the left, we call out conversion boosts, tokenized vaults for repeat orders, and recovery prompts that bring abandoned carts back."
+                  />
+                )}
               </motion.div>
             </div>
 
             {/* Row 2: Integrations + Contactless Tap to Pay */}
-            <div className="grid gap-8 md:grid-cols-2 mb-8">
+            <div className="grid gap-8 md:grid-cols-2 mb-8 relative">
               <motion.div
+                className="relative min-h-[360px]"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                <EChecksCard
-                  isExpanded={expandedCard === 'integrations'}
-                  onExpand={() => setExpandedCard('integrations')}
-                />
+                <div
+                  className={`transition-opacity duration-300 ${expandedCard === 'tap-to-pay' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                >
+                  <EChecksCard
+                    isExpanded={expandedCard === 'integrations'}
+                    onExpand={() => handleExpand('integrations')}
+                  />
+                </div>
+                {expandedCard === 'tap-to-pay' && (
+                  <CopyBubble
+                    eyebrow="Contactless playbook"
+                    title="Tap-to-pay in action"
+                    body="When tap to pay is expanding on the right, we highlight instant device provisioning, staff PIN controls, and speedy receipts that keep every register moving."
+                  />
+                )}
               </motion.div>
               <motion.div
+                className="relative min-h-[360px]"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
-                <TapToPayCard
-                  isExpanded={expandedCard === 'tap-to-pay'}
-                  onExpand={() => setExpandedCard('tap-to-pay')}
-                />
+                <div
+                  className={`transition-opacity duration-300 ${expandedCard === 'integrations' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                >
+                  <TapToPayCard
+                    isExpanded={expandedCard === 'tap-to-pay'}
+                    onExpand={() => handleExpand('tap-to-pay')}
+                  />
+                </div>
+                {expandedCard === 'integrations' && (
+                  <CopyBubble
+                    eyebrow="ACH + eCheck stack"
+                    title="Integrations demo takeaways"
+                    body="With the eCheck video expanded to the left, we spell out verification automation, funds guarantees, and reconciliation that syncs straight to your back office."
+                  />
+                )}
               </motion.div>
             </div>
 
