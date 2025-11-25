@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import YouTubeEmbed from "@/components/YouTubeEmbed";
@@ -8,20 +8,38 @@ import YouTubeEmbed from "@/components/YouTubeEmbed";
 interface TapToPayCardProps {
     isExpanded?: boolean;
     onExpand?: () => void;
+    expandDirection?: "down" | "up";
+    hasBeenViewed?: boolean;
 }
 
-export default function TapToPayCard({ isExpanded = false, onExpand }: TapToPayCardProps = {}) {
+export default function TapToPayCard({ isExpanded = false, onExpand, expandDirection = "down", hasBeenViewed = false }: TapToPayCardProps = {}) {
     const [isMuted, setIsMuted] = useState(true);
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const detectMobile = () => setIsMobile(typeof window !== "undefined" ? window.innerWidth < 768 : false);
+        detectMobile();
+
+        window.addEventListener("resize", detectMobile);
+        return () => window.removeEventListener("resize", detectMobile);
+    }, []);
+
+    const effectiveExpandDirection = isMobile ? "up" : expandDirection;
+
+    const closedTranslateClass = effectiveExpandDirection === "up" ? "translate-y-full" : "-translate-y-full";
+    const viewedBorderClass = hasBeenViewed && !isExpanded ? "border-[#d97757]" : "border-gray-200";
+    const scaleClass = isExpanded ? "md:scale-110" : "md:hover:scale-110";
 
     return (
         <div
-            className={`group bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${isExpanded ? 'scale-110' : 'hover:scale-110'} origin-center`}
+            className={`group bg-white rounded-3xl border ${viewedBorderClass} overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${scaleClass} origin-center`}
             onMouseEnter={onExpand}
         >
             {/* Wrapper expands to video size when isExpanded */}
             <div className={`relative transition-all duration-700 ease-out ${isExpanded ? 'h-[350px]' : ''}`}>
                 {/* Video - positioned above, rolls down when expanded */}
-                <div className={`absolute inset-x-0 w-full h-full transition-transform duration-700 ease-out ${isExpanded ? 'translate-y-0' : '-translate-y-full'}`}>
+                <div className={`absolute inset-x-0 w-full h-full transition-transform duration-700 ease-out ${isExpanded ? 'translate-y-0' : closedTranslateClass}`}>
                     <div className="relative w-full h-full bg-gray-50">
                         <YouTubeEmbed videoId="2Srv8GJaATY" title="Tap to Pay Video" isMuted={isMuted} />
 
@@ -49,11 +67,13 @@ export default function TapToPayCard({ isExpanded = false, onExpand }: TapToPayC
                 <div className="bg-white transition-transform duration-700 ease-out">
                     <div className="p-4">
                         <div className="flex items-start justify-between">
-                            <div className="space-y-1 flex-1 min-w-0">
+                            <div className="space-y-1.5 flex-1 min-w-0">
                                 <span className="text-xs font-semibold text-brand-black/60 block">Digital Payments</span>
                                 <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">
                                     Tap to pay.
                                 </h3>
+                                <p className="text-sm text-brand-black/70 leading-snug">Secure tap-to-pay on devices your team trusts.</p>
+                                <p className="text-sm text-brand-black/60 leading-snug">Provision fast, stay PCI-safe, send instant receipts.</p>
                             </div>
                             <Link href="/get-started" className="flex-shrink-0 ml-3">
                                 <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
