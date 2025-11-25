@@ -48,6 +48,9 @@ export default function OnlineEcommerceCard({ isExpanded = false, onExpand }: On
                                 <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">
                                     Payment gateway.
                                 </h3>
+                                <p className="text-sm text-brand-black/70 leading-snug">
+                                    Clean checkouts that convert and keep your cart flow intact.
+                                </p>
                             </div>
                             <Link href="/get-started" className="flex-shrink-0 ml-3">
                                 <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
