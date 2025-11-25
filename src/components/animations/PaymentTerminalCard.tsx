@@ -19,7 +19,10 @@ export default function PaymentTerminalCard() {
     }, [isInViewport]);
 
     return (
-        <div ref={containerRef} className="w-full h-full bg-transparent relative overflow-hidden flex items-center justify-center p-6">
+        <div
+            ref={containerRef}
+            className="w-full max-w-[560px] bg-transparent relative overflow-visible flex items-center justify-center"
+        >
             <AnimatePresence mode="wait">
                 {step === 0 && <PaymentInitCard key="step0" />}
                 {step === 1 && <ProcessingCard key="step1" />}
@@ -48,7 +51,7 @@ function PaymentInitCard() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="bg-white rounded-2xl p-6 w-full max-w-[320px] border border-gray-100"
+            className="bg-white rounded-2xl p-6 w-full"
         >
             <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center mb-4">
                 <CreditCard className="text-white w-6 h-6" />
@@ -89,7 +92,7 @@ function ProcessingCard() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="bg-black rounded-2xl p-6 w-full max-w-[320px] text-white"
+            className="bg-black rounded-2xl p-6 w-full text-white"
         >
             <div className="flex justify-between items-center mb-8">
                 <span className="text-sm text-white/60 font-poppins">Processing</span>
@@ -146,7 +149,7 @@ function SuccessCard() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ duration: 0.5 }}
-            className="bg-white rounded-2xl p-6 w-full max-w-[320px] border border-gray-100"
+            className="bg-white rounded-2xl p-6 w-full"
         >
             {/* Success Icon */}
             <motion.div

@@ -155,7 +155,7 @@ export default function HomePage() {
                     transition={{ delay: index * 0.1 }}
                     className="group flex flex-col bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full"
                   >
-                    <div className="p-6 pb-0 flex flex-col relative z-10 bg-white">
+                    <div className="p-6 pb-2 flex flex-col relative z-10 bg-white">
                       <div className="flex items-start justify-between mb-4">
                         <div className="space-y-2">
                           <span className="text-sm font-semibold text-brand-black/60">{feature.label}</span>
@@ -170,10 +170,8 @@ export default function HomePage() {
                         </Link>
                       </div>
                     </div>
-                    <div className="mt-auto w-full bg-gray-50 relative border-t border-gray-100 overflow-hidden">
-                      <div className="h-80 w-full">
-                        {feature.component}
-                      </div>
+                    <div className="mt-4 w-full flex justify-center">
+                      {feature.component}
                     </div>
                   </motion.div>
                 ))}
