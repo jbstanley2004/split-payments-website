@@ -32,6 +32,44 @@ type ChartConfig = {
   values: number[];
 };
 
+type Point = { x: number; y: number };
+
+const CHART_ACCENT = "#d7d9e0";
+const BRAND_ORANGE = "#d97757";
+
+function createSmoothPath(points: Point[], smoothing = 0.2) {
+  if (!points.length) return "";
+
+  const controlPoint = (
+    current: Point,
+    previous?: Point,
+    next?: Point,
+    reverse = false
+  ): Point => {
+    const p = previous ?? current;
+    const n = next ?? current;
+    const o = {
+      x: (n.x - p.x) * smoothing,
+      y: (n.y - p.y) * smoothing,
+    };
+
+    return {
+      x: current.x - (reverse ? o.x : -o.x),
+      y: current.y - (reverse ? o.y : -o.y),
+    };
+  };
+
+  const d = [`M ${points[0].x} ${points[0].y}`];
+
+  for (let i = 1; i < points.length; i++) {
+    const cps = controlPoint(points[i - 1], points[i - 2], points[i]);
+    const cpe = controlPoint(points[i], points[i - 1], points[i + 1], true);
+    d.push(`C ${cps.x} ${cps.y} ${cpe.x} ${cpe.y} ${points[i].x} ${points[i].y}`);
+  }
+
+  return d.join(" ");
+}
+
 type PeriodConfig = {
   id: PeriodId;
   label: string;
@@ -89,7 +127,7 @@ const LineChart = ({ config }: LineChartProps) => {
       return {
         path: "",
         areaPath: "",
-        points: [] as { x: number; y: number }[],
+        points: [] as Point[],
         lastValue: 0,
         min: 0,
         max: 0,
@@ -115,9 +153,7 @@ const LineChart = ({ config }: LineChartProps) => {
       return { x: xPos, y: yPos };
     });
 
-    const d = pts
-      .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`)
-      .join(" ");
+    const d = createSmoothPath(pts);
 
     const area = `${d} L ${pts[pts.length - 1].x} ${h} L ${pts[0].x} ${h} Z`;
 
@@ -164,8 +200,14 @@ const LineChart = ({ config }: LineChartProps) => {
             <span>TSYS · FD Omaha</span>
           </div>
           <div className="relative flex h-2 w-2 ml-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF4306] opacity-75"></span>
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF4306]"></span>
+            <span
+              className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+              style={{ backgroundColor: CHART_ACCENT }}
+            ></span>
+            <span
+              className="relative inline-flex h-2 w-2 rounded-full"
+              style={{ backgroundColor: CHART_ACCENT }}
+            ></span>
           </div>
         </div>
       </div>
@@ -178,8 +220,8 @@ const LineChart = ({ config }: LineChartProps) => {
         >
           <defs>
             <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#FF4306" stopOpacity="0.1" />
-              <stop offset="100%" stopColor="#FF4306" stopOpacity="0" />
+              <stop offset="0%" stopColor={CHART_ACCENT} stopOpacity="0.25" />
+              <stop offset="100%" stopColor={CHART_ACCENT} stopOpacity="0" />
             </linearGradient>
           </defs>
 
@@ -212,7 +254,7 @@ const LineChart = ({ config }: LineChartProps) => {
                 key="line"
                 d={path}
                 fill="none"
-                stroke="#FF4306"
+                stroke={CHART_ACCENT}
                 strokeWidth={1.5}
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -221,6 +263,17 @@ const LineChart = ({ config }: LineChartProps) => {
               />
             )}
           </AnimatePresence>
+
+          {points.length > 0 && (
+            <g transform={`translate(${points[points.length - 1].x} ${points[points.length - 1].y})`}>
+              <circle
+                r={5}
+                fill={BRAND_ORANGE}
+                className="animate-ping opacity-60"
+              />
+              <circle r={3} fill={BRAND_ORANGE} />
+            </g>
+          )}
 
           {points.map((point, i) => {
             const active = hoverIndex === i;
@@ -243,7 +296,7 @@ const LineChart = ({ config }: LineChartProps) => {
                   cx={point.x}
                   cy={point.y}
                   r={1.5}
-                  fill="#FF4306"
+                  fill={CHART_ACCENT}
                   stroke="none"
                 />
                 {active && (
@@ -251,7 +304,7 @@ const LineChart = ({ config }: LineChartProps) => {
                     cx={point.x}
                     cy={point.y}
                     r={4}
-                    stroke="#FF4306"
+                    stroke={CHART_ACCENT}
                     strokeWidth={1}
                     fill="transparent"
                     initial={{ opacity: 0, scale: 0.5 }}
@@ -468,8 +521,14 @@ export default function DashboardAnimation() {
                     <span>TSYS · FD Omaha</span>
                   </div>
                   <div className="relative flex h-2 w-2 ml-2">
-                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#FF4306] opacity-75"></span>
-                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#FF4306]"></span>
+                    <span
+                      className="absolute inline-flex h-full w-full animate-ping rounded-full opacity-75"
+                      style={{ backgroundColor: CHART_ACCENT }}
+                    ></span>
+                    <span
+                      className="relative inline-flex h-2 w-2 rounded-full"
+                      style={{ backgroundColor: CHART_ACCENT }}
+                    ></span>
                   </div>
                 </div>
               </div>
@@ -526,8 +585,8 @@ export default function DashboardAnimation() {
                   >
                     <defs>
                       <linearGradient id="main-chart-grad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#FF4306" stopOpacity="0.1" />
-                        <stop offset="100%" stopColor="#FF4306" stopOpacity="0" />
+                        <stop offset="0%" stopColor={CHART_ACCENT} stopOpacity="0.25" />
+                        <stop offset="100%" stopColor={CHART_ACCENT} stopOpacity="0" />
                       </linearGradient>
                     </defs>
 
@@ -564,9 +623,7 @@ export default function DashboardAnimation() {
                         y: padding.top + ((vMax - val) / vRange) * h
                       }));
 
-                      const linePath = points.map((p, i) =>
-                        `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`
-                      ).join(' ');
+                      const linePath = createSmoothPath(points);
 
                       const areaPath = `${linePath} L ${260 - padding.right} ${130 - padding.bottom} L ${padding.left} ${130 - padding.bottom} Z`;
 
@@ -581,7 +638,7 @@ export default function DashboardAnimation() {
                           <motion.path
                             d={linePath}
                             fill="none"
-                            stroke="#FF4306"
+                            stroke={CHART_ACCENT}
                             strokeWidth={1.5}
                             strokeLinecap="round"
                             strokeLinejoin="round"
@@ -594,7 +651,7 @@ export default function DashboardAnimation() {
                               cx={point.x}
                               cy={point.y}
                               r={1.5}
-                              fill="#FF4306"
+                              fill={CHART_ACCENT}
                             />
                           ))}
                         </>
