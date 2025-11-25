@@ -62,14 +62,14 @@ export default function HardwareGridShowcase({ isExpanded = false, onExpand }: H
     return (
         <div
             ref={containerRef}
-            className={`group bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${isExpanded ? 'scale-110' : 'hover:scale-110'} origin-center`}
+            className={`group rounded-3xl overflow-hidden transition-all duration-700 relative origin-center bg-[#f9f9f9] hover:bg-white shadow-none hover:shadow-none border border-transparent ${isExpanded ? 'scale-110' : ''}`}
             onMouseEnter={onExpand}
         >
             {/* Wrapper expands to grid size when isExpanded */}
             <div className={`relative transition-all duration-700 ease-out ${isExpanded ? 'h-[350px]' : ''}`}>
                 {/* Grid - positioned above, rolls down when expanded */}
                 <div className={`absolute inset-x-0 w-full h-full transition-transform duration-700 ease-out ${isExpanded ? 'translate-y-0' : '-translate-y-full'}`}>
-                    <div className="relative w-full h-full bg-gray-50 p-3">
+                    <div className="relative w-full h-full bg-[#fbfbfb] group-hover:bg-white transition-colors duration-500 p-3">
                         {/* 4 rows x 4 columns grid - items directly on background */}
                         <div className="grid grid-cols-4 grid-rows-4 gap-2 h-full">
                             {itemIndices.map((itemIndex, idx) => {
@@ -107,6 +107,9 @@ export default function HardwareGridShowcase({ isExpanded = false, onExpand }: H
                                 <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">
                                     Brand agnostic.
                                 </h3>
+                                <p className="text-sm text-brand-black/70 leading-snug">
+                                    Mix-and-match terminals, gateways, and apps without vendor lock-in.
+                                </p>
                             </div>
                             <Link href="/get-started" className="flex-shrink-0 ml-3">
                                 <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
