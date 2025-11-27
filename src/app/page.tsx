@@ -130,21 +130,13 @@ export default function HomePage() {
                 </p>
               </motion.div>
 
-              {/* 1. Credit Card Processing Section - Visual Left, Copy Right */}
+              {/* 1. Credit Card Processing Section - Copy Left, Visual Right */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 className="flex flex-col md:flex-row items-center gap-8 md:gap-12"
               >
-                {/* Visual */}
-                <div className="w-full md:w-1/2">
-                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm aspect-[4/3] w-full flex items-center justify-center relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <PaymentTerminalCard />
-                    </div>
-                  </div>
-                </div>
                 {/* Copy */}
                 <div className="w-full md:w-1/2 text-left">
                   <span className="text-sm font-bold text-brand-black/60 uppercase tracking-wider mb-4 block font-poppins">Payments</span>
@@ -160,6 +152,14 @@ export default function HomePage() {
                       Learn More
                     </PrimaryButton>
                   </ZoomTransitionLink>
+                </div>
+                {/* Visual */}
+                <div className="w-full md:w-1/2">
+                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm aspect-[4/3] w-full flex items-center justify-center relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <PaymentTerminalCard />
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             </div>
