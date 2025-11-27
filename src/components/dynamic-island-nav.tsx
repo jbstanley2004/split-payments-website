@@ -186,11 +186,18 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                   transition={{ delay: 0.3 }}
                   className="border-t border-gray-200/50 p-4"
                 >
-                  <Link href="/get-started" onClick={() => setIsMobileOpen(false)} className="block w-full">
-                    <span className="inline-flex w-full items-center justify-center rounded-full border-2 border-[#111111] bg-transparent px-7 sm:px-8 py-4 font-poppins font-medium text-base sm:text-lg tracking-tight text-[#111111] transition-all duration-300 hover:bg-[#111111]/8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#111111] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap text-center">
-                      Get Started
-                    </span>
-                  </Link>
+                  <div className="flex flex-row gap-4 w-full">
+                    <Link href="/get-started" onClick={() => setIsMobileOpen(false)} className="flex-1">
+                      <span className="inline-flex w-full items-center justify-center rounded-full border border-[#111111] bg-transparent px-6 py-3 font-poppins font-medium text-base tracking-tight text-[#111111] transition-all duration-300 hover:bg-[#111111]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#111111] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap text-center">
+                        Get Started
+                      </span>
+                    </Link>
+                    <Link href="/contact" onClick={() => setIsMobileOpen(false)} className="flex-1">
+                      <span className="inline-flex w-full items-center justify-center bg-black text-white px-6 py-3 rounded-full font-poppins font-medium text-base transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap text-center">
+                        Contact sales
+                      </span>
+                    </Link>
+                  </div>
                 </motion.div>
               </div>
 

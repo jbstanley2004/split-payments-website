@@ -7,7 +7,7 @@ import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import MobileTerminalsCard from "@/components/animations/MobileTerminalsCard";
 import OnlineEcommerceCard from "@/components/animations/OnlineEcommerceCard";
@@ -60,6 +60,61 @@ const SOLUTIONS = [
 export default function PaymentsPage() {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [viewedCards, setViewedCards] = useState<Set<string>>(new Set());
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
+
+  // Detect touch device
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
+  // Scroll-aware collapse: collapse cards when user starts scrolling
+  useEffect(() => {
+    let isScrolling = false;
+
+    const handleScroll = () => {
+      if (!isScrolling && expandedCard) {
+        isScrolling = true;
+        setExpandedCard(null);
+      }
+
+      clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
+        isScrolling = false;
+      }, 150);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
+  }, [expandedCard]);
+
+  // Viewport awareness: collapse cards when they leave viewport
+  useEffect(() => {
+    const cardIds = ['payment-gateway', 'mobile-wireless', 'integrations', 'tap-to-pay'];
+    const observers: IntersectionObserver[] = [];
+
+    cardRefs.current.forEach((ref, index) => {
+      if (!ref) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry.isIntersecting && expandedCard === cardIds[index]) {
+            setExpandedCard(null);
+          }
+        },
+        { threshold: 0.2, rootMargin: '-10% 0px' }
+      );
+
+      observer.observe(ref);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach(obs => obs.disconnect());
+  }, [expandedCard]);
 
   const handleExpand = (cardId: string) => {
     if (expandedCard !== cardId) {
@@ -175,6 +230,7 @@ export default function PaymentsPage() {
             {/* Row 1: Payment Gateway + Mobile Wireless */}
             <div className="grid gap-6 md:grid-cols-2 mb-6 relative">
               <motion.div
+                ref={(el) => cardRefs.current[0] = el}
                 className="grid relative"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -193,16 +249,32 @@ export default function PaymentsPage() {
                 </div>
                 <AnimatePresence>
                   {expandedCard === 'mobile-wireless' && (
-                    <CopyBubble
-                      eyebrow="Wireless terminals"
-                      title="Mobile freedom, powered by Android"
-                      body="We offer the best mobile wireless devices on the market, powered by Android for seamless performance. Choose from industry-leading brands including PAX, Ingenico, Clover, Dejavoo, and Verifone—all designed to keep your business moving."
-                      slideDirection="right"
-                    />
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-visible">
+                      <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20, transition: { duration: 0.3 } }}
+                        transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+                        className="w-full md:max-w-md rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
+                      >
+                        <div className="space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">Wireless terminals</p>
+                          <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">
+                            <span className="flex items-center gap-1.5 md:gap-2 flex-wrap">
+                              <span>Mobile freedom, powered by Android</span>
+                              <Image src="/brand_logos/android.svg" alt="Android" width={24} height={24} className="inline-block w-5 h-5 md:w-7 md:h-7" />
+                            </span>
+                          </h3>
+                          <p className="text-sm md:text-base leading-relaxed text-brand-black/80">We offer the best mobile wireless devices on the market, powered by Android for seamless performance. Choose from industry-leading brands including PAX, Ingenico, Clover, Dejavoo, and Verifone—all designed to keep your business moving.</p>
+                          <p className="text-[11px] md:text-xs font-semibold text-brand-black/70">Hover another card to keep exploring.</p>
+                        </div>
+                      </motion.div>
+                    </div>
                   )}
                 </AnimatePresence>
               </motion.div>
               <motion.div
+                ref={(el) => cardRefs.current[1] = el}
                 className="grid relative"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -221,12 +293,28 @@ export default function PaymentsPage() {
                 </div>
                 <AnimatePresence>
                   {expandedCard === 'payment-gateway' && (
-                    <CopyBubble
-                      eyebrow="E-commerce integration"
-                      title="Seamless Shopify & online platform connections"
-                      body="We integrate safely and securely with Shopify and other leading e-commerce platforms through our NMI and Authorize.net gateway connections. Accept payments with confidence, protect customer data, and streamline your checkout experience."
-                      slideDirection="left"
-                    />
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-visible">
+                      <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20, transition: { duration: 0.3 } }}
+                        transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+                        className="w-full md:max-w-md rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
+                      >
+                        <div className="space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">E-commerce integration</p>
+                          <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">
+                            <span className="flex items-center gap-1.5 md:gap-2 flex-wrap">
+                              <span>Seamless</span>
+                              <Image src="/brand_logos/shopify.svg" alt="Shopify" width={70} height={20} className="inline-block h-5 md:h-7 w-auto" />
+                              <span>& online platform connections</span>
+                            </span>
+                          </h3>
+                          <p className="text-sm md:text-base leading-relaxed text-brand-black/80">We integrate safely and securely with Shopify and other leading e-commerce platforms through our NMI and Authorize.net gateway connections. Accept payments with confidence, protect customer data, and streamline your checkout experience.</p>
+                          <p className="text-[11px] md:text-xs font-semibold text-brand-black/70">Hover another card to keep exploring.</p>
+                        </div>
+                      </motion.div>
+                    </div>
                   )}
                 </AnimatePresence>
               </motion.div>
@@ -235,6 +323,7 @@ export default function PaymentsPage() {
             {/* Row 2: Integrations + Contactless Tap to Pay */}
             <div className="grid gap-6 md:grid-cols-2 mb-6 relative">
               <motion.div
+                ref={(el) => cardRefs.current[2] = el}
                 className="grid relative"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -253,16 +342,31 @@ export default function PaymentsPage() {
                 </div>
                 <AnimatePresence>
                   {expandedCard === 'tap-to-pay' && (
-                    <CopyBubble
-                      eyebrow="Contactless payments"
-                      title="Google Pay, Apple Pay & Samsung Pay"
-                      body="We offer the best equipment from the best brands with the latest technology. Accept contactless payments from Google Pay, Apple Pay, and Samsung Pay seamlessly. We work with everyone to keep your business moving forward."
-                      slideDirection="right"
-                    />
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-visible">
+                      <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20, transition: { duration: 0.3 } }}
+                        transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
+                        className="w-full md:max-w-md rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
+                      >
+                        <div className="space-y-2">
+                          <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">Contactless payments</p>
+                          <div className="flex items-center gap-2 md:gap-3 flex-wrap mb-2">
+                            <Image src="/brand_logos/google-pay.svg" alt="Google Pay" width={60} height={24} className="h-5 md:h-7 w-auto" />
+                            <Image src="/brand_logos/apple-pay.svg" alt="Apple Pay" width={60} height={24} className="h-5 md:h-7 w-auto" />
+                            <Image src="/brand_logos/samsung-pay.svg" alt="Samsung Pay" width={80} height={24} className="h-5 md:h-7 w-auto" />
+                          </div>
+                          <p className="text-sm md:text-base leading-relaxed text-brand-black/80">We offer the best equipment from the best brands with the latest technology. Accept contactless payments seamlessly. We work with everyone to keep your business moving forward.</p>
+                          <p className="text-[11px] md:text-xs font-semibold text-brand-black/70">Hover another card to keep exploring.</p>
+                        </div>
+                      </motion.div>
+                    </div>
                   )}
                 </AnimatePresence>
               </motion.div>
               <motion.div
+                ref={(el) => cardRefs.current[3] = el}
                 className="grid relative"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
