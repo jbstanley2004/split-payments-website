@@ -112,7 +112,7 @@ export default function HomePage() {
           </section>
         </div>
 
-        {/* FEATURES SECTION */}
+        {/* FEATURES SECTION 1: Credit Card Processing (Gray) */}
         <div className="w-full bg-[#F6F5F4]">
           <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-10 md:py-14">
             <div className="max-w-7xl mx-auto space-y-6">
@@ -162,8 +162,15 @@ export default function HomePage() {
                   </ZoomTransitionLink>
                 </div>
               </motion.div>
+            </div>
+          </section>
+        </div>
 
-              {/* 2. Real-time Analytics Dashboard - Wide console card (Existing) */}
+        {/* FEATURES SECTION 2: Real-time Analytics (White) */}
+        <div className="w-full bg-white">
+          <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14">
+            <div className="max-w-7xl mx-auto">
+              {/* 2. Real-time Analytics Dashboard - Wide console card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -195,14 +202,29 @@ export default function HomePage() {
                   </div>
                 </div>
               </motion.div>
+            </div>
+          </section>
+        </div>
 
-              {/* 3. Working Capital Section - Copy Left, Visual Right */}
+        {/* FEATURES SECTION 3: Funding (Gray) */}
+        <div className="w-full bg-[#F6F5F4]">
+          <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14">
+            <div className="max-w-7xl mx-auto">
+              {/* 3. Working Capital Section - Visual Left, Copy Right */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 className="flex flex-col md:flex-row items-center gap-8 md:gap-12"
               >
+                {/* Visual */}
+                <div className="w-full md:w-1/2">
+                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm aspect-[4/3] w-full flex items-center justify-center relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <WorkingCapitalAnimation />
+                    </div>
+                  </div>
+                </div>
                 {/* Copy */}
                 <div className="w-full md:w-1/2 text-left">
                   <span className="text-sm font-bold text-brand-black/60 uppercase tracking-wider mb-4 block font-poppins">Funding</span>
@@ -219,16 +241,7 @@ export default function HomePage() {
                     </PrimaryButton>
                   </ZoomTransitionLink>
                 </div>
-                {/* Visual */}
-                <div className="w-full md:w-1/2">
-                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm aspect-[4/3] w-full flex items-center justify-center relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <WorkingCapitalAnimation />
-                    </div>
-                  </div>
-                </div>
               </motion.div>
-
             </div>
           </section>
         </div>
