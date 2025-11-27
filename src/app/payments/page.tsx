@@ -136,24 +136,55 @@ export default function PaymentsPage() {
     eyebrow,
     title,
     body,
-    slideDirection = "left"
+    slideDirection = "left",
+    isMobile = false
   }: {
     eyebrow: string;
     title: string;
     body: string;
     slideDirection?: "left" | "right";
+    isMobile?: boolean;
   }) => (
-    <div className="pointer-events-none col-start-1 row-start-1 flex items-center justify-center w-full h-full z-10">
+    <div className={isMobile
+      ? "relative w-full mt-4 block md:hidden"
+      : "pointer-events-none col-start-1 row-start-1 hidden md:flex items-center justify-center w-full h-full z-10"
+    }>
       <motion.div
-        initial={{ opacity: 0, x: slideDirection === "left" ? -50 : 50 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: slideDirection === "left" ? -20 : 20, transition: { duration: 0.3 } }}
+        initial={{ opacity: 0, x: isMobile ? 0 : (slideDirection === "left" ? -50 : 50), y: isMobile ? 20 : 0 }}
+        animate={{ opacity: 1, x: 0, y: 0 }}
+        exit={{ opacity: 0, x: isMobile ? 0 : (slideDirection === "left" ? -20 : 20), y: isMobile ? 10 : 0, transition: { duration: 0.3 } }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-        className="max-w-md w-full rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
+        className={`w-full rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5 ${isMobile ? '' : 'max-w-md'}`}
       >
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">{eyebrow}</p>
-          <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">{title}</h3>
+          {title === "Wireless terminals" ? (
+            <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">
+              <span className="flex items-center gap-1.5 md:gap-2 flex-wrap">
+                <span>Mobile freedom, powered by Android</span>
+                <Image src="/brand_logos/android.svg" alt="Android" width={24} height={24} className="inline-block w-5 h-5 md:w-7 md:h-7" />
+              </span>
+            </h3>
+          ) : title === "E-commerce integration" ? (
+            <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">
+              <span className="flex items-center gap-1.5 md:gap-2 flex-wrap">
+                <span>Seamless</span>
+                <Image src="/brand_logos/shopify.svg" alt="Shopify" width={70} height={20} className="inline-block h-5 md:h-7 w-auto" />
+                <span>& online platform connections</span>
+              </span>
+            </h3>
+          ) : title === "Contactless payments" ? (
+            <>
+              <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">Contactless payments</h3>
+              <div className="flex items-center gap-2 md:gap-3 flex-wrap mb-2">
+                <Image src="/brand_logos/google-pay.svg" alt="Google Pay" width={60} height={24} className="h-5 md:h-7 w-auto" />
+                <Image src="/brand_logos/apple-pay.svg" alt="Apple Pay" width={60} height={24} className="h-5 md:h-7 w-auto" />
+                <Image src="/brand_logos/samsung-pay.svg" alt="Samsung Pay" width={80} height={24} className="h-5 md:h-7 w-auto" />
+              </div>
+            </>
+          ) : (
+            <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">{title}</h3>
+          )}
           <p className="text-sm md:text-base leading-relaxed text-brand-black/80">{body}</p>
           <p className="text-[11px] md:text-xs font-semibold text-brand-black/70">Hover another card to keep exploring.</p>
         </div>
@@ -242,7 +273,7 @@ export default function PaymentsPage() {
                 transition={{ delay: 0, duration: 0.5 }}
               >
                 <div
-                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'mobile-wireless' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'mobile-wireless' ? 'md:opacity-0 md:invisible md:pointer-events-none' : 'opacity-100 visible'}`}
                 >
                   <OnlineEcommerceCard
                     isExpanded={expandedCard === 'payment-gateway'}
@@ -250,30 +281,25 @@ export default function PaymentsPage() {
                     expandDirection="down"
                     hasBeenViewed={viewedCards.has('payment-gateway')}
                   />
+                  <AnimatePresence>
+                    {expandedCard === 'payment-gateway' && (
+                      <CopyBubble
+                        eyebrow="E-commerce integration"
+                        title="E-commerce integration"
+                        body="We integrate safely and securely with Shopify and other leading e-commerce platforms through our NMI and Authorize.net gateway connections. Accept payments with confidence, protect customer data, and streamline your checkout experience."
+                        isMobile={true}
+                      />
+                    )}
+                  </AnimatePresence>
                 </div>
                 <AnimatePresence>
                   {expandedCard === 'mobile-wireless' && (
-                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-visible">
-                      <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20, transition: { duration: 0.3 } }}
-                        transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-                        className="w-full md:max-w-md rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
-                      >
-                        <div className="space-y-2">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">Wireless terminals</p>
-                          <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">
-                            <span className="flex items-center gap-1.5 md:gap-2 flex-wrap">
-                              <span>Mobile freedom, powered by Android</span>
-                              <Image src="/brand_logos/android.svg" alt="Android" width={24} height={24} className="inline-block w-5 h-5 md:w-7 md:h-7" />
-                            </span>
-                          </h3>
-                          <p className="text-sm md:text-base leading-relaxed text-brand-black/80">We offer the best mobile wireless devices on the market, powered by Android for seamless performance. Choose from industry-leading brands including PAX, Ingenico, Clover, Dejavoo, and Verifone—all designed to keep your business moving.</p>
-                          <p className="text-[11px] md:text-xs font-semibold text-brand-black/70">Hover another card to keep exploring.</p>
-                        </div>
-                      </motion.div>
-                    </div>
+                    <CopyBubble
+                      eyebrow="Wireless terminals"
+                      title="Wireless terminals"
+                      body="We offer the best mobile wireless devices on the market, powered by Android for seamless performance. Choose from industry-leading brands including PAX, Ingenico, Clover, Dejavoo, and Verifone—all designed to keep your business moving."
+                      slideDirection="right"
+                    />
                   )}
                 </AnimatePresence>
               </motion.div>
@@ -286,7 +312,7 @@ export default function PaymentsPage() {
                 transition={{ delay: 0.1, duration: 0.5 }}
               >
                 <div
-                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'payment-gateway' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'payment-gateway' ? 'md:opacity-0 md:invisible md:pointer-events-none' : 'opacity-100 visible'}`}
                 >
                   <MobileTerminalsCard
                     isExpanded={expandedCard === 'mobile-wireless'}
@@ -294,31 +320,25 @@ export default function PaymentsPage() {
                     expandDirection="down"
                     hasBeenViewed={viewedCards.has('mobile-wireless')}
                   />
+                  <AnimatePresence>
+                    {expandedCard === 'mobile-wireless' && (
+                      <CopyBubble
+                        eyebrow="Wireless terminals"
+                        title="Wireless terminals"
+                        body="We offer the best mobile wireless devices on the market, powered by Android for seamless performance. Choose from industry-leading brands including PAX, Ingenico, Clover, Dejavoo, and Verifone—all designed to keep your business moving."
+                        isMobile={true}
+                      />
+                    )}
+                  </AnimatePresence>
                 </div>
                 <AnimatePresence>
                   {expandedCard === 'payment-gateway' && (
-                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-visible">
-                      <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20, transition: { duration: 0.3 } }}
-                        transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-                        className="w-full md:max-w-md rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
-                      >
-                        <div className="space-y-2">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">E-commerce integration</p>
-                          <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">
-                            <span className="flex items-center gap-1.5 md:gap-2 flex-wrap">
-                              <span>Seamless</span>
-                              <Image src="/brand_logos/shopify.svg" alt="Shopify" width={70} height={20} className="inline-block h-5 md:h-7 w-auto" />
-                              <span>& online platform connections</span>
-                            </span>
-                          </h3>
-                          <p className="text-sm md:text-base leading-relaxed text-brand-black/80">We integrate safely and securely with Shopify and other leading e-commerce platforms through our NMI and Authorize.net gateway connections. Accept payments with confidence, protect customer data, and streamline your checkout experience.</p>
-                          <p className="text-[11px] md:text-xs font-semibold text-brand-black/70">Hover another card to keep exploring.</p>
-                        </div>
-                      </motion.div>
-                    </div>
+                    <CopyBubble
+                      eyebrow="E-commerce integration"
+                      title="E-commerce integration"
+                      body="We integrate safely and securely with Shopify and other leading e-commerce platforms through our NMI and Authorize.net gateway connections. Accept payments with confidence, protect customer data, and streamline your checkout experience."
+                      slideDirection="left"
+                    />
                   )}
                 </AnimatePresence>
               </motion.div>
@@ -335,7 +355,7 @@ export default function PaymentsPage() {
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
                 <div
-                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'tap-to-pay' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'tap-to-pay' ? 'md:opacity-0 md:invisible md:pointer-events-none' : 'opacity-100 visible'}`}
                 >
                   <EChecksCard
                     isExpanded={expandedCard === 'integrations'}
@@ -343,29 +363,25 @@ export default function PaymentsPage() {
                     expandDirection="up"
                     hasBeenViewed={viewedCards.has('integrations')}
                   />
+                  <AnimatePresence>
+                    {expandedCard === 'integrations' && (
+                      <CopyBubble
+                        eyebrow="Payment flexibility"
+                        title="Electronic checks and invoicing"
+                        body="We accept all types of payments including electronic checks (eChecks), offering lower transaction costs and faster deposits. Integrated with QuickBooks and powered by NMI and Authorize.net, our solution automates reconciliation and streamlines your back-office operations."
+                        isMobile={true}
+                      />
+                    )}
+                  </AnimatePresence>
                 </div>
                 <AnimatePresence>
                   {expandedCard === 'tap-to-pay' && (
-                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-visible">
-                      <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20, transition: { duration: 0.3 } }}
-                        transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-                        className="w-full md:max-w-md rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
-                      >
-                        <div className="space-y-2">
-                          <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">Contactless payments</p>
-                          <div className="flex items-center gap-2 md:gap-3 flex-wrap mb-2">
-                            <Image src="/brand_logos/google-pay.svg" alt="Google Pay" width={60} height={24} className="h-5 md:h-7 w-auto" />
-                            <Image src="/brand_logos/apple-pay.svg" alt="Apple Pay" width={60} height={24} className="h-5 md:h-7 w-auto" />
-                            <Image src="/brand_logos/samsung-pay.svg" alt="Samsung Pay" width={80} height={24} className="h-5 md:h-7 w-auto" />
-                          </div>
-                          <p className="text-sm md:text-base leading-relaxed text-brand-black/80">We offer the best equipment from the best brands with the latest technology. Accept contactless payments seamlessly. We work with everyone to keep your business moving forward.</p>
-                          <p className="text-[11px] md:text-xs font-semibold text-brand-black/70">Hover another card to keep exploring.</p>
-                        </div>
-                      </motion.div>
-                    </div>
+                    <CopyBubble
+                      eyebrow="Contactless payments"
+                      title="Contactless payments"
+                      body="We offer the best equipment from the best brands with the latest technology. Accept contactless payments seamlessly. We work with everyone to keep your business moving forward."
+                      slideDirection="right"
+                    />
                   )}
                 </AnimatePresence>
               </motion.div>
@@ -378,7 +394,7 @@ export default function PaymentsPage() {
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 <div
-                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'integrations' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'integrations' ? 'md:opacity-0 md:invisible md:pointer-events-none' : 'opacity-100 visible'}`}
                 >
                   <TapToPayCard
                     isExpanded={expandedCard === 'tap-to-pay'}
@@ -386,6 +402,16 @@ export default function PaymentsPage() {
                     expandDirection="up"
                     hasBeenViewed={viewedCards.has('tap-to-pay')}
                   />
+                  <AnimatePresence>
+                    {expandedCard === 'tap-to-pay' && (
+                      <CopyBubble
+                        eyebrow="Contactless payments"
+                        title="Contactless payments"
+                        body="We offer the best equipment from the best brands with the latest technology. Accept contactless payments seamlessly. We work with everyone to keep your business moving forward."
+                        isMobile={true}
+                      />
+                    )}
+                  </AnimatePresence>
                 </div>
                 <AnimatePresence>
                   {expandedCard === 'integrations' && (

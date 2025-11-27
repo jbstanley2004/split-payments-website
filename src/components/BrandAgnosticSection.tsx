@@ -84,20 +84,25 @@ export default function BrandAgnosticSection() {
         eyebrow,
         title,
         body,
-        slideDirection = "left"
+        slideDirection = "left",
+        isMobile = false
     }: {
         eyebrow: string;
         title: string;
         body: string;
         slideDirection?: "left" | "right";
+        isMobile?: boolean;
     }) => (
-        <div className="pointer-events-none col-start-1 row-start-1 flex items-center justify-center w-full h-full z-10 overflow-visible">
+        <div className={isMobile
+            ? "relative w-full mt-4 block md:hidden"
+            : "pointer-events-none col-start-1 row-start-1 hidden md:flex items-center justify-center w-full h-full z-10 overflow-visible"
+        }>
             <motion.div
-                initial={{ opacity: 0, x: slideDirection === "left" ? -50 : 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: slideDirection === "left" ? -20 : 20, transition: { duration: 0.3 } }}
+                initial={{ opacity: 0, x: isMobile ? 0 : (slideDirection === "left" ? -50 : 50), y: isMobile ? 20 : 0 }}
+                animate={{ opacity: 1, x: 0, y: 0 }}
+                exit={{ opacity: 0, x: isMobile ? 0 : (slideDirection === "left" ? -20 : 20), y: isMobile ? 10 : 0, transition: { duration: 0.3 } }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-                className="w-full md:max-w-md rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
+                className={`w-full rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5 ${isMobile ? '' : 'md:max-w-md'}`}
             >
                 <div className="space-y-2">
                     <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">{eyebrow}</p>
@@ -177,7 +182,7 @@ export default function BrandAgnosticSection() {
                         transition={{ delay: 0, duration: 0.5 }}
                     >
                         <div
-                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'pos-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'pos-hardware' ? 'md:opacity-0 md:invisible md:pointer-events-none' : 'opacity-100 visible'}`}
                         >
                             <HardwareCategoryCard
                                 title="Countertop"
@@ -187,6 +192,16 @@ export default function BrandAgnosticSection() {
                                 expandDirection="down"
                                 hasBeenViewed={viewedCards.has('countertop-hardware')}
                             />
+                            <AnimatePresence>
+                                {expandedCard === 'countertop-hardware' && (
+                                    <CopyBubble
+                                        eyebrow="Countertop Terminals"
+                                        title="Reliable countertop payment solutions"
+                                        body="Countertop terminals from Ingenico, Verifone, Clover, and Dejavoo. Perfect for fixed checkout locations with robust EMV, NFC, and signature capture capabilities."
+                                        isMobile={true}
+                                    />
+                                )}
+                            </AnimatePresence>
                         </div>
                         <AnimatePresence>
                             {expandedCard === 'pos-hardware' && (
@@ -208,7 +223,7 @@ export default function BrandAgnosticSection() {
                         transition={{ delay: 0.1, duration: 0.5 }}
                     >
                         <div
-                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'countertop-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'countertop-hardware' ? 'md:opacity-0 md:invisible md:pointer-events-none' : 'opacity-100 visible'}`}
                         >
                             <HardwareCategoryCard
                                 title="POS"
@@ -218,6 +233,16 @@ export default function BrandAgnosticSection() {
                                 expandDirection="down"
                                 hasBeenViewed={viewedCards.has('pos-hardware')}
                             />
+                            <AnimatePresence>
+                                {expandedCard === 'pos-hardware' && (
+                                    <CopyBubble
+                                        eyebrow="Point of Sale Systems"
+                                        title="Full-featured POS terminals"
+                                        body="Powerful POS systems from Ingenico, Verifone, Clover, and Dejavoo. These all-in-one solutions combine payment processing with business management tools for streamlined operations."
+                                        isMobile={true}
+                                    />
+                                )}
+                            </AnimatePresence>
                         </div>
                         <AnimatePresence>
                             {expandedCard === 'countertop-hardware' && (
@@ -243,7 +268,7 @@ export default function BrandAgnosticSection() {
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
                         <div
-                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'wireless-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'wireless-hardware' ? 'md:opacity-0 md:invisible md:pointer-events-none' : 'opacity-100 visible'}`}
                         >
                             <HardwareCategoryCard
                                 title="Unattended"
@@ -253,6 +278,16 @@ export default function BrandAgnosticSection() {
                                 expandDirection="up"
                                 hasBeenViewed={viewedCards.has('unattended-hardware')}
                             />
+                            <AnimatePresence>
+                                {expandedCard === 'unattended-hardware' && (
+                                    <CopyBubble
+                                        eyebrow="Unattended Kiosks"
+                                        title="Self-service payment kiosks"
+                                        body="Unattended kiosk terminals from Ingenico, Verifone, Clover, and Dejavoo. Ideal for retail, parking, vending, and 24/7 automated payment acceptance."
+                                        isMobile={true}
+                                    />
+                                )}
+                            </AnimatePresence>
                         </div>
                         <AnimatePresence>
                             {expandedCard === 'wireless-hardware' && (
@@ -274,7 +309,7 @@ export default function BrandAgnosticSection() {
                         transition={{ delay: 0.3, duration: 0.5 }}
                     >
                         <div
-                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'unattended-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'unattended-hardware' ? 'md:opacity-0 md:invisible md:pointer-events-none' : 'opacity-100 visible'}`}
                         >
                             <HardwareCategoryCard
                                 title="Wireless"
@@ -284,6 +319,16 @@ export default function BrandAgnosticSection() {
                                 expandDirection="up"
                                 hasBeenViewed={viewedCards.has('wireless-hardware')}
                             />
+                            <AnimatePresence>
+                                {expandedCard === 'wireless-hardware' && (
+                                    <CopyBubble
+                                        eyebrow="Wireless Terminals"
+                                        title="Mobile payment freedom"
+                                        body="Wireless terminals from Ingenico, Verifone, Clover, and Dejavoo. Accept payments tableside, curbside, or on-the-go with 4G/WiFi connectivity and long battery life."
+                                        isMobile={true}
+                                    />
+                                )}
+                            </AnimatePresence>
                         </div>
                         <AnimatePresence>
                             {expandedCard === 'unattended-hardware' && (
