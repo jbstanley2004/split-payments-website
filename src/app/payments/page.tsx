@@ -69,8 +69,11 @@ export default function PaymentsPage() {
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
   }, []);
 
-  // Scroll-aware collapse: collapse cards when user starts scrolling
+  // Scroll-aware collapse: collapse cards when user starts scrolling (DESKTOP ONLY)
   useEffect(() => {
+    // Skip scroll collapse on touch devices for smoother mobile experience
+    if (isTouchDevice) return;
+
     let isScrolling = false;
 
     const handleScroll = () => {
@@ -90,7 +93,7 @@ export default function PaymentsPage() {
       window.removeEventListener('scroll', handleScroll);
       if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
-  }, [expandedCard]);
+  }, [expandedCard, isTouchDevice]);
 
   // Viewport awareness: collapse cards when they leave viewport
   useEffect(() => {
@@ -106,7 +109,8 @@ export default function PaymentsPage() {
             setExpandedCard(null);
           }
         },
-        { threshold: 0.2, rootMargin: '-10% 0px' }
+        // More forgiving threshold on mobile for smoother experience
+        { threshold: isTouchDevice ? 0.1 : 0.2, rootMargin: isTouchDevice ? '-5% 0px' : '-10% 0px' }
       );
 
       observer.observe(ref);
@@ -114,7 +118,7 @@ export default function PaymentsPage() {
     });
 
     return () => observers.forEach(obs => obs.disconnect());
-  }, [expandedCard]);
+  }, [expandedCard, isTouchDevice]);
 
   const handleExpand = (cardId: string) => {
     if (expandedCard !== cardId) {
