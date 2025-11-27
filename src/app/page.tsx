@@ -210,12 +210,12 @@ export default function HomePage() {
         <div className="w-full bg-[#F6F5F4]">
           <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14">
             <div className="max-w-7xl mx-auto">
-              {/* 3. Working Capital Section - Visual Left, Copy Right */}
+              {/* 3. Working Capital Section - Visual Left, Copy Right (Desktop) / Copy Top, Visual Bottom (Mobile) */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="flex flex-col md:flex-row items-center gap-8 md:gap-12"
+                className="flex flex-col-reverse md:flex-row items-center gap-8 md:gap-12"
               >
                 {/* Visual */}
                 <div className="w-full md:w-1/2">
