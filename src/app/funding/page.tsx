@@ -54,7 +54,7 @@ export default function FundingPage() {
                     Get started
                   </PrimaryButton>
                 </Link>
-                <Link href="/get-started">
+                <Link href="/contact">
                   <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
                     Contact sales
                   </PrimaryButton>
@@ -65,19 +65,19 @@ export default function FundingPage() {
         </section>
 
         {/* ELIGIBILITY SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-[#F6F5F4]">
+        <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14 bg-[#F6F5F4]">
           <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-6">
+            <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-4">
               Eligibility
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-black mb-6 font-poppins">
+            <h2 className="text-4xl md:text-5xl font-bold text-black mb-4 font-poppins">
               You don't apply. <br /> You qualify automatically.
             </h2>
-            <p className="text-xl text-black/70 font-lora leading-relaxed mb-12">
+            <p className="text-xl text-black/70 font-lora leading-relaxed mb-10">
               If your volume and history fit our model, we proactively extend funding offers based on your processing. No lengthy application or hard credit pull to get started. If you’re processing with us and your numbers qualify, we’ll tap you on the shoulder.
             </p>
 
-            <div className="grid md:grid-cols-3 gap-8 text-left">
+            <div className="grid md:grid-cols-3 gap-6 text-left">
               <div className="p-6 bg-gray-50 rounded-2xl border border-gray-100">
                 <h4 className="font-bold font-poppins text-black mb-2">Real sales, not projections</h4>
                 <p className="text-sm text-black/60 font-lora">Based on your actual processing history.</p>
@@ -95,13 +95,13 @@ export default function FundingPage() {
         </section>
 
         {/* TIMELINE SECTION */}
-        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-white">
+        <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14 bg-white">
           <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-6">
+            <div className="text-center mb-12">
+              <div className="inline-flex items-center px-3 py-1 rounded-full bg-gray-100 text-xs font-bold uppercase tracking-wider text-black/60 mb-4">
                 Timeline
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-black mb-6 font-poppins">
+              <h2 className="text-4xl md:text-5xl font-bold text-black mb-4 font-poppins">
                 Funding in days, not months.
               </h2>
               <p className="text-xl text-black/70 font-lora leading-relaxed max-w-3xl mx-auto">
@@ -109,7 +109,7 @@ export default function FundingPage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 relative">
+            <div className="grid md:grid-cols-3 gap-6 relative">
               {/* Connecting Line (Desktop) */}
               <div className="hidden md:block absolute top-24 left-[16%] right-[16%] h-0.5 bg-gray-200 -z-0"></div>
 
@@ -153,9 +153,9 @@ export default function FundingPage() {
         </section>
 
         {/* METRICS SECTION - Clean Grid */}
-        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-[#F6F5F4] border-t border-brand-stone/50">
+        <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14 bg-[#F6F5F4] border-t border-brand-stone/50">
           <div className="max-w-6xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-12">
               {[
                 {
                   value: "Immediate",
@@ -199,7 +199,7 @@ export default function FundingPage() {
         </section>
 
         {/* FEATURE CARDS GRID */}
-        <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 bg-white">
+        <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14 bg-white">
           <div className="max-w-[1400px] mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 

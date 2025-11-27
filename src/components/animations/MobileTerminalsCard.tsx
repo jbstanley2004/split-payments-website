@@ -93,7 +93,7 @@ export default function MobileTerminalsCard({ isExpanded = false, onExpand, expa
                                 <p className="text-sm text-brand-black/70 leading-snug">Table, curb, or queue—payments stay quick and connected.</p>
                                 <p className="text-sm text-brand-black/60 leading-snug">Long battery life and prompts keep tipping smooth.</p>
                             </div>
-                            <Link href="/get-started" className="flex-shrink-0 ml-3">
+                            <Link href="/contact" className="flex-shrink-0 ml-3">
                                 <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
                                     <ArrowRight className="w-4 h-4" />
                                 </div>

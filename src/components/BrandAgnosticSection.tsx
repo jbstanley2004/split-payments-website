@@ -52,9 +52,9 @@ export default function BrandAgnosticSection() {
     );
 
     return (
-        <section className="w-full bg-white px-6 md:px-10 lg:px-16 py-16 md:py-24">
+        <section className="w-full bg-white px-6 md:px-10 lg:px-16 py-10 md:py-14">
             <div className="mx-auto max-w-6xl">
-                <div className="text-center mb-12">
+                <div className="text-center mb-10">
                     <h2 className="text-4xl md:text-5xl font-poppins font-bold tracking-tight text-black mb-4">
                         Brand Agnostic.
                     </h2>
@@ -103,7 +103,7 @@ export default function BrandAgnosticSection() {
                 </div>
 
                 {/* Row 1: Countertop + POS Hardware */}
-                <div className="grid gap-8 md:grid-cols-2 mb-8 relative">
+                <div className="grid gap-6 md:grid-cols-2 mb-6 relative">
                     <motion.div
                         className="relative"
                         initial={{ opacity: 0, y: 30 }}
@@ -167,7 +167,7 @@ export default function BrandAgnosticSection() {
                 </div>
 
                 {/* Row 2: Unattended + Wireless Hardware */}
-                <div className="grid gap-8 md:grid-cols-2 relative">
+                <div className="grid gap-6 md:grid-cols-2 relative">
                     <motion.div
                         className="relative"
                         initial={{ opacity: 0, y: 30 }}

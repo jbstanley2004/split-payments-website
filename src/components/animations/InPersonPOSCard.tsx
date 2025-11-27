@@ -39,7 +39,7 @@ export default function InPersonPOSCard() {
                             Integrated POS.
                         </h3>
                     </div>
-                    <Link href="/get-started" className="flex-shrink-0">
+                    <Link href="/contact" className="flex-shrink-0">
                         <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
                             <ArrowRight className="w-5 h-5" />
                         </div>

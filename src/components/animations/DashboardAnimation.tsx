@@ -35,7 +35,7 @@ type ChartConfig = {
 type Point = { x: number; y: number };
 
 const CHART_ACCENT = "#ffffff";
-const BRAND_ORANGE = "#d97757";
+const BRAND_ORANGE = "#FF4306";
 
 function createSmoothPath(points: Point[], smoothing = 0.2) {
   if (!points.length) return "";

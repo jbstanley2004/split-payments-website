@@ -91,7 +91,7 @@ export default function HomePage() {
                       Get Started
                     </PrimaryButton>
                   </Link>
-                  <Link href="/get-started">
+                  <Link href="/contact">
                     <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
                       Contact sales
                     </PrimaryButton>
@@ -112,19 +112,18 @@ export default function HomePage() {
           </section>
         </div>
 
-        {/* EVERYTHING YOU NEED SECTION */}
+        {/* FEATURES SECTION */}
         <div className="w-full bg-[#F6F5F4]">
-          <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-12 md:py-16">
-            <div className="max-w-7xl mx-auto space-y-24">
+          <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-10 md:py-14">
+            <div className="max-w-7xl mx-auto space-y-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-center mb-12"
+                className="text-center mb-8"
               >
-                <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-6 tracking-tight font-poppins">
-                  Everything you need <br />
-                  <span className="italic font-lora font-normal">all in one place.</span>
+                <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-4 tracking-tight font-poppins">
+                  Everything you need
                 </h2>
                 <p className="text-xl text-brand-black/70 leading-relaxed font-lora max-w-3xl mx-auto">
                   We've unified the fragmented financial stack into one cohesive operating system.
@@ -136,7 +135,7 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="flex flex-col md:flex-row items-center gap-12 md:gap-20"
+                className="flex flex-col md:flex-row items-center gap-8 md:gap-12"
               >
                 {/* Visual */}
                 <div className="w-full md:w-1/2">
@@ -149,11 +148,11 @@ export default function HomePage() {
                 {/* Copy */}
                 <div className="w-full md:w-1/2 text-left">
                   <span className="text-sm font-bold text-brand-black/60 uppercase tracking-wider mb-4 block font-poppins">Payments</span>
-                  <h3 className="text-4xl md:text-5xl font-bold text-brand-black font-poppins leading-tight mb-6">
+                  <h3 className="text-4xl md:text-5xl font-bold text-brand-black font-poppins leading-tight mb-4">
                     Smarter payments. <br />
                     <span className="text-brand-charcoal">Stronger cash flow.</span>
                   </h3>
-                  <p className="text-xl text-brand-black/70 font-lora leading-relaxed mb-8">
+                  <p className="text-xl text-brand-black/70 font-lora leading-relaxed mb-6">
                     Simplify every transaction while unlocking funding that moves at the speed of your business.
                   </p>
                   <ZoomTransitionLink href="/payments">
@@ -182,7 +181,7 @@ export default function HomePage() {
                           analytics.
                         </h3>
                       </div>
-                      <Link href="/dashboard" className="flex-shrink-0">
+                      <Link href="/contact" className="flex-shrink-0">
                         <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
                           <ArrowRight className="w-5 h-5" />
                         </div>
@@ -202,16 +201,16 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="flex flex-col md:flex-row items-center gap-12 md:gap-20"
+                className="flex flex-col md:flex-row items-center gap-8 md:gap-12"
               >
                 {/* Copy */}
                 <div className="w-full md:w-1/2 text-left">
                   <span className="text-sm font-bold text-brand-black/60 uppercase tracking-wider mb-4 block font-poppins">Funding</span>
-                  <h3 className="text-4xl md:text-5xl font-bold text-brand-black font-poppins leading-tight mb-6">
+                  <h3 className="text-4xl md:text-5xl font-bold text-brand-black font-poppins leading-tight mb-4">
                     Fast, flexible capital <br />
                     <span className="text-brand-charcoal">powered by your sales.</span>
                   </h3>
-                  <p className="text-xl text-brand-black/70 font-lora leading-relaxed mb-8">
+                  <p className="text-xl text-brand-black/70 font-lora leading-relaxed mb-6">
                     Split Funding offers access to funding that lets you repay as you sell, at every growth stage.
                   </p>
                   <ZoomTransitionLink href="/funding">
@@ -236,7 +235,7 @@ export default function HomePage() {
 
         {/* HARDWARE TEASER */}
         <div className="w-full bg-white">
-          <section className="px-6 md:px-10 lg:px-16 py-12 md:py-16 border-b border-brand-stone/30">
+          <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14 border-b border-brand-stone/30">
             <div className="max-w-6xl mx-auto mb-16 text-center">
               <h2 className="text-3xl md:text-5xl font-bold text-brand-black mb-6 font-poppins">
                 Powering the world's best payment tech.
@@ -271,7 +270,7 @@ export default function HomePage() {
                     Get started
                   </PrimaryButton>
                 </Link>
-                <Link href="/get-started">
+                <Link href="/contact">
                   <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
                     Contact sales
                   </PrimaryButton>

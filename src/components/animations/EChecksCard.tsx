@@ -93,7 +93,7 @@ export default function EChecksCard({ isExpanded = false, onExpand, expandDirect
                                 <p className="text-sm text-brand-black/70 leading-snug">Automated acceptance with fewer returns.</p>
                                 <p className="text-sm text-brand-black/60 leading-snug">Verification sync keeps reconciliation tidy for finance.</p>
                             </div>
-                            <Link href="/get-started" className="flex-shrink-0 ml-3">
+                            <Link href="/contact" className="flex-shrink-0 ml-3">
                                 <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
                                     <ArrowRight className="w-4 h-4" />
                                 </div>

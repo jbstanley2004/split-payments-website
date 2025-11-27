@@ -29,23 +29,24 @@ export default function HardwareCategoryCard({
     const isInViewport = useInViewport(containerRef);
     const [isMobile, setIsMobile] = useState(false);
 
-    // Helper function to get unique random indices
-    const getUniqueIndices = (count: number, arrayLength: number): number[] => {
-        const indices: number[] = [];
-        while (indices.length < Math.min(count, arrayLength)) {
-            const randomIndex = Math.floor(Math.random() * arrayLength);
-            if (!indices.includes(randomIndex)) {
-                indices.push(randomIndex);
-            }
-        }
-        return indices;
-    };
-
-    // Track indices for all 6 cells (2x3 grid) - ensure no duplicates
-    const [itemIndices, setItemIndices] = useState<number[]>(() =>
-        getUniqueIndices(6, images.length)
-    );
+    // Track indices for all 6 cells (2x3 grid) - start with deterministic values to avoid hydration errors
+    const [itemIndices, setItemIndices] = useState<number[]>([0, 1, 2, 3, 4, 5]);
     const [currentFlipCell, setCurrentFlipCell] = useState<number>(0);
+
+    // Randomize initial indices after mount (client-side only)
+    useEffect(() => {
+        const getUniqueIndices = (count: number, arrayLength: number): number[] => {
+            const indices: number[] = [];
+            while (indices.length < Math.min(count, arrayLength)) {
+                const randomIndex = Math.floor(Math.random() * arrayLength);
+                if (!indices.includes(randomIndex)) {
+                    indices.push(randomIndex);
+                }
+            }
+            return indices;
+        };
+        setItemIndices(getUniqueIndices(6, images.length));
+    }, [images.length]);
 
     useEffect(() => {
         const detectMobile = () => setIsMobile(typeof window !== "undefined" ? window.innerWidth < 768 : false);
@@ -148,7 +149,7 @@ export default function HardwareCategoryCard({
                                     Industry-leading {title.toLowerCase()} terminals from top brands.
                                 </p>
                             </div>
-                            <Link href="/get-started" className="flex-shrink-0 ml-3">
+                            <Link href="/contact" className="flex-shrink-0 ml-3">
                                 <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
                                     <ArrowRight className="w-4 h-4" />
                                 </div>

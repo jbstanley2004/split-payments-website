@@ -146,7 +146,7 @@ export default function PaymentsPage() {
                     Get started
                   </PrimaryButton>
                 </Link>
-                <Link href="/get-started">
+                <Link href="/contact">
                   <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
                     Contact sales
                   </PrimaryButton>
@@ -164,16 +164,16 @@ export default function PaymentsPage() {
 
 
         {/* COVERAGE + SOLUTIONS GRID */}
-        <section className="w-full bg-[#F6F5F4] px-6 md:px-10 lg:px-16 py-16 md:py-24">
+        <section className="w-full bg-[#F6F5F4] px-6 md:px-10 lg:px-16 py-10 md:py-14">
           <div className="mx-auto max-w-6xl">
-            <div className="text-center mb-20">
-              <h2 className="text-4xl md:text-5xl font-poppins font-bold tracking-tight text-black mb-6">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-poppins font-bold tracking-tight text-black mb-4">
                 Built for every way <br /> you accept payments.
               </h2>
             </div>
 
             {/* Row 1: Payment Gateway + Mobile Wireless */}
-            <div className="grid gap-8 md:grid-cols-2 mb-8 relative">
+            <div className="grid gap-6 md:grid-cols-2 mb-6 relative">
               <motion.div
                 className="relative"
                 initial={{ opacity: 0, y: 30 }}
@@ -233,7 +233,7 @@ export default function PaymentsPage() {
             </div>
 
             {/* Row 2: Integrations + Contactless Tap to Pay */}
-            <div className="grid gap-8 md:grid-cols-2 mb-8 relative">
+            <div className="grid gap-6 md:grid-cols-2 mb-6 relative">
               <motion.div
                 className="relative"
                 initial={{ opacity: 0, y: 30 }}
