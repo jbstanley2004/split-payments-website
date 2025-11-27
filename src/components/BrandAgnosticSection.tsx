@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import HardwareCategoryCard from './HardwareCategoryCard';
 import { POS_IMAGES, COUNTERTOP_IMAGES, UNATTENDED_IMAGES, WIRELESS_IMAGES } from '@/data/hardware-categories';
@@ -9,6 +9,64 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function BrandAgnosticSection() {
     const [expandedCard, setExpandedCard] = useState<string | null>(null);
     const [viewedCards, setViewedCards] = useState<Set<string>>(new Set());
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
+    const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+    const scrollTimeoutRef = useRef<NodeJS.Timeout>();
+
+    // Detect touch device
+    useEffect(() => {
+        setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    }, []);
+
+    // Scroll-aware collapse (DESKTOP ONLY)
+    useEffect(() => {
+        // Skip on touch devices for smoother mobile experience
+        if (isTouchDevice) return;
+
+        let isScrolling = false;
+
+        const handleScroll = () => {
+            if (!isScrolling && expandedCard) {
+                isScrolling = true;
+                setExpandedCard(null);
+            }
+
+            clearTimeout(scrollTimeoutRef.current);
+            scrollTimeoutRef.current = setTimeout(() => {
+                isScrolling = false;
+            }, 150);
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+        };
+    }, [expandedCard, isTouchDevice]);
+
+    // Viewport awareness
+    useEffect(() => {
+        const cardIds = ['countertop-hardware', 'pos-hardware', 'unattended-hardware', 'wireless-hardware'];
+        const observers: IntersectionObserver[] = [];
+
+        cardRefs.current.forEach((ref, index) => {
+            if (!ref) return;
+
+            const observer = new IntersectionObserver(
+                ([entry]) => {
+                    if (!entry.isIntersecting && expandedCard === cardIds[index]) {
+                        setExpandedCard(null);
+                    }
+                },
+                { threshold: isTouchDevice ? 0.1 : 0.2, rootMargin: isTouchDevice ? '-5% 0px' : '-10% 0px' }
+            );
+
+            observer.observe(ref);
+            observers.push(observer);
+        });
+
+        return () => observers.forEach(obs => obs.disconnect());
+    }, [expandedCard, isTouchDevice]);
 
     const handleExpand = (cardId: string) => {
         if (expandedCard !== cardId) {
@@ -33,7 +91,7 @@ export default function BrandAgnosticSection() {
         body: string;
         slideDirection?: "left" | "right";
     }) => (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+        <div className="pointer-events-none col-start-1 row-start-1 flex items-center justify-center w-full h-full z-10 overflow-visible">
             <motion.div
                 initial={{ opacity: 0, x: slideDirection === "left" ? -50 : 50 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -111,14 +169,15 @@ export default function BrandAgnosticSection() {
                 {/* Row 1: Countertop + POS Hardware */}
                 <div className="grid gap-6 md:grid-cols-2 mb-6 relative">
                     <motion.div
-                        className="relative"
+                        ref={(el) => cardRefs.current[0] = el}
+                        className="grid relative"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0, duration: 0.5 }}
                     >
                         <div
-                            className={`w-full transition-opacity duration-300 ${expandedCard === 'pos-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'pos-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
                         >
                             <HardwareCategoryCard
                                 title="Countertop"
@@ -141,14 +200,15 @@ export default function BrandAgnosticSection() {
                         </AnimatePresence>
                     </motion.div>
                     <motion.div
-                        className="relative"
+                        ref={(el) => cardRefs.current[1] = el}
+                        className="grid relative"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.1, duration: 0.5 }}
                     >
                         <div
-                            className={`w-full transition-opacity duration-300 ${expandedCard === 'countertop-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'countertop-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
                         >
                             <HardwareCategoryCard
                                 title="POS"
@@ -175,14 +235,15 @@ export default function BrandAgnosticSection() {
                 {/* Row 2: Unattended + Wireless Hardware */}
                 <div className="grid gap-6 md:grid-cols-2 relative">
                     <motion.div
-                        className="relative"
+                        ref={(el) => cardRefs.current[2] = el}
+                        className="grid relative"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2, duration: 0.5 }}
                     >
                         <div
-                            className={`w-full transition-opacity duration-300 ${expandedCard === 'wireless-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'wireless-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
                         >
                             <HardwareCategoryCard
                                 title="Unattended"
@@ -205,14 +266,15 @@ export default function BrandAgnosticSection() {
                         </AnimatePresence>
                     </motion.div>
                     <motion.div
-                        className="relative"
+                        ref={(el) => cardRefs.current[3] = el}
+                        className="grid relative"
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.3, duration: 0.5 }}
                     >
                         <div
-                            className={`w-full transition-opacity duration-300 ${expandedCard === 'unattended-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                            className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'unattended-hardware' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
                         >
                             <HardwareCategoryCard
                                 title="Wireless"
