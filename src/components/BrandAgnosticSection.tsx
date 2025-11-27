@@ -39,7 +39,7 @@ export default function BrandAgnosticSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: slideDirection === "left" ? -20 : 20, transition: { duration: 0.3 } }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-                className="max-w-md w-full rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
+                className="w-full md:max-w-md rounded-2xl border border-black/70 bg-[#F6F5F4] text-brand-black shadow-[0_20px_45px_-25px_rgba(0,0,0,0.2)] px-6 py-5"
             >
                 <div className="space-y-2">
                     <p className="text-xs font-semibold uppercase tracking-wide text-brand-black/70">{eyebrow}</p>
@@ -65,43 +65,43 @@ export default function BrandAgnosticSection() {
                 </div>
 
                 {/* Brand Logos - Sticky throughout the section */}
-                <div className="sticky top-24 z-20 py-4 mb-10 md:static md:py-0 md:mb-12 transition-all duration-300 pointer-events-none">
-                    <div className="flex items-center justify-center max-w-4xl mx-auto">
-                        <div className="flex items-center justify-center gap-6 md:gap-12 flex-wrap bg-white/80 backdrop-blur-xl border border-gray-200/60 shadow-sm rounded-full px-6 py-3 md:bg-transparent md:backdrop-blur-none md:border-none md:shadow-none md:px-0 md:py-0 pointer-events-auto">
+                <div className="sticky top-[3.5rem] z-30 py-4 mb-8 md:static md:py-0 md:mb-12 transition-all duration-300 pointer-events-none -mx-6 px-6 md:mx-0 md:px-0 bg-white/40 backdrop-blur-xl backdrop-saturate-150 md:bg-transparent md:backdrop-blur-none" style={{ maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)' }}>
+                    <div className="flex items-center justify-center max-w-4xl mx-auto pointer-events-auto">
+                        <div className="flex items-center justify-center gap-6 md:gap-12 flex-wrap">
                             <Image
                                 src="/brand_animations/ingenico.svg"
                                 alt="Ingenico"
-                                width={120}
-                                height={40}
-                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                                width={100}
+                                height={32}
+                                className="h-5 md:h-8 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
                             />
                             <Image
                                 src="/brand_animations/verifone_1.svg"
                                 alt="Verifone"
-                                width={120}
-                                height={40}
-                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                                width={100}
+                                height={32}
+                                className="h-5 md:h-8 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
                             />
                             <Image
                                 src="/brand_animations/clover_1.svg"
                                 alt="Clover"
-                                width={100}
-                                height={40}
-                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                                width={80}
+                                height={32}
+                                className="h-5 md:h-8 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
                             />
                             <Image
                                 src="/brand_animations/pax.svg"
                                 alt="PAX"
-                                width={100}
-                                height={40}
-                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                                width={80}
+                                height={32}
+                                className="h-5 md:h-8 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
                             />
                             <Image
                                 src="/brand_animations/dejavoo.webp"
                                 alt="Dejavoo"
-                                width={120}
-                                height={40}
-                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                                width={100}
+                                height={32}
+                                className="h-5 md:h-8 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity"
                             />
                         </div>
                     </div>
