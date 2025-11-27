@@ -110,7 +110,7 @@ export default function BrandAgnosticSection() {
     );
 
     return (
-        <section className="w-full bg-white px-6 md:px-10 lg:px-16 py-10 md:py-14">
+        <section className="w-full bg-[#F6F5F4] px-6 md:px-10 lg:px-16 py-10 md:py-14">
             <div className="mx-auto max-w-6xl">
                 <div className="text-center mb-10">
                     <h2 className="text-4xl md:text-5xl font-poppins font-bold tracking-tight text-black mb-4">
