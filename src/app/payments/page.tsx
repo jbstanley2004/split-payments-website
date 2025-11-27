@@ -84,7 +84,7 @@ export default function PaymentsPage() {
     body: string;
     slideDirection?: "left" | "right";
   }) => (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+    <div className="pointer-events-none col-start-1 row-start-1 flex items-center justify-center w-full h-full z-10">
       <motion.div
         initial={{ opacity: 0, x: slideDirection === "left" ? -50 : 50 }}
         animate={{ opacity: 1, x: 0 }}
@@ -167,22 +167,22 @@ export default function PaymentsPage() {
         <section className="w-full bg-[#F6F5F4] px-6 md:px-10 lg:px-16 py-10 md:py-14">
           <div className="mx-auto max-w-6xl">
             <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-poppins font-bold tracking-tight text-black mb-4">
-                Built for every way <br /> you accept payments.
+              <h2 className="text-3xl md:text-5xl font-poppins font-bold tracking-tight text-black mb-4">
+                Built for every way <br className="hidden md:block" /> you accept payments.
               </h2>
             </div>
 
             {/* Row 1: Payment Gateway + Mobile Wireless */}
             <div className="grid gap-6 md:grid-cols-2 mb-6 relative">
               <motion.div
-                className="relative"
+                className="grid relative"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0, duration: 0.5 }}
               >
                 <div
-                  className={`w-full transition-opacity duration-300 ${expandedCard === 'mobile-wireless' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'mobile-wireless' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
                 >
                   <OnlineEcommerceCard
                     isExpanded={expandedCard === 'payment-gateway'}
@@ -203,14 +203,14 @@ export default function PaymentsPage() {
                 </AnimatePresence>
               </motion.div>
               <motion.div
-                className="relative"
+                className="grid relative"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.1, duration: 0.5 }}
               >
                 <div
-                  className={`w-full transition-opacity duration-300 ${expandedCard === 'payment-gateway' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'payment-gateway' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
                 >
                   <MobileTerminalsCard
                     isExpanded={expandedCard === 'mobile-wireless'}
@@ -235,14 +235,14 @@ export default function PaymentsPage() {
             {/* Row 2: Integrations + Contactless Tap to Pay */}
             <div className="grid gap-6 md:grid-cols-2 mb-6 relative">
               <motion.div
-                className="relative"
+                className="grid relative"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
                 <div
-                  className={`w-full transition-opacity duration-300 ${expandedCard === 'tap-to-pay' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'tap-to-pay' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
                 >
                   <EChecksCard
                     isExpanded={expandedCard === 'integrations'}
@@ -263,14 +263,14 @@ export default function PaymentsPage() {
                 </AnimatePresence>
               </motion.div>
               <motion.div
-                className="relative"
+                className="grid relative"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3, duration: 0.5 }}
               >
                 <div
-                  className={`w-full transition-opacity duration-300 ${expandedCard === 'integrations' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
+                  className={`col-start-1 row-start-1 w-full transition-opacity duration-300 ${expandedCard === 'integrations' ? 'opacity-0 invisible pointer-events-none' : 'opacity-100 visible'}`}
                 >
                   <TapToPayCard
                     isExpanded={expandedCard === 'tap-to-pay'}

@@ -62,45 +62,51 @@ export default function BrandAgnosticSection() {
                         Our favorite is yours.
                     </p>
 
-                    {/* Brand Logos */}
-                    <div className="flex items-center justify-center gap-8 md:gap-12 flex-wrap max-w-4xl mx-auto">
-                        <Image
-                            src="/brand_animations/ingenico.svg"
-                            alt="Ingenico"
-                            width={120}
-                            height={40}
-                            className="h-8 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
-                        />
-                        <Image
-                            src="/brand_animations/verifone_1.svg"
-                            alt="Verifone"
-                            width={120}
-                            height={40}
-                            className="h-8 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
-                        />
-                        <Image
-                            src="/brand_animations/clover_1.svg"
-                            alt="Clover"
-                            width={100}
-                            height={40}
-                            className="h-8 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
-                        />
-                        <Image
-                            src="/brand_animations/pax.svg"
-                            alt="PAX"
-                            width={100}
-                            height={40}
-                            className="h-8 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
-                        />
-                        <Image
-                            src="/brand_animations/dejavoo.webp"
-                            alt="Dejavoo"
-                            width={120}
-                            height={40}
-                            className="h-8 w-auto object-contain opacity-70 hover:opacity-100 transition-opacity"
-                        />
+                </div>
+
+                {/* Brand Logos - Sticky throughout the section */}
+                <div className="sticky top-24 z-20 py-4 mb-10 md:static md:py-0 md:mb-12 transition-all duration-300 pointer-events-none">
+                    <div className="flex items-center justify-center max-w-4xl mx-auto">
+                        <div className="flex items-center justify-center gap-6 md:gap-12 flex-wrap bg-white/80 backdrop-blur-xl border border-gray-200/60 shadow-sm rounded-full px-6 py-3 md:bg-transparent md:backdrop-blur-none md:border-none md:shadow-none md:px-0 md:py-0 pointer-events-auto">
+                            <Image
+                                src="/brand_animations/ingenico.svg"
+                                alt="Ingenico"
+                                width={120}
+                                height={40}
+                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                            />
+                            <Image
+                                src="/brand_animations/verifone_1.svg"
+                                alt="Verifone"
+                                width={120}
+                                height={40}
+                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                            />
+                            <Image
+                                src="/brand_animations/clover_1.svg"
+                                alt="Clover"
+                                width={100}
+                                height={40}
+                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                            />
+                            <Image
+                                src="/brand_animations/pax.svg"
+                                alt="PAX"
+                                width={100}
+                                height={40}
+                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                            />
+                            <Image
+                                src="/brand_animations/dejavoo.webp"
+                                alt="Dejavoo"
+                                width={120}
+                                height={40}
+                                className="h-6 md:h-8 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                            />
+                        </div>
                     </div>
                 </div>
+
 
                 {/* Row 1: Countertop + POS Hardware */}
                 <div className="grid gap-6 md:grid-cols-2 mb-6 relative">
@@ -230,6 +236,6 @@ export default function BrandAgnosticSection() {
                     </motion.div>
                 </div>
             </div>
-        </section>
+        </section >
     );
 }

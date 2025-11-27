@@ -31,8 +31,8 @@ export default function TapToPayCard({ isExpanded = false, onExpand, expandDirec
     const closedTranslateClass = effectiveExpandDirection === "up" ? "translate-y-full" : "-translate-y-full";
     const viewedBorderClass = hasBeenViewed && !isExpanded ? "border-[#d97757]" : "border-gray-200";
     const scaleClass = isExpanded ? "md:scale-110" : "md:hover:scale-110";
-    const collapsedHeight = isMobile ? 240 : undefined;
-    const expandedHeight = isMobile ? 320 : 350;
+    const collapsedHeight = isMobile ? "auto" : undefined;
+    const expandedHeight = isMobile ? "auto" : 350;
 
     useEffect(() => {
         if (isExpanded && isMobile) {
