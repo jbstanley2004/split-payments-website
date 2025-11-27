@@ -175,7 +175,6 @@ export default function PaymentsPage() {
             </h3>
           ) : title === "Contactless payments" ? (
             <>
-              <h3 className="text-2xl md:text-3xl font-bold font-poppins leading-tight">Contactless payments</h3>
               <div className="flex items-center gap-2 md:gap-3 flex-wrap mb-2">
                 <Image src="/brand_logos/google-pay.svg" alt="Google Pay" width={60} height={24} className="h-5 md:h-7 w-auto" />
                 <Image src="/brand_logos/apple-pay.svg" alt="Apple Pay" width={60} height={24} className="h-5 md:h-7 w-auto" />
