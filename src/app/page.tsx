@@ -14,6 +14,7 @@ import Image from "next/image";
 import WorkingCapitalAnimation from "@/components/animations/WorkingCapitalAnimation";
 import PaymentTerminalCard from "@/components/animations/PaymentTerminalCard";
 import DashboardAnimation from "@/components/animations/DashboardAnimation";
+import ZoomTransitionLink from "@/components/ui/ZoomTransitionLink";
 
 
 export default function HomePage() {
@@ -114,12 +115,12 @@ export default function HomePage() {
         {/* EVERYTHING YOU NEED SECTION */}
         <div className="w-full bg-[#F6F5F4]">
           <section id="how-it-works" className="px-6 md:px-10 lg:px-16 py-12 md:py-16">
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl mx-auto space-y-24">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-center mb-20"
+                className="text-center mb-12"
               >
                 <h2 className="text-4xl md:text-5xl font-bold text-brand-black mb-6 tracking-tight font-poppins">
                   Everything you need <br />
@@ -130,63 +131,44 @@ export default function HomePage() {
                 </p>
               </motion.div>
 
-              <div className="grid md:grid-cols-2 gap-8 mb-16">
-                {[
-                  {
-                    label: "Payments",
-                    title: "Credit card processing",
-                    description: "Accept payments anywhere with next-gen processing that's secure, transparent, and built to scale.",
-                    component: <PaymentTerminalCard />,
-                    href: "/payments",
-                    headerBackgroundClass: "bg-white",
-                  },
-                  {
-                    label: "Funding",
-                    title: "Working capital",
-                    description: "Turn card volume into working capital. Get funding based on your actual sales, not projections.",
-                    component: <WorkingCapitalAnimation />,
-                    href: "/funding",
-                    headerBackgroundClass: "bg-white",
-                  },
-                ].map((feature, index) => (
-                  <motion.div
-                    key={feature.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className={`group flex flex-col ${feature.backgroundClass ?? "bg-white"} rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md h-full`}
-                  >
-                    <div
-                      className={`p-6 pb-2 flex flex-col relative z-10 rounded-t-3xl h-[180px] flex-none overflow-hidden ${feature.headerBackgroundClass ?? ""}`}
-                    >
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="space-y-2">
-                          <span className="text-sm font-semibold text-brand-black/60">{feature.label}</span>
-                          <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight max-w-[90%]">
-                            {feature.title}.
-                          </h3>
-                        </div>
-                        <Link href={feature.href} className="flex-shrink-0">
-                          <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
-                            <ArrowRight className="w-5 h-5" />
-                          </div>
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="mt-4 w-full flex justify-center">
-                      {feature.component}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Real-time Analytics Dashboard - Wide console card */}
+              {/* 1. Credit Card Processing Section - Visual Left, Copy Right */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: 0.2 }}
+                className="flex flex-col md:flex-row items-center gap-12 md:gap-20"
+              >
+                {/* Visual */}
+                <div className="w-full md:w-1/2">
+                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm aspect-[4/3] w-full flex items-center justify-center relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <PaymentTerminalCard />
+                    </div>
+                  </div>
+                </div>
+                {/* Copy */}
+                <div className="w-full md:w-1/2 text-left">
+                  <span className="text-sm font-bold text-brand-black/60 uppercase tracking-wider mb-4 block font-poppins">Payments</span>
+                  <h3 className="text-4xl md:text-5xl font-bold text-brand-black font-poppins leading-tight mb-6">
+                    Smarter payments. <br />
+                    <span className="text-brand-charcoal">Stronger cash flow.</span>
+                  </h3>
+                  <p className="text-xl text-brand-black/70 font-lora leading-relaxed mb-8">
+                    Simplify every transaction while unlocking funding that moves at the speed of your business.
+                  </p>
+                  <ZoomTransitionLink href="/payments">
+                    <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-105 active:scale-100 px-8">
+                      Learn More
+                    </PrimaryButton>
+                  </ZoomTransitionLink>
+                </div>
+              </motion.div>
+
+              {/* 2. Real-time Analytics Dashboard - Wide console card (Existing) */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
                 className="w-full relative"
               >
                 <div className="flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300">
@@ -214,6 +196,40 @@ export default function HomePage() {
                   </div>
                 </div>
               </motion.div>
+
+              {/* 3. Working Capital Section - Copy Left, Visual Right */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="flex flex-col md:flex-row items-center gap-12 md:gap-20"
+              >
+                {/* Copy */}
+                <div className="w-full md:w-1/2 text-left">
+                  <span className="text-sm font-bold text-brand-black/60 uppercase tracking-wider mb-4 block font-poppins">Funding</span>
+                  <h3 className="text-4xl md:text-5xl font-bold text-brand-black font-poppins leading-tight mb-6">
+                    Fast, flexible capital <br />
+                    <span className="text-brand-charcoal">powered by your sales.</span>
+                  </h3>
+                  <p className="text-xl text-brand-black/70 font-lora leading-relaxed mb-8">
+                    Split Funding offers access to funding that lets you repay as you sell, at every growth stage.
+                  </p>
+                  <ZoomTransitionLink href="/funding">
+                    <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-105 active:scale-100 px-8">
+                      Learn More
+                    </PrimaryButton>
+                  </ZoomTransitionLink>
+                </div>
+                {/* Visual */}
+                <div className="w-full md:w-1/2">
+                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm aspect-[4/3] w-full flex items-center justify-center relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <WorkingCapitalAnimation />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
             </div>
           </section>
         </div>
