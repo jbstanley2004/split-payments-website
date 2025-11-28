@@ -1,9 +1,12 @@
+'use server';
 
-import { GoogleGenerativeAI, ChatSession, SchemaType } from "@google/generative-ai";
-import { SPLIT_KNOWLEDGE_BASE } from "./funding-constants";
-import { UserProfile, Quote, ApplicationData } from "../types/funding-types";
+import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
+import { SPLIT_KNOWLEDGE_BASE } from "../lib/funding-constants";
+import { UserProfile, Quote, ApplicationData, Message } from "../types/funding-types";
 
-// Tool Definitions
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || "");
+
+// Tool Definitions (re-defined here for server use)
 const saveContactTool = {
     name: 'save_contact_info',
     description: 'Save the users contact information (Name, Email, Phone) to their profile.',
@@ -52,48 +55,48 @@ const tools = [
     },
 ];
 
-let chatSession: ChatSession | null = null;
-let genAI: GoogleGenerativeAI | null = null;
-
-export const initGemini = () => {
-    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
-        console.error("API Key missing");
-        return;
-    }
-    genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
+export type ChatActionResponse = {
+    text: string;
+    toolCalls?: {
+        name: string;
+        args: any;
+        result: any;
+    }[];
+    error?: string;
 };
 
-export const startNewChat = () => {
-    if (!genAI) initGemini();
-    if (!genAI) throw new Error("AI Client not initialized");
-
-    const model = genAI.getGenerativeModel({ 
-        model: 'gemini-1.5-flash',
-        systemInstruction: SPLIT_KNOWLEDGE_BASE,
-        tools: tools
-    });
-
-    chatSession = model.startChat({});
-    return chatSession;
-};
-
-export const sendMessage = async (
+export async function sendGeminiMessage(
     message: string,
-    attachment?: { data: string; type: string },
-    updateProfile?: (data: Partial<UserProfile>) => void,
-    setQuote?: (quote: Quote) => void,
-    onStartApplication?: (data?: Partial<ApplicationData>) => void
-) => {
-    if (!chatSession) startNewChat();
-    if (!chatSession) throw new Error("Failed to start chat session");
-
-    let responseText = "";
-
+    history: Message[],
+    attachment?: { data: string; type: string }
+): Promise<ChatActionResponse> {
     try {
+        if (!process.env.GEMINI_API_KEY && !process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+            return { text: "", error: "API Key missing. Please check your environment variables." };
+        }
+
+        const model = genAI.getGenerativeModel({
+            model: 'gemini-1.5-flash',
+            systemInstruction: SPLIT_KNOWLEDGE_BASE,
+            tools: tools
+        });
+
+        // Convert history to Gemini format
+        // Filter out system messages or specialized UI messages that Gemini doesn't need
+        const chatHistory = history
+            .filter(msg => msg.role === 'user' || msg.role === 'model')
+            .map(msg => ({
+                role: msg.role === 'user' ? 'user' : 'model',
+                parts: [{ text: msg.text }]
+            }));
+
+        const chatSession = model.startChat({
+            history: chatHistory.slice(0, -1), // ExQmclude the current message we are about to send? No, history is previous.
+        });
+
         let result;
 
         if (attachment) {
-            // Multimodal request
             const cleanData = attachment.data.split(',')[1];
             result = await chatSession.sendMessage([
                 message,
@@ -105,29 +108,28 @@ export const sendMessage = async (
                 }
             ]);
         } else {
-            // Text only request
             result = await chatSession.sendMessage(message);
         }
 
         const response = await result.response;
         const functionCalls = response.functionCalls();
+        const toolResultsForClient: any[] = [];
+        let finalResponseText = response.text();
 
         if (functionCalls && functionCalls.length > 0) {
-            // Handle ALL function calls
-            const functionResponses = [];
+             const functionResponses = [];
 
             for (const call of functionCalls) {
                 const { name, args } = call;
                 let toolResult: any = { status: 'success' };
+                let clientData: any = null;
 
                 if (name === 'save_contact_info') {
-                    if (updateProfile) {
-                        updateProfile({
-                            name: args.name as string,
-                            email: args.email as string,
-                            phone: args.phone as string
-                        });
-                    }
+                    clientData = {
+                        name: args.name as string,
+                        email: args.email as string,
+                        phone: args.phone as string
+                    };
                     toolResult = { message: "Contact info saved securely." };
                 }
                 else if (name === 'generate_quote') {
@@ -146,8 +148,8 @@ export const sendMessage = async (
                         rate: "Fixed Fee: $" + fee.toLocaleString(),
                         repaymentSchedule: `${retentionRate} of Daily Sales`
                     };
-
-                    if (setQuote) setQuote(quoteData);
+                    
+                    clientData = quoteData;
                     toolResult = {
                         quote_generated: true,
                         details: quoteData,
@@ -162,13 +164,19 @@ export const sendMessage = async (
                         monthlyVolume: args.monthlyVolume as string || '',
                         processingCompany: args.processingCompany as string || ''
                     };
-
-                    if (onStartApplication) onStartApplication(appData);
+                    
+                    clientData = appData;
                     toolResult = {
                         application_started: true,
                         message: "Application Wizard launched on UI with pre-filled data."
                     };
                 }
+                
+                toolResultsForClient.push({
+                    name,
+                    args,
+                    result: clientData
+                });
 
                 functionResponses.push({
                     functionResponse: {
@@ -180,15 +188,19 @@ export const sendMessage = async (
 
             // Send function response back to model
             const finalResult = await chatSession.sendMessage(functionResponses);
-            responseText = finalResult.response.text();
-        } else {
-            responseText = response.text();
+            finalResponseText = finalResult.response.text();
         }
 
-        return responseText;
+        return {
+            text: finalResponseText,
+            toolCalls: toolResultsForClient.length > 0 ? toolResultsForClient : undefined
+        };
 
     } catch (error) {
         console.error("Gemini Interaction Error", error);
-        return "I apologize, but I'm having trouble connecting to our funding systems right now. Please try again in a moment.";
+        return { 
+            text: "", 
+            error: "I apologize, but I'm having trouble connecting to our funding systems right now. Please try again in a moment." 
+        };
     }
-};
+}

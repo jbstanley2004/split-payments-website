@@ -9,7 +9,7 @@ import { ApplicationWizard } from '../../components/funding-concierge/Applicatio
 import { AuthFlow } from '../../components/funding-concierge/AuthFlow';
 import { AIBadge } from '../../components/funding-concierge/AIBadge';
 import { INITIAL_MESSAGE } from '../../lib/funding-constants';
-import { initGemini, sendMessage } from '../../lib/geminiService';
+import { sendGeminiMessage } from '../../actions/gemini-action';
 import { Message, UserProfile, Quote, ApplicationData, User } from '../../types/funding-types';
 
 const SUGGESTIONS = [
@@ -37,10 +37,6 @@ const FundingConciergePage: React.FC = () => {
 
     const isInitialState = messages.length === 1;
     const isReadyToSend = inputValue.trim().length > 0 || attachment !== null;
-
-    useEffect(() => {
-        initGemini();
-    }, []);
 
     const scrollToBottom = () => {
         if (!isInitialState) {
@@ -130,40 +126,52 @@ const FundingConciergePage: React.FC = () => {
         User message: "${userMsg.text || "Please analyze this file for my application."}"`;
             }
 
-            const responseText = await sendMessage(
-                promptToSend,
-                userMsg.attachment ? { data: userMsg.attachment.data, type: userMsg.attachment.type } : undefined,
-                (data) => setUserProfile(prev => ({ ...prev, ...data })),
-                (quote) => {
-                    setActiveQuote(quote);
-                },
-                (extractedData) => {
-                    setIsWizardActive(true);
-                    if (extractedData) {
-                        setWizardInitialData(extractedData);
-                    }
-
-                    const confirmationText = "Great, let's get your qualification started. Please review the details below.";
-
-                    setMessages(prev => [...prev, {
-                        id: Date.now().toString() + '_wiz',
-                        role: 'model',
-                        text: confirmationText,
-                        isApplicationWizard: true
-                    }]);
-                    setIsLoading(false);
-                }
+            // CALL SERVER ACTION
+            const response = await sendGeminiMessage(
+                promptToSend, 
+                messages, // Send history
+                userMsg.attachment
             );
 
-            if (!isWizardActive) {
-                const botMsg: Message = {
-                    id: (Date.now() + 1).toString(),
+            if (response.error) {
+                 setMessages(prev => [...prev, {
+                    id: Date.now().toString(),
                     role: 'model',
-                    text: responseText,
-                };
-                setMessages(prev => [...prev, botMsg]);
+                    text: response.error || "An error occurred."
+                }]);
             } else {
-                setIsWizardActive(false);
+                // Process tool calls if any
+                if (response.toolCalls) {
+                    response.toolCalls.forEach(tool => {
+                        if (tool.name === 'save_contact_info') {
+                            setUserProfile(prev => ({ ...prev, ...tool.result }));
+                        } else if (tool.name === 'generate_quote') {
+                            setActiveQuote(tool.result);
+                        } else if (tool.name === 'start_application') {
+                            setIsWizardActive(true);
+                            if (tool.result) {
+                                setWizardInitialData(tool.result);
+                            }
+                            
+                            const confirmationText = "Great, let's get your qualification started. Please review the details below.";
+                             setMessages(prev => [...prev, {
+                                id: Date.now().toString() + '_wiz',
+                                role: 'model',
+                                text: confirmationText,
+                                isApplicationWizard: true
+                            }]);
+                        }
+                    });
+                }
+
+                // If no wizard active, show the text response
+                if (!response.toolCalls?.some(t => t.name === 'start_application')) {
+                     setMessages(prev => [...prev, {
+                        id: (Date.now() + 1).toString(),
+                        role: 'model',
+                        text: response.text,
+                    }]);
+                }
             }
 
         } catch (error) {
@@ -186,12 +194,16 @@ const FundingConciergePage: React.FC = () => {
         }]);
 
         setIsLoading(true);
-        const response = await sendMessage(`The user has submitted the application form with the following data: ${JSON.stringify(data)}. Please thank them, confirm receipt, and tell them an underwriter will review it shortly.`);
+        // Call Server Action for follow up
+        const response = await sendGeminiMessage(
+            `The user has submitted the application form with the following data: ${JSON.stringify(data)}. Please thank them, confirm receipt, and tell them an underwriter will review it shortly.`,
+            messages
+        );
 
         setMessages(prev => [...prev, {
             id: Date.now().toString(),
             role: 'model',
-            text: response
+            text: response.text
         }]);
         setIsLoading(false);
     };
