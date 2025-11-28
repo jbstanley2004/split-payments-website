@@ -25,25 +25,26 @@ export async function sendGeminiMessage(
         // Initialize at runtime to ensure env vars are loaded
         const genAI = new GoogleGenerativeAI(apiKey);
 
+        console.log(`[Gemini Action] API Key found (length: ${apiKey.length})`);
+
         const model = genAI.getGenerativeModel({
             model: 'gemini-1.5-flash',
             systemInstruction: SPLIT_KNOWLEDGE_BASE,
             tools: tools
         });
-        
-        // ... (rest of function)
 
         // Convert history to Gemini format
-        // Filter out system messages or specialized UI messages that Gemini doesn't need
         const chatHistory = history
             .filter(msg => msg.role === 'user' || msg.role === 'model')
             .map(msg => ({
                 role: msg.role === 'user' ? 'user' : 'model',
                 parts: [{ text: msg.text }]
             }));
+        
+        console.log("[Gemini Action] Chat History:", JSON.stringify(chatHistory, null, 2));
 
         const chatSession = model.startChat({
-            history: chatHistory.slice(0, -1), // ExQmclude the current message we are about to send? No, history is previous.
+            history: chatHistory, 
         });
 
         let result;
@@ -148,11 +149,14 @@ export async function sendGeminiMessage(
             toolCalls: toolResultsForClient.length > 0 ? toolResultsForClient : undefined
         };
 
-    } catch (error) {
-        console.error("Gemini Interaction Error", error);
+    } catch (error: any) {
+        console.error("Gemini Interaction Error:", error);
+        if (error.response) {
+            console.error("Gemini Error Response:", JSON.stringify(error.response, null, 2));
+        }
         return { 
             text: "", 
-            error: "I apologize, but I'm having trouble connecting to our funding systems right now. Please try again in a moment." 
+            error: `Connection Error: ${error.message || "Unknown error"}. Please check server logs.` 
         };
     }
 }
