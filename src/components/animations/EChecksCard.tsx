@@ -90,8 +90,10 @@ export default function EChecksCard({ isExpanded = false, onExpand, expandDirect
                                 <h3 className="text-2xl font-bold text-brand-black font-poppins leading-tight">
                                     E-checks.
                                 </h3>
-                                <p className="text-sm text-brand-black/70 leading-snug">Automated acceptance with fewer returns.</p>
-                                <p className="text-sm text-brand-black/60 leading-snug">Verification sync keeps reconciliation tidy for finance.</p>
+                                <div className={`space-y-1.5 ${isExpanded ? '' : 'line-clamp-2'}`}>
+                                    <p className="text-sm text-brand-black/70 leading-snug">Automated acceptance with fewer returns.</p>
+                                    <p className="text-sm text-brand-black/60 leading-snug">Verification sync keeps reconciliation tidy for finance.</p>
+                                </div>
                             </div>
                             <Link href="/contact" className="flex-shrink-0 ml-3">
                                 <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">

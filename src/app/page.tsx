@@ -130,12 +130,12 @@ export default function HomePage() {
                 </p>
               </motion.div>
 
-              {/* 1. Credit Card Processing Section - Visual Left, Copy Right */}
+              {/* 1. Credit Card Processing Section - Copy Left, Visual Right (Desktop) / Visual Top, Copy Bottom (Mobile) */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="flex flex-col md:flex-row items-center gap-8 md:gap-12"
+                className="flex flex-col md:flex-row-reverse items-center gap-8 md:gap-12"
               >
                 {/* Visual */}
                 <div className="w-full md:w-1/2">
@@ -210,21 +210,13 @@ export default function HomePage() {
         <div className="w-full bg-[#F6F5F4]">
           <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14">
             <div className="max-w-7xl mx-auto">
-              {/* 3. Working Capital Section - Visual Left, Copy Right (Desktop) / Copy Top, Visual Bottom (Mobile) */}
+              {/* 3. Working Capital Section - Copy Left, Visual Right (Desktop) / Copy Top, Visual Bottom (Mobile) */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="flex flex-col-reverse md:flex-row items-center gap-8 md:gap-12"
+                className="flex flex-col md:flex-row items-center gap-8 md:gap-12"
               >
-                {/* Visual */}
-                <div className="w-full md:w-1/2">
-                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm aspect-[4/3] w-full flex items-center justify-center relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <WorkingCapitalAnimation />
-                    </div>
-                  </div>
-                </div>
                 {/* Copy */}
                 <div className="w-full md:w-1/2 text-left">
                   <span className="text-sm font-bold text-brand-black/60 uppercase tracking-wider mb-4 block font-poppins">Funding</span>
@@ -240,6 +232,14 @@ export default function HomePage() {
                       Learn More
                     </PrimaryButton>
                   </ZoomTransitionLink>
+                </div>
+                {/* Visual */}
+                <div className="w-full md:w-1/2">
+                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm aspect-[4/3] w-full flex items-center justify-center relative">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <WorkingCapitalAnimation />
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             </div>
