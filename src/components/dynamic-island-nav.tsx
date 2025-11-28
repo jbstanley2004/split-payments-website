@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { cn } from "@/lib/stub";
+import { AIFundingDeskWordmark } from "./funding-concierge/AIFundingDeskWordmark";
+import { AIBadge } from "./funding-concierge/AIBadge";
 
 type DynamicIslandNavProps = {
   className?: string;
@@ -14,6 +16,7 @@ type DynamicIslandNavProps = {
 };
 
 const NAV_ITEMS = [
+  { label: "AI Funding Desk", href: "/funding-concierge" },
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
@@ -74,30 +77,56 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
 
           {/* Desktop: nav links */}
           <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className={cn(
-                  "flex items-center gap-2 text-sm font-medium transition-all duration-300 relative",
-                  (pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href)))
-                    ? "text-black font-semibold"
-                    : "text-black/70 hover:text-black"
-                )}
-              >
-                {(pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href))) && (
+            {NAV_ITEMS.filter(item => item.label !== "AI Funding Desk").map((item) => {
+              const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
+              
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={cn(
+                    "flex items-center gap-2 text-sm font-medium transition-all duration-300 relative",
+                    isActive
+                      ? "text-black font-semibold"
+                      : "text-black/70 hover:text-black"
+                  )}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeNavDot"
+                      className="w-1.5 h-1.5 rounded-full bg-[#FF4306]"
+                    />
+                  )}
+                  {item.label === "AI Funding Desk" ? (
+                    <AIFundingDeskWordmark />
+                  ) : (
+                    <span>{item.label}</span>
+                  )}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Right side: AI Funding Desk Badge */}
+          <div className="hidden md:flex items-center justify-end min-w-[90px]">
+            <Link 
+              href="/funding-concierge" 
+              className={cn(
+                "flex items-center gap-2 transition-all duration-300 relative",
+                (pathname === '/funding-concierge' || pathname?.startsWith('/funding-concierge/')) 
+                  ? "opacity-100" 
+                  : "opacity-80 hover:opacity-100"
+              )}
+            >
+               {(pathname === '/funding-concierge' || pathname?.startsWith('/funding-concierge/')) && (
                   <motion.span
                     layoutId="activeNavDot"
                     className="w-1.5 h-1.5 rounded-full bg-[#FF4306]"
                   />
                 )}
-                <span>{item.label}</span>
-              </Link>
-            ))}
-          </nav>
-
-          {/* Empty div to balance flex layout on desktop if needed, or just keep existing structure */}
-          <div className="hidden md:block w-[90px]"></div>
+              <AIBadge />
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -145,38 +174,42 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
               <div className="bg-white/95 backdrop-blur-xl rounded-[32px] shadow-2xl border border-gray-200/50 overflow-hidden">
                 {/* Menu Items */}
                 <nav className="py-6 px-4">
-                  {NAV_ITEMS.map((item, index) => (
-                    <motion.div
-                      key={item.label}
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{
-                        delay: index * 0.1,
-                        type: "spring",
-                        damping: 20,
-                        stiffness: 300,
-                      }}
-                    >
-                      <Link
-                        href={item.href}
-                        onClick={() => setIsMobileOpen(false)}
-                        className={cn(
-                          "flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-200 relative",
-                          (pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href)))
-                            ? "text-black font-semibold"
-                            : "text-brand-black hover:bg-gray-100"
-                        )}
+                  {NAV_ITEMS.map((item, index) => {
+                    const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
+                    
+                    return (
+                      <motion.div
+                        key={item.label}
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{
+                          delay: index * 0.1,
+                          type: "spring",
+                          damping: 20,
+                          stiffness: 300,
+                        }}
                       >
-                        {(pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href))) && (
-                          <motion.span
-                            layoutId="activeNavDotMobile"
-                            className="absolute left-2 w-1.5 h-1.5 rounded-full bg-[#FF4306]"
-                          />
-                        )}
-                        <span className="text-lg font-medium font-poppins">{item.label}</span>
-                      </Link>
-                    </motion.div>
-                  ))}
+                        <Link
+                          href={item.href}
+                          onClick={() => setIsMobileOpen(false)}
+                          className={cn(
+                            "flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-200 relative",
+                            isActive
+                              ? "text-black font-semibold"
+                              : "text-brand-black hover:bg-gray-100"
+                          )}
+                        >
+                          {isActive && (
+                            <motion.span
+                              layoutId="activeNavDotMobile"
+                              className="absolute left-2 w-1.5 h-1.5 rounded-full bg-[#FF4306]"
+                            />
+                          )}
+                          <span className="text-lg font-medium font-poppins">{item.label}</span>
+                        </Link>
+                      </motion.div>
+                    );
+                  })}
                 </nav>
 
                 {/* CTA Section */}

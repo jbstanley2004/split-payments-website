@@ -2,6 +2,7 @@
 
 import { type MouseEvent, useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
+import { AIFundingDeskWordmark } from "../funding-concierge/AIFundingDeskWordmark";
 
 import styled from "styled-components";
 
@@ -30,6 +31,9 @@ export function Navbar() {
           </Logo>
 
           <Links $isExpanded={isExpanded} onClick={handleLinkClick}>
+            <a href="/funding-concierge" style={{ display: 'flex', alignItems: 'center' }}>
+              <AIFundingDeskWordmark variant="light" />
+            </a>
             <a href="#funding">Funding</a>
             <a href="#payments">Payments</a>
             <a href="#pos">POS</a>
@@ -43,6 +47,9 @@ export function Navbar() {
       </MobileMenuButton>
 
       <MobileLinks $open={open} onClick={handleLinkClick}>
+        <a href="/funding-concierge" style={{ display: 'flex', alignItems: 'center' }}>
+          <AIFundingDeskWordmark variant="light" />
+        </a>
         <a href="#funding">Funding</a>
         <a href="#payments">Payments</a>
         <a href="#pos">POS</a>
