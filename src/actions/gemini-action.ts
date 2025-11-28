@@ -4,66 +4,10 @@ import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
 import { SPLIT_KNOWLEDGE_BASE } from "../lib/funding-constants";
 import { UserProfile, Quote, ApplicationData, Message } from "../types/funding-types";
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || "");
+// Remove top-level instantiation
+// const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || "");
 
-// Tool Definitions (re-defined here for server use)
-const saveContactTool = {
-    name: 'save_contact_info',
-    description: 'Save the users contact information (Name, Email, Phone) to their profile.',
-    parameters: {
-        type: SchemaType.OBJECT,
-        properties: {
-            name: { type: SchemaType.STRING, description: "The user's full name" },
-            email: { type: SchemaType.STRING, description: "The user's email address" },
-            phone: { type: SchemaType.STRING, description: "The user's phone number (optional)" },
-        },
-        required: ['name', 'email'],
-    },
-};
-
-const generateQuoteTool = {
-    name: 'generate_quote',
-    description: 'Generate a funding quote based on business metrics.',
-    parameters: {
-        type: SchemaType.OBJECT,
-        properties: {
-            monthlyRevenue: { type: SchemaType.NUMBER, description: "Average monthly revenue in USD" },
-            monthsInBusiness: { type: SchemaType.NUMBER, description: "Number of months the business has been operating" },
-        },
-        required: ['monthlyRevenue', 'monthsInBusiness'],
-    },
-};
-
-const startApplicationTool = {
-    name: 'start_application',
-    description: 'Initiate the official Split Funding Application wizard UI. Call this AFTER analyzing uploaded documents if available, or if the user insists on manual entry.',
-    parameters: {
-        type: SchemaType.OBJECT,
-        properties: {
-            legalName: { type: SchemaType.STRING, description: "Legal business name extracted from doc" },
-            address: { type: SchemaType.STRING, description: "Street address extracted from doc" },
-            cityStateZip: { type: SchemaType.STRING, description: "City, State, Zip extracted from doc" },
-            monthlyVolume: { type: SchemaType.STRING, description: "Monthly revenue/volume extracted or estimated" },
-            processingCompany: { type: SchemaType.STRING, description: "Current processor name" },
-        },
-    },
-};
-
-const tools = [
-    {
-        functionDeclarations: [saveContactTool, generateQuoteTool, startApplicationTool],
-    },
-];
-
-export type ChatActionResponse = {
-    text: string;
-    toolCalls?: {
-        name: string;
-        args: any;
-        result: any;
-    }[];
-    error?: string;
-};
+// ... (imports remain the same)
 
 export async function sendGeminiMessage(
     message: string,
@@ -71,15 +15,23 @@ export async function sendGeminiMessage(
     attachment?: { data: string; type: string }
 ): Promise<ChatActionResponse> {
     try {
-        if (!process.env.GEMINI_API_KEY && !process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
-            return { text: "", error: "API Key missing. Please check your environment variables." };
+        const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+        
+        if (!apiKey) {
+            console.error("Gemini API Key is missing in server action environment.");
+            return { text: "", error: "Configuration Error: API Key missing." };
         }
+
+        // Initialize at runtime to ensure env vars are loaded
+        const genAI = new GoogleGenerativeAI(apiKey);
 
         const model = genAI.getGenerativeModel({
             model: 'gemini-1.5-flash',
             systemInstruction: SPLIT_KNOWLEDGE_BASE,
             tools: tools
         });
+        
+        // ... (rest of function)
 
         // Convert history to Gemini format
         // Filter out system messages or specialized UI messages that Gemini doesn't need
