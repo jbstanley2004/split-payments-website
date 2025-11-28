@@ -235,10 +235,8 @@ export default function HomePage() {
                 </div>
                 {/* Visual */}
                 <div className="w-full md:w-1/2">
-                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm aspect-[4/3] w-full flex items-center justify-center relative">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <WorkingCapitalAnimation />
-                    </div>
+                  <div className="bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm w-full flex items-center justify-center p-6 md:p-10">
+                    <WorkingCapitalAnimation />
                   </div>
                 </div>
               </motion.div>
