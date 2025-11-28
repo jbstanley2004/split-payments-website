@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import {
   CheckCircle2,
@@ -19,6 +19,14 @@ interface ChatMessage {
   content: string;
   badge?: string;
   emphasis?: string;
+}
+
+interface UploadedDoc {
+  id: string;
+  name: string;
+  size: number;
+  status: "uploaded" | "parsed";
+  note?: string;
 }
 
 const THEMES = {
@@ -145,6 +153,7 @@ export function OpenAIAppExperience() {
   const [theme, setTheme] = useState<keyof typeof THEMES>("mono");
   const [messages, setMessages] = useState<ChatMessage[]>(starterMessages);
   const [draft, setDraft] = useState("");
+  const [uploads, setUploads] = useState<UploadedDoc[]>([]);
   const [adminConfig, setAdminConfig] = useState({
     apiKeyMasked: "sk-••••split",
     projectId: "split-onboarding-app",
@@ -215,6 +224,12 @@ export function OpenAIAppExperience() {
     });
   };
 
+  const handleDrop = (event: React.DragEvent<HTMLLabelElement>) => {
+    event.preventDefault();
+    const fileList = event.dataTransfer.files ? Array.from(event.dataTransfer.files) : [];
+    handleUpload(fileList);
+  };
+
   const captureDocuments = () => {
     updateData({ merchantStatements: [] });
     pushMessage({
@@ -222,6 +237,72 @@ export function OpenAIAppExperience() {
       content:
         "Statement ingestion ready. Drag & drop PDFs or send a secure link; the OpenAI action will normalize daily batches and surface anomalies in the transcript.",
       emphasis: "Upload widgets stay in sync whether you run this inside ChatGPT or embedded on splitpayments.com/get-started.",
+    });
+  };
+
+  const formatSize = (bytes: number) => {
+    if (bytes === 0) return "0 B";
+    const units = ["B", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${units[i]}`;
+  };
+
+  const handleUpload = (files: File[]) => {
+    if (!files.length) return;
+    updateData({ merchantStatements: [...data.merchantStatements, ...files] });
+
+    const prepared = files.map(file => ({
+      id: `${file.name}-${file.size}-${Date.now()}`,
+      name: file.name,
+      size: file.size,
+      status: "uploaded" as const,
+      note: "Queued for parsing",
+    }));
+
+    setUploads(prev => [...prev, ...prepared]);
+
+    pushMessage({
+      role: "assistant",
+      badge: "File intake",
+      content: `Received ${files.length} document${files.length > 1 ? "s" : ""}. I can parse statements to pre-fill revenue, processor, and ownership proof—want me to start?`,
+    });
+  };
+
+  const onFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = event.target.files ? Array.from(event.target.files) : [];
+    handleUpload(fileList);
+    event.target.value = "";
+  };
+
+  const parseUploads = () => {
+    if (!uploads.length) {
+      pushMessage({
+        role: "assistant",
+        content: "Add at least one PDF or image statement so I can extract card volume, processor, and ownership evidence.",
+      });
+      return;
+    }
+
+    setUploads(prev =>
+      prev.map(file => ({
+        ...file,
+        status: "parsed",
+        note: "Parsed for revenue + processor",
+      }))
+    );
+
+    updateData({
+      monthlyRevenue: data.monthlyRevenue || "210000",
+      currentProcessor: data.currentProcessor || "Stripe + Square mix",
+      ownershipPercentage: data.ownershipPercentage || "82",
+    });
+
+    pushMessage({
+      role: "assistant",
+      badge: "Parsed",
+      content:
+        "Parsed the uploaded statements and IDs. I extracted ~$210k monthly cards, detected Stripe + Square traffic, and linked the ownership affidavit to Sasha Rivera.",
+      emphasis: "Want me to forward the underwriting packet or request a fresh banking letter?",
     });
   };
 
@@ -255,6 +336,7 @@ export function OpenAIAppExperience() {
     { label: "Autofill business basics", icon: <Wand2 className="h-4 w-4" />, action: hydrateBusinessBasics },
     { label: "Enable statement intake", icon: <Rocket className="h-4 w-4" />, action: captureDocuments },
     { label: "Capture ownership + KYC", icon: <Shield className="h-4 w-4" />, action: ownershipFlow },
+    { label: "Parse uploaded docs", icon: <Sparkles className="h-4 w-4" />, action: parseUploads },
     { label: "Publish ChatGPT + embed", icon: <Sparkles className="h-4 w-4" />, action: publishManifests },
   ];
 
@@ -329,6 +411,67 @@ export function OpenAIAppExperience() {
                 </button>
               ))}
             </div>
+          </div>
+
+          <div className="rounded-2xl border border-black/10 bg-white/90 p-3 shadow-sm">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-black/70">
+                <Sparkles className="h-4 w-4" /> File uploads + parsing
+              </div>
+              <button
+                onClick={parseUploads}
+                className="inline-flex items-center gap-2 rounded-full bg-black px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+              >
+                <Sparkles className="h-4 w-4" /> Parse with GPT 5.1 Mini
+              </button>
+            </div>
+
+            <label
+              onDrop={handleDrop}
+              onDragOver={event => event.preventDefault()}
+              className="mt-3 block rounded-xl border border-dashed border-black/20 bg-neutral-50 px-4 py-5 text-center text-sm text-black/70 shadow-inner transition hover:border-black/40"
+            >
+              <input type="file" accept=".pdf,.png,.jpg,.jpeg" multiple className="hidden" onChange={onFileInput} />
+              <p className="font-semibold text-black">Drop statements, IDs, or KYB packets</p>
+              <p className="text-xs text-black/60">I will extract revenue, processors, ownership, and signatures for onboarding only.</p>
+            </label>
+
+            {uploads.length > 0 ? (
+              <div className="mt-3 space-y-2">
+                {uploads.map(file => (
+                  <div
+                    key={file.id}
+                    className="flex items-center justify-between rounded-xl border border-black/10 bg-white px-3 py-2 text-sm text-black"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-black via-black to-neutral-800 text-white grid place-items-center text-[11px] font-bold uppercase">
+                        {file.status === "parsed" ? "AI" : "PDF"}
+                      </div>
+                      <div>
+                        <p className="font-semibold">{file.name}</p>
+                        <p className="text-xs text-black/60">
+                          {formatSize(file.size)} · {file.note}
+                        </p>
+                      </div>
+                    </div>
+                    <span
+                      className={clsx(
+                        "rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em]",
+                        file.status === "parsed"
+                          ? "bg-black text-white"
+                          : "border border-black/20 bg-white text-black"
+                      )}
+                    >
+                      {file.status === "parsed" ? "Parsed" : "Uploaded"}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="mt-3 rounded-xl bg-neutral-50 px-3 py-2 text-xs text-black/60">
+                No files yet. Drop PDFs or images to let Split Copilot parse them conversationally.
+              </p>
+            )}
           </div>
 
           <div className="flex items-center gap-2 rounded-2xl border border-black/10 bg-white px-3 py-2 text-[13px] text-black/80">
