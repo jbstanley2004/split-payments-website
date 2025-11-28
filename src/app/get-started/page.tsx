@@ -2,34 +2,10 @@
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import { PageBackdrop } from "@/components/page-backdrop";
-import { OnboardingProvider, useOnboarding } from "@/contexts/onboarding-context";
-import { StepTransition } from "@/components/onboarding/StepTransition";
+import { OnboardingProvider } from "@/contexts/onboarding-context";
 import { OpenAIAppExperience } from "@/components/onboarding/OpenAIAppExperience";
 
-// Import all step components
-import { WelcomeStep } from "@/components/onboarding/steps/WelcomeStep";
-import { BusinessBasicsStep } from "@/components/onboarding/steps/BusinessBasicsStep";
-import { BusinessDetailsStep } from "@/components/onboarding/steps/BusinessDetailsStep";
-import { OwnerInfoStep } from "@/components/onboarding/steps/OwnerInfoStep";
-import { PartnersStep } from "@/components/onboarding/steps/PartnersStep";
-import { AdditionalInfoStep } from "@/components/onboarding/steps/AdditionalInfoStep";
-import { CitizenshipStep } from "@/components/onboarding/steps/CitizenshipStep";
-import { AuthorizationStep } from "@/components/onboarding/steps/AuthorizationStep";
-
 function OnboardingContent() {
-  const { currentStep } = useOnboarding();
-
-  const steps = [
-    <WelcomeStep key="welcome" />,
-    <BusinessBasicsStep key="business-basics" />,
-    <BusinessDetailsStep key="business-details" />,
-    <OwnerInfoStep key="owner-info" />,
-    <PartnersStep key="partners" />,
-    <AdditionalInfoStep key="additional-info" />,
-    <CitizenshipStep key="citizenship" />,
-    <AuthorizationStep key="authorization" />,
-  ];
-
   return (
     <main className="relative min-h-screen min-h-[100dvh] min-h-[100svh] bg-gradient-to-b from-[#EEF2FF] via-[#F6F5F4] to-[#FDFCFB] text-black font-lora">
       <PageBackdrop priority />
@@ -51,22 +27,6 @@ function OnboardingContent() {
 
             <OpenAIAppExperience />
 
-            <div className="rounded-3xl border border-dashed border-gray-200 bg-white/70 p-5 shadow-sm">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#6B6B6B]">Classic form fallback</p>
-                  <h2 className="text-xl font-semibold text-[#2E2E2E]">Keep the stepper for partners who prefer forms</h2>
-                  <p className="text-sm text-[#4B5563]">We preserved the structured form experience below; the Chat Kit actions hydrate the same data model.</p>
-                </div>
-                <div className="rounded-full bg-black px-4 py-2 text-xs font-semibold text-white shadow-sm">Synced with chat</div>
-              </div>
-
-              <div className="mt-5">
-                <StepTransition stepKey={currentStep}>
-                  {steps[currentStep]}
-                </StepTransition>
-              </div>
-            </div>
           </section>
         </div>
       </div>
