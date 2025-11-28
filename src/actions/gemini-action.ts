@@ -34,12 +34,18 @@ export async function sendGeminiMessage(
         });
 
         // Convert history to Gemini format
-        const chatHistory = history
+        let chatHistory = history
             .filter(msg => msg.role === 'user' || msg.role === 'model')
             .map(msg => ({
                 role: msg.role === 'user' ? 'user' : 'model',
                 parts: [{ text: msg.text }]
             }));
+        
+        // Gemini requires history to start with a 'user' message
+        if (chatHistory.length > 0 && chatHistory[0].role === 'model') {
+            console.log("[Gemini Action] Removing initial model message to satisfy API requirements.");
+            chatHistory.shift();
+        }
         
         console.log("[Gemini Action] Chat History:", JSON.stringify(chatHistory, null, 2));
 
