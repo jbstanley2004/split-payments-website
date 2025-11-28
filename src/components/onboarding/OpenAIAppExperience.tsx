@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   CheckCircle2,
@@ -12,6 +12,13 @@ import {
 } from "lucide-react";
 import { useOnboarding } from "@/contexts/onboarding-context";
 import clsx from "clsx";
+import { BusinessBasicsWidget } from "./steps/BusinessBasicsStep";
+import { FileUploadWidget } from "./FileUploadZone";
+
+const WIDGETS = {
+  business_basics: BusinessBasicsWidget,
+  file_upload: FileUploadWidget,
+};
 
 interface ChatMessage {
   id: string;
@@ -19,9 +26,17 @@ interface ChatMessage {
   content: string;
   badge?: string;
   emphasis?: string;
+  widget?: keyof typeof WIDGETS;
 }
 
 const THEMES = {
+  brand: {
+    name: "Brand",
+    primary: "from-neutral-900 via-neutral-800 to-neutral-700",
+    accent: "bg-gray-100 text-neutral-900",
+    border: "border-gray-200",
+    glow: "shadow-[0_10px_60px_-12px_rgba(0,0,0,0.3)]",
+  },
   cobalt: {
     name: "Cobalt",
     primary: "from-blue-900 via-blue-700 to-sky-500",
@@ -36,18 +51,12 @@ const THEMES = {
     border: "border-slate-700",
     glow: "shadow-[0_10px_60px_-12px_rgba(76,29,149,0.45)]",
   },
-  sunset: {
-    name: "Sunset",
-    primary: "from-orange-600 via-pink-500 to-rose-500",
-    accent: "bg-orange-100 text-orange-950",
-    border: "border-orange-300",
-    glow: "shadow-[0_10px_60px_-12px_rgba(249,115,22,0.4)]",
-  },
 } as const;
 
-function ChatBubble({ message, theme }: { message: ChatMessage; theme: keyof typeof THEMES }) {
+function ChatBubble({ message, theme, onWidgetSubmit, onFilesSelected }: { message: ChatMessage; theme: keyof typeof THEMES; onWidgetSubmit: (widget: string, data: any) => void; onFilesSelected: (files: File[]) => void; }) {
   const isUser = message.role === "user";
   const tone = THEMES[theme];
+  const WidgetComponent = message.widget ? WIDGETS[message.widget] : null;
 
   return (
     <motion.div
@@ -81,6 +90,15 @@ function ChatBubble({ message, theme }: { message: ChatMessage; theme: keyof typ
           <p className="mt-2 rounded-xl bg-slate-100 px-3 py-2 text-xs text-slate-700">
             {message.emphasis}
           </p>
+        )}
+         {WidgetComponent && (
+          <div className="mt-4">
+            {message.widget === 'file_upload' ? (
+              <FileUploadWidget onFilesSelected={onFilesSelected} />
+            ) : (
+              <WidgetComponent onComplete={(data) => onWidgetSubmit(message.widget as string, data)} />
+            )}
+          </div>
         )}
       </div>
     </motion.div>
@@ -123,28 +141,93 @@ function WidgetCard({
   );
 }
 
-const starterMessages: ChatMessage[] = [
-  {
-    id: "intro",
-    role: "assistant",
-    badge: "Split Copilot",
-    content:
-      "Welcome to the Split Payments onboarding studio. I use the OpenAI Apps SDK Kit + Chat Kit to capture your merchant profile and publish a ready-to-embed experience for ChatGPT or your site.",
-  },
-  {
-    id: "how-it-works",
-    role: "assistant",
-    content:
-      "Share your card volume, ownership, and processing history. I will hydrate widgets, generate funding-ready packets, and keep the conversation aligned with our compliance checklist.",
-    emphasis: "Try the quick actions to push data into widgets or type your own update to see the orchestration in action.",
-  },
-];
-
 export function OpenAIAppExperience() {
   const { data, updateData } = useOnboarding();
-  const [theme, setTheme] = useState<keyof typeof THEMES>("cobalt");
-  const [messages, setMessages] = useState<ChatMessage[]>(starterMessages);
+  const theme = "brand";
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
+  const [context, setContext] = useState(null);
+
+  const sendMessage = async (message: any) => {
+    const isUserMessage = typeof message === 'string';
+    const messageToSend = isUserMessage ? { type: 'text', content: message } : message;
+
+    if (isUserMessage) {
+      const userMessage = {
+        id: `user-${Date.now()}`,
+        role: 'user' as const,
+        content: message,
+      };
+      setMessages(prev => [...prev, userMessage]);
+    }
+
+    try {
+      const response = await fetch('/api/onboarding-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: messageToSend, context }),
+      });
+
+      if (!response.ok) throw new Error(`API error: ${response.statusText}`);
+
+      const data = await response.json();
+
+      const assistantMessages = data.messages.map((msg: any, index: number) => ({
+        ...msg,
+        id: `assistant-${Date.now()}-${index}`,
+      }));
+      setMessages(prev => [...prev, ...assistantMessages]);
+      setContext(data.newContext);
+
+    } catch (error) {
+      console.error("Failed to send message:", error);
+      const errorMessage = {
+        id: `assistant-${Date.now()}`,
+        role: 'assistant' as const,
+        content: "Sorry, I'm having trouble connecting. Please try again later.",
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    }
+  };
+
+  const handleSend = () => {
+    if (!draft.trim()) return;
+    sendMessage(draft);
+    setDraft("");
+  };
+
+  const handleWidgetSubmit = (widget: string, data: any) => {
+    sendMessage({ type: 'widget_submission', widget, data });
+  };
+
+  const handleFileSelected = async (files: File[]) => {
+    const formData = new FormData();
+    files.forEach(file => formData.append('files', file));
+
+    try {
+      const response = await fetch('/api/upload-statement', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) throw new Error(`File upload error: ${response.statusText}`);
+
+      const data = await response.json();
+      sendMessage({ type: 'file_upload_success', data });
+    } catch (error) {
+      console.error("Failed to upload files:", error);
+      const errorMessage = {
+        id: `assistant-${Date.now()}`,
+        role: 'assistant' as const,
+        content: "Sorry, there was an error uploading your files. Please try again.",
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    }
+  };
+
+  useEffect(() => {
+    sendMessage({ type: 'text', content: ''});
+  }, []);
 
   const filledSummary = useMemo(() => {
     const basics = [data.legalName, data.businessCity && `${data.businessCity}, ${data.businessState}`]
@@ -156,99 +239,6 @@ export function OpenAIAppExperience() {
     return `${basics || "Profile pending"} • ${money} • ${processor}`;
   }, [data]);
 
-  const pushMessage = (entry: ChatMessage) =>
-    setMessages(prev => [...prev, { ...entry, id: `${entry.role}-${Date.now()}-${prev.length}` }]);
-
-  const handleSend = () => {
-    if (!draft.trim()) return;
-    const userEntry: ChatMessage = { role: "user", content: draft, id: `user-${Date.now()}` };
-    pushMessage(userEntry);
-
-    const summary = [
-      data.legalName || "a merchant",
-      data.businessType && `(${data.businessType})`,
-      data.monthlyRevenue && `card volume ~${data.monthlyRevenue}/mo`,
-      data.currentProcessor && `processing on ${data.currentProcessor}`,
-    ]
-      .filter(Boolean)
-      .join(" ");
-
-    const assistantEntry: ChatMessage = {
-      role: "assistant",
-      content:
-        summary.length > 0
-          ? `Logged your update and synced the widgets. I am now tracking ${summary}. Do you want me to draft a funding-ready submission?`
-          : `Captured your note. Share card volume, processor, or ownership and I'll hydrate the widgets for you.`,
-    };
-
-    pushMessage(assistantEntry);
-    setDraft("");
-  };
-
-  const hydrateBusinessBasics = () => {
-    updateData({
-      legalName: "Urban Grind Roasters LLC",
-      dba: "Urban Grind",
-      businessCity: "Austin",
-      businessState: "TX",
-      businessType: "Card-present + eCom",
-      productsOrServices: "Cafe, beans subscription, catering",
-      monthlyRevenue: "185000",
-      currentProcessor: "Square Retail",
-      website: "https://urbangrind.cards",
-    });
-    pushMessage({
-      role: "assistant",
-      badge: "Widget Sync",
-      content:
-        "Injected the merchant basics into the App Kit widgets. The Chat Kit cards now show Austin HQ, blended POS/eCom, and monthly card volume of ~$185k.",
-    });
-  };
-
-  const captureDocuments = () => {
-    updateData({ merchantStatements: [] });
-    pushMessage({
-      role: "assistant",
-      content:
-        "Statement ingestion ready. Drag & drop PDFs or send a secure link; the OpenAI action will normalize daily batches and surface anomalies in the transcript.",
-      emphasis: "Upload widgets stay in sync whether you run this inside ChatGPT or embedded on splitpayments.com/get-started.",
-    });
-  };
-
-  const ownershipFlow = () => {
-    updateData({
-      ownerName: "Sasha Rivera",
-      ownerTitle: "Managing Member",
-      ownershipPercentage: "82",
-      ownerCity: "Austin",
-      ownerState: "TX",
-      ownerCellPhone: "512-555-2910",
-    });
-    pushMessage({
-      role: "assistant",
-      content:
-        "Captured Sasha Rivera as majority owner (82%). I will request KYC docs and signature inside Chat Kit and mirror the status back to the embed.",
-    });
-  };
-
-  const quickActions = [
-    {
-      label: "Hydrate business basics",
-      icon: <Wand2 className="h-4 w-4" />,
-      action: hydrateBusinessBasics,
-    },
-    {
-      label: "Enable statement upload widget",
-      icon: <Rocket className="h-4 w-4" />,
-      action: captureDocuments,
-    },
-    {
-      label: "Capture ownership + KYC",
-      icon: <Shield className="h-4 w-4" />,
-      action: ownershipFlow,
-    },
-  ];
-
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4 rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-white to-slate-50 px-6 py-5 shadow-sm">
@@ -258,28 +248,6 @@ export function OpenAIAppExperience() {
           <p className="mt-2 max-w-3xl text-sm text-slate-600">
             Launch the same flow inside ChatGPT or as an embedded widget. Actions, forms, and uploads stay synchronized through the Chat Kit runtime.
           </p>
-        </div>
-        <div className="flex items-center gap-3">
-          {Object.entries(THEMES).map(([key, palette]) => (
-            <button
-              key={key}
-              onClick={() => setTheme(key as keyof typeof THEMES)}
-              className={clsx(
-                "flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold transition",
-                theme === key
-                  ? "border-slate-900 bg-slate-900 text-white"
-                  : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
-              )}
-            >
-              <span
-                className={clsx(
-                  "h-3 w-3 rounded-full bg-gradient-to-r",
-                  (palette as { primary: string }).primary
-                )}
-              />
-              {palette.name}
-            </button>
-          ))}
         </div>
       </div>
 
@@ -298,28 +266,10 @@ export function OpenAIAppExperience() {
 
           <div className="grid gap-3">
             {messages.map(message => (
-              <ChatBubble key={message.id} message={message} theme={theme} />
+              <ChatBubble key={message.id} message={message} theme={theme} onWidgetSubmit={handleWidgetSubmit} onFilesSelected={handleFileSelected} />
             ))}
           </div>
 
-          <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-600">Quick actions</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {quickActions.map(action => (
-                <button
-                  key={action.label}
-                  onClick={action.action}
-                  className="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-800 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
-                >
-                  <span className="rounded-full bg-slate-900 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.16em] text-white">
-                    Action
-                  </span>
-                  {action.icon}
-                  {action.label}
-                </button>
-              ))}
-            </div>
-          </div>
 
           <div className="flex items-center gap-2 rounded-2xl border border-slate-200 bg-white px-3 py-2 text-[13px] text-slate-700">
             <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 text-white grid place-items-center">
