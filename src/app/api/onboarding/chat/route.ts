@@ -76,6 +76,15 @@ function extractUpdates(message: string): Partial<OnboardingData> {
     updates.businessState = cityStateMatch[2];
   }
 
+  const emailMatch = message.match(/([\w.-]+@[\w.-]+\.[A-Za-z]{2,})/);
+  if (emailMatch) updates.businessEmail = emailMatch[1];
+
+  const phoneMatch = message.match(/(?:\+?1\s*)?(\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})/);
+  if (phoneMatch) updates.businessPhone = phoneMatch[1];
+
+  const einMatch = message.match(/ein(?: is|:)?\s*(\d{2}[-\s]?\d{7})/i);
+  if (einMatch) updates.ein = einMatch[1].replace(/\s|-/g, "");
+
   return updates;
 }
 
@@ -102,6 +111,56 @@ function describeMissing(
   return missing;
 }
 
+function buildKnowledgeBaseReply(message: string) {
+  const lower = message.toLowerCase();
+  const entries: Array<{ test: (text: string) => boolean; answer: string }> = [
+    {
+      test: text => /how long|timeline|turnaround|time to|fast|quick/i.test(text),
+      answer:
+        "I start underwriting instantly. If your uploads are legible, approvals typically take a few minutes; bank verification can add a short delay but I keep you updated in this thread.",
+    },
+    {
+      test: text => /what do you need|information|what else|anything else|next/i.test(text),
+      answer:
+        "I need a legal business name, the primary owner and percentage, monthly card volume, your current processor, and one recent statement or ID. If you drop a document, I'll parse it for you.",
+    },
+    {
+      test: text => /security|secure|privacy|encrypted|pci/i.test(text),
+      answer:
+        "Uploads stay in an encrypted intake bucket and only power this onboarding. Keys and model settings live in the admin console; end-users never see them.",
+    },
+    {
+      test: text => /gpt|model|which model|5\.1/i.test(text),
+      answer:
+        "You're paired with GPT 5.1 Mini for speed. I can be switched to GPT-4o tiers in the admin controls without interrupting this session.",
+    },
+    {
+      test: text => /why upload|do i need a statement|statement/i.test(text),
+      answer:
+        "A recent statement or ID lets me verify revenue, processor history, and ownership faster. If you prefer, you can type the details instead and I'll proceed.",
+    },
+    {
+      test: text => /consent|signature|sign/i.test(text),
+      answer:
+        "When we're done, I'll prepare a short consent message right here. You can type your name to sign, and I'll log the timestamp for underwriting.",
+    },
+    {
+      test: text => /bank|deposit|funding|payout/i.test(text),
+      answer:
+        "Once approved, we confirm your settlement account securely. I’ll prompt for routing and account verification inside this chat when we reach that step.",
+    },
+  ];
+
+  const match = entries.find(entry => entry.test(lower));
+  if (match) return match.answer;
+
+  if (/hello|hi|hey/i.test(lower)) {
+    return "Hi—I'm Split Copilot. Ask me anything about your onboarding or drop a document and I'll take it from here.";
+  }
+
+  return `I can answer anything about onboarding, funding, and document handling. I also captured your question: "${message}"—I'll keep it in this thread while we move forward.`;
+}
+
 function buildReply(options: {
   message?: string;
   data: Partial<OnboardingData> & { merchantStatements?: Array<{ name: string; size: number }> };
@@ -113,16 +172,15 @@ function buildReply(options: {
   const missing = describeMissing(data, uploads, updates);
 
   if (!message) {
-    const intro =
-      "I’m Split Copilot. I’ll take your onboarding from start to finish here—just chat back when you’re ready.";
+    const intro = "I’m Split Copilot. I’ll handle the entire onboarding for you in this chat.";
     const prompt = missing.length
-      ? `To begin, share your ${missing[0]} and drag a statement or ID. I’ll fill everything else automatically.`
-      : "You can upload a statement or confirm the final consent and I’ll publish the bundle.";
+      ? `Tell me your ${missing[0]} or drop a recent statement. I’ll auto-fill the rest as we talk.`
+      : "Everything looks captured—confirm consent here and I’ll finalize your packet.";
     return {
       reply: `${intro} ${prompt}`,
       detail: adminConfig?.model
-        ? `Using ${adminConfig.model} via project ${adminConfig.projectId || "split-onboarding-app"}.`
-        : "I’ll keep the flow focused on KYB, uploads, and consent—no other prompts needed.",
+        ? `Running ${adminConfig.model} in project ${adminConfig.projectId || "split-onboarding-app"}.`
+        : "I’m tuned for onboarding only—no prompts or menus needed.",
       updates,
     };
   }
@@ -132,32 +190,38 @@ function buildReply(options: {
   if (updates.ownerName && updates.ownershipPercentage) confirmations.push(`owner ${updates.ownerName} at ${updates.ownershipPercentage}%`);
   if (updates.monthlyRevenue) confirmations.push(`monthly revenue captured as $${Number(updates.monthlyRevenue).toLocaleString()}`);
   if (updates.currentProcessor) confirmations.push(`processor noted as ${updates.currentProcessor}`);
+  if (updates.businessEmail) confirmations.push(`contact email saved as ${updates.businessEmail}`);
+  if (updates.businessPhone) confirmations.push(`business phone saved`);
+
+  const isQuestion = /\?|how|what|when|why|who|where|which/i.test(message);
+  const narrativeReply = isQuestion ? buildKnowledgeBaseReply(message) : undefined;
 
   const parts = [
     confirmations.length
       ? `Got it—${confirmations.join(", ")}.`
-      : "Thanks, I’m keeping everything in the onboarding record.",
-  ];
+      : "Logged. I’m keeping everything in your onboarding record.",
+    narrativeReply || "",
+  ].filter(Boolean);
 
   if (uploads.length) {
     const parsedUploads = uploads.filter(file => file.status === "parsed");
     if (parsedUploads.length) {
       parts.push(
-        `${parsedUploads.length} file${parsedUploads.length > 1 ? "s" : ""} parsed. Revenue, processor, and ownership evidence are attached to this session.`
+        `${parsedUploads.length} file${parsedUploads.length > 1 ? "s" : ""} parsed. I’m using them to prefill revenue, processor history, and ownership evidence.`
       );
     }
   }
 
   if (missing.length === 0) {
-    parts.push("All core items are captured. I can prepare the consent packet and ready the ChatGPT + embed deployment next.");
+    parts.push("All required items are present. Ready for consent—type your name to sign, or ask me anything before we finalize.");
   } else {
     const topTwo = missing.slice(0, 2).join(" and ");
-    parts.push(`Next, I still need ${topTwo}. You can type it or drop a document and I’ll extract it.`);
+    parts.push(`Next, I still need ${topTwo}. Tell me in natural language or drop a file and I’ll extract it.`);
   }
 
   return {
     reply: parts.join(" "),
-    detail: "Everything remains conversational—no buttons or forms, just the chat thread handling KYB, uploads, and consent.",
+    detail: "Fully conversational. I answer questions, parse uploads, and keep this thread synced to your onboarding record.",
     updates,
   };
 }

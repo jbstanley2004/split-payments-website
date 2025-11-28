@@ -21,7 +21,7 @@ function OnboardingContent() {
                 Conversational onboarding, in black & white
               </h1>
               <p className="mx-auto max-w-3xl text-sm md:text-lg text-[#1f2933]">
-                Split Copilot replaces the old forms with a guided ChatKit experience. Upload files, let GPT 5.1 Mini parse them, and complete KYB, consent, and deployment inside one monochrome workspace—whether hosted in ChatGPT or embedded on splitpayments.com.
+                Split Copilot fully replaces the stepper with a natural-language guide. Ask anything, drop documents for AI parsing, and finish KYB, consent, and deployment in a black-and-white workspace that runs in ChatGPT or as an embedded experience on splitpayments.com.
               </p>
             </div>
 
