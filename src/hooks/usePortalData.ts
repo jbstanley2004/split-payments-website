@@ -48,24 +48,41 @@ export function usePortalData() {
             return;
         }
 
+        console.log('[usePortalData] Setting up listener for user:', user.uid);
+
+        // Safety timeout - if loading takes more than 5 seconds, show default data
+        const timeoutId = setTimeout(() => {
+            console.warn('[usePortalData] Loading timeout - showing default data');
+            if (loading) {
+                setApplicationStatus(generateInitialApplication(user.email || ''));
+                setLoading(false);
+            }
+        }, 5000);
+
         const appRef = doc(db, 'applications', user.uid);
 
         const unsubscribe = onSnapshot(appRef, async (docSnap) => {
             try {
+                console.log('[usePortalData] Snapshot received. Exists:', docSnap.exists());
+
                 if (docSnap.exists()) {
                     // Data exists, use it
                     const data = docSnap.data() as ApplicationStatus;
+                    console.log('[usePortalData] Loaded existing data');
                     setApplicationStatus(data);
                 } else {
+                    console.log('[usePortalData] No document found, creating initial data...');
+
                     // No data yet, create initial record
-                    // Check session storage for wizard data
                     let initialData = generateInitialApplication(user.email || '');
 
+                    // Check session storage for wizard data
                     if (typeof window !== 'undefined') {
                         const savedData = sessionStorage.getItem('portal_business_data');
                         if (savedData) {
                             try {
                                 const parsed = JSON.parse(savedData);
+                                console.log('[usePortalData] Found wizard data:', parsed);
                                 initialData = generateInitialApplication(user.email || '', {
                                     businessName: parsed.legalName || parsed.businessName || 'Your Business',
                                     industry: parsed.industry || 'Retail',
@@ -75,35 +92,42 @@ export function usePortalData() {
                                     phone: parsed.phone || ''
                                 });
                             } catch (e) {
-                                console.error("Failed to parse wizard data", e);
+                                console.error("[usePortalData] Failed to parse wizard data", e);
                             }
                         }
                     }
 
-                    try {
-                        await setDoc(appRef, initialData);
-                        setApplicationStatus(initialData);
-                    } catch (error: any) {
-                        console.error("Error creating application document:", error);
-                        // If we get a permission error, still show the initial data
-                        // This allows the user to see the UI even if Firestore writes fail
-                        if (error.code === 'permission-denied') {
-                            console.warn("Permission denied creating document. Security rules may need updating.");
-                        }
-                        setApplicationStatus(initialData);
-                    }
+                    // Set state immediately so UI shows something
+                    setApplicationStatus(initialData);
+
+                    // Try to save to Firestore (but don't wait for it)
+                    setDoc(appRef, initialData)
+                        .then(() => console.log('[usePortalData] Document created successfully'))
+                        .catch((error: any) => {
+                            console.error("[usePortalData] Error creating document:", error);
+                            // Still keep the local state even if save fails
+                        });
                 }
+
+                clearTimeout(timeoutId);
                 setLoading(false);
             } catch (error) {
-                console.error("Error in onSnapshot:", error);
+                console.error("[usePortalData] Error in onSnapshot:", error);
+                clearTimeout(timeoutId);
                 setLoading(false);
             }
         }, (error) => {
-            console.error("Firestore snapshot error:", error);
+            console.error("[usePortalData] Firestore snapshot error:", error);
+            // Show default data even on error
+            setApplicationStatus(generateInitialApplication(user.email || ''));
+            clearTimeout(timeoutId);
             setLoading(false);
         });
 
-        return () => unsubscribe();
+        return () => {
+            clearTimeout(timeoutId);
+            unsubscribe();
+        };
     }, [user]);
 
     // 2. Actions (Write to Firestore)
