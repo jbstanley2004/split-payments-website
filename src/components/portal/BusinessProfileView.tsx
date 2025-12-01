@@ -2,9 +2,10 @@
 
 import { ApplicationStatus, DocumentType } from "@/types/portal";
 import { motion } from "framer-motion";
-import { FileText, Check, Shield, Lock } from "lucide-react";
+import { FileText, Check, Shield, Lock, LogOut } from "lucide-react";
 import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import { auth } from "@/lib/firebase";
 
 interface BusinessProfileViewProps {
     applicationStatus: ApplicationStatus;
@@ -99,10 +100,20 @@ export default function BusinessProfileView({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-center mb-12"
+                className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6"
             >
-                <h2 className="text-4xl font-bold font-poppins mb-4 text-black">Business Dossier</h2>
-                <p className="text-xl text-black/50 font-lora">Securely manage your business credentials.</p>
+                <div className="text-center md:text-left">
+                    <h2 className="text-4xl font-bold font-poppins mb-2 text-black">Business Profile</h2>
+                    <p className="text-xl text-black/50 font-lora">Securely manage your business credentials.</p>
+                </div>
+
+                <button
+                    onClick={() => auth.signOut()}
+                    className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-full font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition-all shadow-sm"
+                >
+                    <LogOut className="w-4 h-4" />
+                    <span>Sign Out</span>
+                </button>
             </motion.div>
 
             <div className="space-y-12">

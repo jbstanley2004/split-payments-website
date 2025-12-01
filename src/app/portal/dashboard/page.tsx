@@ -46,7 +46,7 @@ export default function PortalDashboardPage() {
 
     const tabs = [
         { id: 'dashboard', label: 'Overview' },
-        { id: 'profile', label: 'Business Dossier' },
+        { id: 'profile', label: 'Business Profile' },
         { id: 'inbox', label: 'Notifications', count: unreadMessages }
     ];
 
