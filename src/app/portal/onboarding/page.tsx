@@ -68,13 +68,13 @@ export default function OnboardingPage() {
 
             // Redirect to dashboard
             router.push('/portal/dashboard');
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error saving wizard data:", error);
-            // Handle error (maybe show toast)
+            alert(`Failed to save profile: ${error.message}`);
+            setIsSaving(false);
         } finally {
-            // Keep isSaving true if we're redirecting to prevent UI flash
-            // Only set to false on error
-            // Actually, we should probably just let the redirect happen
+            // If successful, we redirect, so no need to set isSaving(false)
+            // If failed, we already set it in catch
         }
     };
 
