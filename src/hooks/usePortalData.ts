@@ -84,12 +84,30 @@ export function usePortalData() {
                         if (savedData) {
                             try {
                                 const parsed = JSON.parse(savedData);
-                                console.log('[usePortalData] Found wizard data:', parsed);
+                                console.log('[usePortalData] Found wizard data in session:', parsed);
+
+                                // Robust parsing for revenue
+                                let revenue = 50000;
+                                if (parsed.monthlyVolume) {
+                                    // Handle "$50,000", "50000", "50k", etc.
+                                    const clean = String(parsed.monthlyVolume).replace(/[^0-9]/g, '');
+                                    const val = parseInt(clean);
+                                    if (!isNaN(val) && val > 0) {
+                                        revenue = val;
+                                    }
+                                } else if (parsed.monthlyRevenue) {
+                                    const val = parseInt(String(parsed.monthlyRevenue));
+                                    if (!isNaN(val) && val > 0) {
+                                        revenue = val;
+                                    }
+                                }
+                                console.log('[usePortalData] Parsed revenue:', revenue);
+
                                 initialData = generateInitialApplication(user.email || '', {
                                     businessName: parsed.legalName || parsed.businessName || 'Your Business',
                                     industry: parsed.industry || 'Retail',
-                                    monthlyRevenue: parseInt(parsed.monthlyVolume?.replace(/[^0-9]/g, '') || parsed.monthlyRevenue) || 50000,
-                                    yearsInBusiness: parseInt(parsed.yearsInBusiness) || 2,
+                                    monthlyRevenue: revenue,
+                                    yearsInBusiness: parseInt(String(parsed.yearsInBusiness)) || 2,
                                     email: parsed.email || user.email || '',
                                     phone: parsed.phone || '',
                                     ownerName: parsed.ownerName || ''
@@ -97,6 +115,8 @@ export function usePortalData() {
                             } catch (e) {
                                 console.error("[usePortalData] Failed to parse wizard data", e);
                             }
+                        } else {
+                            console.warn('[usePortalData] No wizard data found in session storage');
                         }
                     }
 
