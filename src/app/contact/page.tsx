@@ -216,8 +216,8 @@ export default function ContactPage() {
                                 <div className="bg-white rounded-2xl p-6 border border-gray-200">
                                     <h3 className="font-semibold text-black mb-4 font-poppins">Quick links</h3>
                                     <div className="space-y-3">
-                                        <a href="/get-started" className="block text-[#FF4306] hover:underline">
-                                            Get started →
+                                        <a href="/portal/signup" className="block text-[#FF4306] hover:underline">
+                                            Get qualified →
                                         </a>
                                         <a href="/payments" className="block text-[#FF4306] hover:underline">
                                             Payment solutions →

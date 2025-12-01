@@ -42,10 +42,10 @@ export default function GetStartedSection() {
           </div>
 
           <div className="mt-8 flex justify-center">
-            <Link href="/get-started">
+            <Link href="/portal/signup">
               <button className="btn-primary">
                 <span className="dot" />
-                <span>Get Started</span>
+                <span>Get qualified</span>
               </button>
             </Link>
           </div>

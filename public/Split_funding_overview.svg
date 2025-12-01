@@ -1,320 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" width="1400" height="760" role="img" aria-label="Split Funding — Card and Relationship Loop (brand)">
-  <defs>
-    <style>
-      /* ===== Brand tokens ===== */
-      :root {
-        --brand-dark: #141413;
-        --brand-light: #faf9f5;
-        --brand-mid: #b0aea5;
-        --brand-lightGray: #e8e6dc;
-        --brand-orange: #d97757;
-        --brand-blue: #6a9bcc;
-        --brand-green: #788c5d;
-
-        --bg: transparent;
-        --ink: var(--brand-light);
-        --muted: var(--brand-mid);
-        --line: var(--brand-light);
-        --surface: rgba(255,255,255,0.02);
-        --accent: var(--brand-orange);
-      }
-      @media (prefers-color-scheme: light) {
-        :root {
-          --ink: var(--brand-dark);
-          --muted: #6f6d65;
-          --line: var(--brand-dark);
-          --surface: rgba(0,0,0,0.03);
-          --accent: var(--brand-orange);
-        }
-      }
-
-      /* ===== Typography ===== */
-      .h6 { font: 600 18px "Poppins", "Inter", Arial, sans-serif; fill: var(--ink); letter-spacing: .3px; }
-      .h1 { font: 600 66px "Poppins", "Inter", Arial, sans-serif; fill: var(--ink); letter-spacing: .2px; }
-      .caption { font: 16px "Lora", Georgia, serif; fill: var(--muted); }
-      .mono { font: 600 16px "Poppins", "Inter", Arial, sans-serif; fill: var(--ink); }
-      .small { font: 13px "Poppins", "Inter", Arial, sans-serif; fill: var(--muted); }
-      .label { font: 13px "Poppins", "Inter", Arial, sans-serif; fill: var(--ink); }
-
-      /* ===== Components ===== */
-      .layer { transition: transform 180ms cubic-bezier(.2,.8,.2,1); }
-      .cardFill { fill: var(--surface); stroke: var(--line); stroke-width: 2; }
-      .cardOutline { fill: none; stroke: var(--line); stroke-width: 2; }
-      .track { fill: var(--brand-lightGray); opacity: .22; }
-      .progress { fill: var(--accent); }
-      .handle { fill: var(--accent); }
-      .badge { fill: none; stroke: var(--line); stroke-width: 2; }
-      .chip { fill: none; stroke: var(--line); stroke-width: 2; }
-      .chipFill { fill: var(--surface); stroke: var(--line); stroke-width: 2; }
-      .activeFill { fill: var(--accent); stroke: var(--accent); }
-      .mutedLine { stroke: var(--line); stroke-opacity: .35; stroke-width: 1.5; fill: none; }
-      .loop { fill: none; stroke: var(--line); stroke-width: 2; }
-      .accentStroke { stroke: var(--accent); stroke-width: 3; }
-
-      /* Subtle drop shadow only (no gradients) */
-      .shadow { filter: drop-shadow(0 10px 16px rgba(0,0,0,.20)) drop-shadow(0 2px 4px rgba(0,0,0,.12)); }
-    </style>
-
-    <clipPath id="clipTop">
-      <rect x="80" y="120" rx="22" ry="22" width="760" height="500"/>
-    </clipPath>
-  </defs>
-
-  <!-- canvas -->
-  <rect x="0" y="0" width="1400" height="760" fill="var(--bg)"/>
-
-  <!-- ===== Left: Stacked funding card ===== -->
-  <g id="stack" class="shadow">
-    <g id="layer3" class="layer"><rect x="80" y="168" rx="22" ry="22" width="760" height="500" class="cardOutline" opacity=".45"/></g>
-    <g id="layer2" class="layer"><rect x="80" y="146" rx="22" ry="22" width="760" height="500" class="cardOutline" opacity=".65"/></g>
-    <g id="layer1" class="layer"><rect x="80" y="134" rx="22" ry="22" width="760" height="500" class="cardOutline" opacity=".85"/></g>
-
-    <g id="top" class="layer">
-      <rect x="80" y="120" rx="22" ry="22" width="760" height="500" class="cardFill"/>
-      <g clip-path="url(#clipTop)">
-        <text x="120" y="190" class="h6">Advance amount</text>
-        <text id="amt" x="120" y="260" class="h1">$10,000</text>
-        <text x="120" y="286" class="caption">Selected advance amount</text>
-
-        <!-- Amount slider -->
-        <g id="sliderAmt" transform="translate(120, 328)">
-          <rect x="0" y="0" width="560" height="18" rx="9" class="track"/>
-          <rect id="progAmt" x="0" y="0" width="280" height="18" rx="9" class="progress"/>
-          <g id="handleAmt" transform="translate(280, 9)"><circle r="10" fill="var(--bg)"/><circle r="12" class="handle"/></g>
-          <text x="0" y="42" class="small">$0</text>
-          <text x="560" y="42" text-anchor="end" class="small">$20,000</text>
-        </g>
-
-        <!-- Holdback slider -->
-        <text x="120" y="398" class="h6">Holdback percentage</text>
-        <g id="sliderPct" transform="translate(120, 420)">
-          <rect x="0" y="0" width="420" height="12" rx="6" class="track"/>
-          <rect id="progPct" x="0" y="0" width="210" height="12" rx="6" class="progress"/>
-          <g id="handlePct" transform="translate(210, 6)"><circle r="8" fill="var(--bg)"/><circle r="10" class="handle"/></g>
-          <text x="0" y="30" class="small">10%</text>
-          <text x="420" y="30" text-anchor="end" class="small">30%</text>
-          <text id="pctLabel" x="440" y="12" class="mono">20%</text>
-        </g>
-
-        <!-- Live daily example -->
-        <g id="example" transform="translate(120, 468)">
-          <rect x="0" y="0" rx="12" ry="12" width="560" height="110" class="cardOutline"/>
-          <text x="20" y="32" class="small">Daily sales</text>
-          <text id="salesVal" x="20" y="70" class="mono">$1,000</text>
-          <text x="230" y="32" class="small">Holdback</text>
-          <text id="holdVal" x="230" y="70" class="mono">20%</text>
-          <text x="430" y="32" class="small">Daily payment</text>
-          <text id="payVal" x="430" y="70" class="mono">$200</text>
-        </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="420" viewBox="0 0 820 420" role="img" aria-label="Relationship loop showing Review → Next Round as long as processing continues">
+  <title>Funding Relationship Loop</title>
+  <rect width="100%" height="100%" fill="#fff"/>
+  <g transform="translate(410,210)">
+    <circle r="140" fill="none" stroke="#141413" stroke-width="2"/>
+    <!-- micro ticks -->
+    <g stroke="#141413">
+      <g id="t">
+        <line y1="-150" y2="-140" stroke-width="1.5"/>
       </g>
+      <use href="#t" transform="rotate(15)"/>
+      <use href="#t" transform="rotate(30)"/>
+      <use href="#t" transform="rotate(45)"/>
+      <use href="#t" transform="rotate(60)"/>
+      <use href="#t" transform="rotate(75)"/>
+      <use href="#t" transform="rotate(90)"/>
+      <use href="#t" transform="rotate(105)"/>
+      <use href="#t" transform="rotate(120)"/>
+      <use href="#t" transform="rotate(135)"/>
+      <use href="#t" transform="rotate(150)"/>
+      <use href="#t" transform="rotate(165)"/>
+      <use href="#t" transform="rotate(180)"/>
+      <use href="#t" transform="rotate(195)"/>
+      <use href="#t" transform="rotate(210)"/>
+      <use href="#t" transform="rotate(225)"/>
+      <use href="#t" transform="rotate(240)"/>
+      <use href="#t" transform="rotate(255)"/>
+      <use href="#t" transform="rotate(270)"/>
+      <use href="#t" transform="rotate(285)"/>
+      <use href="#t" transform="rotate(300)"/>
+      <use href="#t" transform="rotate(315)"/>
+      <use href="#t" transform="rotate(330)"/>
+      <use href="#t" transform="rotate(345)"/>
     </g>
+    <!-- arrows -->
+    <path d="M 0 -140 a 140 140 0 1 1 -0.01 0" fill="none" stroke="#d97757" stroke-width="6" stroke-linecap="round"/>
+    <polygon points="0,-165 10,-145 -10,-145" fill="#d97757"/>
   </g>
-
-  <!-- ===== Right: Relationship loop with animated draw ===== -->
-  <g id="loopWrap" class="shadow">
-    <!-- Panel container -->
-    <rect x="900" y="120" rx="22" ry="22" width="380" height="500" class="cardFill"/>
-
-    <!-- Header and cadence chips -->
-    <text x="930" y="165" class="h6">Relationship loop</text>
-    <text x="930" y="188" class="small">Additional rounds as you process with us</text>
-
-    <g id="cadence" transform="translate(930, 208)">
-      <g id="chipBi" cursor="pointer">
-        <rect x="0" y="0" rx="14" ry="14" width="110" height="30" class="chipFill"/>
-        <text x="14" y="20" class="label">Bi-weekly</text>
-      </g>
-      <g id="chipMo" transform="translate(126,0)" cursor="pointer">
-        <rect x="0" y="0" rx="14" ry="14" width="110" height="30" class="chip"/>
-        <text x="18" y="20" class="label">Monthly</text>
-      </g>
-      <text id="cadenceNote" x="250" y="20" class="small">Bi-weekly reviews</text>
-    </g>
-
-    <!-- Loop drawing area -->
-    <g id="loopGroup" transform="translate(920, 260)">
-      <!-- Base infinity loop path -->
-      <path id="loopPath" class="loop" d="M40,90 C40,36 106,0 190,0 C274,0 340,36 340,90 C340,144 274,180 190,180 C106,180 40,144 40,90 Z
-                                          M340,90 C340,36 406,0 490,0 C574,0 640,36 640,90 C640,144 574,180 490,180 C406,180 340,144 340,90 Z"/>
-      <!-- Accent arc (animated on load, also updated by cadence) -->
-      <path id="accentArc" class="accentStroke" d="M40,90 C40,36 106,0 190,0" stroke-linecap="round"/>
-
-      <!-- Nodes -->
-      <g class="node" transform="translate(190, -6)">
-        <rect x="-64" y="-30" rx="10" ry="10" width="128" height="60" class="cardFill"/>
-        <text class="label" text-anchor="middle" y="-4">Onboard</text>
-        <text class="small" text-anchor="middle" y="16">Merchant account ~1 day</text>
-      </g>
-      <g class="node" transform="translate(490, -6)">
-        <rect x="-64" y="-30" rx="10" ry="10" width="128" height="60" class="cardFill"/>
-        <text class="label" text-anchor="middle" y="-4">Process</text>
-        <text class="small" text-anchor="middle" y="16">Virtual or POS 0–2 days</text>
-      </g>
-      <g class="node" transform="translate(640, 90)">
-        <rect x="-64" y="-30" rx="10" ry="10" width="128" height="60" class="cardFill"/>
-        <text class="label" text-anchor="middle" y="-4">Deploy</text>
-        <text class="small" text-anchor="middle" y="16">Funds released</text>
-      </g>
-      <g class="node" transform="translate(490, 186)">
-        <rect x="-84" y="-36" rx="10" ry="10" width="168" height="72" class="cardFill"/>
-        <text class="label" text-anchor="middle" y="-6">Repay via % of sales</text>
-        <text class="small" text-anchor="middle" y="16">No sales = no payment</text>
-      </g>
-      <g class="node" transform="translate(190, 186)">
-        <rect x="-64" y="-30" rx="10" ry="10" width="128" height="60" class="cardFill"/>
-        <text class="label" text-anchor="middle" y="-4">Review</text>
-        <text class="small" text-anchor="middle" y="16">Revenue and rhythm</text>
-      </g>
-      <g class="node" transform="translate(40, 90)">
-        <rect x="-64" y="-30" rx="10" ry="10" width="128" height="60" class="cardFill"/>
-        <text class="label" text-anchor="middle" y="-4">Next round</text>
-        <text id="cadenceLabel" class="small" text-anchor="middle" y="16">Bi-weekly cadence</text>
-      </g>
-    </g>
+  <g font-family="Poppins, Arial, sans-serif" fill="#141413" font-size="22" font-weight="600">
+    <text x="50" y="54">We build long-term funding relationships, not one-offs.</text>
   </g>
-
-  <script><![CDATA[
-    (function(){
-      const svg = document.documentElement;
-
-      /* ===== Fan-out for the funding card ===== */
-      const top = document.getElementById('top');
-      const layers = ['layer1','layer2','layer3'].map(id => document.getElementById(id));
-      const bounds = { x: 80, y: 120, w: 760, h: 500 };
-      function fan(dx, dy) {
-        const fx = Math.max(-1, Math.min(1, dx));
-        const fy = Math.max(-1, Math.min(1, dy));
-        const spread = 14, tilt = 1.8;
-        layers.forEach((g, i) => {
-          const m = i+1;
-          g.setAttribute('transform', 'translate('+(fx*spread*m*0.28)+','+(fy*spread*m*0.20)+')');
-        });
-        top.setAttribute('transform', 'translate('+(fx*spread)+','+(fy*spread)+') rotate('+(fx*tilt)+')');
-      }
-      function onMove(e){
-        const pt = svg.createSVGPoint();
-        if (e.touches && e.touches[0]) { pt.x = e.touches[0].clientX; pt.y = e.touches[0].clientY; }
-        else { pt.x = e.clientX; pt.y = e.clientY; }
-        const rect = svg.getBoundingClientRect();
-        const cx = bounds.x + bounds.w/2;
-        const cy = bounds.y + bounds.h/2;
-        const dx = (pt.x - rect.left - cx) / (bounds.w/2);
-        const dy = (pt.y - rect.top  - cy) / (bounds.h/2);
-        fan(dx, dy);
-      }
-      function onLeave(){ fan(0,0); }
-      svg.addEventListener('pointermove', onMove);
-      svg.addEventListener('pointerleave', onLeave);
-      svg.addEventListener('touchmove', onMove, {passive: true});
-      svg.addEventListener('touchend', onLeave);
-
-      /* ===== Sliders ===== */
-      const amt = document.getElementById('amt');
-      const sliderAmt = document.getElementById('sliderAmt');
-      const handleAmt = document.getElementById('handleAmt');
-      const progAmt = document.getElementById('progAmt');
-      const trackWA = 560, minA = 0, maxA = 20000;
-
-      const pctLabel = document.getElementById('pctLabel');
-      const sliderPct = document.getElementById('sliderPct');
-      const handlePct = document.getElementById('handlePct');
-      const progPct = document.getElementById('progPct');
-      const trackWP = 420, minP = 10, maxP = 30;
-
-      const salesVal = document.getElementById('salesVal');
-      const holdVal = document.getElementById('holdVal');
-      const payVal = document.getElementById('payVal');
-      let sales = 1000;
-
-      function fmtMoney(n){ const s = Math.round(n).toString(); return '$' + s.replace(/\\B(?=(\\d{3})+(?!\\d))/g, ','); }
-      function fmtPct(n){ return Math.round(n) + '%'; }
-
-      function localX(target, evt) {
-        const pt = svg.createSVGPoint();
-        if (evt.touches && evt.touches[0]) { pt.x = evt.touches[0].clientX; pt.y = evt.touches[0].clientY; }
-        else { pt.x = evt.clientX; pt.y = evt.clientY; }
-        const ctm = target.getScreenCTM().inverse();
-        const loc = pt.matrixTransform(ctm);
-        return loc.x;
-      }
-
-      function setAmtFromX(x){
-        const clamped = Math.max(0, Math.min(trackWA, x));
-        const value = minA + (clamped/trackWA) * (maxA - minA);
-        progAmt.setAttribute('width', clamped);
-        handleAmt.setAttribute('transform', 'translate('+clamped+', 9)');
-        amt.textContent = fmtMoney(value);
-      }
-      function setPctFromX(x){
-        const clamped = Math.max(0, Math.min(trackWP, x));
-        const value = minP + (clamped/trackWP) * (maxP - minP);
-        progPct.setAttribute('width', clamped);
-        handlePct.setAttribute('transform', 'translate('+clamped+', 6)');
-        pctLabel.textContent = fmtPct(value);
-        const payment = sales * (value/100);
-        salesVal.textContent = fmtMoney(sales);
-        holdVal.textContent = fmtPct(value);
-        payVal.textContent = fmtMoney(payment);
-      }
-
-      setAmtFromX(trackWA*0.5);
-      setPctFromX(trackWP*0.5);
-
-      let draggingA = false, draggingP = false;
-      handleAmt.addEventListener('pointerdown', (e)=>{ draggingA = true; handleAmt.setPointerCapture(e.pointerId); e.preventDefault(); });
-      handlePct.addEventListener('pointerdown', (e)=>{ draggingP = true; handlePct.setPointerCapture(e.pointerId); e.preventDefault(); });
-      svg.addEventListener('pointerup', ()=>{ draggingA = false; draggingP = false; });
-      svg.addEventListener('pointermove', (e)=>{
-        if (draggingA) setAmtFromX(localX(sliderAmt, e));
-        if (draggingP) setPctFromX(localX(sliderPct, e));
-      });
-      sliderAmt.addEventListener('pointerdown', (e)=>{ setAmtFromX(localX(sliderAmt, e)); });
-      sliderPct.addEventListener('pointerdown', (e)=>{ setPctFromX(localX(sliderPct, e)); });
-
-      /* ===== Relationship loop animation + cadence ===== */
-      const accentArc = document.getElementById('accentArc');
-      const loopPath = document.getElementById('loopPath');
-      const chipBi = document.getElementById('chipBi');
-      const chipMo = document.getElementById('chipMo');
-      const cadenceNote = document.getElementById('cadenceNote');
-      const cadenceLabel = document.getElementById('cadenceLabel');
-
-      // Draw-on animation for the main loop path and accent arc
-      function animatePathDraw(path, duration){
-        const len = path.getTotalLength();
-        path.style.transition = 'none';
-        path.style.strokeDasharray = len + ' ' + len;
-        path.style.strokeDashoffset = len;
-        // force reflow
-        path.getBoundingClientRect();
-        path.style.transition = 'stroke-dashoffset '+duration+'ms ease';
-        path.style.strokeDashoffset = '0';
-      }
-      animatePathDraw(loopPath, 1400);
-      animatePathDraw(accentArc, 900);
-
-      function setActive(which){
-        // Toggle chip fills
-        chipBi.querySelector('rect').setAttribute('class', which==='bi' ? 'chipFill activeFill' : 'chipFill');
-        chipMo.querySelector('rect').setAttribute('class', which==='mo' ? 'chipFill activeFill' : 'chip');
-
-        if(which==='bi'){
-          cadenceNote.textContent = 'Bi-weekly reviews';
-          cadenceLabel.textContent = 'Bi-weekly cadence';
-          accentArc.setAttribute('d','M40,90 C40,36 106,0 190,0');
-        } else {
-          cadenceNote.textContent = 'Monthly reviews';
-          cadenceLabel.textContent = 'Monthly cadence';
-          accentArc.setAttribute('d','M40,90 C40,36 106,0 190,0 C274,0 340,36 340,90');
-        }
-        // animate arc draw each time
-        animatePathDraw(accentArc, 700);
-      }
-      setActive('bi');
-
-      chipBi.addEventListener('click', ()=> setActive('bi'));
-      chipMo.addEventListener('click', ()=> setActive('mo'));
-    })();
-  ]]></script>
+  <g font-family="Lora, Georgia, serif" fill="#141413" font-size="16">
+    <text x="40" y="340">Review</text>
+    <text x="720" y="340" text-anchor="end">Next Round</text>
+  </g>
 </svg>

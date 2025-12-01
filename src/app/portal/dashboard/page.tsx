@@ -1,0 +1,87 @@
+"use client";
+
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
+import { DynamicIslandNav } from "@/components/dynamic-island-nav";
+import PortalTabs from "@/components/portal/PortalTabs";
+import DashboardView from "@/components/portal/DashboardView";
+import BusinessProfileView from "@/components/portal/BusinessProfileView";
+import InboxView from "@/components/portal/InboxView";
+import { usePortalData } from "@/hooks/usePortalData";
+import { AnimatePresence, motion } from "framer-motion";
+
+export default function PortalDashboardPage() {
+    const [activeSection, setActiveSection] = useState<'dashboard' | 'profile' | 'inbox'>('dashboard');
+    const {
+        applicationStatus,
+        loading,
+        addDocument,
+        removeDocument,
+        updateVerification,
+        markMessageAsRead
+    } = usePortalData();
+
+    if (loading || !applicationStatus) {
+        return (
+            <div className="min-h-screen bg-[#F6F5F4] flex items-center justify-center">
+                <Loader2 className="w-8 h-8 animate-spin text-black/20" />
+            </div>
+        );
+    }
+
+    const unreadMessages = applicationStatus.messages.filter(m => !m.read).length;
+
+    const tabs = [
+        { id: 'dashboard', label: 'Overview' },
+        { id: 'profile', label: 'Business Dossier' },
+        { id: 'inbox', label: 'Notifications', count: unreadMessages }
+    ];
+
+    return (
+        <main className="min-h-screen bg-[#F6F5F4] text-brand-black font-poppins selection:bg-black/10 selection:text-black">
+            <DynamicIslandNav />
+
+            <div className="pt-32 px-6 md:px-10 lg:px-16 max-w-7xl mx-auto">
+                {/* Navigation - Floating & Minimal */}
+                <div className="mb-16 flex justify-center">
+                    <PortalTabs
+                        tabs={tabs}
+                        activeTab={activeSection}
+                        onChange={(id) => setActiveSection(id as any)}
+                    />
+                </div>
+
+                {/* Content Area */}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeSection}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.98 }}
+                        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    >
+                        {activeSection === 'dashboard' && (
+                            <DashboardView applicationStatus={applicationStatus} />
+                        )}
+
+                        {activeSection === 'profile' && (
+                            <BusinessProfileView
+                                applicationStatus={applicationStatus}
+                                onDocumentUpload={addDocument}
+                                onDocumentRemove={removeDocument}
+                                onVerificationSubmit={updateVerification}
+                            />
+                        )}
+
+                        {activeSection === 'inbox' && (
+                            <InboxView
+                                messages={applicationStatus.messages}
+                                onMarkAsRead={markMessageAsRead}
+                            />
+                        )}
+                    </motion.div>
+                </AnimatePresence>
+            </div>
+        </main>
+    );
+}

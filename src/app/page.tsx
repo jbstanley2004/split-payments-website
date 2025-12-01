@@ -86,9 +86,9 @@ export default function HomePage() {
                   variants={fadeInUp}
                   className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto"
                 >
-                  <Link href="/get-started">
+                  <Link href="/portal/signup">
                     <PrimaryButton variant="outline-orange">
-                      Get Started
+                      Get qualified
                     </PrimaryButton>
                   </Link>
                   <Link href="/contact">
@@ -276,9 +276,9 @@ export default function HomePage() {
                 Explore what's possible with Split.
               </p>
               <div className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto">
-                <Link href="/get-started">
+                <Link href="/portal/signup">
                   <PrimaryButton variant="outline-orange">
-                    Get started
+                    Get qualified
                   </PrimaryButton>
                 </Link>
                 <Link href="/contact">

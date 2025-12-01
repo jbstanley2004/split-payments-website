@@ -5,14 +5,17 @@ import GlobalStyles from "@/styles/GlobalStyles";
 import { theme } from "@/theme";
 import type { ReactNode } from "react";
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
+import { AuthProvider } from "@/lib/auth-context";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <SystemThemeProvider>
-      <StyledThemeProvider theme={theme}>
-        <GlobalStyles />
-        {children}
-      </StyledThemeProvider>
+      <AuthProvider>
+        <StyledThemeProvider theme={theme}>
+          <GlobalStyles />
+          {children}
+        </StyledThemeProvider>
+      </AuthProvider>
     </SystemThemeProvider>
   );
 }

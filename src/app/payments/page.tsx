@@ -227,12 +227,12 @@ export default function PaymentsPage() {
 
 
               <div className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto">
-                <Link href="/get-started">
+                <Link href="/portal/signup">
                   <PrimaryButton
                     variant="outline-orange"
                     className="shadow-none hover:shadow-none hover:scale-100 active:scale-100"
                   >
-                    Get started
+                    Get qualified
                   </PrimaryButton>
                 </Link>
                 <Link href="/contact">
@@ -446,12 +446,12 @@ export default function PaymentsPage() {
               together in one platform.
             </p>
             <div className="flex justify-center gap-4">
-              <Link href="/get-started">
+              <Link href="/portal/signup">
                 <PrimaryButton
                   variant="outline-orange"
                   className="shadow-none hover:shadow-none hover:scale-100 active:scale-100"
                 >
-                  Get started
+                  Get qualified
                 </PrimaryButton>
               </Link>
               <Link href="/contact">

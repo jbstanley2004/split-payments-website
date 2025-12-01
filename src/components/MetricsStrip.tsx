@@ -121,7 +121,7 @@ export const TICKER_PERIODS: Period[] = [
   }
 ];
 
-export default function MetricsStrip() {
+export default function MetricsStrip({ className, style }: { className?: string; style?: React.CSSProperties }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [statusIndex, setStatusIndex] = useState(0);
 
@@ -162,7 +162,7 @@ export default function MetricsStrip() {
   );
 
   return (
-    <div className="pointer-events-none absolute inset-x-0 bottom-4 md:bottom-6 px-4 sm:px-6 md:px-10 lg:px-16">
+    <div className={`pointer-events-none absolute inset-x-0 bottom-4 md:bottom-6 px-4 sm:px-6 md:px-10 lg:px-16 ${className ?? ""}`} style={style}>
       <div className="relative mx-auto max-w-6xl overflow-hidden">
         <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white/70 via-white/35 to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white/70 via-white/35 to-transparent" />

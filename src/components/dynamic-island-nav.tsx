@@ -20,6 +20,7 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
+  { label: "Portal", href: "/portal/signin" },
   // { label: "Partnerships", href: "/partnerships" },
 ] as const;
 
@@ -79,7 +80,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
           <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             {NAV_ITEMS.filter(item => item.label !== "AI Funding Desk").map((item) => {
               const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
-              
+
               return (
                 <Link
                   key={item.label}
@@ -109,21 +110,21 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
 
           {/* Right side: AI Funding Desk Badge */}
           <div className="hidden md:flex items-center justify-end min-w-[90px]">
-            <Link 
-              href="/funding-concierge" 
+            <Link
+              href="/funding-concierge"
               className={cn(
                 "flex items-center gap-2 transition-all duration-300 relative",
-                (pathname === '/funding-concierge' || pathname?.startsWith('/funding-concierge/')) 
-                  ? "opacity-100" 
+                (pathname === '/funding-concierge' || pathname?.startsWith('/funding-concierge/'))
+                  ? "opacity-100"
                   : "opacity-80 hover:opacity-100"
               )}
             >
-               {(pathname === '/funding-concierge' || pathname?.startsWith('/funding-concierge/')) && (
-                  <motion.span
-                    layoutId="activeNavDot"
-                    className="w-1.5 h-1.5 rounded-full bg-[#FF4306]"
-                  />
-                )}
+              {(pathname === '/funding-concierge' || pathname?.startsWith('/funding-concierge/')) && (
+                <motion.span
+                  layoutId="activeNavDot"
+                  className="w-1.5 h-1.5 rounded-full bg-[#FF4306]"
+                />
+              )}
               <AIBadge />
             </Link>
           </div>
@@ -176,7 +177,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                 <nav className="py-6 px-4">
                   {NAV_ITEMS.map((item, index) => {
                     const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
-                    
+
                     return (
                       <motion.div
                         key={item.label}
@@ -220,9 +221,9 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                   className="border-t border-gray-200/50 p-4"
                 >
                   <div className="flex flex-row gap-4 w-full">
-                    <Link href="/get-started" onClick={() => setIsMobileOpen(false)} className="flex-1">
+                    <Link href="/portal/signup" onClick={() => setIsMobileOpen(false)} className="flex-1">
                       <span className="inline-flex w-full items-center justify-center rounded-full border border-[#111111] bg-transparent px-6 py-3 font-poppins font-medium text-base tracking-tight text-[#111111] transition-all duration-300 hover:bg-[#111111]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#111111] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap text-center">
-                        Get Started
+                        Get qualified
                       </span>
                     </Link>
                     <Link href="/contact" onClick={() => setIsMobileOpen(false)} className="flex-1">
