@@ -1,3 +1,4 @@
+```javascript
 "use client";
 
 import { useState, useEffect } from "react";
@@ -8,6 +9,7 @@ import { BusinessProfileWizard, BusinessProfileData } from "./BusinessProfileWiz
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendEmailVerification, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 
 export default function SignInForm({ initialMode = 'signin' }: { initialMode?: 'signin' | 'signup' }) {
     const [email, setEmail] = useState("");
@@ -21,6 +23,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
     const [showPassword, setShowPassword] = useState(false);
     const [emailSent, setEmailSent] = useState(false);
     const [usePasswordless, setUsePasswordless] = useState(true); // Default to passwordless for seamless UX
+    const router = useRouter();
 
     const checkProfileAndRedirect = async (user: any) => {
         try {
@@ -28,14 +31,14 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                window.location.href = '/portal/dashboard';
+                router.push('/portal/dashboard');
             } else {
                 setShowWizard(true);
             }
         } catch (e) {
             console.error("Error checking profile:", e);
-            // Default to dashboard if error, let dashboard handle missing data
-            window.location.href = '/portal/dashboard';
+            // If there's an error, show the wizard to complete setup
+            setShowWizard(true);
         }
     };
 
@@ -160,7 +163,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
         setIsComplete(true);
         // Redirect to dashboard after 2 seconds
         setTimeout(() => {
-            window.location.href = '/portal/dashboard';
+            router.push('/portal/dashboard');
         }, 2000);
     };
 

@@ -51,39 +51,55 @@ export function usePortalData() {
         const appRef = doc(db, 'applications', user.uid);
 
         const unsubscribe = onSnapshot(appRef, async (docSnap) => {
-            if (docSnap.exists()) {
-                // Data exists, use it
-                const data = docSnap.data() as ApplicationStatus;
-                // Convert timestamps back to Dates if needed (Firestore returns Timestamps)
-                // For simplicity in this prototype, we assume the types match or are handled by the UI
-                setApplicationStatus(data);
-            } else {
-                // No data yet, create initial record
-                // Check session storage for wizard data
-                let initialData = generateInitialApplication(user.email || '');
+            try {
+                if (docSnap.exists()) {
+                    // Data exists, use it
+                    const data = docSnap.data() as ApplicationStatus;
+                    setApplicationStatus(data);
+                } else {
+                    // No data yet, create initial record
+                    // Check session storage for wizard data
+                    let initialData = generateInitialApplication(user.email || '');
 
-                if (typeof window !== 'undefined') {
-                    const savedData = sessionStorage.getItem('portal_business_data');
-                    if (savedData) {
-                        try {
-                            const parsed = JSON.parse(savedData);
-                            initialData = generateInitialApplication(user.email || '', {
-                                businessName: parsed.legalName || parsed.businessName || 'Your Business',
-                                industry: parsed.industry || 'Retail',
-                                monthlyRevenue: parseInt(parsed.monthlyVolume?.replace(/[^0-9]/g, '') || parsed.monthlyRevenue) || 50000,
-                                yearsInBusiness: parseInt(parsed.yearsInBusiness) || 2,
-                                email: parsed.email || user.email,
-                                phone: parsed.phone || ''
-                            });
-                        } catch (e) {
-                            console.error("Failed to parse wizard data", e);
+                    if (typeof window !== 'undefined') {
+                        const savedData = sessionStorage.getItem('portal_business_data');
+                        if (savedData) {
+                            try {
+                                const parsed = JSON.parse(savedData);
+                                initialData = generateInitialApplication(user.email || '', {
+                                    businessName: parsed.legalName || parsed.businessName || 'Your Business',
+                                    industry: parsed.industry || 'Retail',
+                                    monthlyRevenue: parseInt(parsed.monthlyVolume?.replace(/[^0-9]/g, '') || parsed.monthlyRevenue) || 50000,
+                                    yearsInBusiness: parseInt(parsed.yearsInBusiness) || 2,
+                                    email: parsed.email || user.email,
+                                    phone: parsed.phone || ''
+                                });
+                            } catch (e) {
+                                console.error("Failed to parse wizard data", e);
+                            }
                         }
                     }
-                }
 
-                await setDoc(appRef, initialData);
-                setApplicationStatus(initialData);
+                    try {
+                        await setDoc(appRef, initialData);
+                        setApplicationStatus(initialData);
+                    } catch (error: any) {
+                        console.error("Error creating application document:", error);
+                        // If we get a permission error, still show the initial data
+                        // This allows the user to see the UI even if Firestore writes fail
+                        if (error.code === 'permission-denied') {
+                            console.warn("Permission denied creating document. Security rules may need updating.");
+                        }
+                        setApplicationStatus(initialData);
+                    }
+                }
+                setLoading(false);
+            } catch (error) {
+                console.error("Error in onSnapshot:", error);
+                setLoading(false);
             }
+        }, (error) => {
+            console.error("Firestore snapshot error:", error);
             setLoading(false);
         });
 
