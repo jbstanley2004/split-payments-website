@@ -25,6 +25,12 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
     const router = useRouter();
 
     const checkProfileAndRedirect = async (user: any) => {
+        // Admin check
+        if (user.email === 'jacob@ccsplit.org') {
+            router.push('/admin');
+            return;
+        }
+
         try {
             const docRef = doc(db, 'applications', user.uid);
             const docSnap = await getDoc(docRef);
@@ -40,6 +46,20 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
             setShowWizard(true);
         }
     };
+
+    // Check for existing session on mount
+    useEffect(() => {
+        const unsubscribe = auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // User is signed in, check where they should go
+                // But only if we're not already in the middle of a flow (like email link)
+                if (!isSignInWithEmailLink(auth, window.location.href) && !showWizard && !isComplete) {
+                    await checkProfileAndRedirect(user);
+                }
+            }
+        });
+        return () => unsubscribe();
+    }, [showWizard, isComplete]);
 
     // Check if user is signing in with email link
     useEffect(() => {
