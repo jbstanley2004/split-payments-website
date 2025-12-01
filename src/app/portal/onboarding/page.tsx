@@ -25,7 +25,7 @@ export default function OnboardingPage() {
 
         try {
             // Parse revenue robustly
-            let revenue = 50000;
+            let revenue = 0;
             if (data.monthlyVolume) {
                 const clean = String(data.monthlyVolume).replace(/[^0-9]/g, '');
                 const val = parseInt(clean);
@@ -72,7 +72,9 @@ export default function OnboardingPage() {
             console.error("Error saving wizard data:", error);
             // Handle error (maybe show toast)
         } finally {
-            setIsSaving(false);
+            // Keep isSaving true if we're redirecting to prevent UI flash
+            // Only set to false on error
+            // Actually, we should probably just let the redirect happen
         }
     };
 
@@ -84,14 +86,7 @@ export default function OnboardingPage() {
         );
     }
 
-    if (isSaving) {
-        return (
-            <div className="min-h-screen bg-[#F6F5F4] flex items-center justify-center flex-col gap-4">
-                <Loader2 className="w-8 h-8 animate-spin text-black/20" />
-                <p className="text-gray-500 font-medium">Setting up your profile...</p>
-            </div>
-        );
-    }
+    // Note: We removed the full-screen loader for isSaving to show the button state instead
 
     return (
         <div className="min-h-screen bg-[#F6F5F4] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
@@ -100,7 +95,11 @@ export default function OnboardingPage() {
                     <h1 className="text-3xl font-bold text-gray-900 mb-2">Setup Your Business Profile</h1>
                     <p className="text-gray-500">Tell us a bit about your business to get started.</p>
                 </div>
-                <BusinessProfileWizard onSubmit={handleWizardSubmit} initialData={{ email: user.email || '' }} />
+                <BusinessProfileWizard
+                    onSubmit={handleWizardSubmit}
+                    initialData={{ email: user.email || '' }}
+                    isSubmitting={isSaving}
+                />
             </div>
         </div>
     );

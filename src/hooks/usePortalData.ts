@@ -8,7 +8,7 @@ import { doc, onSnapshot, setDoc, updateDoc, arrayUnion, arrayRemove, collection
 
 // Initial state generator
 function generateInitialApplication(userEmail: string, businessInfo?: BusinessInfo): ApplicationStatus {
-    const approvalAmount = (businessInfo?.monthlyRevenue || 50000) * 1;
+    const approvalAmount = (businessInfo?.monthlyRevenue || 0) * 1;
 
     return {
         stage: 'pending_documents',
@@ -28,7 +28,7 @@ function generateInitialApplication(userEmail: string, businessInfo?: BusinessIn
         businessInfo: businessInfo || {
             businessName: 'Your Business',
             industry: 'Retail',
-            monthlyRevenue: 50000,
+            monthlyRevenue: 0,
             yearsInBusiness: 2,
             email: userEmail,
             phone: '',
@@ -92,7 +92,7 @@ export function usePortalData() {
                                 console.log('[usePortalData] Found wizard data in session:', parsed);
 
                                 // Robust parsing for revenue
-                                let revenue = 50000;
+                                let revenue = 0;
                                 if (parsed.monthlyVolume) {
                                     // Handle "$50,000", "50000", "50k", etc.
                                     const clean = String(parsed.monthlyVolume).replace(/[^0-9]/g, '');
