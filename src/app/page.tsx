@@ -77,9 +77,9 @@ export default function HomePage() {
 
                 <motion.p
                   variants={fadeInUp}
-                  className="text-lg sm:text-xl md:text-2xl font-lora text-brand-black/70 mb-8 max-w-2xl mx-auto leading-relaxed"
+                  className="text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto leading-relaxed font-light"
                 >
-                  One secure platform where your business can process payments, access working capital, and grow with confidence.
+                  One secure platform where your business can process payments and access working capital.
                 </motion.p>
 
                 <motion.div
