@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { Mail, ArrowRight, Loader2, AlertCircle } from "lucide-react";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendEmailVerification, isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
@@ -49,9 +49,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
                 // User is signed in, check where they should go
-                if (!isSignInWithEmailLink(auth, window.location.href)) {
-                    await checkProfileAndRedirect(user);
-                }
+                await checkProfileAndRedirect(user);
             }
         });
         return () => unsubscribe();
@@ -75,8 +73,6 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
             let userCredential;
             if (isSignUp) {
                 userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                // Send verification email
-                await sendEmailVerification(userCredential.user);
 
                 // For new signups, go straight to onboarding
                 router.push('/portal/onboarding');
