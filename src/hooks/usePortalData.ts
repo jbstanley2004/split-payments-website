@@ -39,12 +39,15 @@ function generateInitialApplication(userEmail: string, businessInfo?: BusinessIn
 }
 
 export function usePortalData() {
-    const { user } = useAuth();
     const [applicationStatus, setApplicationStatus] = useState<ApplicationStatus | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isNewUser, setIsNewUser] = useState(false);
+    const { user, loading: authLoading } = useAuth();
 
     // 1. Subscribe to Firestore Data
     useEffect(() => {
+        if (authLoading) return;
+
         if (!user) {
             setLoading(false);
             return;
@@ -72,8 +75,10 @@ export function usePortalData() {
                     const data = docSnap.data() as ApplicationStatus;
                     console.log('[usePortalData] Loaded existing data');
                     setApplicationStatus(data);
+                    setIsNewUser(false);
                 } else {
                     console.log('[usePortalData] No document found, creating initial data...');
+                    setIsNewUser(true);
 
                     // No data yet, create initial record
                     let initialData = generateInitialApplication(user.email || '');
@@ -221,6 +226,7 @@ export function usePortalData() {
     return {
         applicationStatus,
         loading,
+        isNewUser,
         addDocument,
         removeDocument,
         updateVerification,

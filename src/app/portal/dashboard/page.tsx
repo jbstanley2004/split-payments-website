@@ -17,6 +17,7 @@ export default function PortalDashboardPage() {
     const {
         applicationStatus,
         loading,
+        isNewUser,
         addDocument,
         removeDocument,
         updateVerification,
@@ -28,8 +29,10 @@ export default function PortalDashboardPage() {
     useEffect(() => {
         if (!authLoading && !user) {
             router.push('/portal/signin');
+        } else if (!authLoading && user && isNewUser) {
+            router.push('/portal/onboarding');
         }
-    }, [user, authLoading, router]);
+    }, [user, authLoading, isNewUser, router]);
 
     if (loading || !applicationStatus) {
         return (

@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { Mail, ArrowRight, Loader2, CheckCircle2, AlertCircle } from "lucide-react";
-import { BusinessProfileWizard, BusinessProfileData } from "./BusinessProfileWizard";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendEmailVerification, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
+import { Mail, ArrowRight, Loader2, AlertCircle } from "lucide-react";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendEmailVerification, isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
 export default function SignInForm({ initialMode = 'signin' }: { initialMode?: 'signin' | 'signup' }) {
@@ -16,12 +15,9 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
     const [isSignUp, setIsSignUp] = useState(initialMode === 'signup');
     const [isLoading, setIsLoading] = useState(false);
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-    const [showWizard, setShowWizard] = useState(false);
-    const [isComplete, setIsComplete] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
     const [emailSent, setEmailSent] = useState(false);
-    const [usePasswordless, setUsePasswordless] = useState(true); // Default to passwordless for seamless UX
     const router = useRouter();
 
     const checkProfileAndRedirect = async (user: any) => {
@@ -38,12 +34,13 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
             if (docSnap.exists()) {
                 router.push('/portal/dashboard');
             } else {
-                setShowWizard(true);
+                // No profile found -> Go to onboarding
+                router.push('/portal/onboarding');
             }
         } catch (e) {
             console.error("Error checking profile:", e);
-            // If there's an error, show the wizard to complete setup
-            setShowWizard(true);
+            // Default to onboarding on error
+            router.push('/portal/onboarding');
         }
     };
 
@@ -52,36 +49,12 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
                 // User is signed in, check where they should go
-                // But only if we're not already in the middle of a flow (like email link)
-                if (!isSignInWithEmailLink(auth, window.location.href) && !showWizard && !isComplete) {
+                if (!isSignInWithEmailLink(auth, window.location.href)) {
                     await checkProfileAndRedirect(user);
                 }
             }
         });
         return () => unsubscribe();
-    }, [showWizard, isComplete]);
-
-    // Check if user is signing in with email link
-    useEffect(() => {
-        if (isSignInWithEmailLink(auth, window.location.href)) {
-            let email = window.localStorage.getItem('emailForSignIn');
-            if (!email) {
-                // User opened link on different device, ask for email
-                email = window.prompt('Please provide your email for confirmation');
-            }
-
-            if (email) {
-                signInWithEmailLink(auth, email, window.location.href)
-                    .then(async (result) => {
-                        window.localStorage.removeItem('emailForSignIn');
-                        await checkProfileAndRedirect(result.user);
-                    })
-                    .catch((error) => {
-                        console.error("Error signing in with email link:", error);
-                        setError("Invalid or expired sign-in link. Please try again.");
-                    });
-            }
-        }
     }, []);
 
     const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -90,49 +63,36 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
             setError("Please enter your email address.");
             return;
         }
+        if (!password) {
+            setError("Please enter your password.");
+            return;
+        }
 
         setIsLoading(true);
         setError(null);
 
         try {
-            if (usePasswordless) {
-                // Passwordless flow - send magic link
-                const actionCodeSettings = {
-                    url: window.location.origin + '/portal/signin',
-                    handleCodeInApp: true,
-                };
+            let userCredential;
+            if (isSignUp) {
+                userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                // Send verification email
+                await sendEmailVerification(userCredential.user);
 
-                await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-                // Save email to complete sign-in on same device
-                window.localStorage.setItem('emailForSignIn', email);
-                setEmailSent(true);
+                // For new signups, go straight to onboarding
+                router.push('/portal/onboarding');
             } else {
-                // Password-based flow (fallback)
-                if (!password) {
-                    setError("Please enter your password.");
-                    setIsLoading(false);
-                    return;
+                userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+                // Check if email is verified (optional, can be strict or loose)
+                if (!userCredential.user.emailVerified) {
+                    // For now, we allow unverified login but show a warning or handle it
+                    // If strict verification is needed:
+                    // setError("Please verify your email before signing in.");
+                    // await auth.signOut();
+                    // return;
                 }
 
-                let userCredential;
-                if (isSignUp) {
-                    userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    // Send verification email
-                    await sendEmailVerification(userCredential.user);
-                    setEmailSent(true);
-                    setError(null);
-                } else {
-                    userCredential = await signInWithEmailAndPassword(auth, email, password);
-
-                    // Check if email is verified
-                    if (!userCredential.user.emailVerified) {
-                        setError("Please verify your email before signing in. Check your inbox for the verification link.");
-                        await auth.signOut(); // Sign them out until verified
-                        return;
-                    }
-
-                    await checkProfileAndRedirect(userCredential.user);
-                }
+                await checkProfileAndRedirect(userCredential.user);
             }
         } catch (err: any) {
             console.error(err);
@@ -171,163 +131,15 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
         }
     };
 
-    const handleWizardSubmit = async (data: BusinessProfileData) => {
-        console.log("Business Profile Data:", data);
-        setIsLoading(true);
-
-        try {
-            const user = auth.currentUser;
-            if (!user) {
-                throw new Error("No authenticated user found");
-            }
-
-            // Parse revenue robustly
-            let revenue = 50000;
-            if (data.monthlyVolume) {
-                const clean = String(data.monthlyVolume).replace(/[^0-9]/g, '');
-                const val = parseInt(clean);
-                if (!isNaN(val) && val > 0) revenue = val;
-            }
-
-            const approvalAmount = revenue * 1;
-
-            // Create initial application data
-            const initialData = {
-                stage: 'pending_documents',
-                documents: [],
-                verificationInfo: { completed: false },
-                approvalAmount,
-                messages: [
-                    {
-                        id: 'welcome-msg',
-                        subject: 'Welcome to Split! 🎉',
-                        body: `Congratulations! You've been pre-approved for up to $${approvalAmount.toLocaleString()} in funding based on your estimated monthly sales. Complete the next steps to finalize your application.`,
-                        timestamp: new Date(),
-                        read: false,
-                        category: 'updates'
-                    }
-                ],
-                businessInfo: {
-                    businessName: data.legalName || 'Your Business',
-                    industry: 'Retail',
-                    monthlyRevenue: revenue,
-                    yearsInBusiness: 2,
-                    email: email || user.email || '',
-                    phone: data.phone || '',
-                    ownerName: data.ownerName || ''
-                },
-                progressPercentage: 20
-            };
-
-            // Save directly to Firestore
-            await setDoc(doc(db, 'applications', user.uid), initialData);
-            console.log("Wizard data saved to Firestore successfully");
-
-            setIsComplete(true);
-            // Redirect to dashboard after 2 seconds
-            setTimeout(() => {
-                router.push('/portal/dashboard');
-            }, 2000);
-        } catch (error) {
-            console.error("Error saving wizard data:", error);
-            setError("Failed to save profile. Please try again.");
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    // Email verification sent screen
-    if (emailSent) {
-        return (
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="w-full max-w-md mx-auto bg-white rounded-2xl p-12 shadow-xl border border-gray-100 text-center"
-            >
-                <div className="w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Mail className="w-10 h-10" />
-                </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">Check Your Email</h2>
-                <p className="text-gray-600 text-lg mb-2">
-                    We've sent a {usePasswordless ? "sign-in link" : "verification link"} to:
-                </p>
-                <p className="text-black font-semibold text-lg mb-6">{email}</p>
-                <p className="text-gray-500 text-sm mb-8">
-                    {usePasswordless
-                        ? "Click the link in your email to sign in instantly - no password needed!"
-                        : "Click the link in the email to verify your account, then come back here to sign in."}
-                </p>
-                <div className="space-y-3">
-                    <button
-                        onClick={() => {
-                            setEmailSent(false);
-                            setEmail("");
-                            setPassword("");
-                        }}
-                        className="w-full h-12 flex items-center justify-center gap-2 rounded-full font-medium text-base bg-black text-white hover:bg-gray-800 transition-all"
-                    >
-                        <span>Back to Sign In</span>
-                    </button>
-                    {usePasswordless && (
-                        <button
-                            onClick={() => {
-                                setUsePasswordless(false);
-                                setEmailSent(false);
-                            }}
-                            className="w-full h-12 flex items-center justify-center gap-2 rounded-full font-medium text-base bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 transition-all"
-                        >
-                            <span>Use Password Instead</span>
-                        </button>
-                    )}
-                </div>
-            </motion.div>
-        );
-    }
-
-    if (isComplete) {
-        return (
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="w-full max-w-md mx-auto bg-white rounded-2xl p-12 shadow-xl border border-gray-100 text-center"
-            >
-                <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle2 className="w-10 h-10" />
-                </div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4">All Set!</h2>
-                <p className="text-gray-500 text-lg mb-8">Your business profile has been created successfully. Redirecting you to the portal...</p>
-                <Loader2 className="w-6 h-6 animate-spin mx-auto text-gray-400" />
-            </motion.div>
-        );
-    }
-
-    if (showWizard) {
-        return (
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="w-full max-w-2xl mx-auto"
-            >
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Setup Your Business Profile</h1>
-                    <p className="text-gray-500">Tell us a bit about your business to get started.</p>
-                </div>
-                <BusinessProfileWizard onSubmit={handleWizardSubmit} initialData={{ email }} />
-            </motion.div>
-        );
-    }
-
     return (
         <div className="w-full max-w-md mx-auto">
             <div className="p-8">
                 <div className="text-center mb-12">
                     <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 tracking-tighter">
-                        {usePasswordless ? "Get Started." : (isSignUp ? "Get qualified." : "Welcome back.")}
+                        {isSignUp ? "Get qualified." : "Welcome back."}
                     </h1>
                     <p className="text-xl text-gray-500 max-w-sm mx-auto leading-relaxed">
-                        {usePasswordless
-                            ? "Enter your email to receive an instant sign-in link"
-                            : (isSignUp ? "Create your business profile to get qualified for funding and access your Split Portal" : "Sign in to access your portal")}
+                        {isSignUp ? "Create your business profile to get qualified for funding and access your Split Portal" : "Sign in to access your portal"}
                     </p>
                 </div>
 
@@ -370,36 +182,34 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    onFocus={() => !usePasswordless && setShowPassword(true)}
+                                    onFocus={() => setShowPassword(true)}
                                     placeholder="name@company.com"
                                     className="w-full h-14 pl-12 pr-6 bg-gray-50 border border-gray-200 rounded-full text-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
                                     required
                                 />
                             </div>
 
-                            {!usePasswordless && (
-                                <AnimatePresence>
-                                    {(showPassword || email) && (
-                                        <motion.div
-                                            initial={{ opacity: 0, height: 0 }}
-                                            animate={{ opacity: 1, height: "auto" }}
-                                            exit={{ opacity: 0, height: 0 }}
-                                            transition={{ duration: 0.3 }}
-                                            className="relative overflow-hidden"
-                                        >
-                                            <input
-                                                id="password"
-                                                type="password"
-                                                value={password}
-                                                onChange={(e) => setPassword(e.target.value)}
-                                                placeholder="Password"
-                                                className="w-full h-14 px-6 bg-gray-50 border border-gray-200 rounded-full text-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
-                                                required
-                                            />
-                                        </motion.div>
-                                    )}
-                                </AnimatePresence>
-                            )}
+                            <AnimatePresence>
+                                {(showPassword || email) && (
+                                    <motion.div
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: "auto" }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="relative overflow-hidden"
+                                    >
+                                        <input
+                                            id="password"
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Password"
+                                            className="w-full h-14 px-6 bg-gray-50 border border-gray-200 rounded-full text-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
+                                            required
+                                        />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
 
                         <button
@@ -411,7 +221,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                                 <Loader2 className="w-5 h-5 animate-spin" />
                             ) : (
                                 <>
-                                    <span>{usePasswordless ? "Send Sign-In Link" : (isSignUp ? "Get qualified" : "Sign In")}</span>
+                                    <span>{isSignUp ? "Get qualified" : "Sign In"}</span>
                                     <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
                                 </>
                             )}
@@ -419,35 +229,19 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                     </form>
                 </div>
 
-                {!usePasswordless && (
-                    <div className="mt-10 text-center">
-                        <p className="text-base text-gray-500">
-                            {isSignUp ? "Already have an account?" : "Ready to get started?"}{" "}
-                            <button
-                                onClick={() => {
-                                    setIsSignUp(!isSignUp);
-                                    setError(null);
-                                }}
-                                className="text-black font-semibold hover:underline transition-all"
-                            >
-                                {isSignUp ? "Sign In" : "Get qualified"}
-                            </button>
-                        </p>
-                    </div>
-                )}
-
-                {/* Toggle between passwordless and password mode */}
-                <div className="mt-6 text-center">
-                    <button
-                        onClick={() => {
-                            setUsePasswordless(!usePasswordless);
-                            setError(null);
-                            setShowPassword(false);
-                        }}
-                        className="text-sm text-gray-500 hover:text-black transition-all underline"
-                    >
-                        {usePasswordless ? "Use password instead" : "Use magic link instead"}
-                    </button>
+                <div className="mt-10 text-center">
+                    <p className="text-base text-gray-500">
+                        {isSignUp ? "Already have an account?" : "Ready to get started?"}{" "}
+                        <button
+                            onClick={() => {
+                                setIsSignUp(!isSignUp);
+                                setError(null);
+                            }}
+                            className="text-black font-semibold hover:underline transition-all"
+                        >
+                            {isSignUp ? "Sign In" : "Get qualified"}
+                        </button>
+                    </p>
                 </div>
             </div>
         </div>
