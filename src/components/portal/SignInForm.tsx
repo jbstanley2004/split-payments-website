@@ -7,7 +7,7 @@ import { Mail, ArrowRight, Loader2, CheckCircle2, AlertCircle } from "lucide-rea
 import { BusinessProfileWizard, BusinessProfileData } from "./BusinessProfileWizard";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, sendEmailVerification, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
 export default function SignInForm({ initialMode = 'signin' }: { initialMode?: 'signin' | 'signup' }) {
@@ -173,17 +173,67 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
 
     const handleWizardSubmit = async (data: BusinessProfileData) => {
         console.log("Business Profile Data:", data);
+        setIsLoading(true);
 
-        // Persist data for the portal to use
-        if (typeof window !== 'undefined') {
-            sessionStorage.setItem('portal_business_data', JSON.stringify(data));
+        try {
+            const user = auth.currentUser;
+            if (!user) {
+                throw new Error("No authenticated user found");
+            }
+
+            // Parse revenue robustly
+            let revenue = 50000;
+            if (data.monthlyVolume) {
+                const clean = String(data.monthlyVolume).replace(/[^0-9]/g, '');
+                const val = parseInt(clean);
+                if (!isNaN(val) && val > 0) revenue = val;
+            }
+
+            const approvalAmount = revenue * 1;
+
+            // Create initial application data
+            const initialData = {
+                stage: 'pending_documents',
+                documents: [],
+                verificationInfo: { completed: false },
+                approvalAmount,
+                messages: [
+                    {
+                        id: 'welcome-msg',
+                        subject: 'Welcome to Split! 🎉',
+                        body: `Congratulations! You've been pre-approved for up to $${approvalAmount.toLocaleString()} in funding based on your estimated monthly sales. Complete the next steps to finalize your application.`,
+                        timestamp: new Date(),
+                        read: false,
+                        category: 'updates'
+                    }
+                ],
+                businessInfo: {
+                    businessName: data.legalName || 'Your Business',
+                    industry: 'Retail',
+                    monthlyRevenue: revenue,
+                    yearsInBusiness: 2,
+                    email: email || user.email || '',
+                    phone: data.phone || '',
+                    ownerName: data.ownerName || ''
+                },
+                progressPercentage: 20
+            };
+
+            // Save directly to Firestore
+            await setDoc(doc(db, 'applications', user.uid), initialData);
+            console.log("Wizard data saved to Firestore successfully");
+
+            setIsComplete(true);
+            // Redirect to dashboard after 2 seconds
+            setTimeout(() => {
+                router.push('/portal/dashboard');
+            }, 2000);
+        } catch (error) {
+            console.error("Error saving wizard data:", error);
+            setError("Failed to save profile. Please try again.");
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsComplete(true);
-        // Redirect to dashboard after 2 seconds
-        setTimeout(() => {
-            router.push('/portal/dashboard');
-        }, 2000);
     };
 
     // Email verification sent screen
