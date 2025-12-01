@@ -35,6 +35,8 @@ export interface BusinessInfo {
     monthlyRevenue: number;
     yearsInBusiness: number;
     email: string;
+    ownerName?: string;
+    phone?: string;
 }
 
 export interface VerificationInfo {

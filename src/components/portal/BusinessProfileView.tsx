@@ -135,7 +135,7 @@ export default function BusinessProfileView({
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">DBA (Doing Business As)</label>
                                 <input
                                     type="text"
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="e.g. Acme Shop"
                                 />
                                 <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
@@ -143,9 +143,9 @@ export default function BusinessProfileView({
                             <div>
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Entity Type</label>
                                 <select
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all appearance-none"
+                                    className="w-full bg-[#F6F5F4] border-transparent text-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all appearance-none"
                                 >
-                                    <option value="">Select Type...</option>
+                                    <option value="" className="text-[#FF4306]">Select Type...</option>
                                     <option value="LLC">LLC</option>
                                     <option value="C-Corp">C Corporation</option>
                                     <option value="S-Corp">S Corporation</option>
@@ -171,7 +171,8 @@ export default function BusinessProfileView({
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Business Start Date</label>
                                 <input
                                     type="date"
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                                    placeholder="mm/dd/yyyy"
                                 />
                                 <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                             </div>
@@ -199,12 +200,12 @@ export default function BusinessProfileView({
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Physical Business Address</label>
                                 <input
                                     type="text"
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all mb-4"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all mb-4"
                                     placeholder="Street Address"
                                 />
                                 <input
                                     type="text"
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="City, State, Zip"
                                 />
                                 <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
@@ -213,6 +214,7 @@ export default function BusinessProfileView({
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Business Phone</label>
                                 <input
                                     type="tel"
+                                    defaultValue={applicationStatus.businessInfo.phone || ''}
                                     className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="(555) 555-5555"
                                 />
@@ -280,7 +282,7 @@ export default function BusinessProfileView({
                             <div className="col-span-2">
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Description of Product/Service</label>
                                 <textarea
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all resize-none h-32"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all resize-none h-32"
                                     placeholder="What do you sell or offer?"
                                 />
                                 <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
@@ -309,6 +311,7 @@ export default function BusinessProfileView({
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Owner Full Name</label>
                                 <input
                                     type="text"
+                                    defaultValue={applicationStatus.businessInfo.ownerName || ''}
                                     className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="John Doe"
                                 />
@@ -317,7 +320,7 @@ export default function BusinessProfileView({
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Title / Role</label>
                                 <input
                                     type="text"
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="CEO, Owner, etc."
                                 />
                                 <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
@@ -326,7 +329,8 @@ export default function BusinessProfileView({
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Cell Phone</label>
                                 <input
                                     type="tel"
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                                    defaultValue={applicationStatus.businessInfo.phone || ''}
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="(555) 555-5555"
                                 />
                                 <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
@@ -335,12 +339,12 @@ export default function BusinessProfileView({
                                 <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Owner's Home Address</label>
                                 <input
                                     type="text"
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all mb-4"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all mb-4"
                                     placeholder="Street Address"
                                 />
                                 <input
                                     type="text"
-                                    className="w-full bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300 rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="City, State, Zip"
                                 />
                                 <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>

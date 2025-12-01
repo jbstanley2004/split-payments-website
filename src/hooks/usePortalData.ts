@@ -30,7 +30,9 @@ function generateInitialApplication(userEmail: string, businessInfo?: BusinessIn
             industry: 'Retail',
             monthlyRevenue: 50000,
             yearsInBusiness: 2,
-            email: userEmail
+            email: userEmail,
+            phone: '',
+            ownerName: ''
         },
         progressPercentage: 20
     };
@@ -88,8 +90,9 @@ export function usePortalData() {
                                     industry: parsed.industry || 'Retail',
                                     monthlyRevenue: parseInt(parsed.monthlyVolume?.replace(/[^0-9]/g, '') || parsed.monthlyRevenue) || 50000,
                                     yearsInBusiness: parseInt(parsed.yearsInBusiness) || 2,
-                                    email: parsed.email || user.email,
-                                    phone: parsed.phone || ''
+                                    email: parsed.email || user.email || '',
+                                    phone: parsed.phone || '',
+                                    ownerName: parsed.ownerName || ''
                                 });
                             } catch (e) {
                                 console.error("[usePortalData] Failed to parse wizard data", e);
