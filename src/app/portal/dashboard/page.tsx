@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import PortalTabs from "@/components/portal/PortalTabs";
 import DashboardView from "@/components/portal/DashboardView";
@@ -20,6 +22,14 @@ export default function PortalDashboardPage() {
         updateVerification,
         markMessageAsRead
     } = usePortalData();
+    const router = useRouter();
+    const { user, loading: authLoading } = useAuth();
+
+    useEffect(() => {
+        if (!authLoading && !user) {
+            router.push('/portal/signin');
+        }
+    }, [user, authLoading, router]);
 
     if (loading || !applicationStatus) {
         return (

@@ -20,7 +20,7 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
-  { label: "Portal", href: "/portal/signin" },
+  { label: "Portal", href: "/portal/dashboard" },
   // { label: "Partnerships", href: "/partnerships" },
 ] as const;
 
