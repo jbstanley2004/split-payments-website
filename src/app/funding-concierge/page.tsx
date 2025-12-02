@@ -2,7 +2,9 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import { DynamicIslandNav } from '@/components/dynamic-island-nav';
+import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import QuoteCard from '../../components/funding-concierge/QuoteCard';
 import { AIAvatar } from '../../components/funding-concierge/AIAvatar';
 import { ApplicationWizard } from '../../components/funding-concierge/ApplicationWizard';
@@ -128,13 +130,13 @@ const FundingConciergePage: React.FC = () => {
 
             // CALL SERVER ACTION
             const response = await sendGeminiMessage(
-                promptToSend, 
+                promptToSend,
                 messages, // Send history
                 userMsg.attachment
             );
 
             if (response.error) {
-                 setMessages(prev => [...prev, {
+                setMessages(prev => [...prev, {
                     id: Date.now().toString(),
                     role: 'model',
                     text: response.error || "An error occurred."
@@ -152,9 +154,9 @@ const FundingConciergePage: React.FC = () => {
                             if (tool.result) {
                                 setWizardInitialData(tool.result);
                             }
-                            
+
                             const confirmationText = "Great, let's get your qualification started. Please review the details below.";
-                             setMessages(prev => [...prev, {
+                            setMessages(prev => [...prev, {
                                 id: Date.now().toString() + '_wiz',
                                 role: 'model',
                                 text: confirmationText,
@@ -166,7 +168,7 @@ const FundingConciergePage: React.FC = () => {
 
                 // If no wizard active, show the text response
                 if (!response.toolCalls?.some(t => t.name === 'start_application')) {
-                     setMessages(prev => [...prev, {
+                    setMessages(prev => [...prev, {
                         id: (Date.now() + 1).toString(),
                         role: 'model',
                         text: response.text,
@@ -284,13 +286,12 @@ const FundingConciergePage: React.FC = () => {
                                             ))}
                                         </div>
 
-                                        {/* Featured "Start Qualification" Button */}
-                                        <button
-                                            onClick={() => handleSendMessage("Start Qualification")}
-                                            className="px-12 py-4 rounded-full text-[16px] font-medium tracking-wide transition-all duration-500 border border-black bg-white text-black hover:shadow-[0_10px_30px_rgba(0,0,0,0.08)] hover:bg-gradient-to-b hover:from-white hover:to-gray-50 hover:-translate-y-1"
-                                        >
-                                            Start Qualification
-                                        </button>
+                                        {/* Featured "Get qualified" Button */}
+                                        <Link href="/portal/signup">
+                                            <PrimaryButton variant="outline-orange">
+                                                Get qualified
+                                            </PrimaryButton>
+                                        </Link>
                                     </div>
 
                                     {/* Powered by Badge displayed in the center for initial state */}

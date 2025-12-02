@@ -16,7 +16,7 @@ type DynamicIslandNavProps = {
 };
 
 const NAV_ITEMS = [
-  { label: "AI Funding Desk", href: "/funding-concierge" },
+  // { label: "AI helpdesk", href: "/funding-concierge" },
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
@@ -78,7 +78,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
 
           {/* Desktop: nav links */}
           <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-            {NAV_ITEMS.filter(item => item.label !== "AI Funding Desk").map((item) => {
+            {NAV_ITEMS.filter(item => item.label !== "AI helpdesk").map((item) => {
               const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
 
               return (
@@ -98,11 +98,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                       className="w-1.5 h-1.5 rounded-full bg-[#FF4306]"
                     />
                   )}
-                  {item.label === "AI Funding Desk" ? (
-                    <AIFundingDeskWordmark />
-                  ) : (
-                    <span>{item.label}</span>
-                  )}
+                  <span>{item.label}</span>
                 </Link>
               );
             })}
@@ -226,9 +222,9 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                         Get qualified
                       </span>
                     </Link>
-                    <Link href="/contact" onClick={() => setIsMobileOpen(false)} className="flex-1">
+                    <Link href="/funding-concierge" onClick={() => setIsMobileOpen(false)} className="flex-1">
                       <span className="inline-flex w-full items-center justify-center bg-black text-white px-6 py-3 rounded-full font-poppins font-medium text-base transition-all duration-300 hover:shadow-lg disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap text-center">
-                        Contact sales
+                        AI Help Desk
                       </span>
                     </Link>
                   </div>

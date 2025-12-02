@@ -90,4 +90,4 @@ We provide industry-leading, **non-proprietary** hardware solutions designed for
    - *You*: "No. It is a fixed funding fee. The total cost never changes, regardless of how long it takes to repay (subject to the 60-day minimum rule)."
 `;
 
-export const INITIAL_MESSAGE = "AI funding desk\n\nI am your intelligent financial partner. How can I assist you with capital, payments, or business growth today?";
+export const INITIAL_MESSAGE = "AI Help Desk\n\nI am your intelligent financial partner. How can I assist you with capital, payments, or business growth today?";

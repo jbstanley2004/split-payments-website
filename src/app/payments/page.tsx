@@ -235,9 +235,9 @@ export default function PaymentsPage() {
                     Get qualified
                   </PrimaryButton>
                 </Link>
-                <Link href="/contact">
+                <Link href="/funding-concierge">
                   <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
-                    Contact sales
+                    AI Help Desk
                   </PrimaryButton>
                 </Link>
               </div>
@@ -454,9 +454,9 @@ export default function PaymentsPage() {
                   Get qualified
                 </PrimaryButton>
               </Link>
-              <Link href="/contact">
+              <Link href="/funding-concierge">
                 <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
-                  Contact sales
+                  AI Help Desk
                 </PrimaryButton>
               </Link>
             </div>
