@@ -255,7 +255,9 @@ export default function HomePage() {
                 From mobile readers and full countertop POS systems to autonomous self-service stations.
               </p>
             </div>
-            <CloverSpotlight />
+            <div className="max-w-5xl mx-auto">
+              <CloverSpotlight />
+            </div>
           </section>
         </div>
 

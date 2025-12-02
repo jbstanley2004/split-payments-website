@@ -90,9 +90,9 @@ const CloverSpotlight = () => {
         <div ref={containerRef} className="w-full relative">
             <div className="group flex flex-col md:flex-row bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-300 hover:shadow-md">
                 {/* Left Column: Content */}
-                <div className="p-6 md:w-1/3 flex flex-col relative z-10 bg-white justify-between md:min-h-[400px]">
-                    <div className="flex items-start justify-between w-full">
-                        <div className="max-w-[80%]">
+                <div className="p-6 md:p-8 md:w-1/2 flex flex-col relative z-10 bg-white md:min-h-[300px]">
+                    <div className="flex items-start justify-between w-full mb-4">
+                        <div className="max-w-[85%]">
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     key={currentIndex}
@@ -101,17 +101,17 @@ const CloverSpotlight = () => {
                                     exit={{ opacity: 0, y: -10 }}
                                     transition={{ duration: 0.4 }}
                                 >
-                                    <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight mb-4">
+                                    <h3 className="text-[32px] font-bold text-brand-black font-poppins leading-tight mb-2">
                                         {currentHardware.model}
                                     </h3>
-                                    <p className="text-brand-black/70 leading-relaxed font-lora">
+                                    <p className="text-brand-black/70 leading-relaxed font-lora text-sm md:text-base">
                                         {currentHardware.description}
                                     </p>
                                 </motion.div>
                             </AnimatePresence>
                         </div>
 
-                        <Link href="/payments" className="flex-shrink-0">
+                        <Link href="/payments" className="flex-shrink-0 ml-4">
                             <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
                                 <ArrowRight className="w-5 h-5" />
                             </div>
@@ -122,7 +122,7 @@ const CloverSpotlight = () => {
                 {/* Right Column: Image */}
                 <motion.div
                     layout
-                    className="md:w-2/3 relative border-t md:border-t-0 md:border-l border-gray-100 overflow-hidden flex items-center justify-center"
+                    className="md:w-1/2 relative border-t md:border-t-0 md:border-l border-gray-100 overflow-hidden flex items-center justify-center"
                 >
                     <AnimatePresence mode="wait" custom={direction}>
                         <motion.div
@@ -135,12 +135,12 @@ const CloverSpotlight = () => {
                             transition={{ duration: 0.5, ease: "circOut" }}
                             className="relative w-full h-full flex items-center justify-center"
                         >
-                            <div className="relative w-full h-[350px] md:h-[400px]">
+                            <div className="relative w-full h-[300px] md:h-full p-0">
                                 <Image
                                     src={currentHardware.image}
                                     alt={`${currentHardware.make} ${currentHardware.model}`}
                                     fill
-                                    className="object-cover"
+                                    className="object-contain"
                                     priority
                                     unoptimized
                                 />
