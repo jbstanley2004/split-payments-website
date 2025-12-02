@@ -21,7 +21,7 @@ export default function AccountList({ onSelect }: AccountListProps) {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             const apps: ApplicationStatus[] = [];
             querySnapshot.forEach((doc) => {
-                apps.push(doc.data() as ApplicationStatus);
+                apps.push({ ...doc.data(), id: doc.id } as ApplicationStatus);
             });
             setAccounts(apps);
             setLoading(false);
@@ -71,7 +71,7 @@ export default function AccountList({ onSelect }: AccountListProps) {
                 )}
                 {filteredAccounts.map((account, index) => (
                     <motion.div
-                        key={account.businessInfo.email}
+                        key={account.id || account.businessInfo?.email || index}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.05 }}
@@ -80,16 +80,16 @@ export default function AccountList({ onSelect }: AccountListProps) {
                     >
                         <div className="flex items-center gap-6">
                             <div className="w-12 h-12 rounded-full bg-black text-white flex items-center justify-center font-bold font-poppins text-lg">
-                                {account.businessInfo.businessName.charAt(0)}
+                                {account.businessInfo?.businessName?.charAt(0) || '?'}
                             </div>
                             <div>
                                 <h3 className="text-lg font-bold text-black font-poppins mb-1">
-                                    {account.businessInfo.businessName}
+                                    {account.businessInfo?.businessName || 'Unknown Business'}
                                 </h3>
                                 <div className="flex items-center gap-3 text-sm text-black/50 font-lora">
-                                    <span>{account.businessInfo.email}</span>
+                                    <span>{account.businessInfo?.email || 'No email'}</span>
                                     <span className="w-1 h-1 rounded-full bg-black/20" />
-                                    <span>${account.businessInfo.monthlyRevenue.toLocaleString()}/mo</span>
+                                    <span>${(account.businessInfo?.monthlyRevenue || 0).toLocaleString()}/mo</span>
                                 </div>
                             </div>
                         </div>
@@ -97,10 +97,10 @@ export default function AccountList({ onSelect }: AccountListProps) {
                         <div className="flex items-center gap-8">
                             {/* Status Badge */}
                             <div className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider font-poppins ${account.stage === 'final_review' || account.stage === 'funded'
-                                    ? 'bg-green-50 text-green-600'
-                                    : account.stage === 'in_review'
-                                        ? 'bg-blue-50 text-blue-600'
-                                        : 'bg-orange-50 text-[#FF4306]'
+                                ? 'bg-green-50 text-green-600'
+                                : account.stage === 'in_review'
+                                    ? 'bg-blue-50 text-blue-600'
+                                    : 'bg-orange-50 text-[#FF4306]'
                                 }`}>
                                 {account.stage.replace('_', ' ')}
                             </div>

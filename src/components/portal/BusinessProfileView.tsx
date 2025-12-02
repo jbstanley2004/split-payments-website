@@ -187,6 +187,15 @@ export default function BusinessProfileView({
                                 />
                                 <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                             </div>
+                            <div>
+                                <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">EIN (Employer ID Number)</label>
+                                <input
+                                    type="text"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                                    placeholder="XX-XXXXXXX"
+                                />
+                                <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                            </div>
                         </div>
                     </div>
                 </motion.div>
@@ -360,6 +369,15 @@ export default function BusinessProfileView({
                                 />
                                 <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                             </div>
+                            <div>
+                                <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Social Security Number</label>
+                                <input
+                                    type="text"
+                                    className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                                    placeholder="XXX-XX-XXXX"
+                                />
+                                <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                            </div>
                         </div>
                         <div className="mt-8 flex justify-end">
                             <button className="px-8 py-3 bg-black text-white rounded-full font-bold text-base hover:bg-gray-800 transition-colors">
@@ -405,85 +423,7 @@ export default function BusinessProfileView({
                     </div>
                 </motion.div>
 
-                {/* Verification Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="space-y-6"
-                >
-                    <div className="flex items-center gap-3 mb-6 px-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-black/20" />
-                        <h3 className="text-sm font-bold text-black/40 uppercase tracking-widest font-poppins">
-                            Identity Verification
-                        </h3>
-                    </div>
 
-                    <div className="bg-white rounded-3xl border border-black/5 p-8 shadow-sm relative overflow-hidden">
-                        <div className="flex items-start gap-6 mb-8">
-                            <div className="w-12 h-12 rounded-2xl bg-black text-white flex items-center justify-center flex-shrink-0">
-                                <Shield className="w-6 h-6" />
-                            </div>
-                            <div>
-                                <h4 className="text-lg font-bold font-poppins mb-1">Secure Identity Check</h4>
-                                <p className="text-black/50 font-lora max-w-md leading-relaxed">
-                                    Your information is encrypted with bank-grade security (AES-256).
-                                </p>
-                            </div>
-                        </div>
-
-                        {!applicationStatus.verificationInfo.completed ? (
-                            <form
-                                onSubmit={(e) => {
-                                    e.preventDefault();
-                                    const formData = new FormData(e.currentTarget);
-                                    onVerificationSubmit(
-                                        formData.get('ein') as string,
-                                        formData.get('ssn') as string
-                                    );
-                                }}
-                                className="space-y-6"
-                            >
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-black/60 uppercase tracking-wider font-poppins">Business EIN</label>
-                                        <div className="relative">
-                                            <input
-                                                name="ein"
-                                                type="text"
-                                                placeholder="XX-XXXXXXX"
-                                                className="w-full px-5 py-4 rounded-xl bg-[#F6F5F4] border-transparent focus:bg-white focus:border-black/10 focus:ring-0 transition-all font-poppins text-base"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-bold text-black/60 uppercase tracking-wider font-poppins">Owner SSN</label>
-                                        <div className="relative">
-                                            <Lock className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-black/20" />
-                                            <input
-                                                name="ssn"
-                                                type="password"
-                                                placeholder="XXX-XX-XXXX"
-                                                className="w-full px-5 py-4 rounded-xl bg-[#F6F5F4] border-transparent focus:bg-white focus:border-black/10 focus:ring-0 transition-all font-poppins text-base"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <button
-                                    type="submit"
-                                    className="w-full bg-black text-white font-bold py-4 rounded-xl hover:bg-black/90 transition-colors font-poppins text-base mt-2"
-                                >
-                                    Verify Identity
-                                </button>
-                            </form>
-                        ) : (
-                            <div className="flex items-center gap-3 text-green-600 bg-green-50 px-6 py-4 rounded-2xl">
-                                <Check className="w-5 h-5" />
-                                <span className="font-bold font-poppins">Verification Complete</span>
-                            </div>
-                        )}
-                    </div>
-                </motion.div>
             </div>
         </div>
     );

@@ -56,7 +56,7 @@ export default function DashboardView({ applicationStatus }: DashboardViewProps)
                 className="text-center mb-16"
             >
                 <div className="flex items-center justify-center gap-2 mb-6">
-                    <div className="w-2 h-2 rounded-full bg-[#FF4306] animate-pulse" />
+                    <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                     <span className="text-sm font-medium text-black/40 uppercase tracking-widest font-poppins">
                         Capital Available
                     </span>
