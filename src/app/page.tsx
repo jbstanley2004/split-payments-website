@@ -68,10 +68,10 @@ export default function HomePage() {
                   variants={fadeInUp}
                   className="text-4xl md:text-6xl leading-tight tracking-tight text-brand-black mb-6 font-semibold"
                 >
-                  Payments and funding.
+                  Payments and funding,
                   <br />
                   <span className="text-brand-charcoal">
-                    Connected.
+                    connected.
                   </span>
                 </motion.h1>
 
