@@ -444,13 +444,13 @@ export default function BusinessProfileView({
         const isOpen = !collapsedSections[id];
 
         return (
-            <div className={`bg-white rounded-[28px] md:rounded-[40px] shadow-2xl border border-gray-100 transition-all duration-500 overflow-hidden ${isOpen ? 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]' : 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]'}`}>
+            <div className={`bg-white rounded-[40px] shadow-2xl border border-gray-100 transition-all duration-500 overflow-hidden ${isOpen ? 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]' : 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]'}`}>
                 {/* Header - always visible */}
                 <div
                     onClick={() => toggleSection(id)}
-                    className="p-3 pl-4 md:pl-6 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center sm:justify-between cursor-pointer group"
+                    className="p-2 pl-6 flex items-center justify-between cursor-pointer group"
                 >
-                    <div className="text-left py-1 md:py-2 space-y-1">
+                    <div className="text-left py-2 pr-4 flex-1 space-y-1">
                         <div className="flex items-center gap-2 mb-0.5">
                             {isComplete ? (
                                 <span className="text-[10px] font-bold uppercase tracking-wider text-green-600">
@@ -466,7 +466,7 @@ export default function BusinessProfileView({
                             {isComplete && (
                                 <div className="w-2 h-2 rounded-full bg-green-500" />
                             )}
-                            <h3 className="text-base md:text-xl font-bold text-black font-poppins leading-tight mb-1">
+                            <h3 className="text-xl font-bold text-black font-poppins leading-none mb-1">
                                 {isComplete ? baseTitle : `Complete ${baseTitle}`}
                             </h3>
                         </div>
@@ -477,7 +477,7 @@ export default function BusinessProfileView({
                         )}
                     </div>
 
-                    <div className="flex-shrink-0 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 shadow-md self-end sm:self-auto">
+                    <div className="flex-shrink-0 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 shadow-md">
                         {isOpen ? <ArrowUp className="w-6 h-6" /> : <ArrowDown className="w-6 h-6" />}
                     </div>
                 </div>
