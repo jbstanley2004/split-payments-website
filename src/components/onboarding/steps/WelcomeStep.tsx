@@ -1,18 +1,50 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { OnboardingLayout } from '../OnboardingLayout';
 import { FileUploadZone } from '../FileUploadZone';
 import { useOnboarding } from '@/contexts/onboarding-context';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { motion } from 'framer-motion';
+import { CheckCircle2 } from 'lucide-react';
 
 export function WelcomeStep() {
     const { data, updateData, nextStep } = useOnboarding();
+    const [isConfirmed, setIsConfirmed] = useState(false);
 
     const handleContinue = () => {
-        nextStep();
+        setIsConfirmed(true);
+        setTimeout(() => {
+            nextStep();
+        }, 2000);
     };
+
+    if (isConfirmed) {
+        return (
+            <div className="min-h-[60vh] flex flex-col items-center justify-center text-center space-y-6">
+                <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', duration: 0.6 }}
+                    className="w-24 h-24 rounded-full bg-green-100 flex items-center justify-center"
+                >
+                    <CheckCircle2 className="w-12 h-12 text-green-600" />
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                >
+                    <h2 className="text-3xl md:text-4xl font-poppins font-semibold text-[brand-black] mb-4">
+                        Section Complete!
+                    </h2>
+                    <p className="text-lg text-[brand-black/70] font-lora max-w-2xl">
+                        Your files have been uploaded. Moving to the next step...
+                    </p>
+                </motion.div>
+            </div>
+        );
+    }
 
     return (
         <OnboardingLayout
@@ -21,7 +53,6 @@ export function WelcomeStep() {
             showBack={false}
         >
             <div className="space-y-8">
-                {/* Privacy Message */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -89,7 +120,7 @@ export function WelcomeStep() {
                         className="px-6 py-3 text-base"
                         onClick={handleContinue}
                     >
-                        Continue
+                        Confirm
                     </PrimaryButton>
                 </motion.div>
             </div>

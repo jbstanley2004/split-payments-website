@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { Check, TrendingUp, ArrowRight, Activity, Lock } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useInViewport } from "@/hooks/useInViewport";
 
@@ -16,17 +16,14 @@ export default function QualificationAnimation() {
         let mounted = true;
         const runSequence = async () => {
             while (mounted && isInViewport) {
-                // 1. Sales Phase
                 setStage("sales");
                 await new Promise(r => setTimeout(r, 4500));
                 if (!mounted) break;
 
-                // 2. Offer Phase
                 setStage("offer");
                 await new Promise(r => setTimeout(r, 4000));
                 if (!mounted) break;
 
-                // 3. Funded Phase
                 setStage("funded");
                 await new Promise(r => setTimeout(r, 3500));
                 if (!mounted) break;
@@ -38,14 +35,14 @@ export default function QualificationAnimation() {
 
     return (
         <div ref={containerRef} className="w-full h-full bg-gray-50 flex flex-col font-sans text-black relative select-none">
-            {/* Header - Minimal */}
             <div className="h-12 flex items-center justify-between px-5 shrink-0 bg-gray-50 z-10">
                 <div className="flex items-center gap-3">
                     <div className="w-9 h-9 relative flex items-center justify-center">
                         <Image src="/new_logo.svg" alt="Split Logo" width={36} height={36} className="object-contain" />
                     </div>
                     <span className="font-poppins font-bold text-sm text-black tracking-tight mt-0.5">Merchant Portal</span>
-                </div>                <div className="flex items-center gap-2">
+                </div>
+                <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 rounded-full border border-gray-200">
                         <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                         <span className="text-[10px] font-bold text-black uppercase tracking-wide">Live</span>
@@ -53,14 +50,11 @@ export default function QualificationAnimation() {
                 </div>
             </div>
 
-            {/* Main Content Area */}
             <div className="flex-1 relative overflow-hidden">
                 <AnimatePresence mode="wait">
                     {stage === "sales" && <SalesView key="sales" />}
                     {(stage === "offer" || stage === "funded") && <OfferView key="offer" funded={stage === "funded"} />}
                 </AnimatePresence>
-
-                {/* Cursor Overlay */}
                 <Cursor stage={stage} />
             </div>
         </div>
@@ -68,19 +62,13 @@ export default function QualificationAnimation() {
 }
 
 function SalesView() {
-    // Generate varied bar heights for 90-day trend (approx 45 bars for visual density)
-    const bars = [
-        15, 18, 12, 20, 25, 22, 30, 28, 35, 32, 40, 38, 45, 42, 50,
-        48, 55, 52, 60, 58, 65, 62, 70, 68, 75, 72, 80, 78, 85, 82,
-        90, 88, 95, 92, 98, 95, 100, 98, 92, 95, 88, 92, 85, 90, 82
-    ];
+    const bars = [15, 18, 12, 20, 25, 22, 30, 28, 35, 32, 40, 38, 45, 42, 50, 48, 55, 52, 60, 58, 65, 62, 70, 68, 75, 72, 80, 78, 85, 82, 90, 88, 95, 92, 98, 95, 100, 98, 92, 95, 88, 92, 85, 90, 82];
 
     return (
         <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="absolute inset-0 flex flex-col p-5"
         >
-            {/* Metrics Row */}
             <div className="flex justify-between items-end mb-4">
                 <div>
                     <div className="text-[10px] font-bold text-black uppercase tracking-wider mb-1">30-Day Volume</div>
@@ -96,8 +84,6 @@ function SalesView() {
                     <div className="text-sm font-bold text-black font-poppins">+12.5%</div>
                 </div>
             </div>
-
-            {/* Chart Area */}
             <div className="flex-1 relative flex items-end gap-[1px] pb-2">
                 {bars.map((h, i) => (
                     <motion.div
@@ -106,14 +92,9 @@ function SalesView() {
                         animate={{ height: `${h}%`, opacity: 1 }}
                         transition={{ duration: 0.4, delay: i * 0.02, ease: "backOut" }}
                         className="flex-1 rounded-t-[1px]"
-                        style={{
-                            backgroundColor: '#14B8A6', // Vibrant Teal
-                            opacity: 0.8 + (h / 300)
-                        }}
+                        style={{ backgroundColor: '#14B8A6', opacity: 0.8 + (h / 300) }}
                     />
                 ))}
-
-                {/* Qualification Line */}
                 <motion.div
                     initial={{ scaleX: 0, opacity: 0 }}
                     animate={{ scaleX: 1, opacity: 1 }}
@@ -142,8 +123,6 @@ function OfferView({ funded }: { funded: boolean }) {
             className="absolute inset-0 bg-gray-50 p-4 flex items-center justify-center"
         >
             <div className="w-full max-w-[280px] bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden relative">
-
-                {/* Success Overlay */}
                 <AnimatePresence>
                     {funded && (
                         <motion.div
@@ -162,23 +141,23 @@ function OfferView({ funded }: { funded: boolean }) {
                     )}
                 </AnimatePresence>
 
-                {/* Offer Header */}
-                <div className="bg-[#4F46E5] p-5 text-center relative overflow-hidden">
+                <div className="p-8 text-center relative overflow-hidden">
                     <div className="relative z-10">
-                        <div className="text-[10px] font-bold text-white/80 uppercase tracking-widest mb-1">Available Now</div>
-                        <div className="text-4xl font-bold text-white tracking-tight font-poppins">$20,000</div>
+                        <div className="flex items-center justify-center gap-2 text-xs font-bold text-black/40 uppercase tracking-widest mb-4">
+                            <div className="w-2 h-2 rounded-full bg-emerald-400" />
+                            <span>Capital Available</span>
+                        </div>
+                        <div className="text-[60px] font-semibold text-brand-black tracking-tight font-poppins leading-tight">$100,000+</div>
                     </div>
                 </div>
 
-                {/* Offer Details */}
-                <div className="p-4 space-y-3">
+                <div className="p-4 pt-0 space-y-3">
                     <div className="flex justify-between items-center text-xs">
-                        <span className="text-black font-bold">Repayment</span>
+                        <span className="text-black/60 font-medium">Repayment</span>
                         <span className="font-bold text-black">12% / day</span>
                     </div>
-
-                    <button className="w-full mt-2 bg-black text-white text-xs font-bold py-3 rounded-lg shadow-md hover:bg-gray-900 flex items-center justify-center gap-1.5 transition-colors font-poppins">
-                        Accept Offer <ArrowRight className="w-3 h-3" />
+                    <button className="w-full mt-2 bg-black text-white text-sm font-bold py-3 rounded-lg shadow-md hover:bg-gray-900 flex items-center justify-center gap-2 transition-colors font-sans">
+                        Accept Offer <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                 </div>
             </div>
@@ -192,13 +171,13 @@ function Cursor({ stage }: { stage: string }) {
             className="absolute w-4 h-4 z-50 pointer-events-none drop-shadow-md"
             initial={{ x: "120%", y: "120%" }}
             animate={
-                stage === "sales" ? { x: "85%", y: "85%", opacity: 0 } : // Hide during sales
-                    stage === "offer" ? { x: "50%", y: "85%", opacity: 1 } : // Move to button
-                        { x: "50%", y: "85%", scale: [1, 0.9, 1], opacity: 1 } // Click
+                stage === "sales" ? { x: "85%", y: "85%", opacity: 0 } :
+                stage === "offer" ? { x: "50%", y: "85%", opacity: 1 } :
+                { x: "50%", y: "85%", scale: [1, 0.9, 1], opacity: 1 }
             }
             transition={
                 stage === "offer" ? { duration: 1, ease: "circOut" } :
-                    { duration: 0.2 }
+                { duration: 0.2 }
             }
         >
             <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

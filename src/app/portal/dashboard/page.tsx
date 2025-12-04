@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
@@ -101,8 +101,8 @@ export default function PortalDashboardPage() {
                         {activeSection === 'profile' && (
                             <BusinessProfileView
                                 applicationStatus={applicationStatus}
-                                onDocumentUpload={addDocument}
-                                onDocumentRemove={removeDocument}
+                                onDocumentUpload={addDocument} // Pass the addDocument function
+                                onDocumentRemove={removeDocument} // Pass the removeDocument function
                                 onVerificationSubmit={updateVerification}
                                 onUpdateProfile={updateBusinessProfile}
                                 targetSection={targetSection}
