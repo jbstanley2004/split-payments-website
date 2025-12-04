@@ -293,7 +293,7 @@ export default function BusinessProfileView({
             <div className="space-y-4">
                 <div
                     {...getRootProps()}
-                    className={`group relative bg-white rounded-3xl p-8 border transition-all duration-300 cursor-pointer overflow-hidden ${isUploaded
+                    className={`group relative bg-white rounded-3xl p-6 md:p-8 border transition-all duration-300 cursor-pointer overflow-hidden ${isUploaded
                         ? "border-green-100 shadow-sm"
                         : isDragActive
                             ? "border-[#FF4306] shadow-lg scale-[1.02]"
@@ -302,8 +302,8 @@ export default function BusinessProfileView({
                 >
                     <input {...getInputProps()} />
 
-                    <div className="flex items-start justify-between relative z-10">
-                        <div className="flex items-start gap-6">
+                    <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between relative z-10">
+                        <div className="flex items-start gap-4 md:gap-6">
                             <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${isUploaded ? "bg-green-50 text-green-600" : "bg-black/5 text-black/40 group-hover:bg-black/10 group-hover:text-black"
                                 }`}>
                                 {isUploaded ? <Check className="w-6 h-6" /> : <FileText className="w-6 h-6" />}
@@ -312,10 +312,10 @@ export default function BusinessProfileView({
                                 <h4 className={`text-lg font-bold font-poppins mb-1 ${isUploaded ? "text-black" : "text-black"}`}>
                                     {title}
                                 </h4 >
-                                <p className="text-black/50 font-lora max-w-sm leading-relaxed">
+                                <p className="text-black/50 font-lora leading-relaxed">
                                     {description}
                                 </p>
-                                <div className="mt-4 flex gap-3">
+                                <div className="mt-4 flex flex-wrap gap-3">
                                     <label
                                         htmlFor={`camera-${type}`}
                                         className="cursor-pointer px-4 py-2 bg-black text-white rounded-full text-xs font-bold font-poppins hover:bg-gray-800 transition-colors flex items-center gap-2"
@@ -341,7 +341,10 @@ export default function BusinessProfileView({
                             </div>
                         </div>
 
-                        <div className="flex items-center">
+                        <div className="flex flex-col gap-2 items-start md:items-end">
+                            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-black/5 text-black text-xs font-semibold uppercase tracking-wide">
+                                <Shield className="w-4 h-4" /> Secure Upload
+                            </div>
                             {!isUploaded ? (
                                 <span className="text-sm font-bold text-black border-b-2 border-black/10 group-hover:border-[#FF4306] transition-colors pb-0.5 font-poppins">
                                     Upload Files
@@ -501,7 +504,7 @@ export default function BusinessProfileView({
 
     const renderBusinessIdentity = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Legal / Corporate Name</label>
                     <input
@@ -593,10 +596,10 @@ export default function BusinessProfileView({
                     />
                 </div>
             </div>
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
                 <button
                     onClick={() => handleSaveSection('business-identity')}
-                    className="px-6 py-2 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors"
+                    className="w-full sm:w-auto px-6 py-3 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors"
                 >
                     Save Section
                 </button>
@@ -606,7 +609,7 @@ export default function BusinessProfileView({
 
     const renderContactLocation = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Physical Business Address</label>
                     <input
@@ -656,10 +659,10 @@ export default function BusinessProfileView({
                     />
                 </div>
             </div>
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
                 <button
                     onClick={() => handleSaveSection('contact-location')}
-                    className="px-6 py-2 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors"
+                    className="w-full sm:w-auto px-6 py-3 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors"
                 >
                     Save Section
                 </button>
@@ -669,7 +672,7 @@ export default function BusinessProfileView({
 
     const renderFinancialInformation = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Monthly Processing Volume</label>
                     <div className="relative">
@@ -750,10 +753,10 @@ export default function BusinessProfileView({
                     />
                 </div>
             </div>
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
                 <button
                     onClick={() => handleSaveSection('financial-information')}
-                    className="px-6 py-2 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors"
+                    className="w-full sm:w-auto px-6 py-3 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors"
                 >
                     Save Section
                 </button>
@@ -763,7 +766,7 @@ export default function BusinessProfileView({
 
     const renderEquipmentInformation = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Equipment Make</label>
                     <input
@@ -786,7 +789,7 @@ export default function BusinessProfileView({
                 </div>
                 <div className="col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Card Swipe Ratio (Must equal 100%)</label>
-                    <div className="grid grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
                             <label className="block text-xs font-medium text-black/60 mb-2">Card Present %</label>
                             <div className="relative">
@@ -937,10 +940,10 @@ export default function BusinessProfileView({
                     )}
                 </div>
             </div>
-            <div className="mt-6 flex justify-end">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
                 <button
                     onClick={() => handleSaveSection('equipment-information')}
-                    className="px-6 py-2 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors"
+                    className="w-full sm:w-auto px-6 py-3 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors"
                 >
                     Save Section
                 </button>
@@ -950,7 +953,7 @@ export default function BusinessProfileView({
 
     const renderOwnerInformation = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Owner Full Name</label>
                     <input
@@ -1016,7 +1019,7 @@ export default function BusinessProfileView({
                     />
                 </div>
             </div>
-            <div className="mt-8 flex justify-end">
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
                 <button
                     onClick={() => {
                         // Save all sections
@@ -1033,7 +1036,7 @@ export default function BusinessProfileView({
                         );
                         setCollapsedSections(prev => ({ ...prev, 'owner-information': true }));
                     }}
-                    className="px-8 py-3 bg-black text-white rounded-full font-bold text-base hover:bg-gray-800 transition-colors"
+                    className="w-full sm:w-auto px-8 py-3 bg-black text-white rounded-full font-bold text-base hover:bg-gray-800 transition-colors"
                 >
                     Save All Changes
                 </button>
