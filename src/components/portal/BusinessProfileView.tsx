@@ -919,7 +919,14 @@ export default function BusinessProfileView({
                     <h2 className="text-4xl font-bold font-poppins mb-2 text-black">Business Profile</h2>
                     <p className="text-xl text-black/50 font-lora">Securely manage your business credentials.</p>
                 </div>
+            </motion.div>
 
+            <div className="space-y-6">
+                {renderSections()}
+            </div>
+
+            {/* Sign Out Button at Bottom */}
+            <div className="mt-12 flex justify-center">
                 <button
                     onClick={() => auth.signOut()}
                     className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-full font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition-all shadow-sm"
@@ -927,10 +934,6 @@ export default function BusinessProfileView({
                     <LogOut className="w-4 h-4" />
                     <span>Sign Out</span>
                 </button>
-            </motion.div>
-
-            <div className="space-y-6">
-                {renderSections()}
             </div>
         </div>
     );
