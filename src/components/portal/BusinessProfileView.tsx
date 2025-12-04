@@ -1079,11 +1079,11 @@ export default function BusinessProfileView({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col items-center justify-center mb-12 sm:mb-16 gap-4 sm:gap-6 text-center"
+                className="flex flex-col items-center justify-center mb-12 gap-8 text-center"
             >
                 <div>
-                    <h2 className="text-3xl sm:text-5xl md:text-6xl font-bold font-poppins mb-2 sm:mb-4 text-black tracking-tight leading-tight">Business Profile</h2>
-                    <p className="text-base sm:text-xl md:text-2xl text-black/60 font-lora max-w-2xl mx-auto leading-relaxed px-2">Securely manage your business credentials.</p>
+                    <h2 className="text-5xl md:text-6xl font-bold font-poppins mb-4 text-black tracking-tight">Business Profile</h2>
+                    <p className="text-xl md:text-2xl text-black/60 font-lora max-w-2xl mx-auto leading-relaxed">Securely manage your business credentials.</p>
                 </div>
             </motion.div>
 
