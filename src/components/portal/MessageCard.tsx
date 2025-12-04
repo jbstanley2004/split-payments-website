@@ -35,15 +35,19 @@ export default function MessageCard({ message, onClick, isSelected }: MessageCar
             onClick={onClick}
             whileHover={{ scale: 1.01 }}
             className={`w-full text-left p-4 rounded-xl border-2 transition-all ${isSelected
-                    ? 'border-black bg-gray-50'
-                    : message.read
-                        ? 'border-gray-200 bg-white hover:border-gray-300'
-                        : 'border-gray-300 bg-white hover:border-gray-400'
+                ? 'border-black bg-gray-50'
+                : message.read
+                    ? 'border-gray-200 bg-white hover:border-gray-300'
+                    : 'border-black/20 bg-gray-50 hover:border-black/40'
                 }`}
         >
             <div className="flex items-start gap-4">
-                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${config.bg}`}>
-                    <Icon className={`w-5 h-5 ${config.color}`} />
+                {/* Unread indicator bar on left */}
+                {!message.read && (
+                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-black rounded-l-xl" />
+                )}
+                <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${message.read ? config.bg : 'bg-black/5'}`}>
+                    <Icon className={`w-5 h-5 ${message.read ? config.color : 'text-black'}`} />
                 </div>
 
                 <div className="flex-1 min-w-0">
@@ -52,7 +56,7 @@ export default function MessageCard({ message, onClick, isSelected }: MessageCar
                             {message.subject}
                         </h4>
                         {!message.read && (
-                            <div className="w-2 h-2 rounded-full bg-orange-500 flex-shrink-0 mt-1.5" />
+                            <div className="w-2 h-2 rounded-full bg-black flex-shrink-0 mt-1.5" />
                         )}
                     </div>
 
@@ -66,7 +70,7 @@ export default function MessageCard({ message, onClick, isSelected }: MessageCar
                             {formatTimestamp(message.timestamp)}
                         </span>
                         {message.category === 'action_required' && (
-                            <span className="text-xs font-semibold text-orange-600 bg-orange-100 px-2 py-0.5 rounded-full font-poppins">
+                            <span className="text-xs font-semibold text-black bg-black/10 px-2 py-0.5 rounded-full font-poppins">
                                 Action Required
                             </span>
                         )}

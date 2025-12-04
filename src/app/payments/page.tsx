@@ -60,69 +60,15 @@ const SOLUTIONS = [
 export default function PaymentsPage() {
   const [expandedCard, setExpandedCard] = useState<string | null>(null);
   const [viewedCards, setViewedCards] = useState<Set<string>>(new Set());
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout>();
 
-  // Detect touch device
-  useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
-
-  // Scroll-aware collapse: collapse cards when user starts scrolling (DESKTOP ONLY)
-  useEffect(() => {
-    // Skip scroll collapse on touch devices for smoother mobile experience
-    if (isTouchDevice) return;
-
-    let isScrolling = false;
-
-    const handleScroll = () => {
-      if (!isScrolling && expandedCard) {
-        isScrolling = true;
-        setExpandedCard(null);
-      }
-
-      clearTimeout(scrollTimeoutRef.current);
-      scrollTimeoutRef.current = setTimeout(() => {
-        isScrolling = false;
-      }, 150);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-    };
-  }, [expandedCard, isTouchDevice]);
-
-  // Viewport awareness: collapse cards when they leave viewport
-  useEffect(() => {
-    const cardIds = ['payment-gateway', 'mobile-wireless', 'integrations', 'tap-to-pay'];
-    const observers: IntersectionObserver[] = [];
-
-    cardRefs.current.forEach((ref, index) => {
-      if (!ref) return;
-
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (!entry.isIntersecting && expandedCard === cardIds[index]) {
-            setExpandedCard(null);
-          }
-        },
-        // More forgiving threshold on mobile for smoother experience
-        { threshold: isTouchDevice ? 0.1 : 0.2, rootMargin: isTouchDevice ? '-5% 0px' : '-10% 0px' }
-      );
-
-      observer.observe(ref);
-      observers.push(observer);
-    });
-
-    return () => observers.forEach(obs => obs.disconnect());
-  }, [expandedCard, isTouchDevice]);
-
-  const handleExpand = (cardId: string) => {
-    if (expandedCard !== cardId) {
+  const handleToggle = (cardId: string) => {
+    // If clicking the same card, collapse it. Otherwise expand new card (auto-collapses previous)
+    if (expandedCard === cardId) {
+      setExpandedCard(null);
+    } else {
       setExpandedCard(cardId);
+      // Track viewed cards
       setViewedCards((prev) => {
         if (prev.has(cardId)) return prev;
         const next = new Set(prev);
@@ -276,7 +222,7 @@ export default function PaymentsPage() {
                 >
                   <OnlineEcommerceCard
                     isExpanded={expandedCard === 'payment-gateway'}
-                    onExpand={() => handleExpand('payment-gateway')}
+                    onToggle={() => handleToggle('payment-gateway')}
                     expandDirection="down"
                     hasBeenViewed={viewedCards.has('payment-gateway')}
                   />
@@ -315,7 +261,7 @@ export default function PaymentsPage() {
                 >
                   <MobileTerminalsCard
                     isExpanded={expandedCard === 'mobile-wireless'}
-                    onExpand={() => handleExpand('mobile-wireless')}
+                    onToggle={() => handleToggle('mobile-wireless')}
                     expandDirection="down"
                     hasBeenViewed={viewedCards.has('mobile-wireless')}
                   />
@@ -358,7 +304,7 @@ export default function PaymentsPage() {
                 >
                   <EChecksCard
                     isExpanded={expandedCard === 'integrations'}
-                    onExpand={() => handleExpand('integrations')}
+                    onToggle={() => handleToggle('integrations')}
                     expandDirection="up"
                     hasBeenViewed={viewedCards.has('integrations')}
                   />
@@ -397,7 +343,7 @@ export default function PaymentsPage() {
                 >
                   <TapToPayCard
                     isExpanded={expandedCard === 'tap-to-pay'}
-                    onExpand={() => handleExpand('tap-to-pay')}
+                    onToggle={() => handleToggle('tap-to-pay')}
                     expandDirection="up"
                     hasBeenViewed={viewedCards.has('tap-to-pay')}
                   />

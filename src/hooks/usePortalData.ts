@@ -107,7 +107,7 @@ export function usePortalData() {
         setApplicationStatus(prev => ({ ...prev!, ...updates }));
         debouncedUpdateFirestore(updates);
     };
-    
+
     const addDocument = async (type: DocumentType, file: File) => {
         if (!user) return;
 
@@ -130,7 +130,7 @@ export function usePortalData() {
 
             // 3. Update Firestore
             const appRef = doc(db, "applications", user.uid);
-            await updateDoc(appRef, { 
+            await updateDoc(appRef, {
                 documents: arrayUnion(newDocument),
                 updatedAt: Timestamp.now()
             });
@@ -159,7 +159,7 @@ export function usePortalData() {
                 documents: arrayRemove(docToRemove),
                 updatedAt: Timestamp.now()
             });
-            
+
             // 2. Delete from Storage
             await deleteObject(storageRef);
             console.log("[usePortalData] Document removed successfully.");
@@ -175,9 +175,53 @@ export function usePortalData() {
     const updateOwnerInfo = (updates: any) => updateAndAutosave({ ownerInfo: { ...applicationStatus?.ownerInfo, ...updates } });
     const updateEquipmentInfo = (updates: any) => updateAndAutosave({ equipmentInfo: { ...applicationStatus?.equipmentInfo, ...updates } });
     const updateVerification = (ein: string, ssn: string) => updateAndAutosave({ verificationInfo: { ...applicationStatus?.verificationInfo, status: 'submitted' } });
-    const sendMessage = (body: string) => { /* ... implementation ... */ };
-    const markMessageAsRead = (messageId: string) => { /* ... implementation ... */ };
-    const deleteMessage = (messageId: string) => { /* ... implementation ... */ };
+    const sendMessage = async (subject: string, body: string) => {
+        if (!user || !applicationStatus) return;
+
+        const newMessage = {
+            id: `msg-${Date.now()}`,
+            subject,
+            body,
+            timestamp: Timestamp.now(),
+            read: true,
+            sender: 'merchant' as const,
+            category: 'general' as const,
+        };
+
+        const updatedMessages = [...applicationStatus.messages, newMessage];
+        setApplicationStatus(prev => prev ? { ...prev, messages: updatedMessages } : prev);
+
+        const appRef = doc(db, "applications", user.uid);
+        await updateDoc(appRef, { messages: updatedMessages, updatedAt: Timestamp.now() });
+    };
+
+    const markMessageAsRead = async (messageId: string) => {
+        if (!user || !applicationStatus) return;
+
+        const updatedMessages = applicationStatus.messages.map(msg =>
+            msg.id === messageId ? { ...msg, read: true } : msg
+        );
+
+        // Update local state immediately
+        setApplicationStatus(prev => prev ? { ...prev, messages: updatedMessages } : prev);
+
+        // Save to Firestore
+        const appRef = doc(db, "applications", user.uid);
+        await updateDoc(appRef, { messages: updatedMessages, updatedAt: Timestamp.now() });
+    };
+
+    const deleteMessage = async (messageId: string) => {
+        if (!user || !applicationStatus) return;
+
+        const updatedMessages = applicationStatus.messages.map(msg =>
+            msg.id === messageId ? { ...msg, isDeleted: true } : msg
+        );
+
+        setApplicationStatus(prev => prev ? { ...prev, messages: updatedMessages } : prev);
+
+        const appRef = doc(db, "applications", user.uid);
+        await updateDoc(appRef, { messages: updatedMessages, updatedAt: Timestamp.now() });
+    };
 
     return {
         applicationStatus,

@@ -4,14 +4,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useInViewport } from '@/hooks/useInViewport';
-import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowUp, ArrowDown } from 'lucide-react';
 
 interface HardwareCategoryCardProps {
     title: string;
     images: string[];
     isExpanded?: boolean;
-    onExpand?: () => void;
+    onToggle?: () => void;
     expandDirection?: "down" | "up";
     hasBeenViewed?: boolean;
 }
@@ -20,7 +19,7 @@ export default function HardwareCategoryCard({
     title,
     images,
     isExpanded = false,
-    onExpand,
+    onToggle,
     expandDirection = "down",
     hasBeenViewed = false
 }: HardwareCategoryCardProps) {
@@ -94,9 +93,6 @@ export default function HardwareCategoryCard({
         <div
             ref={cardRef}
             className={`group bg-white rounded-3xl border ${viewedBorderClass} overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${scaleClass} origin-center`}
-            onMouseEnter={onExpand}
-            onTouchStart={onExpand}
-            onClick={onExpand}
         >
             {/* Wrapper expands to grid size when isExpanded */}
             <div
@@ -149,20 +145,18 @@ export default function HardwareCategoryCard({
                                     Industry-leading {title.toLowerCase()} terminals from top brands.
                                 </p>
                             </div>
-                            <Link href="/contact" className="flex-shrink-0 ml-3">
-                                <div className="w-14 h-14 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-105 shadow-md">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={2}
-                                        stroke="currentColor"
-                                        className="w-6 h-6"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75" />
-                                    </svg>
-                                </div>
-                            </Link>
+                            {/* Toggle button */}
+                            <button
+                                onClick={(e) => { e.stopPropagation(); onToggle?.(); }}
+                                className="flex-shrink-0 ml-3 w-14 h-14 rounded-full bg-black flex items-center justify-center text-white transition-all hover:bg-gray-800 hover:scale-105 shadow-md cursor-pointer"
+                                aria-label={isExpanded ? "Collapse card" : "Expand card"}
+                            >
+                                {isExpanded ? (
+                                    <ArrowUp className="w-6 h-6" />
+                                ) : (
+                                    <ArrowDown className="w-6 h-6" />
+                                )}
+                            </button>
                         </div>
                     </div>
                 </div>

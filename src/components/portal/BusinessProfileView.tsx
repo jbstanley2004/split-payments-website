@@ -2,10 +2,11 @@
 
 import { ApplicationStatus, DocumentType } from "@/types/portal";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, Check, Shield, Lock, LogOut, Camera, Upload, X, ChevronDown, CheckCircle2 } from "lucide-react";
-import { useCallback, useState, useEffect } from "react";
+import { FileText, Check, Shield, Lock, LogOut, Camera, Upload, X, ChevronDown, CheckCircle2, ArrowUp, ArrowDown } from "lucide-react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { auth } from "@/lib/firebase";
+import { useDebounce } from "@/hooks/useDebounce";
 
 interface BusinessProfileViewProps {
     applicationStatus: ApplicationStatus;
@@ -44,17 +45,87 @@ export default function BusinessProfileView({
     const [localEquipmentInfo, setLocalEquipmentInfo] = useState(equipmentInfo || {});
 
     // Sync local state when props change
+    // Debounced values for auto-save
+    const debouncedBusinessInfo = useDebounce(localBusinessInfo, 1000);
+    const debouncedContactInfo = useDebounce(localContactInfo, 1000);
+    const debouncedOwnerInfo = useDebounce(localOwnerInfo, 1000);
+    const debouncedEquipmentInfo = useDebounce(localEquipmentInfo, 1000);
+
+    // Track if we are currently editing to prevent overwriting local state with stale props
+    const isEditingRef = useRef(false);
+
+    // Auto-save effects
     useEffect(() => {
-        setLocalBusinessInfo(businessInfo);
-        setLocalContactInfo(contactInfo || {});
-        setLocalOwnerInfo(ownerInfo || {});
-        setLocalEquipmentInfo(equipmentInfo || {});
+        if (JSON.stringify(debouncedBusinessInfo) !== JSON.stringify(businessInfo)) {
+            onUpdateProfile({ businessInfo: debouncedBusinessInfo });
+        }
+    }, [debouncedBusinessInfo]);
+
+    useEffect(() => {
+        if (JSON.stringify(debouncedContactInfo) !== JSON.stringify(contactInfo)) {
+            onUpdateProfile({ contactInfo: debouncedContactInfo as any });
+        }
+    }, [debouncedContactInfo]);
+
+    useEffect(() => {
+        if (JSON.stringify(debouncedOwnerInfo) !== JSON.stringify(ownerInfo)) {
+            onUpdateProfile({ ownerInfo: debouncedOwnerInfo as any });
+        }
+    }, [debouncedOwnerInfo]);
+
+    useEffect(() => {
+        if (JSON.stringify(debouncedEquipmentInfo) !== JSON.stringify(equipmentInfo)) {
+            onUpdateProfile({ equipmentInfo: debouncedEquipmentInfo as any });
+        }
+    }, [debouncedEquipmentInfo]);
+
+    // Sync local state when props change (only if not editing or if forced)
+    // Sync local state when props change
+    // CRITICAL FIX: Only sync if local state is empty/uninitialized to prevent overwriting user data with stale props.
+    // Once the user starts editing, local state is the source of truth until a full reload.
+    useEffect(() => {
+        // Business Info
+        const isLocalBusinessEmpty = !localBusinessInfo.businessName && !localBusinessInfo.ein;
+        if (isLocalBusinessEmpty && businessInfo?.businessName) {
+            setLocalBusinessInfo(businessInfo);
+        }
+
+        // Contact Info
+        const isLocalContactEmpty = !localContactInfo.email && !localContactInfo.businessPhone;
+        if (isLocalContactEmpty && contactInfo?.email) {
+            setLocalContactInfo(contactInfo || {});
+        }
+
+        // Owner Info
+        const isLocalOwnerEmpty = !localOwnerInfo.fullName && !localOwnerInfo.ssn;
+        if (isLocalOwnerEmpty && ownerInfo?.fullName) {
+            setLocalOwnerInfo(ownerInfo || {});
+        }
+
+        // Equipment Info
+        const isLocalEquipmentEmpty = !localEquipmentInfo.make && !localEquipmentInfo.model;
+        if (isLocalEquipmentEmpty && equipmentInfo?.make) {
+            setLocalEquipmentInfo(equipmentInfo || {});
+        }
     }, [businessInfo, contactInfo, ownerInfo, equipmentInfo]);
 
-    // Handle deep linking / scrolling and initial collapse state
+    // Wrapper for document upload to force save current state first
+    const handleDocumentUploadWrapper = (type: DocumentType, file: File) => {
+        // Force immediate save of current local state to ensure no data loss
+        onUpdateProfile({
+            businessInfo: localBusinessInfo,
+            contactInfo: localContactInfo as any,
+            ownerInfo: localOwnerInfo as any,
+            equipmentInfo: localEquipmentInfo as any
+        });
+        onDocumentUpload(type, file);
+    };
+
+    // Optimistic completion state to show "Complete" immediately
+    const [optimisticCompletedSections, setOptimisticCompletedSections] = useState<string[]>([]);
+
+    // Handle initial collapse state
     useEffect(() => {
-        // Calculate initial collapsed state for ALL sections based on completion
-        // Default: Completed = Collapsed (true), Incomplete = Expanded (false)
         const newCollapsedState: Record<string, boolean> = {
             'business-identity': isSectionComplete('business-identity'),
             'contact-location': isSectionComplete('contact-location'),
@@ -62,12 +133,14 @@ export default function BusinessProfileView({
             'equipment-information': isSectionComplete('equipment-information'),
             'owner-information': isSectionComplete('owner-information')
         };
+        setCollapsedSections(newCollapsedState);
+    }, []); // Only run on mount
 
+    // Handle deep linking / scrolling
+    useEffect(() => {
         if (targetSection) {
-            // Ensure target section is OPEN (false)
-            newCollapsedState[targetSection] = false;
+            setCollapsedSections(prev => ({ ...prev, [targetSection]: false }));
 
-            // Scroll to it
             setTimeout(() => {
                 const element = document.getElementById(targetSection);
                 if (element) {
@@ -77,55 +150,109 @@ export default function BusinessProfileView({
                 }
             }, 300);
         }
-
-        setCollapsedSections(newCollapsedState);
-    }, [targetSection, documents, businessInfo, contactInfo, ownerInfo, equipmentInfo]); // Re-run when data changes to keep state in sync
+    }, [targetSection]);
 
     // Collapse state for each section
     const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>({});
 
+    // Section order state
+    const [sectionOrder, setSectionOrder] = useState<string[]>(() => {
+        const defaultOrder = [
+            'business-identity',
+            'contact-location',
+            'financial-information',
+            'equipment-information',
+            'owner-information'
+        ];
+
+        // Initialize with completed sections at the bottom
+        const completed = applicationStatus.completedSections || [];
+        const incomplete = defaultOrder.filter(id => !completed.includes(id));
+        const completeInOrder = defaultOrder.filter(id => completed.includes(id));
+
+        return [...incomplete, ...completeInOrder];
+    });
+
     const handleSaveSection = (sectionId: string) => {
         // Construct the update object based on the section
         let updates: Partial<ApplicationStatus> = {};
+        let isValid = false;
 
         switch (sectionId) {
             case 'business-identity':
                 updates = { businessInfo: localBusinessInfo };
+                isValid = isSectionValid('business-identity');
                 break;
             case 'contact-location':
                 updates = { contactInfo: localContactInfo as any };
+                isValid = isSectionValid('contact-location');
                 break;
             case 'financial-information':
                 // Financial info is part of businessInfo in the current structure
                 updates = { businessInfo: localBusinessInfo };
+                isValid = isSectionValid('financial-information');
                 break;
             case 'equipment-information':
                 updates = { equipmentInfo: localEquipmentInfo as any };
+                isValid = isSectionValid('equipment-information');
                 break;
             case 'owner-information':
                 updates = { ownerInfo: localOwnerInfo as any };
+                isValid = isSectionValid('owner-information');
                 break;
+        }
+
+        // If valid, mark as complete
+        if (isValid) {
+            const currentCompleted = applicationStatus.completedSections || [];
+            if (!currentCompleted.includes(sectionId)) {
+                updates.completedSections = [...currentCompleted, sectionId];
+            }
+            // Optimistic update
+            if (!optimisticCompletedSections.includes(sectionId)) {
+                setOptimisticCompletedSections(prev => [...prev, sectionId]);
+            }
         }
 
         onUpdateProfile(updates);
         setCollapsedSections(prev => ({ ...prev, [sectionId]: true }));
+
+        // Sequence the reordering: Wait for collapse animation (300ms) + buffer
+        if (isValid) {
+            setTimeout(() => {
+                setSectionOrder(prevOrder => {
+                    // Only reorder if not already at the bottom (or just force it)
+                    const newOrder = prevOrder.filter(id => id !== sectionId);
+                    newOrder.push(sectionId);
+                    return newOrder;
+                });
+            }, 400);
+        }
     };
 
     // Helper for input changes
     const updateBusinessField = (field: string, value: any) => {
+        isEditingRef.current = true;
         setLocalBusinessInfo(prev => ({ ...prev, [field]: value }));
+        setTimeout(() => { isEditingRef.current = false; }, 2000); // Reset after delay
     };
 
     const updateContactField = (field: string, value: any) => {
+        isEditingRef.current = true;
         setLocalContactInfo(prev => ({ ...prev, [field]: value }));
+        setTimeout(() => { isEditingRef.current = false; }, 2000);
     };
 
     const updateOwnerField = (field: string, value: any) => {
+        isEditingRef.current = true;
         setLocalOwnerInfo(prev => ({ ...prev, [field]: value }));
+        setTimeout(() => { isEditingRef.current = false; }, 2000);
     };
 
     const updateEquipmentField = (field: string, value: any) => {
+        isEditingRef.current = true;
         setLocalEquipmentInfo(prev => ({ ...prev, [field]: value }));
+        setTimeout(() => { isEditingRef.current = false; }, 2000);
     };
 
     // Helper for document rows
@@ -145,7 +272,7 @@ export default function BusinessProfileView({
         const onDrop = useCallback((acceptedFiles: File[]) => {
             if (acceptedFiles.length > 0) {
                 // Handle multiple files for all types
-                acceptedFiles.forEach(file => onDocumentUpload(type, file));
+                acceptedFiles.forEach(file => handleDocumentUploadWrapper(type, file));
             }
         }, [type]);
 
@@ -158,7 +285,7 @@ export default function BusinessProfileView({
 
         const handleCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
             if (e.target.files && e.target.files.length > 0) {
-                onDocumentUpload(type, e.target.files[0]);
+                handleDocumentUploadWrapper(type, e.target.files[0]);
             }
         };
 
@@ -268,8 +395,8 @@ export default function BusinessProfileView({
         );
     };
 
-    // Section completion checks (matching DashboardView logic but using LOCAL state for instant feedback)
-    const isSectionComplete = (sectionId: string): boolean => {
+    // Section validation checks (data only)
+    const isSectionValid = (sectionId: string): boolean => {
         switch (sectionId) {
             case 'business-identity':
                 const hasVoidedCheck = documents.some(d => d.type === 'voided_check');
@@ -297,6 +424,11 @@ export default function BusinessProfileView({
         }
     };
 
+    // Check if section is explicitly marked as complete
+    const isSectionComplete = (sectionId: string): boolean => {
+        return (applicationStatus.completedSections?.includes(sectionId) || optimisticCompletedSections.includes(sectionId)) || false;
+    };
+
     const toggleSection = (sectionId: string) => {
         setCollapsedSections(prev => ({
             ...prev,
@@ -304,54 +436,68 @@ export default function BusinessProfileView({
         }));
     };
 
-    const renderSectionWrapper = (id: string, title: string, content: React.ReactNode) => (
-        <div className="space-y-0">
-            <div
-                onClick={() => toggleSection(id)}
-                className={`bg-white rounded-[40px] p-2 pl-8 shadow-2xl border border-gray-100 flex items-center justify-between transition-all duration-500 hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] cursor-pointer group ${!collapsedSections[id] ? 'rounded-b-none border-b-0 shadow-none' : ''}`}
-            >
-                <div className="flex items-center gap-4">
-                    <div className={`w-3 h-3 rounded-full ${isSectionComplete(id) ? 'bg-green-500' : 'bg-black/10'}`} />
-                    <div>
-                        <h3 className="text-xl font-bold text-black font-poppins leading-none mb-1">
-                            {title}
-                        </h3>
-                        {isSectionComplete(id) && (
-                            <p className="text-xs font-bold text-green-600 font-poppins uppercase tracking-wider">
-                                Completed
+    const renderSectionWrapper = (id: string, baseTitle: string, baseDescription: string, content: React.ReactNode) => {
+        const isComplete = isSectionComplete(id);
+        const isOpen = !collapsedSections[id];
+
+        return (
+            <div className={`bg-white rounded-[32px] md:rounded-[40px] shadow-2xl border border-gray-100 transition-all duration-500 ${isOpen ? 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]' : 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]'}`}>
+                {/* Header - always visible */}
+                <div
+                    onClick={() => toggleSection(id)}
+                    className="p-2 pl-4 md:pl-6 flex items-center justify-between cursor-pointer group"
+                >
+                    <div className="text-left py-2">
+                        <div className="flex items-center gap-2 mb-0.5">
+                            {isComplete ? (
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-green-600">
+                                    Complete
+                                </span>
+                            ) : (
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF4306]">
+                                    Action Required
+                                </span>
+                            )}
+                        </div>
+                        <div className="flex items-center gap-3">
+                            {isComplete && (
+                                <div className="w-2 h-2 rounded-full bg-green-500" />
+                            )}
+                            <h3 className="text-base md:text-xl font-bold text-black font-poppins leading-tight mb-1">
+                                {isComplete ? baseTitle : `Complete ${baseTitle}`}
+                            </h3>
+                        </div>
+                        {!isComplete && (
+                            <p className="text-sm text-black/50 font-lora">
+                                {baseDescription}
                             </p>
                         )}
                     </div>
+
+                    <div className="flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 shadow-md">
+                        {isOpen ? <ArrowUp className="w-5 h-5 md:w-6 md:h-6" /> : <ArrowDown className="w-5 h-5 md:w-6 md:h-6" />}
+                    </div>
                 </div>
 
-                <div className="flex-shrink-0 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 shadow-md">
-                    <motion.div
-                        animate={{ rotate: collapsedSections[id] ? 0 : 180 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <ChevronDown className="w-6 h-6" />
-                    </motion.div>
-                </div>
+                {/* Content - animated */}
+                <AnimatePresence>
+                    {isOpen && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3, ease: 'easeInOut' }}
+                            style={{ overflow: 'hidden' }}
+                        >
+                            <div className="border-t border-gray-100 p-4 md:p-8">
+                                {content}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
-
-            <AnimatePresence>
-                {!collapsedSections[id] && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        style={{ overflow: 'hidden' }}
-                        className="bg-white rounded-b-[40px] border-x border-b border-gray-100 shadow-2xl p-8 pt-0"
-                    >
-                        <div className="pt-4">
-                            {content}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
-    );
+        );
+    };
 
     const renderBusinessIdentity = () => (
         <div className="">
@@ -372,26 +518,30 @@ export default function BusinessProfileView({
                         type="text"
                         value={localBusinessInfo.dba || ''}
                         onChange={(e) => updateBusinessField('dba', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.dba ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="e.g. Acme Shop"
                     />
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localBusinessInfo.dba && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Entity Type</label>
                     <select
                         value={localBusinessInfo.entityType || ''}
                         onChange={(e) => updateBusinessField('entityType', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent text-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all appearance-none"
+                        className={`w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all appearance-none ${!localBusinessInfo.entityType ? 'text-[#FF4306]' : 'text-black'}`}
                     >
                         <option value="" className="text-[#FF4306]">Select Type...</option>
-                        <option value="LLC">LLC</option>
-                        <option value="C-Corp">C Corporation</option>
-                        <option value="S-Corp">S Corporation</option>
-                        <option value="Sole Prop">Sole Proprietorship</option>
-                        <option value="Partnership">General Partnership</option>
+                        <option value="LLC" className="text-black">LLC</option>
+                        <option value="C-Corp" className="text-black">C Corporation</option>
+                        <option value="S-Corp" className="text-black">S Corporation</option>
+                        <option value="Sole Prop" className="text-black">Sole Proprietorship</option>
+                        <option value="Partnership" className="text-black">General Partnership</option>
                     </select>
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localBusinessInfo.entityType && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Industry</label>
@@ -413,10 +563,11 @@ export default function BusinessProfileView({
                         type="date"
                         value={localBusinessInfo.businessStartDate || ''}
                         onChange={(e) => updateBusinessField('businessStartDate', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
-                        placeholder="mm/dd/yyyy"
+                        className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base text-black focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                     />
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localBusinessInfo.businessStartDate && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">EIN (Employer ID Number)</label>
@@ -424,10 +575,12 @@ export default function BusinessProfileView({
                         type="text"
                         value={localBusinessInfo.ein || ''}
                         onChange={(e) => updateBusinessField('ein', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.ein ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="XX-XXXXXXX"
                     />
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localBusinessInfo.ein && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div className="col-span-2 mt-4">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Verification Document</label>
@@ -561,26 +714,30 @@ export default function BusinessProfileView({
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Average Ticket Size</label>
                     <div className="relative">
-                        <span className="absolute left-4 top-3 text-black/40">$</span>
+                        <span className="absolute left-4 top-3 text-black/40 z-10">$</span>
                         <input
                             type="text"
                             value={localBusinessInfo.averageTicketSize || ''}
                             onChange={(e) => updateBusinessField('averageTicketSize', e.target.value)}
-                            className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.averageTicketSize ? "bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300" : "bg-[#F6F5F4]"
-                                }`}
+                            className={`w-full border-transparent rounded-xl pl-8 pr-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.averageTicketSize ? 'bg-orange-50 text-black placeholder-orange-300' : 'bg-[#F6F5F4] text-black'}`}
                             placeholder="0"
                         />
                     </div>
+                    {!localBusinessInfo.averageTicketSize && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div className="col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Description of Product/Service</label>
                     <textarea
                         value={localBusinessInfo.productServiceDescription || ''}
                         onChange={(e) => updateBusinessField('productServiceDescription', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all resize-none h-32"
+                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all resize-none h-32 ${!localBusinessInfo.productServiceDescription ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="What do you sell or offer?"
                     />
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localBusinessInfo.productServiceDescription && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div className="col-span-2 mt-4">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Verification Document</label>
@@ -717,7 +874,7 @@ export default function BusinessProfileView({
                                     className="hidden"
                                     onChange={(e) => {
                                         if (e.target.files && e.target.files.length > 0) {
-                                            onDocumentUpload('equipment_photo', e.target.files[0]);
+                                            handleDocumentUploadWrapper('equipment_photo', e.target.files[0]);
                                         }
                                     }}
                                     onClick={(e) => e.stopPropagation()}
@@ -737,7 +894,7 @@ export default function BusinessProfileView({
                                     className="hidden"
                                     onChange={(e) => {
                                         if (e.target.files && e.target.files.length > 0) {
-                                            onDocumentUpload('equipment_photo', e.target.files[0]);
+                                            handleDocumentUploadWrapper('equipment_photo', e.target.files[0]);
                                         }
                                     }}
                                     onClick={(e) => e.stopPropagation()}
@@ -885,26 +1042,32 @@ export default function BusinessProfileView({
     );
 
     // Render Helpers
-    const renderSections = () => {
-        const sections = [
-            { id: 'business-identity', title: 'Business Identity', content: renderBusinessIdentity() },
-            { id: 'contact-location', title: 'Contact & Location', content: renderContactLocation() },
-            { id: 'financial-information', title: 'Financial Information', content: renderFinancialInformation() },
-            { id: 'equipment-information', title: 'Equipment Information', content: renderEquipmentInformation() },
-            { id: 'owner-information', title: 'Owner Information', content: renderOwnerInformation() }
-        ];
-
-        // Sort: Incomplete sections first, then completed
-        return sections.sort((a, b) => {
-            const aComplete = isSectionComplete(a.id);
-            const bComplete = isSectionComplete(b.id);
-            if (aComplete === bComplete) return 0; // Keep original order if same status
-            return aComplete ? 1 : -1; // Complete (true) > Incomplete (false) -> Complete moves to bottom
-        }).map(section => (
-            <div key={section.id}>
-                {renderSectionWrapper(section.id, section.title, section.content)}
-            </div>
-        ));
+    const sectionDetails: Record<string, { title: string, description: string, render: () => React.ReactNode }> = {
+        'business-identity': {
+            title: 'Business Identity',
+            description: 'Upload voided check and complete business details.',
+            render: renderBusinessIdentity
+        },
+        'contact-location': {
+            title: 'Contact & Location',
+            description: 'Fill in all contact information and business address.',
+            render: renderContactLocation
+        },
+        'financial-information': {
+            title: 'Financial Information',
+            description: 'Upload merchant statements and fill in all financial details.',
+            render: renderFinancialInformation
+        },
+        'equipment-information': {
+            title: 'Equipment Information',
+            description: 'Upload equipment photos and fill in all equipment details.',
+            render: renderEquipmentInformation
+        },
+        'owner-information': {
+            title: 'Owner Information',
+            description: 'Upload photo ID and fill in all owner details.',
+            render: renderOwnerInformation
+        }
     };
 
     return (
@@ -913,16 +1076,30 @@ export default function BusinessProfileView({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col md:flex-row items-center justify-between mb-12 gap-6"
+                className="flex flex-col items-center justify-center mb-16 gap-6 text-center"
             >
-                <div className="text-center md:text-left">
-                    <h2 className="text-4xl font-bold font-poppins mb-2 text-black">Business Profile</h2>
-                    <p className="text-xl text-black/50 font-lora">Securely manage your business credentials.</p>
+                <div>
+                    <h2 className="text-5xl md:text-6xl font-bold font-poppins mb-4 text-black tracking-tight">Business Profile</h2>
+                    <p className="text-xl md:text-2xl text-black/60 font-lora max-w-2xl mx-auto leading-relaxed">Securely manage your business credentials.</p>
                 </div>
             </motion.div>
 
             <div className="space-y-6">
-                {renderSections()}
+                {sectionOrder.map(sectionId => {
+                    const details = sectionDetails[sectionId];
+                    if (!details) return null;
+                    return (
+                        <motion.div
+                            key={sectionId}
+                            layout
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            {renderSectionWrapper(sectionId, details.title, details.description, details.render())}
+                        </motion.div>
+                    );
+                })}
             </div>
 
             {/* Sign Out Button at Bottom */}

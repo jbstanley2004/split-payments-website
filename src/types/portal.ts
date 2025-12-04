@@ -93,6 +93,7 @@ export interface ApplicationStatus {
     equipmentInfo?: EquipmentInfo;
     progressPercentage: number;
     adminViewed?: boolean;
+    completedSections?: string[];
 }
 
 export const DOCUMENT_REQUIREMENTS: Record<DocumentType, {

@@ -77,16 +77,16 @@ export default function InboxView({
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col md:flex-row items-center justify-between mb-8 gap-6"
+                className="flex flex-col items-center justify-center mb-12 gap-8 text-center"
             >
-                <div className="text-center md:text-left">
-                    <h2 className="text-4xl font-bold font-poppins mb-2 text-black">Messages</h2>
-                    <p className="text-xl text-black/50 font-lora">Communicate with our support team.</p>
+                <div>
+                    <h2 className="text-5xl md:text-6xl font-bold font-poppins mb-4 text-black tracking-tight">Messages</h2>
+                    <p className="text-xl md:text-2xl text-black/60 font-lora max-w-2xl mx-auto leading-relaxed">Communicate with our support team.</p>
                 </div>
 
                 <button
                     onClick={() => setIsComposing(true)}
-                    className="flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                    className="flex items-center gap-2 px-6 py-3 bg-black text-white rounded-full font-poppins font-medium text-base hover:bg-gray-800 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                 >
                     <Plus className="w-4 h-4" />
                     <span>New Message</span>
@@ -136,13 +136,13 @@ export default function InboxView({
                                 exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ delay: index * 0.05 }}
                                 className={`group relative bg-white rounded-3xl overflow-hidden transition-all duration-300 ${expandedId === message.id
-                                        ? "shadow-lg ring-1 ring-black/5"
-                                        : "hover:shadow-md border border-transparent hover:border-black/5"
+                                    ? "shadow-lg ring-1 ring-black/5"
+                                    : "hover:shadow-md border border-transparent hover:border-black/5"
                                     }`}
                             >
                                 {/* Unread Indicator (Inbox only) */}
                                 {!message.read && activeTab === 'inbox' && (
-                                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#FF4306]" />
+                                    <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-black" />
                                 )}
 
                                 <div className="flex items-start">
@@ -151,10 +151,10 @@ export default function InboxView({
                                         className="flex-1 text-left p-6 md:p-8 flex items-start gap-6"
                                     >
                                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 transition-colors ${message.sender === 'merchant'
-                                                ? "bg-black text-white"
-                                                : message.read
-                                                    ? "bg-black/5 text-black/40"
-                                                    : "bg-orange-50 text-[#FF4306]"
+                                            ? "bg-black text-white"
+                                            : message.read
+                                                ? "bg-black/5 text-black/40"
+                                                : "bg-black/5 text-black"
                                             }`}>
                                             {message.sender === 'merchant' ? (
                                                 <Send className="w-5 h-5" />

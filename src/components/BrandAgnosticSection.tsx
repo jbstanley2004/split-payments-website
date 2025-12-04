@@ -9,68 +9,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function BrandAgnosticSection() {
     const [expandedCard, setExpandedCard] = useState<string | null>(null);
     const [viewedCards, setViewedCards] = useState<Set<string>>(new Set());
-    const [isTouchDevice, setIsTouchDevice] = useState(false);
     const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-    const scrollTimeoutRef = useRef<NodeJS.Timeout>();
 
-    // Detect touch device
-    useEffect(() => {
-        setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
-    }, []);
-
-    // Scroll-aware collapse (DESKTOP ONLY)
-    useEffect(() => {
-        // Skip on touch devices for smoother mobile experience
-        if (isTouchDevice) return;
-
-        let isScrolling = false;
-
-        const handleScroll = () => {
-            if (!isScrolling && expandedCard) {
-                isScrolling = true;
-                setExpandedCard(null);
-            }
-
-            clearTimeout(scrollTimeoutRef.current);
-            scrollTimeoutRef.current = setTimeout(() => {
-                isScrolling = false;
-            }, 150);
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-            if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
-        };
-    }, [expandedCard, isTouchDevice]);
-
-    // Viewport awareness
-    useEffect(() => {
-        const cardIds = ['countertop-hardware', 'pos-hardware', 'unattended-hardware', 'wireless-hardware'];
-        const observers: IntersectionObserver[] = [];
-
-        cardRefs.current.forEach((ref, index) => {
-            if (!ref) return;
-
-            const observer = new IntersectionObserver(
-                ([entry]) => {
-                    if (!entry.isIntersecting && expandedCard === cardIds[index]) {
-                        setExpandedCard(null);
-                    }
-                },
-                { threshold: isTouchDevice ? 0.1 : 0.2, rootMargin: isTouchDevice ? '-5% 0px' : '-10% 0px' }
-            );
-
-            observer.observe(ref);
-            observers.push(observer);
-        });
-
-        return () => observers.forEach(obs => obs.disconnect());
-    }, [expandedCard, isTouchDevice]);
-
-    const handleExpand = (cardId: string) => {
-        if (expandedCard !== cardId) {
+    const handleToggle = (cardId: string) => {
+        // If clicking the same card, collapse it. Otherwise expand new card (auto-collapses previous)
+        if (expandedCard === cardId) {
+            setExpandedCard(null);
+        } else {
             setExpandedCard(cardId);
+            // Track viewed cards
             setViewedCards((prev) => {
                 if (prev.has(cardId)) return prev;
                 const next = new Set(prev);
@@ -188,7 +135,7 @@ export default function BrandAgnosticSection() {
                                 title="Countertop"
                                 images={COUNTERTOP_IMAGES}
                                 isExpanded={expandedCard === 'countertop-hardware'}
-                                onExpand={() => handleExpand('countertop-hardware')}
+                                onToggle={() => handleToggle('countertop-hardware')}
                                 expandDirection="down"
                                 hasBeenViewed={viewedCards.has('countertop-hardware')}
                             />
@@ -229,7 +176,7 @@ export default function BrandAgnosticSection() {
                                 title="POS"
                                 images={POS_IMAGES}
                                 isExpanded={expandedCard === 'pos-hardware'}
-                                onExpand={() => handleExpand('pos-hardware')}
+                                onToggle={() => handleToggle('pos-hardware')}
                                 expandDirection="down"
                                 hasBeenViewed={viewedCards.has('pos-hardware')}
                             />
@@ -274,7 +221,7 @@ export default function BrandAgnosticSection() {
                                 title="Unattended"
                                 images={UNATTENDED_IMAGES}
                                 isExpanded={expandedCard === 'unattended-hardware'}
-                                onExpand={() => handleExpand('unattended-hardware')}
+                                onToggle={() => handleToggle('unattended-hardware')}
                                 expandDirection="up"
                                 hasBeenViewed={viewedCards.has('unattended-hardware')}
                             />
@@ -315,7 +262,7 @@ export default function BrandAgnosticSection() {
                                 title="Wireless"
                                 images={WIRELESS_IMAGES}
                                 isExpanded={expandedCard === 'wireless-hardware'}
-                                onExpand={() => handleExpand('wireless-hardware')}
+                                onToggle={() => handleToggle('wireless-hardware')}
                                 expandDirection="up"
                                 hasBeenViewed={viewedCards.has('wireless-hardware')}
                             />

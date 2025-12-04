@@ -35,7 +35,7 @@ export default function PortalTabs({ tabs, activeTab, onChange, className }: Por
                             <div className="flex items-center gap-2">
                                 <span className="font-poppins tracking-tight">{tab.label}</span>
                                 {tab.count !== undefined && tab.count > 0 && (
-                                    <span className="flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded-full bg-[#FF4306] text-white">
+                                    <span className="flex items-center justify-center w-5 h-5 text-[10px] font-bold rounded-full bg-[#007AFF] text-white">
                                         {tab.count}
                                     </span>
                                 )}

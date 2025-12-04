@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
-import Link from 'next/link';
+import { ArrowUp, ArrowDown } from 'lucide-react';
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 
 interface TapToPayCardProps {
     isExpanded?: boolean;
-    onExpand?: () => void;
+    onToggle?: () => void;
     expandDirection?: "down" | "up";
     hasBeenViewed?: boolean;
 }
 
-export default function TapToPayCard({ isExpanded = false, onExpand, expandDirection = "down", hasBeenViewed = false }: TapToPayCardProps = {}) {
+export default function TapToPayCard({ isExpanded = false, onToggle, expandDirection = "down", hasBeenViewed = false }: TapToPayCardProps = {}) {
     const [isMuted, setIsMuted] = useState(true);
 
     const [isMobile, setIsMobile] = useState(false);
@@ -43,9 +43,6 @@ export default function TapToPayCard({ isExpanded = false, onExpand, expandDirec
         <div
             ref={cardRef}
             className={`group bg-white rounded-3xl border ${viewedBorderClass} overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${scaleClass} origin-center`}
-            onMouseEnter={onExpand}
-            onTouchStart={onExpand}
-            onClick={onExpand}
         >
             {/* Wrapper expands to video size when isExpanded */}
             <div
@@ -62,7 +59,7 @@ export default function TapToPayCard({ isExpanded = false, onExpand, expandDirec
 
                         {/* Mute button overlaid on video */}
                         <button
-                            onClick={() => setIsMuted(!isMuted)}
+                            onClick={(e) => { e.stopPropagation(); setIsMuted(!isMuted); }}
                             className="absolute bottom-3 right-3 p-2 bg-black/50 hover:bg-black/70 rounded-full text-white backdrop-blur-sm transition-all z-10"
                             aria-label={isMuted ? "Unmute" : "Mute"}
                         >
@@ -94,20 +91,18 @@ export default function TapToPayCard({ isExpanded = false, onExpand, expandDirec
                                     <p className="text-sm text-brand-black/60 leading-snug">Provision fast, stay PCI-safe, send instant receipts.</p>
                                 </div>
                             </div>
-                            <Link href="/contact" className="flex-shrink-0 ml-3">
-                                <div className="w-14 h-14 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-105 shadow-md">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        strokeWidth={2}
-                                        stroke="currentColor"
-                                        className="w-6 h-6"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75" />
-                                    </svg>
-                                </div>
-                            </Link>
+                            {/* Toggle button */}
+                            <button
+                                onClick={(e) => { e.stopPropagation(); onToggle?.(); }}
+                                className="flex-shrink-0 ml-3 w-14 h-14 rounded-full bg-black flex items-center justify-center text-white transition-all hover:bg-gray-800 hover:scale-105 shadow-md cursor-pointer"
+                                aria-label={isExpanded ? "Collapse card" : "Expand card"}
+                            >
+                                {isExpanded ? (
+                                    <ArrowUp className="w-6 h-6" />
+                                ) : (
+                                    <ArrowDown className="w-6 h-6" />
+                                )}
+                            </button>
                         </div>
                     </div>
                 </div>
