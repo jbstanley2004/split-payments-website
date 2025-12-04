@@ -33,7 +33,16 @@ export default function AdminDashboardPage() {
 
             <div className="pt-32 px-6 md:px-10 lg:px-16 max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-12">
+                <div className="text-center mb-12 relative">
+                    <div className="absolute top-0 right-0 hidden md:block">
+                        <button
+                            onClick={() => import('@/lib/firebase').then(m => m.auth.signOut())}
+                            className="px-6 py-2 bg-black text-white rounded-full text-sm font-bold hover:bg-gray-800 transition-all font-poppins"
+                        >
+                            Sign Out
+                        </button>
+                    </div>
+
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/5 text-black/60 text-xs font-bold uppercase tracking-widest mb-4">
                         Admin Console
                     </div>
@@ -43,6 +52,16 @@ export default function AdminDashboardPage() {
                     <p className="text-xl text-black/50 font-lora">
                         Manage accounts, approvals, and client communications.
                     </p>
+
+                    {/* Mobile Sign Out */}
+                    <div className="md:hidden mt-6">
+                        <button
+                            onClick={() => import('@/lib/firebase').then(m => m.auth.signOut())}
+                            className="px-6 py-2 bg-black text-white rounded-full text-sm font-bold hover:bg-gray-800 transition-all font-poppins"
+                        >
+                            Sign Out
+                        </button>
+                    </div>
                 </div>
 
                 {/* Content Area */}

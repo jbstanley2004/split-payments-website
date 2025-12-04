@@ -22,7 +22,8 @@ function generateInitialApplication(userEmail: string, businessInfo?: BusinessIn
                 body: `Congratulations! You've been pre-approved for up to $${approvalAmount.toLocaleString()} in funding based on your estimated monthly sales. Complete the next steps to finalize your application.`,
                 timestamp: new Date(),
                 read: false,
-                category: 'updates'
+                category: 'updates',
+                sender: 'admin'
             }
         ],
         businessInfo: businessInfo || {
@@ -49,6 +50,13 @@ export function usePortalData() {
         if (authLoading) return;
 
         if (!user) {
+            setLoading(false);
+            return;
+        }
+
+        // Admin check - do not create application for admin users
+        if (user.email?.endsWith('@ccsplit.org')) {
+            console.log('[usePortalData] Admin user detected, skipping application creation');
             setLoading(false);
             return;
         }
@@ -160,21 +168,32 @@ export function usePortalData() {
 
     // 2. Actions (Write to Firestore)
 
-    const addDocument = async (document: Document) => {
+    const addDocument = async (type: any, file: File) => {
         if (!user || !applicationStatus) return;
         const appRef = doc(db, 'applications', user.uid);
 
+        const newDocument: Document = {
+            id: `doc-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            type: type,
+            filename: file.name,
+            uploadedAt: new Date(),
+            status: 'uploaded',
+            fileSize: file.size,
+            fileUrl: URL.createObjectURL(file)
+        };
+
         const newMessage: Message = {
             id: `msg-${Date.now()}`,
-            subject: `Document received: ${document.filename}`,
-            body: `We've received your ${document.type.replace('_', ' ')}. Our team will review it shortly.`,
+            subject: `Document received: ${file.name}`,
+            body: `We've received your ${type.replace('_', ' ')}. Our team will review it shortly.`,
             timestamp: new Date(),
             read: false,
-            category: 'updates'
+            category: 'updates',
+            sender: 'admin'
         };
 
         await updateDoc(appRef, {
-            documents: arrayUnion(document),
+            documents: arrayUnion(newDocument),
             messages: [newMessage, ...applicationStatus.messages]
         });
     };
@@ -201,7 +220,8 @@ export function usePortalData() {
             body: 'Thank you for providing your verification details. Your application is now in final review.',
             timestamp: new Date(),
             read: false,
-            category: 'updates'
+            category: 'updates',
+            sender: 'admin'
         };
 
         await updateDoc(appRef, {
@@ -210,6 +230,17 @@ export function usePortalData() {
             stage: 'final_review', // Auto-advance for prototype
             progressPercentage: 100
         });
+    };
+
+    const updateBusinessProfile = async (updates: Partial<ApplicationStatus>) => {
+        if (!user || !applicationStatus) return;
+        const appRef = doc(db, 'applications', user.uid);
+
+        // Don't overwrite the whole document, just the fields passed
+        await updateDoc(appRef, updates);
+
+        // Optimistic update for local state
+        setApplicationStatus(prev => prev ? ({ ...prev, ...updates }) : null);
     };
 
     const markMessageAsRead = async (messageId: string) => {
@@ -223,6 +254,36 @@ export function usePortalData() {
         await updateDoc(appRef, { messages: updatedMessages });
     };
 
+    const sendMessage = async (subject: string, body: string) => {
+        if (!user || !applicationStatus) return;
+        const appRef = doc(db, 'applications', user.uid);
+
+        const newMessage: Message = {
+            id: `msg-${Date.now()}`,
+            subject,
+            body,
+            timestamp: new Date(),
+            read: false,
+            category: 'general',
+            sender: 'merchant'
+        };
+
+        await updateDoc(appRef, {
+            messages: [newMessage, ...applicationStatus.messages]
+        });
+    };
+
+    const deleteMessage = async (messageId: string) => {
+        if (!user || !applicationStatus) return;
+        const appRef = doc(db, 'applications', user.uid);
+
+        const updatedMessages = applicationStatus.messages.map(msg =>
+            msg.id === messageId ? { ...msg, isDeleted: true } : msg
+        );
+
+        await updateDoc(appRef, { messages: updatedMessages });
+    };
+
     return {
         applicationStatus,
         loading,
@@ -230,6 +291,9 @@ export function usePortalData() {
         addDocument,
         removeDocument,
         updateVerification,
-        markMessageAsRead
+        updateBusinessProfile,
+        markMessageAsRead,
+        sendMessage,
+        deleteMessage
     };
 }

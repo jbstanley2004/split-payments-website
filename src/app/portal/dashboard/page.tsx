@@ -14,6 +14,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 export default function PortalDashboardPage() {
     const [activeSection, setActiveSection] = useState<'dashboard' | 'profile' | 'inbox'>('dashboard');
+    const [targetSection, setTargetSection] = useState<string | null>(null);
     const {
         applicationStatus,
         loading,
@@ -21,7 +22,10 @@ export default function PortalDashboardPage() {
         addDocument,
         removeDocument,
         updateVerification,
-        markMessageAsRead
+        updateBusinessProfile,
+        markMessageAsRead,
+        sendMessage,
+        deleteMessage
     } = usePortalData();
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
@@ -29,10 +33,24 @@ export default function PortalDashboardPage() {
     useEffect(() => {
         if (!authLoading && !user) {
             router.push('/portal/signin');
-        } else if (!authLoading && user && isNewUser) {
+            return;
+        }
+
+        // Admin redirect safety check
+        if (user?.email?.endsWith('@ccsplit.org')) {
+            router.push('/admin');
+            return;
+        }
+
+        if (!authLoading && user && isNewUser) {
             router.push('/portal/onboarding');
         }
     }, [user, authLoading, isNewUser, router]);
+
+    const handleNavigateToSection = (sectionId: string) => {
+        setActiveSection('profile');
+        setTargetSection(sectionId);
+    };
 
     if (loading || !applicationStatus) {
         return (
@@ -47,7 +65,7 @@ export default function PortalDashboardPage() {
     const tabs = [
         { id: 'dashboard', label: 'Overview' },
         { id: 'profile', label: 'Business Profile' },
-        { id: 'inbox', label: 'Notifications', count: unreadMessages }
+        { id: 'inbox', label: 'Inbox', count: unreadMessages }
     ];
 
     return (
@@ -74,7 +92,10 @@ export default function PortalDashboardPage() {
                         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                     >
                         {activeSection === 'dashboard' && (
-                            <DashboardView applicationStatus={applicationStatus} />
+                            <DashboardView
+                                applicationStatus={applicationStatus}
+                                onNavigate={handleNavigateToSection}
+                            />
                         )}
 
                         {activeSection === 'profile' && (
@@ -83,6 +104,8 @@ export default function PortalDashboardPage() {
                                 onDocumentUpload={addDocument}
                                 onDocumentRemove={removeDocument}
                                 onVerificationSubmit={updateVerification}
+                                onUpdateProfile={updateBusinessProfile}
+                                targetSection={targetSection}
                             />
                         )}
 
@@ -90,6 +113,9 @@ export default function PortalDashboardPage() {
                             <InboxView
                                 messages={applicationStatus.messages}
                                 onMarkAsRead={markMessageAsRead}
+                                onNavigate={handleNavigateToSection}
+                                onSendMessage={sendMessage}
+                                onDeleteMessage={deleteMessage}
                             />
                         )}
                     </motion.div>

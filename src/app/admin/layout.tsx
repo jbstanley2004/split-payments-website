@@ -31,5 +31,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         return null; // Will redirect
     }
 
-    return <>{children}</>;
+    return (
+        <div className="min-h-screen bg-[#F6F5F4]">
+            <div className="px-8 pb-12">
+                {children}
+            </div>
+        </div>
+    );
 }

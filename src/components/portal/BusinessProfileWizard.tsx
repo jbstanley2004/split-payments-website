@@ -8,6 +8,7 @@ export interface BusinessProfileData {
     ownerName: string;
     legalName: string;
     phone: string;
+    ownerPhone: string;
     monthlyVolume: string;
     // Optional fields that might be passed in initialData but not collected here
     email?: string;
@@ -24,6 +25,7 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
         ownerName: '',
         legalName: '',
         phone: '',
+        ownerPhone: '',
         monthlyVolume: '',
         ...initialData
     });
@@ -74,17 +76,31 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Phone Number</label>
-                        <input
-                            type="tel"
-                            value={formData.phone}
-                            onChange={(e) => handleChange('phone', e.target.value)}
-                            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all placeholder-gray-300"
-                            placeholder="(555) 555-5555"
-                            required
-                            disabled={isSubmitting}
-                        />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Business Phone</label>
+                            <input
+                                type="tel"
+                                value={formData.phone}
+                                onChange={(e) => handleChange('phone', e.target.value)}
+                                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all placeholder-gray-300"
+                                placeholder="(555) 555-5555"
+                                required
+                                disabled={isSubmitting}
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Owner Cell Phone</label>
+                            <input
+                                type="tel"
+                                value={formData.ownerPhone}
+                                onChange={(e) => handleChange('ownerPhone', e.target.value)}
+                                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all placeholder-gray-300"
+                                placeholder="(555) 555-5555"
+                                required
+                                disabled={isSubmitting}
+                            />
+                        </div>
                     </div>
 
                     <div>

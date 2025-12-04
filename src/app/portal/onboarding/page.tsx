@@ -56,10 +56,19 @@ export default function OnboardingPage() {
                     monthlyRevenue: revenue,
                     yearsInBusiness: 2,
                     email: user.email || '',
-                    phone: data.phone || '',
+                    phone: data.phone || '', // Keep for backward compatibility if needed, but primary is contactInfo
                     ownerName: data.ownerName || ''
                 },
-                progressPercentage: 20
+                contactInfo: {
+                    businessPhone: data.phone || '',
+                    email: user.email || ''
+                },
+                ownerInfo: {
+                    fullName: data.ownerName || '',
+                    cellPhone: data.ownerPhone || ''
+                },
+                progressPercentage: 20,
+                adminViewed: false
             };
 
             // Save directly to Firestore
