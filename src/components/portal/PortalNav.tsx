@@ -16,7 +16,7 @@ export default function PortalNav({ activeSection, onSectionChange, unreadMessag
 
     const sections = [
         { id: 'dashboard' as const, label: 'Dashboard', icon: Home },
-        { id: 'profile' as const, label: 'Business Profile', icon: User },
+        { id: 'profile' as const, label: 'Profile', icon: User },
         { id: 'inbox' as const, label: 'Inbox', icon: Mail, badge: unreadMessages }
     ];
 
