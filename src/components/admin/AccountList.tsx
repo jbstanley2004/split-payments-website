@@ -31,10 +31,10 @@ export default function AccountList({ onSelect }: AccountListProps) {
     }, []);
 
     const filteredAccounts = accounts.filter(acc => {
-        const matchesSearch = 
+        const matchesSearch =
             acc.businessInfo?.businessName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             acc.businessInfo?.email?.toLowerCase().includes(searchTerm.toLowerCase());
-        
+
         if (!matchesSearch) return false;
 
         if (filterType === 'unread') {
@@ -46,7 +46,7 @@ export default function AccountList({ onSelect }: AccountListProps) {
         return true;
     });
 
-    const unreadCount = accounts.reduce((acc, curr) => 
+    const unreadCount = accounts.reduce((acc, curr) =>
         acc + (curr.messages?.filter(m => !m.read && m.sender === 'merchant').length || 0), 0);
 
     const newAccountsCount = accounts.filter(a => !a.adminViewed).length;
@@ -78,11 +78,10 @@ export default function AccountList({ onSelect }: AccountListProps) {
         <div className="max-w-5xl mx-auto">
             {/* Stats Overview */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                <button 
+                <button
                     onClick={() => setFilterType(filterType === 'unread' ? 'all' : 'unread')}
-                    className={`p-6 rounded-3xl border transition-all flex items-center gap-6 shadow-sm text-left ${
-                        filterType === 'unread' ? 'bg-orange-50 border-[#FF4306]' : 'bg-white border-black/5 hover:border-black/10'
-                    }`}
+                    className={`p-6 rounded-3xl border transition-all flex items-center gap-6 shadow-sm text-left ${filterType === 'unread' ? 'bg-orange-50 border-[#FF4306]' : 'bg-white border-black/5 hover:border-black/10'
+                        }`}
                 >
                     <div className="w-14 h-14 rounded-2xl bg-orange-50 text-[#FF4306] flex items-center justify-center">
                         <Bell className="w-7 h-7" />
@@ -92,11 +91,10 @@ export default function AccountList({ onSelect }: AccountListProps) {
                         <div className="text-sm text-black/50 font-lora font-medium">Unread Messages</div>
                     </div>
                 </button>
-                <button 
+                <button
                     onClick={() => setFilterType(filterType === 'new' ? 'all' : 'new')}
-                    className={`p-6 rounded-3xl border transition-all flex items-center gap-6 shadow-sm text-left ${
-                        filterType === 'new' ? 'bg-blue-50 border-blue-600' : 'bg-white border-black/5 hover:border-black/10'
-                    }`}
+                    className={`p-6 rounded-3xl border transition-all flex items-center gap-6 shadow-sm text-left ${filterType === 'new' ? 'bg-blue-50 border-blue-600' : 'bg-white border-black/5 hover:border-black/10'
+                        }`}
                 >
                     <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
                         <UserPlus className="w-7 h-7" />
@@ -171,7 +169,7 @@ export default function AccountList({ onSelect }: AccountListProps) {
                                     ? 'bg-blue-50 text-blue-600'
                                     : 'bg-orange-50 text-[#FF4306]'
                                 }`}>
-                                {account.stage.replace('_', ' ')}
+                                {account.stage?.replace('_', ' ') || 'New'}
                             </div>
 
                             <div className="w-10 h-10 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-colors">

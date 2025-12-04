@@ -37,16 +37,21 @@ export default function PortalNav({ activeSection, onSectionChange, unreadMessag
                                 key={section.id}
                                 onClick={() => onSectionChange(section.id)}
                                 className={`relative px-4 py-2 rounded-lg font-medium text-sm transition-all font-poppins ${activeSection === section.id
-                                        ? 'text-black'
-                                        : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-black'
+                                    : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
                                 <div className="flex items-center gap-2">
                                     <section.icon className="w-4 h-4" />
                                     <span className="hidden sm:inline">{section.label}</span>
                                     {section.badge > 0 && (
-                                        <span className="bg-orange-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                                            {section.badge}
+                                        <span className="relative inline-flex items-center justify-center w-5 h-5">
+                                            {/* Gradient border */}
+                                            <span className="absolute inset-0 rounded-full bg-gradient-to-br from-[#FF4306] via-[#FF4306]/50 to-transparent p-[1.5px]">
+                                                <span className="w-full h-full rounded-full bg-black flex items-center justify-center">
+                                                    <span className="text-white text-xs font-semibold">{section.badge}</span>
+                                                </span>
+                                            </span>
                                         </span>
                                     )}
                                 </div>

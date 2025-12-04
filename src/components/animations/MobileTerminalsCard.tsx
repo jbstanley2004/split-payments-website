@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import YouTubeEmbed from "@/components/YouTubeEmbed";
 
@@ -74,7 +73,7 @@ export default function MobileTerminalsCard({ isExpanded = false, onExpand, expa
                                 </svg>
                             ) : (
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 0 010 7.072m2.828-9.9a9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
                                 </svg>
                             )}
                         </button>
@@ -96,8 +95,17 @@ export default function MobileTerminalsCard({ isExpanded = false, onExpand, expa
                                 </div>
                             </div>
                             <Link href="/contact" className="flex-shrink-0 ml-3">
-                                <div className="w-9 h-9 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
-                                    <ArrowRight className="w-4 h-4" />
+                                <div className="w-14 h-14 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-105 shadow-md">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={2}
+                                        stroke="currentColor"
+                                        className="w-6 h-6"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75" />
+                                    </svg>
                                 </div>
                             </Link>
                         </div>

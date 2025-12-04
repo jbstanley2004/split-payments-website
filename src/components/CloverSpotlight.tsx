@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { useInViewport } from '@/hooks/useInViewport';
 
@@ -112,8 +112,17 @@ const CloverSpotlight = () => {
                         </div>
 
                         <Link href="/payments" className="flex-shrink-0 ml-4">
-                            <div className="w-10 h-10 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-110">
-                                <ArrowRight className="w-5 h-5" />
+                            <div className="w-14 h-14 rounded-full bg-black flex items-center justify-center text-white transition-transform group-hover:scale-105 shadow-md">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={2}
+                                    stroke="currentColor"
+                                    className="w-6 h-6"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75" />
+                                </svg>
                             </div>
                         </Link>
                     </div>

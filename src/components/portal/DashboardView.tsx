@@ -134,11 +134,11 @@ export default function DashboardView({ applicationStatus, onNavigate }: Dashboa
     approvalAmount > 100000
       ? '$100,000+'
       : new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
-        }).format(approvalAmount);
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(approvalAmount);
 
   const formattedMonthlyRevenue = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -171,6 +171,7 @@ export default function DashboardView({ applicationStatus, onNavigate }: Dashboa
           <span className="text-black font-medium">{formattedMonthlyRevenue}</span>.
         </p>
       </motion.div>
+
 
       <div className="w-full max-w-3xl space-y-3 px-4">
         {adminNotifications.map((note, index) => (
