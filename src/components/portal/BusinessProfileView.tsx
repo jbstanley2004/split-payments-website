@@ -293,6 +293,7 @@ export default function BusinessProfileView({
             <div className="space-y-4">
                 <div
                     {...getRootProps()}
+                    className={`group relative bg-white rounded-3xl p-5 sm:p-6 md:p-8 border transition-all duration-300 cursor-pointer overflow-hidden ${isUploaded
                     className={`group relative bg-white rounded-3xl p-6 md:p-8 border transition-all duration-300 cursor-pointer overflow-hidden ${isUploaded
                         ? "border-green-100 shadow-sm"
                         : isDragActive
@@ -302,6 +303,8 @@ export default function BusinessProfileView({
                 >
                     <input {...getInputProps()} />
 
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between relative z-10">
+                        <div className="flex items-start gap-3 sm:gap-4 md:gap-6">
                     <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between relative z-10">
                         <div className="flex items-start gap-4 md:gap-6">
                             <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${isUploaded ? "bg-green-50 text-green-600" : "bg-black/5 text-black/40 group-hover:bg-black/10 group-hover:text-black"
@@ -312,13 +315,17 @@ export default function BusinessProfileView({
                                 <h4 className={`text-lg font-bold font-poppins mb-1 ${isUploaded ? "text-black" : "text-black"}`}>
                                     {title}
                                 </h4 >
+                                <p className="text-black/60 font-lora leading-relaxed text-sm sm:text-base">
+                                    {description}
+                                </p>
+                                <div className="mt-4 flex flex-col sm:flex-row sm:flex-wrap gap-2 sm:gap-3 w-full">
                                 <p className="text-black/50 font-lora leading-relaxed">
                                     {description}
                                 </p>
                                 <div className="mt-4 flex flex-wrap gap-3">
                                     <label
                                         htmlFor={`camera-${type}`}
-                                        className="cursor-pointer px-4 py-2 bg-black text-white rounded-full text-xs font-bold font-poppins hover:bg-gray-800 transition-colors flex items-center gap-2"
+                                        className="cursor-pointer px-4 py-2 bg-black text-white rounded-full text-xs font-bold font-poppins hover:bg-gray-800 transition-colors flex items-center gap-2 justify-center"
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         <Camera className="w-3 h-3" />
@@ -366,7 +373,7 @@ export default function BusinessProfileView({
 
                 {/* File List for All Types */}
                 {documents.length > 0 && (
-                    <div className="grid grid-cols-1 gap-3 pl-20">
+                    <div className="grid grid-cols-1 gap-3 pl-4 sm:pl-16">
                         {documents.map((doc, index) => (
                             <motion.div
                                 key={doc.id || index}
@@ -444,13 +451,13 @@ export default function BusinessProfileView({
         const isOpen = !collapsedSections[id];
 
         return (
-            <div className={`bg-white rounded-[32px] md:rounded-[40px] shadow-2xl border border-gray-100 transition-all duration-500 ${isOpen ? 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]' : 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]'}`}>
+            <div className={`bg-white rounded-[28px] md:rounded-[40px] shadow-2xl border border-gray-100 transition-all duration-500 overflow-hidden ${isOpen ? 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]' : 'hover:shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)]'}`}>
                 {/* Header - always visible */}
                 <div
                     onClick={() => toggleSection(id)}
-                    className="p-2 pl-4 md:pl-6 flex items-center justify-between cursor-pointer group"
+                    className="p-3 pl-4 md:pl-6 flex items-center justify-between cursor-pointer group"
                 >
-                    <div className="text-left py-2">
+                    <div className="text-left py-1 md:py-2 space-y-1">
                         <div className="flex items-center gap-2 mb-0.5">
                             {isComplete ? (
                                 <span className="text-[10px] font-bold uppercase tracking-wider text-green-600">
@@ -462,7 +469,7 @@ export default function BusinessProfileView({
                                 </span>
                             )}
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                             {isComplete && (
                                 <div className="w-2 h-2 rounded-full bg-green-500" />
                             )}
@@ -477,8 +484,8 @@ export default function BusinessProfileView({
                         )}
                     </div>
 
-                    <div className="flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-black text-white rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 shadow-md">
-                        {isOpen ? <ArrowUp className="w-5 h-5 md:w-6 md:h-6" /> : <ArrowDown className="w-5 h-5 md:w-6 md:h-6" />}
+                    <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-black text-white rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 shadow-md">
+                        {isOpen ? <ArrowUp className="w-5 h-5 md:w-5 md:h-5" /> : <ArrowDown className="w-5 h-5 md:w-5 md:h-5" />}
                     </div>
                 </div>
 
@@ -492,7 +499,7 @@ export default function BusinessProfileView({
                             transition={{ duration: 0.3, ease: 'easeInOut' }}
                             style={{ overflow: 'hidden' }}
                         >
-                            <div className="border-t border-gray-100 p-4 md:p-8">
+                            <div className="border-t border-gray-100 p-4 sm:p-6 md:p-8 space-y-6">
                                 {content}
                             </div>
                         </motion.div>
@@ -504,6 +511,7 @@ export default function BusinessProfileView({
 
     const renderBusinessIdentity = () => (
         <div className="">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Legal / Corporate Name</label>
@@ -609,6 +617,7 @@ export default function BusinessProfileView({
 
     const renderContactLocation = () => (
         <div className="">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Physical Business Address</label>
@@ -672,6 +681,7 @@ export default function BusinessProfileView({
 
     const renderFinancialInformation = () => (
         <div className="">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Monthly Processing Volume</label>
@@ -766,6 +776,7 @@ export default function BusinessProfileView({
 
     const renderEquipmentInformation = () => (
         <div className="">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Equipment Make</label>
@@ -821,7 +832,7 @@ export default function BusinessProfileView({
 
                 <div className="col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Equipment Types</label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         {[
                             "Phone swiper/mobile reader",
                             "Virtual Terminal",
@@ -953,6 +964,7 @@ export default function BusinessProfileView({
 
     const renderOwnerInformation = () => (
         <div className="">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Owner Full Name</label>
@@ -1074,7 +1086,7 @@ export default function BusinessProfileView({
     };
 
     return (
-        <div className="max-w-3xl mx-auto pb-20">
+        <div className="max-w-3xl mx-auto pb-20 px-4 sm:px-6">
             {/* Header */}
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -1082,8 +1094,8 @@ export default function BusinessProfileView({
                 className="flex flex-col items-center justify-center mb-16 gap-6 text-center"
             >
                 <div>
-                    <h2 className="text-5xl md:text-6xl font-bold font-poppins mb-4 text-black tracking-tight">Business Profile</h2>
-                    <p className="text-xl md:text-2xl text-black/60 font-lora max-w-2xl mx-auto leading-relaxed">Securely manage your business credentials.</p>
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-poppins mb-3 sm:mb-4 text-black tracking-tight leading-tight">Business Profile</h2>
+                    <p className="text-lg sm:text-xl md:text-2xl text-black/60 font-lora max-w-2xl mx-auto leading-relaxed px-2">Securely manage your business credentials.</p>
                 </div>
             </motion.div>
 
