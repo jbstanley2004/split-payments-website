@@ -341,21 +341,21 @@ export default function BusinessProfileView({
                             </div>
                         </div>
 
-                    <div className="flex flex-col gap-3 sm:gap-2 items-start md:items-end w-full md:w-auto text-left md:text-right">
-                        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-black/5 text-black text-xs font-semibold uppercase tracking-wide w-full md:w-auto justify-center md:justify-start">
-                            <Shield className="w-4 h-4" /> Secure Upload
+                        <div className="flex flex-col gap-3 sm:gap-2 items-start md:items-end w-full md:w-auto text-left md:text-right">
+                            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-black/5 text-black text-xs font-semibold uppercase tracking-wide w-full md:w-auto justify-center md:justify-start">
+                                <Shield className="w-4 h-4" /> Secure Upload
+                            </div>
+                            {!isUploaded ? (
+                                <span className="text-sm font-bold text-black border-b-2 border-black/10 group-hover:border-[#FF4306] transition-colors pb-0.5 font-poppins w-full md:w-auto">
+                                    Upload Files
+                                </span>
+                            ) : (
+                                <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full font-poppins w-full md:w-auto text-center">
+                                    Add More
+                                </span>
+                            )}
                         </div>
-                        {!isUploaded ? (
-                            <span className="text-sm font-bold text-black border-b-2 border-black/10 group-hover:border-[#FF4306] transition-colors pb-0.5 font-poppins w-full md:w-auto">
-                                Upload Files
-                            </span>
-                        ) : (
-                            <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full font-poppins w-full md:w-auto text-center">
-                                Add More
-                            </span>
-                        )}
                     </div>
-                </div>
 
                     {/* Hover Gradient */}
                     {!isUploaded && (
@@ -477,8 +477,8 @@ export default function BusinessProfileView({
                         )}
                     </div>
 
-                    <div className="flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 bg-black text-white rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 shadow-md self-end sm:self-auto">
-                        {isOpen ? <ArrowUp className="w-5 h-5 md:w-5 md:h-5" /> : <ArrowDown className="w-5 h-5 md:w-5 md:h-5" />}
+                    <div className="flex-shrink-0 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 shadow-md self-end sm:self-auto">
+                        {isOpen ? <ArrowUp className="w-6 h-6" /> : <ArrowDown className="w-6 h-6" />}
                     </div>
                 </div>
 
@@ -504,8 +504,8 @@ export default function BusinessProfileView({
 
     const renderBusinessIdentity = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 lg:gap-6">
-                <div className="col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
+                <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Legal / Corporate Name</label>
                     <input
                         type="text"
@@ -585,7 +585,7 @@ export default function BusinessProfileView({
                         <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                     )}
                 </div>
-                <div className="col-span-2 mt-4">
+                <div className="col-span-1 md:col-span-2 mt-4">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Verification Document</label>
                     <DocumentCard
                         title="Voided Check"
@@ -609,8 +609,8 @@ export default function BusinessProfileView({
 
     const renderContactLocation = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 lg:gap-6">
-                <div className="col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
+                <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Physical Business Address</label>
                     <input
                         type="text"
@@ -648,7 +648,7 @@ export default function BusinessProfileView({
                         placeholder="name@company.com"
                     />
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Website (Optional)</label>
                     <input
                         type="url"
@@ -672,7 +672,7 @@ export default function BusinessProfileView({
 
     const renderFinancialInformation = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 lg:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Monthly Processing Volume</label>
                     <div className="relative">
@@ -730,7 +730,7 @@ export default function BusinessProfileView({
                         <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                     )}
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Description of Product/Service</label>
                     <textarea
                         value={localBusinessInfo.productServiceDescription || ''}
@@ -742,7 +742,7 @@ export default function BusinessProfileView({
                         <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                     )}
                 </div>
-                <div className="col-span-2 mt-4">
+                <div className="col-span-1 md:col-span-2 mt-4">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Verification Document</label>
                     <DocumentCard
                         title="Merchant Statements"
@@ -766,7 +766,7 @@ export default function BusinessProfileView({
 
     const renderEquipmentInformation = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 lg:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Equipment Make</label>
                     <input
@@ -787,7 +787,7 @@ export default function BusinessProfileView({
                         placeholder="e.g. Station Duo"
                     />
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Card Swipe Ratio (Must equal 100%)</label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                         <div>
@@ -819,7 +819,7 @@ export default function BusinessProfileView({
                     </div>
                 </div>
 
-                <div className="col-span-2">
+                <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Equipment Types</label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         {[
@@ -849,7 +849,7 @@ export default function BusinessProfileView({
                     </div>
                 </div>
 
-                <div className="col-span-2">
+                <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Equipment Photo</label>
 
                     <div className="border-2 border-dashed border-black/10 rounded-xl p-8 text-center hover:border-black/20 transition-colors bg-[#F6F5F4]/50 mb-4">
@@ -953,8 +953,8 @@ export default function BusinessProfileView({
 
     const renderOwnerInformation = () => (
         <div className="">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 lg:gap-6">
-                <div className="col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
+                <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Owner Full Name</label>
                     <input
                         type="text"
@@ -986,7 +986,7 @@ export default function BusinessProfileView({
                     />
                     <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Owner's Home Address</label>
                     <input
                         type="text"
@@ -1008,7 +1008,7 @@ export default function BusinessProfileView({
                     />
                     <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                 </div>
-                <div className="col-span-2 mt-4">
+                <div className="col-span-1 md:col-span-2 mt-4">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Verification Document</label>
                     <DocumentCard
                         title="Photo ID"
