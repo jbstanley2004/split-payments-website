@@ -44,80 +44,97 @@ export default function BusinessProfileView({
     const [localOwnerInfo, setLocalOwnerInfo] = useState(ownerInfo || {});
     const [localEquipmentInfo, setLocalEquipmentInfo] = useState(equipmentInfo || {});
 
+    // Track if user has touched the form to prevent overwriting with stale props
+    const [isDirty, setIsDirty] = useState(false);
+
+    // Refs for unmount saving and accessing latest state in cleanups
+    const localBusinessInfoRef = useRef(localBusinessInfo);
+    const localContactInfoRef = useRef(localContactInfo);
+    const localOwnerInfoRef = useRef(localOwnerInfo);
+    const localEquipmentInfoRef = useRef(localEquipmentInfo);
+    const isDirtyRef = useRef(isDirty);
+
+    // Keep refs in sync
+    useEffect(() => {
+        localBusinessInfoRef.current = localBusinessInfo;
+        localContactInfoRef.current = localContactInfo;
+        localOwnerInfoRef.current = localOwnerInfo;
+        localEquipmentInfoRef.current = localEquipmentInfo;
+        isDirtyRef.current = isDirty;
+    }, [localBusinessInfo, localContactInfo, localOwnerInfo, localEquipmentInfo, isDirty]);
+
+    // Save on unmount if dirty
+    useEffect(() => {
+        return () => {
+            if (isDirtyRef.current) {
+                // Determine what changed to send minimal updates, or just send all local state to be safe.
+                // Sending all local state ensures consistency.
+                onUpdateProfile({
+                    businessInfo: localBusinessInfoRef.current,
+                    contactInfo: localContactInfoRef.current as any,
+                    ownerInfo: localOwnerInfoRef.current as any,
+                    equipmentInfo: localEquipmentInfoRef.current as any
+                });
+            }
+        };
+    }, []);
+
     // Sync local state when props change
+    // CRITICAL FIX: Only sync if the user hasn't modified the form (isDirty is false).
+    // This prevents incoming prop updates (e.g. from file uploads) from wiping user's unsaved input.
+    useEffect(() => {
+        if (!isDirty) {
+            setLocalBusinessInfo(businessInfo);
+            setLocalContactInfo(contactInfo || {});
+            setLocalOwnerInfo(ownerInfo || {});
+            setLocalEquipmentInfo(equipmentInfo || {});
+        }
+    }, [businessInfo, contactInfo, ownerInfo, equipmentInfo, isDirty]);
+
+
     // Debounced values for auto-save
     const debouncedBusinessInfo = useDebounce(localBusinessInfo, 1000);
     const debouncedContactInfo = useDebounce(localContactInfo, 1000);
     const debouncedOwnerInfo = useDebounce(localOwnerInfo, 1000);
     const debouncedEquipmentInfo = useDebounce(localEquipmentInfo, 1000);
 
-    // Track if we are currently editing to prevent overwriting local state with stale props
-    const isEditingRef = useRef(false);
-
     // Auto-save effects
     useEffect(() => {
-        if (JSON.stringify(debouncedBusinessInfo) !== JSON.stringify(businessInfo)) {
+        if (isDirty && JSON.stringify(debouncedBusinessInfo) !== JSON.stringify(businessInfo)) {
             onUpdateProfile({ businessInfo: debouncedBusinessInfo });
         }
     }, [debouncedBusinessInfo]);
 
     useEffect(() => {
-        if (JSON.stringify(debouncedContactInfo) !== JSON.stringify(contactInfo)) {
+        if (isDirty && JSON.stringify(debouncedContactInfo) !== JSON.stringify(contactInfo)) {
             onUpdateProfile({ contactInfo: debouncedContactInfo as any });
         }
     }, [debouncedContactInfo]);
 
     useEffect(() => {
-        if (JSON.stringify(debouncedOwnerInfo) !== JSON.stringify(ownerInfo)) {
+        if (isDirty && JSON.stringify(debouncedOwnerInfo) !== JSON.stringify(ownerInfo)) {
             onUpdateProfile({ ownerInfo: debouncedOwnerInfo as any });
         }
     }, [debouncedOwnerInfo]);
 
     useEffect(() => {
-        if (JSON.stringify(debouncedEquipmentInfo) !== JSON.stringify(equipmentInfo)) {
+        if (isDirty && JSON.stringify(debouncedEquipmentInfo) !== JSON.stringify(equipmentInfo)) {
             onUpdateProfile({ equipmentInfo: debouncedEquipmentInfo as any });
         }
     }, [debouncedEquipmentInfo]);
 
-    // Sync local state when props change (only if not editing or if forced)
-    // Sync local state when props change
-    // CRITICAL FIX: Only sync if local state is empty/uninitialized to prevent overwriting user data with stale props.
-    // Once the user starts editing, local state is the source of truth until a full reload.
-    useEffect(() => {
-        // Business Info
-        const isLocalBusinessEmpty = !localBusinessInfo.businessName && !localBusinessInfo.ein;
-        if (isLocalBusinessEmpty && businessInfo?.businessName) {
-            setLocalBusinessInfo(businessInfo);
-        }
-
-        // Contact Info
-        const isLocalContactEmpty = !localContactInfo.email && !localContactInfo.businessPhone;
-        if (isLocalContactEmpty && contactInfo?.email) {
-            setLocalContactInfo(contactInfo || {});
-        }
-
-        // Owner Info
-        const isLocalOwnerEmpty = !localOwnerInfo.fullName && !localOwnerInfo.ssn;
-        if (isLocalOwnerEmpty && ownerInfo?.fullName) {
-            setLocalOwnerInfo(ownerInfo || {});
-        }
-
-        // Equipment Info
-        const isLocalEquipmentEmpty = !localEquipmentInfo.make && !localEquipmentInfo.model;
-        if (isLocalEquipmentEmpty && equipmentInfo?.make) {
-            setLocalEquipmentInfo(equipmentInfo || {});
-        }
-    }, [businessInfo, contactInfo, ownerInfo, equipmentInfo]);
 
     // Wrapper for document upload to force save current state first
     const handleDocumentUploadWrapper = (type: DocumentType, file: File) => {
         // Force immediate save of current local state to ensure no data loss
-        onUpdateProfile({
-            businessInfo: localBusinessInfo,
-            contactInfo: localContactInfo as any,
-            ownerInfo: localOwnerInfo as any,
-            equipmentInfo: localEquipmentInfo as any
-        });
+        if (isDirtyRef.current) {
+            onUpdateProfile({
+                businessInfo: localBusinessInfo,
+                contactInfo: localContactInfo as any,
+                ownerInfo: localOwnerInfo as any,
+                equipmentInfo: localEquipmentInfo as any
+            });
+        }
         onDocumentUpload(type, file);
     };
 
@@ -216,6 +233,13 @@ export default function BusinessProfileView({
 
         onUpdateProfile(updates);
         setCollapsedSections(prev => ({ ...prev, [sectionId]: true }));
+        // Reset dirty flag after explicit save? 
+        // Ideally yes, but updates are async. 
+        // Actually, if we reset isDirty, then the props sync will kick in.
+        // If the props haven't updated yet, we might revert to old data. 
+        // SAFE BET: Keep isDirty true until component unmounts or reloads, 
+        // relying on auto-sync and manual saves to push data UP, but never pulling data DOWN while editing.
+        // This is the most robust way to prevent data loss.
 
         // Sequence the reordering: Wait for collapse animation (300ms) + buffer
         if (isValid) {
@@ -232,27 +256,23 @@ export default function BusinessProfileView({
 
     // Helper for input changes
     const updateBusinessField = (field: string, value: any) => {
-        isEditingRef.current = true;
+        setIsDirty(true);
         setLocalBusinessInfo(prev => ({ ...prev, [field]: value }));
-        setTimeout(() => { isEditingRef.current = false; }, 2000); // Reset after delay
     };
 
     const updateContactField = (field: string, value: any) => {
-        isEditingRef.current = true;
+        setIsDirty(true);
         setLocalContactInfo(prev => ({ ...prev, [field]: value }));
-        setTimeout(() => { isEditingRef.current = false; }, 2000);
     };
 
     const updateOwnerField = (field: string, value: any) => {
-        isEditingRef.current = true;
+        setIsDirty(true);
         setLocalOwnerInfo(prev => ({ ...prev, [field]: value }));
-        setTimeout(() => { isEditingRef.current = false; }, 2000);
     };
 
     const updateEquipmentField = (field: string, value: any) => {
-        isEditingRef.current = true;
+        setIsDirty(true);
         setLocalEquipmentInfo(prev => ({ ...prev, [field]: value }));
-        setTimeout(() => { isEditingRef.current = false; }, 2000);
     };
 
     // Helper for document rows
@@ -303,12 +323,12 @@ export default function BusinessProfileView({
                     <input {...getInputProps()} />
 
                     <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between relative z-10">
-                        <div className="flex items-start gap-3 sm:gap-4 md:gap-6">
+                        <div className="flex items-start gap-3 sm:gap-4 md:gap-6 w-full">
                             <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${isUploaded ? "bg-green-50 text-green-600" : "bg-black/5 text-black/40 group-hover:bg-black/10 group-hover:text-black"
                                 }`}>
                                 {isUploaded ? <Check className="w-6 h-6" /> : <FileText className="w-6 h-6" />}
                             </div>
-                            <div>
+                            <div className="flex-1">
                                 <h4 className={`text-lg font-bold font-poppins mb-1 ${isUploaded ? "text-black" : "text-black"}`}>
                                     {title}
                                 </h4 >
@@ -340,27 +360,7 @@ export default function BusinessProfileView({
                                 </div>
                             </div>
                         </div>
-
-                        <div className="flex flex-col gap-3 sm:gap-2 items-start md:items-end w-full md:w-auto text-left md:text-right">
-                            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-black/5 text-black text-xs font-semibold uppercase tracking-wide w-full md:w-auto justify-center md:justify-start">
-                                <Shield className="w-4 h-4" /> Secure Upload
-                            </div>
-                            {!isUploaded ? (
-                                <span className="text-sm font-bold text-black border-b-2 border-black/10 group-hover:border-[#FF4306] transition-colors pb-0.5 font-poppins w-full md:w-auto">
-                                    Upload Files
-                                </span>
-                            ) : (
-                                <span className="text-xs font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full font-poppins w-full md:w-auto text-center">
-                                    Add More
-                                </span>
-                            )}
-                        </div>
                     </div>
-
-                    {/* Hover Gradient */}
-                    {!isUploaded && (
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/[0.02] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
-                    )}
 
                 </div>
 
@@ -970,10 +970,12 @@ export default function BusinessProfileView({
                         type="text"
                         value={localOwnerInfo.title || ''}
                         onChange={(e) => updateOwnerField('title', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.title ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="CEO, Owner, etc."
                     />
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localOwnerInfo.title && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Cell Phone</label>
@@ -981,10 +983,12 @@ export default function BusinessProfileView({
                         type="tel"
                         value={localOwnerInfo.cellPhone || ''}
                         onChange={(e) => updateOwnerField('cellPhone', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.cellPhone ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="(555) 555-5555"
                     />
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localOwnerInfo.cellPhone && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Owner's Home Address</label>
@@ -992,10 +996,12 @@ export default function BusinessProfileView({
                         type="text"
                         value={localOwnerInfo.homeAddress || ''}
                         onChange={(e) => updateOwnerField('homeAddress', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.homeAddress ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="Street Address, City, State, Zip"
                     />
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localOwnerInfo.homeAddress && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Social Security Number</label>
@@ -1003,10 +1009,12 @@ export default function BusinessProfileView({
                         type="text"
                         value={localOwnerInfo.ssn || ''}
                         onChange={(e) => updateOwnerField('ssn', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.ssn ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="XXX-XX-XXXX"
                     />
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localOwnerInfo.ssn && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div className="col-span-1 md:col-span-2 mt-4">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Verification Document</label>
@@ -1019,26 +1027,12 @@ export default function BusinessProfileView({
                     />
                 </div>
             </div>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:justify-end">
                 <button
-                    onClick={() => {
-                        // Save all sections
-                        onUpdateProfile({
-                            businessInfo: localBusinessInfo,
-                            contactInfo: localContactInfo as any,
-                            ownerInfo: localOwnerInfo as any,
-                            equipmentInfo: localEquipmentInfo as any
-                        });
-
-                        onVerificationSubmit(
-                            localBusinessInfo.ein || '',
-                            localOwnerInfo.ssn || ''
-                        );
-                        setCollapsedSections(prev => ({ ...prev, 'owner-information': true }));
-                    }}
-                    className="w-full sm:w-auto px-8 py-3 bg-black text-white rounded-full font-bold text-base hover:bg-gray-800 transition-colors"
+                    onClick={() => handleSaveSection('owner-information')}
+                    className="w-full sm:w-auto px-6 py-3 bg-black text-white rounded-full font-bold text-sm hover:bg-gray-800 transition-colors"
                 >
-                    Save All Changes
+                    Save Section
                 </button>
             </div>
         </div>

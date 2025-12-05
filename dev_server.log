@@ -1,1 +1,81 @@
-test
+
+> split-website@1.0.0 dev
+> next dev -p 3004
+
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/jacob/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/jacob/.gemini/antigravity/playground/nascent-stellar/package-lock.json
+
+   ▲ Next.js 16.0.1 (Turbopack)
+   - Local:        http://localhost:3004
+   - Network:      http://192.168.2.137:3004
+   - Environments: .env.local
+   - Experiments (use with caution):
+     ✓ inlineCss
+     ✓ turbopackUseSystemTlsCerts
+
+ ✓ Starting...
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+ ✓ Ready in 538ms
+ ○ Compiling / ...
+ GET / 200 in 3.8s (compile: 3.5s, render: 312ms)
+ ⨯ ./.gemini/antigravity/playground/nascent-stellar/src/hooks/usePortalData.ts:11:1
+Module not found: Can't resolve 'lodash/debounce'
+[0m [90m  9 |[39m [36mimport[39m { db[33m,[39m storage } [36mfrom[39m [32m"@/lib/firebase"[39m[33m;[39m
+ [90m 10 |[39m [36mimport[39m { [33mApplicationStatus[39m[33m,[39m [33mDocument[39m[33m,[39m [33mDocumentType[39m } [36mfrom[39m [32m"@/types/portal"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 11 |[39m [36mimport[39m { debounce } [36mfrom[39m [32m'lodash'[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 12 |[39m
+ [90m 13 |[39m [90m// --- Helper for creating initial data ---[39m
+ [90m 14 |[39m [36mconst[39m getInitialApplicationData [33m=[39m (email[33m:[39m string)[33m:[39m [33mApplicationStatus[39m [33m=>[39m ({[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./.gemini/antigravity/playground/nascent-stellar/src/hooks/usePortalData.ts [Client Component Browser]
+    ./.gemini/antigravity/playground/nascent-stellar/src/app/portal/dashboard/page.tsx [Client Component Browser]
+    ./.gemini/antigravity/playground/nascent-stellar/src/app/portal/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./.gemini/antigravity/playground/nascent-stellar/src/hooks/usePortalData.ts [Client Component SSR]
+    ./.gemini/antigravity/playground/nascent-stellar/src/app/portal/dashboard/page.tsx [Client Component SSR]
+    ./.gemini/antigravity/playground/nascent-stellar/src/app/portal/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ GET /portal/dashboard/ 500 in 1716ms (compile: 1634ms, render: 82ms)
+ ⨯ ./.gemini/antigravity/playground/nascent-stellar/src/hooks/usePortalData.ts:11:1
+Module not found: Can't resolve 'lodash/debounce'
+[0m [90m  9 |[39m [36mimport[39m { db[33m,[39m storage } [36mfrom[39m [32m"@/lib/firebase"[39m[33m;[39m
+ [90m 10 |[39m [36mimport[39m { [33mApplicationStatus[39m[33m,[39m [33mDocument[39m[33m,[39m [33mDocumentType[39m } [36mfrom[39m [32m"@/types/portal"[39m[33m;[39m
+[31m[1m>[22m[39m[90m 11 |[39m [36mimport[39m { debounce } [36mfrom[39m [32m'lodash'[39m[33m;[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 12 |[39m
+ [90m 13 |[39m [90m// --- Helper for creating initial data ---[39m
+ [90m 14 |[39m [36mconst[39m getInitialApplicationData [33m=[39m (email[33m:[39m string)[33m:[39m [33mApplicationStatus[39m [33m=>[39m ({[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./.gemini/antigravity/playground/nascent-stellar/src/hooks/usePortalData.ts [Client Component Browser]
+    ./.gemini/antigravity/playground/nascent-stellar/src/app/portal/dashboard/page.tsx [Client Component Browser]
+    ./.gemini/antigravity/playground/nascent-stellar/src/app/portal/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./.gemini/antigravity/playground/nascent-stellar/src/hooks/usePortalData.ts [Client Component SSR]
+    ./.gemini/antigravity/playground/nascent-stellar/src/app/portal/dashboard/page.tsx [Client Component SSR]
+    ./.gemini/antigravity/playground/nascent-stellar/src/app/portal/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+ GET /portal/dashboard/ 500 in 72ms (compile: 45ms, render: 27ms)
+ ✓ Compiled in 631ms
+ GET /portal/dashboard/ 200 in 687ms (compile: 329ms, render: 358ms)
+ ✓ Compiled in 230ms
