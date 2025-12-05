@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { verifyPhoneNumberWithApi } from '@/lib/phoneVerification';
+import { formatNormalizedPhone, verifyPhoneNumber, verifyPhoneNumberWithApi } from '@/lib/phoneVerification';
 
 export interface BusinessProfileData {
     ownerName: string;
@@ -22,6 +22,21 @@ interface BusinessProfileWizardProps {
 }
 
 export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ onSubmit, initialData, isSubmitting = false }) => {
+    const sanitizePhoneInput = (value: string) => value.replace(/[^0-9()+\-\s]/g, '');
+    const sanitizeCurrencyInput = (value: string) => {
+        const cleaned = value.replace(/[^0-9.]/g, '');
+        if (!cleaned) return '';
+
+        const [whole, decimal] = cleaned.split('.');
+        const normalizedWhole = whole.replace(/^0+(?=\d)/, '');
+        if (decimal === undefined) return normalizedWhole;
+        const trimmedDecimal = decimal.replace(/\D/g, '').slice(0, 2);
+        if (!trimmedDecimal) {
+            return normalizedWhole || '0';
+        }
+        return `${normalizedWhole || '0'}.${trimmedDecimal}`;
+    };
+
     const [formData, setFormData] = useState<BusinessProfileData>({
         ownerName: '',
         legalName: '',
@@ -34,7 +49,14 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
     const [phoneErrors, setPhoneErrors] = useState<{ business?: string; owner?: string }>({});
 
     const handleChange = (field: keyof BusinessProfileData, value: string) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
+        let nextValue = value;
+        if (field === 'phone' || field === 'ownerPhone') {
+            nextValue = sanitizePhoneInput(value);
+        }
+        if (field === 'monthlyVolume') {
+            nextValue = sanitizeCurrencyInput(value);
+        }
+        setFormData(prev => ({ ...prev, [field]: nextValue }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -56,11 +78,13 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
             return;
         }
 
-        onSubmit({
+        const submissionData: BusinessProfileData = {
             ...formData,
-            phone: businessPhoneVerification.formatted,
-            ownerPhone: ownerPhoneVerification.formatted
-        });
+            phone: businessPhoneVerification.formatted || formatNormalizedPhone(businessPhoneVerification.normalized),
+            ownerPhone: ownerPhoneVerification.formatted || formatNormalizedPhone(ownerPhoneVerification.normalized)
+        };
+
+        onSubmit(submissionData);
     };
 
     return (
@@ -97,14 +121,21 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-1">Business Phone</label>
-                            <input
-                                type="tel"
-                                value={formData.phone}
-                                onChange={(e) => handleChange('phone', e.target.value)}
-                                className="w-full bg-[#F6F5F4] border-transparent rounded-2xl px-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
-                                placeholder="(555) 555-5555"
-                                required
-                                disabled={isSubmitting}
+                        <input
+                            type="tel"
+                            value={formData.phone}
+                            onChange={(e) => handleChange('phone', e.target.value)}
+                            onBlur={() => {
+                                const result = verifyPhoneNumber(formData.phone);
+                                if (result.isValid) {
+                                    handleChange('phone', result.formatted || formatNormalizedPhone(result.normalized));
+                                }
+                            }}
+                            inputMode="tel"
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-2xl px-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
+                            placeholder="(555) 555-5555"
+                            required
+                            disabled={isSubmitting}
                             />
                             {phoneErrors.business && (
                                 <p className="text-xs text-orange-600 mt-2 font-semibold">{phoneErrors.business}</p>
@@ -112,14 +143,21 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-1">Owner Cell Phone</label>
-                            <input
-                                type="tel"
-                                value={formData.ownerPhone}
-                                onChange={(e) => handleChange('ownerPhone', e.target.value)}
-                                className="w-full bg-[#F6F5F4] border-transparent rounded-2xl px-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
-                                placeholder="(555) 555-5555"
-                                required
-                                disabled={isSubmitting}
+                        <input
+                            type="tel"
+                            value={formData.ownerPhone}
+                            onChange={(e) => handleChange('ownerPhone', e.target.value)}
+                            onBlur={() => {
+                                const result = verifyPhoneNumber(formData.ownerPhone);
+                                if (result.isValid) {
+                                    handleChange('ownerPhone', result.formatted || formatNormalizedPhone(result.normalized));
+                                }
+                            }}
+                            inputMode="tel"
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-2xl px-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
+                            placeholder="(555) 555-5555"
+                            required
+                            disabled={isSubmitting}
                             />
                             {phoneErrors.owner && (
                                 <p className="text-xs text-orange-600 mt-2 font-semibold">{phoneErrors.owner}</p>
@@ -135,6 +173,7 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
                                 type="text"
                                 value={formData.monthlyVolume}
                                 onChange={(e) => handleChange('monthlyVolume', e.target.value)}
+                                inputMode="decimal"
                                 className="w-full bg-[#F6F5F4] border-transparent rounded-2xl pl-10 pr-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
                                 placeholder="0.00"
                                 required

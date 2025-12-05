@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Shield, Eye, EyeOff } from "lucide-react";
+import { formatEin, formatSsn, verifyEin, verifySsn } from "@/lib/identityValidation";
 
 interface VerificationFormProps {
     onSubmit: (ein: string, ssn: string) => void;
@@ -13,34 +14,23 @@ export default function VerificationForm({ onSubmit, isComplete }: VerificationF
     const [ein, setEin] = useState("");
     const [ssn, setSsn] = useState("");
     const [showSSN, setShowSSN] = useState(false);
-
-    const formatEIN = (value: string) => {
-        const numbers = value.replace(/\D/g, '');
-        if (numbers.length <= 2) return numbers;
-        return `${numbers.slice(0, 2)}-${numbers.slice(2, 9)}`;
-    };
-
-    const formatSSN = (value: string) => {
-        const numbers = value.replace(/\D/g, '');
-        if (numbers.length <= 3) return numbers;
-        if (numbers.length <= 5) return `${numbers.slice(0, 3)}-${numbers.slice(3)}`;
-        return `${numbers.slice(0, 3)}-${numbers.slice(3, 5)}-${numbers.slice(5, 9)}`;
-    };
+    const einValidation = useMemo(() => verifyEin(ein), [ein]);
+    const ssnValidation = useMemo(() => verifySsn(ssn), [ssn]);
 
     const handleEINChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const formatted = formatEIN(e.target.value);
+        const formatted = formatEin(e.target.value);
         setEin(formatted);
     };
 
     const handleSSNChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const formatted = formatSSN(e.target.value);
+        const formatted = formatSsn(e.target.value);
         setSsn(formatted);
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (ein.length === 10 && ssn.length === 11) {
-            onSubmit(ein, ssn);
+        if (einValidation.isValid && ssnValidation.isValid) {
+            onSubmit(einValidation.formatted, ssnValidation.formatted);
         }
     };
 
@@ -96,6 +86,9 @@ export default function VerificationForm({ onSubmit, isComplete }: VerificationF
                         className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-black focus:outline-none focus:ring-2 focus:ring-black/10 transition-all font-poppins"
                         required
                     />
+                    {ein && !einValidation.isValid && (
+                        <p className="text-xs text-orange-600 mt-1 font-poppins font-semibold">{einValidation.reason}</p>
+                    )}
                     <p className="text-xs text-gray-500 mt-1 font-poppins">
                         Enter your 9-digit Employer Identification Number
                     </p>
@@ -127,6 +120,9 @@ export default function VerificationForm({ onSubmit, isComplete }: VerificationF
                             )}
                         </button>
                     </div>
+                    {ssn && !ssnValidation.isValid && (
+                        <p className="text-xs text-orange-600 mt-1 font-poppins font-semibold">{ssnValidation.reason}</p>
+                    )}
                     <p className="text-xs text-gray-500 mt-1 font-poppins">
                         Enter your 9-digit Social Security Number
                     </p>
@@ -136,7 +132,7 @@ export default function VerificationForm({ onSubmit, isComplete }: VerificationF
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
                     type="submit"
-                    disabled={ein.length !== 10 || ssn.length !== 11}
+                    disabled={!einValidation.isValid || !ssnValidation.isValid}
                     className="w-full px-6 py-3 bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed font-poppins"
                 >
                     Submit Verification
