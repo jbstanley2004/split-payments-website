@@ -8,7 +8,6 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithP
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import ReCAPTCHA from "react-google-recaptcha";
 
 export default function SignInForm() {
     const [email, setEmail] = useState("");
@@ -245,39 +244,25 @@ export default function SignInForm() {
                             </AnimatePresence>
                         </div>
 
-                        <div className="flex justify-center">
-                            {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
-                                <ReCAPTCHA
-                                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                                    onChange={(token) => {
-                                        // Handle token verification here or store it in state
-                                        console.log("Captcha token:", token);
-                                    }}
-                                />
-                            ) : (
-                                <p className="text-xs text-red-500">
-                                    ReCAPTCHA key missing. Please check .env.local
-                                </p>
-                            )}
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={isLoading || isGoogleLoading}
-                            className="w-full h-12 md:h-14 flex items-center justify-center gap-2 rounded-full font-medium text-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-none hover:shadow-none bg-white border-2 border-[#111111] text-[#111111] hover:bg-[#111111]/5"
-                        >
-                            {isLoading ? (
-                                <Loader2 className="w-5 h-5 animate-spin" />
-                            ) : (
-                                <>
-                                    <span>{isSignUp ? "Get qualified" : "Sign In"}</span>
-                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-                                </>
-                            )}
-                        </button>
-                    </form>
                 </div>
-            </div>
+
+                <button
+                    type="submit"
+                    disabled={isLoading || isGoogleLoading}
+                    className="w-full h-12 md:h-14 flex items-center justify-center gap-2 rounded-full font-medium text-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-none hover:shadow-none bg-white border-2 border-[#111111] text-[#111111] hover:bg-[#111111]/5"
+                >
+                    {isLoading ? (
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                    ) : (
+                        <>
+                            <span>{isSignUp ? "Get qualified" : "Sign In"}</span>
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                        </>
+                    )}
+                </button>
+            </form>
         </div>
+            </div >
+        </div >
     );
 }
