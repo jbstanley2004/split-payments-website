@@ -160,7 +160,7 @@ export default function SignInForm() {
                         {getGreeting()}
                     </h1>
                     <p className="text-[1.15rem] text-gray-500 max-w-[620px] mx-auto leading-relaxed">
-                        Sign in or create an account to get qualified for funding and access your split portal.
+                        Sign in or create an account to get qualified for funding and access your Split Portal.
                     </p>
                 </div>
 

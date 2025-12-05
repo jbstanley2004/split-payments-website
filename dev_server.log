@@ -202,3 +202,57 @@ https://nextjs.org/docs/messages/module-not-found
  GET /portal/signin/ 200 in 52ms (compile: 1312µs, render: 51ms)
  GET /portal/signin/ 200 in 18ms (compile: 4ms, render: 14ms)
  GET / 200 in 62ms (compile: 21ms, render: 41ms)
+ GET /portal/dashboard/ 200 in 81ms (compile: 38ms, render: 42ms)
+ GET /portal/signin/ 200 in 82ms (compile: 13ms, render: 70ms)
+ GET /portal/signin/ 200 in 60ms (compile: 4ms, render: 55ms)
+ GET /portal/signin/ 200 in 43ms (compile: 1793µs, render: 41ms)
+ GET /portal/signin/ 200 in 21ms (compile: 1888µs, render: 19ms)
+ GET /payments/ 200 in 56ms (compile: 20ms, render: 36ms)
+ GET /funding/ 200 in 50ms (compile: 21ms, render: 29ms)
+ GET /portal/dashboard/ 200 in 35ms (compile: 8ms, render: 28ms)
+ GET /portal/signin/ 200 in 72ms (compile: 6ms, render: 66ms)
+ GET /portal/signin/ 200 in 47ms (compile: 1377µs, render: 46ms)
+ GET /portal/signin/ 200 in 32ms (compile: 4ms, render: 28ms)
+ GET /portal/signin/ 200 in 14ms (compile: 1223µs, render: 13ms)
+ GET / 200 in 43ms (compile: 16ms, render: 27ms)
+ GET /payments/ 200 in 52ms (compile: 6ms, render: 46ms)
+ GET /funding/ 200 in 47ms (compile: 17ms, render: 30ms)
+ GET /portal/dashboard/ 200 in 44ms (compile: 8ms, render: 36ms)
+ GET /portal/signin/ 200 in 71ms (compile: 6ms, render: 65ms)
+ GET /portal/signin/ 200 in 46ms (compile: 3ms, render: 43ms)
+ GET /portal/signin/ 200 in 32ms (compile: 1333µs, render: 31ms)
+ GET /portal/signin/ 200 in 16ms (compile: 1321µs, render: 15ms)
+ GET /portal/dashboard/ 200 in 61ms (compile: 15ms, render: 46ms)
+ GET /portal/signin/ 200 in 78ms (compile: 6ms, render: 71ms)
+ GET /portal/signin/ 200 in 59ms (compile: 1597µs, render: 57ms)
+ GET /portal/signin/ 200 in 44ms (compile: 3ms, render: 41ms)
+ GET /portal/signin/ 200 in 15ms (compile: 3ms, render: 12ms)
+ GET /funding/ 200 in 30ms (compile: 6ms, render: 24ms)
+ GET /payments/ 200 in 32ms (compile: 6ms, render: 26ms)
+ GET / 200 in 49ms (compile: 12ms, render: 37ms)
+ GET /portal/dashboard/ 200 in 36ms (compile: 8ms, render: 28ms)
+ GET /portal/signin/ 200 in 76ms (compile: 4ms, render: 72ms)
+ GET /portal/signin/ 200 in 49ms (compile: 1674µs, render: 48ms)
+ GET /portal/signin/ 200 in 36ms (compile: 1662µs, render: 35ms)
+ GET /portal/signin/ 200 in 22ms (compile: 1282µs, render: 21ms)
+ ✓ Compiled in 384ms
+ GET / 200 in 73ms (compile: 30ms, render: 43ms)
+ ✓ Compiled in 290ms
+ GET /portal/dashboard/ 200 in 309ms (compile: 106ms, render: 204ms)
+ GET /portal/signin/ 200 in 387ms (compile: 212ms, render: 175ms)
+ GET /portal/signin/ 200 in 80ms (compile: 9ms, render: 71ms)
+ GET /portal/signin/ 200 in 49ms (compile: 2ms, render: 46ms)
+ GET /portal/signin/ 200 in 29ms (compile: 3ms, render: 26ms)
+ GET /payments/ 200 in 137ms (compile: 100ms, render: 37ms)
+ ✓ Compiled in 273ms
+ ✓ Compiled in 334ms
+ ✓ Compiled in 179ms
+ GET /payments/ 200 in 801ms (compile: 236ms, render: 565ms)
+ GET /payments/ 200 in 169ms (compile: 41ms, render: 127ms)
+ ✓ Compiled in 206ms
+ ✓ Compiled in 208ms
+ ✓ Compiled in 239ms
+ ✓ Compiled in 157ms
+ GET /payments/ 200 in 568ms (compile: 151ms, render: 417ms)
+ ✓ Compiled in 187ms
+ ✓ Compiled in 218ms

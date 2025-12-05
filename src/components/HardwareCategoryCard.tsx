@@ -84,15 +84,14 @@ export default function HardwareCategoryCard({
 
     const effectiveExpandDirection = isMobile ? "up" : expandDirection;
     const closedTranslateClass = effectiveExpandDirection === "up" ? "translate-y-full" : "-translate-y-full";
-    const viewedBorderClass = hasBeenViewed && !isExpanded ? "border-[#d97757]" : "border-gray-200";
     const scaleClass = isExpanded ? "md:scale-110" : "md:hover:scale-110";
-    const collapsedHeight = isMobile ? 240 : undefined;
+    const collapsedHeight = isMobile ? "auto" : undefined;
     const expandedHeight = isMobile ? 320 : 350;
 
     return (
         <div
             ref={cardRef}
-            className={`group bg-white rounded-3xl border ${viewedBorderClass} overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${scaleClass} origin-center`}
+            className={`group bg-white rounded-3xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-700 hover:shadow-md relative hover:z-10 ${scaleClass} origin-center`}
         >
             {/* Wrapper expands to grid size when isExpanded */}
             <div
@@ -133,7 +132,10 @@ export default function HardwareCategoryCard({
                 </div>
 
                 {/* Title Card - visible by default, stays in place */}
-                <div className="bg-white transition-transform duration-700 ease-out">
+                <div 
+                    onClick={() => onToggle?.()}
+                    className="bg-white transition-transform duration-700 ease-out cursor-pointer"
+                >
                     <div className="p-4">
                         <div className="flex items-start justify-between">
                             <div className="space-y-1.5 flex-1 min-w-0">
