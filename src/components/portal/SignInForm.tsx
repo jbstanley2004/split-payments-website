@@ -4,20 +4,20 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
 import { Mail, ArrowRight, Loader2, AlertCircle } from "lucide-react";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, fetchSignInMethodsForEmail } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 
-export default function SignInForm({ initialMode = 'signin' }: { initialMode?: 'signin' | 'signup' }) {
+export default function SignInForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isSignUp, setIsSignUp] = useState(initialMode === 'signup');
+    const [isSignUp, setIsSignUp] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+    const [isCheckingEmail, setIsCheckingEmail] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
-    const [emailSent, setEmailSent] = useState(false);
     const router = useRouter();
 
     const checkProfileAndRedirect = async (user: any) => {
@@ -34,12 +34,10 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
             if (docSnap.exists()) {
                 router.push('/portal/dashboard');
             } else {
-                // No profile found -> Go to onboarding
                 router.push('/portal/onboarding');
             }
         } catch (e) {
             console.error("Error checking profile:", e);
-            // Default to onboarding on error
             router.push('/portal/onboarding');
         }
     };
@@ -48,12 +46,32 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(async (user) => {
             if (user) {
-                // User is signed in, check where they should go
                 await checkProfileAndRedirect(user);
             }
         });
         return () => unsubscribe();
     }, []);
+
+    const checkUserExists = async (emailToCheck: string) => {
+        if (!emailToCheck || !emailToCheck.includes('@')) return;
+        
+        setIsCheckingEmail(true);
+        try {
+            const methods = await fetchSignInMethodsForEmail(auth, emailToCheck);
+            // If methods array is empty, user doesn't exist -> Sign Up mode
+            // If methods array has values, user exists -> Sign In mode
+            setIsSignUp(methods.length === 0);
+        } catch (error) {
+            // If fetch fails (e.g. security rules), we default to Sign In and handle "User Not Found" in submit
+            console.log("Email check skipped/failed, falling back to smart submit", error);
+        } finally {
+            setIsCheckingEmail(false);
+        }
+    };
+
+    const handleEmailBlur = () => {
+        if (email) checkUserExists(email);
+    };
 
     const handleEmailSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -70,36 +88,36 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
         setError(null);
 
         try {
-            let userCredential;
-            if (isSignUp) {
-                userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-                // For new signups, go straight to onboarding
-                router.push('/portal/onboarding');
-            } else {
-                userCredential = await signInWithEmailAndPassword(auth, email, password);
-
-                // Check if email is verified (optional, can be strict or loose)
+            // Smart Submit Logic:
+            // 1. Try to Sign In first (most common case)
+            // 2. If User Not Found, Try to Create Account
+            
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 if (!userCredential.user.emailVerified) {
-                    // For now, we allow unverified login but show a warning or handle it
-                    // If strict verification is needed:
-                    // setError("Please verify your email before signing in.");
-                    // await auth.signOut();
-                    // return;
+                    // Optional: Handle verification
                 }
-
                 await checkProfileAndRedirect(userCredential.user);
+            } catch (signInError: any) {
+                if (signInError.code === 'auth/user-not-found') {
+                    // User doesn't exist, try creating account
+                    const newUserCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    await checkProfileAndRedirect(newUserCredential.user);
+                } else {
+                    // Other errors (wrong password, etc) - throw to outer catch
+                    throw signInError;
+                }
             }
+
         } catch (err: any) {
             console.error(err);
             if (err.code === 'auth/email-already-in-use') {
-                setError("This email is already registered. Try signing in instead.");
-            } else if (err.code === 'auth/invalid-credential') {
+                setError("This email is already registered. Try signing in.");
+            } else if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
                 setError("Invalid email or password.");
             } else if (err.code === 'auth/user-not-found') {
-                setError("No account found with this email. Try signing up first.");
-            } else if (err.code === 'auth/operation-not-allowed') {
-                setError("Email authentication is not enabled. Please contact support.");
+                // Should be caught by inner try/catch, but just in case
+                setError("No account found. Creating one failed.");
             } else if (err.code === 'auth/weak-password') {
                 setError("Password should be at least 6 characters.");
             } else if (err.code === 'auth/invalid-email') {
@@ -127,15 +145,22 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
         }
     };
 
+    const getGreeting = () => {
+        const hour = new Date().getHours();
+        if (hour < 12) return "Good morning.";
+        if (hour < 18) return "Good afternoon.";
+        return "Good evening.";
+    };
+
     return (
         <div className="w-full max-w-md mx-auto">
             <div className="p-6 md:p-8">
                 <div className="text-center mb-8 md:mb-12">
-                    <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 tracking-tighter">
-                        {isSignUp ? "Get qualified." : "Welcome back."}
+                    <h1 className="text-[2.2rem] md:text-[3.4rem] leading-[1.15] font-bold text-black mb-6 tracking-tighter">
+                        {getGreeting()}
                     </h1>
-                    <p className="text-xl text-gray-500 max-w-sm mx-auto leading-relaxed">
-                        {isSignUp ? "Create your business profile to get qualified for funding and access your Split Portal" : "Sign in to access your portal"}
+                    <p className="text-[1.15rem] text-gray-500 max-w-[620px] mx-auto leading-relaxed">
+                        Sign in or create an account to get qualified for funding and access your split portal.
                     </p>
                 </div>
 
@@ -178,6 +203,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                    onBlur={handleEmailBlur}
                                     onFocus={() => setShowPassword(true)}
                                     placeholder="name@company.com"
                                     className="w-full h-12 md:h-14 pl-12 pr-6 bg-gray-50 border border-gray-200 rounded-full text-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
@@ -223,21 +249,6 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                             )}
                         </button>
                     </form>
-                </div>
-
-                <div className="mt-6 md:mt-10 text-center">
-                    <p className="text-base text-gray-500">
-                        {isSignUp ? "Already have an account?" : "Ready to get started?"}{" "}
-                        <button
-                            onClick={() => {
-                                setIsSignUp(!isSignUp);
-                                setError(null);
-                            }}
-                            className="text-black font-semibold hover:underline transition-all"
-                        >
-                            {isSignUp ? "Sign In" : "Get qualified"}
-                        </button>
-                    </p>
                 </div>
             </div>
         </div>
