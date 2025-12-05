@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { verifyPhoneNumberWithApi } from '@/lib/phoneVerification';
 
 export interface BusinessProfileData {
     ownerName: string;
@@ -30,13 +31,36 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
         ...initialData
     });
 
+    const [phoneErrors, setPhoneErrors] = useState<{ business?: string; owner?: string }>({});
+
     const handleChange = (field: keyof BusinessProfileData, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(formData);
+        const businessPhoneVerification = await verifyPhoneNumberWithApi(formData.phone);
+        const ownerPhoneVerification = await verifyPhoneNumberWithApi(formData.ownerPhone);
+
+        const errors: { business?: string; owner?: string } = {};
+        if (!businessPhoneVerification.isValid) {
+            errors.business = businessPhoneVerification.reason;
+        }
+        if (!ownerPhoneVerification.isValid) {
+            errors.owner = ownerPhoneVerification.reason;
+        }
+
+        setPhoneErrors(errors);
+
+        if (Object.keys(errors).length > 0) {
+            return;
+        }
+
+        onSubmit({
+            ...formData,
+            phone: businessPhoneVerification.formatted,
+            ownerPhone: ownerPhoneVerification.formatted
+        });
     };
 
     return (
@@ -82,6 +106,9 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
                                 required
                                 disabled={isSubmitting}
                             />
+                            {phoneErrors.business && (
+                                <p className="text-xs text-orange-600 mt-2 font-semibold">{phoneErrors.business}</p>
+                            )}
                         </div>
                         <div>
                             <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-1">Owner Cell Phone</label>
@@ -94,6 +121,9 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
                                 required
                                 disabled={isSubmitting}
                             />
+                            {phoneErrors.owner && (
+                                <p className="text-xs text-orange-600 mt-2 font-semibold">{phoneErrors.owner}</p>
+                            )}
                         </div>
                     </div>
 
