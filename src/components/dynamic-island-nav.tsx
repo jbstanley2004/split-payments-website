@@ -86,10 +86,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                   key={item.label}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-2 text-sm font-medium transition-all duration-300 relative",
-                    isActive
-                      ? "text-black font-semibold"
-                      : "text-black/70 hover:text-black"
+                    "flex items-center gap-2 text-sm font-medium transition-all duration-300 relative text-black",
                   )}
                 >
                   {isActive && (
@@ -190,10 +187,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                           href={item.href}
                           onClick={() => setIsMobileOpen(false)}
                           className={cn(
-                            "flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-200 relative",
-                            isActive
-                              ? "text-black font-semibold"
-                              : "text-brand-black hover:bg-gray-100"
+                            "flex items-center gap-4 px-6 py-4 rounded-2xl transition-all duration-200 relative text-black",
                           )}
                         >
                           {isActive && (

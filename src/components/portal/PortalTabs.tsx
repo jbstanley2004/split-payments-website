@@ -28,8 +28,7 @@ export default function PortalTabs({ tabs, activeTab, onChange, className }: Por
                             data-tab-id={tab.id}
                             onClick={() => onChange(tab.id)}
                             className={cn(
-                                "relative py-2 text-lg font-medium transition-colors duration-300 outline-none group",
-                                isActive ? "text-black" : "text-black/40 hover:text-black/70"
+                                "relative py-2 text-lg font-medium transition-colors duration-300 outline-none group text-black",
                             )}
                         >
                             <div className="flex items-center gap-2">
