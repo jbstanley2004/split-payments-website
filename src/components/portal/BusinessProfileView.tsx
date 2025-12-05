@@ -2,12 +2,14 @@
 
 import { ApplicationStatus, DocumentType } from "@/types/portal";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, Check, Shield, Lock, LogOut, Camera, Upload, X, ChevronDown, CheckCircle2, ArrowUp, ArrowDown } from "lucide-react";
-import { useCallback, useState, useEffect, useRef } from "react";
+import { FileText, Check, Shield, Lock, LogOut, Camera, Upload, X, ChevronDown, CheckCircle2, ArrowUp, ArrowDown, AlertCircle } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { auth } from "@/lib/firebase";
 import { useDebounce } from "@/hooks/useDebounce";
 import { AddressAutocomplete } from "../onboarding/AddressAutocomplete";
+import { formatNormalizedPhone, verifyPhoneNumber, verifyPhoneNumberWithApi } from "@/lib/phoneVerification";
+import { formatEin, formatSsn, verifyEin, verifySsn } from "@/lib/identityValidation";
 
 interface BusinessProfileViewProps {
     applicationStatus: ApplicationStatus;
@@ -29,6 +31,37 @@ const formatDate = (date: any) => {
     return new Date(date).toLocaleDateString();
 };
 
+const sanitizePhoneInput = (value: string) => value.replace(/[^0-9()+\-\s]/g, '');
+
+const sanitizeCurrencyInput = (value: string) => {
+    const cleaned = value.replace(/[^0-9.]/g, '');
+    if (!cleaned) return '';
+
+    const [whole, decimal] = cleaned.split('.');
+    const normalizedWhole = whole.replace(/^0+(?=\d)/, '');
+    if (decimal === undefined) {
+        return normalizedWhole;
+    }
+
+    const trimmedDecimal = decimal.replace(/\D/g, '').slice(0, 2);
+    if (!trimmedDecimal) {
+        return normalizedWhole || '0';
+    }
+
+    return `${normalizedWhole || '0'}.${trimmedDecimal}`;
+};
+
+const sanitizePercentageInput = (value: string) => {
+    const digits = value.replace(/\D/g, '').slice(0, 3);
+    if (!digits) return '';
+    return Math.min(100, parseInt(digits, 10)).toString();
+};
+
+const isValidEmail = (value?: string) => {
+    if (!value) return false;
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+};
+
 export default function BusinessProfileView({
     applicationStatus,
     onDocumentUpload,
@@ -44,6 +77,73 @@ export default function BusinessProfileView({
     const [localContactInfo, setLocalContactInfo] = useState(contactInfo || {});
     const [localOwnerInfo, setLocalOwnerInfo] = useState(ownerInfo || {});
     const [localEquipmentInfo, setLocalEquipmentInfo] = useState(equipmentInfo || {});
+
+    const businessPhoneVerification = useMemo(
+        () => verifyPhoneNumber(localContactInfo?.businessPhone || ""),
+        [localContactInfo?.businessPhone]
+    );
+    const ownerPhoneVerification = useMemo(
+        () => verifyPhoneNumber(localOwnerInfo?.cellPhone || ""),
+        [localOwnerInfo?.cellPhone]
+    );
+    const einVerification = useMemo(
+        () => verifyEin(localBusinessInfo?.ein || ""),
+        [localBusinessInfo?.ein]
+    );
+    const ssnVerification = useMemo(
+        () => verifySsn(localOwnerInfo?.ssn || ""),
+        [localOwnerInfo?.ssn]
+    );
+    const cardSplitTotal = useMemo(() => {
+        const present = Number(localEquipmentInfo.cardPresentPercentage || 0);
+        const notPresent = Number(localEquipmentInfo.cardNotPresentPercentage || 0);
+        return present + notPresent;
+    }, [localEquipmentInfo.cardPresentPercentage, localEquipmentInfo.cardNotPresentPercentage]);
+    const cardSplitProvided = useMemo(() => (
+        localEquipmentInfo.cardPresentPercentage !== undefined && localEquipmentInfo.cardPresentPercentage !== '' &&
+        localEquipmentInfo.cardNotPresentPercentage !== undefined && localEquipmentInfo.cardNotPresentPercentage !== ''
+    ), [localEquipmentInfo.cardPresentPercentage, localEquipmentInfo.cardNotPresentPercentage]);
+    const hasPhoneValidationApiKey = Boolean(process.env.NEXT_PUBLIC_ABSTRACT_PHONE_API_KEY);
+    const [businessPhoneApiVerification, setBusinessPhoneApiVerification] = useState<Awaited<ReturnType<typeof verifyPhoneNumberWithApi>> | null>(null);
+    const [ownerPhoneApiVerification, setOwnerPhoneApiVerification] = useState<Awaited<ReturnType<typeof verifyPhoneNumberWithApi>> | null>(null);
+    const [isCheckingBusinessPhone, setIsCheckingBusinessPhone] = useState(false);
+    const [isCheckingOwnerPhone, setIsCheckingOwnerPhone] = useState(false);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const rawPhone = localContactInfo?.businessPhone || '';
+        if (!rawPhone || !businessPhoneVerification.isValid || !hasPhoneValidationApiKey) {
+            setBusinessPhoneApiVerification(null);
+            setIsCheckingBusinessPhone(false);
+            return;
+        }
+
+        setIsCheckingBusinessPhone(true);
+        verifyPhoneNumberWithApi(rawPhone, { signal: controller.signal })
+            .then(result => setBusinessPhoneApiVerification(result))
+            .catch(() => setBusinessPhoneApiVerification(null))
+            .finally(() => setIsCheckingBusinessPhone(false));
+
+        return () => controller.abort();
+    }, [localContactInfo?.businessPhone, businessPhoneVerification.isValid, hasPhoneValidationApiKey]);
+
+    useEffect(() => {
+        const controller = new AbortController();
+        const rawPhone = localOwnerInfo?.cellPhone || '';
+        if (!rawPhone || !ownerPhoneVerification.isValid || !hasPhoneValidationApiKey) {
+            setOwnerPhoneApiVerification(null);
+            setIsCheckingOwnerPhone(false);
+            return;
+        }
+
+        setIsCheckingOwnerPhone(true);
+        verifyPhoneNumberWithApi(rawPhone, { signal: controller.signal })
+            .then(result => setOwnerPhoneApiVerification(result))
+            .catch(() => setOwnerPhoneApiVerification(null))
+            .finally(() => setIsCheckingOwnerPhone(false));
+
+        return () => controller.abort();
+    }, [localOwnerInfo?.cellPhone, ownerPhoneVerification.isValid, hasPhoneValidationApiKey]);
 
     // Track if user has touched the form to prevent overwriting with stale props
     const [isDirty, setIsDirty] = useState(false);
@@ -198,11 +298,23 @@ export default function BusinessProfileView({
 
         switch (sectionId) {
             case 'business-identity':
-                updates = { businessInfo: localBusinessInfo };
+                updates = {
+                    businessInfo: {
+                        ...localBusinessInfo,
+                        ein: einVerification.isValid ? einVerification.formatted : localBusinessInfo.ein
+                    }
+                };
                 isValid = isSectionValid('business-identity');
                 break;
             case 'contact-location':
-                updates = { contactInfo: localContactInfo as any };
+                updates = {
+                    contactInfo: {
+                        ...localContactInfo,
+                        businessPhone: businessPhoneVerification.isValid
+                            ? businessPhoneVerification.formatted || formatNormalizedPhone(businessPhoneVerification.normalized)
+                            : localContactInfo.businessPhone
+                    } as any
+                };
                 isValid = isSectionValid('contact-location');
                 break;
             case 'financial-information':
@@ -215,7 +327,15 @@ export default function BusinessProfileView({
                 isValid = isSectionValid('equipment-information');
                 break;
             case 'owner-information':
-                updates = { ownerInfo: localOwnerInfo as any };
+                updates = {
+                    ownerInfo: {
+                        ...localOwnerInfo,
+                        cellPhone: ownerPhoneVerification.isValid
+                            ? ownerPhoneVerification.formatted || formatNormalizedPhone(ownerPhoneVerification.normalized)
+                            : localOwnerInfo.cellPhone,
+                        ssn: ssnVerification.isValid ? ssnVerification.formatted : localOwnerInfo.ssn
+                    } as any
+                };
                 isValid = isSectionValid('owner-information');
                 break;
         }
@@ -274,6 +394,38 @@ export default function BusinessProfileView({
     const updateEquipmentField = (field: string, value: any) => {
         setIsDirty(true);
         setLocalEquipmentInfo(prev => ({ ...prev, [field]: value }));
+    };
+
+    const PhoneVerificationBadge = ({
+        verification,
+        apiVerification,
+        label,
+        isChecking
+    }: {
+        verification: ReturnType<typeof verifyPhoneNumber>;
+        apiVerification?: Awaited<ReturnType<typeof verifyPhoneNumberWithApi>> | null;
+        label: string;
+        isChecking?: boolean;
+    }) => {
+        const effectiveVerification = apiVerification?.checkedWithApi ? apiVerification : verification;
+        const Icon = isChecking ? Shield : effectiveVerification.isValid ? CheckCircle2 : AlertCircle;
+        const textClass = effectiveVerification.isValid ? "text-green-600" : "text-orange-600";
+        const message = isChecking
+            ? `Confirming ${label.toLowerCase()}...`
+            : effectiveVerification.isValid
+                ? apiVerification?.checkedWithApi
+                    ? `${label} confirmed as active`
+                    : `${label} verified`
+                : apiVerification?.checkedWithApi
+                    ? effectiveVerification.reason || 'Unable to confirm number is active.'
+                    : effectiveVerification.reason || 'Unable to verify phone number.';
+
+        return (
+            <div className={`flex items-center gap-2 mt-2 ${textClass}`}>
+                <Icon className="w-4 h-4" />
+                <span className="text-xs font-semibold">{message}</span>
+            </div>
+        );
     };
 
     // Helper for document rows
@@ -404,10 +556,10 @@ export default function BusinessProfileView({
         switch (sectionId) {
             case 'business-identity':
                 const hasVoidedCheck = documents.some(d => d.type === 'voided_check');
-                return !!localBusinessInfo.dba && !!localBusinessInfo.entityType && !!localBusinessInfo.industry && !!localBusinessInfo.businessStartDate && !!localBusinessInfo.ein && hasVoidedCheck;
+                return !!localBusinessInfo.dba && !!localBusinessInfo.entityType && !!localBusinessInfo.industry && !!localBusinessInfo.businessStartDate && hasVoidedCheck && einVerification.isValid;
 
             case 'contact-location':
-                return !!localContactInfo?.physicalAddress && !!localContactInfo?.businessPhone && !!localContactInfo?.email;
+                return !!localContactInfo?.physicalAddress && !!localContactInfo?.businessPhone && !!localContactInfo?.email && businessPhoneVerification.isValid && isValidEmail(localContactInfo?.email);
 
             case 'financial-information':
                 const hasMerchantStatements = documents.some(d => d.type === 'merchant_statements');
@@ -416,12 +568,12 @@ export default function BusinessProfileView({
             case 'equipment-information':
                 const hasEquipmentPhotos = documents.some(d => d.type === 'equipment_photo');
                 return hasEquipmentPhotos && !!localEquipmentInfo?.make && !!localEquipmentInfo?.model &&
-                    localEquipmentInfo?.cardPresentPercentage !== undefined && localEquipmentInfo?.cardNotPresentPercentage !== undefined &&
+                    cardSplitProvided && cardSplitTotal === 100 &&
                     !!localEquipmentInfo?.equipmentTypes && localEquipmentInfo.equipmentTypes.length > 0;
 
             case 'owner-information':
                 const hasPhotoId = documents.some(d => d.type === 'photo_id');
-                return hasPhotoId && !!localOwnerInfo?.fullName && !!localOwnerInfo?.title && !!localOwnerInfo?.cellPhone && !!localOwnerInfo?.homeAddress && !!localOwnerInfo?.ssn;
+                return hasPhotoId && !!localOwnerInfo?.fullName && !!localOwnerInfo?.title && !!localOwnerInfo?.cellPhone && !!localOwnerInfo?.homeAddress && ssnVerification.isValid && ownerPhoneVerification.isValid;
 
             default:
                 return false;
@@ -581,12 +733,25 @@ export default function BusinessProfileView({
                     <input
                         type="text"
                         value={localBusinessInfo.ein || ''}
-                        onChange={(e) => updateBusinessField('ein', e.target.value)}
+                        onChange={(e) => updateBusinessField('ein', formatEin(e.target.value))}
+                        onBlur={() => {
+                            if (localBusinessInfo.ein) {
+                                const result = verifyEin(localBusinessInfo.ein);
+                                if (result.isValid) {
+                                    updateBusinessField('ein', result.formatted);
+                                }
+                            }
+                        }}
+                        inputMode="numeric"
+                        pattern="\\d{2}-\\d{7}"
                         className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.ein ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="XX-XXXXXXX"
                     />
                     {!localBusinessInfo.ein && (
                         <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
+                    {localBusinessInfo.ein && !einVerification.isValid && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">{einVerification.reason}</p>
                     )}
                 </div>
                 <div className="col-span-1 md:col-span-2 mt-4">
@@ -644,9 +809,22 @@ export default function BusinessProfileView({
                     <input
                         type="tel"
                         value={localContactInfo.businessPhone || ''}
-                        onChange={(e) => updateContactField('businessPhone', e.target.value)}
+                        onChange={(e) => updateContactField('businessPhone', sanitizePhoneInput(e.target.value))}
+                        onBlur={() => {
+                            const result = verifyPhoneNumber(localContactInfo.businessPhone || '');
+                            if (result.isValid) {
+                                updateContactField('businessPhone', result.formatted || formatNormalizedPhone(result.normalized));
+                            }
+                        }}
+                        inputMode="tel"
                         className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                         placeholder="(555) 555-5555"
+                    />
+                    <PhoneVerificationBadge
+                        verification={businessPhoneVerification}
+                        apiVerification={businessPhoneApiVerification}
+                        isChecking={isCheckingBusinessPhone}
+                        label="Business phone"
                     />
                 </div>
                 <div>
@@ -655,9 +833,18 @@ export default function BusinessProfileView({
                         type="email"
                         value={localContactInfo.email || ''}
                         onChange={(e) => updateContactField('email', e.target.value)}
+                        onBlur={() => {
+                            if (localContactInfo.email) {
+                                updateContactField('email', localContactInfo.email.trim());
+                            }
+                        }}
+                        inputMode="email"
                         className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                         placeholder="name@company.com"
                     />
+                    {localContactInfo.email && !isValidEmail(localContactInfo.email) && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Enter a valid business email.</p>
+                    )}
                 </div>
                 <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Website (Optional)</label>
@@ -691,7 +878,8 @@ export default function BusinessProfileView({
                         <input
                             type="text"
                             value={localBusinessInfo.monthlyRevenue || ''}
-                            onChange={(e) => updateBusinessField('monthlyRevenue', e.target.value)}
+                            onChange={(e) => updateBusinessField('monthlyRevenue', sanitizeCurrencyInput(e.target.value))}
+                            inputMode="decimal"
                             className={`w-full border-transparent rounded-xl pl-8 pr-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.monthlyRevenue ? "bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300" : "bg-[#F6F5F4]"
                                 }`}
                             placeholder="0.00"
@@ -706,7 +894,8 @@ export default function BusinessProfileView({
                         <input
                             type="text"
                             value={localBusinessInfo.annualRevenue || ''}
-                            onChange={(e) => updateBusinessField('annualRevenue', e.target.value)}
+                            onChange={(e) => updateBusinessField('annualRevenue', sanitizeCurrencyInput(e.target.value))}
+                            inputMode="decimal"
                             className="w-full bg-[#F6F5F4] border-transparent rounded-xl pl-8 pr-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                             placeholder="0.00"
                         />
@@ -719,7 +908,8 @@ export default function BusinessProfileView({
                         <input
                             type="text"
                             value={localBusinessInfo.highTicketAmount || ''}
-                            onChange={(e) => updateBusinessField('highTicketAmount', e.target.value)}
+                            onChange={(e) => updateBusinessField('highTicketAmount', sanitizeCurrencyInput(e.target.value))}
+                            inputMode="decimal"
                             className="w-full bg-[#F6F5F4] border-transparent rounded-xl pl-8 pr-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                             placeholder="0.00"
                         />
@@ -732,7 +922,8 @@ export default function BusinessProfileView({
                         <input
                             type="text"
                             value={localBusinessInfo.averageTicketSize || ''}
-                            onChange={(e) => updateBusinessField('averageTicketSize', e.target.value)}
+                            onChange={(e) => updateBusinessField('averageTicketSize', sanitizeCurrencyInput(e.target.value))}
+                            inputMode="decimal"
                             className={`w-full border-transparent rounded-xl pl-8 pr-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.averageTicketSize ? 'bg-orange-50 text-black placeholder-orange-300' : 'bg-[#F6F5F4] text-black'}`}
                             placeholder="0"
                         />
@@ -798,37 +989,40 @@ export default function BusinessProfileView({
                         placeholder="e.g. Station Duo"
                     />
                 </div>
-                <div className="col-span-1 md:col-span-2">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Card Swipe Ratio (Must equal 100%)</label>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                        <div>
-                            <label className="block text-xs font-medium text-black/60 mb-2">Card Present %</label>
+                    <div className="col-span-1 md:col-span-2">
+                        <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Card Swipe Ratio (Must equal 100%)</label>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                            <div>
+                                <label className="block text-xs font-medium text-black/60 mb-2">Card Present %</label>
                             <div className="relative">
                                 <input
                                     type="number"
                                     value={localEquipmentInfo.cardPresentPercentage || ''}
-                                    onChange={(e) => updateEquipmentField('cardPresentPercentage', e.target.value)}
+                                    onChange={(e) => updateEquipmentField('cardPresentPercentage', sanitizePercentageInput(e.target.value))}
                                     className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="0"
                                 />
                                 <span className="absolute right-4 top-3 text-black/40">%</span>
                             </div>
                         </div>
-                        <div>
-                            <label className="block text-xs font-medium text-black/60 mb-2">Card Not Present %</label>
-                            <div className="relative">
-                                <input
-                                    type="number"
+                            <div>
+                                <label className="block text-xs font-medium text-black/60 mb-2">Card Not Present %</label>
+                                <div className="relative">
+                                    <input
+                                        type="number"
                                     value={localEquipmentInfo.cardNotPresentPercentage || ''}
-                                    onChange={(e) => updateEquipmentField('cardNotPresentPercentage', e.target.value)}
+                                    onChange={(e) => updateEquipmentField('cardNotPresentPercentage', sanitizePercentageInput(e.target.value))}
                                     className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="0"
                                 />
                                 <span className="absolute right-4 top-3 text-black/40">%</span>
+                                </div>
                             </div>
                         </div>
+                        {cardSplitProvided && cardSplitTotal !== 100 && (
+                            <p className="text-xs text-orange-600 mt-2 font-medium">Card present and not present percentages must total 100%.</p>
+                        )}
                     </div>
-                </div>
 
                 <div className="col-span-1 md:col-span-2">
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Equipment Types</label>
@@ -993,13 +1187,26 @@ export default function BusinessProfileView({
                     <input
                         type="tel"
                         value={localOwnerInfo.cellPhone || ''}
-                        onChange={(e) => updateOwnerField('cellPhone', e.target.value)}
+                        onChange={(e) => updateOwnerField('cellPhone', sanitizePhoneInput(e.target.value))}
+                        onBlur={() => {
+                            const result = verifyPhoneNumber(localOwnerInfo.cellPhone || '');
+                            if (result.isValid) {
+                                updateOwnerField('cellPhone', result.formatted || formatNormalizedPhone(result.normalized));
+                            }
+                        }}
+                        inputMode="tel"
                         className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.cellPhone ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="(555) 555-5555"
                     />
                     {!localOwnerInfo.cellPhone && (
                         <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                     )}
+                    <PhoneVerificationBadge
+                        verification={ownerPhoneVerification}
+                        apiVerification={ownerPhoneApiVerification}
+                        isChecking={isCheckingOwnerPhone}
+                        label="Owner phone"
+                    />
                 </div>
                 <div className="col-span-1 md:col-span-2">
                     <AddressAutocomplete
@@ -1023,12 +1230,25 @@ export default function BusinessProfileView({
                     <input
                         type="text"
                         value={localOwnerInfo.ssn || ''}
-                        onChange={(e) => updateOwnerField('ssn', e.target.value)}
+                        onChange={(e) => updateOwnerField('ssn', formatSsn(e.target.value))}
+                        onBlur={() => {
+                            if (localOwnerInfo.ssn) {
+                                const result = verifySsn(localOwnerInfo.ssn);
+                                if (result.isValid) {
+                                    updateOwnerField('ssn', result.formatted);
+                                }
+                            }
+                        }}
+                        inputMode="numeric"
+                        pattern="\\d{3}-\\d{2}-\\d{4}"
                         className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.ssn ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="XXX-XX-XXXX"
                     />
                     {!localOwnerInfo.ssn && (
                         <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
+                    {localOwnerInfo.ssn && !ssnVerification.isValid && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">{ssnVerification.reason}</p>
                     )}
                 </div>
                 <div className="col-span-1 md:col-span-2 mt-4">
