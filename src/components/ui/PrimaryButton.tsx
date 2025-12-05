@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface PrimaryButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  variant?: "default" | "gradient-border" | "outline-orange";
+  variant?: "default" | "gradient-border" | "outline-orange" | "outline-gray";
 }
 
 export const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonProps>(
@@ -32,6 +32,21 @@ export const PrimaryButton = React.forwardRef<HTMLButtonElement, PrimaryButtonPr
           ref={ref}
           className={cn(
             "inline-flex items-center justify-center rounded-full border border-[#111111] bg-transparent px-6 py-3 font-poppins font-medium text-base tracking-tight text-[#111111] transition-all duration-300 hover:bg-[#111111]/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#111111] disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap text-center",
+            className
+          )}
+          {...props}
+        >
+          {children}
+        </button>
+      );
+    }
+
+    if (variant === "outline-gray") {
+      return (
+        <button
+          ref={ref}
+          className={cn(
+            "inline-flex items-center justify-center rounded-full border border-gray-200 bg-white px-6 py-3 font-poppins font-medium text-base tracking-tight text-gray-600 transition-all duration-300 hover:bg-gray-50 hover:text-black shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-200 disabled:opacity-50 disabled:pointer-events-none whitespace-nowrap text-center",
             className
           )}
           {...props}

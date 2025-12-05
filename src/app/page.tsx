@@ -87,7 +87,7 @@ export default function HomePage() {
                   className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto"
                 >
                   <Link href="/portal/signup">
-                    <PrimaryButton variant="outline-orange">
+                    <PrimaryButton variant="outline-gray">
                       Get qualified
                     </PrimaryButton>
                   </Link>
@@ -288,7 +288,7 @@ export default function HomePage() {
               </p>
               <div className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto">
                 <Link href="/portal/signup">
-                  <PrimaryButton variant="outline-orange">
+                  <PrimaryButton variant="outline-gray">
                     Get qualified
                   </PrimaryButton>
                 </Link>
