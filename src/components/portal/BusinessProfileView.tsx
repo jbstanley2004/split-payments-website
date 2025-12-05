@@ -440,11 +440,11 @@ export default function BusinessProfileView({
     };
 
     const completedDescriptions: Record<string, string> = {
-        'business-identity': "Your business identity has been fully verified and recorded. All corporate details, including legal name, DBA, and entity structure, are securely stored to ensure compliance with funding requirements.",
-        'contact-location': "Contact and location details have been successfully captured. This information ensures we can reach you promptly and verifies your physical business presence for all funding related correspondence.",
-        'financial-information': "Financial data and processing statements have been uploaded and processed. This critical information allows for accurate assessment of your business performance and potential funding offers.",
-        'equipment-information': "Equipment details and photos have been cataloged. Having a clear record of your hardware setup helps us tailor technical support and ensures compatibility with our payment solutions.",
-        'owner-information': "Owner identification and personal details are securely on file. This verification step is essential for regulatory compliance and protects your business account against unauthorized access."
+        'business-identity': "Your business identity has been fully verified and recorded.",
+        'contact-location': "Contact and location details have been successfully captured.",
+        'financial-information': "Financial data has been successfully uploaded and processed.",
+        'equipment-information': "Equipment details and photos have been successfully cataloged.",
+        'owner-information': "Owner identification and personal details are securely on file."
     };
 
     const renderSectionWrapper = (id: string, baseTitle: string, baseDescription: string, content: React.ReactNode) => {

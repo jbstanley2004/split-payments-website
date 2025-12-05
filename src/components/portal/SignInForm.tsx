@@ -129,8 +129,8 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
 
     return (
         <div className="w-full max-w-md mx-auto">
-            <div className="p-8">
-                <div className="text-center mb-12">
+            <div className="p-6 md:p-8">
+                <div className="text-center mb-8 md:mb-12">
                     <h1 className="text-5xl md:text-6xl font-bold text-black mb-6 tracking-tighter">
                         {isSignUp ? "Get qualified." : "Welcome back."}
                     </h1>
@@ -143,7 +143,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                     <button
                         onClick={handleGoogleSignIn}
                         disabled={isGoogleLoading || isLoading}
-                        className="w-full h-14 flex items-center justify-center gap-3 bg-[#111111]/5 border border-[#111111] text-[#111111] rounded-full font-medium text-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-none hover:shadow-none hover:bg-white"
+                        className="w-full h-12 md:h-14 flex items-center justify-center gap-3 bg-[#111111]/5 border border-[#111111] text-[#111111] rounded-full font-medium text-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-none hover:shadow-none hover:bg-white"
                     >
                         {isGoogleLoading ? (
                             <Loader2 className="w-5 h-5 animate-spin" />
@@ -156,7 +156,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                     </button>
 
 
-                    <div className="relative flex items-center py-4">
+                    <div className="relative flex items-center py-3 md:py-4">
                         <div className="flex-grow border-t border-gray-200"></div>
                         <span className="flex-shrink-0 mx-4 text-gray-400 text-sm font-medium uppercase tracking-wider">Or continue with email</span>
                         <div className="flex-grow border-t border-gray-200"></div>
@@ -180,7 +180,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                                     onChange={(e) => setEmail(e.target.value)}
                                     onFocus={() => setShowPassword(true)}
                                     placeholder="name@company.com"
-                                    className="w-full h-14 pl-12 pr-6 bg-gray-50 border border-gray-200 rounded-full text-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
+                                    className="w-full h-12 md:h-14 pl-12 pr-6 bg-gray-50 border border-gray-200 rounded-full text-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
                                     required
                                 />
                             </div>
@@ -200,7 +200,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             placeholder="Password"
-                                            className="w-full h-14 px-6 bg-gray-50 border border-gray-200 rounded-full text-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
+                                            className="w-full h-12 md:h-14 px-6 bg-gray-50 border border-gray-200 rounded-full text-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
                                             required
                                         />
                                     </motion.div>
@@ -211,7 +211,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                         <button
                             type="submit"
                             disabled={isLoading || isGoogleLoading}
-                            className="w-full h-14 flex items-center justify-center gap-2 rounded-full font-medium text-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-none hover:shadow-none bg-white border-2 border-[#111111] text-[#111111] hover:bg-[#111111]/5"
+                            className="w-full h-12 md:h-14 flex items-center justify-center gap-2 rounded-full font-medium text-lg transition-all disabled:opacity-70 disabled:cursor-not-allowed group shadow-none hover:shadow-none bg-white border-2 border-[#111111] text-[#111111] hover:bg-[#111111]/5"
                         >
                             {isLoading ? (
                                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -225,7 +225,7 @@ export default function SignInForm({ initialMode = 'signin' }: { initialMode?: '
                     </form>
                 </div>
 
-                <div className="mt-10 text-center">
+                <div className="mt-6 md:mt-10 text-center">
                     <p className="text-base text-gray-500">
                         {isSignUp ? "Already have an account?" : "Ready to get started?"}{" "}
                         <button

@@ -88,3 +88,23 @@ https://nextjs.org/docs/messages/module-not-found
  GET /payments/ 200 in 33ms (compile: 6ms, render: 27ms)
  GET /funding/ 200 in 1627ms (compile: 1408ms, render: 219ms)
  GET /portal/dashboard/ 200 in 44ms (compile: 23ms, render: 21ms)
+ ✓ Compiled in 591ms
+ GET / 200 in 390ms (compile: 192ms, render: 198ms)
+ GET /payments/ 200 in 55ms (compile: 29ms, render: 25ms)
+ GET /funding/ 200 in 48ms (compile: 23ms, render: 26ms)
+ GET /portal/dashboard/ 200 in 281ms (compile: 234ms, render: 47ms)
+ ✓ Compiled in 288ms
+ GET /portal/dashboard/ 200 in 482ms (compile: 383ms, render: 99ms)
+ GET /funding/ 200 in 34ms (compile: 9ms, render: 25ms)
+ GET /portal/dashboard/ 200 in 38ms (compile: 9ms, render: 30ms)
+ GET /portal/signin/ 200 in 1003ms (compile: 955ms, render: 48ms)
+ GET /portal/signin/ 200 in 32ms (compile: 2ms, render: 29ms)
+ GET /payments/ 200 in 89ms (compile: 43ms, render: 46ms)
+ GET /funding/ 200 in 36ms (compile: 6ms, render: 30ms)
+ GET / 200 in 40ms (compile: 9ms, render: 31ms)
+ GET /portal/dashboard/ 200 in 42ms (compile: 8ms, render: 34ms)
+ GET /portal/signin/ 200 in 120ms (compile: 9ms, render: 111ms)
+ GET /portal/signin/ 200 in 88ms (compile: 1426µs, render: 86ms)
+ GET /portal/signin/ 200 in 77ms (compile: 2ms, render: 75ms)
+ GET /portal/signin/ 200 in 54ms (compile: 4ms, render: 50ms)
+ ✓ Compiled in 241ms
