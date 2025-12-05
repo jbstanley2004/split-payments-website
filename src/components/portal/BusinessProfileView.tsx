@@ -439,6 +439,14 @@ export default function BusinessProfileView({
         }));
     };
 
+    const completedDescriptions: Record<string, string> = {
+        'business-identity': "Your business identity has been fully verified and recorded. All corporate details, including legal name, DBA, and entity structure, are securely stored to ensure compliance with funding requirements.",
+        'contact-location': "Contact and location details have been successfully captured. This information ensures we can reach you promptly and verifies your physical business presence for all funding related correspondence.",
+        'financial-information': "Financial data and processing statements have been uploaded and processed. This critical information allows for accurate assessment of your business performance and potential funding offers.",
+        'equipment-information': "Equipment details and photos have been cataloged. Having a clear record of your hardware setup helps us tailor technical support and ensures compatibility with our payment solutions.",
+        'owner-information': "Owner identification and personal details are securely on file. This verification step is essential for regulatory compliance and protects your business account against unauthorized access."
+    };
+
     const renderSectionWrapper = (id: string, baseTitle: string, baseDescription: string, content: React.ReactNode) => {
         const isComplete = isSectionComplete(id);
         const isOpen = !collapsedSections[id];
@@ -454,7 +462,7 @@ export default function BusinessProfileView({
                         <div className="flex items-center gap-2 mb-0.5">
                             {isComplete ? (
                                 <span className="text-[10px] font-bold uppercase tracking-wider text-green-600">
-                                    Complete
+                                    COMPLETE
                                 </span>
                             ) : (
                                 <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF4306]">
@@ -463,18 +471,13 @@ export default function BusinessProfileView({
                             )}
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                            {isComplete && (
-                                <div className="w-2 h-2 rounded-full bg-green-500" />
-                            )}
                             <h3 className="text-xl font-bold text-black font-poppins leading-none mb-1">
                                 {isComplete ? baseTitle : `Complete ${baseTitle}`}
                             </h3>
                         </div>
-                        {!isComplete && (
-                            <p className="text-sm text-black/50 font-lora">
-                                {baseDescription}
-                            </p>
-                        )}
+                        <p className="text-sm text-black/50 font-lora">
+                            {isComplete ? completedDescriptions[id] : baseDescription}
+                        </p>
                     </div>
 
                     <div className="flex-shrink-0 w-14 h-14 bg-black text-white rounded-full flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 shadow-md">
