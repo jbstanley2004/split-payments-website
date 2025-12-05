@@ -79,3 +79,12 @@ https://nextjs.org/docs/messages/module-not-found
  ✓ Compiled in 631ms
  GET /portal/dashboard/ 200 in 687ms (compile: 329ms, render: 358ms)
  ✓ Compiled in 230ms
+ GET / 200 in 740ms (compile: 387ms, render: 353ms)
+ GET /portal/dashboard/ 200 in 221ms (compile: 167ms, render: 54ms)
+ GET /portal/dashboard/ 200 in 240ms (compile: 33ms, render: 207ms)
+ GET /payments/ 200 in 1342ms (compile: 1305ms, render: 37ms)
+ GET /portal/dashboard/ 200 in 40ms (compile: 15ms, render: 25ms)
+ GET / 200 in 63ms (compile: 23ms, render: 40ms)
+ GET /payments/ 200 in 33ms (compile: 6ms, render: 27ms)
+ GET /funding/ 200 in 1627ms (compile: 1408ms, render: 219ms)
+ GET /portal/dashboard/ 200 in 44ms (compile: 23ms, render: 21ms)

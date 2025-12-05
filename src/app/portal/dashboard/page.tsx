@@ -22,7 +22,7 @@ export default function PortalDashboardPage() {
         addDocument,
         removeDocument,
         updateVerification,
-        updateBusinessProfile,
+        updateApplication,
         markMessageAsRead,
         sendMessage,
         deleteMessage
@@ -104,7 +104,7 @@ export default function PortalDashboardPage() {
                                 onDocumentUpload={addDocument} // Pass the addDocument function
                                 onDocumentRemove={removeDocument} // Pass the removeDocument function
                                 onVerificationSubmit={updateVerification}
-                                onUpdateProfile={updateBusinessProfile}
+                                onUpdateProfile={updateApplication}
                                 targetSection={targetSection}
                             />
                         )}

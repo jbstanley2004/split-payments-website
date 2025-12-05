@@ -13,7 +13,7 @@ interface BusinessProfileViewProps {
     onDocumentUpload: (type: DocumentType, file: File) => void;
     onDocumentRemove: (id: string) => void;
     onVerificationSubmit: (ein: string, ssn: string) => void;
-    onUpdateProfile: (updates: Partial<ApplicationStatus>) => void;
+    onUpdateProfile: (updates: Partial<ApplicationStatus>, immediate?: boolean) => void;
     targetSection: string | null;
 }
 
@@ -74,7 +74,7 @@ export default function BusinessProfileView({
                     contactInfo: localContactInfoRef.current as any,
                     ownerInfo: localOwnerInfoRef.current as any,
                     equipmentInfo: localEquipmentInfoRef.current as any
-                });
+                }, true);
             }
         };
     }, []);
@@ -133,7 +133,7 @@ export default function BusinessProfileView({
                 contactInfo: localContactInfo as any,
                 ownerInfo: localOwnerInfo as any,
                 equipmentInfo: localEquipmentInfo as any
-            });
+            }, true);
         }
         onDocumentUpload(type, file);
     };
@@ -231,7 +231,7 @@ export default function BusinessProfileView({
             }
         }
 
-        onUpdateProfile(updates);
+        onUpdateProfile(updates, true);
         setCollapsedSections(prev => ({ ...prev, [sectionId]: true }));
         // Reset dirty flag after explicit save? 
         // Ideally yes, but updates are async. 

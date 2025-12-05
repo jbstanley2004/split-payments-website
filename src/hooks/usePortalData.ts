@@ -64,7 +64,7 @@ export function usePortalData() {
     const [isNewUser, setIsNewUser] = useState(false);
     const router = useRouter();
 
-    const debouncedUpdateFirestore = useCallback(
+    const debouncedSave = useCallback(
         debounce((dataToSave: Partial<ApplicationStatus>) => {
             if (user) {
                 const appRef = doc(db, "applications", user.uid);
@@ -73,6 +73,17 @@ export function usePortalData() {
         }, 1500),
         [user]
     );
+
+    const immediateSave = async (dataToSave: Partial<ApplicationStatus>) => {
+        if (user) {
+            const appRef = doc(db, "applications", user.uid);
+            try {
+                await updateDoc(appRef, dataToSave);
+            } catch (error) {
+                console.error("[usePortalData] Immediate save error:", error);
+            }
+        }
+    };
 
     useEffect(() => {
         if (authLoading) return;
@@ -102,10 +113,15 @@ export function usePortalData() {
         return () => unsubscribe();
     }, [user, authLoading, router]);
 
-    const updateAndAutosave = (updates: Partial<ApplicationStatus>) => {
+    const updateApplication = (updates: Partial<ApplicationStatus>, immediate = false) => {
         if (!applicationStatus) return;
         setApplicationStatus(prev => ({ ...prev!, ...updates }));
-        debouncedUpdateFirestore(updates);
+        
+        if (immediate) {
+            immediateSave(updates);
+        } else {
+            debouncedSave(updates);
+        }
     };
 
     const addDocument = async (type: DocumentType, file: File) => {
@@ -169,12 +185,9 @@ export function usePortalData() {
         }
     };
 
-    // --- Update actions using the generic updater ---
-    const updateBusinessProfile = (updates: any) => updateAndAutosave({ businessInfo: { ...applicationStatus?.businessInfo, ...updates } });
-    const updateContactInfo = (updates: any) => updateAndAutosave({ contactInfo: { ...applicationStatus?.contactInfo, ...updates } });
-    const updateOwnerInfo = (updates: any) => updateAndAutosave({ ownerInfo: { ...applicationStatus?.ownerInfo, ...updates } });
-    const updateEquipmentInfo = (updates: any) => updateAndAutosave({ equipmentInfo: { ...applicationStatus?.equipmentInfo, ...updates } });
-    const updateVerification = (ein: string, ssn: string) => updateAndAutosave({ verificationInfo: { ...applicationStatus?.verificationInfo, status: 'submitted' } });
+    // --- Update actions ---
+    const updateVerification = (ein: string, ssn: string) => updateApplication({ verificationInfo: { ...applicationStatus?.verificationInfo, status: 'submitted' } }, true);
+    
     const sendMessage = async (subject: string, body: string) => {
         if (!user || !applicationStatus) return;
 
@@ -189,10 +202,7 @@ export function usePortalData() {
         };
 
         const updatedMessages = [...applicationStatus.messages, newMessage];
-        setApplicationStatus(prev => prev ? { ...prev, messages: updatedMessages } : prev);
-
-        const appRef = doc(db, "applications", user.uid);
-        await updateDoc(appRef, { messages: updatedMessages, updatedAt: Timestamp.now() });
+        updateApplication({ messages: updatedMessages, updatedAt: Timestamp.now() }, true);
     };
 
     const markMessageAsRead = async (messageId: string) => {
@@ -202,12 +212,7 @@ export function usePortalData() {
             msg.id === messageId ? { ...msg, read: true } : msg
         );
 
-        // Update local state immediately
-        setApplicationStatus(prev => prev ? { ...prev, messages: updatedMessages } : prev);
-
-        // Save to Firestore
-        const appRef = doc(db, "applications", user.uid);
-        await updateDoc(appRef, { messages: updatedMessages, updatedAt: Timestamp.now() });
+        updateApplication({ messages: updatedMessages, updatedAt: Timestamp.now() }, true);
     };
 
     const deleteMessage = async (messageId: string) => {
@@ -217,10 +222,7 @@ export function usePortalData() {
             msg.id === messageId ? { ...msg, isDeleted: true } : msg
         );
 
-        setApplicationStatus(prev => prev ? { ...prev, messages: updatedMessages } : prev);
-
-        const appRef = doc(db, "applications", user.uid);
-        await updateDoc(appRef, { messages: updatedMessages, updatedAt: Timestamp.now() });
+        updateApplication({ messages: updatedMessages, updatedAt: Timestamp.now() }, true);
     };
 
     return {
@@ -229,10 +231,7 @@ export function usePortalData() {
         isNewUser,
         addDocument,
         removeDocument,
-        updateBusinessProfile,
-        updateContactInfo,
-        updateOwnerInfo,
-        updateEquipmentInfo,
+        updateApplication,
         updateVerification,
         sendMessage,
         markMessageAsRead,
