@@ -7,6 +7,7 @@ import { useCallback, useState, useEffect, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { auth } from "@/lib/firebase";
 import { useDebounce } from "@/hooks/useDebounce";
+import { AddressAutocomplete } from "../onboarding/AddressAutocomplete";
 
 interface BusinessProfileViewProps {
     applicationStatus: ApplicationStatus;
@@ -614,21 +615,28 @@ export default function BusinessProfileView({
         <div className="">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
                 <div className="col-span-1 md:col-span-2">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Physical Business Address</label>
-                    <input
-                        type="text"
+                    <AddressAutocomplete
+                        label="Physical Business Address"
                         value={localContactInfo.physicalAddress || ''}
-                        onChange={(e) => updateContactField('physicalAddress', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all mb-4"
+                        onChange={(address, city, state, zip) => {
+                            setIsDirty(true);
+                            setLocalContactInfo(prev => ({
+                                ...prev,
+                                physicalAddress: address,
+                                cityStateZip: `${city}, ${state} ${zip}`
+                            }));
+                        }}
                         placeholder="Street Address"
                     />
-                    <input
-                        type="text"
-                        value={localContactInfo.cityStateZip || ''}
-                        onChange={(e) => updateContactField('cityStateZip', e.target.value)}
-                        className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
-                        placeholder="City, State, Zip"
-                    />
+                    <div className="mt-4">
+                        <input
+                            type="text"
+                            value={localContactInfo.cityStateZip || ''}
+                            onChange={(e) => updateContactField('cityStateZip', e.target.value)}
+                            className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                            placeholder="City, State, Zip"
+                        />
+                    </div>
                     <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                 </div>
                 <div>
@@ -994,12 +1002,16 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div className="col-span-1 md:col-span-2">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Owner's Home Address</label>
-                    <input
-                        type="text"
+                    <AddressAutocomplete
+                        label="Owner's Home Address"
                         value={localOwnerInfo.homeAddress || ''}
-                        onChange={(e) => updateOwnerField('homeAddress', e.target.value)}
-                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.homeAddress ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
+                        onChange={(address, city, state, zip) => {
+                            setIsDirty(true);
+                            setLocalOwnerInfo(prev => ({
+                                ...prev,
+                                homeAddress: `${address}, ${city}, ${state} ${zip}`
+                            }));
+                        }}
                         placeholder="Street Address, City, State, Zip"
                     />
                     {!localOwnerInfo.homeAddress && (

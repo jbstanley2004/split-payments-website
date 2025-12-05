@@ -7,6 +7,7 @@ import { useOnboarding } from '@/contexts/onboarding-context';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { motion } from 'framer-motion';
 import { CheckCircle2 } from 'lucide-react';
+import { AddressAutocomplete } from '../AddressAutocomplete';
 
 export function BusinessBasicsStep() {
     const { data, updateData, nextStep } = useOnboarding();
@@ -81,10 +82,17 @@ export function BusinessBasicsStep() {
                             </p>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="md:col-span-2">
-                                    <FormInput
+                                    <AddressAutocomplete
                                         label="Street Address"
                                         value={data.businessStreet}
-                                        onChange={(e) => updateData({ businessStreet: e.target.value })}
+                                        onChange={(address, city, state, zip) => {
+                                            updateData({
+                                                businessStreet: address,
+                                                businessCity: city,
+                                                businessState: state,
+                                                businessZip: zip
+                                            });
+                                        }}
                                         placeholder="123 Main Street"
                                     />
                                 </div>
