@@ -166,7 +166,7 @@ export default function SignInForm() {
         <div className="w-full max-w-md mx-auto">
             <div className="p-6 md:p-8">
                 <div className="text-center mb-8 md:mb-12">
-                    <h1 className="text-[2.2rem] md:text-[3.4rem] leading-[1.15] font-bold text-black mb-6 tracking-tighter">
+                    <h1 className="text-[2.2rem] md:text-[3.4rem] leading-[1.15] font-bold text-black mb-6 tracking-tighter whitespace-nowrap">
                         {getGreeting()}
                     </h1>
                     <p className="text-[1.15rem] text-gray-500 max-w-[620px] mx-auto leading-relaxed">
