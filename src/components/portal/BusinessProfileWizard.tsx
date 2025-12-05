@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { formatNormalizedPhone, verifyPhoneNumber, verifyPhoneNumberWithApi } from '@/lib/phoneVerification';
+import { verifyPhoneNumberWithApi } from '@/lib/phoneVerification';
 
 export interface BusinessProfileData {
     ownerName: string;
@@ -82,6 +83,8 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
             ...formData,
             phone: businessPhoneVerification.formatted || formatNormalizedPhone(businessPhoneVerification.normalized),
             ownerPhone: ownerPhoneVerification.formatted || formatNormalizedPhone(ownerPhoneVerification.normalized)
+            phone: businessPhoneVerification.formatted,
+            ownerPhone: ownerPhoneVerification.formatted
         });
     };
 

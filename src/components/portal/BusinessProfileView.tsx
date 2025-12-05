@@ -334,6 +334,7 @@ export default function BusinessProfileView({
                             ? ownerPhoneVerification.formatted || formatNormalizedPhone(ownerPhoneVerification.normalized)
                             : localOwnerInfo.cellPhone,
                         ssn: ssnVerification.isValid ? ssnVerification.formatted : localOwnerInfo.ssn
+                            : localOwnerInfo.cellPhone
                     } as any
                 };
                 isValid = isSectionValid('owner-information');
@@ -560,6 +561,7 @@ export default function BusinessProfileView({
 
             case 'contact-location':
                 return !!localContactInfo?.physicalAddress && !!localContactInfo?.businessPhone && !!localContactInfo?.email && businessPhoneVerification.isValid && isValidEmail(localContactInfo?.email);
+                return !!localContactInfo?.physicalAddress && !!localContactInfo?.businessPhone && !!localContactInfo?.email && businessPhoneVerification.isValid;
 
             case 'financial-information':
                 const hasMerchantStatements = documents.some(d => d.type === 'merchant_statements');
@@ -574,6 +576,7 @@ export default function BusinessProfileView({
             case 'owner-information':
                 const hasPhotoId = documents.some(d => d.type === 'photo_id');
                 return hasPhotoId && !!localOwnerInfo?.fullName && !!localOwnerInfo?.title && !!localOwnerInfo?.cellPhone && !!localOwnerInfo?.homeAddress && ssnVerification.isValid && ownerPhoneVerification.isValid;
+                return hasPhotoId && !!localOwnerInfo?.fullName && !!localOwnerInfo?.title && !!localOwnerInfo?.cellPhone && !!localOwnerInfo?.homeAddress && !!localOwnerInfo?.ssn && ownerPhoneVerification.isValid;
 
             default:
                 return false;
@@ -812,6 +815,7 @@ export default function BusinessProfileView({
                         type="tel"
                         value={localContactInfo.businessPhone || ''}
                         onChange={(e) => updateContactField('businessPhone', sanitizePhoneInput(e.target.value))}
+                        onChange={(e) => updateContactField('businessPhone', e.target.value)}
                         onBlur={() => {
                             const result = verifyPhoneNumber(localContactInfo.businessPhone || '');
                             if (result.isValid) {
@@ -1190,6 +1194,7 @@ export default function BusinessProfileView({
                         type="tel"
                         value={localOwnerInfo.cellPhone || ''}
                         onChange={(e) => updateOwnerField('cellPhone', sanitizePhoneInput(e.target.value))}
+                        onChange={(e) => updateOwnerField('cellPhone', e.target.value)}
                         onBlur={() => {
                             const result = verifyPhoneNumber(localOwnerInfo.cellPhone || '');
                             if (result.isValid) {
