@@ -40,23 +40,17 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
     };
 
     return (
-        <div className="w-full bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden flex flex-col">
-            {/* Header */}
-            <div className="px-8 py-6 border-b border-gray-100 bg-white z-10">
-                <h2 className="text-2xl font-bold text-gray-900">Welcome to Split</h2>
-                <p className="text-sm text-gray-500 mt-1">Let's get your profile set up.</p>
-            </div>
-
+        <div className="w-full bg-white rounded-[40px] shadow-[0_24px_60px_-12px_rgba(0,0,0,0.08)] border border-white/50 overflow-hidden flex flex-col">
             {/* Form Content */}
-            <div className="p-8 bg-[#FAFAFA]">
+            <div className="p-6 md:p-8 bg-white">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     <div>
-                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Full Name</label>
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-1">Full Name</label>
                         <input
                             type="text"
                             value={formData.ownerName}
                             onChange={(e) => handleChange('ownerName', e.target.value)}
-                            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all placeholder-gray-300"
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-2xl px-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
                             placeholder="John Doe"
                             required
                             disabled={isSubmitting}
@@ -64,12 +58,12 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Company Name</label>
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-1">Company Name</label>
                         <input
                             type="text"
                             value={formData.legalName}
                             onChange={(e) => handleChange('legalName', e.target.value)}
-                            className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all placeholder-gray-300"
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-2xl px-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
                             placeholder="Acme Inc."
                             required
                             disabled={isSubmitting}
@@ -78,24 +72,24 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Business Phone</label>
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-1">Business Phone</label>
                             <input
                                 type="tel"
                                 value={formData.phone}
                                 onChange={(e) => handleChange('phone', e.target.value)}
-                                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all placeholder-gray-300"
+                                className="w-full bg-[#F6F5F4] border-transparent rounded-2xl px-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
                                 placeholder="(555) 555-5555"
                                 required
                                 disabled={isSubmitting}
                             />
                         </div>
                         <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Owner Cell Phone</label>
+                            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-1">Owner Cell Phone</label>
                             <input
                                 type="tel"
                                 value={formData.ownerPhone}
                                 onChange={(e) => handleChange('ownerPhone', e.target.value)}
-                                className="w-full bg-white border border-gray-200 rounded-xl px-4 py-3 text-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all placeholder-gray-300"
+                                className="w-full bg-[#F6F5F4] border-transparent rounded-2xl px-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
                                 placeholder="(555) 555-5555"
                                 required
                                 disabled={isSubmitting}
@@ -104,14 +98,14 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
                     </div>
 
                     <div>
-                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Average Monthly Processing Volume</label>
+                        <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 ml-1">Average Monthly Processing Volume</label>
                         <div className="relative">
-                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-medium">$</span>
+                            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-400 font-medium text-xl">$</span>
                             <input
                                 type="text"
                                 value={formData.monthlyVolume}
                                 onChange={(e) => handleChange('monthlyVolume', e.target.value)}
-                                className="w-full bg-white border border-gray-200 rounded-xl pl-8 pr-4 py-3 text-lg focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all placeholder-gray-300"
+                                className="w-full bg-[#F6F5F4] border-transparent rounded-2xl pl-10 pr-6 py-4 text-xl focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all placeholder-gray-300 font-medium"
                                 placeholder="0.00"
                                 required
                                 disabled={isSubmitting}
@@ -122,7 +116,7 @@ export const BusinessProfileWizard: React.FC<BusinessProfileWizardProps> = ({ on
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="w-full flex items-center justify-center gap-2 px-8 py-4 bg-black text-white rounded-full font-medium text-lg hover:bg-gray-800 shadow-none hover:shadow-none transition-all mt-8 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full flex items-center justify-center gap-2 px-8 py-5 bg-black text-white rounded-2xl font-bold text-lg hover:bg-gray-900 shadow-lg hover:shadow-xl transition-all mt-8 disabled:opacity-50 disabled:cursor-not-allowed transform hover:-translate-y-0.5"
                     >
                         {isSubmitting ? (
                             <span>Processing...</span>

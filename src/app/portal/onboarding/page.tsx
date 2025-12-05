@@ -100,9 +100,9 @@ export default function OnboardingPage() {
     return (
         <div className="min-h-screen bg-[#F6F5F4] py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center">
             <div className="w-full max-w-2xl">
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">Setup Your Business Profile</h1>
-                    <p className="text-gray-500">Tell us a bit about your business to get started.</p>
+                <div className="text-center mb-10">
+                    <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight leading-tight font-poppins">Set up your business profile</h1>
+                    <p className="text-xl text-gray-500 font-lora leading-relaxed">Tell us a bit about yourself, about your business, to get started.</p>
                 </div>
                 <BusinessProfileWizard
                     onSubmit={handleWizardSubmit}

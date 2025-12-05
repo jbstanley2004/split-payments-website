@@ -54,7 +54,7 @@ export default function SignInForm() {
 
     const checkUserExists = async (emailToCheck: string) => {
         if (!emailToCheck || !emailToCheck.includes('@')) return;
-        
+
         setIsCheckingEmail(true);
         try {
             const methods = await fetchSignInMethodsForEmail(auth, emailToCheck);
@@ -91,7 +91,7 @@ export default function SignInForm() {
             // Smart Submit Logic:
             // 1. Try to Sign In first (most common case)
             // 2. If User Not Found, Try to Create Account
-            
+
             try {
                 const userCredential = await signInWithEmailAndPassword(auth, email, password);
                 if (!userCredential.user.emailVerified) {
@@ -99,10 +99,20 @@ export default function SignInForm() {
                 }
                 await checkProfileAndRedirect(userCredential.user);
             } catch (signInError: any) {
-                if (signInError.code === 'auth/user-not-found') {
-                    // User doesn't exist, try creating account
-                    const newUserCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    await checkProfileAndRedirect(newUserCredential.user);
+                // Check for both user-not-found AND invalid-credential (which is often returned for security)
+                if (signInError.code === 'auth/user-not-found' || signInError.code === 'auth/invalid-credential') {
+                    // User might not exist, try creating account
+                    try {
+                        const newUserCredential = await createUserWithEmailAndPassword(auth, email, password);
+                        await checkProfileAndRedirect(newUserCredential.user);
+                    } catch (createError: any) {
+                        // If creation fails because email is in use, it means the password was actually wrong
+                        // for the existing account.
+                        if (createError.code === 'auth/email-already-in-use') {
+                            throw signInError; // Throw the original sign-in error to show "Invalid email/password"
+                        }
+                        throw createError; // Throw other creation errors (weak password, etc)
+                    }
                 } else {
                     // Other errors (wrong password, etc) - throw to outer catch
                     throw signInError;
