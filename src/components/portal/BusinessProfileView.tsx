@@ -2,12 +2,13 @@
 
 import { ApplicationStatus, DocumentType } from "@/types/portal";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileText, Check, Shield, Lock, LogOut, Camera, Upload, X, ChevronDown, CheckCircle2, ArrowUp, ArrowDown } from "lucide-react";
+import { FileText, Check, Shield, Lock, LogOut, Camera, Upload, X, ChevronDown, CheckCircle2, ArrowUp, ArrowDown, AlertCircle } from "lucide-react";
 import { useCallback, useState, useEffect, useRef } from "react";
 import { useDropzone } from "react-dropzone";
 import { auth } from "@/lib/firebase";
 import { useDebounce } from "@/hooks/useDebounce";
 import { AddressAutocomplete } from "../onboarding/AddressAutocomplete";
+import { formatNormalizedPhone, verifyPhoneNumber } from "@/lib/phoneVerification";
 
 interface BusinessProfileViewProps {
     applicationStatus: ApplicationStatus;
@@ -38,6 +39,9 @@ export default function BusinessProfileView({
     targetSection
 }: BusinessProfileViewProps) {
     const { documents, businessInfo, contactInfo, ownerInfo, equipmentInfo } = applicationStatus;
+
+    const businessPhoneVerification = verifyPhoneNumber(localContactInfo?.businessPhone || "");
+    const ownerPhoneVerification = verifyPhoneNumber(localOwnerInfo?.cellPhone || "");
 
     // Local state for form fields
     const [localBusinessInfo, setLocalBusinessInfo] = useState(businessInfo);
@@ -202,7 +206,14 @@ export default function BusinessProfileView({
                 isValid = isSectionValid('business-identity');
                 break;
             case 'contact-location':
-                updates = { contactInfo: localContactInfo as any };
+                updates = {
+                    contactInfo: {
+                        ...localContactInfo,
+                        businessPhone: businessPhoneVerification.isValid
+                            ? businessPhoneVerification.formatted || formatNormalizedPhone(businessPhoneVerification.normalized)
+                            : localContactInfo.businessPhone
+                    } as any
+                };
                 isValid = isSectionValid('contact-location');
                 break;
             case 'financial-information':
@@ -215,7 +226,14 @@ export default function BusinessProfileView({
                 isValid = isSectionValid('equipment-information');
                 break;
             case 'owner-information':
-                updates = { ownerInfo: localOwnerInfo as any };
+                updates = {
+                    ownerInfo: {
+                        ...localOwnerInfo,
+                        cellPhone: ownerPhoneVerification.isValid
+                            ? ownerPhoneVerification.formatted || formatNormalizedPhone(ownerPhoneVerification.normalized)
+                            : localOwnerInfo.cellPhone
+                    } as any
+                };
                 isValid = isSectionValid('owner-information');
                 break;
         }
@@ -274,6 +292,19 @@ export default function BusinessProfileView({
     const updateEquipmentField = (field: string, value: any) => {
         setIsDirty(true);
         setLocalEquipmentInfo(prev => ({ ...prev, [field]: value }));
+    };
+
+    const PhoneVerificationBadge = ({ verification, label }: { verification: ReturnType<typeof verifyPhoneNumber>; label: string }) => {
+        const Icon = verification.isValid ? CheckCircle2 : AlertCircle;
+        const textClass = verification.isValid ? "text-green-600" : "text-orange-600";
+        const message = verification.isValid ? `${label} verified` : verification.reason || 'Unable to verify phone number.';
+
+        return (
+            <div className={`flex items-center gap-2 mt-2 ${textClass}`}>
+                <Icon className="w-4 h-4" />
+                <span className="text-xs font-semibold">{message}</span>
+            </div>
+        );
     };
 
     // Helper for document rows
@@ -407,7 +438,7 @@ export default function BusinessProfileView({
                 return !!localBusinessInfo.dba && !!localBusinessInfo.entityType && !!localBusinessInfo.industry && !!localBusinessInfo.businessStartDate && !!localBusinessInfo.ein && hasVoidedCheck;
 
             case 'contact-location':
-                return !!localContactInfo?.physicalAddress && !!localContactInfo?.businessPhone && !!localContactInfo?.email;
+                return !!localContactInfo?.physicalAddress && !!localContactInfo?.businessPhone && !!localContactInfo?.email && businessPhoneVerification.isValid;
 
             case 'financial-information':
                 const hasMerchantStatements = documents.some(d => d.type === 'merchant_statements');
@@ -421,7 +452,7 @@ export default function BusinessProfileView({
 
             case 'owner-information':
                 const hasPhotoId = documents.some(d => d.type === 'photo_id');
-                return hasPhotoId && !!localOwnerInfo?.fullName && !!localOwnerInfo?.title && !!localOwnerInfo?.cellPhone && !!localOwnerInfo?.homeAddress && !!localOwnerInfo?.ssn;
+                return hasPhotoId && !!localOwnerInfo?.fullName && !!localOwnerInfo?.title && !!localOwnerInfo?.cellPhone && !!localOwnerInfo?.homeAddress && !!localOwnerInfo?.ssn && ownerPhoneVerification.isValid;
 
             default:
                 return false;
@@ -645,9 +676,16 @@ export default function BusinessProfileView({
                         type="tel"
                         value={localContactInfo.businessPhone || ''}
                         onChange={(e) => updateContactField('businessPhone', e.target.value)}
+                        onBlur={() => {
+                            const result = verifyPhoneNumber(localContactInfo.businessPhone || '');
+                            if (result.isValid) {
+                                updateContactField('businessPhone', result.formatted || formatNormalizedPhone(result.normalized));
+                            }
+                        }}
                         className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                         placeholder="(555) 555-5555"
                     />
+                    <PhoneVerificationBadge verification={businessPhoneVerification} label="Business phone" />
                 </div>
                 <div>
                     <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Email</label>
@@ -994,12 +1032,19 @@ export default function BusinessProfileView({
                         type="tel"
                         value={localOwnerInfo.cellPhone || ''}
                         onChange={(e) => updateOwnerField('cellPhone', e.target.value)}
+                        onBlur={() => {
+                            const result = verifyPhoneNumber(localOwnerInfo.cellPhone || '');
+                            if (result.isValid) {
+                                updateOwnerField('cellPhone', result.formatted || formatNormalizedPhone(result.normalized));
+                            }
+                        }}
                         className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.cellPhone ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="(555) 555-5555"
                     />
                     {!localOwnerInfo.cellPhone && (
                         <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                     )}
+                    <PhoneVerificationBadge verification={ownerPhoneVerification} label="Owner phone" />
                 </div>
                 <div className="col-span-1 md:col-span-2">
                     <AddressAutocomplete
