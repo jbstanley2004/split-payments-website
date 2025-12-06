@@ -178,7 +178,7 @@ export const WIDGET_TEMPLATE = `<!doctype html>
       let state = { ...(openai.widgetState || {}) };
 
       function formatPercent(value) {
-        return `${Math.min(100, Math.max(0, Math.round(value ?? 0)))}%`;
+        return \`\${Math.min(100, Math.max(0, Math.round(value ?? 0)))}%\`;
       }
 
       function renderStatus(data) {
@@ -189,9 +189,9 @@ export const WIDGET_TEMPLATE = `<!doctype html>
         pill.className = "pill";
         pill.textContent = data?.onboardingStatus === "complete" ? "Complete" : "In progress";
         const status = document.createElement("div");
-        status.textContent = `Required fields: ${required}`;
+        status.textContent = \`Required fields: \${required}\`;
         const next = document.createElement("div");
-        next.textContent = data?.nextSection ? `Next: ${data.nextSection.title}` : "All sections reviewed.";
+        next.textContent = data?.nextSection ? \`Next: \${data.nextSection.title}\` : "All sections reviewed.";
         container.replaceChildren(pill, status, next);
       }
 
@@ -255,20 +255,20 @@ export const WIDGET_TEMPLATE = `<!doctype html>
 
           const header = document.createElement("div");
           header.className = "section-title";
-          header.innerHTML = `<span>${section.title}</span><span class="pill">
-            ${section.fields.filter((f) => f.value).length}/${section.fields.length}</span>`;
+          header.innerHTML = \`<span>\${section.title}</span><span class="pill">
+            \${section.fields.filter((f) => f.value).length}/\${section.fields.length}</span>\`;
 
           const progress = document.createElement("div");
           progress.className = "progress";
           const percent = Math.round((section.fields.filter((f) => f.value).length / section.fields.length) * 100);
-          progress.innerHTML = `<span style="width:${percent}%"></span>`;
+          progress.innerHTML = \`<span style="width:\${percent}%"></span>\`;
 
           const fields = document.createElement("div");
           fields.className = "fields";
           if (section.key === activeSection) {
             section.fields.forEach((field) => {
               const label = document.createElement("label");
-              label.innerHTML = `${field.label}${field.required ? " *" : ""}`;
+              label.innerHTML = \`\${field.label}\${field.required ? " *" : ""}\`;
               const input = document.createElement("input");
               input.dataset.section = section.key;
               input.dataset.field = field.key;
