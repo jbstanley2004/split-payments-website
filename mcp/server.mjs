@@ -132,6 +132,9 @@ async function startServer() {
 
     const app = express();
 
+    // Basic body parsing so the POST /mcp/messages handler can decode JSON payloads
+    app.use(express.json({ limit: "1mb" }));
+
     // CORS Middleware
     app.use((req, res, next) => {
         res.header("Access-Control-Allow-Origin", "*");
@@ -141,7 +144,7 @@ async function startServer() {
         next();
     });
 
-    app.get("/mcp/sse", async (req, res) => {
+    app.get(["/mcp", "/mcp/sse"], async (req, res) => {
         console.log("New SSE connection");
 
         const transport = new SSEServerTransport("/mcp/messages", res);
