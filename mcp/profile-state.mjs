@@ -1,6 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { getAdminDb } from "./firebase-setup.mjs";
 
+const memoryStore = new Map();
+
 const COLLECTION_NAME = "mcp_business_profiles";
 
 const baseSections = [
@@ -125,6 +127,13 @@ function generateAccountId() {
 
 async function loadProfile(accountId) {
     const db = getAdminDb();
+    if (!db) {
+        if (!memoryStore.has(accountId)) {
+            memoryStore.set(accountId, createProfileData(accountId));
+        }
+        return memoryStore.get(accountId);
+    }
+
     const docRef = db.collection(COLLECTION_NAME).doc(accountId);
     const doc = await docRef.get();
 
@@ -139,14 +148,35 @@ async function loadProfile(accountId) {
 
 async function resetProfile(accountId) {
     const db = getAdminDb();
-    const docRef = db.collection(COLLECTION_NAME).doc(accountId);
     const newProfile = createProfileData(accountId);
+
+    if (!db) {
+        memoryStore.set(accountId, newProfile);
+        return newProfile;
+    }
+
+    const docRef = db.collection(COLLECTION_NAME).doc(accountId);
     await docRef.set(newProfile);
     return newProfile;
 }
 
 async function updateField(accountId, sectionKey, fieldKey, value) {
     const db = getAdminDb();
+
+    if (!db) {
+        const profile = memoryStore.get(accountId) ?? createProfileData(accountId);
+        const section = profile.sections.find((s) => s.key === sectionKey);
+        if (!section) throw new Error(`Unknown section: ${sectionKey}`);
+
+        const field = section.fields.find((f) => f.key === fieldKey);
+        if (!field) throw new Error(`Unknown field: ${fieldKey}`);
+
+        field.value = value;
+        profile.lastSavedAt = new Date().toISOString();
+        memoryStore.set(accountId, profile);
+        return profile;
+    }
+
     const docRef = db.collection(COLLECTION_NAME).doc(accountId);
 
     return await db.runTransaction(async (t) => {
