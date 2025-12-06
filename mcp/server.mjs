@@ -19,7 +19,7 @@ const __dirname = path.dirname(__filename);
 
 const templateUri = "ui://widget/business-profile-onboarding.html";
 const widgetDomain = process.env.WIDGET_DOMAIN?.trim() || "https://chatgpt.com";
-const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "https://api.split-payments.local")
+const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "https://www.ccsplit.org")
   .split(",")
   .map((domain) => domain.trim())
   .filter(Boolean);

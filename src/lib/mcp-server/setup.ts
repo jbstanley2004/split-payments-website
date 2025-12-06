@@ -22,7 +22,7 @@ const WIDGET_TEMPLATE_URI = "ui://widget/business-profile-onboarding.html";
 
 // Environment variables
 const widgetDomain = process.env.WIDGET_DOMAIN?.trim() || "https://chatgpt.com";
-const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "https://api.split-payments.local")
+const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "https://www.ccsplit.org")
   .split(",")
   .map((domain) => domain.trim())
   .filter(Boolean);
