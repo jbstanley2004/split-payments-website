@@ -32,14 +32,23 @@ async function loadTemplate() {
 
 function responsePayload(profile, message) {
     const metadata = buildMeta(profile);
-    return {
-        structuredContent: buildStructuredContent(profile),
-        content: [
+    const summary = summarizeProfile(profile);
+
+    // Suppress model-facing text until the entire onboarding is complete. This keeps the
+    // assistant silent while the user works through the widgets and only surfaces a
+    // response after the last section is submitted.
+    const content = summary.onboardingStatus === "complete" && message
+        ? [
             {
                 type: "text",
                 text: message,
             },
-        ],
+        ]
+        : [];
+
+    return {
+        structuredContent: buildStructuredContent(profile),
+        content,
         toolResponseMetadata: metadata,
         _meta: metadata,
     };
