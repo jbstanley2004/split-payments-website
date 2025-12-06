@@ -5,37 +5,63 @@ const COLLECTION_NAME = "mcp_business_profiles";
 
 const baseSections = [
     {
-        key: "business_profile",
-        title: "Business profile",
-        description: "Ownership, entity basics, and brand information used during onboarding.",
+        key: "business_identity",
+        title: "Business Identity",
+        description: "Business basics that mirror the Portal's Business Identity card.",
         fields: [
             { key: "legalName", label: "Legal business name", required: true, value: "", helper: "Matches your government registration." },
+            { key: "dba", label: "Doing business as (DBA)", required: false, value: "", helper: "Leave blank if the same as legal name." },
             { key: "entityType", label: "Entity type", required: true, value: "", helper: "LLC, corporation, nonprofit, or sole proprietorship." },
             { key: "ein", label: "Tax ID (EIN)", required: true, value: "", helper: "Nine digits with no dashes." },
-            { key: "website", label: "Website", required: false, value: "", helper: "Use your primary marketing or ordering site." },
-            { key: "brands", label: "Brands sold", required: false, value: "", helper: "Comma-separated list of consumer-facing names." }
+            { key: "businessStartDate", label: "Business start date", required: false, value: "", helper: "Month/day/year your operations began." }
         ],
     },
     {
-        key: "contact",
-        title: "Contact & operations",
-        description: "Details that appear on invoices and in the Portal profile.",
+        key: "contact_location",
+        title: "Contact & Location",
+        description: "Contact and address details from the Portal profile tab.",
         fields: [
-            { key: "contactName", label: "Primary contact name", required: true, value: "", helper: "Person responsible for payment communications." },
-            { key: "email", label: "Contact email", required: true, value: "", helper: "Used for statements and account alerts." },
-            { key: "phone", label: "Phone number", required: false, value: "", helper: "Include country code if international." },
-            { key: "supportHours", label: "Support hours", required: false, value: "", helper: "Displayed in the portal profile card." }
+            { key: "physicalAddress", label: "Physical business address", required: true, value: "", helper: "Street, suite, and city information." },
+            { key: "cityStateZip", label: "City, state, ZIP", required: true, value: "", helper: "Matches your billing and mailing location." },
+            { key: "businessPhone", label: "Business phone", required: true, value: "", helper: "Include country code if international." },
+            { key: "supportEmail", label: "Support email", required: true, value: "", helper: "Where customers and Split can reach you." },
+            { key: "website", label: "Website", required: false, value: "", helper: "Primary marketing or ordering site." },
         ],
     },
     {
-        key: "payments",
-        title: "Settlement & payments",
-        description: "Where we send payouts and who signs the merchant agreement.",
+        key: "financial_information",
+        title: "Financial Information",
+        description: "Banking and processing details used during underwriting.",
         fields: [
-            { key: "bank", label: "Bank name", required: true, value: "", helper: "Financial institution for settlements." },
-            { key: "routing", label: "Routing number", required: true, value: "", helper: "Nine digits for ACH transfers." },
-            { key: "account", label: "Account number", required: true, value: "", helper: "Do not include spaces or dashes." },
-            { key: "signer", label: "Authorized signer", required: true, value: "", helper: "Person with authority to sign for the entity." }
+            { key: "monthlyRevenue", label: "Monthly revenue", required: true, value: "", helper: "Average monthly sales volume." },
+            { key: "annualRevenue", label: "Annual revenue", required: true, value: "", helper: "Most recent full-year revenue." },
+            { key: "averageTicketSize", label: "Average ticket size", required: true, value: "", helper: "Typical order amount." },
+            { key: "highTicketAmount", label: "Highest ticket amount", required: true, value: "", helper: "Largest transaction you process." },
+            { key: "statementUrl", label: "Merchant statements link", required: false, value: "", helper: "URL where recent statements live." },
+        ],
+    },
+    {
+        key: "equipment_information",
+        title: "Equipment Information",
+        description: "Hardware split between card-present and card-not-present sales.",
+        fields: [
+            { key: "terminalMake", label: "Terminal make", required: true, value: "", helper: "Example: Verifone, Clover, Ingenico." },
+            { key: "terminalModel", label: "Terminal model", required: true, value: "", helper: "Model or SKU used in your stores." },
+            { key: "cardPresentPercentage", label: "Card-present %", required: true, value: "", helper: "Percent of transactions that are swiped, dipped, or tapped." },
+            { key: "cardNotPresentPercentage", label: "Card-not-present %", required: true, value: "", helper: "Percent of transactions keyed or online." },
+            { key: "equipmentTypes", label: "Equipment types", required: false, value: "", helper: "POS, terminals, mobile readers, etc." },
+        ],
+    },
+    {
+        key: "owner_information",
+        title: "Owner Information",
+        description: "Control person identity that matches the Portal owner card.",
+        fields: [
+            { key: "ownerName", label: "Owner full name", required: true, value: "", helper: "As shown on legal ID." },
+            { key: "title", label: "Title", required: true, value: "", helper: "Role at the business (e.g., CEO, Managing Member)." },
+            { key: "cellPhone", label: "Mobile phone", required: true, value: "", helper: "Use a number we can text for verification." },
+            { key: "homeAddress", label: "Home address", required: true, value: "", helper: "Street, city, state, and ZIP." },
+            { key: "ssn", label: "SSN (last 4 ok)", required: true, value: "", helper: "Numbers only; no dashes." },
         ],
     },
 ];
