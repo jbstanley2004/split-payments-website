@@ -5,6 +5,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import {
   buildMeta,
   buildStructuredContent,
+  generateAccountId,
   loadProfile,
   resetProfile,
   summarizeProfile,
@@ -15,6 +16,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const templateUri = "ui://widget/business-profile-onboarding.html";
+const widgetDomain = process.env.WIDGET_DOMAIN?.trim() || "https://chatgpt.com";
+const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "https://api.split-payments.local")
+  .split(",")
+  .map((domain) => domain.trim())
+  .filter(Boolean);
 
 async function loadTemplate() {
   const templatePath = path.join(__dirname, "widget", "profile-onboarding.html");
@@ -22,6 +28,7 @@ async function loadTemplate() {
 }
 
 function responsePayload(profile, message) {
+  const metadata = buildMeta(profile);
   return {
     structuredContent: buildStructuredContent(profile),
     content: [
@@ -30,7 +37,8 @@ function responsePayload(profile, message) {
         text: message,
       },
     ],
-    _meta: buildMeta(profile),
+    toolResponseMetadata: metadata,
+    _meta: metadata,
   };
 }
 
@@ -48,9 +56,9 @@ server.registerResource(
         text: await loadTemplate(),
         _meta: {
           "openai/widgetPrefersBorder": true,
-          "openai/widgetDomain": "https://chatgpt.com",
+          "openai/widgetDomain": widgetDomain,
           "openai/widgetCSP": {
-            connect_domains: ["https://api.split-payments.local"],
+            connect_domains: connectDomains,
             resource_domains: ["https://*.oaistatic.com"],
           },
           "openai/widgetDescription":
@@ -72,7 +80,7 @@ server.registerTool(
         accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
         restart: { type: "boolean", description: "If true, clears any saved progress before loading." },
       },
-      required: ["accountId"],
+      required: [],
     },
     _meta: {
       "openai/outputTemplate": templateUri,
@@ -81,11 +89,15 @@ server.registerTool(
     },
   },
   async ({ accountId, restart }) => {
-    const profile = restart ? resetProfile(accountId) : loadProfile(accountId);
+    const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
+    const createdNewAccount = !accountId?.trim();
+    const profile = restart ? resetProfile(resolvedAccountId) : loadProfile(resolvedAccountId);
     const summary = summarizeProfile(profile);
-    const message = summary.onboardingStatus === "complete"
-      ? "Profile is complete."
-      : `Continuing onboarding with the ${summary.nextSection?.title ?? "next"} section.`;
+    const message = createdNewAccount
+      ? "Created a new account and loaded onboarding."
+      : summary.onboardingStatus === "complete"
+        ? "Profile is complete."
+        : `Continuing onboarding with the ${summary.nextSection?.title ?? "next"} section.`;
     return responsePayload(profile, message);
   }
 );

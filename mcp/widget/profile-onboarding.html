@@ -174,7 +174,7 @@
     </div>
     <script type="module">
       const openai = window.openai;
-      const state = openai.widgetState || {};
+      let state = { ...(openai.widgetState || {}) };
 
       function formatPercent(value) {
         return `${Math.min(100, Math.max(0, Math.round(value ?? 0)))}%`;
@@ -194,8 +194,28 @@
         container.replaceChildren(pill, status, next);
       }
 
+      function resolveAccountId(metadata) {
+        const candidate =
+          state.accountId ||
+          metadata?.accountId ||
+          openai.toolResponseMetadata?.accountId ||
+          openai.toolOutput?.accountId;
+
+        return candidate && String(candidate).trim().length > 0 ? String(candidate) : null;
+      }
+
+      function resolveMetadata() {
+        return (
+          openai.toolResponseMetadata ||
+          openai.toolOutput?.toolResponseMetadata ||
+          openai.toolOutput?._meta ||
+          state.metadata
+        );
+      }
+
       function saveWidgetState(partial) {
         const next = { ...state, ...partial };
+        state = next;
         openai.setWidgetState(next);
       }
 
@@ -204,7 +224,7 @@
         if (!input.dataset.section || !input.dataset.field) return;
         openai
           .callTool("update_business_profile_field", {
-            accountId: openai.toolOutput?.accountId,
+            accountId: resolveAccountId(resolveMetadata()),
             sectionKey: input.dataset.section,
             fieldKey: input.dataset.field,
             value: input.value,
@@ -282,27 +302,67 @@
       function wireButtons() {
         const refresh = document.getElementById("refresh");
         refresh.onclick = () => {
+          const accountId = resolveAccountId(resolveMetadata());
+          const payload = { restart: false };
+          if (accountId) payload.accountId = accountId;
+
           openai
             .callTool("load_business_profile", {
-              accountId: openai.toolOutput?.accountId,
-              restart: false,
+              ...payload,
+            })
+            .then((response) => {
+              const metadata = response?.toolResponseMetadata || response?._meta || resolveMetadata();
+              if (metadata?.sections?.length) {
+                saveWidgetState({ metadata, accountId: resolveAccountId(metadata) });
+                renderStatus(response?.structuredContent || openai.toolOutput);
+                renderSections(metadata);
+              }
             })
             .catch((error) => console.error("Failed to refresh profile", error));
         };
 
         const reset = document.getElementById("reset");
         reset.onclick = () => {
-          openai
-            .callTool("reset_business_profile", {
-              accountId: openai.toolOutput?.accountId,
+          const accountId = resolveAccountId(resolveMetadata());
+          const resetPromise = accountId
+            ? openai.callTool("reset_business_profile", { accountId })
+            : openai.callTool("load_business_profile", { restart: true });
+
+          resetPromise
+            .then((response) => {
+              const metadata = response?.toolResponseMetadata || response?._meta || resolveMetadata();
+              if (metadata?.sections?.length) {
+                saveWidgetState({ metadata, accountId: resolveAccountId(metadata) });
+                renderStatus(response?.structuredContent || openai.toolOutput);
+                renderSections(metadata);
+              }
             })
             .catch((error) => console.error("Failed to reset profile", error));
         };
       }
 
-      function init() {
+      async function init() {
         renderStatus(openai.toolOutput);
-        renderSections(openai.toolResponseMetadata);
+        const metadata = resolveMetadata();
+        const accountId = resolveAccountId(metadata);
+        saveWidgetState({ accountId, metadata });
+        if (metadata?.sections?.length) {
+          renderSections(metadata);
+        } else {
+          try {
+            const payload = {};
+            if (accountId) payload.accountId = accountId;
+            const response = await openai.callTool("load_business_profile", { ...payload, restart: false });
+            const metaFromResponse = response?.toolResponseMetadata || response?._meta || metadata;
+            if (metaFromResponse?.sections?.length) {
+              saveWidgetState({ metadata: metaFromResponse, accountId: resolveAccountId(metaFromResponse) });
+              renderStatus(response?.structuredContent || openai.toolOutput);
+              renderSections(metaFromResponse);
+            }
+          } catch (error) {
+            console.error("Failed to bootstrap onboarding", error);
+          }
+        }
         wireButtons();
       }
 
