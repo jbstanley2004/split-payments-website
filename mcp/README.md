@@ -19,11 +19,29 @@ This folder contains a reference MCP server plus a lightweight widget that mirro
    npm install @modelcontextprotocol/sdk
    ```
    (Add any dev server or bundler you prefer; the widget runs without a build step.)
-2. Start the server:
+2. Provide environment variables for Firebase-backed persistence:
+   ```bash
+   export FIREBASE_PROJECT_ID="<your project id>"
+   export FIREBASE_CLIENT_EMAIL="<your client email>"
+   export FIREBASE_PRIVATE_KEY="<private key with newline escapes>"
+   # Optional but recommended for the widget sandbox
+   export WIDGET_DOMAIN="https://www.ccsplit.org"
+   export WIDGET_CONNECT_DOMAINS="https://www.ccsplit.org,https://api.ccsplit.org"
+   ```
+3. Start the server:
    ```bash
    PORT=3030 node server.mjs
    ```
-3. Point MCP Inspector or a ChatGPT connector at `http://localhost:3030/mcp` to exercise the tools and widget.
+4. Point MCP Inspector or a ChatGPT connector at `http://localhost:3030/mcp` to exercise the tools and widget. The GET `/mcp` endpoint streams SSE and POST `/mcp/messages` accepts tool calls.
+
+### Using an ngrok tunnel for ChatGPT
+
+1. Launch ngrok against the local MCP server port:
+   ```bash
+   ngrok http 3030
+   ```
+2. Copy the HTTPS forwarding URL (e.g., `https://<id>.ngrok.io`) and configure the ChatGPT custom connector endpoint as `https://<id>.ngrok.io/mcp`.
+3. Keep `WIDGET_DOMAIN` pointing at your live site (`https://www.ccsplit.org`) so the widget CSP trusts the production origin.
 
 ## Production hosting guidance
 - The MCP server expects to bind to its own port, which Vercel's static/Next.js hosting model does not support. Plan on
