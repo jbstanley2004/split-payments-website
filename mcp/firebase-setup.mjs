@@ -10,19 +10,18 @@ export function getAdminDb() {
     const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
     const privateKey = process.env.FIREBASE_PRIVATE_KEY;
 
-    if (!projectId || !clientEmail || !privateKey) {
-      throw new Error(
-        "Missing Firebase Admin environment variables (FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY)."
-      );
+    if (projectId && clientEmail && privateKey) {
+      admin.initializeApp({
+        credential: admin.credential.cert({
+          projectId,
+          clientEmail,
+          privateKey: formatPrivateKey(privateKey),
+        }),
+      });
+    } else {
+      console.log("Environment variables for Firebase not found. Attempting to use Application Default Credentials...");
+      admin.initializeApp();
     }
-
-    admin.initializeApp({
-      credential: admin.credential.cert({
-        projectId,
-        clientEmail,
-        privateKey: formatPrivateKey(privateKey),
-      }),
-    });
   }
   return admin.firestore();
 }
