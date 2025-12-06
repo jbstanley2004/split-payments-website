@@ -1,0 +1,5294 @@
+Directory structure:
+└── openai-openai-apps-sdk-examples/
+    ├── README.md
+    ├── build-all.mts
+    ├── dev-all.mts
+    ├── LICENSE
+    ├── package.json
+    ├── pnpm-workspace.yaml
+    ├── tailwind.config.ts
+    ├── tsconfig.app.json
+    ├── tsconfig.json
+    ├── tsconfig.node.json
+    ├── vite-env.d.ts
+    ├── vite.config.mts
+    ├── vite.host.config.mts
+    ├── .pre-commit-config.yaml
+    ├── kitchen_sink_server_node/
+    │   ├── README.md
+    │   ├── package.json
+    │   ├── tsconfig.json
+    │   └── src/
+    │       └── server.ts
+    ├── kitchen_sink_server_python/
+    │   ├── README.md
+    │   ├── main.py
+    │   └── requirements.txt
+    ├── pizzaz_server_node/
+    │   ├── README.md
+    │   ├── package.json
+    │   ├── tsconfig.json
+    │   └── src/
+    │       └── server.ts
+    ├── pizzaz_server_python/
+    │   ├── README.md
+    │   ├── main.py
+    │   └── requirements.txt
+    ├── solar-system_server_python/
+    │   ├── README.md
+    │   ├── main.py
+    │   └── requirements.txt
+    ├── src/
+    │   ├── index.css
+    │   ├── media-queries.ts
+    │   ├── types.ts
+    │   ├── use-display-mode.ts
+    │   ├── use-max-height.ts
+    │   ├── use-openai-global.ts
+    │   ├── use-widget-props.ts
+    │   ├── use-widget-state.ts
+    │   ├── kitchen-sink-lite/
+    │   │   ├── index.tsx
+    │   │   └── kitchen-sink-lite.css
+    │   ├── pizzaz/
+    │   │   ├── index.jsx
+    │   │   ├── Inspector.jsx
+    │   │   ├── markers.json
+    │   │   └── Sidebar.jsx
+    │   ├── pizzaz-albums/
+    │   │   ├── AlbumCard.jsx
+    │   │   ├── albums.json
+    │   │   ├── FilmStrip.jsx
+    │   │   ├── FullscreenViewer.jsx
+    │   │   └── index.jsx
+    │   ├── pizzaz-carousel/
+    │   │   ├── index.jsx
+    │   │   └── PlaceCard.jsx
+    │   ├── pizzaz-list/
+    │   │   └── index.jsx
+    │   ├── solar-system/
+    │   │   ├── index.jsx
+    │   │   └── solar-system.jsx
+    │   ├── todo/
+    │   │   └── index.jsx
+    │   └── utils/
+    │       └── locale.ts
+    └── .github/
+        └── workflows/
+            └── pre-commit.yml
+
+================================================
+FILE: README.md
+================================================
+# Apps SDK Examples Gallery
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
+This repository showcases example UI components to be used with the Apps SDK, as well as example MCP servers that expose a collection of components as tools.
+It is meant to be used as a starting point and source of inspiration to build your own apps for ChatGPT.
+
+Note: If you are on Chrome and have recently updated to version 142, you will need to disable the [`local-network-access` flag](https://developer.chrome.com/release-notes/142#local_network_access_restrictions) to see the widget UI.
+
+How to disable it:
+
+1. Go to chrome://flags/
+2. Find #local-network-access-check
+3. Set it to Disabled
+
+⚠️ **Note 🚨 Make sure to restart Chrome after changing this flag for the update to take effect.**
+
+## MCP + Apps SDK overview
+
+The Model Context Protocol (MCP) is an open specification for connecting large language model clients to external tools, data, and user interfaces. An MCP server exposes tools that a model can call during a conversation and returns results according to the tool contracts. Those results can include extra metadata—such as inline HTML—that the Apps SDK uses to render rich UI components (widgets) alongside assistant messages.
+
+Within the Apps SDK, MCP keeps the server, model, and UI in sync. By standardizing the wire format, authentication, and metadata, it lets ChatGPT reason about your connector the same way it reasons about built-in tools. A minimal MCP integration for Apps SDK implements three capabilities:
+
+1. **List tools** – Your server advertises the tools it supports, including their JSON Schema input/output contracts and optional annotations (for example, `readOnlyHint`).
+2. **Call tools** – When a model selects a tool, it issues a `call_tool` request with arguments that match the user intent. Your server executes the action and returns structured content the model can parse.
+3. **Return widgets** – Alongside structured content, return embedded resources in the response metadata so the Apps SDK can render the interface inline in the Apps SDK client (ChatGPT).
+
+Because the protocol is transport agnostic, you can host the server over Server-Sent Events or streaming HTTP—Apps SDK supports both.
+
+The MCP servers in this demo highlight how each tool can light up widgets by combining structured payloads with `_meta.openai/outputTemplate` metadata returned from the MCP servers.
+
+## Repository structure
+
+- `src/` – Source for each widget example.
+- `assets/` – Generated HTML, JS, and CSS bundles after running the build step.
+- `pizzaz_server_node/` – MCP server implemented with the official TypeScript SDK.
+- `pizzaz_server_python/` – Python MCP server that returns the Pizzaz widgets.
+- `solar-system_server_python/` – Python MCP server for the 3D solar system widget.
+- `kitchen_sink_server_node/` – Node MCP server for the kitchen-sink-lite widget.
+- `kitchen_sink_server_python/` – Python MCP server for the kitchen-sink-lite widget.
+- `build-all.mts` – Vite build orchestrator that produces hashed bundles for every widget entrypoint.
+
+### Kitchen sink lite overview
+
+The kitchen sink lite sample shows the full `window.openai` surface working together:
+
+- Reads host state (`toolInput`, `toolOutput`, `displayMode`, `theme`, `widgetState`).
+- Writes host state with `setWidgetState`.
+- Calls another MCP tool from the widget with `callTool`.
+- Uses host helpers like `requestDisplayMode`, `openExternal`, and `sendFollowUpMessage`.
+
+Use it as a reference for how to wire UI to MCP tool responses and host APIs with the Apps SDK UI components.
+
+## Prerequisites
+
+- Node.js 18+
+- pnpm (recommended) or npm/yarn
+- Python 3.10+ (for the Python MCP server)
+- pre-commit for formatting
+
+## Install dependencies
+
+Clone the repository and install the workspace dependencies:
+
+```bash
+pnpm install
+pre-commit install
+```
+
+> Using npm or yarn? Install the root dependencies with your preferred client and adjust the commands below accordingly.
+
+## Build the components gallery
+
+The components are bundled into standalone assets that the MCP servers serve as reusable UI resources.
+
+```bash
+pnpm run build
+```
+
+This command runs `build-all.mts`, producing versioned `.html`, `.js`, and `.css` files inside `assets/`. Each widget is wrapped with the CSS it needs so you can host the bundles directly or ship them with your own server.
+
+To iterate on your components locally, you can also launch the Vite dev server:
+
+```bash
+pnpm run dev
+```
+
+## Serve the static assets
+
+All of the MCP servers expect the bundled HTML, JS, and CSS to be served from the local static file server. After every build, start the server before launching any MCP processes:
+
+```bash
+pnpm run serve
+```
+
+The assets are exposed at [`http://localhost:4444`](http://localhost:4444) with CORS enabled so that local tooling (including MCP inspectors) can fetch them.
+
+> **Note:** The Python Pizzaz server caches widget HTML with `functools.lru_cache`. If you rebuild or manually edit files in `assets/`, restart the MCP server so it picks up the updated markup.
+
+## Run the MCP servers
+
+The repository ships several demo MCP servers that highlight different widget bundles:
+
+- **Pizzaz (Node & Python)** – pizza-inspired collection of tools and components
+- **Solar system (Python)** – 3D solar system viewer
+- **Kitchen sink lite (Node & Python)** – minimal widget + server pairing that demonstrates tool output, widget state, `callTool`, and host helpers
+
+### Pizzaz Node server
+
+```bash
+cd pizzaz_server_node
+pnpm start
+```
+
+### Pizzaz Python server
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r pizzaz_server_python/requirements.txt
+uvicorn pizzaz_server_python.main:app --port 8000
+```
+
+### Solar system Python server
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r solar-system_server_python/requirements.txt
+uvicorn solar-system_server_python.main:app --port 8000
+```
+
+### Kitchen sink lite Node server
+
+```bash
+pnpm --filter kitchen-sink-mcp-node start
+```
+
+### Kitchen sink lite Python server
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r kitchen_sink_server_python/requirements.txt
+uvicorn kitchen_sink_server_python.main:app --port 8000
+```
+
+You can reuse the same virtual environment for all Python servers—install the dependencies once and run whichever entry point you need.
+
+## Testing in ChatGPT
+
+To add these apps to ChatGPT, enable [developer mode](https://platform.openai.com/docs/guides/developer-mode), and add your apps in Settings > Connectors.
+
+To add your local server without deploying it, you can use a tool like [ngrok](https://ngrok.com/) to expose your local server to the internet.
+
+For example, once your mcp servers are running, you can run:
+
+```bash
+ngrok http 8000
+```
+
+You will get a public URL that you can use to add your local server to ChatGPT in Settings > Connectors.
+
+For example: `https://<custom_endpoint>.ngrok-free.app/mcp`
+
+Once you add a connector, you can use it in ChatGPT conversations.
+
+You can add your app to the conversation context by selecting it in the "More" options.
+
+![more-chatgpt](https://github.com/user-attachments/assets/26852b36-7f9e-4f48-a515-aebd87173399)
+
+You can then invoke tools by asking something related. For example, for the Pizzaz app, you can ask "What are the best pizzas in town?".
+
+## Next steps
+
+- Customize the widget data: edit the handlers in `pizzaz_server_node/src`, `pizzaz_server_python/main.py`, or the solar system server to fetch data from your systems.
+- Create your own components and add them to the gallery: drop new entries into `src/` and they will be picked up automatically by the build script.
+
+### Deploy your MCP server
+
+You can use the cloud environment of your choice to deploy your MCP server.
+
+Include this in the environment variables:
+
+```
+BASE_URL=https://your-server.com
+```
+
+This will be used to generate the HTML for the widgets so that they can serve static assets from this hosted url.
+
+## Contributing
+
+You are welcome to open issues or submit PRs to improve this app, however, please note that we may not review all suggestions.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
+
+
+
+================================================
+FILE: build-all.mts
+================================================
+import { build, type InlineConfig, type Plugin } from "vite";
+import react from "@vitejs/plugin-react";
+import fg from "fast-glob";
+import path from "path";
+import fs from "fs";
+import crypto from "crypto";
+import pkg from "./package.json" with { type: "json" };
+import tailwindcss from "@tailwindcss/vite";
+
+const entries = fg.sync("src/**/index.{tsx,jsx}");
+const outDir = "assets";
+
+const PER_ENTRY_CSS_GLOB = "**/*.{css,pcss,scss,sass}";
+const PER_ENTRY_CSS_IGNORE = "**/*.module.*".split(",").map((s) => s.trim());
+const GLOBAL_CSS_LIST = [path.resolve("src/index.css")];
+
+const targets: string[] = [
+  "todo",
+  "solar-system",
+  "pizzaz",
+  "pizzaz-carousel",
+  "pizzaz-list",
+  "pizzaz-albums",
+  "pizzaz-shop",
+  "kitchen-sink-lite",
+];
+const builtNames: string[] = [];
+
+function wrapEntryPlugin(
+  virtualId: string,
+  entryFile: string,
+  cssPaths: string[]
+): Plugin {
+  return {
+    name: `virtual-entry-wrapper:${entryFile}`,
+    resolveId(id) {
+      if (id === virtualId) return id;
+    },
+    load(id) {
+      if (id !== virtualId) {
+        return null;
+      }
+
+      const cssImports = cssPaths
+        .map((css) => `import ${JSON.stringify(css)};`)
+        .join("\n");
+
+      return `
+    ${cssImports}
+    export * from ${JSON.stringify(entryFile)};
+
+    import * as __entry from ${JSON.stringify(entryFile)};
+    export default (__entry.default ?? __entry.App);
+
+    import ${JSON.stringify(entryFile)};
+  `;
+    },
+  };
+}
+
+fs.rmSync(outDir, { recursive: true, force: true });
+
+for (const file of entries) {
+  const name = path.basename(path.dirname(file));
+  if (targets.length && !targets.includes(name)) {
+    continue;
+  }
+
+  const entryAbs = path.resolve(file);
+  const entryDir = path.dirname(entryAbs);
+
+  // Collect CSS for this entry using the glob(s) rooted at its directory
+  const perEntryCss = fg.sync(PER_ENTRY_CSS_GLOB, {
+    cwd: entryDir,
+    absolute: true,
+    dot: false,
+    ignore: PER_ENTRY_CSS_IGNORE,
+  });
+
+  // Global CSS (Tailwind, etc.), only include those that exist
+  const globalCss = GLOBAL_CSS_LIST.filter((p) => fs.existsSync(p));
+
+  // Final CSS list (global first for predictable cascade)
+  const cssToInclude = [...globalCss, ...perEntryCss].filter((p) =>
+    fs.existsSync(p)
+  );
+
+  const virtualId = `\0virtual-entry:${entryAbs}`;
+
+  const createConfig = (): InlineConfig => ({
+    plugins: [
+      wrapEntryPlugin(virtualId, entryAbs, cssToInclude),
+      tailwindcss(),
+      react(),
+      {
+        name: "remove-manual-chunks",
+        outputOptions(options) {
+          if ("manualChunks" in options) {
+            delete (options as any).manualChunks;
+          }
+          return options;
+        },
+      },
+    ],
+    esbuild: {
+      jsx: "automatic",
+      jsxImportSource: "react",
+      target: "es2022",
+    },
+    build: {
+      target: "es2022",
+      outDir,
+      emptyOutDir: false,
+      chunkSizeWarningLimit: 2000,
+      minify: "esbuild",
+      cssCodeSplit: false,
+      rollupOptions: {
+        input: virtualId,
+        output: {
+          format: "es",
+          entryFileNames: `${name}.js`,
+          inlineDynamicImports: true,
+          assetFileNames: (info) =>
+            (info.name || "").endsWith(".css")
+              ? `${name}.css`
+              : `[name]-[hash][extname]`,
+        },
+        preserveEntrySignatures: "allow-extension",
+        treeshake: true,
+      },
+    },
+  });
+
+  console.group(`Building ${name} (react)`);
+  await build(createConfig());
+  console.groupEnd();
+  builtNames.push(name);
+  console.log(`Built ${name}`);
+}
+
+const outputs = fs
+  .readdirSync("assets")
+  .filter((f) => f.endsWith(".js") || f.endsWith(".css"))
+  .map((f) => path.join("assets", f))
+  .filter((p) => fs.existsSync(p));
+
+const h = crypto
+  .createHash("sha256")
+  .update(pkg.version, "utf8")
+  .digest("hex")
+  .slice(0, 4);
+
+console.group("Hashing outputs");
+for (const out of outputs) {
+  const dir = path.dirname(out);
+  const ext = path.extname(out);
+  const base = path.basename(out, ext);
+  const newName = path.join(dir, `${base}-${h}${ext}`);
+
+  fs.renameSync(out, newName);
+  console.log(`${out} -> ${newName}`);
+}
+console.groupEnd();
+
+console.log("new hash: ", h);
+
+const defaultBaseUrl = "http://localhost:4444";
+const baseUrlCandidate = process.env.BASE_URL?.trim() ?? "";
+const baseUrlRaw = baseUrlCandidate.length > 0 ? baseUrlCandidate : defaultBaseUrl;
+const normalizedBaseUrl = baseUrlRaw.replace(/\/+$/, "") || defaultBaseUrl;
+console.log(`Using BASE_URL ${normalizedBaseUrl} for generated HTML`);
+
+for (const name of builtNames) {
+  const dir = outDir;
+  const hashedHtmlPath = path.join(dir, `${name}-${h}.html`);
+  const liveHtmlPath = path.join(dir, `${name}.html`);
+  const html = `<!doctype html>
+<html>
+<head>
+  <script type="module" src="${normalizedBaseUrl}/${name}-${h}.js"></script>
+  <link rel="stylesheet" href="${normalizedBaseUrl}/${name}-${h}.css">
+</head>
+<body>
+  <div id="${name}-root"></div>
+</body>
+</html>
+`;
+  fs.writeFileSync(hashedHtmlPath, html, { encoding: "utf8" });
+  fs.writeFileSync(liveHtmlPath, html, { encoding: "utf8" });
+  console.log(`${liveHtmlPath}`);
+}
+
+
+
+================================================
+FILE: dev-all.mts
+================================================
+#!/usr/bin/env -S node --enable-source-maps
+import { createServer as createHttpServer, request as httpRequest } from "node:http";
+import { URL } from "node:url";
+import { spawn } from "node:child_process";
+import fg from "fast-glob";
+import path from "node:path";
+
+const REACT_PORT = 4450;
+const PROXY_PORT = 4444;
+
+function detectEntryNames(): string[] {
+  const entries = fg.sync("src/**/index.{tsx,jsx}", { dot: false });
+  return entries.map((entry) => path.basename(path.dirname(entry)));
+}
+
+function startVite(configFile: string, port: number) {
+  const child = spawn(
+    process.platform === "win32" ? "pnpm.cmd" : "pnpm",
+    ["vite", "--config", configFile, "--port", String(port), "--strictPort"],
+    {
+      stdio: ["ignore", "pipe", "pipe"],
+      env: {
+        ...process.env,
+        VITE_DEV_CLIENT_ORIGIN: `http://localhost:${port}`,
+      },
+    }
+  );
+
+  const prefix = (s: string) => `[react] ${s}`;
+  child.stdout.on("data", (d) => process.stdout.write(prefix(d.toString())));
+  child.stderr.on("data", (d) => process.stderr.write(prefix(d.toString())));
+  child.on("exit", (code) => {
+    console.log(`react exited with code ${code}`);
+  });
+  return child;
+}
+
+async function main() {
+  const entryNames = detectEntryNames();
+  console.log("Detected widget entries:");
+  for (const name of entryNames) {
+    console.log(`  /${name}.js, /${name}.css`);
+  }
+
+  const reactChild = startVite("vite.config.mts", REACT_PORT);
+
+  // Simple proxy to keep legacy 4444 port and allow missing base prefix
+  const server = createHttpServer((req, res) => {
+    const urlObj = new URL(req.url || "/", `http://localhost:${PROXY_PORT}`);
+
+    if (urlObj.pathname === "/") {
+      res.setHeader("content-type", "text/html; charset=utf-8");
+      res.end(
+        `<!doctype html><meta charset=utf-8><title>ecosystem_ui dev</title>` +
+          `<style>body{font:13px/1.4 -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;padding:16px}</style>` +
+          `<h1>ecosystem_ui dev proxy (4444)</h1>` +
+          `<p>Entries:</p>` +
+          `<ul>` +
+          entryNames
+            .map((n) => `<li><a href="/${n}.js">/${n}.js</a></li>`)
+            .join("") +
+          `</ul>`
+      );
+      return;
+    }
+
+    const targetUrl = new URL(urlObj.pathname + urlObj.search, `http://localhost:${REACT_PORT}`);
+    const opts = {
+      method: req.method,
+      headers: {
+        ...req.headers,
+        host: targetUrl.host,
+        origin: `${targetUrl.protocol}//${targetUrl.host}`,
+        "access-control-allow-origin": "*",
+      },
+    };
+
+    const proxyReq = httpRequest(targetUrl, opts, (proxyRes) => {
+      for (const [k, v] of Object.entries(proxyRes.headers)) {
+        if (v !== undefined) res.setHeader(k, v as any);
+      }
+      res.setHeader("access-control-allow-origin", "*");
+      res.writeHead(proxyRes.statusCode || 200, proxyRes.statusMessage);
+      proxyRes.pipe(res);
+    });
+
+    proxyReq.on("error", (err) => {
+      res.statusCode = 502;
+      res.setHeader("content-type", "text/plain");
+      res.end(`Proxy error: ${err.message}`);
+    });
+
+    if (req.readable) req.pipe(proxyReq);
+    else proxyReq.end();
+  });
+
+  server.listen(PROXY_PORT, () => {
+    console.log(`Proxy listening on http://localhost:${PROXY_PORT}`);
+  });
+
+  const shutdown = () => {
+    try {
+      reactChild.kill();
+    } catch {}
+    try {
+      server.close();
+    } catch {}
+    process.exit(0);
+  };
+  process.on("SIGINT", shutdown);
+  process.on("SIGTERM", shutdown);
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
+
+
+
+================================================
+FILE: LICENSE
+================================================
+MIT License
+
+Copyright (c) 2025 OpenAI
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+================================================
+FILE: package.json
+================================================
+{
+  "name": "ecosystem_ui",
+  "version": "5.0.16",
+  "description": "",
+  "main": "host/main.ts",
+  "scripts": {
+    "build": "tsx ./build-all.mts",
+    "serve": "serve -s ./assets -p 4444 --cors",
+    "dev": "vite --config vite.config.mts",
+    "tsc": "tsc -b",
+    "tsc:app": "tsc -p tsconfig.app.json",
+    "tsc:node": "tsc -p tsconfig.node.json",
+    "dev:host": "vite --config vite.host.config.mts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.24.0",
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^24.3.0",
+    "@types/three": "^0.180.0",
+    "@vitejs/plugin-react": "^4.5.2e",
+    "autoprefixer": "10.4.21",
+    "fast-glob": "^3.3.3",
+    "postcss": "8.5.6",
+    "serve": "^14.2.4",
+    "tailwindcss": "4.1.11",
+    "tsx": "^4.20.4",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.1"
+  },
+  "dependencies": {
+    "@openai/apps-sdk-ui": "^0.2.1",
+    "@react-spring/three": "^10.0.1",
+    "@react-three/drei": "^10.6.1",
+    "@react-three/fiber": "^9.3.0",
+    "@react-three/postprocessing": "^3.0.4",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "clsx": "^2.1.1",
+    "embla-carousel": "^8.0.0",
+    "embla-carousel-react": "^8.0.0",
+    "framer-motion": "^12.23.12",
+    "immer": "^10.1.1",
+    "lodash": "^4.17.21",
+    "lucide-react": "^0.536.0",
+    "mapbox-gl": "^3.14.0",
+    "mapbox-gl.css": "link:mapbox-gl/dist/mapbox-gl.css",
+    "mermaid": "^11.9.0",
+    "partial-json": "^0.1.7",
+    "react": "^19.1.1",
+    "react-datepicker": "^8.4.0",
+    "react-datepicker.css": "link:react-datepicker/dist/react-datepicker.css",
+    "react-dom": "^19.1.1",
+    "react-intl": "^7.1.11",
+    "react-router-dom": "^7.8.2",
+    "three": "^0.179.1",
+    "zod": "^4.1.5"
+  }
+}
+
+
+
+================================================
+FILE: pnpm-workspace.yaml
+================================================
+packages:
+  - pizzaz_server_node
+  - kitchen_sink_server_node
+
+
+
+================================================
+FILE: tailwind.config.ts
+================================================
+// tailwind.config.js
+export default {
+  content: [
+    "./src/**/*.{html,js,ts,jsx,tsx}",
+    "./host/**/*.{html,js,ts,jsx,tsx}",
+  ],
+  theme: {},
+  plugins: [],
+};
+
+
+
+================================================
+FILE: tsconfig.app.json
+================================================
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": false,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "types": ["vite/client", "@react-three/fiber"],
+    "baseUrl": ".",
+    "paths": {},
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src"]
+}
+
+
+
+================================================
+FILE: tsconfig.json
+================================================
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
+
+
+
+================================================
+FILE: tsconfig.node.json
+================================================
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "ES2023",
+    "lib": ["ES2023"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": [
+    "vite.host.config.mts",
+    "vite.config.mts",
+    "build-all.mts",
+    "dev-all.mts"
+  ]
+}
+
+
+
+================================================
+FILE: vite-env.d.ts
+================================================
+/// <reference types="vite/client" />
+
+
+
+================================================
+FILE: vite.config.mts
+================================================
+import { defineConfig, type Plugin } from "vite";
+import react from "@vitejs/plugin-react";
+import fg from "fast-glob";
+import path from "node:path";
+import fs from "node:fs";
+import tailwindcss from "@tailwindcss/vite";
+
+function buildInputs() {
+  const files = fg.sync("src/**/index.{tsx,jsx}", { dot: false });
+  return Object.fromEntries(
+    files.map((f) => [path.basename(path.dirname(f)), path.resolve(f)])
+  );
+}
+
+const toFs = (abs: string) => "/@fs/" + abs.replace(/\\/g, "/");
+
+const toServerRoot = (abs: string) => {
+  const rel = path.relative(process.cwd(), abs).replace(/\\/g, "/");
+  // If it's not really relative (different drive or absolute), fall back to fs URL
+  if (!rel || rel.startsWith("..") || path.isAbsolute(rel)) return toFs(abs);
+  return "./" + rel;
+};
+
+function multiEntryDevEndpoints(options: {
+  entries: Record<string, string>;
+  globalCss?: string[];
+  perEntryCssGlob?: string;
+  perEntryCssIgnore?: string[];
+}): Plugin {
+  const {
+    entries,
+    globalCss = ["src/index.css"],
+    perEntryCssGlob = "**/*.{css,pcss,scss,sass}",
+    perEntryCssIgnore = ["**/*.module.*"],
+  } = options;
+
+  const V_PREFIX = "\0multi-entry:"; // Rollup “virtual module” prefix
+
+  const HIDE_FROM_HOME = new Set(["flashcards", "daw"]);
+
+  const renderIndexHtml = (names: string[]): string => `<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>ecosystem ui examples</title>
+  <style>
+    body { font: 15px/1.5 system-ui, sans-serif; margin: 32px; color: #1f2933; }
+    h1 { font-size: 20px; margin-bottom: 12px; }
+    ul { padding-left: 18px; }
+    li { margin-bottom: 6px; }
+    a { color: #2563eb; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; margin-left: 6px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <h1>Examples</h1>
+  <ul>
+    ${names
+      .filter((n) => !HIDE_FROM_HOME.has(n))
+      .toSorted()
+      .map(
+        (name) =>
+          `<li><a href="/${name}.html">${name}</a><code>/${name}.html</code></li>`
+      )
+      .join("\n    ")}
+  </ul>
+</body>
+</html>`;
+
+  const renderDevHtml = (name: string): string => `<!doctype html>
+<html>
+<head>
+  <script type="module" src="/${name}.js"></script>
+  <link rel="stylesheet" href="/${name}.css">
+  </head>
+<body>
+  <div id="${name}-root"></div>
+</body>
+</html>`;
+
+  return {
+    name: "multi-entry-dev-endpoints",
+    configureServer(server) {
+      const names = Object.keys(entries);
+      const list = names
+        .map((n) => `/${n}.html, /${n}.js, /${n}.css`)
+        .join("\n  ");
+      server.config.logger.info(`\nDev endpoints:\n  ${list}\n`);
+
+      server.middlewares.use((req, res, next) => {
+        try {
+          if (req.method !== "GET" || !req.url) return next();
+          const url = req.url.split("?")[0];
+          if (url === "/" || url === "" || url === "/index.html") {
+            const html = renderIndexHtml(names);
+            res.setHeader("Content-Type", "text/html; charset=utf-8");
+            res.end(html);
+            return;
+          }
+          const bareMatch = url.match(/^\/?([\w-]+)\/?$/);
+          if (bareMatch && entries[bareMatch[1]]) {
+            const name = bareMatch[1];
+            const html = renderDevHtml(name);
+            res.setHeader("Content-Type", "text/html; charset=utf-8");
+            res.end(html);
+            return;
+          }
+
+          if (!url.endsWith(".html")) return next();
+
+          const m = url.match(/^\/?([\w-]+)\.html$/);
+          if (!m) return next();
+          const name = m[1];
+          if (!entries[name]) return next();
+
+          const html = renderDevHtml(name);
+          res.setHeader("Content-Type", "text/html");
+          res.end(html);
+          return;
+        } catch {
+          // fall through
+        }
+        next();
+      });
+    },
+    resolveId(id: string) {
+      // Map request paths to virtual ids
+      if (id.startsWith("/")) id = id.slice(1);
+      if (id.endsWith(".js")) {
+        const name = id.slice(0, -3);
+        if (entries[name]) return `${V_PREFIX}entry:${name}`;
+      }
+      if (id.endsWith(".css")) {
+        const name = id.slice(0, -4);
+        if (entries[name]) return `${V_PREFIX}style:${name}.css`;
+      }
+      if (id.startsWith(V_PREFIX)) return id;
+      return null;
+    },
+    load(id: string) {
+      if (!id.startsWith(V_PREFIX)) return null;
+
+      const rest = id.slice(V_PREFIX.length); // "entry:foo" or "style:foo.css"
+      const [kind, nameWithExt] = rest.split(":", 2);
+      const name = nameWithExt.replace(/\.css$/, "");
+      const entry = entries[name];
+      if (!entry) return null;
+
+      const entryDir = path.dirname(entry);
+
+      // Collect CSS (global first for stable cascade)
+      const globals = globalCss
+        .map((p) => path.resolve(p))
+        .filter((p) => fs.existsSync(p));
+      const perEntry = fg.sync(perEntryCssGlob, {
+        cwd: entryDir,
+        absolute: true,
+        dot: false,
+        ignore: perEntryCssIgnore,
+      });
+
+      if (kind === "style") {
+        const allCss = [...globals, ...perEntry]; // absolute paths on disk
+        const lines = [
+          `@source "./src";`,
+          ...allCss.map((p) => `@import "${toServerRoot(p)}";`),
+        ];
+        return lines.join("\n");
+      }
+
+      if (kind === "entry") {
+        const spec = toFs(entry);
+
+        const lines: string[] = [];
+
+        // Import Vite HMR client from root
+        lines.push(`import "/@vite/client";`);
+
+        lines.push(`
+import RefreshRuntime from "/@react-refresh";
+
+if (!window.__vite_plugin_react_preamble_installed__) {
+    RefreshRuntime.injectIntoGlobalHook(window);
+    window.$RefreshReg$ = () => {};
+    window.$RefreshSig$ = () => (type) => type;
+    window.__vite_plugin_react_preamble_installed__ = true;
+}
+`);
+
+        lines.push(`import "/${name}.css";`);
+        lines.push(`await import(${JSON.stringify(spec)});`);
+
+        return lines.join("\n");
+      }
+
+      return null;
+    },
+  };
+}
+
+const inputs = buildInputs();
+
+export default defineConfig(({}) => ({
+  plugins: [
+    tailwindcss(),
+    react(),
+    multiEntryDevEndpoints({ entries: inputs }),
+  ],
+  cacheDir: "node_modules/.vite-react",
+  server: {
+    port: 4444,
+    strictPort: true,
+    cors: true,
+  },
+  esbuild: {
+    jsx: "automatic",
+    jsxImportSource: "react",
+    target: "es2022",
+  },
+  build: {
+    target: "es2022",
+    sourcemap: true,
+    minify: "esbuild",
+    outDir: "assets",
+    assetsDir: ".",
+    rollupOptions: {
+      input: inputs,
+      preserveEntrySignatures: "strict",
+    },
+  },
+}));
+
+
+
+================================================
+FILE: vite.host.config.mts
+================================================
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+
+export default defineConfig({
+  root: "host",
+  server: {
+    host: true,
+  },
+  build: {
+    rollupOptions: {
+      input: {
+        main: "host/index.html",
+      },
+    },
+  },
+  plugins: [tailwindcss(), react()],
+});
+
+
+
+================================================
+FILE: .pre-commit-config.yaml
+================================================
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.2
+    hooks:
+      - id: ruff-check
+      - id: ruff-format
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: end-of-file-fixer
+      - id: requirements-txt-fixer
+      - id: trailing-whitespace
+
+
+
+================================================
+FILE: kitchen_sink_server_node/README.md
+================================================
+# Kitchen Sink Lite MCP server (Node)
+
+TypeScript implementation of the minimal kitchen-sink widget server using the official Model Context Protocol SDK.
+
+It exposes two tools:
+
+- `kitchen-sink-show`: returns the widget template plus structured content for the initial render.
+- `kitchen-sink-refresh`: lightweight echo tool so the widget can call back via `window.openai.callTool`.
+
+Both tools return `_meta.openai/outputTemplate` pointing to `ui://widget/kitchen-sink-lite.html`.
+
+## Prereqs
+
+- Node 18+
+- Static assets built (run `pnpm run build` from the repo root). The server loads `assets/kitchen-sink-lite*.html`.
+
+## Install & run
+
+```bash
+pnpm install
+pnpm --filter kitchen-sink-mcp-node start
+# or, from this folder:
+pnpm start
+```
+
+The server listens on `http://localhost:8000/mcp` (SSE) and `POST /mcp/messages` for messages. You can change the port with `PORT=9000 pnpm start`.
+
+
+
+================================================
+FILE: kitchen_sink_server_node/package.json
+================================================
+{
+  "name": "kitchen-sink-mcp-node",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Minimal MCP server that powers the kitchen-sink-lite widget using the official TypeScript SDK.",
+  "scripts": {
+    "start": "tsx src/server.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
+
+
+
+================================================
+FILE: kitchen_sink_server_node/tsconfig.json
+================================================
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"]
+}
+
+
+
+================================================
+FILE: kitchen_sink_server_node/src/server.ts
+================================================
+/**
+ * Kitchen Sink Lite MCP server (Node).
+ *
+ * Serves the kitchen-sink-lite widget HTML and exposes two tools:
+ * - kitchen-sink-show: renders the widget with structured content, adding a processedAt/echoed demo.
+ * - kitchen-sink-refresh: lightweight echo tool called from the widget via callTool.
+ *
+ * Uses @modelcontextprotocol/sdk over SSE transport. Make sure assets are built
+ * (pnpm run build) so the widget HTML is available in /assets before starting.
+ */
+import {
+  createServer,
+  type IncomingMessage,
+  type ServerResponse,
+} from "node:http";
+import fs from "node:fs";
+import path from "node:path";
+import { URL, fileURLToPath } from "node:url";
+
+import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import {
+  CallToolRequestSchema,
+  ListResourceTemplatesRequestSchema,
+  ListResourcesRequestSchema,
+  ListToolsRequestSchema,
+  ReadResourceRequestSchema,
+  type CallToolRequest,
+  type ListResourceTemplatesRequest,
+  type ListResourcesRequest,
+  type ListToolsRequest,
+  type ReadResourceRequest,
+  type Resource,
+  type ResourceTemplate,
+  type Tool,
+} from "@modelcontextprotocol/sdk/types.js";
+import { z } from "zod";
+
+type WidgetPayload = {
+  message: string;
+  accentColor?: string;
+  details?: string;
+  fromTool?: string;
+};
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT_DIR = path.resolve(__dirname, "..", "..");
+const ASSETS_DIR = path.resolve(ROOT_DIR, "assets");
+
+const TEMPLATE_URI = "ui://widget/kitchen-sink-lite.html";
+const MIME_TYPE = "text/html+skybridge";
+
+function readWidgetHtml(): string {
+  if (!fs.existsSync(ASSETS_DIR)) {
+    throw new Error(
+      `Widget assets not found. Expected directory ${ASSETS_DIR}. Run "pnpm run build" before starting the server.`
+    );
+  }
+
+  const directPath = path.join(ASSETS_DIR, "kitchen-sink-lite.html");
+  let htmlContents: string | null = null;
+
+  if (fs.existsSync(directPath)) {
+    htmlContents = fs.readFileSync(directPath, "utf8");
+  } else {
+    const candidates = fs
+      .readdirSync(ASSETS_DIR)
+      .filter(
+        (file) =>
+          file.startsWith("kitchen-sink-lite-") && file.endsWith(".html")
+      )
+      .sort();
+    const fallback = candidates[candidates.length - 1];
+    if (fallback) {
+      htmlContents = fs.readFileSync(path.join(ASSETS_DIR, fallback), "utf8");
+    }
+  }
+
+  if (!htmlContents) {
+    throw new Error(
+      `Widget HTML for "kitchen-sink-lite" not found in ${ASSETS_DIR}. Run "pnpm run build" to generate the assets.`
+    );
+  }
+
+  return htmlContents;
+}
+
+function toolDescriptorMeta() {
+  return {
+    "openai/outputTemplate": TEMPLATE_URI,
+    "openai/toolInvocation/invoking": "Preparing the kitchen sink widget",
+    "openai/toolInvocation/invoked": "Widget rendered",
+    "openai/widgetAccessible": true,
+    "openai/resultCanProduceWidget": true,
+  } as const;
+}
+
+function toolInvocationMeta(invocation: string) {
+  return {
+    ...toolDescriptorMeta(),
+    invocation,
+  };
+}
+
+const widgetHtml = readWidgetHtml();
+
+const toolInputSchema = {
+  type: "object",
+  properties: {
+    message: { type: "string", description: "Message to render in the widget." },
+    accentColor: {
+      type: "string",
+      description: "Optional accent color (hex).",
+    },
+    details: {
+      type: "string",
+      description: "Optional supporting copy to show under the headline.",
+    },
+  },
+  required: ["message"],
+  additionalProperties: false,
+} as const;
+
+const refreshInputSchema = {
+  type: "object",
+  properties: {
+    message: { type: "string", description: "Message to echo back." },
+  },
+  required: ["message"],
+  additionalProperties: false,
+} as const;
+
+const showParser = z.object({
+  message: z.string(),
+  accentColor: z.string().optional(),
+  details: z.string().optional(),
+});
+
+const refreshParser = z.object({
+  message: z.string(),
+});
+
+const tools: Tool[] = [
+  {
+    name: "kitchen-sink-show",
+    title: "Render kitchen sink widget",
+    description: "Returns the widget template with the provided message.",
+    inputSchema: toolInputSchema,
+    _meta: toolDescriptorMeta(),
+    annotations: {
+      destructiveHint: false,
+      openWorldHint: false,
+      readOnlyHint: true,
+    },
+  },
+  {
+    name: "kitchen-sink-refresh",
+    title: "Refresh from widget",
+    description: "Lightweight echo tool called from the widget via callTool.",
+    inputSchema: refreshInputSchema,
+    _meta: toolDescriptorMeta(),
+    annotations: {
+      destructiveHint: false,
+      openWorldHint: false,
+      readOnlyHint: true,
+    },
+  },
+];
+
+const resources: Resource[] = [
+  {
+    name: "Kitchen sink widget",
+    uri: TEMPLATE_URI,
+    description: "Kitchen sink lite widget markup",
+    mimeType: MIME_TYPE,
+    _meta: toolDescriptorMeta(),
+  },
+];
+
+const resourceTemplates: ResourceTemplate[] = [
+  {
+    name: "Kitchen sink widget template",
+    uriTemplate: TEMPLATE_URI,
+    description: "Kitchen sink lite widget markup",
+    mimeType: MIME_TYPE,
+    _meta: toolDescriptorMeta(),
+  },
+];
+
+function createKitchenSinkServer(): Server {
+  const server = new Server(
+    {
+      name: "kitchen-sink-node",
+      version: "0.1.0",
+    },
+    {
+      capabilities: {
+        resources: {},
+        tools: {},
+      },
+    }
+  );
+
+  server.setRequestHandler(
+    ListResourcesRequestSchema,
+    async (_request: ListResourcesRequest) => ({
+      resources,
+    })
+  );
+
+  server.setRequestHandler(
+    ReadResourceRequestSchema,
+    async (_request: ReadResourceRequest) => ({
+      contents: [
+        {
+          uri: TEMPLATE_URI,
+          mimeType: MIME_TYPE,
+          text: widgetHtml,
+          _meta: toolDescriptorMeta(),
+        },
+      ],
+    })
+  );
+
+  server.setRequestHandler(
+    ListResourceTemplatesRequestSchema,
+    async (_request: ListResourceTemplatesRequest) => ({
+      resourceTemplates,
+    })
+  );
+
+  server.setRequestHandler(
+    ListToolsRequestSchema,
+    async (_request: ListToolsRequest) => ({
+      tools,
+    })
+  );
+
+  server.setRequestHandler(
+    CallToolRequestSchema,
+    async (request: CallToolRequest) => {
+      if (request.params.name === "kitchen-sink-show") {
+        const args = showParser.parse(request.params.arguments ?? {});
+        const processedAt = new Date().toISOString();
+        const echoed = args.message.toUpperCase();
+        const payload: WidgetPayload = {
+          message: args.message,
+          accentColor: args.accentColor ?? "#2d6cdf",
+          details:
+            args.details ??
+            `Processed at ${processedAt}. Echo (uppercased): ${echoed}.`,
+          fromTool: "kitchen-sink-show",
+        };
+        // Demonstrate a tool transforming input before returning structured content.
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Widget ready with message: ${payload.message} (processed ${processedAt})`,
+            },
+          ],
+          structuredContent: { ...payload, processedAt, echoed },
+          _meta: toolInvocationMeta("kitchen-sink-show"),
+        };
+      }
+
+      if (request.params.name === "kitchen-sink-refresh") {
+        const args = refreshParser.parse(request.params.arguments ?? {});
+        const payload: WidgetPayload = {
+          message: args.message,
+          accentColor: "#2d6cdf",
+          details: "Response returned from window.openai.callTool.",
+          fromTool: "kitchen-sink-refresh",
+        };
+        return {
+          content: [{ type: "text", text: payload.message }],
+          structuredContent: payload,
+          _meta: toolInvocationMeta("kitchen-sink-refresh"),
+        };
+      }
+
+      throw new Error(`Unknown tool: ${request.params.name}`);
+    }
+  );
+
+  return server;
+}
+
+type SessionRecord = {
+  server: Server;
+  transport: SSEServerTransport;
+};
+
+const sessions = new Map<string, SessionRecord>();
+
+const ssePath = "/mcp";
+const postPath = "/mcp/messages";
+
+async function handleSseRequest(res: ServerResponse) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  const server = createKitchenSinkServer();
+  const transport = new SSEServerTransport(postPath, res);
+  const sessionId = transport.sessionId;
+
+  sessions.set(sessionId, { server, transport });
+
+  transport.onclose = async () => {
+    sessions.delete(sessionId);
+    await server.close();
+  };
+
+  transport.onerror = (error) => {
+    console.error("SSE transport error", error);
+  };
+
+  try {
+    await server.connect(transport);
+  } catch (error) {
+    sessions.delete(sessionId);
+    console.error("Failed to start SSE session", error);
+    if (!res.headersSent) {
+      res.writeHead(500).end("Failed to establish SSE connection");
+    }
+  }
+}
+
+async function handlePostMessage(
+  req: IncomingMessage,
+  res: ServerResponse,
+  url: URL
+) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+  const sessionId = url.searchParams.get("sessionId");
+
+  if (!sessionId) {
+    res.writeHead(400).end("Missing sessionId query parameter");
+    return;
+  }
+
+  const session = sessions.get(sessionId);
+
+  if (!session) {
+    res.writeHead(404).end("Unknown session");
+    return;
+  }
+
+  try {
+    await session.transport.handlePostMessage(req, res);
+  } catch (error) {
+    console.error("Failed to process message", error);
+    if (!res.headersSent) {
+      res.writeHead(500).end("Failed to process message");
+    }
+  }
+}
+
+const portEnv = Number(process.env.PORT ?? 8000);
+const port = Number.isFinite(portEnv) ? portEnv : 8000;
+
+const httpServer = createServer(
+  async (req: IncomingMessage, res: ServerResponse) => {
+    if (!req.url) {
+      res.writeHead(400).end("Missing URL");
+      return;
+    }
+
+    const url = new URL(req.url, `http://${req.headers.host ?? "localhost"}`);
+
+    if (
+      req.method === "OPTIONS" &&
+      (url.pathname === ssePath || url.pathname === postPath)
+    ) {
+      res.writeHead(204, {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "content-type",
+      });
+      res.end();
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === ssePath) {
+      await handleSseRequest(res);
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === postPath) {
+      await handlePostMessage(req, res, url);
+      return;
+    }
+
+    res.writeHead(404).end("Not Found");
+  }
+);
+
+httpServer.on("clientError", (err: Error, socket) => {
+  console.error("HTTP client error", err);
+  socket.end("HTTP/1.1 400 Bad Request\r\n\r\n");
+});
+
+httpServer.listen(port, () => {
+  console.log(`Kitchen Sink MCP server listening on http://localhost:${port}`);
+  console.log(`  SSE stream: GET http://localhost:${port}${ssePath}`);
+  console.log(
+    `  Message post endpoint: POST http://localhost:${port}${postPath}?sessionId=...`
+  );
+});
+
+
+
+================================================
+FILE: kitchen_sink_server_python/README.md
+================================================
+# Kitchen Sink Lite MCP server (Python)
+
+This server pairs with the `src/kitchen-sink-lite` widget in this repo. It exposes two tools:
+
+- `kitchen-sink-show`: returns the widget template and structured content for the initial render.
+- `kitchen-sink-refresh`: a lightweight echo tool you can call from the widget with `window.openai.callTool`.
+
+Both tools include `_meta.openai/outputTemplate` pointing to the same widget HTML so the Apps SDK can hydrate the UI.
+
+## Prereqs
+
+- Python 3.10+
+- Static assets built (run `pnpm run build` from the repo root). The server reads `assets/kitchen-sink-lite*.html`.
+
+## Run
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn kitchen_sink_server_python.main:app --port 8000
+```
+
+The server uses FastAPI over SSE-compatible streaming HTTP (the `stateless_http=True` flag). Point ChatGPT at `http://localhost:8000/mcp` once it is running.
+
+
+
+================================================
+FILE: kitchen_sink_server_python/main.py
+================================================
+"""Kitchen Sink Lite MCP server implemented with FastMCP (Python).
+
+This server pairs with the `src/kitchen-sink-lite` widget bundle. It exposes two
+tools:
+- `kitchen-sink-show` renders the widget and echoes the provided message
+- `kitchen-sink-refresh` is a lightweight echo tool meant to be called from the
+  widget via `window.openai.callTool`
+
+Both tools return the same widget template so the Apps SDK can hydrate the UI
+with updated structured content.
+"""
+
+from __future__ import annotations
+
+from functools import lru_cache
+from pathlib import Path
+
+import mcp.types as types
+from mcp.server.fastmcp import FastMCP
+from pydantic import BaseModel, Field
+
+
+ASSETS_DIR = Path(__file__).resolve().parent.parent / "assets"
+TEMPLATE_URI = "ui://widget/kitchen-sink-lite.html"
+MIME_TYPE = "text/html+skybridge"
+
+
+class WidgetPayload(BaseModel):
+    message: str
+    accentColor: str | None = Field(
+        default="#2d6cdf", description="Accent color to highlight the widget."
+    )
+    details: str | None = Field(
+        default=None,
+        description="Optional detail text that appears under the headline.",
+    )
+    fromTool: str = Field(
+        default="kitchen-sink-show", description="Tool that produced the payload."
+    )
+
+
+@lru_cache(maxsize=None)
+def load_widget_html() -> str:
+    direct = ASSETS_DIR / "kitchen-sink-lite.html"
+    if direct.exists():
+        return direct.read_text(encoding="utf8")
+
+    candidates = sorted(ASSETS_DIR.glob("kitchen-sink-lite-*.html"))
+    if candidates:
+        return candidates[-1].read_text(encoding="utf8")
+
+    raise FileNotFoundError(
+        f"Widget HTML for kitchen-sink-lite not found in {ASSETS_DIR}. "
+        "Run `pnpm run build` from the repo root to generate assets."
+    )
+
+
+def tool_meta(invocation: str):
+    return {
+        "openai/outputTemplate": TEMPLATE_URI,
+        "openai/toolInvocation/invoking": "Preparing the kitchen sink widget",
+        "openai/toolInvocation/invoked": "Widget rendered",
+        "openai/widgetAccessible": True,
+        "openai/resultCanProduceWidget": True,
+        "invocation": invocation,
+    }
+
+
+mcp = FastMCP(name="kitchen-sink-python", stateless_http=True)
+
+
+@mcp.resource(TEMPLATE_URI, "Kitchen sink lite widget", mime_type=MIME_TYPE)
+async def kitchen_sink_template() -> str:
+    return load_widget_html()
+
+
+@mcp.tool()
+async def kitchen_sink_show(
+    message: str = Field(..., description="Primary message to render in the widget."),
+    accent_color: str = Field(
+        default="#2d6cdf",
+        description="Accent color for the widget header.",
+        alias="accentColor",
+    ),
+    details: str | None = Field(
+        default=None,
+        description="Optional supporting copy shown under the main message.",
+    ),
+) -> types.CallToolResult:
+    # Return the widget markup + structured payload so the Apps SDK can hydrate the UI.
+    payload = WidgetPayload(
+        message=message,
+        accentColor=accent_color,
+        details=details,
+        fromTool="kitchen-sink-show",
+    )
+    return types.CallToolResult(
+        content=[
+            types.TextContent(
+                type="text", text=f"Widget ready with message: {payload.message}"
+            )
+        ],
+        structuredContent=payload.model_dump(mode="json"),
+        _meta=tool_meta("kitchen-sink-show"),
+        isError=False,
+    )
+
+
+@mcp.tool()
+async def kitchen_sink_refresh(
+    message: str = Field(..., description="Message to echo back."),
+) -> types.CallToolResult:
+    # Simple echo tool used by the widget via window.openai.callTool.
+    payload = WidgetPayload(
+        message=message,
+        accentColor="#2d6cdf",
+        details="This response came from the widget via window.openai.callTool.",
+        fromTool="kitchen-sink-refresh",
+    )
+    return types.CallToolResult(
+        content=[types.TextContent(type="text", text=payload.message)],
+        structuredContent=payload.model_dump(mode="json"),
+        _meta=tool_meta("kitchen-sink-refresh"),
+        isError=False,
+    )
+
+
+app = mcp.fastapi
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+
+================================================
+FILE: kitchen_sink_server_python/requirements.txt
+================================================
+fastapi>=0.115.0
+mcp[fastapi]>=0.1.0
+uvicorn>=0.30.0
+
+
+
+================================================
+FILE: pizzaz_server_node/README.md
+================================================
+# Pizzaz MCP server (Node)
+
+This directory contains a minimal Model Context Protocol (MCP) server implemented with the official TypeScript SDK. The server exposes the full suite of Pizzaz demo widgets so you can experiment with UI-bearing tools in ChatGPT developer mode.
+
+## Prerequisites
+
+- Node.js 18+
+- pnpm, npm, or yarn for dependency management
+
+## Install dependencies
+
+```bash
+pnpm install
+```
+
+If you prefer npm or yarn, adjust the command accordingly.
+
+## Run the server
+
+```bash
+pnpm start
+```
+
+The script bootstraps the server over SSE (Server-Sent Events), which makes it compatible with the MCP Inspector as well as ChatGPT connectors. Once running you can list the tools and invoke any of the pizza experiences.
+
+Each tool responds with:
+
+- `content`: a short text confirmation that mirrors the original Pizzaz examples.
+- `structuredContent`: a small JSON payload that echoes the topping argument, demonstrating how to ship data alongside widgets.
+- `_meta.openai/outputTemplate`: metadata that binds the response to the matching Skybridge widget shell.
+
+Feel free to extend the handlers with real data sources, authentication, and persistence.
+
+
+
+================================================
+FILE: pizzaz_server_node/package.json
+================================================
+{
+  "name": "pizzaz-mcp-node",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "Example MCP server that exposes the Pizzaz demo tools using the official TypeScript SDK.",
+  "scripts": {
+    "start": "tsx src/server.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
+
+
+
+================================================
+FILE: pizzaz_server_node/tsconfig.json
+================================================
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"]
+}
+
+
+
+================================================
+FILE: pizzaz_server_node/src/server.ts
+================================================
+import {
+  createServer,
+  type IncomingMessage,
+  type ServerResponse,
+} from "node:http";
+import fs from "node:fs";
+import path from "node:path";
+import { URL, fileURLToPath } from "node:url";
+
+import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import {
+  CallToolRequestSchema,
+  ListResourceTemplatesRequestSchema,
+  ListResourcesRequestSchema,
+  ListToolsRequestSchema,
+  ReadResourceRequestSchema,
+  type CallToolRequest,
+  type ListResourceTemplatesRequest,
+  type ListResourcesRequest,
+  type ListToolsRequest,
+  type ReadResourceRequest,
+  type Resource,
+  type ResourceTemplate,
+  type Tool,
+} from "@modelcontextprotocol/sdk/types.js";
+import { z } from "zod";
+
+type PizzazWidget = {
+  id: string;
+  title: string;
+  templateUri: string;
+  invoking: string;
+  invoked: string;
+  html: string;
+  responseText: string;
+};
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT_DIR = path.resolve(__dirname, "..", "..");
+const ASSETS_DIR = path.resolve(ROOT_DIR, "assets");
+
+function readWidgetHtml(componentName: string): string {
+  if (!fs.existsSync(ASSETS_DIR)) {
+    throw new Error(
+      `Widget assets not found. Expected directory ${ASSETS_DIR}. Run "pnpm run build" before starting the server.`
+    );
+  }
+
+  const directPath = path.join(ASSETS_DIR, `${componentName}.html`);
+  let htmlContents: string | null = null;
+
+  if (fs.existsSync(directPath)) {
+    htmlContents = fs.readFileSync(directPath, "utf8");
+  } else {
+    const candidates = fs
+      .readdirSync(ASSETS_DIR)
+      .filter(
+        (file) => file.startsWith(`${componentName}-`) && file.endsWith(".html")
+      )
+      .sort();
+    const fallback = candidates[candidates.length - 1];
+    if (fallback) {
+      htmlContents = fs.readFileSync(path.join(ASSETS_DIR, fallback), "utf8");
+    }
+  }
+
+  if (!htmlContents) {
+    throw new Error(
+      `Widget HTML for "${componentName}" not found in ${ASSETS_DIR}. Run "pnpm run build" to generate the assets.`
+    );
+  }
+
+  return htmlContents;
+}
+
+function widgetDescriptorMeta(widget: PizzazWidget) {
+  return {
+    "openai/outputTemplate": widget.templateUri,
+    "openai/toolInvocation/invoking": widget.invoking,
+    "openai/toolInvocation/invoked": widget.invoked,
+    "openai/widgetAccessible": true,
+    "openai/resultCanProduceWidget": true,
+  } as const;
+}
+
+function widgetInvocationMeta(widget: PizzazWidget) {
+  return {
+    "openai/toolInvocation/invoking": widget.invoking,
+    "openai/toolInvocation/invoked": widget.invoked,
+  } as const;
+}
+
+const widgets: PizzazWidget[] = [
+  {
+    id: "pizza-map",
+    title: "Show Pizza Map",
+    templateUri: "ui://widget/pizza-map.html",
+    invoking: "Hand-tossing a map",
+    invoked: "Served a fresh map",
+    html: readWidgetHtml("pizzaz"),
+    responseText: "Rendered a pizza map!",
+  },
+  {
+    id: "pizza-carousel",
+    title: "Show Pizza Carousel",
+    templateUri: "ui://widget/pizza-carousel.html",
+    invoking: "Carousel some spots",
+    invoked: "Served a fresh carousel",
+    html: readWidgetHtml("pizzaz-carousel"),
+    responseText: "Rendered a pizza carousel!",
+  },
+  {
+    id: "pizza-albums",
+    title: "Show Pizza Album",
+    templateUri: "ui://widget/pizza-albums.html",
+    invoking: "Hand-tossing an album",
+    invoked: "Served a fresh album",
+    html: readWidgetHtml("pizzaz-albums"),
+    responseText: "Rendered a pizza album!",
+  },
+  {
+    id: "pizza-list",
+    title: "Show Pizza List",
+    templateUri: "ui://widget/pizza-list.html",
+    invoking: "Hand-tossing a list",
+    invoked: "Served a fresh list",
+    html: readWidgetHtml("pizzaz-list"),
+    responseText: "Rendered a pizza list!",
+  },
+  {
+    id: "pizza-shop",
+    title: "Open Pizzaz Shop",
+    templateUri: "ui://widget/pizza-shop.html",
+    invoking: "Opening the shop",
+    invoked: "Shop opened",
+    html: readWidgetHtml("pizzaz-shop"),
+    responseText: "Rendered the Pizzaz shop!",
+  },
+];
+
+const widgetsById = new Map<string, PizzazWidget>();
+const widgetsByUri = new Map<string, PizzazWidget>();
+
+widgets.forEach((widget) => {
+  widgetsById.set(widget.id, widget);
+  widgetsByUri.set(widget.templateUri, widget);
+});
+
+const toolInputSchema = {
+  type: "object",
+  properties: {
+    pizzaTopping: {
+      type: "string",
+      description: "Topping to mention when rendering the widget.",
+    },
+  },
+  required: ["pizzaTopping"],
+  additionalProperties: false,
+} as const;
+
+const toolInputParser = z.object({
+  pizzaTopping: z.string(),
+});
+
+const tools: Tool[] = widgets.map((widget) => ({
+  name: widget.id,
+  description: widget.title,
+  inputSchema: toolInputSchema,
+  title: widget.title,
+  _meta: widgetDescriptorMeta(widget),
+  // To disable the approval prompt for the widgets
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: false,
+    readOnlyHint: true,
+  },
+}));
+
+const resources: Resource[] = widgets.map((widget) => ({
+  uri: widget.templateUri,
+  name: widget.title,
+  description: `${widget.title} widget markup`,
+  mimeType: "text/html+skybridge",
+  _meta: widgetDescriptorMeta(widget),
+}));
+
+const resourceTemplates: ResourceTemplate[] = widgets.map((widget) => ({
+  uriTemplate: widget.templateUri,
+  name: widget.title,
+  description: `${widget.title} widget markup`,
+  mimeType: "text/html+skybridge",
+  _meta: widgetDescriptorMeta(widget),
+}));
+
+function createPizzazServer(): Server {
+  const server = new Server(
+    {
+      name: "pizzaz-node",
+      version: "0.1.0",
+    },
+    {
+      capabilities: {
+        resources: {},
+        tools: {},
+      },
+    }
+  );
+
+  server.setRequestHandler(
+    ListResourcesRequestSchema,
+    async (_request: ListResourcesRequest) => ({
+      resources,
+    })
+  );
+
+  server.setRequestHandler(
+    ReadResourceRequestSchema,
+    async (request: ReadResourceRequest) => {
+      const widget = widgetsByUri.get(request.params.uri);
+
+      if (!widget) {
+        throw new Error(`Unknown resource: ${request.params.uri}`);
+      }
+
+      return {
+        contents: [
+          {
+            uri: widget.templateUri,
+            mimeType: "text/html+skybridge",
+            text: widget.html,
+            _meta: widgetDescriptorMeta(widget),
+          },
+        ],
+      };
+    }
+  );
+
+  server.setRequestHandler(
+    ListResourceTemplatesRequestSchema,
+    async (_request: ListResourceTemplatesRequest) => ({
+      resourceTemplates,
+    })
+  );
+
+  server.setRequestHandler(
+    ListToolsRequestSchema,
+    async (_request: ListToolsRequest) => ({
+      tools,
+    })
+  );
+
+  server.setRequestHandler(
+    CallToolRequestSchema,
+    async (request: CallToolRequest) => {
+      const widget = widgetsById.get(request.params.name);
+
+      if (!widget) {
+        throw new Error(`Unknown tool: ${request.params.name}`);
+      }
+
+      const args = toolInputParser.parse(request.params.arguments ?? {});
+
+      return {
+        content: [
+          {
+            type: "text",
+            text: widget.responseText,
+          },
+        ],
+        structuredContent: {
+          pizzaTopping: args.pizzaTopping,
+        },
+        _meta: widgetInvocationMeta(widget),
+      };
+    }
+  );
+
+  return server;
+}
+
+type SessionRecord = {
+  server: Server;
+  transport: SSEServerTransport;
+};
+
+const sessions = new Map<string, SessionRecord>();
+
+const ssePath = "/mcp";
+const postPath = "/mcp/messages";
+
+async function handleSseRequest(res: ServerResponse) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  const server = createPizzazServer();
+  const transport = new SSEServerTransport(postPath, res);
+  const sessionId = transport.sessionId;
+
+  sessions.set(sessionId, { server, transport });
+
+  transport.onclose = async () => {
+    sessions.delete(sessionId);
+    await server.close();
+  };
+
+  transport.onerror = (error) => {
+    console.error("SSE transport error", error);
+  };
+
+  try {
+    await server.connect(transport);
+  } catch (error) {
+    sessions.delete(sessionId);
+    console.error("Failed to start SSE session", error);
+    if (!res.headersSent) {
+      res.writeHead(500).end("Failed to establish SSE connection");
+    }
+  }
+}
+
+async function handlePostMessage(
+  req: IncomingMessage,
+  res: ServerResponse,
+  url: URL
+) {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "content-type");
+  const sessionId = url.searchParams.get("sessionId");
+
+  if (!sessionId) {
+    res.writeHead(400).end("Missing sessionId query parameter");
+    return;
+  }
+
+  const session = sessions.get(sessionId);
+
+  if (!session) {
+    res.writeHead(404).end("Unknown session");
+    return;
+  }
+
+  try {
+    await session.transport.handlePostMessage(req, res);
+  } catch (error) {
+    console.error("Failed to process message", error);
+    if (!res.headersSent) {
+      res.writeHead(500).end("Failed to process message");
+    }
+  }
+}
+
+const portEnv = Number(process.env.PORT ?? 8000);
+const port = Number.isFinite(portEnv) ? portEnv : 8000;
+
+const httpServer = createServer(
+  async (req: IncomingMessage, res: ServerResponse) => {
+    if (!req.url) {
+      res.writeHead(400).end("Missing URL");
+      return;
+    }
+
+    const url = new URL(req.url, `http://${req.headers.host ?? "localhost"}`);
+
+    if (
+      req.method === "OPTIONS" &&
+      (url.pathname === ssePath || url.pathname === postPath)
+    ) {
+      res.writeHead(204, {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "content-type",
+      });
+      res.end();
+      return;
+    }
+
+    if (req.method === "GET" && url.pathname === ssePath) {
+      await handleSseRequest(res);
+      return;
+    }
+
+    if (req.method === "POST" && url.pathname === postPath) {
+      await handlePostMessage(req, res, url);
+      return;
+    }
+
+    res.writeHead(404).end("Not Found");
+  }
+);
+
+httpServer.on("clientError", (err: Error, socket) => {
+  console.error("HTTP client error", err);
+  socket.end("HTTP/1.1 400 Bad Request\r\n\r\n");
+});
+
+httpServer.listen(port, () => {
+  console.log(`Pizzaz MCP server listening on http://localhost:${port}`);
+  console.log(`  SSE stream: GET http://localhost:${port}${ssePath}`);
+  console.log(
+    `  Message post endpoint: POST http://localhost:${port}${postPath}?sessionId=...`
+  );
+});
+
+
+
+================================================
+FILE: pizzaz_server_python/README.md
+================================================
+# Pizzaz MCP server (Python)
+
+This directory packages a Python implementation of the Pizzaz demo server using the `FastMCP` helper from the official Model Context Protocol SDK. It mirrors the Node example and exposes each pizza widget as both a resource and a tool.
+
+## Prerequisites
+
+- Python 3.10+
+- A virtual environment (recommended)
+
+## Installation
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+> **Heads up:** There is a similarly named package named `modelcontextprotocol`
+> on PyPI that is unrelated to the official MCP SDK. The requirements file
+> installs the official `mcp` distribution with its FastAPI extra so that the
+> `mcp.server.fastmcp` module is available. If you previously installed the
+> other project, run `pip uninstall modelcontextprotocol` before reinstalling
+> the requirements.
+
+## Run the server
+
+```bash
+python main.py
+```
+
+This boots a FastAPI app with uvicorn on `http://127.0.0.1:8000` (equivalently `uvicorn pizzaz_server_python.main:app --port 8000`). The endpoints mirror the Node demo:
+
+- `GET /mcp` exposes the SSE stream.
+- `POST /mcp/messages?sessionId=...` accepts follow-up messages for an active session.
+
+Cross-origin requests are allowed so you can drive the server from local tooling or the MCP Inspector. Each tool returns structured content that echoes the requested topping plus metadata that points to the correct Skybridge widget shell, matching the original Pizzaz documentation.
+
+## Next steps
+
+Use these handlers as a starting point when wiring in real data, authentication, or localization support. The structure demonstrates how to:
+
+1. Register reusable UI resources that load static HTML bundles.
+2. Associate tools with those widgets via `_meta.openai/outputTemplate`.
+3. Ship structured JSON alongside human-readable confirmation text.
+
+
+
+================================================
+FILE: pizzaz_server_python/main.py
+================================================
+"""Pizzaz demo MCP server implemented with the Python FastMCP helper.
+
+The server mirrors the Node example in this repository and exposes
+widget-backed tools that render the Pizzaz UI bundle. Each handler returns the
+HTML shell via an MCP resource and echoes the selected topping as structured
+content so the ChatGPT client can hydrate the widget. The module also wires the
+handlers into an HTTP/SSE stack so you can run the server with uvicorn on port
+8000, matching the Node transport behavior."""
+
+from __future__ import annotations
+
+from copy import deepcopy
+from dataclasses import dataclass
+from functools import lru_cache
+from pathlib import Path
+from typing import Any, Dict, List
+
+import mcp.types as types
+from mcp.server.fastmcp import FastMCP
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
+
+
+@dataclass(frozen=True)
+class PizzazWidget:
+    identifier: str
+    title: str
+    template_uri: str
+    invoking: str
+    invoked: str
+    html: str
+    response_text: str
+
+
+ASSETS_DIR = Path(__file__).resolve().parent.parent / "assets"
+
+
+@lru_cache(maxsize=None)
+def _load_widget_html(component_name: str) -> str:
+    html_path = ASSETS_DIR / f"{component_name}.html"
+    if html_path.exists():
+        return html_path.read_text(encoding="utf8")
+
+    fallback_candidates = sorted(ASSETS_DIR.glob(f"{component_name}-*.html"))
+    if fallback_candidates:
+        return fallback_candidates[-1].read_text(encoding="utf8")
+
+    raise FileNotFoundError(
+        f'Widget HTML for "{component_name}" not found in {ASSETS_DIR}. '
+        "Run `pnpm run build` to generate the assets before starting the server."
+    )
+
+
+widgets: List[PizzazWidget] = [
+    PizzazWidget(
+        identifier="pizza-map",
+        title="Show Pizza Map",
+        template_uri="ui://widget/pizza-map.html",
+        invoking="Hand-tossing a map",
+        invoked="Served a fresh map",
+        html=_load_widget_html("pizzaz"),
+        response_text="Rendered a pizza map!",
+    ),
+    PizzazWidget(
+        identifier="pizza-carousel",
+        title="Show Pizza Carousel",
+        template_uri="ui://widget/pizza-carousel.html",
+        invoking="Carousel some spots",
+        invoked="Served a fresh carousel",
+        html=_load_widget_html("pizzaz-carousel"),
+        response_text="Rendered a pizza carousel!",
+    ),
+    PizzazWidget(
+        identifier="pizza-albums",
+        title="Show Pizza Album",
+        template_uri="ui://widget/pizza-albums.html",
+        invoking="Hand-tossing an album",
+        invoked="Served a fresh album",
+        html=_load_widget_html("pizzaz-albums"),
+        response_text="Rendered a pizza album!",
+    ),
+    PizzazWidget(
+        identifier="pizza-list",
+        title="Show Pizza List",
+        template_uri="ui://widget/pizza-list.html",
+        invoking="Hand-tossing a list",
+        invoked="Served a fresh list",
+        html=_load_widget_html("pizzaz-list"),
+        response_text="Rendered a pizza list!",
+    ),
+    PizzazWidget(
+        identifier="pizza-shop",
+        title="Open Pizzaz Shop",
+        template_uri="ui://widget/pizza-shop.html",
+        invoking="Opening the shop",
+        invoked="Shop opened",
+        html=_load_widget_html("pizzaz-shop"),
+        response_text="Rendered the Pizzaz shop!",
+    ),
+]
+
+
+MIME_TYPE = "text/html+skybridge"
+
+
+WIDGETS_BY_ID: Dict[str, PizzazWidget] = {
+    widget.identifier: widget for widget in widgets
+}
+WIDGETS_BY_URI: Dict[str, PizzazWidget] = {
+    widget.template_uri: widget for widget in widgets
+}
+
+
+class PizzaInput(BaseModel):
+    """Schema for pizza tools."""
+
+    pizza_topping: str = Field(
+        ...,
+        alias="pizzaTopping",
+        description="Topping to mention when rendering the widget.",
+    )
+
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
+
+
+mcp = FastMCP(
+    name="pizzaz-python",
+    stateless_http=True,
+)
+
+
+TOOL_INPUT_SCHEMA: Dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "pizzaTopping": {
+            "type": "string",
+            "description": "Topping to mention when rendering the widget.",
+        }
+    },
+    "required": ["pizzaTopping"],
+    "additionalProperties": False,
+}
+
+
+def _resource_description(widget: PizzazWidget) -> str:
+    return f"{widget.title} widget markup"
+
+
+def _tool_meta(widget: PizzazWidget) -> Dict[str, Any]:
+    return {
+        "openai/outputTemplate": widget.template_uri,
+        "openai/toolInvocation/invoking": widget.invoking,
+        "openai/toolInvocation/invoked": widget.invoked,
+        "openai/widgetAccessible": True,
+        "openai/resultCanProduceWidget": True,
+    }
+
+
+def _tool_invocation_meta(widget: PizzazWidget) -> Dict[str, Any]:
+    return {
+        "openai/toolInvocation/invoking": widget.invoking,
+        "openai/toolInvocation/invoked": widget.invoked,
+    }
+
+
+@mcp._mcp_server.list_tools()
+async def _list_tools() -> List[types.Tool]:
+    return [
+        types.Tool(
+            name=widget.identifier,
+            title=widget.title,
+            description=widget.title,
+            inputSchema=deepcopy(TOOL_INPUT_SCHEMA),
+            _meta=_tool_meta(widget),
+            # To disable the approval prompt for the tools
+            annotations={
+                "destructiveHint": False,
+                "openWorldHint": False,
+                "readOnlyHint": True,
+            },
+        )
+        for widget in widgets
+    ]
+
+
+@mcp._mcp_server.list_resources()
+async def _list_resources() -> List[types.Resource]:
+    return [
+        types.Resource(
+            name=widget.title,
+            title=widget.title,
+            uri=widget.template_uri,
+            description=_resource_description(widget),
+            mimeType=MIME_TYPE,
+            _meta=_tool_meta(widget),
+        )
+        for widget in widgets
+    ]
+
+
+@mcp._mcp_server.list_resource_templates()
+async def _list_resource_templates() -> List[types.ResourceTemplate]:
+    return [
+        types.ResourceTemplate(
+            name=widget.title,
+            title=widget.title,
+            uriTemplate=widget.template_uri,
+            description=_resource_description(widget),
+            mimeType=MIME_TYPE,
+            _meta=_tool_meta(widget),
+        )
+        for widget in widgets
+    ]
+
+
+async def _handle_read_resource(req: types.ReadResourceRequest) -> types.ServerResult:
+    widget = WIDGETS_BY_URI.get(str(req.params.uri))
+    if widget is None:
+        return types.ServerResult(
+            types.ReadResourceResult(
+                contents=[],
+                _meta={"error": f"Unknown resource: {req.params.uri}"},
+            )
+        )
+
+    contents = [
+        types.TextResourceContents(
+            uri=widget.template_uri,
+            mimeType=MIME_TYPE,
+            text=widget.html,
+            _meta=_tool_meta(widget),
+        )
+    ]
+
+    return types.ServerResult(types.ReadResourceResult(contents=contents))
+
+
+async def _call_tool_request(req: types.CallToolRequest) -> types.ServerResult:
+    widget = WIDGETS_BY_ID.get(req.params.name)
+    if widget is None:
+        return types.ServerResult(
+            types.CallToolResult(
+                content=[
+                    types.TextContent(
+                        type="text",
+                        text=f"Unknown tool: {req.params.name}",
+                    )
+                ],
+                isError=True,
+            )
+        )
+
+    arguments = req.params.arguments or {}
+    try:
+        payload = PizzaInput.model_validate(arguments)
+    except ValidationError as exc:
+        return types.ServerResult(
+            types.CallToolResult(
+                content=[
+                    types.TextContent(
+                        type="text",
+                        text=f"Input validation error: {exc.errors()}",
+                    )
+                ],
+                isError=True,
+            )
+        )
+
+    topping = payload.pizza_topping
+    meta = _tool_invocation_meta(widget)
+
+    return types.ServerResult(
+        types.CallToolResult(
+            content=[
+                types.TextContent(
+                    type="text",
+                    text=widget.response_text,
+                )
+            ],
+            structuredContent={"pizzaTopping": topping},
+            _meta=meta,
+        )
+    )
+
+
+mcp._mcp_server.request_handlers[types.CallToolRequest] = _call_tool_request
+mcp._mcp_server.request_handlers[types.ReadResourceRequest] = _handle_read_resource
+
+
+app = mcp.streamable_http_app()
+
+try:
+    from starlette.middleware.cors import CORSMiddleware
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+        allow_credentials=False,
+    )
+except Exception:
+    pass
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+
+
+
+================================================
+FILE: pizzaz_server_python/requirements.txt
+================================================
+fastapi>=0.115.0
+mcp[fastapi]>=0.1.0
+uvicorn>=0.30.0
+
+
+
+================================================
+FILE: solar-system_server_python/README.md
+================================================
+# Solar system MCP server (Python)
+
+This directory packages a Python implementation of the solar-system demo server
+using the official Model Context Protocol FastMCP helper. It mirrors the widget
+experience shipped in this repository and lets you drive the 3D solar system UI
+from ChatGPT or the MCP Inspector.
+
+## Prerequisites
+
+- Python 3.10+
+- A virtual environment (recommended)
+
+## Installation
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+
+> The requirements pin the official `mcp` distribution with its FastAPI extra. If
+you previously installed the unrelated `modelcontextprotocol` package, uninstall
+it first to avoid import conflicts.
+
+## Run the server
+
+```bash
+python main.py
+```
+
+This boots a FastAPI app with uvicorn on `http://127.0.0.1:8000` (equivalently
+`uvicorn solar-system_server_python.main:app --port 8000`). The server exposes
+streaming endpoints compatible with the MCP Inspector and ChatGPT connectors:
+
+- `GET /mcp` provides the SSE stream.
+- `POST /mcp/messages?sessionId=...` receives follow-up messages for a session.
+
+Each tool call returns a small JSON payload describing the requested planet plus
+metadata that embeds the solar-system widget, so the Apps SDK can render the 3D
+experience inline.
+
+## Next steps
+
+- Expand the schema with additional celestial bodies or mission telemetry.
+- Source live ephemeris data to position planets in real time.
+- Gate access with authentication before exposing the widget in production.
+
+
+
+================================================
+FILE: solar-system_server_python/main.py
+================================================
+"""Solar system MCP server implemented with the Python FastMCP helper."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from functools import lru_cache
+from pathlib import Path
+from typing import Any, Dict, List
+
+import mcp.types as types
+from mcp.server.fastmcp import FastMCP
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
+
+MIME_TYPE = "text/html+skybridge"
+PLANETS = [
+    "Mercury",
+    "Venus",
+    "Earth",
+    "Mars",
+    "Jupiter",
+    "Saturn",
+    "Uranus",
+    "Neptune",
+]
+PLANET_ALIASES = {
+    "terra": "Earth",
+    "gaia": "Earth",
+    "soliii": "Earth",
+    "tellus": "Earth",
+    "ares": "Mars",
+    "jove": "Jupiter",
+    "zeus": "Jupiter",
+    "cronus": "Saturn",
+    "ouranos": "Uranus",
+    "poseidon": "Neptune",
+}
+PLANET_DESCRIPTIONS = {
+    "Mercury": "Mercury is the smallest planet in the Solar System and the closest to the Sun. It has a rocky, cratered surface and extreme temperature swings.",
+    "Venus": "Venus, similar in size to Earth, is cloaked in thick clouds of sulfuric acid with surface temperatures hot enough to melt lead.",
+    "Earth": "Earth is the only known planet to support life, with liquid water covering most of its surface and a protective atmosphere.",
+    "Mars": "Mars, the Red Planet, shows evidence of ancient rivers and volcanoes and is a prime target in the search for past life.",
+    "Jupiter": "Jupiter is the largest planet, a gas giant with a Great Red Spot—an enormous storm raging for centuries.",
+    "Saturn": "Saturn is famous for its stunning ring system composed of billions of ice and rock particles orbiting the planet.",
+    "Uranus": "Uranus is an ice giant rotating on its side, giving rise to extreme seasonal variations during its long orbit.",
+    "Neptune": "Neptune, the farthest known giant, is a deep-blue world with supersonic winds and a faint ring system.",
+}
+DEFAULT_PLANET = "Earth"
+
+
+@dataclass(frozen=True)
+class SolarWidget:
+    identifier: str
+    title: str
+    template_uri: str
+    invoking: str
+    invoked: str
+    html: str
+    response_text: str
+
+
+ASSETS_DIR = Path(__file__).resolve().parent.parent / "assets"
+
+
+@lru_cache(maxsize=None)
+def _load_widget_html(component_name: str) -> str:
+    html_path = ASSETS_DIR / f"{component_name}.html"
+    if html_path.exists():
+        return html_path.read_text(encoding="utf8")
+
+    fallback_candidates = sorted(ASSETS_DIR.glob(f"{component_name}-*.html"))
+    if fallback_candidates:
+        return fallback_candidates[-1].read_text(encoding="utf8")
+
+    raise FileNotFoundError(
+        f'Widget HTML for "{component_name}" not found in {ASSETS_DIR}. '
+        "Run `pnpm run build` to generate the assets before starting the server."
+    )
+
+
+WIDGET = SolarWidget(
+    identifier="solar-system",
+    title="Explore the Solar System",
+    template_uri="ui://widget/solar-system.html",
+    invoking="Charting the solar system",
+    invoked="Solar system ready",
+    html=_load_widget_html("solar-system"),
+    response_text="Solar system ready",
+)
+
+
+class SolarInput(BaseModel):
+    """Schema describing the solar system focus request."""
+
+    planet_name: str = Field(
+        DEFAULT_PLANET,
+        alias="planetName",
+        description="Planet to focus in the widget (case insensitive).",
+    )
+    auto_orbit: bool = Field(
+        True,
+        alias="autoOrbit",
+        description="Whether to keep the camera orbiting if the target planet is missing.",
+    )
+
+    model_config = ConfigDict(populate_by_name=True, extra="forbid")
+
+
+mcp = FastMCP(
+    name="solar-system-python",
+    stateless_http=True,
+)
+
+TOOL_INPUT_SCHEMA: Dict[str, Any] = SolarInput.model_json_schema()
+
+
+def _resource_description(widget: SolarWidget) -> str:
+    return f"{widget.title} widget markup"
+
+
+def _tool_meta(widget: SolarWidget) -> Dict[str, Any]:
+    return {
+        "openai/outputTemplate": widget.template_uri,
+        "openai/toolInvocation/invoking": widget.invoking,
+        "openai/toolInvocation/invoked": widget.invoked,
+        "openai/widgetAccessible": True,
+        "openai/resultCanProduceWidget": True,
+        "annotations": {
+            "destructiveHint": False,
+            "openWorldHint": False,
+            "readOnlyHint": True,
+        },
+    }
+
+
+def _embedded_widget_resource(widget: SolarWidget) -> types.EmbeddedResource:
+    return types.EmbeddedResource(
+        type="resource",
+        resource=types.TextResourceContents(
+            uri=widget.template_uri,
+            mimeType=MIME_TYPE,
+            text=widget.html,
+            title=widget.title,
+        ),
+    )
+
+
+def _normalize_planet(name: str) -> str | None:
+    if not name:
+        return DEFAULT_PLANET
+
+    key = name.strip().lower()
+    if not key:
+        return DEFAULT_PLANET
+
+    clean = "".join(ch for ch in key if ch.isalnum())
+
+    for planet in PLANETS:
+        planet_key = "".join(ch for ch in planet.lower() if ch.isalnum())
+        if clean == planet_key or key == planet.lower():
+            return planet
+
+    alias = PLANET_ALIASES.get(clean)
+    if alias:
+        return alias
+
+    for planet in PLANETS:
+        planet_key = "".join(ch for ch in planet.lower() if ch.isalnum())
+        if planet_key.startswith(clean):
+            return planet
+
+    return None
+
+
+@mcp._mcp_server.list_tools()
+async def _list_tools() -> List[types.Tool]:
+    return [
+        types.Tool(
+            name="focus-solar-planet",
+            title=WIDGET.title,
+            description="Render the solar system widget centered on the requested planet.",
+            inputSchema=TOOL_INPUT_SCHEMA,
+            _meta=_tool_meta(WIDGET),
+        )
+    ]
+
+
+@mcp._mcp_server.list_resources()
+async def _list_resources() -> List[types.Resource]:
+    return [
+        types.Resource(
+            name=WIDGET.title,
+            title=WIDGET.title,
+            uri=WIDGET.template_uri,
+            description=_resource_description(WIDGET),
+            mimeType=MIME_TYPE,
+            _meta=_tool_meta(WIDGET),
+        )
+    ]
+
+
+@mcp._mcp_server.list_resource_templates()
+async def _list_resource_templates() -> List[types.ResourceTemplate]:
+    return [
+        types.ResourceTemplate(
+            name=WIDGET.title,
+            title=WIDGET.title,
+            uriTemplate=WIDGET.template_uri,
+            description=_resource_description(WIDGET),
+            mimeType=MIME_TYPE,
+            _meta=_tool_meta(WIDGET),
+        )
+    ]
+
+
+async def _handle_read_resource(req: types.ReadResourceRequest) -> types.ServerResult:
+    resource_uri = str(req.params.uri)
+
+    if resource_uri != WIDGET.template_uri:
+        return types.ServerResult(
+            types.ReadResourceResult(
+                contents=[],
+                _meta={"error": f"Unknown resource: {req.params.uri}"},
+            )
+        )
+
+    contents = [
+        types.TextResourceContents(
+            uri=WIDGET.template_uri,
+            mimeType=MIME_TYPE,
+            text=WIDGET.html,
+            _meta=_tool_meta(WIDGET),
+        )
+    ]
+
+    return types.ServerResult(types.ReadResourceResult(contents=contents))
+
+
+async def _call_tool_request(req: types.CallToolRequest) -> types.ServerResult:
+    arguments = req.params.arguments or {}
+    try:
+        payload = SolarInput.model_validate(arguments)
+    except ValidationError as exc:
+        return types.ServerResult(
+            types.CallToolResult(
+                content=[
+                    types.TextContent(
+                        type="text",
+                        text=f"Input validation error: {exc.errors()}",
+                    )
+                ],
+                isError=True,
+            )
+        )
+
+    planet = _normalize_planet(payload.planet_name)
+    if planet is None:
+        return types.ServerResult(
+            types.CallToolResult(
+                content=[
+                    types.TextContent(
+                        type="text",
+                        text=("Unknown planet. Provide one of: " + ", ".join(PLANETS)),
+                    )
+                ],
+                isError=True,
+            )
+        )
+
+    widget_resource = _embedded_widget_resource(WIDGET)
+    meta: Dict[str, Any] = {
+        "openai.com/widget": widget_resource.model_dump(mode="json"),
+        "openai/outputTemplate": WIDGET.template_uri,
+        "openai/toolInvocation/invoking": WIDGET.invoking,
+        "openai/toolInvocation/invoked": WIDGET.invoked,
+        "openai/widgetAccessible": True,
+        "openai/resultCanProduceWidget": True,
+    }
+
+    description = PLANET_DESCRIPTIONS.get(planet, "")
+    structured = {
+        "planet_name": planet,
+        "planet_description": description,
+        "autoOrbit": payload.auto_orbit,
+    }
+    message = f"Centered the solar system view on {planet}."
+
+    return types.ServerResult(
+        types.CallToolResult(
+            content=[
+                types.TextContent(
+                    type="text",
+                    text=message,
+                )
+            ],
+            structuredContent=structured,
+            _meta=meta,
+        )
+    )
+
+
+mcp._mcp_server.request_handlers[types.CallToolRequest] = _call_tool_request
+mcp._mcp_server.request_handlers[types.ReadResourceRequest] = _handle_read_resource
+
+app = mcp.streamable_http_app()
+
+try:
+    from starlette.middleware.cors import CORSMiddleware
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
+        allow_credentials=False,
+    )
+except Exception:  # pragma: no cover - middleware is optional
+    pass
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("main:app", host="0.0.0.0", port=8000)
+
+
+
+================================================
+FILE: solar-system_server_python/requirements.txt
+================================================
+fastapi>=0.115.0
+# Dependencies for the solar-system MCP demo server
+mcp[fastapi]>=0.1.0
+uvicorn>=0.30.0
+
+
+
+================================================
+FILE: src/index.css
+================================================
+@import "tailwindcss";
+@import "@openai/apps-sdk-ui/css";
+@source "../node_modules/@openai/apps-sdk-ui";
+@source ".";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .overflow-auto > *,
+  .overflow-scroll > *,
+  .overflow-x-auto > *,
+  .overflow-y-auto > * {
+    scrollbar-color: auto;
+  }
+
+  /* Base style for scrollable elements */
+  .overflow-auto,
+  .overflow-scroll,
+  .overflow-x-auto,
+  .overflow-y-auto,
+  .overflow-x-scroll,
+  .overflow-y-scroll {
+    scrollbar-color: rgb(0, 0, 0, 0.1) transparent;
+
+    @media (prefers-color-scheme: dark) {
+      scrollbar-color: rgb(255, 255, 255, 0.1) transparent;
+    }
+  }
+
+  /* Hover state directly on the scrollable element */
+  .overflow-auto:hover,
+  .overflow-scroll:hover,
+  .overflow-x-auto:hover,
+  .overflow-y-auto:hover {
+    scrollbar-color: rgb(0, 0, 0, 0.2) transparent;
+
+    @media (prefers-color-scheme: dark) {
+      scrollbar-color: rgb(255, 255, 255, 0.2) transparent;
+    }
+  }
+}
+
+
+
+================================================
+FILE: src/media-queries.ts
+================================================
+function matchMediaQuery(query: string) {
+  return window.matchMedia(query).matches;
+}
+
+function createMediaQueryFn(query: string) {
+  return () => matchMediaQuery(query);
+}
+
+export const prefersReducedMotion = createMediaQueryFn(
+  "(prefers-reduced-motion: reduce)"
+);
+
+export const isPrimarilyTouchDevice = createMediaQueryFn("(pointer: coarse)");
+
+export const isHoverAvailable = createMediaQueryFn("(hover: hover)");
+
+
+
+================================================
+FILE: src/types.ts
+================================================
+export type OpenAiGlobals<
+  ToolInput = UnknownObject,
+  ToolOutput = UnknownObject,
+  ToolResponseMetadata = UnknownObject,
+  WidgetState = UnknownObject
+> = {
+  // visuals
+  theme: Theme;
+
+  userAgent: UserAgent;
+  locale: string;
+
+  // layout
+  maxHeight: number;
+  displayMode: DisplayMode;
+  safeArea: SafeArea;
+
+  // state
+  toolInput: ToolInput;
+  toolOutput: ToolOutput | null;
+  toolResponseMetadata: ToolResponseMetadata | null;
+  widgetState: WidgetState | null;
+  setWidgetState: (state: WidgetState) => Promise<void>;
+};
+
+// currently copied from types.ts in chatgpt/web-sandbox.
+// Will eventually use a public package.
+type API = {
+  callTool: CallTool;
+  sendFollowUpMessage: (args: { prompt: string }) => Promise<void>;
+  openExternal(payload: { href: string }): void;
+
+  // Layout controls
+  requestDisplayMode: RequestDisplayMode;
+  requestModal: (args: { title?: string; params?: UnknownObject }) => Promise<unknown>;
+  requestClose: () => Promise<void>;
+};
+
+export type UnknownObject = Record<string, unknown>;
+
+export type Theme = "light" | "dark";
+
+export type SafeAreaInsets = {
+  top: number;
+  bottom: number;
+  left: number;
+  right: number;
+};
+
+export type SafeArea = {
+  insets: SafeAreaInsets;
+};
+
+export type DeviceType = "mobile" | "tablet" | "desktop" | "unknown";
+
+export type UserAgent = {
+  device: { type: DeviceType };
+  capabilities: {
+    hover: boolean;
+    touch: boolean;
+  };
+};
+
+/** Display mode */
+export type DisplayMode = "pip" | "inline" | "fullscreen";
+export type RequestDisplayMode = (args: { mode: DisplayMode }) => Promise<{
+  /**
+   * The granted display mode. The host may reject the request.
+   * For mobile, PiP is always coerced to fullscreen.
+   */
+  mode: DisplayMode;
+}>;
+
+export type CallToolResponse = {
+  result: string;
+};
+
+/** Calling APIs */
+export type CallTool = (
+  name: string,
+  args: Record<string, unknown>
+) => Promise<CallToolResponse>;
+
+/** Extra events */
+export const SET_GLOBALS_EVENT_TYPE = "openai:set_globals";
+export class SetGlobalsEvent extends CustomEvent<{
+  globals: Partial<OpenAiGlobals>;
+}> {
+  readonly type = SET_GLOBALS_EVENT_TYPE;
+}
+
+/**
+ * Global oai object injected by the web sandbox for communicating with chatgpt host page.
+ */
+declare global {
+  interface Window {
+    openai: API & OpenAiGlobals;
+  }
+
+  interface WindowEventMap {
+    [SET_GLOBALS_EVENT_TYPE]: SetGlobalsEvent;
+  }
+}
+
+
+
+================================================
+FILE: src/use-display-mode.ts
+================================================
+import { useOpenAiGlobal } from "./use-openai-global";
+import { type DisplayMode } from "./types";
+
+export const useDisplayMode = (): DisplayMode | null => {
+  return useOpenAiGlobal("displayMode");
+};
+
+
+
+================================================
+FILE: src/use-max-height.ts
+================================================
+import { useOpenAiGlobal } from "./use-openai-global";
+
+export const useMaxHeight = (): number | null => {
+  return useOpenAiGlobal("maxHeight");
+};
+
+
+
+================================================
+FILE: src/use-openai-global.ts
+================================================
+import { useSyncExternalStore } from "react";
+import {
+  SET_GLOBALS_EVENT_TYPE,
+  SetGlobalsEvent,
+  type OpenAiGlobals,
+} from "./types";
+
+export function useOpenAiGlobal<K extends keyof OpenAiGlobals>(
+  key: K
+): OpenAiGlobals[K] | null {
+  return useSyncExternalStore(
+    (onChange) => {
+      if (typeof window === "undefined") {
+        return () => {};
+      }
+
+      const handleSetGlobal = (event: SetGlobalsEvent) => {
+        const value = event.detail.globals[key];
+        if (value === undefined) {
+          return;
+        }
+
+        onChange();
+      };
+
+      window.addEventListener(SET_GLOBALS_EVENT_TYPE, handleSetGlobal, {
+        passive: true,
+      });
+
+      return () => {
+        window.removeEventListener(SET_GLOBALS_EVENT_TYPE, handleSetGlobal);
+      };
+    },
+    () => window.openai?.[key] ?? null,
+    () => window.openai?.[key] ?? null
+  );
+}
+
+
+
+================================================
+FILE: src/use-widget-props.ts
+================================================
+import { useOpenAiGlobal } from "./use-openai-global";
+
+export function useWidgetProps<T extends Record<string, unknown>>(
+  defaultState?: T | (() => T)
+): T {
+  const props = useOpenAiGlobal("toolOutput") as T;
+
+  const fallback =
+    typeof defaultState === "function"
+      ? (defaultState as () => T | null)()
+      : defaultState ?? null;
+
+  return props ?? fallback;
+}
+
+
+
+================================================
+FILE: src/use-widget-state.ts
+================================================
+import { useCallback, useEffect, useState, type SetStateAction } from "react";
+import { useOpenAiGlobal } from "./use-openai-global";
+import type { UnknownObject } from "./types";
+
+export function useWidgetState<T extends UnknownObject>(
+  defaultState: T | (() => T)
+): readonly [T, (state: SetStateAction<T>) => void];
+export function useWidgetState<T extends UnknownObject>(
+  defaultState?: T | (() => T | null) | null
+): readonly [T | null, (state: SetStateAction<T | null>) => void];
+export function useWidgetState<T extends UnknownObject>(
+  defaultState?: T | (() => T | null) | null
+): readonly [T | null, (state: SetStateAction<T | null>) => void] {
+  const widgetStateFromWindow = useOpenAiGlobal("widgetState") as T;
+
+  const [widgetState, _setWidgetState] = useState<T | null>(() => {
+    if (widgetStateFromWindow != null) {
+      return widgetStateFromWindow;
+    }
+
+    return typeof defaultState === "function"
+      ? defaultState()
+      : defaultState ?? null;
+  });
+
+  useEffect(() => {
+    _setWidgetState(widgetStateFromWindow);
+  }, [widgetStateFromWindow]);
+
+  const setWidgetState = useCallback(
+    (state: SetStateAction<T | null>) => {
+      _setWidgetState((prevState) => {
+        const newState = typeof state === "function" ? state(prevState) : state;
+
+        if (newState != null) {
+          window.openai.setWidgetState(newState);
+        }
+
+        return newState;
+      });
+    },
+    [window.openai.setWidgetState]
+  );
+
+  return [widgetState, setWidgetState] as const;
+}
+
+
+
+================================================
+FILE: src/kitchen-sink-lite/index.tsx
+================================================
+import { createRoot } from "react-dom/client";
+import KitchenSinkLite from "./kitchen-sink-lite";
+import "./kitchen-sink-lite.css";
+
+const root = document.getElementById("kitchen-sink-lite-root");
+
+if (root) {
+  createRoot(root).render(<KitchenSinkLite />);
+}
+
+export default KitchenSinkLite;
+
+
+
+================================================
+FILE: src/kitchen-sink-lite/kitchen-sink-lite.css
+================================================
+.ks-code-block pre,
+.ks-code-block code {
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+
+
+================================================
+FILE: src/pizzaz/index.jsx
+================================================
+import React, { useEffect, useRef, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { createRoot } from "react-dom/client";
+import markers from "./markers.json";
+import { AnimatePresence } from "framer-motion";
+import Inspector from "./Inspector";
+import Sidebar from "./Sidebar";
+import { useOpenAiGlobal } from "../use-openai-global";
+import { useMaxHeight } from "../use-max-height";
+import { Maximize2 } from "lucide-react";
+import {
+  useNavigate,
+  useLocation,
+  Routes,
+  Route,
+  BrowserRouter,
+  Outlet,
+} from "react-router-dom";
+
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiZXJpY25pbmciLCJhIjoiY21icXlubWM1MDRiczJvb2xwM2p0amNyayJ9.n-3O6JI5nOp_Lw96ZO5vJQ";
+
+function fitMapToMarkers(map, coords) {
+  if (!map || !coords.length) return;
+  if (coords.length === 1) {
+    map.flyTo({ center: coords[0], zoom: 12 });
+    return;
+  }
+  const bounds = coords.reduce(
+    (b, c) => b.extend(c),
+    new mapboxgl.LngLatBounds(coords[0], coords[0])
+  );
+  map.fitBounds(bounds, { padding: 60, animate: true });
+}
+
+export default function App() {
+  const mapRef = useRef(null);
+  const mapObj = useRef(null);
+  const markerObjs = useRef([]);
+  const places = markers?.places || [];
+  const markerCoords = places.map((p) => p.coords);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const selectedId = React.useMemo(() => {
+    const match = location?.pathname?.match(/(?:^|\/)place\/([^/]+)/);
+    return match && match[1] ? match[1] : null;
+  }, [location?.pathname]);
+  const selectedPlace = places.find((p) => p.id === selectedId) || null;
+  const [viewState, setViewState] = useState(() => ({
+    center: markerCoords.length > 0 ? markerCoords[0] : [0, 0],
+    zoom: markerCoords.length > 0 ? 12 : 2,
+  }));
+  const displayMode = useOpenAiGlobal("displayMode");
+  const allowInspector = displayMode === "fullscreen";
+  const maxHeight = useMaxHeight() ?? undefined;
+
+  useEffect(() => {
+    if (mapObj.current) return;
+    mapObj.current = new mapboxgl.Map({
+      container: mapRef.current,
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: markerCoords.length > 0 ? markerCoords[0] : [0, 0],
+      zoom: markerCoords.length > 0 ? 12 : 2,
+      attributionControl: false,
+    });
+    addAllMarkers(places);
+    setTimeout(() => {
+      fitMapToMarkers(mapObj.current, markerCoords);
+    }, 0);
+    // after first paint
+    requestAnimationFrame(() => mapObj.current.resize());
+
+    // or keep it in sync with window resizes
+    window.addEventListener("resize", mapObj.current.resize);
+
+    return () => {
+      window.removeEventListener("resize", mapObj.current.resize);
+      mapObj.current.remove();
+    };
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if (!mapObj.current) return;
+    const handler = () => {
+      const c = mapObj.current.getCenter();
+      setViewState({ center: [c.lng, c.lat], zoom: mapObj.current.getZoom() });
+    };
+    mapObj.current.on("moveend", handler);
+    return () => {
+      mapObj.current.off("moveend", handler);
+    };
+  }, []);
+
+  function addAllMarkers(placesList) {
+    markerObjs.current.forEach((m) => m.remove());
+    markerObjs.current = [];
+    placesList.forEach((place) => {
+      const marker = new mapboxgl.Marker({
+        color: "#F46C21",
+      })
+        .setLngLat(place.coords)
+        .addTo(mapObj.current);
+      const el = marker.getElement();
+      if (el) {
+        el.style.cursor = "pointer";
+        el.addEventListener("click", () => {
+          navigate(`/place/${place.id}`);
+          panTo(place.coords, { offsetForInspector: true });
+        });
+      }
+      markerObjs.current.push(marker);
+    });
+  }
+
+  function getInspectorOffsetPx() {
+    if (displayMode !== "fullscreen") return 0;
+    if (typeof window === "undefined") return 0;
+    const isXlUp =
+      window.matchMedia && window.matchMedia("(min-width: 1280px)").matches;
+    const el = document.querySelector(".pizzaz-inspector");
+    const w = el ? el.getBoundingClientRect().width : 360;
+    const half = Math.round(w / 2);
+    // xl: inspector on right → negative x offset; lg: inspector on left → positive x offset
+    return isXlUp ? -half : half;
+  }
+
+  function panTo(
+    coord,
+    { offsetForInspector } = { offsetForInspector: false }
+  ) {
+    if (!mapObj.current) return;
+    const inspectorOffset = offsetForInspector ? getInspectorOffsetPx() : 0;
+    const flyOpts = {
+      center: coord,
+      zoom: 14,
+      speed: 1.2,
+      curve: 1.6,
+    };
+    if (inspectorOffset) {
+      flyOpts.offset = [inspectorOffset, 0];
+    }
+    mapObj.current.flyTo(flyOpts);
+  }
+
+  useEffect(() => {
+    if (!mapObj.current) return;
+    addAllMarkers(places);
+  }, [places]);
+
+  // Pan the map when the selected place changes via routing
+  useEffect(() => {
+    if (!mapObj.current || !selectedPlace) return;
+    panTo(selectedPlace.coords, { offsetForInspector: true });
+  }, [selectedId]);
+
+  // Ensure Mapbox resizes when container maxHeight/display mode changes
+  useEffect(() => {
+    if (!mapObj.current) return;
+    mapObj.current.resize();
+  }, [maxHeight, displayMode]);
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.oai &&
+      typeof window.oai.widget.setState === "function"
+    ) {
+      window.oai.widget.setState({
+        center: viewState.center,
+        zoom: viewState.zoom,
+        markers: markerCoords,
+      });
+    }
+  }, [viewState, markerCoords]);
+
+  return (
+    <>
+      <div
+        style={{
+          maxHeight,
+          height: displayMode === "fullscreen" ? maxHeight - 40 : 480,
+        }}
+        className={
+          "relative antialiased w-full min-h-[480px] overflow-hidden " +
+          (displayMode === "fullscreen"
+            ? "rounded-none border-0"
+            : "border border-black/10 dark:border-white/10 rounded-2xl sm:rounded-3xl")
+        }
+      >
+        <Outlet />
+        {displayMode !== "fullscreen" && (
+          <button
+            aria-label="Enter fullscreen"
+            className="absolute top-4 right-4 z-30 rounded-full bg-white text-black shadow-lg ring ring-black/5 p-2.5 pointer-events-auto"
+            onClick={() => {
+              if (selectedId) {
+                navigate("..", { replace: true });
+              }
+              if (window?.webplus?.requestDisplayMode) {
+                window.webplus.requestDisplayMode({ mode: "fullscreen" });
+              }
+            }}
+          >
+            <Maximize2
+              strokeWidth={1.5}
+              className="h-4.5 w-4.5"
+              aria-hidden="true"
+            />
+          </button>
+        )}
+        {/* Sidebar */}
+        <Sidebar
+          places={places}
+          selectedId={selectedId}
+          onSelect={(place) => {
+            navigate(`/place/${place.id}`);
+            panTo(place.coords, { offsetForInspector: true });
+          }}
+        />
+
+        {/* Inspector (right) */}
+        <AnimatePresence>
+          {allowInspector && selectedPlace && (
+            <Inspector
+              key={selectedPlace.id}
+              place={selectedPlace}
+              onClose={() => navigate("..")}
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Map */}
+        <div
+          className={
+            "absolute inset-0 overflow-hidden" +
+            (displayMode === "fullscreen"
+              ? " left-[340px] right-2 top-2 bottom-4 border border-black/10 rounded-3xl"
+              : "")
+          }
+        >
+          <div
+            ref={mapRef}
+            className="w-full h-full absolute bottom-0 left-0 right-0"
+            style={{
+              maxHeight,
+              height: displayMode === "fullscreen" ? maxHeight : undefined,
+            }}
+          />
+        </div>
+      </div>
+
+      {/* Suggestion chips (bottom, fullscreen) */}
+      {displayMode === "fullscreen" && (
+        <div className="hidden antialiased md:flex absolute inset-x-0 bottom-2 z-30 justify-center pointer-events-none">
+          <div className="flex gap-3 pointer-events-auto">
+            {["Open now", "Top rated", "Vegetarian friendly"].map((label) => (
+              <button
+                key={label}
+                className="rounded-full font-base bg-white ring ring-black/10 text-black px-4 py-1.5 text-sm hover:bg-[#f7f7f7] cursor-pointer"
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+function RouterRoot() {
+  return (
+    <Routes>
+      <Route path="*" element={<App />}>
+        <Route path="place/:placeId" element={<></>} />
+      </Route>
+    </Routes>
+  );
+}
+
+createRoot(document.getElementById("pizzaz-root")).render(
+  <BrowserRouter>
+    <RouterRoot />
+  </BrowserRouter>
+);
+
+
+
+================================================
+FILE: src/pizzaz/Inspector.jsx
+================================================
+import React from "react";
+import { motion } from "framer-motion";
+import { Star, X } from "lucide-react";
+
+export default function Inspector({ place, onClose }) {
+  if (!place) return null;
+  return (
+    <motion.div
+      key={place.id}
+      initial={{ opacity: 0, scale: 0.98 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={{ type: "spring", bounce: 0, duration: 0.25 }}
+      className="pizzaz-inspector absolute z-30 top-0 bottom-4 left-0 right-auto xl:left-auto xl:right-6 md:z-20 w-[340px] xl:w-[360px] xl:top-6 xl:bottom-8 pointer-events-auto"
+    >
+      <button
+        aria-label="Close details"
+        className="inline-flex absolute z-10 top-4 left-4 xl:top-4 xl:left-4 shadow-xl rounded-full p-2 bg-white ring ring-black/10 xl:shadow-2xl hover:bg-white"
+        onClick={onClose}
+      >
+        <X className="h-[18px] w-[18px]" aria-hidden="true" />
+      </button>
+      <div className="relative h-full overflow-y-auto rounded-none xl:rounded-3xl bg-white text-black xl:shadow-xl xl:ring ring-black/10">
+        <div className="relative mt-2 xl:mt-0 px-2 xl:px-0">
+          <img
+            src={place.thumbnail}
+            alt={place.name}
+            className="w-full rounded-3xl xl:rounded-none h-80 object-cover xl:rounded-t-2xl"
+          />
+        </div>
+
+        <div className="h-[calc(100%-11rem)] sm:h-[calc(100%-14rem)]">
+          <div className="p-4 sm:p-5">
+            <div className="text-2xl font-medium truncate">{place.name}</div>
+            <div className="text-sm mt-1 opacity-70 flex items-center gap-1">
+              <Star className="h-3.5 w-3.5" aria-hidden="true" />
+              {place.rating.toFixed(1)}
+              {place.price ? <span>· {place.price}</span> : null}
+              <span>· San Francisco</span>
+            </div>
+            <div className="mt-3 flex flex-row items-center gap-3 font-medium">
+              <div className="rounded-full bg-[#F46C21] text-white cursor-pointer px-4 py-1.5">
+                Add to favorites
+              </div>
+              <div className="rounded-full border border-[#F46C21]/50 text-[#F46C21] cursor-pointer  px-4 py-1.5">
+                Contact
+              </div>
+            </div>
+            <div className="text-sm mt-5">
+              {place.description} Enjoy a slice at one of SF's favorites. Fresh
+              ingredients, great crust, and cozy vibes.
+            </div>
+          </div>
+
+          <div className="px-4 sm:px-5 pb-4">
+            <div className="text-lg font-medium mb-2">Reviews</div>
+            <ul className="space-y-3 divide-y divide-black/5">
+              {[
+                {
+                  user: "Leo M.",
+                  avatar: "https://persistent.oaistatic.com/pizzaz/user1.png",
+                  text: "Fantastic crust and balanced toppings. The marinara is spot on!",
+                },
+                {
+                  user: "Priya S.",
+                  avatar: "https://persistent.oaistatic.com/pizzaz/user2.png",
+                  text: "Cozy vibe and friendly staff. Quick service on a Friday night.",
+                },
+                {
+                  user: "Maya R.",
+                  avatar: "https://persistent.oaistatic.com/pizzaz/user3.png",
+                  text: "Great for sharing. Will definitely come back with friends.",
+                },
+              ].map((review, idx) => (
+                <li key={idx} className="py-3">
+                  <div className="flex items-start gap-3">
+                    <img
+                      src={review.avatar}
+                      alt={`${review.user} avatar`}
+                      className="h-8 w-8 ring ring-black/5 rounded-full object-cover flex-none"
+                    />
+                    <div className="min-w-0 gap-1 flex flex-col">
+                      <div className="text-xs font-medium text-black/70">
+                        {review.user}
+                      </div>
+                      <div className="text-sm">{review.text}</div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+
+
+================================================
+FILE: src/pizzaz/markers.json
+================================================
+{
+  "places": [
+    {
+      "id": "nova-slice-lab",
+      "name": "Nova Slice Lab",
+      "coords": [-122.4098, 37.8001],
+      "description": "Award‑winning Neapolitan pies in North Beach.",
+      "city": "North Beach",
+      "rating": 4.8,
+      "price": "$$$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-1.png"
+    },
+    {
+      "id": "midnight-marinara",
+      "name": "Midnight Marinara",
+      "coords": [-122.4093, 37.7990],
+      "description": "Focaccia‑style squares, late‑night favorite.",
+      "city": "North Beach",
+      "rating": 4.6,
+      "price": "$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-2.png"
+    },
+    {
+      "id": "cinder-oven-co",
+      "name": "Cinder Oven Co.",
+      "coords": [-122.4255, 37.7613],
+      "description": "Thin‑crust classics on 18th Street.",
+      "city": "Mission",
+      "rating": 4.5,
+      "price": "$$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-3.png"
+    },
+    {
+      "id": "neon-crust-works",
+      "name": "Neon Crust Works",
+      "coords": [-122.4388, 37.7775],
+      "description": "Deep‑dish and cornmeal crust favorites.",
+      "city": "Alamo Square",
+      "rating": 4.5,
+      "price": "$$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-6.png"
+    },
+    {
+      "id": "luna-pie-collective",
+      "name": "Luna Pie Collective",
+      "coords": [-122.4077, 37.7990],
+      "description": "Wood‑fired pies and burrata in North Beach.",
+      "city": "North Beach",
+      "rating": 4.6,
+      "price": "$$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-4.png"
+    },
+    {
+      "id": "bricklight-deep-dish",
+      "name": "Bricklight Deep Dish",
+      "coords": [-122.4097, 37.7992],
+      "description": "Chicago‑style pies from Tony Gemignani.",
+      "city": "North Beach",
+      "rating": 4.4,
+      "price": "$$$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-5.png"
+    },
+    {
+      "id": "garden-ember-pies",
+      "name": "Garden Ember Pies",
+      "coords": [-122.4380, 37.7722],
+      "description": "Neighborhood spot with seasonal toppings.",
+      "city": "Lower Haight",
+      "rating": 4.4,
+      "price": "$$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-1.png"
+    },
+    {
+      "id": "atlas-fire-pizzeria",
+      "name": "Atlas Fire Pizzeria",
+      "coords": [-122.4123, 37.7899],
+      "description": "Sourdough, wood‑fired pies near Nob Hill.",
+      "city": "Nob Hill",
+      "rating": 4.6,
+      "price": "$$$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-2.png"
+    },
+    {
+      "id": "circuit-slice-garage",
+      "name": "Circuit Slice Garage",
+      "coords": [-122.4135, 37.7805],
+      "description": "Crispy‑edged Detroit‑style in SoMa.",
+      "city": "SoMa",
+      "rating": 4.5,
+      "price": "$$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-3.png"
+    },
+    {
+      "id": "velvet-mozza-lounge",
+      "name": "Velvet Mozza Lounge",
+      "coords": [-122.4019, 37.7818],
+      "description": "Bianca pies and cocktails near Yerba Buena.",
+      "city": "Yerba Buena",
+      "rating": 4.3,
+      "price": "$$",
+      "thumbnail": "https://persistent.oaistatic.com/pizzaz/pizzaz-6.png"
+    }
+  ]
+}
+
+
+
+================================================
+FILE: src/pizzaz/Sidebar.jsx
+================================================
+import React from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import { useOpenAiGlobal } from "../use-openai-global";
+import { Filter, Settings2, Star } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+
+function PlaceListItem({ place, isSelected, onClick }) {
+  return (
+    <div
+      className={
+        "rounded-2xl px-3 select-none hover:bg-black/5 cursor-pointer" +
+        (isSelected ? " bg-black/5" : "")
+      }
+    >
+      <div
+        className={`border-b ${
+          isSelected ? "border-black/0" : "border-black/5"
+        } hover:border-black/0`}
+      >
+        <button
+          className="w-full text-left py-3 transition flex gap-3 items-center"
+          onClick={onClick}
+        >
+          <img
+            src={place.thumbnail}
+            alt={place.name}
+            className="h-16 w-16 rounded-lg object-cover flex-none"
+          />
+          <div className="min-w-0">
+            <div className="font-medium truncate">{place.name}</div>
+            <div className="text-xs text-black/50 truncate">
+              {place.description}
+            </div>
+            <div className="text-xs mt-1 text-black/50 flex items-center gap-1">
+              <Star className="h-3 w-3" aria-hidden="true" />
+              {place.rating.toFixed(1)}
+              {place.price ? <span className="">· {place.price}</span> : null}
+            </div>
+          </div>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function Sidebar({ places, selectedId, onSelect }) {
+  const [emblaRef] = useEmblaCarousel({ dragFree: true, loop: false });
+  const displayMode = useOpenAiGlobal("displayMode");
+  const forceMobile = displayMode !== "fullscreen";
+  const scrollRef = React.useRef(null);
+  const [showBottomFade, setShowBottomFade] = React.useState(false);
+
+  const updateBottomFadeVisibility = React.useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const atBottom =
+      Math.ceil(el.scrollTop + el.clientHeight) >= el.scrollHeight;
+    setShowBottomFade(!atBottom);
+  }, []);
+
+  React.useEffect(() => {
+    updateBottomFadeVisibility();
+    const el = scrollRef.current;
+    if (!el) return;
+    const onScroll = () => updateBottomFadeVisibility();
+    el.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", updateBottomFadeVisibility);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", updateBottomFadeVisibility);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [places]);
+
+  return (
+    <>
+      {/* Desktop/Tablet sidebar */}
+      <div
+        className={`${
+          forceMobile ? "hidden" : ""
+        } absolute inset-y-0 bottom-4 left-0 z-20 w-[340px] max-w-[75%] pointer-events-auto`}
+      >
+        <div
+          ref={scrollRef}
+          className="relative px-2 h-full overflow-y-auto bg-white text-black"
+        >
+          <div className="flex justify-between flex-row items-center px-3 sticky bg-white top-0 py-4 text-md font-medium">
+            {places.length} results
+            <div>
+              <Settings2 className="h-5 w-5" aria-hidden="true" />
+            </div>
+          </div>
+          <div>
+            {places.map((place) => (
+              <PlaceListItem
+                key={place.id}
+                place={place}
+                isSelected={
+                  displayMode === "fullscreen" && selectedId === place.id
+                }
+                onClick={() => onSelect(place)}
+              />
+            ))}
+          </div>
+        </div>
+        <AnimatePresence>
+          {showBottomFade && (
+            <motion.div
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-9 z-10"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <div
+                className="w-full h-full bg-gradient-to-t border-b border-black/50 from-black/15 to-black/0"
+                style={{
+                  WebkitMaskImage:
+                    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 25%, rgba(0,0,0,0.25) 75%, rgba(0,0,0,0) 100%)",
+                  maskImage:
+                    "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.25) 25%, rgba(0,0,0,0.25) 75%, rgba(0,0,0,0) 100%)",
+                }}
+                aria-hidden
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Mobile bottom carousel */}
+      <div
+        className={`${
+          forceMobile ? "" : "hidden"
+        } absolute inset-x-0 bottom-0 z-20 pointer-events-auto`}
+      >
+        <div className="pt-2 text-black">
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="px-3 py-3 flex gap-3">
+              {places.map((place) => (
+                <div className="ring ring-black/10 max-w-[330px] w-full shadow-xl rounded-2xl bg-white">
+                  <PlaceListItem
+                    key={place.id}
+                    place={place}
+                    isSelected={
+                      displayMode === "fullscreen" && selectedId === place.id
+                    }
+                    onClick={() => onSelect(place)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+
+
+================================================
+FILE: src/pizzaz-albums/AlbumCard.jsx
+================================================
+import React from "react";
+
+function AlbumCard({ album, onSelect }) {
+  return (
+    <button
+      type="button"
+      className="group relative cursor-pointer flex-shrink-0 w-[272px] bg-white text-left"
+      onClick={() => onSelect?.(album)}
+    >
+      <div className="aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src={album.cover}
+          alt={album.title}
+          className="h-full w-full object-cover"
+          loading="lazy"
+        />
+      </div>
+      <div className="pt-3 px-1.5">
+        <div className="text-base font-medium truncate">{album.title}</div>
+        <div className="text-sm text-black/60 mt-0.5">
+          {album.photos.length} photos
+        </div>
+      </div>
+    </button>
+  );
+}
+
+export default AlbumCard;
+
+
+
+================================================
+FILE: src/pizzaz-albums/albums.json
+================================================
+{
+  "albums": [
+    {
+      "id": "summer-escape",
+      "title": "Summer Slice",
+      "cover": "https://persistent.oaistatic.com/pizzaz/pizzaz-1.png",
+      "photos": [
+        {
+          "id": "s1",
+          "title": "Waves",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-2.png"
+        },
+        {
+          "id": "s2",
+          "title": "Palm trees",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-3.png"
+        },
+        {
+          "id": "s3",
+          "title": "Sunset",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-6.png"
+        }
+      ]
+    },
+    {
+      "id": "city-lights",
+      "title": "Pepperoni Nights",
+      "cover": "https://persistent.oaistatic.com/pizzaz/pizzaz-4.png",
+      "photos": [
+        {
+          "id": "c1",
+          "title": "Downtown",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-5.png"
+        },
+        {
+          "id": "c2",
+          "title": "Neon",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-1.png"
+        },
+        {
+          "id": "c3",
+          "title": "Streets",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-2.png"
+        }
+      ]
+    },
+    {
+      "id": "into-the-woods",
+      "title": "Truffle Forest",
+      "cover": "https://persistent.oaistatic.com/pizzaz/pizzaz-3.png",
+      "photos": [
+        {
+          "id": "n1",
+          "title": "Forest path",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-6.png"
+        },
+        {
+          "id": "n2",
+          "title": "Misty",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-4.png"
+        },
+        {
+          "id": "n3",
+          "title": "Waterfall",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-5.png"
+        }
+      ]
+    },
+    {
+      "id": "pizza-tour",
+      "title": "Pizza tour",
+      "cover": "https://persistent.oaistatic.com/pizzaz/pizzaz-1.png",
+      "photos": [
+        {
+          "id": "tonys-pizza-napoletana",
+          "title": "Tony's Pizza Napoletana",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-2.png"
+        },
+        {
+          "id": "golden-boy-pizza",
+          "title": "Golden Boy Pizza",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-3.png"
+        },
+        {
+          "id": "pizzeria-delfina-mission",
+          "title": "Pizzeria Delfina (Mission)",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-6.png"
+        },
+        {
+          "id": "ragazza",
+          "title": "Ragazza",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-4.png"
+        },
+        {
+          "id": "del-popolo",
+          "title": "Del Popolo",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-5.png"
+        },
+        {
+          "id": "square-pie-guys",
+          "title": "Square Pie Guys",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-1.png"
+        },
+        {
+          "id": "zero-zero",
+          "title": "Zero Zero",
+          "url": "https://persistent.oaistatic.com/pizzaz/pizzaz-2.png"
+        }
+      ]
+    }
+  ]
+}
+
+
+
+================================================
+FILE: src/pizzaz-albums/FilmStrip.jsx
+================================================
+import React from "react";
+
+export default function FilmStrip({ album, selectedIndex, onSelect }) {
+  return (
+    <div className="h-full w-full overflow-auto flex flex-col items-center justify-center p-5 space-y-5">
+      {album.photos.map((photo, idx) => (
+        <button
+          key={photo.id}
+          type="button"
+          onClick={() => onSelect?.(idx)}
+          className={
+            "block w-full p-[1px] pointer-events-auto rounded-[10px] cursor-pointer border transition-[colors,opacity] " +
+            (idx === selectedIndex
+              ? "border-black"
+              : "border-black/0 hover:border-black/30 opacity-60 hover:opacity-100")
+          }
+        >
+          <div className="aspect-[5/3] rounded-lg overflow-hidden w-full">
+            <img
+              src={photo.url}
+              alt={photo.title || `Photo ${idx + 1}`}
+              className="h-full w-full object-cover"
+              loading="lazy"
+            />
+          </div>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+
+
+================================================
+FILE: src/pizzaz-albums/FullscreenViewer.jsx
+================================================
+import React from "react";
+import { useMaxHeight } from "../use-max-height";
+import FilmStrip from "./FilmStrip";
+
+export default function FullscreenViewer({ album }) {
+  const maxHeight = useMaxHeight() ?? undefined;
+  const [index, setIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    setIndex(0);
+  }, [album?.id]);
+
+  const photo = album?.photos?.[index];
+
+  return (
+    <div
+      className="relative w-full h-full bg-white"
+      style={{
+        maxHeight,
+        height: maxHeight,
+      }}
+    >
+      <div className="absolute inset-0 flex flex-row overflow-hidden">
+        {/* Film strip */}
+        <div className="hidden md:block absolute pointer-events-none z-10 left-0 top-0 bottom-0 w-40">
+          <FilmStrip album={album} selectedIndex={index} onSelect={setIndex} />
+        </div>
+        {/* Main photo */}
+        <div className="flex-1 min-w-0 px-40 py-10 relative flex items-center justify-center">
+          <div className="relative w-full h-full">
+            {photo ? (
+              <img
+                src={photo.url}
+                alt={photo.title || album.title}
+                className="absolute inset-0 m-auto rounded-3xl shadow-sm border border-black/10 max-w-full max-h-full object-contain"
+              />
+            ) : null}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+================================================
+FILE: src/pizzaz-albums/index.jsx
+================================================
+import React from "react";
+import { createRoot } from "react-dom/client";
+import useEmblaCarousel from "embla-carousel-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import albumsData from "./albums.json";
+import { useMaxHeight } from "../use-max-height";
+import { useOpenAiGlobal } from "../use-openai-global";
+import FullscreenViewer from "./FullscreenViewer";
+import AlbumCard from "./AlbumCard";
+
+function AlbumsCarousel({ onSelect }) {
+  const albums = albumsData?.albums || [];
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "center",
+    loop: false,
+    containScroll: "trimSnaps",
+    slidesToScroll: "auto",
+    dragFree: false,
+  });
+  const [canPrev, setCanPrev] = React.useState(false);
+  const [canNext, setCanNext] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!emblaApi) return;
+    const updateButtons = () => {
+      setCanPrev(emblaApi.canScrollPrev());
+      setCanNext(emblaApi.canScrollNext());
+    };
+    updateButtons();
+    emblaApi.on("select", updateButtons);
+    emblaApi.on("reInit", updateButtons);
+    return () => {
+      emblaApi.off("select", updateButtons);
+      emblaApi.off("reInit", updateButtons);
+    };
+  }, [emblaApi]);
+
+  return (
+    <div className="antialiased relative w-full text-black py-5 select-none">
+      <div className="overflow-hidden max-sm:mx-5" ref={emblaRef}>
+        <div className="flex gap-5 items-stretch">
+          {albums.map((album) => (
+            <AlbumCard key={album.id} album={album} onSelect={onSelect} />
+          ))}
+        </div>
+      </div>
+      <div
+        aria-hidden
+        className={
+          "pointer-events-none absolute inset-y-0 left-0 w-3 z-[5] transition-opacity duration-200 " +
+          (canPrev ? "opacity-100" : "opacity-0")
+        }
+      >
+        <div
+          className="h-full w-full border-l border-black/15 bg-gradient-to-r from-black/10 to-transparent"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, white 30%, white 70%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, white 30%, white 70%, transparent 100%)",
+          }}
+        />
+      </div>
+      <div
+        aria-hidden
+        className={
+          "pointer-events-none absolute inset-y-0 right-0 w-3 z-[5] transition-opacity duration-200 " +
+          (canNext ? "opacity-100" : "opacity-0")
+        }
+      >
+        <div
+          className="h-full w-full border-r border-black/15 bg-gradient-to-l from-black/10 to-transparent"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, white 30%, white 70%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, white 30%, white 70%, transparent 100%)",
+          }}
+        />
+      </div>
+      {canPrev && (
+        <button
+          aria-label="Previous"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center h-8 w-8 rounded-full bg-white text-black shadow-lg ring ring-black/5 hover:bg-white"
+          onClick={() => emblaApi && emblaApi.scrollPrev()}
+          type="button"
+        >
+          <ArrowLeft
+            strokeWidth={1.5}
+            className="h-4.5 w-4.5"
+            aria-hidden="true"
+          />
+        </button>
+      )}
+      {canNext && (
+        <button
+          aria-label="Next"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center h-8 w-8 rounded-full bg-white text-black shadow-lg ring ring-black/5 hover:bg-white"
+          onClick={() => emblaApi && emblaApi.scrollNext()}
+          type="button"
+        >
+          <ArrowRight
+            strokeWidth={1.5}
+            className="h-4.5 w-4.5"
+            aria-hidden="true"
+          />
+        </button>
+      )}
+    </div>
+  );
+}
+
+function App() {
+  const displayMode = useOpenAiGlobal("displayMode");
+  const [selectedAlbum, setSelectedAlbum] = React.useState(null);
+  const maxHeight = useMaxHeight() ?? undefined;
+
+  const handleSelectAlbum = (album) => {
+    setSelectedAlbum(album);
+    if (window?.webplus?.requestDisplayMode) {
+      window.webplus.requestDisplayMode({ mode: "fullscreen" });
+    }
+  };
+
+  return (
+    <div
+      className="relative antialiased w-full"
+      style={{
+        maxHeight,
+        height: displayMode === "fullscreen" ? maxHeight : undefined,
+      }}
+    >
+      {displayMode !== "fullscreen" && (
+        <AlbumsCarousel onSelect={handleSelectAlbum} />
+      )}
+
+      {displayMode === "fullscreen" && selectedAlbum && (
+        <FullscreenViewer album={selectedAlbum} />
+      )}
+    </div>
+  );
+}
+
+createRoot(document.getElementById("pizzaz-albums-root")).render(<App />);
+
+
+
+================================================
+FILE: src/pizzaz-carousel/index.jsx
+================================================
+import React from "react";
+import { createRoot } from "react-dom/client";
+import useEmblaCarousel from "embla-carousel-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import markers from "../pizzaz/markers.json";
+import PlaceCard from "./PlaceCard";
+
+function App() {
+  const places = markers?.places || [];
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "center",
+    loop: false,
+    containScroll: "trimSnaps",
+    slidesToScroll: "auto",
+    dragFree: false,
+  });
+  const [canPrev, setCanPrev] = React.useState(false);
+  const [canNext, setCanNext] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!emblaApi) return;
+    const updateButtons = () => {
+      setCanPrev(emblaApi.canScrollPrev());
+      setCanNext(emblaApi.canScrollNext());
+    };
+    updateButtons();
+    emblaApi.on("select", updateButtons);
+    emblaApi.on("reInit", updateButtons);
+    return () => {
+      emblaApi.off("select", updateButtons);
+      emblaApi.off("reInit", updateButtons);
+    };
+  }, [emblaApi]);
+
+  return (
+    <div className="antialiased relative w-full text-black py-5 bg-white">
+      <div className="overflow-hidden" ref={emblaRef}>
+        <div className="flex gap-4 max-sm:mx-5 items-stretch">
+          {places.map((place) => (
+            <PlaceCard key={place.id} place={place} />
+          ))}
+        </div>
+      </div>
+      {/* Edge gradients */}
+      <div
+        aria-hidden
+        className={
+          "pointer-events-none absolute inset-y-0 left-0 w-3 z-[5] transition-opacity duration-200 " +
+          (canPrev ? "opacity-100" : "opacity-0")
+        }
+      >
+        <div
+          className="h-full w-full border-l border-black/15 bg-gradient-to-r from-black/10 to-transparent"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, white 30%, white 70%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, white 30%, white 70%, transparent 100%)",
+          }}
+        />
+      </div>
+      <div
+        aria-hidden
+        className={
+          "pointer-events-none absolute inset-y-0 right-0 w-3 z-[5] transition-opacity duration-200 " +
+          (canNext ? "opacity-100" : "opacity-0")
+        }
+      >
+        <div
+          className="h-full w-full border-r border-black/15 bg-gradient-to-l from-black/10 to-transparent"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, white 30%, white 70%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, white 30%, white 70%, transparent 100%)",
+          }}
+        />
+      </div>
+      {canPrev && (
+        <button
+          aria-label="Previous"
+          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center h-8 w-8 rounded-full bg-white text-black shadow-lg ring ring-black/5 hover:bg-white"
+          onClick={() => emblaApi && emblaApi.scrollPrev()}
+          type="button"
+        >
+          <ArrowLeft
+            strokeWidth={1.5}
+            className="h-4.5 w-4.5"
+            aria-hidden="true"
+          />
+        </button>
+      )}
+      {canNext && (
+        <button
+          aria-label="Next"
+          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 inline-flex items-center justify-center h-8 w-8 rounded-full bg-white text-black shadow-lg ring ring-black/5 hover:bg-white"
+          onClick={() => emblaApi && emblaApi.scrollNext()}
+          type="button"
+        >
+          <ArrowRight
+            strokeWidth={1.5}
+            className="h-4.5 w-4.5"
+            aria-hidden="true"
+          />
+        </button>
+      )}
+    </div>
+  );
+}
+
+createRoot(document.getElementById("pizzaz-carousel-root")).render(<App />);
+
+
+
+================================================
+FILE: src/pizzaz-carousel/PlaceCard.jsx
+================================================
+import React from "react";
+import { Star } from "lucide-react";
+
+export default function PlaceCard({ place }) {
+  if (!place) return null;
+  return (
+    <div className="min-w-[220px] select-none max-w-[220px] w-[65vw] sm:w-[220px] self-stretch flex flex-col">
+      <div className="w-full">
+        <img
+          src={place.thumbnail}
+          alt={place.name}
+          className="w-full aspect-square rounded-2xl object-cover ring ring-black/5 shadow-[0px_2px_6px_rgba(0,0,0,0.06)]"
+        />
+      </div>
+      <div className="mt-3 flex flex-col flex-1">
+        <div className="text-base font-medium truncate line-clamp-1">{place.name}</div>
+        <div className="text-xs mt-1 text-black/60 flex items-center gap-1">
+          <Star className="h-3 w-3" aria-hidden="true" />
+          {place.rating?.toFixed ? place.rating.toFixed(1) : place.rating}
+          {place.price ? <span>· {place.price}</span> : null}
+          <span>· San Francisco</span>
+        </div>
+        {place.description ? (
+          <div className="text-sm mt-2 text-black/80 flex-auto">
+            {place.description}
+          </div>
+        ) : null}
+        <div className="mt-5">
+          <button
+            type="button"
+            className="cursor-pointer inline-flex items-center rounded-full bg-[#F46C21] text-white px-4 py-1.5 text-sm font-medium hover:opacity-90 active:opacity-100"
+          >
+            Learn more
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+================================================
+FILE: src/pizzaz-list/index.jsx
+================================================
+import React from "react";
+import { createRoot } from "react-dom/client";
+import markers from "../pizzaz/markers.json";
+import { PlusCircle, Star } from "lucide-react";
+
+function App() {
+  const places = markers?.places || [];
+
+  return (
+    <div className="antialiased w-full text-black px-4 pb-2 border border-black/10 rounded-2xl sm:rounded-3xl overflow-hidden bg-white">
+      <div className="max-w-full">
+        <div className="flex flex-row items-center gap-4 sm:gap-4 border-b border-black/5 py-4">
+          <div
+            className="sm:w-18 w-16 aspect-square rounded-xl bg-cover bg-center"
+            style={{
+              backgroundImage:
+                "url(https://persistent.oaistatic.com/pizzaz/title.png)",
+            }}
+          ></div>
+          <div>
+            <div className="text-base sm:text-xl font-medium">
+              National Best Pizza List
+            </div>
+            <div className="text-sm text-black/60">
+              A ranking of the best pizzerias in the world
+            </div>
+          </div>
+          <div className="flex-auto hidden sm:flex justify-end pr-2">
+            <button
+              type="button"
+              className="cursor-pointer inline-flex items-center rounded-full bg-[#F46C21] text-white px-4 py-1.5 sm:text-md text-sm font-medium hover:opacity-90 active:opacity-100"
+            >
+              Save List
+            </button>
+          </div>
+        </div>
+        <div className="min-w-full text-sm flex flex-col">
+          {places.slice(0, 7).map((place, i) => (
+            <div
+              key={place.id}
+              className="px-3 -mx-2 rounded-2xl hover:bg-black/5"
+            >
+              <div
+                style={{
+                  borderBottom:
+                    i === 7 - 1 ? "none" : "1px solid rgba(0, 0, 0, 0.05)",
+                }}
+                className="flex w-full items-center hover:border-black/0! gap-2"
+              >
+                <div className="py-3 pr-3 min-w-0 w-full sm:w-3/5">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={place.thumbnail}
+                      alt={place.name}
+                      className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg object-cover ring ring-black/5"
+                    />
+                    <div className="w-3 text-end sm:block hidden text-sm text-black/40">
+                      {i + 1}
+                    </div>
+                    <div className="min-w-0 sm:pl-1 flex flex-col items-start h-full">
+                      <div className="font-medium text-sm sm:text-md truncate max-w-[40ch]">
+                        {place.name}
+                      </div>
+                      <div className="mt-1 sm:mt-0.25 flex items-center gap-3 text-black/70 text-sm">
+                        <div className="flex items-center gap-1">
+                          <Star
+                            strokeWidth={1.5}
+                            className="h-3 w-3 text-black"
+                          />
+                          <span>
+                            {place.rating?.toFixed
+                              ? place.rating.toFixed(1)
+                              : place.rating}
+                          </span>
+                        </div>
+                        <div className="whitespace-nowrap sm:hidden">
+                          {place.city || "–"}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="hidden sm:block text-end py-2 px-3 text-sm text-black/60 whitespace-nowrap flex-auto">
+                  {place.city || "–"}
+                </div>
+                <div className="py-2 whitespace-nowrap flex justify-end">
+                  <PlusCircle strokeWidth={1.5} className="h-5 w-5" />
+                </div>
+              </div>
+            </div>
+          ))}
+          {places.length === 0 && (
+            <div className="py-6 text-center text-black/60">
+              No pizzerias found.
+            </div>
+          )}
+        </div>
+        <div className="sm:hidden px-0 pt-2 pb-2">
+          <button
+            type="button"
+            className="w-full cursor-pointer inline-flex items-center justify-center rounded-full bg-[#F46C21] text-white px-4 py-2 font-medium hover:opacity-90 active:opacity-100"
+          >
+            Save List
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+createRoot(document.getElementById("pizzaz-list-root")).render(<App />);
+
+
+
+================================================
+FILE: src/solar-system/index.jsx
+================================================
+import { createRoot } from "react-dom/client";
+import App from "./solar-system";
+
+
+createRoot(document.getElementById("solar-system-root")).render(<App />);
+
+
+
+================================================
+FILE: src/solar-system/solar-system.jsx
+================================================
+import { createRoot } from "react-dom/client";
+import { useRef, useImperativeHandle, useState, useEffect } from "react";
+import { Canvas, useFrame, useThree, useLoader } from "@react-three/fiber";
+import { Html, OrbitControls } from "@react-three/drei";
+import * as THREE from "three";
+import { useSpring } from "@react-spring/three";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  EffectComposer,
+  Bloom,
+  DepthOfField,
+} from "@react-three/postprocessing";
+import { useWidgetProps } from "../use-widget-props";
+import { useMaxHeight } from "../use-max-height";
+import { useDisplayMode } from "../use-display-mode";
+import {
+  useNavigate,
+  useParams,
+  Routes,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
+
+const ExpandIcon = () => {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M4.33496 11C4.33496 10.6327 4.63273 10.335 5 10.335C5.36727 10.335 5.66504 10.6327 5.66504 11V14.335H9L9.13379 14.3486C9.43692 14.4106 9.66504 14.6786 9.66504 15C9.66504 15.3214 9.43692 15.5894 9.13379 15.6514L9 15.665H5C4.63273 15.665 4.33496 15.3673 4.33496 15V11ZM14.335 9V5.66504H11C10.6327 5.66504 10.335 5.36727 10.335 5C10.335 4.63273 10.6327 4.33496 11 4.33496H15L15.1338 4.34863C15.4369 4.41057 15.665 4.67857 15.665 5V9C15.665 9.36727 15.3673 9.66504 15 9.66504C14.6327 9.66504 14.335 9.36727 14.335 9Z" />
+    </svg>
+  );
+};
+
+/* -------------------------------- util text streaming (unchanged) ------------------------------- */
+function StreamWord({ children, index, delay }) {
+  const [isComplete, setIsComplete] = useState(false);
+  return isComplete ? (
+    <>{children}</>
+  ) : (
+    <motion.span
+      key={index}
+      initial={{ opacity: 0, color: "rgba(0,168,255,1)" }}
+      animate={{ opacity: 1, color: "rgba(255,255,255,1)" }}
+      transition={{
+        type: "spring",
+        bounce: 0,
+        delay: index * 0.015 + 0.14 + (delay || 0),
+        duration: 1,
+      }}
+      onAnimationComplete={() => setIsComplete(true)}
+    >
+      {children}
+    </motion.span>
+  );
+}
+
+function StreamText({ children, delay }) {
+  const words = children.split(" ");
+  return (
+    <>
+      {words.map((word, index) => (
+        <StreamWord index={index} delay={delay} key={index}>
+          {word}{" "}
+        </StreamWord>
+      ))}
+    </>
+  );
+}
+
+/* -------------------------------- background stars ------------------------------- */
+function SceneBackground() {
+  const { scene } = useThree();
+  const texture = useLoader(
+    THREE.TextureLoader,
+    "https://persistent.oaistatic.com/ecosys/stars_8k.webp"
+  );
+  useEffect(() => {
+    texture.mapping = THREE.EquirectangularReflectionMapping;
+    scene.background = texture;
+  }, [texture, scene]);
+  return null;
+}
+
+/* -------------------------------- post‑processing ------------------------------- */
+function Effects({ focusTarget, hasFocus }) {
+  const { camera } = useThree();
+  const depthOfFieldRef = useRef();
+
+  useFrame(() => {
+    if (!depthOfFieldRef.current) return;
+
+    if (!hasFocus) {
+      depthOfFieldRef.current.bokehScale = 0; // no planet in focus → no blur
+      return;
+    }
+
+    const d = camera.position.distanceTo(focusTarget); // closer ⇒ stronger blur
+    const scale = THREE.MathUtils.clamp(12 - d * 0.75, 0, 12);
+    depthOfFieldRef.current.bokehScale = scale;
+  });
+
+  return (
+    <EffectComposer>
+      <DepthOfField
+        ref={depthOfFieldRef}
+        focusDistance={0}
+        focalLength={0.02}
+        height={480}
+        bokehScale={0} // initial value; updated each frame
+        target={focusTarget}
+      />
+      <Bloom
+        luminanceThreshold={0}
+        luminanceSmoothing={0.25}
+        intensity={1.75}
+        mipmapBlur
+      />
+    </EffectComposer>
+  );
+}
+
+const planets = [
+  {
+    name: "Mercury",
+    radius: 2,
+    size: 0.2,
+    speed: 0.02,
+    physicalSize: 4879,
+    description:
+      "Mercury is the smallest planet in the Solar System and the closest to the Sun. It has a rocky, cratered surface and extreme temperature swings.",
+  },
+  {
+    name: "Venus",
+    radius: 3,
+    size: 0.35,
+    speed: 0.015,
+    physicalSize: 12104,
+    description:
+      "Venus, similar in size to Earth, is cloaked in thick clouds of sulfuric acid with surface temperatures hot enough to melt lead.",
+  },
+  {
+    name: "Earth",
+    radius: 4,
+    size: 0.38,
+    speed: 0.012,
+    physicalSize: 12742,
+    description:
+      "Earth is the only known planet to support life, with liquid water covering 71% of its surface and a protective atmosphere.",
+  },
+  {
+    name: "Mars",
+    radius: 5,
+    size: 0.25,
+    speed: 0.01,
+    physicalSize: 6779,
+    description:
+      "Mars, the Red Planet, shows evidence of ancient rivers and volcanoes and is a prime target in the search for past life.",
+  },
+  {
+    name: "Jupiter",
+    radius: 7,
+    size: 0.85,
+    speed: 0.008,
+    physicalSize: 139820,
+    description:
+      "Jupiter is the largest planet, a gas giant with a Great Red Spot—an enormous storm raging for centuries.",
+  },
+  {
+    name: "Saturn",
+    radius: 9,
+    size: 0.75,
+    speed: 0.006,
+    physicalSize: 116460,
+    description:
+      "Saturn is famous for its stunning ring system composed of billions of ice and rock particles orbiting the planet.",
+  },
+  {
+    name: "Uranus",
+    radius: 11,
+    size: 0.65,
+    speed: 0.0045,
+    physicalSize: 50724,
+    description:
+      "Uranus is an ice giant rotating on its side, giving rise to extreme seasonal variations during its long orbit.",
+  },
+  {
+    name: "Neptune",
+    radius: 13,
+    size: 0.65,
+    speed: 0.0035,
+    physicalSize: 49244,
+    description:
+      "Neptune, the farthest known giant, is a deep‑blue world with supersonic winds and a faint ring system.",
+  },
+];
+
+/* -------------------------------- main solar‑system component ------------------------------- */
+function SolarSystem() {
+  const [isOrbiting, setIsOrbiting] = useState(true);
+  const [targetPlanetPosition, setTargetPlanetPosition] = useState(null);
+  const { planet_name } = useWidgetProps({});
+
+  const navigate = useNavigate();
+  const { planet: planetParam } = useParams();
+
+  const currentPlanet =
+    planets.find((planet) => planet.name === planetParam) ??
+    planets.find((planet) => planet.name === planet_name);
+
+  const [focusTarget, setFocusTarget] = useState(new THREE.Vector3(0, 0, 0));
+  const [isReady, setIsReady] = useState(false);
+
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      window.oai &&
+      typeof window.oai.widget.setState === "function"
+    ) {
+      window.oai.widget.setState({
+        isOrbiting,
+        currentPlanet: currentPlanet ? currentPlanet.name : null,
+      });
+    }
+  }, [isOrbiting, currentPlanet]);
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const ref = planetRefs.current[currentPlanet?.name];
+      if (currentPlanet && ref) {
+        const position = ref.getPosition();
+        setIsOrbiting(false);
+        setTargetPlanetPosition(position);
+        setFocusTarget(position);
+      } else {
+        setIsOrbiting(true);
+        setTargetPlanetPosition("initial");
+        setFocusTarget(new THREE.Vector3(0, 0, 0));
+      }
+    });
+  }, [currentPlanet, isReady]);
+
+  const orbitControlsRef = useRef();
+  const initialCameraPosition = useRef(new THREE.Vector3(0, 0, 10));
+  const initialOrbitTarget = useRef(new THREE.Vector3(0, 0, 0));
+  const planetRefs = useRef({});
+
+  const updatePlanet = (planet) => {
+    if (planet?.name) {
+      navigate(`/${planet.name}`, { replace: false });
+    } else {
+      navigate(`/`, { replace: false });
+    }
+  };
+
+  const handlePointerMissed = () => {
+    setIsOrbiting(true);
+    setTargetPlanetPosition("initial");
+    setFocusTarget(new THREE.Vector3(0, 0, 0));
+    updatePlanet(null);
+  };
+
+  const maxHeight = useMaxHeight() ?? undefined;
+  const displayMode = useDisplayMode();
+  return (
+    <div
+      className={`antialiased w-full relative bg-black overflow-hidden ${
+        displayMode !== "fullscreen"
+          ? "aspect-[640/480] sm:aspect-[640/400]"
+          : ""
+      }`}
+      style={{
+        maxHeight,
+        height: displayMode === "fullscreen" ? maxHeight : undefined,
+      }}
+    >
+      {displayMode !== "fullscreen" && (
+        <div className="fixed end-3 z-20 top-3 aspect-square rounded-full p-2 bg-white/20 text-white backdrop-blur-lg">
+          <button
+            onClick={() => {
+              window.webplus.requestDisplayMode({ mode: "fullscreen" });
+            }}
+          >
+            <ExpandIcon />
+          </button>
+        </div>
+      )}
+      <div className="relative w-full h-full z-10">
+        <Canvas
+          camera={{ position: [0, 2, 8], fov: 60 }}
+          onCreated={({ camera }) => {
+            initialCameraPosition.current.copy(camera.position);
+            if (orbitControlsRef.current) {
+              initialOrbitTarget.current.copy(orbitControlsRef.current.target);
+            }
+            setIsReady(true);
+          }}
+          onPointerMissed={handlePointerMissed}
+        >
+          <SceneBackground />
+          <ambientLight intensity={0.135} />
+          <pointLight position={[0, 0, 0]} intensity={18} />
+          <directionalLight position={[0, 0, 0]} intensity={0.7} castShadow />
+          <OrbitControls ref={orbitControlsRef} />
+          <Sun />
+
+          {/* ---------- render planets ---------- */}
+          {planets.map((planet) => (
+            <Planet
+              key={planet.name}
+              ref={(ref) => {
+                planetRefs.current[planet.name] = ref;
+              }}
+              {...planet}
+              isOrbiting={isOrbiting}
+              onPlanetClick={() => {
+                setIsOrbiting(false);
+                updatePlanet(planet);
+              }}
+            />
+          ))}
+
+          <Effects
+            focusTarget={focusTarget}
+            hasFocus={currentPlanet !== null}
+          />
+          <CameraController
+            targetPosition={targetPlanetPosition}
+            orbitControlsRef={orbitControlsRef}
+            setIsOrbiting={setIsOrbiting}
+            initialCameraPosition={initialCameraPosition}
+            initialOrbitTarget={initialOrbitTarget}
+            setFocusTarget={setFocusTarget}
+          />
+        </Canvas>
+      </div>
+
+      {/* ---------- planet info panel ---------- */}
+      <AnimatePresence>
+        {currentPlanet && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ bounce: 0.2, duration: 0.4, type: "spring" }}
+            className="
+    absolute inset-0
+    flex flex-col justify-end items-center text-center
+    pb-4 px-8 sm:p-8
+    bg-gradient-to-t from-black/80 to-black/0
+    md:bg-gradient-to-r md:from-black md:to-black/0
+    md:items-start md:text-left md:justify-start
+    md:w-72
+    rounded-xl text-white pointer-events-none z-10
+  "
+          >
+            <div className="text-4xl font-medium">
+              <StreamText>{currentPlanet.name}</StreamText>
+            </div>
+            <div className="text-sm my-2 font-medium">
+              <StreamWord delay={0.1}>
+                {Intl.NumberFormat("en-US", {
+                  style: "unit",
+                  unit: "kilometer",
+                  unitDisplay: "narrow",
+                }).format(currentPlanet.physicalSize)}
+              </StreamWord>
+            </div>
+            <div className="text-sm my-2">
+              <StreamText delay={0.125}>{currentPlanet.description}</StreamText>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* -------------------------------- sun sphere ------------------------------- */
+function Sun() {
+  return (
+    <mesh>
+      <sphereGeometry args={[1, 32, 32]} />
+      <meshBasicMaterial color="#F6D973" />
+    </mesh>
+  );
+}
+
+/* -------------------------------- saturn ring component ------------------------------- */
+function SaturnRing({ planetSize }) {
+  const texture = useLoader(
+    THREE.TextureLoader,
+    "https://persistent.oaistatic.com/ecosys/saturn_ring.webp"
+  );
+  return (
+    <mesh rotation={[-Math.PI / 2, 0, 0]}>
+      <ringGeometry args={[planetSize * 1.1, planetSize * 2, 64]} />
+      <meshStandardMaterial map={texture} transparent side={THREE.DoubleSide} />
+    </mesh>
+  );
+}
+
+/* -------------------------------- planet component ------------------------------- */
+function Planet({ name, radius, size, speed, isOrbiting, onPlanetClick, ref }) {
+  const SPEED_SCALE = 0.2;
+  const mesh = useRef();
+  const theta = useRef(Math.random() * Math.PI * 2);
+
+  useImperativeHandle(ref, () => ({
+    getPosition: () => mesh.current.position.clone(),
+  }));
+
+  /* texture per planet */
+  const texture = useLoader(
+    THREE.TextureLoader,
+    `https://persistent.oaistatic.com/ecosys/${name.toLowerCase()}_2k.webp`
+  );
+
+  useFrame(() => {
+    if (isOrbiting) {
+      theta.current += speed * SPEED_SCALE;
+      const x = radius * Math.cos(theta.current);
+      const z = radius * Math.sin(theta.current);
+      mesh.current.position.set(x, 0, z);
+    }
+  });
+
+  return (
+    <mesh
+      ref={mesh}
+      onClick={(e) => {
+        e.stopPropagation(); // ← block onPointerMissed
+        onPlanetClick(mesh.current.position.clone());
+      }}
+    >
+      <sphereGeometry args={[size, 32, 32]} />
+      <meshStandardMaterial map={texture} />
+      {name === "Saturn" && <SaturnRing planetSize={size} />}
+    </mesh>
+  );
+}
+
+/* -------------------------------- camera tween controller ------------------------------- */
+/* -------- camera tween controller -------- */
+/* -------- camera tween controller (lerp version) -------- */
+function CameraController({
+  targetPosition,
+  orbitControlsRef,
+  setIsOrbiting,
+  initialCameraPosition,
+  initialOrbitTarget,
+  setFocusTarget,
+}) {
+  const { camera } = useThree();
+
+  // Where the camera/target should ultimately go
+  const targetCamPos = useRef(null);
+  const targetCamFocus = useRef(null);
+
+  // Whenever SolarSystem tells us to move …
+  useEffect(() => {
+    if (!targetPosition) return;
+
+    // “Initial” = zoom‑out reset
+    if (targetPosition === "initial") {
+      targetCamPos.current = initialCameraPosition.current.clone();
+      targetCamFocus.current = initialOrbitTarget.current.clone();
+      setIsOrbiting(true);
+      setFocusTarget(new THREE.Vector3(0, 0, 0));
+    } else {
+      // Offset the camera so it’s not inside the planet
+      const offset = new THREE.Vector3()
+        .subVectors(camera.position, targetPosition)
+        .normalize()
+        .multiplyScalar(2); // distance from surface – tweak to taste
+      targetCamPos.current = targetPosition.clone().add(offset);
+      targetCamFocus.current = targetPosition.clone();
+      setIsOrbiting(false);
+      setFocusTarget(targetCamFocus.current.clone());
+    }
+
+    // Disable user interaction while we animate
+    if (orbitControlsRef.current) orbitControlsRef.current.enabled = false;
+  }, [targetPosition]);
+
+  useFrame(() => {
+    if (!targetCamPos.current || !targetCamFocus.current) return;
+
+    const lerpSpeed = 0.04; // smoother → smaller, snappier → larger
+    camera.position.lerp(targetCamPos.current, lerpSpeed);
+    if (orbitControlsRef.current) {
+      orbitControlsRef.current.target.lerp(targetCamFocus.current, lerpSpeed);
+      orbitControlsRef.current.update();
+    }
+
+    // Stop when we’re basically there
+    if (
+      camera.position.distanceTo(targetCamPos.current) < 0.05 &&
+      orbitControlsRef.current.target.distanceTo(targetCamFocus.current) < 0.05
+    ) {
+      targetCamPos.current = null;
+      targetCamFocus.current = null;
+      if (orbitControlsRef.current) {
+        orbitControlsRef.current.enabled = true; // re‑enable control
+        orbitControlsRef.current.update(); // sync internals
+      }
+    }
+  });
+
+  return null;
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/:planet?" element={<SolarSystem />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+
+
+================================================
+FILE: src/todo/index.jsx
+================================================
+import { createRoot } from "react-dom/client";
+import App from "./todo";
+
+createRoot(document.getElementById("todo-root")).render(<App />);
+
+export { App };
+export default App;
+
+
+
+================================================
+FILE: src/utils/locale.ts
+================================================
+const DEFAULT_LOCALE = "en-US" as const;
+
+function hasOwn<T extends Record<string, unknown>>(
+  obj: T,
+  key: PropertyKey
+): key is keyof T {
+  return Object.prototype.hasOwnProperty.call(obj, key);
+}
+
+export function resolveLocale<T extends Record<string, unknown>>(messages: T): keyof T {
+  if (typeof document !== "undefined") {
+    const lang = document.documentElement.lang;
+    if (lang && hasOwn(messages, lang)) {
+      return lang;
+    }
+  }
+
+  if (hasOwn(messages, DEFAULT_LOCALE)) {
+    return DEFAULT_LOCALE as keyof T;
+  }
+
+  const [fallback] = Object.keys(messages);
+  return (fallback ?? DEFAULT_LOCALE) as keyof T;
+}
+
+export const FALLBACK_LOCALE = DEFAULT_LOCALE;
+
+
+
+================================================
+FILE: .github/workflows/pre-commit.yml
+================================================
+name: pre-commit
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v3
+    - uses: pre-commit/action@v3.0.1
+
+
