@@ -13,13 +13,14 @@ import {
   summarizeProfile,
   updateField,
 } from "./profile-state.mjs";
+import "./firebase-setup.mjs"; // Initialize Firebase Admin
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const templateUri = "ui://widget/business-profile-onboarding.html";
 const widgetDomain = process.env.WIDGET_DOMAIN?.trim() || "https://chatgpt.com";
-const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "https://www.ccsplit.org")
+const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "http://localhost:3030")
   .split(",")
   .map((domain) => domain.trim())
   .filter(Boolean);
@@ -44,7 +45,7 @@ function responsePayload(profile, message) {
   };
 }
 
-// Global transport map to persist sessions across requests
+// Global transport map to persist sessions across requests in a long-running process
 const transportMap = new Map();
 
 async function startServer() {
@@ -87,7 +88,7 @@ async function startServer() {
       const profile = restart ? await resetProfile(resolvedAccountId) : await loadProfile(resolvedAccountId);
       const summary = summarizeProfile(profile);
       const message = createdNewAccount
-        ? "Created a new account and loaded onboarding."
+        ? "Created a new account and loaded onboarding."  // This message is for the LLM
         : summary.onboardingStatus === "complete"
           ? "Profile is complete."
           : `Continuing onboarding with the ${summary.nextSection?.title ?? "next"} section.`;
@@ -125,7 +126,7 @@ async function startServer() {
   // CORS Middleware
   app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
     res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
     if (req.method === "OPTIONS") return res.sendStatus(200);
     next();
@@ -134,20 +135,14 @@ async function startServer() {
   app.get("/mcp/sse", async (req, res) => {
     console.log("New SSE connection");
     
-    // Create a new transport
-    // Point it to the message endpoint
     const transport = new SSEServerTransport("/mcp/messages", res);
-    
-    // Store it
     transportMap.set(transport.sessionId, transport);
     
-    // Clean up on close
     transport.onclose = () => {
         console.log(`Session closed: ${transport.sessionId}`);
         transportMap.delete(transport.sessionId);
     };
 
-    // Connect server to transport
     await server.connect(transport);
   });
 
@@ -164,7 +159,6 @@ async function startServer() {
         return;
     }
     
-    // Handle the message
     await transport.handlePostMessage(req, res);
   });
 
