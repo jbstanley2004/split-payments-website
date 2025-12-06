@@ -25,6 +25,20 @@ This folder contains a reference MCP server plus a lightweight widget that mirro
    ```
 3. Point MCP Inspector or a ChatGPT connector at `http://localhost:3030/mcp` to exercise the tools and widget.
 
+## Production hosting guidance
+- The MCP server expects to bind to its own port, which Vercel's static/Next.js hosting model does not support. Plan on
+  deploying the MCP server as a **separate service** (e.g., Fly.io, Railway, Render, or a small VM/container) and route it
+  through a dedicated subdomain such as **`mcp.ccsplit.org`**.
+- Minimal production recipe:
+  1. Deploy this folder as a long-running Node service (for example, `PORT=3030 node server.mjs`).
+  2. Create a DNS record pointing `mcp.ccsplit.org` to that service (A/AAAA or CNAME, depending on host).
+  3. Keep your main site on `www.ccsplit.org` via Vercel; the two can ship together by releasing the site and the MCP
+     service in the same rollout.
+- Configure widget metadata for the production origin when starting the service:
+  - `WIDGET_DOMAIN=https://www.ccsplit.org` so the SDK trusts the widget for your production origin.
+  - `WIDGET_CONNECT_DOMAINS=https://api.your-production-host` (comma-separated) so the widget's CSP allows calls to your
+    APIs.
+
 ## Tools exposed
 - `load_business_profile` – Loads onboarding + Portal profile values and returns the widget template metadata.
 - `update_business_profile_field` – Saves a field inside a section (widget accessible).
