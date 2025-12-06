@@ -24,6 +24,13 @@ const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "https://www.ccspl
     .split(",")
     .map((domain) => domain.trim())
     .filter(Boolean);
+const widgetMeta = {
+    "openai/outputTemplate": templateUri,
+    "openai/widgetAccessible": true,
+    "openai/resultCanProduceWidget": true,
+    "openai/widgetPrefersBorder": true,
+    "openai/widgetDescription": "Guided onboarding wizard that stays in sync with Portal profile fields.",
+};
 
 async function loadTemplate() {
     const templatePath = path.join(__dirname, "widget", "profile-onboarding.html");
@@ -31,7 +38,7 @@ async function loadTemplate() {
 }
 
 function responsePayload(profile, message) {
-    const metadata = buildMeta(profile);
+    const metadata = { ...buildMeta(profile), ...widgetMeta };
     const summary = summarizeProfile(profile);
 
     // Suppress model-facing text until the entire onboarding is complete. This keeps the
@@ -88,8 +95,16 @@ async function startServer() {
     server.registerTool(
         "load_business_profile",
         {
-            accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
-            restart: { type: "boolean", description: "If true, clears any saved progress before loading." },
+            title: "Load business profile",
+            description: "Fetch or create onboarding data and render the profile widget.",
+            inputSchema: {
+                type: "object",
+                properties: {
+                    accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
+                    restart: { type: "boolean", description: "If true, clears any saved progress before loading." },
+                },
+            },
+            _meta: widgetMeta,
         },
         async ({ accountId, restart }) => {
             const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
@@ -108,10 +123,19 @@ async function startServer() {
     server.registerTool(
         "update_business_profile_field",
         {
-            accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
-            sectionKey: { type: "string", description: "Section identifier (business_profile, contact, payments)." },
-            fieldKey: { type: "string", description: "Field identifier inside the section." },
-            value: { type: "string", description: "Value to store." },
+            title: "Update profile field",
+            description: "Persist a single profile field and refresh widget state.",
+            inputSchema: {
+                type: "object",
+                properties: {
+                    accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
+                    sectionKey: { type: "string", description: "Section identifier (business_profile, contact, payments)." },
+                    fieldKey: { type: "string", description: "Field identifier inside the section." },
+                    value: { type: "string", description: "Value to store." },
+                },
+                required: ["accountId", "sectionKey", "fieldKey", "value"],
+            },
+            _meta: widgetMeta,
         },
         async ({ accountId, sectionKey, fieldKey, value }) => {
             const profile = await updateField(accountId, sectionKey, fieldKey, String(value));
@@ -122,7 +146,16 @@ async function startServer() {
     server.registerTool(
         "reset_business_profile",
         {
-            accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
+            title: "Reset business profile",
+            description: "Clear saved progress and restart onboarding in the widget.",
+            inputSchema: {
+                type: "object",
+                properties: {
+                    accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
+                },
+                required: ["accountId"],
+            },
+            _meta: widgetMeta,
         },
         async ({ accountId }) => {
             const profile = await resetProfile(accountId);
