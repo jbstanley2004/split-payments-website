@@ -291,7 +291,7 @@ export default function FundingPage() {
               </h2>
             </div>
 
-            <div className="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden">
+            <div className="md:bg-white md:rounded-3xl md:border md:border-gray-200 md:shadow-sm md:overflow-hidden">
 
               {/* Desktop Table View */}
               <div className="hidden md:block overflow-x-auto">
