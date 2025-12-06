@@ -6,14 +6,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
     :root {
-      color-scheme: light dark;
-      --bg: #0f172a;
-      --panel: #111827;
-      --border: #1f2937;
-      --muted: #9ca3af;
-      --accent: #6ee7b7;
-      --accent-strong: #34d399;
-      --text: #e5e7eb;
+      color-scheme: light;
+      --bg: #f6f5f4;
+      --panel: #ffffff;
+      --border: #e5e7eb;
+      --muted: #6b7280;
+      --accent: #111827;
+      --accent-strong: #0f172a;
+      --text: #0b0f1a;
+      --card: #ffffff;
+      --pill: #f97316;
+      --pill-text: #ffffff;
     }
 
     body {
@@ -26,19 +29,19 @@
     .panel {
       background: var(--panel);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 30px 80px rgba(17, 24, 39, 0.08);
     }
 
     h1 {
-      font-size: 18px;
+      font-size: 20px;
       margin: 0 0 8px;
     }
 
     .subtitle {
       color: var(--muted);
-      font-size: 13px;
+      font-size: 14px;
       margin-bottom: 16px;
     }
 
@@ -54,7 +57,7 @@
       padding: 12px;
       border-radius: 8px;
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.05);
+      background: #f3f4f6;
       color: var(--text);
       font-size: 14px;
       box-sizing: border-box;
@@ -62,13 +65,14 @@
     }
 
     .auth-input:focus {
-      outline: 2px solid var(--accent);
-      border-color: transparent;
+      outline: 2px solid rgba(0, 0, 0, 0.05);
+      border-color: var(--accent);
+      background: #fff;
     }
 
     .auth-btn {
       background: var(--accent);
-      color: #0b1223;
+      color: #fff;
       padding: 12px;
       border-radius: 8px;
       font-weight: 600;
@@ -79,22 +83,13 @@
     }
 
     .auth-btn:hover {
-      opacity: 0.9;
+      opacity: 0.95;
     }
 
     .auth-btn.secondary {
-      background: transparent;
-      border: 1px solid var(--accent);
+      background: #fff;
+      border: 1px solid var(--border);
       color: var(--accent);
-    }
-
-    .google-btn {
-      background: white;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
     }
 
     .link-btn {
@@ -135,58 +130,107 @@
 
     .pill {
       padding: 4px 10px;
-      background: rgba(110, 231, 183, 0.08);
-      color: var(--accent);
+      background: var(--pill);
+      color: var(--pill-text);
       border-radius: 999px;
-      border: 1px solid rgba(110, 231, 183, 0.35);
+      border: 1px solid transparent;
       font-weight: 600;
       font-size: 12px;
+      letter-spacing: 0.01em;
     }
 
-    .sections {
+    .stepper {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 16px 0 12px;
+    }
+
+    .step-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .step-pill:hover {
+      transform: translateY(-2px);
+      border-color: rgba(17, 24, 39, 0.1);
+    }
+
+    .step-pill[data-active="true"] {
+      border-color: #111827;
+      box-shadow: 0 20px 40px rgba(17, 24, 39, 0.12);
+    }
+
+    .step-index {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .step-pill[data-complete="true"] .step-index {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .step-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: #0b0f1a;
+    }
+
+    .step-subtitle {
+      color: var(--muted);
+      font-size: 12px;
     }
 
     .section-card {
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px;
-      background: #0b1223;
-      cursor: pointer;
-      transition: border-color 0.2s;
-    }
-
-    .section-card:hover {
-      border-color: rgba(110, 231, 183, 0.4);
-    }
-
-    .section-card[data-active="true"] {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(110, 231, 183, 0.4);
-      cursor: default;
+      border-radius: 20px;
+      padding: 16px;
+      background: linear-gradient(180deg, #ffffff, #f9fafb);
+      box-shadow: 0 25px 70px rgba(17, 24, 39, 0.12);
     }
 
     .section-title {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 16px;
     }
 
     .progress {
-      height: 6px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 999px;
+      height: 10px;
+      background: #f3f4f6;
+      border-radius: 12px;
       overflow: hidden;
-      margin: 8px 0;
+      margin: 12px 0;
+      border: 1px solid #e5e7eb;
     }
 
     .progress>span {
       display: block;
       height: 100%;
-      background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+      background: linear-gradient(90deg, #111827, #0f172a);
     }
 
     .fields {
@@ -209,13 +253,15 @@
       padding: 10px;
       border-radius: 10px;
       border: 1px solid var(--border);
-      background: rgba(255, 255, 255, 0.02);
+      background: #f3f4f6;
       color: var(--text);
       box-sizing: border-box;
     }
 
     input.field-input:focus {
-      outline: 2px solid var(--accent);
+      outline: 2px solid rgba(17, 24, 39, 0.08);
+      border-color: var(--accent);
+      background: #fff;
     }
 
     .helper {
@@ -231,7 +277,7 @@
 
     button.action-btn {
       background: var(--accent);
-      color: #0b1223;
+      color: #fff;
       border: none;
       border-radius: 10px;
       padding: 10px 14px;
@@ -270,10 +316,6 @@
         <button id="signInBtn" class="auth-btn">Sign In</button>
         <div class="divider">or</div>
         <button id="signUpBtn" class="auth-btn secondary">Create Account</button>
-        <div class="divider">or</div>
-        <button id="googleBtn" class="auth-btn google-btn">
-          <span style="font-weight:bold; color:#4285F4">G</span> Sign in with Google
-        </button>
 
         <div id="authError" class="error-msg"></div>
       </div>
@@ -283,17 +325,18 @@
     <div id="appView" style="display:none">
       <div class="subtitle">Drive the same flow the Portal uses to collect business profile details.</div>
       <div class="status-row" id="statusRow"></div>
-      <div class="sections" id="sections"></div>
+      <div id="flowError" class="error-msg"></div>
+      <div id="stepper"></div>
+      <div id="activeSection"></div>
       <div class="actions">
         <button id="refresh" class="action-btn">Reload profile</button>
         <button class="secondary action-btn" id="reset">Reset progress</button>
       </div>
-      <div class="empty" id="emptyState" hidden>No sections are configured yet.</div>
     </div>
   </div>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDGIywlZJ4bPn84s5FYNx6v27-tO3f3SWA",
@@ -313,7 +356,12 @@
 
     function showError(msg) {
       document.getElementById("authError").textContent = msg;
-      setTimeout(() => document.getElementById("authError").textContent = "", 5000);
+      const flowError = document.getElementById("flowError");
+      if (flowError) flowError.textContent = msg;
+      setTimeout(() => {
+        document.getElementById("authError").textContent = "";
+        if (flowError) flowError.textContent = "";
+      }, 5000);
     }
 
     // AUTH HANDLERS
@@ -334,15 +382,6 @@
       if (!email || !pass) return showError("Please enter email and password");
       try {
         await createUserWithEmailAndPassword(auth, email, pass);
-      } catch (e) {
-        showError(e.message);
-      }
-    };
-
-    document.getElementById("googleBtn").onclick = async () => {
-      try {
-        const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider);
       } catch (e) {
         showError(e.message);
       }
@@ -416,6 +455,27 @@
       );
     }
 
+    function isSectionComplete(section) {
+      if (!section?.fields?.length) return false;
+      return section.fields.every((field) => !field.required || (field.value && String(field.value).trim().length > 0));
+    }
+
+    function advanceIfComplete(sectionKey, meta) {
+      const metadata = meta || resolveMetadata();
+      const sections = metadata?.sections || [];
+      const index = sections.findIndex((s) => s.key === sectionKey);
+      if (index === -1) return;
+
+      const section = sections[index];
+      if (!isSectionComplete(section)) return;
+
+      const nextSection = sections[index + 1];
+      if (nextSection) {
+        saveWidgetState({ activeSection: nextSection.key, metadata });
+        renderSections(metadata);
+      }
+    }
+
     function saveWidgetState(partial) {
       const next = { ...state, ...partial };
       state = next;
@@ -444,6 +504,7 @@
         field.value = value; // Update the internal data model
         renderStatus(openai.toolOutput || state.metadata); // Re-render status bar if needed
         // No full renderSections call here!
+        advanceIfComplete(sectionKey, state.metadata);
       }
 
       // Asynchronously call the tool to persist to the backend (Firestore)
@@ -458,20 +519,34 @@
     }
 
     function renderSections(meta) {
-      const container = document.getElementById("sections");
-      const empty = document.getElementById("emptyState");
+      const stepper = document.getElementById("stepper");
+      const activeContainer = document.getElementById("activeSection");
 
       if (!meta?.sections?.length) {
-        container.innerHTML = "";
-        empty.hidden = false;
+        stepper.innerHTML = "";
+        activeContainer.innerHTML = "";
         openai.notifyIntrinsicHeight?.();
         return;
       }
 
-      empty.hidden = true;
-      const activeSection = state.activeSection || meta.sections[0].key;
+      const steps = [
+        { key: "auth", title: "Sign in / up", description: "Portal credentials" },
+        ...meta.sections.map((section) => ({
+          key: section.key,
+          title: section.title,
+          description: section.description,
+          complete: section.fields.every((f) => !f.required || (f.value && String(f.value).trim().length > 0)),
+        })),
+      ];
 
-      // Store current focus/selection
+      const activeSection = state.activeSection && meta.sections.some((s) => s.key === state.activeSection)
+        ? state.activeSection
+        : meta.sections[0].key;
+
+      if (state.activeSection !== activeSection) {
+        saveWidgetState({ activeSection });
+      }
+
       const activeElement = document.activeElement;
       const focusedInputId = activeElement?.dataset?.section && activeElement?.dataset?.field
         ? `${activeElement.dataset.section}-${activeElement.dataset.field}`
@@ -479,80 +554,146 @@
       const selectionStart = (activeElement as HTMLInputElement)?.selectionStart;
       const selectionEnd = (activeElement as HTMLInputElement)?.selectionEnd;
 
-      const cards = meta.sections.map((section) => {
-        const wrapper = document.createElement("div");
-        wrapper.className = "section-card";
-        wrapper.dataset.active = String(section.key === activeSection);
+      // Render stepper chips
+      const stepNodes = steps.map((step, index) => {
+        const chip = document.createElement("div");
+        chip.className = "step-pill";
+        chip.dataset.active = String(step.key === activeSection);
+        chip.dataset.complete = String(step.key === "auth" ? Boolean(currentUser) : step.complete);
 
-        wrapper.onclick = (e) => {
-          const tag = (e.target as HTMLElement).tagName;
-          if (tag === 'INPUT' || tag === 'LABEL' || (e.target as HTMLElement).closest('.fields')) return;
+        const indexBadge = document.createElement("div");
+        indexBadge.className = "step-index";
+        indexBadge.textContent = String(index + 1);
 
-          if (state.activeSection !== section.key) {
-            saveWidgetState({ activeSection: section.key });
-            renderSections(meta); // Re-render when section changes
-          }
-        };
+        const text = document.createElement("div");
+        text.className = "step-text";
+        const title = document.createElement("div");
+        title.className = "step-title";
+        title.textContent = step.title;
+        const subtitle = document.createElement("div");
+        subtitle.className = "step-subtitle";
+        subtitle.textContent = step.key === "auth" ? "Portal sign in" : step.description || "Profile details";
+        text.append(title, subtitle);
 
-        const header = document.createElement("div");
-        header.className = "section-title";
-        header.innerHTML = `<span>${section.title}</span><span class="pill">${section.fields.filter((f) => f.value).length}/${section.fields.length}</span>`;
-
-        const progress = document.createElement("div");
-        progress.className = "progress";
-        const percent = Math.round((section.fields.filter((f) => f.value).length / section.fields.length) * 100);
-        progress.innerHTML = `<span style="width:${percent}%"></span>`;
-
-        const fields = document.createElement("div");
-        fields.className = "fields";
-        if (section.key === activeSection) {
-          section.fields.forEach((field) => {
-            const label = document.createElement("label");
-            label.innerHTML = `${field.label}${field.required ? " *" : ""}`;
-            const input = document.createElement("input");
-            input.className = "field-input";
-            input.dataset.section = section.key;
-            input.dataset.field = field.key;
-
-            // Use value from metadata, but if actively typing, use the cached value
-            const inputId = `${section.key}-${field.key}`;
-            input.value = currentInputValues.has(inputId)
-              ? currentInputValues.get(inputId)
-              : (field.value ?? "");
-
-            input.placeholder = field.helper ?? "";
-
-            // Only add event listener once
-            input.addEventListener("input", onInputChange);
-            input.addEventListener("click", (e) => e.stopPropagation());
-
-            label.appendChild(input);
-            if (field.helper) {
-              const helper = document.createElement("div");
-              helper.className = "helper";
-              helper.textContent = field.helper;
-              label.appendChild(helper);
+        chip.append(indexBadge, text);
+        if (step.key !== "auth") {
+          chip.onclick = () => {
+            if (state.activeSection !== step.key) {
+              saveWidgetState({ activeSection: step.key });
+              renderSections(meta);
             }
-            fields.appendChild(label);
-          });
-        } else {
-          const hint = document.createElement("div");
-          hint.className = "helper";
-          hint.textContent = "Select to edit fields.";
-          fields.appendChild(hint);
+          };
         }
 
-        wrapper.appendChild(header);
-        wrapper.appendChild(progress);
-        wrapper.appendChild(fields);
-        return wrapper;
+        return chip;
       });
 
-      container.replaceChildren(...cards);
+      stepper.replaceChildren(...stepNodes);
 
-      // Restore focus/selection after re-render if applicable
+      const section = meta.sections.find((s) => s.key === activeSection) ?? meta.sections[0];
+      const sectionCard = document.createElement("div");
+      sectionCard.className = "section-card";
+
+      const header = document.createElement("div");
+      header.className = "section-title";
+      const title = document.createElement("div");
+      title.textContent = section.title;
+      const pill = document.createElement("span");
+      const completedFields = section.fields.filter((f) => f.value).length;
+      pill.className = "pill";
+      pill.textContent = `${completedFields}/${section.fields.length} fields`;
+      header.append(title, pill);
+
+      const description = document.createElement("div");
+      description.className = "helper";
+      description.textContent = section.description || "";
+
+      const progress = document.createElement("div");
+      progress.className = "progress";
+      const percent = Math.round((completedFields / section.fields.length) * 100);
+      progress.innerHTML = `<span style="width:${percent}%"></span>`;
+
+      const fields = document.createElement("div");
+      fields.className = "fields";
+      section.fields.forEach((field) => {
+        const label = document.createElement("label");
+        label.innerHTML = `${field.label}${field.required ? " *" : ""}`;
+        const input = document.createElement("input");
+        input.className = "field-input";
+        input.dataset.section = section.key;
+        input.dataset.field = field.key;
+        const inputId = `${section.key}-${field.key}`;
+        input.value = currentInputValues.has(inputId)
+          ? currentInputValues.get(inputId)
+          : (field.value ?? "");
+        input.placeholder = field.helper ?? "";
+        input.addEventListener("input", onInputChange);
+
+        label.appendChild(input);
+        if (field.helper) {
+          const helper = document.createElement("div");
+          helper.className = "helper";
+          helper.textContent = field.helper;
+          label.appendChild(helper);
+        }
+        fields.appendChild(label);
+      });
+
+      const footer = document.createElement("div");
+      footer.style.display = "flex";
+      footer.style.justifyContent = "space-between";
+      footer.style.marginTop = "12px";
+      footer.style.gap = "8px";
+
+      const navLeft = document.createElement("div");
+      const navRight = document.createElement("div");
+      navRight.style.display = "flex";
+      navRight.style.gap = "8px";
+
+      const sectionIndex = meta.sections.findIndex((s) => s.key === section.key);
+      const hasPrev = sectionIndex > 0;
+      const hasNext = sectionIndex < meta.sections.length - 1;
+
+      if (hasPrev) {
+        const back = document.createElement("button");
+        back.className = "action-btn secondary";
+        back.textContent = "Back";
+        back.onclick = () => {
+          saveWidgetState({ activeSection: meta.sections[sectionIndex - 1].key });
+          renderSections(meta);
+        };
+        navLeft.appendChild(back);
+      }
+
+      const saveNext = document.createElement("button");
+      saveNext.className = "action-btn";
+      saveNext.textContent = hasNext ? "Save & next" : "Submit profile";
+      saveNext.onclick = () => {
+        const missingRequired = section.fields.filter((f) => f.required && !(f.value && String(f.value).trim().length > 0));
+        if (missingRequired.length) {
+          showError(`Please complete: ${missingRequired.map((f) => f.label).join(", ")}`);
+          return;
+        }
+
+        if (hasNext) {
+          saveWidgetState({ activeSection: meta.sections[sectionIndex + 1].key });
+          renderSections(meta);
+        } else {
+          openai.notifyIntrinsicHeight?.();
+          renderStatus(openai.toolOutput || meta);
+          showError("Profile saved. All sections are complete.");
+        }
+      };
+
+      navRight.appendChild(saveNext);
+      footer.append(navLeft, navRight);
+
+      sectionCard.append(header, description, progress, fields, footer);
+      activeContainer.replaceChildren(sectionCard);
+
       if (focusedInputId) {
-        const newActiveInput = document.querySelector(`[data-section="${focusedInputId.split('-')[0]}"][data-field="${focusedInputId.split('-')[1]}"]`) as HTMLInputElement;
+        const [sectionKey, fieldKey] = focusedInputId.split('-');
+        const newActiveInput = document.querySelector(`[data-section="${sectionKey}"][data-field="${fieldKey}"]`) as HTMLInputElement;
         if (newActiveInput) {
           newActiveInput.focus();
           if (selectionStart !== null && selectionEnd !== null) {
@@ -560,6 +701,7 @@
           }
         }
       }
+
       openai.notifyIntrinsicHeight?.();
     }
 
