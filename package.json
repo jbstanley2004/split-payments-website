@@ -13,6 +13,7 @@
     "@emotion/unitless": "^0.10.0",
     "@google-cloud/storage": "^7.17.3",
     "@google/generative-ai": "^0.24.1",
+    "@modelcontextprotocol/sdk": "^1.24.3",
     "@playwright/test": "^1.56.1",
     "@radix-ui/react-slot": "^1.2.4",
     "@react-google-maps/api": "^2.20.7",
@@ -37,7 +38,8 @@
     "stylis": "^4.3.4",
     "tailwind-merge": "^3.4.0",
     "three": "^0.181.0",
-    "use-places-autocomplete": "^4.0.1"
+    "use-places-autocomplete": "^4.0.1",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.21",
