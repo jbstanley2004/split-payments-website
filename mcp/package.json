@@ -9,6 +9,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.24.3",
     "express": "^5.2.1",
+    "firebase-admin": "^13.6.0",
     "zod": "^4.1.13"
   }
 }

@@ -1,7 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import express from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import {
   buildMeta,
   buildStructuredContent,
@@ -42,126 +44,139 @@ function responsePayload(profile, message) {
   };
 }
 
-const server = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
+// Global transport map to persist sessions across requests
+const transportMap = new Map();
 
-server.registerResource(
-  "business-profile-widget",
-  templateUri,
-  {},
-  async () => ({
-    contents: [
-      {
-        uri: templateUri,
-        mimeType: "text/html+skybridge",
-        text: await loadTemplate(),
-        _meta: {
-          "openai/widgetPrefersBorder": true,
-          "openai/widgetDomain": widgetDomain,
-          "openai/widgetCSP": {
-            connect_domains: connectDomains,
-            resource_domains: ["https://*.oaistatic.com"],
+async function startServer() {
+  const server = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
+
+  server.registerResource(
+    "business-profile-widget",
+    templateUri,
+    {},
+    async () => ({
+      contents: [
+        {
+          uri: templateUri,
+          mimeType: "text/html+skybridge",
+          text: await loadTemplate(),
+          _meta: {
+            "openai/widgetPrefersBorder": true,
+            "openai/widgetDomain": widgetDomain,
+            "openai/widgetCSP": {
+              connect_domains: connectDomains,
+              resource_domains: ["https://*.oaistatic.com"],
+            },
+            "openai/widgetDescription":
+              "Guided onboarding wizard that stays in sync with Portal profile fields.",
           },
-          "openai/widgetDescription":
-            "Guided onboarding wizard that stays in sync with Portal profile fields.",
         },
-      },
-    ],
-  })
-);
+      ],
+    })
+  );
 
-server.registerTool(
-  "load_business_profile",
-  {
-    title: "Load onboarding and Portal profile",
-    description: "Loads the business onboarding wizard state and portal profile values.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
-        restart: { type: "boolean", description: "If true, clears any saved progress before loading." },
-      },
-      required: [],
+  server.registerTool(
+    "load_business_profile",
+    {
+      accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
+      restart: { type: "boolean", description: "If true, clears any saved progress before loading." },
     },
-    _meta: {
-      "openai/outputTemplate": templateUri,
-      "openai/toolInvocation/invoking": "Fetching business onboarding state…",
-      "openai/toolInvocation/invoked": "Business profile ready.",
-    },
-  },
-  async ({ accountId, restart }) => {
-    const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
-    const createdNewAccount = !accountId?.trim();
-    const profile = restart ? resetProfile(resolvedAccountId) : loadProfile(resolvedAccountId);
-    const summary = summarizeProfile(profile);
-    const message = createdNewAccount
-      ? "Created a new account and loaded onboarding."
-      : summary.onboardingStatus === "complete"
-        ? "Profile is complete."
-        : `Continuing onboarding with the ${summary.nextSection?.title ?? "next"} section.`;
-    return responsePayload(profile, message);
-  }
-);
+    async ({ accountId, restart }) => {
+      const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
+      const createdNewAccount = !accountId?.trim();
+      const profile = restart ? await resetProfile(resolvedAccountId) : await loadProfile(resolvedAccountId);
+      const summary = summarizeProfile(profile);
+      const message = createdNewAccount
+        ? "Created a new account and loaded onboarding."
+        : summary.onboardingStatus === "complete"
+          ? "Profile is complete."
+          : `Continuing onboarding with the ${summary.nextSection?.title ?? "next"} section.`;
+      return responsePayload(profile, message);
+    }
+  );
 
-server.registerTool(
-  "update_business_profile_field",
-  {
-    title: "Update a business profile field",
-    description: "Saves a field for the business onboarding wizard and Portal profile.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
-        sectionKey: { type: "string", description: "Section identifier (business_profile, contact, payments)." },
-        fieldKey: { type: "string", description: "Field identifier inside the section." },
-        value: { type: ["string", "number"], description: "Value to store." },
-      },
-      required: ["accountId", "sectionKey", "fieldKey", "value"],
+  server.registerTool(
+    "update_business_profile_field",
+    {
+      accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
+      sectionKey: { type: "string", description: "Section identifier (business_profile, contact, payments)." },
+      fieldKey: { type: "string", description: "Field identifier inside the section." },
+      value: { type: "string", description: "Value to store." },
     },
-    _meta: {
-      "openai/outputTemplate": templateUri,
-      "openai/widgetAccessible": true,
-      "openai/toolInvocation/invoking": "Saving profile change…",
-      "openai/toolInvocation/invoked": "Profile updated.",
-    },
-  },
-  async ({ accountId, sectionKey, fieldKey, value }) => {
-    const profile = updateField(accountId, sectionKey, fieldKey, String(value));
-    return responsePayload(profile, `Saved ${fieldKey} in ${sectionKey}.`);
-  }
-);
+    async ({ accountId, sectionKey, fieldKey, value }) => {
+      const profile = await updateField(accountId, sectionKey, fieldKey, String(value));
+      return responsePayload(profile, `Saved ${fieldKey} in ${sectionKey}.`);
+    }
+  );
 
-server.registerTool(
-  "reset_business_profile",
-  {
-    title: "Reset onboarding state",
-    description: "Clears saved values so the onboarding wizard can start over.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
-      },
-      required: ["accountId"],
+  server.registerTool(
+    "reset_business_profile",
+    {
+      accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
     },
-    _meta: {
-      "openai/outputTemplate": templateUri,
-      "openai/widgetAccessible": true,
-      "openai/toolInvocation/invoking": "Resetting onboarding…",
-      "openai/toolInvocation/invoked": "Onboarding state cleared.",
-    },
-  },
-  async ({ accountId }) => {
-    const profile = resetProfile(accountId);
-    return responsePayload(profile, "Started a fresh onboarding session.");
-  }
-);
+    async ({ accountId }) => {
+      const profile = await resetProfile(accountId);
+      return responsePayload(profile, "Started a fresh onboarding session.");
+    }
+  );
 
-const port = process.env.PORT || 3030;
-server
-  .listen({ port })
-  .then(() => {
-    console.log(`MCP server listening on port ${port}`);
-  })
-  .catch((error) => {
-    console.error("Failed to start MCP server", error);
-    process.exit(1);
+  const app = express();
+  
+  // CORS Middleware
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+    if (req.method === "OPTIONS") return res.sendStatus(200);
+    next();
   });
+
+  app.get("/mcp/sse", async (req, res) => {
+    console.log("New SSE connection");
+    
+    // Create a new transport
+    // Point it to the message endpoint
+    const transport = new SSEServerTransport("/mcp/messages", res);
+    
+    // Store it
+    transportMap.set(transport.sessionId, transport);
+    
+    // Clean up on close
+    transport.onclose = () => {
+        console.log(`Session closed: ${transport.sessionId}`);
+        transportMap.delete(transport.sessionId);
+    };
+
+    // Connect server to transport
+    await server.connect(transport);
+  });
+
+  app.post("/mcp/messages", async (req, res) => {
+    const sessionId = req.query.sessionId;
+    if (!sessionId) {
+        res.status(400).send("Missing sessionId");
+        return;
+    }
+    
+    const transport = transportMap.get(sessionId);
+    if (!transport) {
+        res.status(404).send("Session not found");
+        return;
+    }
+    
+    // Handle the message
+    await transport.handlePostMessage(req, res);
+  });
+
+  // Health check
+  app.get("/", (req, res) => {
+      res.send("MCP Server is running");
+  });
+
+  const port = process.env.PORT || 3030;
+  app.listen(port, () => {
+    console.log(`MCP server listening on port ${port}`);
+  });
+}
+
+startServer().catch(console.error);

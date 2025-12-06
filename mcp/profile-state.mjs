@@ -1,4 +1,7 @@
 import { randomUUID } from "node:crypto";
+import { getAdminDb } from "./firebase-setup.mjs";
+
+const COLLECTION_NAME = "mcp_business_profiles";
 
 const baseSections = [
   {
@@ -44,7 +47,7 @@ function cloneSections() {
   }));
 }
 
-function createProfile(accountId) {
+function createProfileData(accountId) {
   return {
     accountId,
     onboardingStatus: "in_progress",
@@ -68,7 +71,8 @@ function computeCompletion(sections) {
     { required: 0, completed: 0, requiredCompleted: 0 }
   );
 
-  const completion = sections.length === 0 ? 0 : Math.round((totals.completed / (sections.length * 4)) * 100);
+  const allFieldsCount = sections.reduce((sum, s) => sum + s.fields.length, 0);
+  const completion = allFieldsCount === 0 ? 0 : Math.round((totals.completed / allFieldsCount) * 100);
   const requiredCompletion = totals.required === 0 ? 0 : Math.round((totals.requiredCompleted / totals.required) * 100);
 
   return { completion, requiredCompletion };
@@ -89,37 +93,58 @@ function summarizeProfile(profile) {
   };
 }
 
-const store = new Map();
-
-function loadProfile(accountId) {
-  if (!store.has(accountId)) {
-    store.set(accountId, createProfile(accountId));
-  }
-  return store.get(accountId);
-}
-
-function resetProfile(accountId) {
-  store.set(accountId, createProfile(accountId));
-  return store.get(accountId);
-}
-
 function generateAccountId() {
   return randomUUID();
 }
 
-function updateField(accountId, sectionKey, fieldKey, value) {
-  const profile = loadProfile(accountId);
-  const section = profile.sections.find((item) => item.key === sectionKey);
-  if (!section) {
-    throw new Error(`Unknown section: ${sectionKey}`);
+async function loadProfile(accountId) {
+  const db = getAdminDb();
+  const docRef = db.collection(COLLECTION_NAME).doc(accountId);
+  const doc = await docRef.get();
+
+  if (!doc.exists) {
+    const newProfile = createProfileData(accountId);
+    await docRef.set(newProfile);
+    return newProfile;
   }
-  const field = section.fields.find((item) => item.key === fieldKey);
-  if (!field) {
-    throw new Error(`Unknown field: ${fieldKey}`);
-  }
-  field.value = value;
-  profile.lastSavedAt = new Date().toISOString();
-  return profile;
+
+  return doc.data();
+}
+
+async function resetProfile(accountId) {
+  const db = getAdminDb();
+  const docRef = db.collection(COLLECTION_NAME).doc(accountId);
+  const newProfile = createProfileData(accountId);
+  await docRef.set(newProfile);
+  return newProfile;
+}
+
+async function updateField(accountId, sectionKey, fieldKey, value) {
+  const db = getAdminDb();
+  const docRef = db.collection(COLLECTION_NAME).doc(accountId);
+  
+  return await db.runTransaction(async (t) => {
+    const doc = await t.get(docRef);
+    let profile;
+
+    if (!doc.exists) {
+      profile = createProfileData(accountId);
+    } else {
+      profile = doc.data();
+    }
+
+    const section = profile.sections.find((s) => s.key === sectionKey);
+    if (!section) throw new Error(`Unknown section: ${sectionKey}`);
+    
+    const field = section.fields.find((f) => f.key === fieldKey);
+    if (!field) throw new Error(`Unknown field: ${fieldKey}`);
+
+    field.value = value;
+    profile.lastSavedAt = new Date().toISOString();
+    
+    t.set(docRef, profile);
+    return profile;
+  });
 }
 
 function buildStructuredContent(profile) {
