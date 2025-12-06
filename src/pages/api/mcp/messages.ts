@@ -2,6 +2,16 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { transportMap } from "@/lib/mcp-server/transports";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // CORS Headers
+  res.setHeader('Access-Control-Allow-Origin', '*'); 
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== "POST") {
     res.status(405).end();
     return;
@@ -20,8 +30,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
-  // transport.handlePostMessage expects (req, res, parsedBody?)
-  // NextApiRequest is compatible with IncomingMessage
-  // NextApiResponse is compatible with ServerResponse
   await transport.handlePostMessage(req, res);
 }

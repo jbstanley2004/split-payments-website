@@ -2,30 +2,34 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { createMcpServer } from "@/lib/mcp-server/setup";
 import { transportMap } from "@/lib/mcp-server/transports";
-import fs from "fs/promises";
-import path from "path";
+import { WIDGET_TEMPLATE } from "@/lib/mcp-server/template";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // CORS Headers
+  res.setHeader('Access-Control-Allow-Origin', '*'); // Or specific origin
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+
+  if (req.method === 'OPTIONS') {
+    res.status(200).end();
+    return;
+  }
+
   if (req.method !== "GET") {
+    console.log(`MCP SSE: Method ${req.method} not allowed`);
     res.status(405).end();
     return;
   }
 
   console.log("MCP SSE: New connection request");
 
-  const loadTemplate = async () => {
-     // Try to resolve the path relative to process.cwd()
-     // In Vercel, public files are usually served, but fs access might be different.
-     // We'll try standard location.
-     const filePath = path.join(process.cwd(), "public", "mcp-widget", "profile-onboarding.html");
-     return fs.readFile(filePath, "utf8");
-  };
-
   try {
+    // Use the embedded template
+    const loadTemplate = async () => WIDGET_TEMPLATE;
+
     const server = await createMcpServer(loadTemplate);
     
     // We point the client to the messages endpoint. 
-    // We assume it's relative to the current origin.
     const transport = new SSEServerTransport("/api/mcp/messages", res);
     
     console.log(`MCP SSE: Created transport with sessionId ${transport.sessionId}`);
@@ -41,7 +45,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await server.connect(transport);
     
     // Start the transport (send headers and initial event)
-    // Note: SSEServerTransport.start() sends the 200 OK and headers.
     await transport.start();
     
     console.log("MCP SSE: Transport started");
