@@ -1,3 +1,5 @@
+import { randomUUID } from "node:crypto";
+
 const baseSections = [
   {
     key: "business_profile",
@@ -101,6 +103,10 @@ function resetProfile(accountId) {
   return store.get(accountId);
 }
 
+function generateAccountId() {
+  return randomUUID();
+}
+
 function updateField(accountId, sectionKey, fieldKey, value) {
   const profile = loadProfile(accountId);
   const section = profile.sections.find((item) => item.key === sectionKey);
@@ -136,6 +142,7 @@ function buildStructuredContent(profile) {
 
 function buildMeta(profile) {
   return {
+    accountId: profile.accountId,
     sections: profile.sections,
     lastSavedAt: profile.lastSavedAt,
   };
@@ -144,6 +151,7 @@ function buildMeta(profile) {
 export {
   buildMeta,
   buildStructuredContent,
+  generateAccountId,
   loadProfile,
   resetProfile,
   summarizeProfile,
