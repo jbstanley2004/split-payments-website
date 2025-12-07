@@ -41,6 +41,7 @@ function responsePayload(profile, message) {
 
     return {
         structuredContent: buildStructuredContent(profile),
+        toolResponseMetadata: metadata,
         content: summary.onboardingStatus === "complete" && message
             ? [
                 {
@@ -196,7 +197,8 @@ async function startServer() {
             _meta: widgetMeta,
         },
         wrapTool("reset_business_profile", async ({ accountId }) => {
-            const profile = await resetProfile(accountId);
+            const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
+            const profile = await resetProfile(resolvedAccountId);
             return responsePayload(profile, "Started a fresh onboarding session.");
         })
     );
