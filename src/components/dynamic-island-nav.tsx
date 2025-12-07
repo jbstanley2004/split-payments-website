@@ -30,6 +30,13 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const pathname = usePathname();
 
+  const toggleMobileMenu = () => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      if (navigator.vibrate) navigator.vibrate(10);
+      setIsMobileOpen((prev) => !prev);
+    }
+  };
+
   // Lock body scroll when menu is open
   useEffect(() => {
     if (isMobileOpen) {
@@ -44,10 +51,18 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
 
   return (
     <>
-      <div
-        className="fixed inset-x-0 top-0 h-20 z-40 bg-white/40 backdrop-blur-xl backdrop-saturate-150 pointer-events-none"
-        style={{ maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)' }}
-      />
+      <div className="fixed inset-x-0 top-0 z-40 h-20">
+        <div
+          className="h-full bg-white/40 backdrop-blur-xl backdrop-saturate-150 pointer-events-none"
+          style={{ maskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent 100%)' }}
+        />
+        <button
+          type="button"
+          className="absolute inset-0 h-full w-full md:hidden"
+          aria-label="Open navigation menu"
+          onClick={toggleMobileMenu}
+        />
+      </div>
       <header
         className={cn(
           "fixed inset-x-0 top-5 sm:top-6 md:top-8 z-50 flex items-center justify-between px-6 pointer-events-none",
@@ -57,12 +72,14 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
       >
         <div className="pointer-events-auto flex w-full items-center justify-between relative">
           {/* Logo - Centered on mobile, Left on desktop */}
-          <div
+          <Link
+            href="/"
+            aria-label="Split home"
             className="absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:flex md:items-center md:gap-2 z-[60] cursor-pointer"
-            onClick={() => {
-              if (window.innerWidth < 768) {
-                if (navigator.vibrate) navigator.vibrate(10);
-                setIsMobileOpen(!isMobileOpen);
+            onClick={(event) => {
+              if (typeof window !== "undefined" && window.innerWidth < 768) {
+                event.preventDefault();
+                toggleMobileMenu();
               }
             }}
           >
@@ -74,7 +91,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
               className="h-9 w-auto object-contain"
               priority={logoPriority}
             />
-          </div>
+          </Link>
 
           {/* Desktop: nav links */}
           <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
