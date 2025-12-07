@@ -58,7 +58,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
         />
         <button
           type="button"
-          className="absolute inset-0 h-full w-full md:hidden"
+          className="absolute inset-0 h-full w-full md:hidden z-[60]"
           aria-label="Open navigation menu"
           onClick={toggleMobileMenu}
         />
