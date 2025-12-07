@@ -619,18 +619,18 @@ export default function BusinessProfileView({
                     <div className="text-left py-2 pr-4 flex-1 space-y-1">
                         <div className="flex items-center gap-2 mb-0.5">
                             {isComplete ? (
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-green-600">
-                                    COMPLETE
+                                <span className="text-[10px] font-bold tracking-wider text-green-600">
+                                    Complete
                                 </span>
                             ) : (
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF4306]">
+                                <span className="text-[10px] font-bold tracking-wider text-[#FF4306]">
                                     Action Required
                                 </span>
                             )}
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                             <h3 className="text-xl font-bold text-black font-poppins leading-none mb-1">
-                                {isComplete ? baseTitle : `Complete ${baseTitle}`}
+                                {baseTitle}
                             </h3>
                         </div>
                         <p className="text-sm text-black/50 font-lora">
