@@ -423,16 +423,10 @@ export default function BusinessProfileView({
                     ? effectiveVerification.reason || 'Unable to confirm number is active.'
                     : effectiveVerification.reason || 'Unable to verify phone number.';
 
-        const showText = isChecking || !effectiveVerification.isValid;
-
         return (
             <div className={`flex items-center gap-2 mt-2 ${textClass}`}>
-                <Icon className="w-4 h-4" aria-hidden="true" />
-                {showText ? (
-                    <span className="text-xs font-semibold">{message}</span>
-                ) : (
-                    <span className="sr-only">{message}</span>
-                )}
+                <Icon className="w-4 h-4" />
+                <span className="text-xs font-semibold">{message}</span>
             </div>
         );
     };
