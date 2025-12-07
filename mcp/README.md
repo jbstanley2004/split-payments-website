@@ -5,12 +5,12 @@ This folder contains a reference MCP server plus a lightweight widget that mirro
 ## What you get
 - **HTTP MCP server** with tools to load, update, and reset onboarding/profile data.
 - **Widget template** served as `text/html+skybridge` so it renders inline in ChatGPT.
-- **Shared state model** that keeps onboarding and Portal profile answers in sync.
+- **Shared state model** that reads/writes the real Portal `applications/{uid}` documents in Firestore so answers stay in sync with the dashboard.
 
 ## Project layout
 - `server.mjs` – MCP server that registers the widget resource and three tools.
-- `profile-state.mjs` – In-memory store for onboarding/profile fields and helper summarization.
-- `widget/profile-onboarding.html` – Vanilla JS widget that renders the wizard in chat and calls tools for updates.
+- `profile-state.mjs` – Firestore-backed helpers that map the five Portal business profile sections to the `applications/{uid}` document shape.
+- `widget/profile-onboarding.html` – Vanilla JS widget that renders the wizard in chat, handles Firebase auth (sign-in/up), and calls tools for updates.
 
 ## Running locally
 1. Install dependencies in this subproject:
@@ -58,9 +58,9 @@ This folder contains a reference MCP server plus a lightweight widget that mirro
     APIs.
 
 ## Tools exposed
-- `load_business_profile` – Loads onboarding + Portal profile values and returns the widget template metadata.
-- `update_business_profile_field` – Saves a field inside a section (widget accessible).
-- `reset_business_profile` – Clears in-memory state to restart onboarding (widget accessible).
+- `load_business_profile` – Loads/creates the Portal application document for the signed-in UID and returns widget metadata.
+- `update_business_profile_field` – Saves a single field on the underlying Portal application document (widget accessible).
+- `reset_business_profile` – Clears the five profile sections back to defaults while preserving documents/messages (widget accessible).
 
 All tools include `openai/outputTemplate` metadata to render the wizard. Widget-accessible tools opt into `openai/widgetAccessible` so the iframe can call them directly.
 

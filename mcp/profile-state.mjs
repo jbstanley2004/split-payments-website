@@ -1,70 +1,121 @@
 import { randomUUID } from "node:crypto";
+import admin from "firebase-admin";
 import { getAdminDb } from "./firebase-setup.mjs";
 
-const COLLECTION_NAME = "mcp_business_profiles";
+const APPLICATION_COLLECTION = "applications";
 
 const baseSections = [
     {
         key: "business_identity",
         title: "Business Identity",
-        description: "Business basics that mirror the Portal's Business Identity card.",
+        description: "Matches the Business Identity card in the Portal.",
         fields: [
-            { key: "legalName", label: "Legal business name", required: true, value: "", helper: "Matches your government registration." },
-            { key: "dba", label: "Doing business as (DBA)", required: false, value: "", helper: "Leave blank if the same as legal name." },
-            { key: "entityType", label: "Entity type", required: true, value: "", helper: "LLC, corporation, nonprofit, or sole proprietorship." },
-            { key: "ein", label: "Tax ID (EIN)", required: true, value: "", helper: "Nine digits with no dashes." },
-            { key: "businessStartDate", label: "Business start date", required: false, value: "", helper: "Month/day/year your operations began." }
+            { key: "businessName", label: "Legal / Corporate Name", required: true, value: "", helper: "As registered with the state." },
+            { key: "dba", label: "DBA", required: false, value: "", helper: "If different from your legal name." },
+            { key: "entityType", label: "Entity Type", required: true, value: "", helper: "LLC, S-Corp, C-Corp, Sole Prop, etc." },
+            { key: "industry", label: "Industry", required: true, value: "", helper: "Retail, restaurant, professional services, etc." },
+            { key: "businessStartDate", label: "Business Start Date", required: true, value: "", helper: "YYYY-MM-DD" },
+            { key: "ein", label: "EIN", required: true, value: "", helper: "Nine digits, numbers only." },
         ],
     },
     {
         key: "contact_location",
         title: "Contact & Location",
-        description: "Contact and address details from the Portal profile tab.",
+        description: "Contact info and address used in the Portal profile.",
         fields: [
-            { key: "physicalAddress", label: "Physical business address", required: true, value: "", helper: "Street, suite, and city information." },
-            { key: "cityStateZip", label: "City, state, ZIP", required: true, value: "", helper: "Matches your billing and mailing location." },
-            { key: "businessPhone", label: "Business phone", required: true, value: "", helper: "Include country code if international." },
-            { key: "supportEmail", label: "Support email", required: true, value: "", helper: "Where customers and Split can reach you." },
-            { key: "website", label: "Website", required: false, value: "", helper: "Primary marketing or ordering site." },
+            { key: "physicalAddress", label: "Physical Business Address", required: true, value: "", helper: "Street address" },
+            { key: "cityStateZip", label: "City, State, ZIP", required: true, value: "", helper: "City, state, and ZIP code" },
+            { key: "businessPhone", label: "Business Phone", required: true, value: "", helper: "Formatted phone number" },
+            { key: "email", label: "Business Email", required: true, value: "", helper: "Where Split can reach you" },
+            { key: "website", label: "Website", required: false, value: "", helper: "Optional marketing or ordering site" },
         ],
     },
     {
         key: "financial_information",
         title: "Financial Information",
-        description: "Banking and processing details used during underwriting.",
+        description: "Processing volumes and product/service details.",
         fields: [
-            { key: "monthlyRevenue", label: "Monthly revenue", required: true, value: "", helper: "Average monthly sales volume." },
-            { key: "annualRevenue", label: "Annual revenue", required: true, value: "", helper: "Most recent full-year revenue." },
-            { key: "averageTicketSize", label: "Average ticket size", required: true, value: "", helper: "Typical order amount." },
-            { key: "highTicketAmount", label: "Highest ticket amount", required: true, value: "", helper: "Largest transaction you process." },
-            { key: "statementUrl", label: "Merchant statements link", required: false, value: "", helper: "URL where recent statements live." },
+            { key: "monthlyRevenue", label: "Monthly Processing Volume", required: true, value: "", helper: "Average monthly sales" },
+            { key: "annualRevenue", label: "Annual Revenue", required: true, value: "", helper: "Most recent full-year revenue" },
+            { key: "averageTicketSize", label: "Average Ticket Size", required: true, value: "", helper: "Typical order amount" },
+            { key: "highTicketAmount", label: "High Ticket Amount", required: true, value: "", helper: "Largest transaction size" },
+            { key: "productServiceDescription", label: "Product / Service Description", required: true, value: "", helper: "What you sell or offer" },
         ],
     },
     {
         key: "equipment_information",
         title: "Equipment Information",
-        description: "Hardware split between card-present and card-not-present sales.",
+        description: "Matches the Equipment section in the Portal.",
         fields: [
-            { key: "terminalMake", label: "Terminal make", required: true, value: "", helper: "Example: Verifone, Clover, Ingenico." },
-            { key: "terminalModel", label: "Terminal model", required: true, value: "", helper: "Model or SKU used in your stores." },
-            { key: "cardPresentPercentage", label: "Card-present %", required: true, value: "", helper: "Percent of transactions that are swiped, dipped, or tapped." },
-            { key: "cardNotPresentPercentage", label: "Card-not-present %", required: true, value: "", helper: "Percent of transactions keyed or online." },
-            { key: "equipmentTypes", label: "Equipment types", required: false, value: "", helper: "POS, terminals, mobile readers, etc." },
+            { key: "make", label: "Equipment Make", required: true, value: "", helper: "e.g. Clover, Verifone, Ingenico" },
+            { key: "model", label: "Equipment Model", required: true, value: "", helper: "Device or POS model" },
+            { key: "cardPresentPercentage", label: "Card-Present %", required: true, value: "", helper: "0-100" },
+            { key: "cardNotPresentPercentage", label: "Card-Not-Present %", required: true, value: "", helper: "0-100" },
+            { key: "equipmentTypes", label: "Equipment Types", required: false, value: "", helper: "Comma-separated (POS, countertop, mobile, etc.)" },
         ],
     },
     {
         key: "owner_information",
         title: "Owner Information",
-        description: "Control person identity that matches the Portal owner card.",
+        description: "Control person details from the Portal Owner card.",
         fields: [
-            { key: "ownerName", label: "Owner full name", required: true, value: "", helper: "As shown on legal ID." },
-            { key: "title", label: "Title", required: true, value: "", helper: "Role at the business (e.g., CEO, Managing Member)." },
-            { key: "cellPhone", label: "Mobile phone", required: true, value: "", helper: "Use a number we can text for verification." },
-            { key: "homeAddress", label: "Home address", required: true, value: "", helper: "Street, city, state, and ZIP." },
-            { key: "ssn", label: "SSN (last 4 ok)", required: true, value: "", helper: "Numbers only; no dashes." },
+            { key: "fullName", label: "Owner Full Name", required: true, value: "", helper: "As shown on legal ID" },
+            { key: "title", label: "Title / Role", required: true, value: "", helper: "CEO, Owner, Managing Member, etc." },
+            { key: "cellPhone", label: "Mobile Phone", required: true, value: "", helper: "SMS-capable number" },
+            { key: "homeAddress", label: "Home Address", required: true, value: "", helper: "Street, city, state, ZIP" },
+            { key: "ssn", label: "SSN", required: true, value: "", helper: "Numbers only" },
         ],
     },
 ];
+
+const FIELD_PATHS = {
+    business_identity: {
+        businessName: ["businessInfo", "businessName"],
+        dba: ["businessInfo", "dba"],
+        entityType: ["businessInfo", "entityType"],
+        industry: ["businessInfo", "industry"],
+        businessStartDate: ["businessInfo", "businessStartDate"],
+        ein: ["businessInfo", "ein"],
+    },
+    contact_location: {
+        physicalAddress: ["contactInfo", "physicalAddress"],
+        cityStateZip: ["contactInfo", "cityStateZip"],
+        businessPhone: ["contactInfo", "businessPhone"],
+        email: ["contactInfo", "email"],
+        website: ["contactInfo", "website"],
+    },
+    financial_information: {
+        monthlyRevenue: ["businessInfo", "monthlyRevenue"],
+        annualRevenue: ["businessInfo", "annualRevenue"],
+        averageTicketSize: ["businessInfo", "averageTicketSize"],
+        highTicketAmount: ["businessInfo", "highTicketAmount"],
+        productServiceDescription: ["businessInfo", "productServiceDescription"],
+    },
+    equipment_information: {
+        make: ["equipmentInfo", "make"],
+        model: ["equipmentInfo", "model"],
+        cardPresentPercentage: ["equipmentInfo", "cardPresentPercentage"],
+        cardNotPresentPercentage: ["equipmentInfo", "cardNotPresentPercentage"],
+        equipmentTypes: ["equipmentInfo", "equipmentTypes"],
+    },
+    owner_information: {
+        fullName: ["ownerInfo", "fullName"],
+        title: ["ownerInfo", "title"],
+        cellPhone: ["ownerInfo", "cellPhone"],
+        homeAddress: ["ownerInfo", "homeAddress"],
+        ssn: ["ownerInfo", "ssn"],
+    },
+};
+
+const NUMBER_FIELDS = new Set([
+    "monthlyRevenue",
+    "annualRevenue",
+    "averageTicketSize",
+    "highTicketAmount",
+]);
+
+const PERCENT_FIELDS = new Set(["cardPresentPercentage", "cardNotPresentPercentage"]);
+const ARRAY_FIELDS = new Set(["equipmentTypes"]);
 
 function cloneSections() {
     return baseSections.map((section) => ({
@@ -73,13 +124,68 @@ function cloneSections() {
     }));
 }
 
-function createProfileData(accountId) {
-    return {
-        accountId,
-        onboardingStatus: "in_progress",
-        sections: cloneSections(),
-        lastSavedAt: new Date().toISOString(),
-    };
+function getValueAtPath(data, path) {
+    return path.reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), data);
+}
+
+function setValueAtPath(data, path, value) {
+    let ref = data;
+    for (let i = 0; i < path.length - 1; i++) {
+        const key = path[i];
+        if (typeof ref[key] !== "object" || ref[key] === null) {
+            ref[key] = {};
+        }
+        ref = ref[key];
+    }
+    ref[path[path.length - 1]] = value;
+}
+
+function formatFieldValue(raw) {
+    if (raw === undefined || raw === null) return "";
+    if (Array.isArray(raw)) return raw.join(", ");
+    return String(raw);
+}
+
+function normalizeFieldValue(sectionKey, fieldKey, raw) {
+    const value = raw === undefined || raw === null ? "" : raw;
+
+    if (ARRAY_FIELDS.has(fieldKey)) {
+        if (Array.isArray(value)) return value;
+        return String(value)
+            .split(/[,;\n]/)
+            .map((v) => v.trim())
+            .filter(Boolean);
+    }
+
+    if (PERCENT_FIELDS.has(fieldKey)) {
+        const num = Number(String(value).replace(/[^0-9.-]/g, ""));
+        if (!Number.isFinite(num)) return "";
+        return Math.min(100, Math.max(0, Math.round(num)));
+    }
+
+    if (NUMBER_FIELDS.has(fieldKey)) {
+        const num = Number(String(value).replace(/[^0-9.-]/g, ""));
+        return Number.isFinite(num) ? num : "";
+    }
+
+    return String(value).trim();
+}
+
+function hasValue(field) {
+    const fieldValue = field?.value;
+    if (fieldValue === null || fieldValue === undefined) return false;
+    if (Array.isArray(fieldValue)) return fieldValue.length > 0;
+
+    const asString = String(fieldValue).trim();
+    if (asString.length === 0) return false;
+
+    if (NUMBER_FIELDS.has(field.key)) {
+        // Treat zero as incomplete for revenue/ticket fields to mirror the Portal UI.
+        return asString !== "0";
+    }
+
+    // Percent fields can legitimately be 0/100, so count zero as provided.
+    return true;
 }
 
 function computeCompletion(sections) {
@@ -87,7 +193,7 @@ function computeCompletion(sections) {
         (acc, section) => {
             section.fields.forEach((field) => {
                 if (field.required) acc.required += 1;
-                if (field.value && field.value.trim().length > 0) {
+                if (hasValue(field)) {
                     acc.completed += 1;
                     if (field.required) acc.requiredCompleted += 1;
                 }
@@ -107,7 +213,7 @@ function computeCompletion(sections) {
 function summarizeProfile(profile) {
     const { completion, requiredCompletion } = computeCompletion(profile.sections);
     const firstIncomplete = profile.sections.find((section) =>
-        section.fields.some((field) => field.required && !field.value)
+        section.fields.some((field) => field.required && !hasValue(field))
     );
 
     return {
@@ -123,54 +229,86 @@ function generateAccountId() {
     return randomUUID();
 }
 
-async function loadProfile(accountId) {
-    const db = getAdminDb();
-    const docRef = db.collection(COLLECTION_NAME).doc(accountId);
-    const doc = await docRef.get();
+function createInitialApplicationData(email = "") {
+    const now = admin.firestore.Timestamp.now();
+    return {
+        approvalAmount: 25000,
+        stage: "pending_documents",
+        progressPercentage: 0,
+        businessInfo: {
+            businessName: "",
+            dba: "",
+            entityType: "",
+            industry: "",
+            businessStartDate: "",
+            ein: "",
+            monthlyRevenue: 0,
+            annualRevenue: 0,
+            highTicketAmount: 0,
+            averageTicketSize: 0,
+            productServiceDescription: "",
+        },
+        contactInfo: {
+            physicalAddress: "",
+            cityStateZip: "",
+            businessPhone: "",
+            email,
+            website: "",
+        },
+        ownerInfo: {
+            fullName: "",
+            title: "",
+            cellPhone: "",
+            homeAddress: "",
+            ssn: "",
+        },
+        equipmentInfo: {
+            make: "",
+            model: "",
+            cardPresentPercentage: 0,
+            cardNotPresentPercentage: 0,
+            equipmentTypes: [],
+        },
+        documents: [],
+        messages: [],
+        verificationInfo: {
+            status: "pending",
+            lastCheck: null,
+        },
+        createdAt: now,
+        updatedAt: now,
+        completedSections: [],
+    };
+}
 
-    if (!doc.exists) {
-        const newProfile = createProfileData(accountId);
-        await docRef.set(newProfile);
-        return newProfile;
+async function resolveUserEmail(accountId) {
+    try {
+        const user = await admin.auth().getUser(accountId);
+        return user.email || "";
+    } catch (error) {
+        console.warn(`[profile-state] Unable to resolve user email for ${accountId}:`, error.message);
+        return "";
     }
-
-    return doc.data();
 }
 
-async function resetProfile(accountId) {
-    const db = getAdminDb();
-    const docRef = db.collection(COLLECTION_NAME).doc(accountId);
-    const newProfile = createProfileData(accountId);
-    await docRef.set(newProfile);
-    return newProfile;
-}
+function buildProfileFromApplication(appData, accountId) {
+    const sections = cloneSections().map((section) => ({
+        ...section,
+        fields: section.fields.map((field) => {
+            const path = FIELD_PATHS[section.key]?.[field.key];
+            const rawValue = path ? getValueAtPath(appData, path) : undefined;
+            return { ...field, value: formatFieldValue(rawValue) };
+        }),
+    }));
 
-async function updateField(accountId, sectionKey, fieldKey, value) {
-    const db = getAdminDb();
-    const docRef = db.collection(COLLECTION_NAME).doc(accountId);
+    const profile = {
+        accountId,
+        sections,
+        lastSavedAt: appData.updatedAt?.toDate ? appData.updatedAt.toDate().toISOString() : new Date().toISOString(),
+    };
 
-    return await db.runTransaction(async (t) => {
-        const doc = await t.get(docRef);
-        let profile;
-
-        if (!doc.exists) {
-            profile = createProfileData(accountId);
-        } else {
-            profile = doc.data();
-        }
-
-        const section = profile.sections.find((s) => s.key === sectionKey);
-        if (!section) throw new Error(`Unknown section: ${sectionKey}`);
-
-        const field = section.fields.find((f) => f.key === fieldKey);
-        if (!field) throw new Error(`Unknown field: ${fieldKey}`);
-
-        field.value = value;
-        profile.lastSavedAt = new Date().toISOString();
-
-        t.set(docRef, profile);
-        return profile;
-    });
+    const summary = summarizeProfile(profile);
+    return { ...profile, onboardingStatus: summary.onboardingStatus };
 }
 
 function buildStructuredContent(profile) {
@@ -185,7 +323,7 @@ function buildStructuredContent(profile) {
         sections: profile.sections.map((section) => ({
             key: section.key,
             title: section.title,
-            requiredFieldsCompleted: section.fields.filter((field) => field.required && field.value).length,
+            requiredFieldsCompleted: section.fields.filter((field) => field.required && hasValue(field)).length,
             totalRequiredFields: section.fields.filter((field) => field.required).length,
         })),
     };
@@ -197,6 +335,75 @@ function buildMeta(profile) {
         sections: profile.sections,
         lastSavedAt: profile.lastSavedAt,
     };
+}
+
+async function loadProfile(accountId) {
+    const db = getAdminDb();
+    const docRef = db.collection(APPLICATION_COLLECTION).doc(accountId);
+    let doc = await docRef.get();
+
+    if (!doc.exists) {
+        const email = await resolveUserEmail(accountId);
+        const initial = createInitialApplicationData(email);
+        await docRef.set(initial);
+        doc = await docRef.get();
+    }
+
+    return buildProfileFromApplication(doc.data(), accountId);
+}
+
+async function resetProfile(accountId) {
+    const db = getAdminDb();
+    const docRef = db.collection(APPLICATION_COLLECTION).doc(accountId);
+    const doc = await docRef.get();
+    const existing = doc.exists ? doc.data() : {};
+    const email = existing?.contactInfo?.email || (await resolveUserEmail(accountId));
+    const initial = createInitialApplicationData(email);
+
+    const resetData = {
+        ...existing,
+        ...initial,
+        documents: existing?.documents ?? [],
+        messages: existing?.messages ?? [],
+        approvalAmount: existing?.approvalAmount ?? initial.approvalAmount,
+        createdAt: existing?.createdAt ?? initial.createdAt,
+    };
+
+    await docRef.set(resetData, { merge: false });
+    return buildProfileFromApplication(resetData, accountId);
+}
+
+async function updateField(accountId, sectionKey, fieldKey, value) {
+    const db = getAdminDb();
+    const docRef = db.collection(APPLICATION_COLLECTION).doc(accountId);
+    const userEmail = await resolveUserEmail(accountId);
+
+    return await db.runTransaction(async (t) => {
+        const doc = await t.get(docRef);
+        const exists = doc.exists;
+        const current = exists ? doc.data() : createInitialApplicationData(userEmail);
+
+        const path = FIELD_PATHS[sectionKey]?.[fieldKey];
+        if (!path) throw new Error(`Unknown field: ${sectionKey}.${fieldKey}`);
+
+        const normalized = normalizeFieldValue(sectionKey, fieldKey, value);
+        setValueAtPath(current, path, normalized);
+
+        if (!current.contactInfo) current.contactInfo = {};
+        if (!current.contactInfo.email && userEmail) current.contactInfo.email = userEmail;
+
+        const timestamp = admin.firestore.Timestamp.now();
+        current.updatedAt = timestamp;
+
+        if (exists) {
+            const payload = { updatedAt: timestamp, [path.join(".")]: normalized };
+            t.set(docRef, payload, { merge: true });
+        } else {
+            t.set(docRef, current, { merge: false });
+        }
+
+        return buildProfileFromApplication(current, accountId);
+    });
 }
 
 export {
