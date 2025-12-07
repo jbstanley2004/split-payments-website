@@ -117,6 +117,7 @@ async function startServer() {
                 console.log(`tool ${name} success`, {
                     args,
                     metaKeys: meta ? Object.keys(meta) : [],
+                    contentKeys: result ? Object.keys(result) : [],
                     contentSize,
                 });
                 return result;
