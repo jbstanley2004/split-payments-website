@@ -37,19 +37,10 @@ async function loadTemplate() {
 
 function responsePayload(profile, message) {
     const metadata = { ...buildMeta(profile), ...widgetMeta };
-    const summary = summarizeProfile(profile);
-
     return {
         structuredContent: buildStructuredContent(profile),
         toolResponseMetadata: metadata,
-        content: summary.onboardingStatus === "complete" && message
-            ? [
-                {
-                    type: "text",
-                    text: message,
-                },
-            ]
-            : [],
+        content: [],
         _meta: metadata,
     };
 }
@@ -123,6 +114,7 @@ async function startServer() {
                     contentSize,
                     structuredPreview,
                 });
+                console.log(`tool ${name} result`, result);
                 return result;
             } catch (err) {
                 console.error(`tool ${name} failed`, { args, error: err });
@@ -149,13 +141,7 @@ async function startServer() {
             const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
             const createdNewAccount = !accountId?.trim();
             const profile = restart ? await resetProfile(resolvedAccountId) : await loadProfile(resolvedAccountId);
-            const summary = summarizeProfile(profile);
-            const message = createdNewAccount
-                ? "Created a new account and loaded onboarding."  // This message is for the LLM
-                : summary.onboardingStatus === "complete"
-                    ? "Profile is complete."
-                    : `Continuing onboarding with the ${summary.nextSection?.title ?? "next"} section.`;
-            return responsePayload(profile, message);
+            return responsePayload(profile, createdNewAccount ? "Created new account" : "Loaded profile");
         })
     );
 
@@ -199,7 +185,7 @@ async function startServer() {
         wrapTool("reset_business_profile", async ({ accountId }) => {
             const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
             const profile = await resetProfile(resolvedAccountId);
-            return responsePayload(profile, "Started a fresh onboarding session.");
+            return responsePayload(profile, "Reset profile");
         })
     );
 
