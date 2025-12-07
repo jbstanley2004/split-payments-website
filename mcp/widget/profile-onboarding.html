@@ -503,8 +503,7 @@
       if (field) {
         field.value = value; // Update the internal data model
         renderStatus(openai.toolOutput || state.metadata); // Re-render status bar if needed
-        // No full renderSections call here!
-        advanceIfComplete(sectionKey, state.metadata);
+        // No auto-advance; user controls navigation with buttons.
       }
 
       // Asynchronously call the tool to persist to the backend (Firestore)
