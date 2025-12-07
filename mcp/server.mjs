@@ -374,8 +374,14 @@ async function startServer() {
     const port = process.env.PORT || 3030;
     const httpServer = createServer(app);
     httpServer.listen(port, () => {
+        // Avoid instanceof on undefined Http2Server in some runtimes
+        const serverKind = httpServer?.constructor?.name || "UnknownServer";
+        const isHttp2 =
+            (http2 && typeof http2.Http2Server === "function" && httpServer instanceof http2.Http2Server) ||
+            serverKind.toLowerCase().includes("http2");
+
         console.log(
-            `MCP server listening on port ${port} with HTTP/${httpServer instanceof http2.Http2Server ? "2 (h2c fallback enabled)" : "1.1"}`
+            `MCP server listening on port ${port} with HTTP/${isHttp2 ? "2 (h2c fallback enabled)" : "1.1"} (${serverKind})`
         );
     });
 }

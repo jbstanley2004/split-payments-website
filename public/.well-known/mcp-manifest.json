@@ -10,7 +10,7 @@
   },
   "server": {
     "transport": "http",
-    "url": "https://v0-qd-0k0-bcu8-a9-ms.vercel.app/api/chatgpt-mcp"
+    "url": "https://34-58-90-123.nip.io/mcp"
   },
   "capabilities": {
     "tools": true,
