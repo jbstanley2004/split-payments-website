@@ -20,7 +20,7 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
-  { label: "Portal", href: "/portal/dashboard" },
+  { label: "Portal", href: "/portal/dashboard", badge: "beta" },
   // { label: "Partnerships", href: "/partnerships" },
 ] as const;
 
@@ -112,7 +112,14 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                       className="w-1.5 h-1.5 rounded-full bg-[#FF4306]"
                     />
                   )}
-                  <span>{item.label}</span>
+                  <span className="flex items-center gap-2">
+                    <span>{item.label}</span>
+                    {item.badge && (
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.12em] rounded-full bg-gradient-to-r from-[#111111] via-[#2B2B2B] to-[#555555] text-white px-2 py-0.5 shadow-sm border border-white/10">
+                        {item.badge}
+                      </span>
+                    )}
+                  </span>
                 </Link>
               );
             })}
@@ -213,7 +220,14 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                               className="absolute left-2 w-1.5 h-1.5 rounded-full bg-[#FF4306]"
                             />
                           )}
-                          <span className="text-lg font-medium font-poppins">{item.label}</span>
+                          <span className="flex items-center gap-3 text-lg font-medium font-poppins">
+                            <span>{item.label}</span>
+                            {item.badge && (
+                              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] rounded-full bg-black text-white px-2.5 py-1 shadow-sm border border-white/10">
+                                {item.badge}
+                              </span>
+                            )}
+                          </span>
                         </Link>
                       </motion.div>
                     );
