@@ -717,9 +717,6 @@ export default function BusinessProfileView({
                         className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.dba ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="e.g. Acme Shop"
                     />
-                    {!localBusinessInfo.dba && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Entity Type</label>
@@ -735,9 +732,6 @@ export default function BusinessProfileView({
                         <option value="Sole Prop" className="text-black">Sole Proprietorship</option>
                         <option value="Partnership" className="text-black">General Partnership</option>
                     </select>
-                    {!localBusinessInfo.entityType && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Industry</label>
@@ -745,13 +739,9 @@ export default function BusinessProfileView({
                         type="text"
                         value={localBusinessInfo.industry || ''}
                         onChange={(e) => updateBusinessField('industry', e.target.value)}
-                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.industry ? "bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300" : "bg-[#F6F5F4]"
-                            }`}
+                        className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                         placeholder="e.g. Retail"
                     />
-                    {!localBusinessInfo.industry && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Business Start Date</label>
@@ -761,9 +751,6 @@ export default function BusinessProfileView({
                         onChange={(e) => updateBusinessField('businessStartDate', e.target.value)}
                         className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base text-black focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                     />
-                    {!localBusinessInfo.businessStartDate && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>EIN (Employer ID Number)</label>
@@ -784,9 +771,6 @@ export default function BusinessProfileView({
                         className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.ein ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="XX-XXXXXXX"
                     />
-                    {!localBusinessInfo.ein && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                     {localBusinessInfo.ein && !einVerification.isValid && (
                         <p className="text-xs text-orange-600 mt-1 font-medium">{einVerification.reason}</p>
                     )}
@@ -844,9 +828,6 @@ export default function BusinessProfileView({
                             placeholder="Apartment, suite, etc. (optional)"
                         />
                     </div>
-                    {!localContactInfo.physicalAddress && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Business Phone</label>
@@ -927,8 +908,7 @@ export default function BusinessProfileView({
                             value={localBusinessInfo.monthlyRevenue || ''}
                             onChange={(e) => updateBusinessField('monthlyRevenue', sanitizeCurrencyInput(e.target.value))}
                             inputMode="decimal"
-                            className={`w-full border-transparent rounded-xl pl-8 pr-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.monthlyRevenue ? "bg-orange-50 border-orange-200 text-orange-900 placeholder-orange-300" : "bg-[#F6F5F4]"
-                                }`}
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-xl pl-8 pr-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                             placeholder="0.00"
                         />
                     </div>
@@ -971,25 +951,19 @@ export default function BusinessProfileView({
                             value={localBusinessInfo.averageTicketSize || ''}
                             onChange={(e) => updateBusinessField('averageTicketSize', sanitizeCurrencyInput(e.target.value))}
                             inputMode="decimal"
-                            className={`w-full border-transparent rounded-xl pl-8 pr-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localBusinessInfo.averageTicketSize ? 'bg-orange-50 text-black placeholder-orange-300' : 'bg-[#F6F5F4] text-black'}`}
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-xl pl-8 pr-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                             placeholder="0"
                         />
                     </div>
-                    {!localBusinessInfo.averageTicketSize && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div className="col-span-1 md:col-span-2">
                     <label className={`${primaryLabelClass} mb-2`}>Description of Product/Service</label>
                     <textarea
                         value={localBusinessInfo.productServiceDescription || ''}
                         onChange={(e) => updateBusinessField('productServiceDescription', e.target.value)}
-                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all resize-none h-32 ${!localBusinessInfo.productServiceDescription ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
+                        className="w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all resize-none h-32 bg-[#F6F5F4]"
                         placeholder="What do you sell or offer?"
                     />
-                    {!localBusinessInfo.productServiceDescription && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div className="col-span-1 md:col-span-2 mt-4">
                     <label className={`${primaryLabelClass} mb-4`}>Verification Document</label>
@@ -1124,9 +1098,6 @@ export default function BusinessProfileView({
                             placeholder="Apartment, suite, etc. (optional)"
                         />
                     </div>
-                    {!localEquipmentInfo.shippingAddress && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for shipping equipment</p>
-                    )}
                 </div>
 
                 <div className="col-span-1 md:col-span-2">
@@ -1253,9 +1224,6 @@ export default function BusinessProfileView({
                         className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.title ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="CEO, Owner, etc."
                     />
-                    {!localOwnerInfo.title && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Cell Phone</label>
@@ -1282,9 +1250,6 @@ export default function BusinessProfileView({
                             inline
                         />
                     </div>
-                    {!localOwnerInfo.cellPhone && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div className="col-span-1 md:col-span-2">
                     <AddressAutocomplete
@@ -1314,9 +1279,6 @@ export default function BusinessProfileView({
                             placeholder="Apartment, suite, etc. (optional)"
                         />
                     </div>
-                    {!localOwnerInfo.homeAddress && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Social Security Number</label>
@@ -1337,9 +1299,6 @@ export default function BusinessProfileView({
                         className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.ssn ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
                         placeholder="XXX-XX-XXXX"
                     />
-                    {!localOwnerInfo.ssn && (
-                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
-                    )}
                     {localOwnerInfo.ssn && !ssnVerification.isValid && (
                         <p className="text-xs text-orange-600 mt-1 font-medium">{ssnVerification.reason}</p>
                     )}
