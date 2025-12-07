@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f6f5f4;
+      --panel: #ffffff;
+      --border: #e5e7eb;
+      --muted: #6b7280;
+      --accent: #111827;
+      --accent-strong: #0f172a;
+      --text: #0b0f1a;
+      --card: #ffffff;
+      --pill: #f97316;
+      --pill-text: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 30px 80px rgba(17, 24, 39, 0.08);
+    }
+
+    h1 {
+      font-size: 20px;
+      margin: 0 0 8px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    /* Auth Styles */
+    .auth-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 10px 0;
+    }
+
+    .auth-input {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: #f3f4f6;
+      color: var(--text);
+      font-size: 14px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    .auth-input:focus {
+      outline: 2px solid rgba(0, 0, 0, 0.05);
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    .auth-btn {
+      background: var(--accent);
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .auth-btn:hover {
+      opacity: 0.95;
+    }
+
+    .auth-btn.secondary {
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--accent);
+    }
+
+    .link-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 12px;
+    }
+
+    .link-btn:hover {
+      color: var(--accent);
+    }
+
+    .error-msg {
+      color: #ef4444;
+      font-size: 13px;
+      margin-top: 4px;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    .divider {
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 4px 0;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+
+    .pill {
+      padding: 4px 10px;
+      background: var(--pill);
+      color: var(--pill-text);
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.01em;
+    }
+
+    .stepper {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 16px 0 12px;
+    }
+
+    .step-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(17, 24, 39, 0.06);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .step-pill:hover {
+      transform: translateY(-2px);
+      border-color: rgba(17, 24, 39, 0.1);
+    }
+
+    .step-pill[data-active="true"] {
+      border-color: #111827;
+      box-shadow: 0 20px 40px rgba(17, 24, 39, 0.12);
+    }
+
+    .step-index {
+      width: 28px;
+      height: 28px;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .step-pill[data-complete="true"] .step-index {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .step-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .step-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: #0b0f1a;
+    }
+
+    .step-subtitle {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .section-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+      background: linear-gradient(180deg, #ffffff, #f9fafb);
+      box-shadow: 0 25px 70px rgba(17, 24, 39, 0.12);
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .progress {
+      height: 10px;
+      background: #f3f4f6;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 12px 0;
+      border: 1px solid #e5e7eb;
+    }
+
+    .progress>span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, #111827, #0f172a);
+    }
+
+    .fields {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    label {
+      font-size: 13px;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    input.field-input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #f3f4f6;
+      color: var(--text);
+      box-sizing: border-box;
+    }
+
+    input.field-input:focus {
+      outline: 2px solid rgba(17, 24, 39, 0.08);
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    .helper {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 8px;
+    }
+
+    button.action-btn {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .empty {
+      text-align: center;
+      padding: 32px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="panel">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+      <h1>Business onboarding</h1>
+      <button id="logoutBtn" class="link-btn" style="display:none">Sign Out</button>
+    </div>
+
+    <!-- AUTH VIEW -->
+    <div id="authView">
+      <div class="subtitle">Sign in to sync your profile with the Portal.</div>
+      <div class="auth-container">
+        <input type="email" id="email" class="auth-input" placeholder="Email address" />
+        <input type="password" id="password" class="auth-input" placeholder="Password" />
+
+        <button id="signInBtn" class="auth-btn">Sign In</button>
+        <div class="divider">or</div>
+        <button id="signUpBtn" class="auth-btn secondary">Create Account</button>
+
+        <div id="authError" class="error-msg"></div>
+      </div>
+    </div>
+
+    <!-- APP VIEW -->
+    <div id="appView" style="display:none">
+      <div class="subtitle">Drive the same flow the Portal uses to collect business profile details.</div>
+      <div class="status-row" id="statusRow"></div>
+      <div id="flowError" class="error-msg"></div>
+      <div id="stepper"></div>
+      <div id="activeSection"></div>
+      <div class="actions">
+        <button id="refresh" class="action-btn">Reload profile</button>
+        <button class="secondary action-btn" id="reset">Reset progress</button>
+      </div>
+    </div>
+  </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDGIywlZJ4bPn84s5FYNx6v27-tO3f3SWA",
+      authDomain: "gen-lang-client-0255740881.firebaseapp.com",
+      projectId: "gen-lang-client-0255740881",
+      storageBucket: "gen-lang-client-0255740881.firebasestorage.app",
+      messagingSenderId: "504416778150",
+      appId: "1:504416778150:web:4ee874644b209c51d58167"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const openai = window.openai;
+    let state = { ...(openai.widgetState || {}) };
+    let currentUser = null;
+
+    function showError(msg) {
+      document.getElementById("authError").textContent = msg;
+      const flowError = document.getElementById("flowError");
+      if (flowError) flowError.textContent = msg;
+      setTimeout(() => {
+        document.getElementById("authError").textContent = "";
+        if (flowError) flowError.textContent = "";
+      }, 5000);
+    }
+
+    // AUTH HANDLERS
+    document.getElementById("signInBtn").onclick = async () => {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+      if (!email || !pass) return showError("Please enter email and password");
+      try {
+        await signInWithEmailAndPassword(auth, email, pass);
+      } catch (e) {
+        showError(e.message);
+      }
+    };
+
+    document.getElementById("signUpBtn").onclick = async () => {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("password").value;
+      if (!email || !pass) return showError("Please enter email and password");
+      try {
+        await createUserWithEmailAndPassword(auth, email, pass);
+      } catch (e) {
+        showError(e.message);
+      }
+    };
+
+    document.getElementById("logoutBtn").onclick = () => {
+      signOut(auth);
+    };
+
+    // UI STATE MANAGEMENT
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        document.getElementById("authView").style.display = "none";
+        document.getElementById("logoutBtn").style.display = "block";
+        document.getElementById("appView").style.display = "block";
+
+        state.accountId = user.uid;
+        initData();
+      } else {
+        currentUser = null;
+        document.getElementById("authView").style.display = "block";
+        document.getElementById("logoutBtn").style.display = "none";
+        document.getElementById("appView").style.display = "none";
+        state.accountId = null;
+        renderSections(null); // Clear sections if logged out
+        renderStatus(null); // Clear status if logged out
+      }
+    });
+
+    function formatPercent(value) {
+      return `${Math.min(100, Math.max(0, Math.round(value ?? 0)))}%`;
+    }
+
+    function renderStatus(data) {
+      const container = document.getElementById("statusRow");
+      if (!data) {
+        container.innerHTML = '';
+        return;
+      }
+      const completion = formatPercent(data?.completionPercent);
+      const required = formatPercent(data?.requiredCompletionPercent);
+      const pill = document.createElement("span");
+      pill.className = "pill";
+      pill.textContent = data?.onboardingStatus === "complete" ? "Complete" : "In progress";
+      const status = document.createElement("div");
+      status.textContent = `Required fields: ${required}`;
+      const next = document.createElement("div");
+      next.textContent = data?.nextSection ? `Next: ${data.nextSection.title}` : "All sections reviewed.";
+      container.replaceChildren(pill, status, next);
+    }
+
+    function resolveAccountId(metadata) {
+      if (currentUser) return currentUser.uid;
+
+      const candidate =
+        state.accountId ||
+        metadata?.accountId ||
+        openai.toolResponseMetadata?.accountId ||
+        openai.toolOutput?.accountId;
+
+      return candidate && String(candidate).trim().length > 0 ? String(candidate) : null;
+    }
+
+    function resolveMetadata() {
+      return (
+        openai.toolResponseMetadata ||
+        openai.toolOutput?.toolResponseMetadata ||
+        openai.toolOutput?._meta ||
+        state.metadata
+      );
+    }
+
+    function isSectionComplete(section) {
+      if (!section?.fields?.length) return false;
+      return section.fields.every((field) => !field.required || (field.value && String(field.value).trim().length > 0));
+    }
+
+    function advanceIfComplete(sectionKey, meta) {
+      const metadata = meta || resolveMetadata();
+      const sections = metadata?.sections || [];
+      const index = sections.findIndex((s) => s.key === sectionKey);
+      if (index === -1) return;
+
+      const section = sections[index];
+      if (!isSectionComplete(section)) return;
+
+      const nextSection = sections[index + 1];
+      if (nextSection) {
+        saveWidgetState({ activeSection: nextSection.key, metadata });
+        renderSections(metadata);
+      }
+    }
+
+    function saveWidgetState(partial) {
+      const next = { ...state, ...partial };
+      state = next;
+      openai.setWidgetState(next);
+    }
+
+    // Map of current input elements to keep track of their values and prevent re-render issues
+    const currentInputValues = new Map();
+
+    function onInputChange(event) {
+      const input = event.target;
+      const sectionKey = input.dataset.section;
+      const fieldKey = input.dataset.field;
+      const value = input.value;
+
+      if (!sectionKey || !fieldKey || !currentUser) return;
+
+      // Immediately update local UI state (and the hidden metadata if active)
+      // This prevents text from disappearing.
+      currentInputValues.set(`${sectionKey}-${fieldKey}`, value);
+
+      // Find the specific field in the state.metadata and update its value
+      const section = state.metadata?.sections?.find(s => s.key === sectionKey);
+      const field = section?.fields?.find(f => f.key === fieldKey);
+      if (field) {
+        field.value = value; // Update the internal data model
+        renderStatus(openai.toolOutput || state.metadata); // Re-render status bar if needed
+        // No full renderSections call here!
+        advanceIfComplete(sectionKey, state.metadata);
+      }
+
+      // Asynchronously call the tool to persist to the backend (Firestore)
+      openai
+        .callTool("update_business_profile_field", {
+          accountId: currentUser.uid,
+          sectionKey: sectionKey,
+          fieldKey: fieldKey,
+          value: value,
+        })
+        .catch((error) => console.error("Failed to save field", error));
+    }
+
+    function renderSections(meta) {
+      const stepper = document.getElementById("stepper");
+      const activeContainer = document.getElementById("activeSection");
+
+      if (!meta?.sections?.length) {
+        stepper.innerHTML = "";
+        activeContainer.innerHTML = "";
+        openai.notifyIntrinsicHeight?.();
+        return;
+      }
+
+      const steps = [
+        { key: "auth", title: "Sign in / up", description: "Portal credentials" },
+        ...meta.sections.map((section) => ({
+          key: section.key,
+          title: section.title,
+          description: section.description,
+          complete: section.fields.every((f) => !f.required || (f.value && String(f.value).trim().length > 0)),
+        })),
+      ];
+
+      const activeSection = state.activeSection && meta.sections.some((s) => s.key === state.activeSection)
+        ? state.activeSection
+        : meta.sections[0].key;
+
+      if (state.activeSection !== activeSection) {
+        saveWidgetState({ activeSection });
+      }
+
+      const activeElement = document.activeElement;
+      const focusedInputId = activeElement?.dataset?.section && activeElement?.dataset?.field
+        ? `${activeElement.dataset.section}-${activeElement.dataset.field}`
+        : null;
+      const selectionStart = (activeElement as HTMLInputElement)?.selectionStart;
+      const selectionEnd = (activeElement as HTMLInputElement)?.selectionEnd;
+
+      // Render stepper chips
+      const stepNodes = steps.map((step, index) => {
+        const chip = document.createElement("div");
+        chip.className = "step-pill";
+        chip.dataset.active = String(step.key === activeSection);
+        chip.dataset.complete = String(step.key === "auth" ? Boolean(currentUser) : step.complete);
+
+        const indexBadge = document.createElement("div");
+        indexBadge.className = "step-index";
+        indexBadge.textContent = String(index + 1);
+
+        const text = document.createElement("div");
+        text.className = "step-text";
+        const title = document.createElement("div");
+        title.className = "step-title";
+        title.textContent = step.title;
+        const subtitle = document.createElement("div");
+        subtitle.className = "step-subtitle";
+        subtitle.textContent = step.key === "auth" ? "Portal sign in" : step.description || "Profile details";
+        text.append(title, subtitle);
+
+        chip.append(indexBadge, text);
+        if (step.key !== "auth") {
+          chip.onclick = () => {
+            if (state.activeSection !== step.key) {
+              saveWidgetState({ activeSection: step.key });
+              renderSections(meta);
+            }
+          };
+        }
+
+        return chip;
+      });
+
+      stepper.replaceChildren(...stepNodes);
+
+      const section = meta.sections.find((s) => s.key === activeSection) ?? meta.sections[0];
+      const sectionCard = document.createElement("div");
+      sectionCard.className = "section-card";
+
+      const header = document.createElement("div");
+      header.className = "section-title";
+      const title = document.createElement("div");
+      title.textContent = section.title;
+      const pill = document.createElement("span");
+      const completedFields = section.fields.filter((f) => f.value).length;
+      pill.className = "pill";
+      pill.textContent = `${completedFields}/${section.fields.length} fields`;
+      header.append(title, pill);
+
+      const description = document.createElement("div");
+      description.className = "helper";
+      description.textContent = section.description || "";
+
+      const progress = document.createElement("div");
+      progress.className = "progress";
+      const percent = Math.round((completedFields / section.fields.length) * 100);
+      progress.innerHTML = `<span style="width:${percent}%"></span>`;
+
+      const fields = document.createElement("div");
+      fields.className = "fields";
+      section.fields.forEach((field) => {
+        const label = document.createElement("label");
+        label.innerHTML = `${field.label}${field.required ? " *" : ""}`;
+        const input = document.createElement("input");
+        input.className = "field-input";
+        input.dataset.section = section.key;
+        input.dataset.field = field.key;
+        const inputId = `${section.key}-${field.key}`;
+        input.value = currentInputValues.has(inputId)
+          ? currentInputValues.get(inputId)
+          : (field.value ?? "");
+        input.placeholder = field.helper ?? "";
+        input.addEventListener("input", onInputChange);
+
+        label.appendChild(input);
+        if (field.helper) {
+          const helper = document.createElement("div");
+          helper.className = "helper";
+          helper.textContent = field.helper;
+          label.appendChild(helper);
+        }
+        fields.appendChild(label);
+      });
+
+      const footer = document.createElement("div");
+      footer.style.display = "flex";
+      footer.style.justifyContent = "space-between";
+      footer.style.marginTop = "12px";
+      footer.style.gap = "8px";
+
+      const navLeft = document.createElement("div");
+      const navRight = document.createElement("div");
+      navRight.style.display = "flex";
+      navRight.style.gap = "8px";
+
+      const sectionIndex = meta.sections.findIndex((s) => s.key === section.key);
+      const hasPrev = sectionIndex > 0;
+      const hasNext = sectionIndex < meta.sections.length - 1;
+
+      if (hasPrev) {
+        const back = document.createElement("button");
+        back.className = "action-btn secondary";
+        back.textContent = "Back";
+        back.onclick = () => {
+          saveWidgetState({ activeSection: meta.sections[sectionIndex - 1].key });
+          renderSections(meta);
+        };
+        navLeft.appendChild(back);
+      }
+
+      const saveNext = document.createElement("button");
+      saveNext.className = "action-btn";
+      saveNext.textContent = hasNext ? "Save & next" : "Submit profile";
+      saveNext.onclick = () => {
+        const missingRequired = section.fields.filter((f) => f.required && !(f.value && String(f.value).trim().length > 0));
+        if (missingRequired.length) {
+          showError(`Please complete: ${missingRequired.map((f) => f.label).join(", ")}`);
+          return;
+        }
+
+        if (hasNext) {
+          saveWidgetState({ activeSection: meta.sections[sectionIndex + 1].key });
+          renderSections(meta);
+        } else {
+          openai.notifyIntrinsicHeight?.();
+          renderStatus(openai.toolOutput || meta);
+          showError("Profile saved. All sections are complete.");
+        }
+      };
+
+      navRight.appendChild(saveNext);
+      footer.append(navLeft, navRight);
+
+      sectionCard.append(header, description, progress, fields, footer);
+      activeContainer.replaceChildren(sectionCard);
+
+      if (focusedInputId) {
+        const [sectionKey, fieldKey] = focusedInputId.split('-');
+        const newActiveInput = document.querySelector(`[data-section="${sectionKey}"][data-field="${fieldKey}"]`) as HTMLInputElement;
+        if (newActiveInput) {
+          newActiveInput.focus();
+          if (selectionStart !== null && selectionEnd !== null) {
+            newActiveInput.setSelectionRange(selectionStart, selectionEnd);
+          }
+        }
+      }
+
+      openai.notifyIntrinsicHeight?.();
+    }
+
+    function wireButtons() {
+      const refresh = document.getElementById("refresh");
+      refresh.onclick = () => {
+        if (!currentUser) return;
+        // Clear current input values before a full refresh
+        currentInputValues.clear();
+        initData();
+      };
+
+      const reset = document.getElementById("reset");
+      reset.onclick = () => {
+        if (!currentUser) return;
+        const accountId = currentUser.uid;
+
+        openai.callTool("reset_business_profile", { accountId })
+          .then((response) => {
+            const metadata = response?.toolResponseMetadata || response?._meta || resolveMetadata();
+            if (metadata?.sections?.length) {
+              // Clear current input values after a reset
+              currentInputValues.clear();
+              saveWidgetState({ metadata, accountId });
+              renderStatus(response?.structuredContent || openai.toolOutput);
+              renderSections(metadata);
+            }
+          })
+          .catch((error) => console.error("Failed to reset profile", error));
+      };
+    }
+
+    async function initData() {
+      // This function is called when a user logs in or clicks refresh
+      renderStatus(openai.toolOutput || state.metadata); // Initial status rendering
+      const metadata = resolveMetadata();
+      const accountId = resolveAccountId(metadata); // Should be currentUser.uid now
+
+      saveWidgetState({ accountId, metadata });
+
+      if (metadata?.sections?.length) {
+        renderSections(metadata);
+      } else {
+        try {
+          const payload = {};
+          if (accountId) payload.accountId = accountId;
+
+          const response = await openai.callTool("load_business_profile", { ...payload, restart: false });
+          const metaFromResponse = response?.toolResponseMetadata || response?._meta || metadata;
+
+          if (metaFromResponse?.sections?.length) {
+            saveWidgetState({ metadata: metaFromResponse, accountId: resolveAccountId(metaFromResponse) });
+            renderStatus(response?.structuredContent || openai.toolOutput);
+            renderSections(metaFromResponse);
+          }
+        } catch (error) {
+          console.error("Failed to bootstrap onboarding", error);
+          // Even if bootstrap fails, we might still have a user, show auth view
+          if (!currentUser) {
+            document.getElementById("authView").style.display = "block";
+            document.getElementById("appView").style.display = "none";
+          }
+        }
+      }
+      wireButtons();
+    }
+
+    // Initial setup when the widget loads
+    // The onAuthStateChanged listener will handle calling initData() if logged in
+    // Otherwise, the auth view will remain visible.
+    // Explicitly show authView initially, onAuthStateChanged will hide it if logged in.
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById("authView").style.display = "block";
+      document.getElementById("appView").style.display = "none";
+      // The onAuthStateChanged listener will take over from here
+    });
+  </script>
+</body>
+
+</html>

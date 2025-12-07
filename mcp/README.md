@@ -1,0 +1,68 @@
+# Split Payments MCP server
+
+This folder contains a reference MCP server plus a lightweight widget that mirrors the Split business onboarding wizard and Portal profile fields.
+
+## What you get
+- **HTTP MCP server** with tools to load, update, and reset onboarding/profile data.
+- **Widget template** served as `text/html+skybridge` so it renders inline in ChatGPT.
+- **Shared state model** that reads/writes the real Portal `applications/{uid}` documents in Firestore so answers stay in sync with the dashboard.
+
+## Project layout
+- `server.mjs` – MCP server that registers the widget resource and three tools.
+- `profile-state.mjs` – Firestore-backed helpers that map the five Portal business profile sections to the `applications/{uid}` document shape.
+- `widget/profile-onboarding.html` – Vanilla JS widget that renders the wizard in chat, handles Firebase auth (sign-in/up), and calls tools for updates.
+
+## Running locally
+1. Install dependencies in this subproject:
+   ```bash
+   cd mcp
+   npm install @modelcontextprotocol/sdk
+   ```
+   (Add any dev server or bundler you prefer; the widget runs without a build step.)
+2. Provide environment variables for Firebase-backed persistence:
+   ```bash
+   export FIREBASE_PROJECT_ID="<your project id>"
+   export FIREBASE_CLIENT_EMAIL="<your client email>"
+   export FIREBASE_PRIVATE_KEY="<private key with newline escapes>"
+   # Optional but recommended for the widget sandbox
+   export WIDGET_DOMAIN="https://www.ccsplit.org"
+   export WIDGET_CONNECT_DOMAINS="https://www.ccsplit.org,https://api.ccsplit.org"
+   ```
+3. Start the server:
+   ```bash
+   PORT=3030 node server.mjs
+   ```
+4. Point MCP Inspector or a ChatGPT connector at `http://localhost:3030/mcp` to exercise the tools and widget. The GET `/mcp` endpoint streams SSE and POST `/mcp/messages` accepts tool calls.
+
+### Using an ngrok tunnel for ChatGPT
+
+1. Launch ngrok against the local MCP server port:
+   ```bash
+   ngrok http 3030
+   ```
+2. Copy the HTTPS forwarding URL (e.g., `https://<id>.ngrok.io`) and configure the ChatGPT custom connector endpoint as `https://<id>.ngrok.io/mcp`.
+3. Keep `WIDGET_DOMAIN` pointing at your live site (`https://www.ccsplit.org`) so the widget CSP trusts the production origin.
+
+## Production hosting guidance
+- The MCP server expects to bind to its own port, which Vercel's static/Next.js hosting model does not support. Plan on
+  deploying the MCP server as a **separate service** (e.g., Fly.io, Railway, Render, or a small VM/container) and route it
+  through a dedicated subdomain such as **`mcp.ccsplit.org`**.
+- Minimal production recipe:
+  1. Deploy this folder as a long-running Node service (for example, `PORT=3030 node server.mjs`).
+  2. Create a DNS record pointing `mcp.ccsplit.org` to that service (A/AAAA or CNAME, depending on host).
+  3. Keep your main site on `www.ccsplit.org` via Vercel; the two can ship together by releasing the site and the MCP
+     service in the same rollout.
+- Configure widget metadata for the production origin when starting the service:
+  - `WIDGET_DOMAIN=https://www.ccsplit.org` so the SDK trusts the widget for your production origin.
+  - `WIDGET_CONNECT_DOMAINS=https://api.your-production-host` (comma-separated) so the widget's CSP allows calls to your
+    APIs.
+
+## Tools exposed
+- `load_business_profile` – Loads/creates the Portal application document for the signed-in UID and returns widget metadata.
+- `update_business_profile_field` – Saves a single field on the underlying Portal application document (widget accessible).
+- `reset_business_profile` – Clears the five profile sections back to defaults while preserving documents/messages (widget accessible).
+
+All tools include `openai/outputTemplate` metadata to render the wizard. Widget-accessible tools opt into `openai/widgetAccessible` so the iframe can call them directly.
+
+## Widget runtime
+The widget reads `window.openai.toolOutput` for the summary shown to the model and `window.openai.toolResponseMetadata` for the full field definitions. It persists the currently selected section with `setWidgetState`, calls tools through `callTool`, and requests height updates via `notifyIntrinsicHeight`.
