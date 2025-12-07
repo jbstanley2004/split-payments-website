@@ -121,7 +121,7 @@ export function AddressAutocomplete({
                     onChange={handleInput}
                     disabled={!ready}
                     placeholder={placeholder}
-                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-sm text-black outline-none transition-all ${error
+                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-base text-black outline-none transition-all ${error
                         ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200'
                         : 'border-gray-200 focus:border-[#FF4306] focus:ring-2 focus:ring-[#FF4306]/10'
                         } ${className}`}
