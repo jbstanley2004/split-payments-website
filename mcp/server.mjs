@@ -39,7 +39,7 @@ function responsePayload(profile, message) {
     const metadata = { ...buildMeta(profile), ...widgetMeta };
     return {
         structuredContent: buildStructuredContent(profile),
-        toolResponseMetadata: metadata,
+        // Simplify: structuredContent + _meta only
         content: [],
         _meta: metadata,
     };
@@ -92,7 +92,7 @@ async function startServer() {
         return async (args) => {
             try {
                 const result = await handler(args);
-                const meta = result?.toolResponseMetadata || result?._meta || result?.structuredContent?._meta;
+                const meta = result?._meta || result?.structuredContent?._meta;
                 const contentSize = (() => {
                     try {
                         return JSON.stringify(result)?.length || 0;
