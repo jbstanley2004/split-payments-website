@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import http from "node:http";
+import http2 from "node:http2";
 import express from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
@@ -63,6 +65,20 @@ function responsePayload(profile, message) {
 
 // Global transport map to persist sessions across requests in a long-running process
 const transportMap = new Map();
+
+function createServer(app) {
+    // Prefer HTTP/2 (required for Cloud Run's streaming support) but fall back to
+    // HTTP/1.1 if the runtime does not support h2c. allowHTTP1 keeps local
+    // testing simple while giving Cloud Run and GCE load balancers an h2 option.
+    if (process.env.HTTP2_ENABLED !== "false") {
+        try {
+            return http2.createServer({ allowHTTP1: true }, app);
+        } catch (err) {
+            console.warn("HTTP/2 unavailable, falling back to HTTP/1.1", err);
+        }
+    }
+    return http.createServer(app);
+}
 
 async function startServer() {
     const server = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
@@ -196,6 +212,7 @@ async function startServer() {
             {
                 headers: req.headers,
                 query: req.query,
+                httpVersion: req.httpVersion,
             }
         );
 
@@ -206,6 +223,7 @@ async function startServer() {
         res.setHeader("Content-Type", "text/event-stream");
         res.setHeader("Cache-Control", "no-cache, no-transform");
         res.setHeader("Connection", "keep-alive");
+        res.setHeader("X-Accel-Buffering", "no");
 
         // Keep sockets alive forever and avoid Nagle delays; this reduces the
         // time to first byte for the handshake and helps prevent idle timeouts
@@ -354,8 +372,11 @@ async function startServer() {
     });
 
     const port = process.env.PORT || 3030;
-    app.listen(port, () => {
-        console.log(`MCP server listening on port ${port}`);
+    const server = createServer(app);
+    server.listen(port, () => {
+        console.log(
+            `MCP server listening on port ${port} with HTTP/${server instanceof http2.Http2Server ? "2 (h2c fallback enabled)" : "1.1"}`
+        );
     });
 }
 
