@@ -22,10 +22,6 @@ const __dirname = path.dirname(__filename);
 
 const templateUri = "ui://widget/business-profile-onboarding.html";
 const widgetDomain = process.env.WIDGET_DOMAIN?.trim() || "https://www.ccsplit.org";
-const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "https://www.ccsplit.org,https://api.ccsplit.org,https://firestore.googleapis.com,https://identitytoolkit.googleapis.com")
-    .split(",")
-    .map((domain) => domain.trim())
-    .filter(Boolean);
 const widgetMeta = {
     "openai/outputTemplate": templateUri,
     "openai/widgetAccessible": true,
@@ -83,37 +79,28 @@ function createServer(app) {
 async function startServer() {
     const mcpServer = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
 
-    mcpServer.registerResource(
-        "business-profile-widget",
-        templateUri,
-        {},
-        async () => ({
+    mcpServer.registerResource("business-profile-widget", templateUri, {}, async () => {
+        const html = await loadTemplate();
+        const meta = {
+            "openai/widgetPrefersBorder": true,
+            "openai/widgetDomain": widgetDomain,
+            "openai/widgetDescription": "Guided onboarding wizard that stays in sync with Portal profile fields.",
+        };
+        console.log("resource business-profile-widget", {
+            metaKeys: Object.keys(meta),
+            htmlLength: html.length,
+        });
+        return {
             contents: [
                 {
                     uri: templateUri,
                     mimeType: "text/html+skybridge",
-                    text: await loadTemplate(),
-                    _meta: {
-                        "openai/widgetPrefersBorder": true,
-                        "openai/widgetDomain": widgetDomain,
-                       "openai/widgetCSP": {
-                           connect_domains: connectDomains,
-                            resource_domains: [
-                                "https://*.oaistatic.com",
-                                "https://*.gstatic.com",
-                                "https://*.firebaseio.com",
-                                "https://*.googleapis.com",
-                                "https://*.firebaseapp.com",
-                                "https://*.firebasestorage.app",
-                            ],
-                       },
-                        "openai/widgetDescription":
-                            "Guided onboarding wizard that stays in sync with Portal profile fields.",
-                    },
+                    text: html,
+                    _meta: meta,
                 },
             ],
-        })
-    );
+        };
+    });
 
     function wrapTool(name, handler) {
         return async (args) => {
