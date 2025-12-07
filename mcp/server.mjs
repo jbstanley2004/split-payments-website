@@ -81,9 +81,9 @@ function createServer(app) {
 }
 
 async function startServer() {
-    const server = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
+    const mcpServer = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
 
-    server.registerResource(
+    mcpServer.registerResource(
         "business-profile-widget",
         templateUri,
         {},
@@ -108,7 +108,7 @@ async function startServer() {
         })
     );
 
-    server.registerTool(
+    mcpServer.registerTool(
         "load_business_profile",
         {
             title: "Load business profile",
@@ -136,7 +136,7 @@ async function startServer() {
         }
     );
 
-    server.registerTool(
+    mcpServer.registerTool(
         "update_business_profile_field",
         {
             title: "Update profile field",
@@ -159,7 +159,7 @@ async function startServer() {
         }
     );
 
-    server.registerTool(
+    mcpServer.registerTool(
         "reset_business_profile",
         {
             title: "Reset business profile",
@@ -286,7 +286,7 @@ async function startServer() {
         res.on("error", (err) => console.warn(`SSE response error for ${transport.sessionId}`, err));
 
         try {
-            await server.connect(transport);
+            await mcpServer.connect(transport);
             console.log(`Session ${transport.sessionId} connected to MCP server instance`);
         } catch (err) {
             console.error(`Failed to establish MCP session ${transport.sessionId}`, err);
@@ -372,10 +372,10 @@ async function startServer() {
     });
 
     const port = process.env.PORT || 3030;
-    const server = createServer(app);
-    server.listen(port, () => {
+    const httpServer = createServer(app);
+    httpServer.listen(port, () => {
         console.log(
-            `MCP server listening on port ${port} with HTTP/${server instanceof http2.Http2Server ? "2 (h2c fallback enabled)" : "1.1"}`
+            `MCP server listening on port ${port} with HTTP/${httpServer instanceof http2.Http2Server ? "2 (h2c fallback enabled)" : "1.1"}`
         );
     });
 }
