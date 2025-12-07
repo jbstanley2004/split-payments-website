@@ -115,6 +115,19 @@ async function startServer() {
         })
     );
 
+    function wrapTool(name, handler) {
+        return async (args) => {
+            try {
+                const result = await handler(args);
+                console.log(`tool ${name} success`, { args });
+                return result;
+            } catch (err) {
+                console.error(`tool ${name} failed`, { args, error: err });
+                throw err;
+            }
+        };
+    }
+
     mcpServer.registerTool(
         "load_business_profile",
         {
@@ -129,7 +142,7 @@ async function startServer() {
             },
             _meta: widgetMeta,
         },
-        async ({ accountId, restart }) => {
+        wrapTool("load_business_profile", async ({ accountId, restart }) => {
             const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
             const createdNewAccount = !accountId?.trim();
             const profile = restart ? await resetProfile(resolvedAccountId) : await loadProfile(resolvedAccountId);
@@ -140,7 +153,7 @@ async function startServer() {
                     ? "Profile is complete."
                     : `Continuing onboarding with the ${summary.nextSection?.title ?? "next"} section.`;
             return responsePayload(profile, message);
-        }
+        })
     );
 
     mcpServer.registerTool(
@@ -160,10 +173,10 @@ async function startServer() {
             },
             _meta: widgetMeta,
         },
-        async ({ accountId, sectionKey, fieldKey, value }) => {
+        wrapTool("update_business_profile_field", async ({ accountId, sectionKey, fieldKey, value }) => {
             const profile = await updateField(accountId, sectionKey, fieldKey, String(value));
             return responsePayload(profile, `Saved ${fieldKey} in ${sectionKey}.`);
-        }
+        })
     );
 
     mcpServer.registerTool(
@@ -180,10 +193,10 @@ async function startServer() {
             },
             _meta: widgetMeta,
         },
-        async ({ accountId }) => {
+        wrapTool("reset_business_profile", async ({ accountId }) => {
             const profile = await resetProfile(accountId);
             return responsePayload(profile, "Started a fresh onboarding session.");
-        }
+        })
     );
 
     const app = express();
