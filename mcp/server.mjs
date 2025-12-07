@@ -22,10 +22,6 @@ const __dirname = path.dirname(__filename);
 
 const templateUri = "ui://widget/business-profile-onboarding.html";
 const widgetDomain = process.env.WIDGET_DOMAIN?.trim() || "https://www.ccsplit.org";
-const connectDomains = (process.env.WIDGET_CONNECT_DOMAINS || "https://www.ccsplit.org,https://api.ccsplit.org,https://firestore.googleapis.com,https://identitytoolkit.googleapis.com")
-    .split(",")
-    .map((domain) => domain.trim())
-    .filter(Boolean);
 const widgetMeta = {
     "openai/outputTemplate": templateUri,
     "openai/widgetAccessible": true,
@@ -41,24 +37,10 @@ async function loadTemplate() {
 
 function responsePayload(profile, message) {
     const metadata = { ...buildMeta(profile), ...widgetMeta };
-    const summary = summarizeProfile(profile);
-
-    // Suppress model-facing text until the entire onboarding is complete. This keeps the
-    // assistant silent while the user works through the widgets and only surfaces a
-    // response after the last section is submitted.
-    const content = summary.onboardingStatus === "complete" && message
-        ? [
-            {
-                type: "text",
-                text: message,
-            },
-        ]
-        : [];
-
     return {
         structuredContent: buildStructuredContent(profile),
-        content,
-        toolResponseMetadata: metadata,
+        // Simplify: structuredContent + _meta only
+        content: [],
         _meta: metadata,
     };
 }
@@ -83,43 +65,34 @@ function createServer(app) {
 async function startServer() {
     const mcpServer = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
 
-    mcpServer.registerResource(
-        "business-profile-widget",
-        templateUri,
-        {},
-        async () => ({
+    mcpServer.registerResource("business-profile-widget", templateUri, {}, async () => {
+        const html = await loadTemplate();
+        const meta = {
+            "openai/widgetPrefersBorder": true,
+            "openai/widgetDomain": widgetDomain,
+            "openai/widgetDescription": "Guided onboarding wizard that stays in sync with Portal profile fields.",
+        };
+        console.log("resource business-profile-widget", {
+            metaKeys: Object.keys(meta),
+            htmlLength: html.length,
+        });
+        return {
             contents: [
                 {
                     uri: templateUri,
                     mimeType: "text/html+skybridge",
-                    text: await loadTemplate(),
-                    _meta: {
-                        "openai/widgetPrefersBorder": true,
-                        "openai/widgetDomain": widgetDomain,
-                       "openai/widgetCSP": {
-                           connect_domains: connectDomains,
-                            resource_domains: [
-                                "https://*.oaistatic.com",
-                                "https://*.gstatic.com",
-                                "https://*.firebaseio.com",
-                                "https://*.googleapis.com",
-                                "https://*.firebaseapp.com",
-                                "https://*.firebasestorage.app",
-                            ],
-                       },
-                        "openai/widgetDescription":
-                            "Guided onboarding wizard that stays in sync with Portal profile fields.",
-                    },
+                    text: html,
+                    _meta: meta,
                 },
             ],
-        })
-    );
+        };
+    });
 
     function wrapTool(name, handler) {
         return async (args) => {
             try {
                 const result = await handler(args);
-                const meta = result?.toolResponseMetadata || result?._meta || result?.structuredContent?._meta;
+                const meta = result?._meta || result?.structuredContent?._meta;
                 const contentSize = (() => {
                     try {
                         return JSON.stringify(result)?.length || 0;
@@ -127,11 +100,21 @@ async function startServer() {
                         return 0;
                     }
                 })();
+                const structuredPreview = (() => {
+                    try {
+                        return JSON.stringify(result?.structuredContent)?.slice(0, 2000);
+                    } catch {
+                        return undefined;
+                    }
+                })();
                 console.log(`tool ${name} success`, {
                     args,
                     metaKeys: meta ? Object.keys(meta) : [],
+                    contentKeys: result ? Object.keys(result) : [],
                     contentSize,
+                    structuredPreview,
                 });
+                console.log(`tool ${name} result`, result);
                 return result;
             } catch (err) {
                 console.error(`tool ${name} failed`, { args, error: err });
@@ -158,13 +141,7 @@ async function startServer() {
             const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
             const createdNewAccount = !accountId?.trim();
             const profile = restart ? await resetProfile(resolvedAccountId) : await loadProfile(resolvedAccountId);
-            const summary = summarizeProfile(profile);
-            const message = createdNewAccount
-                ? "Created a new account and loaded onboarding."  // This message is for the LLM
-                : summary.onboardingStatus === "complete"
-                    ? "Profile is complete."
-                    : `Continuing onboarding with the ${summary.nextSection?.title ?? "next"} section.`;
-            return responsePayload(profile, message);
+            return responsePayload(profile, createdNewAccount ? "Created new account" : "Loaded profile");
         })
     );
 
@@ -206,8 +183,9 @@ async function startServer() {
             _meta: widgetMeta,
         },
         wrapTool("reset_business_profile", async ({ accountId }) => {
-            const profile = await resetProfile(accountId);
-            return responsePayload(profile, "Started a fresh onboarding session.");
+            const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
+            const profile = await resetProfile(resolvedAccountId);
+            return responsePayload(profile, "Reset profile");
         })
     );
 
