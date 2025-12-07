@@ -2,15 +2,12 @@
 
 import SignInForm from "@/components/portal/SignInForm";
 import { motion } from "framer-motion";
-import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import MetricsStrip from "@/components/MetricsStrip";
 import BackgroundChart from "@/components/portal/BackgroundChart";
 
 export default function PortalSignUpPage() {
     return (
         <main className="min-h-screen w-full bg-white relative overflow-hidden flex flex-col items-center justify-center p-4 pt-24">
-            <DynamicIslandNav />
-
             {/* Background Effects */}
             <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[-20%] right-[-10%] w-[50%] h-[50%] bg-gray-50 rounded-full blur-[100px]" />

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
-import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 import PortalTabs from "@/components/portal/PortalTabs";
 import DashboardView from "@/components/portal/DashboardView";
 import BusinessProfileView from "@/components/portal/BusinessProfileView";
@@ -70,8 +69,6 @@ export default function PortalDashboardPage() {
 
     return (
         <main className="min-h-screen bg-[#F6F5F4] text-brand-black font-poppins selection:bg-black/10 selection:text-black">
-            <DynamicIslandNav />
-
             <div className="pt-32 px-6 md:px-10 lg:px-16 max-w-7xl mx-auto">
                 {/* Navigation - Floating & Minimal */}
                 <div className="mb-16 flex justify-center">
