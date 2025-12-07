@@ -1,29 +1,27 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { usePathname } from "next/navigation";
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
+import { LayoutGroup } from "framer-motion";
 
 import { DynamicIslandNav } from "@/components/dynamic-island-nav";
 
 export default function PortalLayout({ children }: { children: ReactNode }) {
-    const pathname = usePathname();
-
     return (
         <LayoutGroup id="global-nav">
-            <DynamicIslandNav />
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={pathname}
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -8 }}
-                    transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-                    className="relative"
-                >
+            <div className="relative min-h-screen bg-white text-brand-black selection:bg-black/10 selection:text-black">
+                <div
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white via-white to-[#F6F5F4]"
+                    aria-hidden
+                />
+
+                <div className="relative z-10">
+                    <DynamicIslandNav />
+                </div>
+
+                <div className="relative z-10 pt-24 md:pt-28">
                     {children}
-                </motion.div>
-            </AnimatePresence>
+                </div>
+            </div>
         </LayoutGroup>
     );
 }
