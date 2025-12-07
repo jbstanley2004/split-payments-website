@@ -119,7 +119,19 @@ async function startServer() {
         return async (args) => {
             try {
                 const result = await handler(args);
-                console.log(`tool ${name} success`, { args });
+                const meta = result?.toolResponseMetadata || result?._meta || result?.structuredContent?._meta;
+                const contentSize = (() => {
+                    try {
+                        return JSON.stringify(result)?.length || 0;
+                    } catch {
+                        return 0;
+                    }
+                })();
+                console.log(`tool ${name} success`, {
+                    args,
+                    metaKeys: meta ? Object.keys(meta) : [],
+                    contentSize,
+                });
                 return result;
             } catch (err) {
                 console.error(`tool ${name} failed`, { args, error: err });
