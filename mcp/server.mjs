@@ -28,6 +28,32 @@ const widgetMeta = {
     "openai/resultCanProduceWidget": true,
     "openai/widgetPrefersBorder": true,
     "openai/widgetDescription": "Guided onboarding wizard that stays in sync with Portal profile fields.",
+    "openai/widgetCSP": {
+        connect_domains: [
+            "https://www.ccsplit.org",
+            "https://api.ccsplit.org",
+            "https://firestore.googleapis.com",
+            "https://identitytoolkit.googleapis.com",
+            "https://securetoken.googleapis.com",
+            "https://www.googleapis.com",
+            "https://www.gstatic.com",
+            "https://*.gstatic.com",
+            "https://*.firebaseapp.com",
+            "https://*.firebaseio.com",
+            "https://*.firebasestorage.app",
+        ],
+        resource_domains: [
+            "https://*.oaistatic.com",
+            "https://www.ccsplit.org",
+            "https://api.ccsplit.org",
+            "https://www.gstatic.com",
+            "https://*.gstatic.com",
+            "https://*.firebaseapp.com",
+            "https://*.firebaseio.com",
+            "https://*.googleapis.com",
+            "https://*.firebasestorage.app",
+        ],
+    },
 };
 
 async function loadTemplate() {
@@ -39,7 +65,7 @@ function responsePayload(profile, message) {
     const metadata = { ...buildMeta(profile), ...widgetMeta };
     return {
         structuredContent: buildStructuredContent(profile),
-        // Simplify: structuredContent + _meta only
+        toolResponseMetadata: metadata,
         content: [],
         _meta: metadata,
     };
@@ -178,7 +204,6 @@ async function startServer() {
                 properties: {
                     accountId: { type: "string", description: "Account, workspace, or merchant identifier." },
                 },
-                required: ["accountId"],
             },
             _meta: widgetMeta,
         },
