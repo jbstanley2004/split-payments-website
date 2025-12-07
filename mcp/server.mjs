@@ -238,12 +238,6 @@ async function startServer() {
         req.socket.setKeepAlive(true, 10000);
 
         // Flush headers immediately so the client receives a response and
-        // knows the stream is established. Also emit an initial comment
-        // frame so intermediaries deliver the first chunk right away, rather
-        // than buffering until the next write.
-        res.flushHeaders?.();
-        res.write(`: connected ${Date.now()}\n\n`);
-
         const transport = new SSEServerTransport("/mcp/messages", res);
         transportMap.set(transport.sessionId, transport);
 
@@ -258,13 +252,7 @@ async function startServer() {
         sessionTimings.set(transport.sessionId, { connectedAt, watchdog });
         console.log(`Session ${transport.sessionId} connected at ${new Date(connectedAt).toISOString()}`);
 
-        const heartbeat = setInterval(() => {
-            try {
-                res.write(`event: ping\ndata: ${Date.now()}\n\n`);
-            } catch (err) {
-                console.warn("Failed to write SSE heartbeat", err);
-            }
-        }, 20000);
+        let heartbeat;
 
         const cleanup = (reason) => {
             console.log(`Session ${transport.sessionId} closing (${reason})`);
@@ -272,7 +260,7 @@ async function startServer() {
             if (timing?.watchdog) clearTimeout(timing.watchdog);
             transportMap.delete(transport.sessionId);
             sessionTimings.delete(transport.sessionId);
-            clearInterval(heartbeat);
+            if (heartbeat) clearInterval(heartbeat);
         };
 
         transport.onclose = () => {
@@ -287,6 +275,15 @@ async function startServer() {
 
         try {
             await mcpServer.connect(transport);
+            // Emit an initial comment frame to flush the connection once headers are set by the transport.
+            res.write(`: connected ${Date.now()}\n\n`);
+            heartbeat = setInterval(() => {
+                try {
+                    res.write(`event: ping\ndata: ${Date.now()}\n\n`);
+                } catch (err) {
+                    console.warn("Failed to write SSE heartbeat", err);
+                }
+            }, 20000);
             console.log(`Session ${transport.sessionId} connected to MCP server instance`);
         } catch (err) {
             console.error(`Failed to establish MCP session ${transport.sessionId}`, err);
