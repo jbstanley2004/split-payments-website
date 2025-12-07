@@ -112,17 +112,17 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                       className="w-1.5 h-1.5 rounded-full bg-[#FF4306]"
                     />
                   )}
-                  <span className="flex items-center gap-2">
-                    <span>{item.label}</span>
-                    {item.badge && (
-                      <span className="text-[10px] font-semibold uppercase tracking-[0.12em] rounded-full bg-gradient-to-r from-[#111111] via-[#2B2B2B] to-[#555555] text-white px-2 py-0.5 shadow-sm border border-white/10">
+                    <span className="flex items-center gap-2">
+                      <span>{item.label}</span>
+                      {item.badge && (
+                      <span className="text-[9px] leading-tight font-semibold uppercase tracking-[0.16em] rounded-full bg-neutral-900/90 text-white px-1.5 py-[3px] shadow-sm ring-1 ring-white/10">
                         {item.badge}
                       </span>
-                    )}
-                  </span>
-                </Link>
-              );
-            })}
+                      )}
+                    </span>
+                  </Link>
+                );
+              })}
           </nav>
 
           {/* Right side: AI Funding Desk Badge */}
@@ -223,7 +223,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                           <span className="flex items-center gap-3 text-lg font-medium font-poppins">
                             <span>{item.label}</span>
                             {item.badge && (
-                              <span className="text-[10px] font-semibold uppercase tracking-[0.14em] rounded-full bg-black text-white px-2.5 py-1 shadow-sm border border-white/10">
+                              <span className="text-[9px] leading-tight font-semibold uppercase tracking-[0.16em] rounded-full bg-neutral-900/90 text-white px-1.5 py-[3px] shadow-sm ring-1 ring-white/10">
                                 {item.badge}
                               </span>
                             )}
