@@ -223,7 +223,7 @@ export default function DashboardView({ applicationStatus, onNavigate }: Dashboa
               >
                 <div className="text-left py-2">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF4306]">
+                    <span className="text-[10px] font-bold tracking-wider text-[#FF4306]">
                       Action Required
                     </span>
                   </div>
