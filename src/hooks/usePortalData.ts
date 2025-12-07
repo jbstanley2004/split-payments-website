@@ -28,6 +28,7 @@ const getInitialApplicationData = (email: string): ApplicationStatus => ({
     },
     contactInfo: {
         physicalAddress: '',
+        physicalAddressLine2: '',
         cityStateZip: '',
         businessPhone: '',
         email: email,
@@ -38,11 +39,14 @@ const getInitialApplicationData = (email: string): ApplicationStatus => ({
         title: '',
         cellPhone: '',
         homeAddress: '',
+        homeAddressLine2: '',
         ssn: '',
     },
     equipmentInfo: {
         make: '',
         model: '',
+        shippingAddress: '',
+        shippingAddressLine2: '',
         cardPresentPercentage: 0,
         cardNotPresentPercentage: 0,
         equipmentTypes: [],

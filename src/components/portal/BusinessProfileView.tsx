@@ -57,6 +57,12 @@ const sanitizePercentageInput = (value: string) => {
     return Math.min(100, parseInt(digits, 10)).toString();
 };
 
+const formatFullAddress = (address: string, city: string, state: string, zip: string) => {
+    const cityState = [city, state].filter(Boolean).join(', ');
+    const postal = [cityState, zip].filter(Boolean).join(' ');
+    return [address, postal].filter(Boolean).join(', ');
+};
+
 const isValidEmail = (value?: string) => {
     if (!value) return false;
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
@@ -431,11 +437,10 @@ export default function BusinessProfileView({
             return (
                 <>
                     <span
-                        className={`pointer-events-none absolute inset-y-0 right-4 flex items-center ${textClass}`}
+                        className={`pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center ${textClass}`}
                         aria-live="polite"
                     >
                         <Icon className="w-5 h-5" aria-hidden="true" />
-                        {!showText && <span className="sr-only">{message}</span>}
                     </span>
                     {showText && (
                         <p className={`mt-2 text-xs font-semibold ${textClass}`}>{message}</p>
@@ -598,6 +603,7 @@ export default function BusinessProfileView({
                 const hasEquipmentPhotos = documents.some(d => d.type === 'equipment_photo');
                 return hasEquipmentPhotos && !!localEquipmentInfo?.make && !!localEquipmentInfo?.model &&
                     cardSplitProvided && cardSplitTotal === 100 &&
+                    !!localEquipmentInfo?.shippingAddress &&
                     !!localEquipmentInfo?.equipmentTypes && localEquipmentInfo.equipmentTypes.length > 0;
 
             case 'owner-information':
@@ -816,24 +822,31 @@ export default function BusinessProfileView({
                         value={localContactInfo.physicalAddress || ''}
                         onChange={(address, city, state, zip) => {
                             setIsDirty(true);
+                            const combined = formatFullAddress(address, city, state, zip);
+                            const postal = [
+                                [city, state].filter(Boolean).join(', '),
+                                zip
+                            ].filter(Boolean).join(' ');
                             setLocalContactInfo(prev => ({
                                 ...prev,
-                                physicalAddress: address,
-                                cityStateZip: `${city}, ${state} ${zip}`
+                                physicalAddress: combined,
+                                cityStateZip: postal
                             }));
                         }}
-                        placeholder="Street Address"
+                        placeholder="Street Address, City, State, Zip"
                     />
-                    <div className="mt-4">
+                    <div className="mt-3">
                         <input
                             type="text"
-                            value={localContactInfo.cityStateZip || ''}
-                            onChange={(e) => updateContactField('cityStateZip', e.target.value)}
-                            className="w-full bg-[#F6F5F4] border-transparent placeholder-[#FF4306] rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
-                            placeholder="City, State, Zip"
+                            value={localContactInfo.physicalAddressLine2 || ''}
+                            onChange={(e) => updateContactField('physicalAddressLine2', e.target.value)}
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                            placeholder="Apartment, suite, etc. (optional)"
                         />
                     </div>
-                    <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    {!localContactInfo.physicalAddress && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
+                    )}
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Business Phone</label>
@@ -1089,6 +1102,34 @@ export default function BusinessProfileView({
                 </div>
 
                 <div className="col-span-1 md:col-span-2">
+                    <AddressAutocomplete
+                        label="Shipping Address"
+                        value={localEquipmentInfo.shippingAddress || ''}
+                        onChange={(address, city, state, zip) => {
+                            setIsDirty(true);
+                            const combined = formatFullAddress(address, city, state, zip);
+                            setLocalEquipmentInfo(prev => ({
+                                ...prev,
+                                shippingAddress: combined
+                            }));
+                        }}
+                        placeholder="Street Address, City, State, Zip"
+                    />
+                    <div className="mt-3">
+                        <input
+                            type="text"
+                            value={localEquipmentInfo.shippingAddressLine2 || ''}
+                            onChange={(e) => updateEquipmentField('shippingAddressLine2', e.target.value)}
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                            placeholder="Apartment, suite, etc. (optional)"
+                        />
+                    </div>
+                    {!localEquipmentInfo.shippingAddress && (
+                        <p className="text-xs text-orange-600 mt-1 font-medium">Required for shipping equipment</p>
+                    )}
+                </div>
+
+                <div className="col-span-1 md:col-span-2">
                     <label className={`${primaryLabelClass} mb-2`}>Equipment Photo</label>
 
                     <div className="border-2 border-dashed border-black/10 rounded-xl p-8 text-center hover:border-black/20 transition-colors bg-[#F6F5F4]/50 mb-4">
@@ -1251,13 +1292,28 @@ export default function BusinessProfileView({
                         value={localOwnerInfo.homeAddress || ''}
                         onChange={(address, city, state, zip) => {
                             setIsDirty(true);
+                            const combined = formatFullAddress(address, city, state, zip);
+                            const postal = [
+                                [city, state].filter(Boolean).join(', '),
+                                zip
+                            ].filter(Boolean).join(' ');
                             setLocalOwnerInfo(prev => ({
                                 ...prev,
-                                homeAddress: `${address}, ${city}, ${state} ${zip}`
+                                homeAddress: combined,
+                                homeCityStateZip: postal
                             }));
                         }}
                         placeholder="Street Address, City, State, Zip"
                     />
+                    <div className="mt-3">
+                        <input
+                            type="text"
+                            value={localOwnerInfo.homeAddressLine2 || ''}
+                            onChange={(e) => updateOwnerField('homeAddressLine2', e.target.value)}
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                            placeholder="Apartment, suite, etc. (optional)"
+                        />
+                    </div>
                     {!localOwnerInfo.homeAddress && (
                         <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                     )}
