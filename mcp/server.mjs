@@ -177,19 +177,88 @@ async function startServer() {
         next();
     });
 
+    const sessionTimings = new Map();
+
     app.get(["/mcp", "/mcp/sse"], async (req, res) => {
-        console.log("New SSE connection");
+        console.log(`New MCP stream connection on ${req.path}`);
+
+        // The Apps SDK uses HTTP streaming (Server-Sent Events) for the control
+        // channel. Even though the endpoint path is /mcp (not /sse), we still
+        // need the standard SSE headers so intermediaries treat this as an
+        // event-stream.
+        res.setHeader("Content-Type", "text/event-stream");
+        res.setHeader("Cache-Control", "no-cache, no-transform");
+        res.setHeader("Connection", "keep-alive");
+
+        // Keep the underlying socket alive and periodically send heartbeats so
+        // proxies/load balancers (including Google Cloud Run) do not time out
+        // the long-lived SSE connection before ChatGPT finishes the Apps SDK
+        // handshake.
+        req.socket.setKeepAlive(true, 10000);
 
         const transport = new SSEServerTransport("/mcp/messages", res);
         transportMap.set(transport.sessionId, transport);
 
+        const connectedAt = Date.now();
+        sessionTimings.set(transport.sessionId, { connectedAt });
+        console.log(`Session ${transport.sessionId} connected at ${new Date(connectedAt).toISOString()}`);
+
+        const heartbeat = setInterval(() => {
+            try {
+                res.write(`event: ping\ndata: ${Date.now()}\n\n`);
+            } catch (err) {
+                console.warn("Failed to write SSE heartbeat", err);
+            }
+        }, 20000);
+
         transport.onclose = () => {
             console.log(`Session closed: ${transport.sessionId}`);
             transportMap.delete(transport.sessionId);
+            sessionTimings.delete(transport.sessionId);
+            clearInterval(heartbeat);
         };
+
+        res.on("close", () => clearInterval(heartbeat));
 
         await server.connect(transport);
     });
+
+    function logSessionEvent(sessionId, body) {
+        const timing = sessionTimings.get(sessionId);
+        if (!timing) return;
+
+        const now = Date.now();
+        if (!timing.firstPostAt) {
+            timing.firstPostAt = now;
+            const elapsed = now - timing.connectedAt;
+            console.log(`Session ${sessionId}: first POST after ${elapsed}ms`);
+        }
+
+        const extractMethod = (payload) => {
+            if (!payload) return undefined;
+            if (Array.isArray(payload)) {
+                return payload
+                    .map((item) => extractMethod(item))
+                    .filter(Boolean)
+                    .join(", ");
+            }
+            return payload.method;
+        };
+
+        const method = extractMethod(body);
+        if (method === "initialize") {
+            console.log(
+                `Session ${sessionId}: received initialize after ${now - timing.connectedAt}ms (payload size ${
+                    JSON.stringify(body)?.length || 0
+                } bytes)`
+            );
+        }
+
+        if (method === "notifications/initialized") {
+            const initializedAt = now - timing.connectedAt;
+            console.log(`Session ${sessionId}: client completed initialization at +${initializedAt}ms`);
+        }
+    }
 
     app.post("/mcp/messages", async (req, res) => {
         const sessionId = req.query.sessionId;
@@ -204,7 +273,9 @@ async function startServer() {
             return;
         }
 
-        await transport.handlePostMessage(req, res);
+        logSessionEvent(sessionId, req.body);
+
+        await transport.handlePostMessage(req, res, req.body);
     });
 
     // Health check
