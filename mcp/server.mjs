@@ -41,8 +41,6 @@ function responsePayload(profile, message) {
 
     return {
         structuredContent: buildStructuredContent(profile),
-        toolResponseMetadata: metadata,
-        // Keep content empty; only emit text after completion if we need it.
         content: summary.onboardingStatus === "complete" && message
             ? [
                 {
@@ -51,6 +49,7 @@ function responsePayload(profile, message) {
                 },
             ]
             : [],
+        _meta: metadata,
     };
 }
 
