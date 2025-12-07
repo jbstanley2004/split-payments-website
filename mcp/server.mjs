@@ -348,6 +348,16 @@ async function startServer() {
             return;
         }
 
+        // Verbose logging to inspect connector payloads before handling
+        console.log(`POST /mcp/messages session=${sessionId}`, {
+            headers: {
+                "content-type": req.headers["content-type"],
+                "content-length": req.headers["content-length"],
+                "user-agent": req.headers["user-agent"],
+            },
+            body: req.body,
+        });
+
         logSessionEvent(sessionId, req.body);
 
         try {
