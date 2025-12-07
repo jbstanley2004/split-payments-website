@@ -10,7 +10,7 @@
   },
   "server": {
     "transport": "http",
-    "url": "https://34-58-90-123.nip.io/mcp"
+    "url": "https://split-mcp-g33b473sra-uc.a.run.app/mcp"
   },
   "capabilities": {
     "tools": true,
