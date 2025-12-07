@@ -49,6 +49,20 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
     };
   }, [isMobileOpen]);
 
+  const isNavItemActive = (href: string) => {
+    if (!pathname) return false;
+
+    if (href === "/") {
+      return pathname === "/";
+    }
+
+    if (href === "/portal/dashboard") {
+      return pathname === href || pathname.startsWith("/portal/");
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
   return (
     <>
       <div className="fixed inset-x-0 top-0 z-40 h-20">
@@ -96,7 +110,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
           {/* Desktop: nav links */}
           <nav className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
             {NAV_ITEMS.filter(item => item.label !== "AI helpdesk").map((item) => {
-              const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
+              const isActive = isNavItemActive(item.href);
 
               return (
                 <Link
@@ -193,7 +207,7 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                 {/* Menu Items */}
                 <nav className="py-6 px-4">
                   {NAV_ITEMS.map((item, index) => {
-                    const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(`${item.href}/`));
+                    const isActive = isNavItemActive(item.href);
 
                     return (
                       <motion.div
