@@ -1323,7 +1323,7 @@ export default function BusinessProfileView({
             >
                 <div>
                     <h2 className="text-5xl md:text-6xl font-bold font-poppins mb-4 text-black tracking-tight">Business Profile</h2>
-                    <p className="text-xl md:text-2xl text-black/60 font-lora max-w-2xl mx-auto leading-relaxed">Securely manage your business credentials.</p>
+                    <p className="text-xl md:text-2xl text-black/60 font-lora max-w-2xl mx-auto leading-relaxed">Your data is never shared and never sold.</p>
                 </div>
             </motion.div>
 
