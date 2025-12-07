@@ -403,12 +403,14 @@ export default function BusinessProfileView({
         verification,
         apiVerification,
         label,
-        isChecking
+        isChecking,
+        inline
     }: {
         verification: ReturnType<typeof verifyPhoneNumber>;
         apiVerification?: Awaited<ReturnType<typeof verifyPhoneNumberWithApi>> | null;
         label: string;
         isChecking?: boolean;
+        inline?: boolean;
     }) => {
         const effectiveVerification = apiVerification?.checkedWithApi ? apiVerification : verification;
         const Icon = isChecking ? Shield : effectiveVerification.isValid ? CheckCircle2 : AlertCircle;
@@ -423,10 +425,34 @@ export default function BusinessProfileView({
                     ? effectiveVerification.reason || 'Unable to confirm number is active.'
                     : effectiveVerification.reason || 'Unable to verify phone number.';
 
+        const showText = isChecking || !effectiveVerification.isValid;
+
+        if (inline) {
+            return (
+                <>
+                    <span
+                        className={`pointer-events-none absolute inset-y-0 right-4 flex items-center ${textClass}`}
+                        aria-live="polite"
+                    >
+                        <Icon className="w-5 h-5" aria-hidden="true" />
+                        {!showText && <span className="sr-only">{message}</span>}
+                    </span>
+                    {showText && (
+                        <p className={`mt-2 text-xs font-semibold ${textClass}`}>{message}</p>
+                    )}
+                    {!showText && <span className="sr-only">{message}</span>}
+                </>
+            );
+        }
+
         return (
             <div className={`flex items-center gap-2 mt-2 ${textClass}`}>
-                <Icon className="w-4 h-4" />
-                <span className="text-xs font-semibold">{message}</span>
+                <Icon className="w-4 h-4" aria-hidden="true" />
+                {showText ? (
+                    <span className="text-xs font-semibold">{message}</span>
+                ) : (
+                    <span className="sr-only">{message}</span>
+                )}
             </div>
         );
     };
@@ -619,18 +645,18 @@ export default function BusinessProfileView({
                     <div className="text-left py-2 pr-4 flex-1 space-y-1">
                         <div className="flex items-center gap-2 mb-0.5">
                             {isComplete ? (
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-green-600">
-                                    COMPLETE
+                                <span className="text-[10px] font-bold tracking-wider text-green-600">
+                                    Complete
                                 </span>
                             ) : (
-                                <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF4306]">
+                                <span className="text-[10px] font-bold tracking-wider text-[#FF4306]">
                                     Action Required
                                 </span>
                             )}
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                             <h3 className="text-xl font-bold text-black font-poppins leading-none mb-1">
-                                {isComplete ? baseTitle : `Complete ${baseTitle}`}
+                                {baseTitle}
                             </h3>
                         </div>
                         <p className="text-sm text-black/50 font-lora">
@@ -811,26 +837,29 @@ export default function BusinessProfileView({
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Business Phone</label>
-                    <input
-                        type="tel"
-                        value={localContactInfo.businessPhone || ''}
-                        onChange={(e) => updateContactField('businessPhone', sanitizePhoneInput(e.target.value))}
-                        onBlur={() => {
-                            const result = verifyPhoneNumber(localContactInfo.businessPhone || '');
-                            if (result.isValid) {
-                                updateContactField('businessPhone', result.formatted || formatNormalizedPhone(result.normalized));
-                            }
-                        }}
-                        inputMode="tel"
-                        className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
-                        placeholder="(555) 555-5555"
-                    />
-                    <PhoneVerificationBadge
-                        verification={businessPhoneVerification}
-                        apiVerification={businessPhoneApiVerification}
-                        isChecking={isCheckingBusinessPhone}
-                        label="Business phone"
-                    />
+                    <div className="relative">
+                        <input
+                            type="tel"
+                            value={localContactInfo.businessPhone || ''}
+                            onChange={(e) => updateContactField('businessPhone', sanitizePhoneInput(e.target.value))}
+                            onBlur={() => {
+                                const result = verifyPhoneNumber(localContactInfo.businessPhone || '');
+                                if (result.isValid) {
+                                    updateContactField('businessPhone', result.formatted || formatNormalizedPhone(result.normalized));
+                                }
+                            }}
+                            inputMode="tel"
+                            className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 pr-12 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
+                            placeholder="(555) 555-5555"
+                        />
+                        <PhoneVerificationBadge
+                            verification={businessPhoneVerification}
+                            apiVerification={businessPhoneApiVerification}
+                            isChecking={isCheckingBusinessPhone}
+                            label="Business phone"
+                            inline
+                        />
+                    </div>
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Email</label>
@@ -1189,29 +1218,32 @@ export default function BusinessProfileView({
                 </div>
                 <div>
                     <label className={`${primaryLabelClass} mb-2`}>Cell Phone</label>
-                    <input
-                        type="tel"
-                        value={localOwnerInfo.cellPhone || ''}
-                        onChange={(e) => updateOwnerField('cellPhone', sanitizePhoneInput(e.target.value))}
-                        onBlur={() => {
-                            const result = verifyPhoneNumber(localOwnerInfo.cellPhone || '');
-                            if (result.isValid) {
-                                updateOwnerField('cellPhone', result.formatted || formatNormalizedPhone(result.normalized));
-                            }
-                        }}
-                        inputMode="tel"
-                        className={`w-full border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.cellPhone ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
-                        placeholder="(555) 555-5555"
-                    />
+                    <div className="relative">
+                        <input
+                            type="tel"
+                            value={localOwnerInfo.cellPhone || ''}
+                            onChange={(e) => updateOwnerField('cellPhone', sanitizePhoneInput(e.target.value))}
+                            onBlur={() => {
+                                const result = verifyPhoneNumber(localOwnerInfo.cellPhone || '');
+                                if (result.isValid) {
+                                    updateOwnerField('cellPhone', result.formatted || formatNormalizedPhone(result.normalized));
+                                }
+                            }}
+                            inputMode="tel"
+                            className={`w-full border-transparent rounded-xl px-4 py-3 pr-12 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all ${!localOwnerInfo.cellPhone ? 'bg-[#F6F5F4] placeholder-[#FF4306]' : 'bg-[#F6F5F4] text-black'}`}
+                            placeholder="(555) 555-5555"
+                        />
+                        <PhoneVerificationBadge
+                            verification={ownerPhoneVerification}
+                            apiVerification={ownerPhoneApiVerification}
+                            isChecking={isCheckingOwnerPhone}
+                            label="Owner phone"
+                            inline
+                        />
+                    </div>
                     {!localOwnerInfo.cellPhone && (
                         <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                     )}
-                    <PhoneVerificationBadge
-                        verification={ownerPhoneVerification}
-                        apiVerification={ownerPhoneApiVerification}
-                        isChecking={isCheckingOwnerPhone}
-                        label="Owner phone"
-                    />
                 </div>
                 <div className="col-span-1 md:col-span-2">
                     <AddressAutocomplete
