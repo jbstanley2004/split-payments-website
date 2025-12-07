@@ -20,7 +20,7 @@ const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Payments", href: "/payments" },
   { label: "Funding", href: "/funding" },
-  { label: "Portal", href: "/portal/dashboard" },
+  { label: "Portal", href: "/portal/dashboard", badge: "beta" },
   // { label: "Partnerships", href: "/partnerships" },
 ] as const;
 
@@ -112,10 +112,17 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                       className="w-1.5 h-1.5 rounded-full bg-[#FF4306]"
                     />
                   )}
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
+                    <span className="flex items-center gap-2">
+                      <span>{item.label}</span>
+                      {item.badge && (
+                      <span className="text-[9px] leading-tight font-semibold uppercase tracking-[0.16em] rounded-full bg-neutral-900/90 text-white px-1.5 py-[3px] shadow-sm ring-1 ring-white/10">
+                        {item.badge}
+                      </span>
+                      )}
+                    </span>
+                  </Link>
+                );
+              })}
           </nav>
 
           {/* Right side: AI Funding Desk Badge */}
@@ -213,7 +220,14 @@ export function DynamicIslandNav({ className, logoPriority = false }: DynamicIsl
                               className="absolute left-2 w-1.5 h-1.5 rounded-full bg-[#FF4306]"
                             />
                           )}
-                          <span className="text-lg font-medium font-poppins">{item.label}</span>
+                          <span className="flex items-center gap-3 text-lg font-medium font-poppins">
+                            <span>{item.label}</span>
+                            {item.badge && (
+                              <span className="text-[9px] leading-tight font-semibold uppercase tracking-[0.16em] rounded-full bg-neutral-900/90 text-white px-1.5 py-[3px] shadow-sm ring-1 ring-white/10">
+                                {item.badge}
+                              </span>
+                            )}
+                          </span>
                         </Link>
                       </motion.div>
                     );
