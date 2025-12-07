@@ -630,7 +630,7 @@ export default function BusinessProfileView({
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                             <h3 className="text-xl font-bold text-black font-poppins leading-none mb-1">
-                                {isComplete ? baseTitle : `Complete ${baseTitle}`}
+                                {baseTitle}
                             </h3>
                         </div>
                         <p className="text-sm text-black/50 font-lora">

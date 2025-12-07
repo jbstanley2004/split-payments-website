@@ -26,7 +26,7 @@ export default function DashboardView({ applicationStatus, onNavigate }: Dashboa
     if (!businessIdentityComplete) {
       sections.push({
         id: 'business-identity',
-        title: 'Complete Business Identity',
+        title: 'Business Identity',
         description: 'Upload voided check and complete all business details.',
         icon: Upload,
       });
@@ -39,7 +39,7 @@ export default function DashboardView({ applicationStatus, onNavigate }: Dashboa
     if (!contactLocationComplete) {
       sections.push({
         id: 'contact-location',
-        title: 'Complete Contact & Location',
+        title: 'Contact & Location',
         description: 'Fill in all contact information and business address.',
         icon: Upload,
       });
@@ -61,7 +61,7 @@ export default function DashboardView({ applicationStatus, onNavigate }: Dashboa
     if (!financialComplete) {
       sections.push({
         id: 'financial-information',
-        title: 'Complete Financial Information',
+        title: 'Financial Information',
         description: 'Upload merchant statements and fill in all financial details.',
         icon: Upload,
       });
@@ -77,7 +77,7 @@ export default function DashboardView({ applicationStatus, onNavigate }: Dashboa
     if (!equipmentComplete) {
       sections.push({
         id: 'equipment-information',
-        title: 'Complete Equipment Information',
+        title: 'Equipment Information',
         description: 'Upload equipment photos and fill in all equipment details.',
         icon: Upload,
       });
@@ -93,7 +93,7 @@ export default function DashboardView({ applicationStatus, onNavigate }: Dashboa
     if (!ownerComplete) {
       sections.push({
         id: 'owner-information',
-        title: 'Complete Owner Information',
+        title: 'Owner Information',
         description: 'Upload photo ID and fill in all owner details.',
         icon: Upload,
       });
