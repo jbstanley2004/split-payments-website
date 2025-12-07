@@ -216,15 +216,6 @@ async function startServer() {
             }
         );
 
-        // The Apps SDK uses HTTP streaming (Server-Sent Events) for the control
-        // channel. Even though the endpoint path is /mcp (not /sse), we still
-        // need the standard SSE headers so intermediaries treat this as an
-        // event-stream.
-        res.setHeader("Content-Type", "text/event-stream");
-        res.setHeader("Cache-Control", "no-cache, no-transform");
-        res.setHeader("Connection", "keep-alive");
-        res.setHeader("X-Accel-Buffering", "no");
-
         // Keep sockets alive forever and avoid Nagle delays; this reduces the
         // time to first byte for the handshake and helps prevent idle timeouts
         // on proxies that enforce aggressive TCP inactivity limits.
