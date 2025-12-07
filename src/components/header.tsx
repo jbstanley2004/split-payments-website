@@ -207,18 +207,30 @@ export function Header() {
       <nav className="flex items-center px-2 md:px-0 z-20 w-full md:w-auto relative">
         <ContextMenu>
           <ContextMenuTrigger asChild>
-            <Link
-              href="/"
-              className="flex items-center focus-visible:outline-none"
-            >
-              <span className="sr-only">Split Logo</span>
-              <Image
-                alt="Split logo"
-                src={splitLogoLight}
-                className="h-14 w-auto md:h-24"
-                priority
-              />
-            </Link>
+            <div className="flex items-center focus-visible:outline-none">
+              <Link
+                href="/"
+                className="hidden md:flex items-center focus-visible:outline-none"
+              >
+                <span className="sr-only">Split Logo</span>
+                <Image
+                  alt="Split logo"
+                  src={splitLogoLight}
+                  className="h-14 w-auto md:h-24"
+                  priority
+                />
+              </Link>
+
+              <div className="flex md:hidden items-center">
+                <span className="sr-only">Split Logo</span>
+                <Image
+                  alt="Split logo"
+                  src={splitLogoLight}
+                  className="h-14 w-auto md:h-24"
+                  priority
+                />
+              </div>
+            </div>
           </ContextMenuTrigger>
 
           <ContextMenuContent

@@ -72,6 +72,9 @@ export default function BusinessProfileView({
 }: BusinessProfileViewProps) {
     const { documents, businessInfo, contactInfo, ownerInfo, equipmentInfo } = applicationStatus;
 
+    const primaryLabelClass = "block text-xs font-semibold text-brand-black uppercase tracking-wide";
+    const secondaryLabelClass = "block text-xs font-medium text-brand-black/80";
+
     // Local state for form fields
     const [localBusinessInfo, setLocalBusinessInfo] = useState(businessInfo);
     const [localContactInfo, setLocalContactInfo] = useState(contactInfo || {});
@@ -664,7 +667,7 @@ export default function BusinessProfileView({
         <div className="">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
                 <div className="col-span-1 md:col-span-2">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Legal / Corporate Name</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Legal / Corporate Name</label>
                     <input
                         type="text"
                         value={localBusinessInfo.businessName || ''}
@@ -674,7 +677,7 @@ export default function BusinessProfileView({
                     />
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">DBA (Doing Business As)</label>
+                    <label className={`${primaryLabelClass} mb-2`}>DBA (Doing Business As)</label>
                     <input
                         type="text"
                         value={localBusinessInfo.dba || ''}
@@ -687,7 +690,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Entity Type</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Entity Type</label>
                     <select
                         value={localBusinessInfo.entityType || ''}
                         onChange={(e) => updateBusinessField('entityType', e.target.value)}
@@ -705,7 +708,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Industry</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Industry</label>
                     <input
                         type="text"
                         value={localBusinessInfo.industry || ''}
@@ -719,7 +722,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Business Start Date</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Business Start Date</label>
                     <input
                         type="date"
                         value={localBusinessInfo.businessStartDate || ''}
@@ -731,7 +734,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">EIN (Employer ID Number)</label>
+                    <label className={`${primaryLabelClass} mb-2`}>EIN (Employer ID Number)</label>
                     <input
                         type="text"
                         value={localBusinessInfo.ein || ''}
@@ -757,7 +760,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div className="col-span-1 md:col-span-2 mt-4">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Verification Document</label>
+                    <label className={`${primaryLabelClass} mb-4`}>Verification Document</label>
                     <DocumentCard
                         title="Voided Check"
                         description="To verify your business bank account details."
@@ -807,7 +810,7 @@ export default function BusinessProfileView({
                     <p className="text-xs text-orange-600 mt-1 font-medium">Required for funding</p>
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Business Phone</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Business Phone</label>
                     <input
                         type="tel"
                         value={localContactInfo.businessPhone || ''}
@@ -830,7 +833,7 @@ export default function BusinessProfileView({
                     />
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Email</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Email</label>
                     <input
                         type="email"
                         value={localContactInfo.email || ''}
@@ -849,7 +852,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div className="col-span-1 md:col-span-2">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Website (Optional)</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Website (Optional)</label>
                     <input
                         type="url"
                         value={localContactInfo.website || ''}
@@ -874,7 +877,7 @@ export default function BusinessProfileView({
         <div className="">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Monthly Processing Volume</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Monthly Processing Volume</label>
                     <div className="relative">
                         <span className="absolute left-4 top-3 text-black/40">$</span>
                         <input
@@ -890,7 +893,7 @@ export default function BusinessProfileView({
                 </div>
 
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Annual Revenue</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Annual Revenue</label>
                     <div className="relative">
                         <span className="absolute left-4 top-3 text-black/40">$</span>
                         <input
@@ -904,7 +907,7 @@ export default function BusinessProfileView({
                     </div>
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">High Ticket Amount</label>
+                    <label className={`${primaryLabelClass} mb-2`}>High Ticket Amount</label>
                     <div className="relative">
                         <span className="absolute left-4 top-3 text-black/40">$</span>
                         <input
@@ -918,7 +921,7 @@ export default function BusinessProfileView({
                     </div>
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Average Ticket Size</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Average Ticket Size</label>
                     <div className="relative">
                         <span className="absolute left-4 top-3 text-black/40 z-10">$</span>
                         <input
@@ -935,7 +938,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div className="col-span-1 md:col-span-2">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Description of Product/Service</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Description of Product/Service</label>
                     <textarea
                         value={localBusinessInfo.productServiceDescription || ''}
                         onChange={(e) => updateBusinessField('productServiceDescription', e.target.value)}
@@ -947,7 +950,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div className="col-span-1 md:col-span-2 mt-4">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Verification Document</label>
+                    <label className={`${primaryLabelClass} mb-4`}>Verification Document</label>
                     <DocumentCard
                         title="Merchant Statements"
                         description="Upload your last 3 months of processing statements."
@@ -972,7 +975,7 @@ export default function BusinessProfileView({
         <div className="">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Equipment Make</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Equipment Make</label>
                     <input
                         type="text"
                         value={localEquipmentInfo.make || ''}
@@ -982,7 +985,7 @@ export default function BusinessProfileView({
                     />
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Equipment Model</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Equipment Model</label>
                     <input
                         type="text"
                         value={localEquipmentInfo.model || ''}
@@ -992,10 +995,10 @@ export default function BusinessProfileView({
                     />
                 </div>
                     <div className="col-span-1 md:col-span-2">
-                        <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Card Swipe Ratio (Must equal 100%)</label>
+                        <label className={`${primaryLabelClass} mb-4`}>Card Swipe Ratio (Must equal 100%)</label>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                             <div>
-                                <label className="block text-xs font-medium text-black/60 mb-2">Card Present %</label>
+                                <label className={`${secondaryLabelClass} mb-2`}>Card Present %</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -1008,7 +1011,7 @@ export default function BusinessProfileView({
                             </div>
                         </div>
                             <div>
-                                <label className="block text-xs font-medium text-black/60 mb-2">Card Not Present %</label>
+                                <label className={`${secondaryLabelClass} mb-2`}>Card Not Present %</label>
                                 <div className="relative">
                                     <input
                                         type="number"
@@ -1027,7 +1030,7 @@ export default function BusinessProfileView({
                     </div>
 
                 <div className="col-span-1 md:col-span-2">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Equipment Types</label>
+                    <label className={`${primaryLabelClass} mb-4`}>Equipment Types</label>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         {[
                             "Phone swiper/mobile reader",
@@ -1057,7 +1060,7 @@ export default function BusinessProfileView({
                 </div>
 
                 <div className="col-span-1 md:col-span-2">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Equipment Photo</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Equipment Photo</label>
 
                     <div className="border-2 border-dashed border-black/10 rounded-xl p-8 text-center hover:border-black/20 transition-colors bg-[#F6F5F4]/50 mb-4">
                         <div className="flex flex-col items-center gap-4">
@@ -1162,7 +1165,7 @@ export default function BusinessProfileView({
         <div className="">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-5 lg:gap-6">
                 <div className="col-span-1 md:col-span-2">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Owner Full Name</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Owner Full Name</label>
                     <input
                         type="text"
                         value={localOwnerInfo.fullName || ''}
@@ -1172,7 +1175,7 @@ export default function BusinessProfileView({
                     />
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Title / Role</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Title / Role</label>
                     <input
                         type="text"
                         value={localOwnerInfo.title || ''}
@@ -1185,7 +1188,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Cell Phone</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Cell Phone</label>
                     <input
                         type="tel"
                         value={localOwnerInfo.cellPhone || ''}
@@ -1228,7 +1231,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div>
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-2">Social Security Number</label>
+                    <label className={`${primaryLabelClass} mb-2`}>Social Security Number</label>
                     <input
                         type="text"
                         value={localOwnerInfo.ssn || ''}
@@ -1254,7 +1257,7 @@ export default function BusinessProfileView({
                     )}
                 </div>
                 <div className="col-span-1 md:col-span-2 mt-4">
-                    <label className="block text-xs font-bold text-black/40 uppercase tracking-wide mb-4">Verification Document</label>
+                    <label className={`${primaryLabelClass} mb-4`}>Verification Document</label>
                     <DocumentCard
                         title="Photo ID"
                         description="A clear photo of your driver's license or passport."
