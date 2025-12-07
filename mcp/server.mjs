@@ -108,11 +108,19 @@ async function startServer() {
                         return 0;
                     }
                 })();
+                const structuredPreview = (() => {
+                    try {
+                        return JSON.stringify(result?.structuredContent)?.slice(0, 2000);
+                    } catch {
+                        return undefined;
+                    }
+                })();
                 console.log(`tool ${name} success`, {
                     args,
                     metaKeys: meta ? Object.keys(meta) : [],
                     contentKeys: result ? Object.keys(result) : [],
                     contentSize,
+                    structuredPreview,
                 });
                 return result;
             } catch (err) {
