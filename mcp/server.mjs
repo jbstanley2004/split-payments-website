@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import http from "node:http";
+import http2 from "node:http2";
 import express from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
@@ -64,10 +66,24 @@ function responsePayload(profile, message) {
 // Global transport map to persist sessions across requests in a long-running process
 const transportMap = new Map();
 
-async function startServer() {
-    const server = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
+function createServer(app) {
+    // Prefer HTTP/2 (required for Cloud Run's streaming support) but fall back to
+    // HTTP/1.1 if the runtime does not support h2c. allowHTTP1 keeps local
+    // testing simple while giving Cloud Run and GCE load balancers an h2 option.
+    if (process.env.HTTP2_ENABLED !== "false") {
+        try {
+            return http2.createServer({ allowHTTP1: true }, app);
+        } catch (err) {
+            console.warn("HTTP/2 unavailable, falling back to HTTP/1.1", err);
+        }
+    }
+    return http.createServer(app);
+}
 
-    server.registerResource(
+async function startServer() {
+    const mcpServer = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
+
+    mcpServer.registerResource(
         "business-profile-widget",
         templateUri,
         {},
@@ -92,7 +108,7 @@ async function startServer() {
         })
     );
 
-    server.registerTool(
+    mcpServer.registerTool(
         "load_business_profile",
         {
             title: "Load business profile",
@@ -120,7 +136,7 @@ async function startServer() {
         }
     );
 
-    server.registerTool(
+    mcpServer.registerTool(
         "update_business_profile_field",
         {
             title: "Update profile field",
@@ -143,7 +159,7 @@ async function startServer() {
         }
     );
 
-    server.registerTool(
+    mcpServer.registerTool(
         "reset_business_profile",
         {
             title: "Reset business profile",
@@ -168,6 +184,17 @@ async function startServer() {
     // Basic body parsing so the POST /mcp/messages handler can decode JSON payloads
     app.use(express.json({ limit: "1mb" }));
 
+    // Capture JSON parse errors so we can log what the MCP client actually sent
+    // instead of silently failing the request.
+    app.use((err, _req, res, next) => {
+        if (err instanceof SyntaxError && "status" in err && err.status === 400 && "body" in err) {
+            console.error("Malformed JSON payload on /mcp/messages", err.body);
+            res.status(400).send("Invalid JSON payload");
+            return;
+        }
+        next(err);
+    });
+
     // CORS Middleware
     app.use((req, res, next) => {
         res.header("Access-Control-Allow-Origin", "*");
@@ -180,7 +207,14 @@ async function startServer() {
     const sessionTimings = new Map();
 
     app.get(["/mcp", "/mcp/sse"], async (req, res) => {
-        console.log(`New MCP stream connection on ${req.path}`);
+        console.log(
+            `New MCP stream connection on ${req.path} from ${req.ip || req.socket?.remoteAddress || "unknown"}`,
+            {
+                headers: req.headers,
+                query: req.query,
+                httpVersion: req.httpVersion,
+            }
+        );
 
         // The Apps SDK uses HTTP streaming (Server-Sent Events) for the control
         // channel. Even though the endpoint path is /mcp (not /sse), we still
@@ -189,6 +223,13 @@ async function startServer() {
         res.setHeader("Content-Type", "text/event-stream");
         res.setHeader("Cache-Control", "no-cache, no-transform");
         res.setHeader("Connection", "keep-alive");
+        res.setHeader("X-Accel-Buffering", "no");
+
+        // Keep sockets alive forever and avoid Nagle delays; this reduces the
+        // time to first byte for the handshake and helps prevent idle timeouts
+        // on proxies that enforce aggressive TCP inactivity limits.
+        req.socket.setTimeout(0);
+        req.socket.setNoDelay(true);
 
         // Keep the underlying socket alive and periodically send heartbeats so
         // proxies/load balancers (including Google Cloud Run) do not time out
@@ -196,11 +237,25 @@ async function startServer() {
         // handshake.
         req.socket.setKeepAlive(true, 10000);
 
+        // Flush headers immediately so the client receives a response and
+        // knows the stream is established. Also emit an initial comment
+        // frame so intermediaries deliver the first chunk right away, rather
+        // than buffering until the next write.
+        res.flushHeaders?.();
+        res.write(`: connected ${Date.now()}\n\n`);
+
         const transport = new SSEServerTransport("/mcp/messages", res);
         transportMap.set(transport.sessionId, transport);
 
         const connectedAt = Date.now();
-        sessionTimings.set(transport.sessionId, { connectedAt });
+        const watchdog = setTimeout(() => {
+            console.warn(
+                `Session ${transport.sessionId} (${req.ip || req.socket?.remoteAddress || "unknown"}) ` +
+                    `has not received a POST /mcp/messages after 15s; client handshake may not be starting`
+            );
+        }, 15000);
+
+        sessionTimings.set(transport.sessionId, { connectedAt, watchdog });
         console.log(`Session ${transport.sessionId} connected at ${new Date(connectedAt).toISOString()}`);
 
         const heartbeat = setInterval(() => {
@@ -211,16 +266,38 @@ async function startServer() {
             }
         }, 20000);
 
-        transport.onclose = () => {
-            console.log(`Session closed: ${transport.sessionId}`);
+        const cleanup = (reason) => {
+            console.log(`Session ${transport.sessionId} closing (${reason})`);
+            const timing = sessionTimings.get(transport.sessionId);
+            if (timing?.watchdog) clearTimeout(timing.watchdog);
             transportMap.delete(transport.sessionId);
             sessionTimings.delete(transport.sessionId);
             clearInterval(heartbeat);
         };
 
-        res.on("close", () => clearInterval(heartbeat));
+        transport.onclose = () => {
+            cleanup("transport closed");
+        };
 
-        await server.connect(transport);
+        res.on("close", () => cleanup("response closed"));
+
+        req.on("aborted", () => cleanup("client aborted"));
+        req.on("error", (err) => console.warn(`SSE request error for ${transport.sessionId}`, err));
+        res.on("error", (err) => console.warn(`SSE response error for ${transport.sessionId}`, err));
+
+        try {
+            await mcpServer.connect(transport);
+            console.log(`Session ${transport.sessionId} connected to MCP server instance`);
+        } catch (err) {
+            console.error(`Failed to establish MCP session ${transport.sessionId}`, err);
+            cleanup("server.connect error");
+            try {
+                res.write(`event: error\ndata: ${JSON.stringify({ error: "server_connect_failed" })}\n\n`);
+            } catch {
+                // ignore secondary write failures
+            }
+            res.end();
+        }
     });
 
     function logSessionEvent(sessionId, body) {
@@ -232,6 +309,7 @@ async function startServer() {
             timing.firstPostAt = now;
             const elapsed = now - timing.connectedAt;
             console.log(`Session ${sessionId}: first POST after ${elapsed}ms`);
+            if (timing.watchdog) clearTimeout(timing.watchdog);
         }
 
         const extractMethod = (payload) => {
@@ -263,19 +341,29 @@ async function startServer() {
     app.post("/mcp/messages", async (req, res) => {
         const sessionId = req.query.sessionId;
         if (!sessionId) {
+            console.warn("Rejected /mcp/messages without sessionId", { headers: req.headers, body: req.body });
             res.status(400).send("Missing sessionId");
             return;
         }
 
         const transport = transportMap.get(sessionId);
         if (!transport) {
+            console.warn(`Received /mcp/messages for unknown session ${sessionId}`, { headers: req.headers, body: req.body });
             res.status(404).send("Session not found");
             return;
         }
 
         logSessionEvent(sessionId, req.body);
 
-        await transport.handlePostMessage(req, res, req.body);
+        try {
+            await transport.handlePostMessage(req, res, req.body);
+        } catch (err) {
+            console.error(`Error handling message for session ${sessionId}`, err, {
+                body: req.body,
+                headers: req.headers,
+            });
+            res.status(500).send("Internal error processing MCP message");
+        }
     });
 
     // Health check
@@ -284,8 +372,11 @@ async function startServer() {
     });
 
     const port = process.env.PORT || 3030;
-    app.listen(port, () => {
-        console.log(`MCP server listening on port ${port}`);
+    const httpServer = createServer(app);
+    httpServer.listen(port, () => {
+        console.log(
+            `MCP server listening on port ${port} with HTTP/${httpServer instanceof http2.Http2Server ? "2 (h2c fallback enabled)" : "1.1"}`
+        );
     });
 }
 
