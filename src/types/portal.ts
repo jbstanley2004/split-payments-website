@@ -51,6 +51,7 @@ export interface BusinessInfo {
 
 export interface ContactInfo {
     physicalAddress?: string;
+    physicalAddressLine2?: string;
     cityStateZip?: string;
     businessPhone?: string;
     email: string;
@@ -62,6 +63,7 @@ export interface OwnerInfo {
     title?: string;
     cellPhone?: string;
     homeAddress?: string;
+    homeAddressLine2?: string;
     homeCityStateZip?: string;
     ssn?: string;
 }
@@ -70,6 +72,8 @@ export interface EquipmentInfo {
     make: string;
     model: string;
     photoUrl?: string;
+    shippingAddress?: string;
+    shippingAddressLine2?: string;
     cardPresentPercentage?: number;
     cardNotPresentPercentage?: number;
     equipmentTypes?: string[];

@@ -34,7 +34,7 @@ export const verifyPhoneNumber = (input: string): PhoneVerificationResult => {
             isValid: false,
             normalized: '',
             formatted: trimmed,
-            reason: 'Enter a valid US phone number with a 10-digit area/exchange starting at 2-9.'
+            reason: 'Enter a valid US phone number.'
         };
     }
 
