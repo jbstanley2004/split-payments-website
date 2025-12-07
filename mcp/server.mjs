@@ -96,10 +96,17 @@ async function startServer() {
                     _meta: {
                         "openai/widgetPrefersBorder": true,
                         "openai/widgetDomain": widgetDomain,
-                        "openai/widgetCSP": {
-                            connect_domains: connectDomains,
-                            resource_domains: ["https://*.oaistatic.com", "https://*.gstatic.com", "https://*.firebaseio.com", "https://*.googleapis.com"],
-                        },
+                       "openai/widgetCSP": {
+                           connect_domains: connectDomains,
+                            resource_domains: [
+                                "https://*.oaistatic.com",
+                                "https://*.gstatic.com",
+                                "https://*.firebaseio.com",
+                                "https://*.googleapis.com",
+                                "https://*.firebaseapp.com",
+                                "https://*.firebasestorage.app",
+                            ],
+                       },
                         "openai/widgetDescription":
                             "Guided onboarding wizard that stays in sync with Portal profile fields.",
                     },
