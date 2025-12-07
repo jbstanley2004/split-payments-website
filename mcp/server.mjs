@@ -6,6 +6,7 @@ import http2 from "node:http2";
 import express from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { z } from "zod";
 import {
     buildMeta,
     buildStructuredContent,
@@ -90,6 +91,28 @@ function createServer(app) {
 async function startServer() {
     const mcpServer = new McpServer({ name: "split-payments-mcp", version: "0.1.0" });
 
+    const structuredContentSchema = z.object({
+        accountId: z.string(),
+        onboardingStatus: z.enum(["in_progress", "complete"]),
+        completionPercent: z.number(),
+        requiredCompletionPercent: z.number(),
+        nextSection: z
+            .object({
+                key: z.string(),
+                title: z.string(),
+            })
+            .nullable(),
+        updatedAt: z.string().optional(),
+        sections: z.array(
+            z.object({
+                key: z.string(),
+                title: z.string(),
+                requiredFieldsCompleted: z.number(),
+                totalRequiredFields: z.number(),
+            })
+        ),
+    });
+
     mcpServer.registerResource("business-profile-widget", templateUri, {}, async () => {
         const html = await loadTemplate();
         const meta = {
@@ -161,6 +184,7 @@ async function startServer() {
                 },
             },
             _meta: widgetMeta,
+            outputSchema: structuredContentSchema,
         },
         wrapTool("load_business_profile", async ({ accountId, restart }) => {
             const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
@@ -186,6 +210,7 @@ async function startServer() {
                 required: ["accountId", "sectionKey", "fieldKey", "value"],
             },
             _meta: widgetMeta,
+            outputSchema: structuredContentSchema,
         },
         wrapTool("update_business_profile_field", async ({ accountId, sectionKey, fieldKey, value }) => {
             const profile = await updateField(accountId, sectionKey, fieldKey, String(value));
@@ -205,6 +230,7 @@ async function startServer() {
                 },
             },
             _meta: widgetMeta,
+            outputSchema: structuredContentSchema,
         },
         wrapTool("reset_business_profile", async ({ accountId }) => {
             const resolvedAccountId = accountId?.trim() ? accountId : generateAccountId();
