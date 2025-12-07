@@ -65,7 +65,6 @@ function responsePayload(profile, message) {
     const metadata = { ...buildMeta(profile), ...widgetMeta };
     return {
         structuredContent: buildStructuredContent(profile),
-        toolResponseMetadata: metadata,
         content: [],
         _meta: metadata,
     };
