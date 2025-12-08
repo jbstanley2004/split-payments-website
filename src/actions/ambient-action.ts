@@ -37,6 +37,12 @@ export async function sendAmbientMessage(
     try {
         const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
+        // Enhanced Debug Logging (matching gemini-action.ts)
+        console.log("[Ambient Action] Environment Check:");
+        console.log(`- GEMINI_API_KEY present: ${!!process.env.GEMINI_API_KEY}`);
+        console.log(`- NEXT_PUBLIC_GEMINI_API_KEY present: ${!!process.env.NEXT_PUBLIC_GEMINI_API_KEY}`);
+        console.log(`- Resolved API Key present: ${!!apiKey}`);
+
         if (!apiKey) {
             console.warn("[Ambient Action] No API key found.");
             return {

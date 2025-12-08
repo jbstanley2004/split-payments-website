@@ -59,7 +59,7 @@ export async function sendGeminiMessage(
     attachment?: { data: string; type: string }
 ): Promise<ChatActionResponse> {
     try {
-        const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY || "AIzaSyB37kmqz4TM9puBbLTiYmxp-kHUxaATy8s";
+        const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 
         // Enhanced Debug Logging
         console.log("[Gemini Action] Environment Check:");
