@@ -1,0 +1,455 @@
+/* Ambient Assistant - Pure white, Notion-style design */
+
+.ambient-assistant {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 50;
+}
+
+@media (max-width: 1023px) {
+  .ambient-assistant {
+    display: none;
+  }
+}
+
+/* Trigger Button */
+.ambient-trigger {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 0;
+}
+
+/* Chat Panel - snow white, no warm tints */
+.ambient-panel {
+  position: relative;
+  /* Changed from fixed to relative as it fills Rnd */
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.05),
+    0 16px 56px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header */
+.ambient-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  flex-shrink: 0;
+  background: #fff;
+  user-select: none;
+}
+
+.ambient-header-spacer {
+  flex: 1;
+}
+
+.ambient-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ambient-icon-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border: none;
+  background: transparent;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.ambient-icon-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.75);
+}
+
+/* Messages Area */
+.ambient-messages {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 0;
+  background: #fff;
+}
+
+.ambient-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ambient-messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ambient-messages::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+}
+
+/* Welcome Section - CENTERED */
+.ambient-welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 40px 20px 20px;
+}
+
+.ambient-welcome-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* Prompt templates - pyramid layout, black buttons */
+.ambient-prompts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.ambient-prompts-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.ambient-prompt-btn {
+  padding: 10px 20px;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.ambient-prompt-btn:hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+
+/* Messages */
+.ambient-message {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+/* User messages - tight wrapping, right aligned */
+.ambient-message-user {
+  justify-content: flex-end;
+}
+
+.ambient-message-user .ambient-message-content {
+  background: #1a1a1a;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 16px;
+  max-width: fit-content;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Assistant messages - left aligned, formatted */
+.ambient-message-assistant .ambient-message-content {
+  flex: 1;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #1a1a1a;
+}
+
+.ambient-paragraph {
+  margin-bottom: 12px;
+}
+
+.ambient-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+.ambient-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.ambient-message-content strong {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* Loading dots */
+.ambient-loading {
+  display: flex;
+  gap: 4px;
+  padding: 8px 0;
+}
+
+.ambient-loading-dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 50%;
+  animation: ambientPulse 1.4s ease-in-out infinite;
+}
+
+.ambient-loading-dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.ambient-loading-dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes ambientPulse {
+
+  0%,
+  80%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Attachments - vertical cards */
+.ambient-attachments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 0 12px 12px;
+  max-height: 180px;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.ambient-attachment-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #f7f7f7;
+  border-radius: 10px;
+  min-width: 160px;
+  max-width: 200px;
+}
+
+.ambient-attachment-preview {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.file-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.file-icon-pdf {
+  background: #ffe8e8;
+  color: #d32f2f;
+}
+
+.file-icon-doc {
+  background: #f0f0f0;
+  color: #666;
+}
+
+.ambient-attachment-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ambient-attachment-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ambient-attachment-type {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.ambient-attachment-remove {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.ambient-attachment-remove:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #666;
+}
+
+/* Input Area - white input with shadow to float above panel */
+.ambient-input-area {
+  padding: 8px 12px 12px;
+  flex-shrink: 0;
+  background: #fff;
+}
+
+/* Cleaner, minimal input container (Notion style) */
+.ambient-input-container {
+  background: #fff;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* Removed border and heavy shadow */
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.ambient-input-container:focus-within {
+  /* Optional: very subtle focus state if needed, or keep seamless */
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+.ambient-input {
+  width: 100%;
+  min-height: 44px;
+  max-height: 150px;
+  padding: 12px 4px;
+  /* Reduced side padding slightly as container handles spacing */
+  border: none;
+  outline: none;
+  font-size: 15px;
+  line-height: 1.5;
+  resize: none;
+  font-family: inherit;
+  color: #1a1a1a;
+  background: transparent;
+}
+
+.ambient-input::placeholder {
+  color: #999;
+}
+
+.ambient-input-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px 4px;
+  /* Adjust padding to align */
+}
+
+/* Send button - Larger, black */
+.ambient-send-btn {
+  width: 42px;
+  /* Increased from 36px */
+  height: 42px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.ambient-send-btn:hover {
+  background: #000;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Hidden file input - use ambient prefix to avoid Tailwind conflict */
+.ambient-file-input-hidden {
+  display: none !important;
+}
+
+/* Override cursor behavior during drag to keep it as 'default' (arrow) */
+/* react-rnd / react-draggable might try to set cursor: move or grabbing */
+.ambient-assistant,
+.react-draggable,
+.react-draggable-dragging,
+.react-draggable-dragged {
+  cursor: default !important;
+}
+
+/* Ensure interactive elements still show pointer */
+button,
+.ambient-trigger,
+.ambient-icon-btn,
+.ambient-prompt-btn,
+.ambient-send-btn,
+.ambient-attachment-remove,
+.resize-handle {
+  cursor: pointer !important;
+}
+
+/* Specific resize cursors for handles if we had visible ones, 
+   but currently Rnd handles this. 
+   If Rnd uses inline styles for resize handles, this might conflict if we were using 'default' globally,
+   but we only targeted specific classes above. 
+   React-rnd handles resize cursors via inline styles on the handles usually. 
+   We should ensure we don't accidentally override resize cursors if the user said "resize is fine".
+   The user said "resize is fine". So we only want to affect "drag and move".
+   Drag happens on the main element.
+*/

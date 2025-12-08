@@ -9,6 +9,7 @@ import { Poppins } from 'next/font/google';
 import '@/styles/globals.css';
 import ScrollStitch from '@/components/ScrollStitch';
 import FooterBeamClient from '@/components/FooterBeamClient';
+import AmbientAssistantWrapper from '@/components/ambient-assistant/AmbientAssistantWrapper';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -143,6 +144,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         </StyledComponentsRegistry>
         <ScrollStitch />
         <FooterBeamClient />
+        <AmbientAssistantWrapper />
       </body>
     </html>
   );
