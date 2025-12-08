@@ -9,6 +9,7 @@ import { Poppins } from 'next/font/google';
 import '@/styles/globals.css';
 import ScrollStitch from '@/components/ScrollStitch';
 import FooterBeamClient from '@/components/FooterBeamClient';
+import { DesktopAssistantWidget } from '@/components/notion-assistant/DesktopAssistantWidget';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -143,6 +144,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         </StyledComponentsRegistry>
         <ScrollStitch />
         <FooterBeamClient />
+        <DesktopAssistantWidget />
       </body>
     </html>
   );
