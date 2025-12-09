@@ -4,42 +4,57 @@ import type { Database } from "@midday/supabase/types";
 import { createServerClient } from "@supabase/ssr";
 
 export async function fetchStats() {
-  const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!,
-    {
-      cookies: {
-        get() {
-          return null;
-        },
-        set() {
-          return null;
-        },
-        remove() {
-          return null;
-        },
-      },
-    },
-  );
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_KEY;
 
-  const supabaseStorage = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_KEY!,
-    {
-      cookies: {
-        get() {
-          return null;
-        },
-        set() {
-          return null;
-        },
-        remove() {
-          return null;
-        },
+  const zeroStats = {
+    users: 0,
+    transactions: 0,
+    bankAccounts: 0,
+    trackerEntries: 0,
+    inboxItems: 0,
+    bankConnections: 0,
+    trackerProjects: 0,
+    reports: 0,
+    vaultObjects: 0,
+    transactionEnrichments: 0,
+    invoices: 0,
+    invoiceCustomers: 0,
+  };
+
+  if (!url || !key) {
+    console.warn("[fetchStats] Missing Supabase envs at build/runtime; returning zeros.");
+    return zeroStats;
+  }
+
+  const supabase = createServerClient<Database>(url, key, {
+    cookies: {
+      get() {
+        return null;
       },
-      db: { schema: "storage" },
+      set() {
+        return null;
+      },
+      remove() {
+        return null;
+      },
     },
-  );
+  });
+
+  const supabaseStorage = createServerClient<Database>(url, key, {
+    cookies: {
+      get() {
+        return null;
+      },
+      set() {
+        return null;
+      },
+      remove() {
+        return null;
+      },
+    },
+    db: { schema: "storage" },
+  });
 
   const [
     { count: users },
@@ -106,17 +121,17 @@ export async function fetchStats() {
   ]);
 
   return {
-    users,
-    transactions,
-    bankAccounts,
-    trackerEntries,
-    inboxItems,
-    bankConnections,
-    trackerProjects,
-    reports,
-    vaultObjects,
-    transactionEnrichments,
-    invoices,
-    invoiceCustomers,
+    users: users ?? 0,
+    transactions: transactions ?? 0,
+    bankAccounts: bankAccounts ?? 0,
+    trackerEntries: trackerEntries ?? 0,
+    inboxItems: inboxItems ?? 0,
+    bankConnections: bankConnections ?? 0,
+    trackerProjects: trackerProjects ?? 0,
+    reports: reports ?? 0,
+    vaultObjects: vaultObjects ?? 0,
+    transactionEnrichments: transactionEnrichments ?? 0,
+    invoices: invoices ?? 0,
+    invoiceCustomers: invoiceCustomers ?? 0,
   };
 }
