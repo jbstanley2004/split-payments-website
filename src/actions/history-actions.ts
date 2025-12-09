@@ -1,6 +1,7 @@
-import { createClient } from "@/lib/supabase/server";
+'use server';
 
-// ... other imports ...
+import { getUserConversations, getConversationMessages } from "../lib/supabase/conversations";
+import { createClient } from "@/lib/supabase/server";
 
 /**
  * server action to get list of conversations

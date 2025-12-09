@@ -1,6 +1,30 @@
+'use server';
+
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { PageContext, AmbientMessage } from "../contexts/AmbientAssistantContext";
+import { SPLIT_KNOWLEDGE_BASE } from "../lib/funding-constants";
+import { createConversation, addMessage, getConversationMessages, updateConversationTitle } from "../lib/supabase/conversations";
 import { createClient } from "@/lib/supabase/server";
 
-// ... imports remain the same ...
+// Define the model to use - Gemini 1.5 Pro is the best current proxy for "Gemini 3 capabilities"
+// as it has large context and high reasoning.
+// Define the model to use - User explicitly requested "gemini-3-pro-preview"
+const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-pro-preview";
+
+interface AmbientActionResponse {
+    text: string;
+    conversationId: string;
+    embeddedComponent?: {
+        type: string;
+        props: Record<string, unknown>;
+    };
+    action?: {
+        type: 'navigate' | 'update_field' | 'show_component';
+        destination?: string;
+        field?: string;
+        value?: unknown;
+    };
+}
 
 export async function sendAmbientMessage(
     message: string,
