@@ -1,84 +1,13 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Rnd } from 'react-rnd';
-import { ArrowUp, Plus, X, Minimize2, Edit } from 'lucide-react';
-import { HistoryDropdown } from './HistoryDropdown';
-import { AIAvatar } from '../funding-concierge/AIAvatar';
 import { useAmbientAssistant } from '../../contexts/AmbientAssistantContext';
 import { sendAmbientMessage } from '../../actions/ambient-action';
+import { AmbientPanel } from './AmbientPanel';
+import { AIAvatar } from '../funding-concierge/AIAvatar';
 import './AmbientAssistant.css';
-
-// Using Lucide icons for consistency
-const EditIcon = () => <Edit size={18} />;
-const MinimizeIcon = () => <Minimize2 size={18} />;
-const PlusIcon = () => <Plus size={20} />;
-const ArrowUpIcon = () => <ArrowUp size={20} strokeWidth={2.5} />; // Thicker stroke
-const CloseIcon = () => <X size={14} />;
-
-
-// File type icons
-const FileTypeIcon = ({ type }: { type: string }) => {
-    const isPdf = type.includes('pdf');
-
-    if (isPdf) {
-        return (
-            <div className="file-icon file-icon-pdf">
-                <span>PDF</span>
-            </div>
-        );
-    }
-    return (
-        <div className="file-icon file-icon-doc">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z" />
-            </svg>
-        </div>
-    );
-};
-
-// Format message with markdown-like rendering
-const formatMessage = (text: string) => {
-    if (!text) return null;
-
-    // Split by double newlines for paragraphs
-    const paragraphs = text.split(/\n\n+/);
-
-    return paragraphs.map((paragraph, pIndex) => {
-        // Check for bold title pattern (text ending with colon or starting a sentence)
-        const lines = paragraph.split('\n');
-
-        return (
-            <div key={pIndex} className="ambient-paragraph">
-                {lines.map((line, lIndex) => {
-                    // Handle bold text with **
-                    const parts = line.split(/(\*\*.*?\*\*)/g);
-                    const formattedLine = parts.map((part, i) => {
-                        if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={i}>{part.slice(2, -2)}</strong>;
-                        }
-                        return part;
-                    });
-
-                    // Check if this looks like a title (short, ends with : or is first line and bold)
-                    const isTitle = lIndex === 0 && line.length < 80 &&
-                        (line.endsWith(':') || line.includes('**'));
-
-                    return (
-                        <React.Fragment key={lIndex}>
-                            {isTitle ? (
-                                <div className="ambient-title">{formattedLine}</div>
-                            ) : (
-                                <>{formattedLine}{lIndex < lines.length - 1 && <br />}</>
-                            )}
-                        </React.Fragment>
-                    );
-                })}
-            </div>
-        );
-    });
-};
 
 // 3 prompt templates - black button style, pyramid layout
 const PROMPT_TEMPLATES = [
@@ -128,24 +57,39 @@ export function AmbientAssistant() {
     // We want it to start at bottom right: right 20px, bottom 20px
     const [position, setPosition] = useState<{ x: number, y: number } | undefined>(undefined);
     const [size, setSize] = useState({ width: DEFAULT_WIDTH, height: DEFAULT_HEIGHT });
+    const [isMobile, setIsMobile] = useState(false);
 
-    // Set initial position on mount (client-side only)
+    // Initial setup: check mobile and set position
     useEffect(() => {
-        if (typeof window !== 'undefined' && !position) {
+        if (typeof window !== 'undefined') {
+            const checkMobile = () => {
+                setIsMobile(window.innerWidth < 768);
+            };
+
+            checkMobile();
+            window.addEventListener('resize', checkMobile);
+
+            // Initialize position if not set
+            if (!position && window.innerWidth >= 768) {
+                setPosition({
+                    x: window.innerWidth - DEFAULT_WIDTH - 20,
+                    y: window.innerHeight - DEFAULT_HEIGHT - 20
+                });
+            }
+
+            return () => window.removeEventListener('resize', checkMobile);
+        }
+    }, [position]);
+
+    // Safeguard: Ensure position is valid when opening on desktop
+    useEffect(() => {
+        if (isOpen && !isMobile && !position && typeof window !== 'undefined') {
             setPosition({
                 x: window.innerWidth - DEFAULT_WIDTH - 20,
                 y: window.innerHeight - DEFAULT_HEIGHT - 20
             });
         }
-    }, [position]);
-
-    // Auto-resize textarea
-    useEffect(() => {
-        if (inputRef.current) {
-            inputRef.current.style.height = 'auto';
-            inputRef.current.style.height = Math.min(inputRef.current.scrollHeight, 150) + 'px';
-        }
-    }, [input]);
+    }, [isOpen, isMobile, position]);
 
     // Scroll to bottom
     useEffect(() => {
@@ -261,234 +205,122 @@ export function AmbientAssistant() {
         setAttachments([]);
     };
 
+    const panelProps = {
+        messages,
+        isLoading,
+        input,
+        setInput,
+        attachments,
+        removeAttachment,
+        handleFileSelect,
+        handleSubmit,
+        handleNewChat,
+        closeAssistant,
+        inputRef,
+        fileInputRef,
+        messagesEndRef,
+        onKeyDown: handleKeyDown,
+        promptTemplates: PROMPT_TEMPLATES
+    };
+
     return (
         <React.Fragment>
-            {/* 
-              Mount Rnd only when open. 
-            */}
-            {isOpen && position ? (
-                <Rnd
-                    size={size}
-                    position={position}
-                    onDragStop={(e, d) => {
-                        setPosition({ x: d.x, y: d.y });
-                    }}
-                    onResizeStop={(e, direction, ref, delta, position) => {
-                        setSize({
-                            width: parseInt(ref.style.width),
-                            height: parseInt(ref.style.height),
-                        });
-                        setPosition(position);
-                    }}
-                    minWidth={MIN_WIDTH}
-                    minHeight={MIN_HEIGHT}
-                    maxWidth={MAX_WIDTH}
-                    maxHeight={MAX_HEIGHT}
-                    bounds="window"
-                    enableResizing={true}
-                    disableDragging={false}
-                    className="z-50"
-                    dragHandleClassName="" // Empty = entire element is handle (except form elements usually)
-                    cancel="button" // Cancel drag on buttons so clicking them works reliably
-                    style={{ position: 'fixed', zIndex: 9999 }}
-                >
-                    <motion.div
-                        className="ambient-panel"
-                        initial={{ opacity: 0, scale: 0.96, y: 10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        exit={{ opacity: 0, scale: 0.96, y: 10 }}
-                        transition={{ duration: 0.2, ease: 'easeOut' }}
-                        style={{ width: '100%', height: '100%', position: 'relative' }} // ensure panel fills Rnd
+            <AnimatePresence>
+                {isOpen && (
+                    isMobile ? (
+                        // Mobile View: Slide up sheet
+                        <>
+                            {/* Backdrop */}
+                            <motion.div
+                                className="fixed inset-0 bg-black/20 z-40"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                onClick={closeAssistant}
+                            />
+                            {/* Sheet */}
+                            <motion.div
+                                className="ambient-panel mobile-sheet"
+                                initial={{ y: "100%" }}
+                                animate={{ y: 0 }}
+                                exit={{ y: "100%" }}
+                                transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                                style={{
+                                    position: 'fixed',
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    width: '100%',
+                                    height: '85vh',
+                                    zIndex: 9999,
+                                    borderBottomLeftRadius: 0,
+                                    borderBottomRightRadius: 0,
+                                }}
+                            >
+                                <AmbientPanel {...panelProps} />
+                            </motion.div>
+                        </>
+                    ) : (
+                        // Desktop View: Draggable Rnd
+                        position && (
+                            <Rnd
+                                size={size}
+                                position={position}
+                                onDragStop={(e, d) => {
+                                    setPosition({ x: d.x, y: d.y });
+                                }}
+                                onResizeStop={(e, direction, ref, delta, position) => {
+                                    setSize({
+                                        width: parseInt(ref.style.width),
+                                        height: parseInt(ref.style.height),
+                                    });
+                                    setPosition(position);
+                                }}
+                                minWidth={MIN_WIDTH}
+                                minHeight={MIN_HEIGHT}
+                                maxWidth={MAX_WIDTH}
+                                maxHeight={MAX_HEIGHT}
+                                bounds="window"
+                                enableResizing={true}
+                                disableDragging={false}
+                                className="z-50"
+                                dragHandleClassName="" // Empty = entire element is handle (except form elements usually)
+                                cancel="button, textarea, input, .ambient-messages" // Cancel drag on interactive elements
+                                style={{ position: 'fixed', zIndex: 9999 }}
+                            >
+                                <motion.div
+                                    className="ambient-panel"
+                                    initial={{ opacity: 0, scale: 0.96, y: 10 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.96, y: 10 }}
+                                    transition={{ duration: 0.2, ease: 'easeOut' }}
+                                    style={{ width: '100%', height: '100%', position: 'relative' }}
+                                >
+                                    <AmbientPanel {...panelProps} />
+                                </motion.div>
+                            </Rnd>
+                        )
+                    )
+                )}
+            </AnimatePresence>
+
+            <AnimatePresence>
+                {!isOpen && (
+                    <motion.button
+                        className="ambient-trigger"
+                        onClick={toggleAssistant}
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        whileHover={{ scale: 1.08 }}
+                        whileTap={{ scale: 0.95 }}
+                        title="Open AI Assistant"
+                        style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 50 }}
                     >
-                        {/* Header */}
-                        <div className="ambient-header">
-                            <HistoryDropdown />
-                            <div className="ambient-header-spacer" />
-                            <div className="ambient-header-actions">
-                                <button
-                                    className="ambient-icon-btn"
-                                    onClick={(e) => { e.stopPropagation(); handleNewChat(); }}
-                                    title="New chat"
-                                    onPointerDown={(e) => e.stopPropagation()}
-                                >
-                                    <EditIcon />
-                                </button>
-                                <button
-                                    className="ambient-icon-btn"
-                                    onClick={(e) => { e.stopPropagation(); closeAssistant(); }}
-                                    title="Minimize"
-                                    onPointerDown={(e) => e.stopPropagation()}
-                                >
-                                    <MinimizeIcon />
-                                </button>
-                            </div>
-                        </div>
-
-                        {/* Messages Area */}
-                        <div
-                            className="ambient-messages"
-                            onPointerDown={(e) => e.stopPropagation()} // Stop drag when interacting with messages
-                        >
-                            {messages.length === 0 ? (
-                                <div className="ambient-welcome">
-                                    <AIAvatar className="w-12 h-12" />
-                                    <h2 className="ambient-welcome-title">How can I help you today?</h2>
-
-                                    {/* Prompt templates - pyramid layout */}
-                                    <div className="ambient-prompts">
-                                        <div className="ambient-prompts-row">
-                                            <button
-                                                className="ambient-prompt-btn"
-                                                onClick={() => handleSubmit(PROMPT_TEMPLATES[0].action)}
-                                            >
-                                                {PROMPT_TEMPLATES[0].label}
-                                            </button>
-                                            <button
-                                                className="ambient-prompt-btn"
-                                                onClick={() => handleSubmit(PROMPT_TEMPLATES[1].action)}
-                                            >
-                                                {PROMPT_TEMPLATES[1].label}
-                                            </button>
-                                        </div>
-                                        <div className="ambient-prompts-row">
-                                            <button
-                                                className="ambient-prompt-btn"
-                                                onClick={() => handleSubmit(PROMPT_TEMPLATES[2].action)}
-                                            >
-                                                {PROMPT_TEMPLATES[2].label}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            ) : (
-                                <>
-                                    {messages.map((message) => (
-                                        <div
-                                            key={message.id}
-                                            className={`ambient-message ambient-message-${message.role}`}
-                                        >
-                                            {message.role === 'assistant' && (
-                                                <AIAvatar className="w-7 h-7 flex-shrink-0 mt-1" />
-                                            )}
-                                            <div className="ambient-message-content">
-                                                {message.role === 'assistant'
-                                                    ? formatMessage(message.content)
-                                                    : message.content
-                                                }
-                                                {/* Placeholder for Generative UI rendering */}
-                                                {message.embeddedComponent && (
-                                                    <div className="text-xs text-gray-400 mt-2 border border-dashed border-gray-300 p-2 rounded">
-                                                        [Generated UI: {message.embeddedComponent.type}]
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))}
-                                    {isLoading && (
-                                        <div className="ambient-message ambient-message-assistant">
-                                            <AIAvatar className="w-7 h-7 flex-shrink-0" />
-                                            <div className="ambient-loading">
-                                                <div className="ambient-loading-dot" />
-                                                <div className="ambient-loading-dot" />
-                                                <div className="ambient-loading-dot" />
-                                            </div>
-                                        </div>
-                                    )}
-                                </>
-                            )}
-                            <div ref={messagesEndRef} />
-                        </div>
-
-                        {/* Attachments Preview */}
-                        {attachments.length > 0 && (
-                            <div className="ambient-attachments">
-                                {attachments.map((attachment) => (
-                                    <div key={attachment.id} className="ambient-attachment-card">
-                                        {attachment.preview ? (
-                                            <img
-                                                src={attachment.preview}
-                                                alt={attachment.name}
-                                                className="ambient-attachment-preview"
-                                            />
-                                        ) : (
-                                            <FileTypeIcon type={attachment.type} />
-                                        )}
-                                        <div className="ambient-attachment-info">
-                                            <span className="ambient-attachment-name">{attachment.name}</span>
-                                            <span className="ambient-attachment-type">
-                                                {attachment.type.split('/')[1]?.toUpperCase() || 'FILE'}
-                                            </span>
-                                        </div>
-                                        <button
-                                            className="ambient-attachment-remove"
-                                            onClick={() => removeAttachment(attachment.id)}
-                                        >
-                                            <CloseIcon />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        {/* Input Area */}
-                        <div className="ambient-input-area">
-                            <div className="ambient-input-container">
-                                <textarea
-                                    ref={inputRef}
-                                    className="ambient-input"
-                                    placeholder="Ask a question about this page..."
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    onKeyDown={handleKeyDown}
-                                    rows={1}
-                                />
-                                <div className="ambient-input-actions">
-                                    <button
-                                        className="ambient-icon-btn"
-                                        title="Add file"
-                                        onClick={() => fileInputRef.current?.click()}
-                                    >
-                                        <PlusIcon />
-                                    </button>
-                                    <input
-                                        type="file"
-                                        ref={fileInputRef}
-                                        className="ambient-file-input-hidden"
-                                        accept="image/*,.pdf,.doc,.docx,.txt"
-                                        onChange={handleFileSelect}
-                                        multiple
-                                    />
-                                    <button
-                                        className="ambient-send-btn"
-                                        onClick={() => handleSubmit()}
-                                        title="Send message"
-                                    >
-                                        <ArrowUpIcon />
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                </Rnd>
-            ) : (
-                <AnimatePresence>
-                    {!isOpen && (
-                        <motion.button
-                            className="ambient-trigger"
-                            onClick={toggleAssistant}
-                            initial={{ scale: 0.8, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            whileHover={{ scale: 1.08 }}
-                            whileTap={{ scale: 0.95 }}
-                            title="Open AI Assistant"
-                            style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 50 }}
-                        >
-                            <AIAvatar className="w-full h-full" />
-                        </motion.button>
-                    )}
-                </AnimatePresence>
-            )}
+                        <AIAvatar className="w-full h-full" />
+                    </motion.button>
+                )}
+            </AnimatePresence>
         </React.Fragment>
     );
 }
