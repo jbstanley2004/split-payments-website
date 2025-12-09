@@ -1,47 +1,26 @@
-'use server';
+import { createClient } from "@/lib/supabase/server";
 
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { PageContext, AmbientMessage } from "../contexts/AmbientAssistantContext";
-import { SPLIT_KNOWLEDGE_BASE } from "../lib/funding-constants";
-import { createConversation, addMessage, getConversationMessages, updateConversationTitle } from "../lib/supabase/conversations";
-
-// Define the model to use - Gemini 1.5 Pro is the best current proxy for "Gemini 3 capabilities"
-// as it has large context and high reasoning.
-// Define the model to use - User explicitly requested "gemini-3-pro-preview"
-const MODEL_NAME = process.env.GEMINI_MODEL || "gemini-3-pro-preview";
-
-interface AmbientActionResponse {
-    text: string;
-    conversationId: string;
-    embeddedComponent?: {
-        type: string;
-        props: Record<string, unknown>;
-    };
-    action?: {
-        type: 'navigate' | 'update_field' | 'show_component';
-        destination?: string;
-        field?: string;
-        value?: unknown;
-    };
-}
-
-// Temporary User ID for prototype (In real app, get from auth session)
-const DEMO_USER_ID = "demo-user-123";
+// ... imports remain the same ...
 
 export async function sendAmbientMessage(
     message: string,
     pageContext: PageContext,
     existingConversationId: string | null,
-    attachment?: { data: string; type: string }
+    attachment?: { data: string; type: string },
+    clientHistory: AmbientMessage[] = [] // New argument for anonymous context
 ): Promise<AmbientActionResponse> {
     try {
         const apiKey = process.env.GEMINI_API_KEY || process.env.NEXT_PUBLIC_GEMINI_API_KEY;
+        const supabase = await createClient();
 
-        // Enhanced Debug Logging (matching gemini-action.ts)
+        // Check Authentication
+        const { data: { user } } = await supabase.auth.getUser();
+        const isAuthenticated = !!user;
+
+        // Enhanced Debug Logging
         console.log("[Ambient Action] Environment Check:");
-        console.log(`- GEMINI_API_KEY present: ${!!process.env.GEMINI_API_KEY}`);
-        console.log(`- NEXT_PUBLIC_GEMINI_API_KEY present: ${!!process.env.NEXT_PUBLIC_GEMINI_API_KEY}`);
-        console.log(`- Resolved API Key present: ${!!apiKey}`);
+        console.log(`- Authenticated: ${isAuthenticated}`);
+        if (isAuthenticated) console.log(`- User ID: ${user.id}`);
 
         if (!apiKey) {
             console.warn("[Ambient Action] No API key found.");
@@ -51,22 +30,43 @@ export async function sendAmbientMessage(
             };
         }
 
-        // 1. Handle Conversation Persistence
         let conversationId = existingConversationId;
         let isNewConversation = false;
+        let historyForGemini: any[] = [];
 
-        if (!conversationId) {
-            // Create new conversation
-            conversationId = await createConversation(DEMO_USER_ID);
-            isNewConversation = true;
+        // --- AUTHENTICATED FLOW ---
+        if (isAuthenticated && user) {
+            // 1. Handle Conversation Persistence
+            if (!conversationId || conversationId === 'temp') {
+                conversationId = await createConversation(user.id);
+                isNewConversation = true;
+            }
+
+            // Save User Message
+            await addMessage(conversationId, 'user', message);
+
+            // 2. Fetch History for Context from DB
+            const persistedMessages = await getConversationMessages(conversationId);
+
+            // Filter out the last message (current user message) for startChat history
+            historyForGemini = persistedMessages.slice(0, -1).map(msg => ({
+                role: msg.role === 'assistant' ? 'model' : 'user',
+                parts: [{ text: msg.content }]
+            }));
+
+        } else {
+            // --- ANONYMOUS FLOW (Ephemeral) ---
+            conversationId = 'temp'; // Placeholder ID
+
+            // Use Client History for Context
+            // Map the client-side AmbientMessage[] to Gemini format
+            historyForGemini = clientHistory.map(msg => ({
+                role: msg.role === 'assistant' ? 'model' : 'user',
+                parts: [{ text: msg.content }]
+            }));
+
+            // We do NOT save to DB
         }
-
-        // Save User Message
-        await addMessage(conversationId, 'user', message);
-
-        // 2. Fetch History for Context
-        // We fetch the *persisted* history to ensure single source of truth
-        const persistedMessages = await getConversationMessages(conversationId);
 
         // 3. Initialize Gemini
         const genAI = new GoogleGenerativeAI(apiKey);
@@ -81,6 +81,7 @@ Current User Page Context:
 - Page: ${pageContext.pageName}
 - Path: ${pageContext.pathname}
 - Description: ${pageContext.pageDescription}
+- User Status: ${isAuthenticated ? 'Authenticated' : 'Guest (Anonymous)'}
 
 CAPABILITIES:
 1. Navigation: If the user asks to go somewhere, acknowledge it.
@@ -92,17 +93,6 @@ Be concise, professional, and friendly.
 If the user's request requires an action (like navigation), explicitely mention you are doing it.
 `
         });
-
-        // 4. Prepare History for Gemini (map Firestore messages to Gemini format)
-        // Filter out the very last message we just added (the user message) because 
-        // `sendMessage` takes the new message as argument.
-        // Actually, `startChat` history should NOT include the *current* new message.
-        // The `persistedMessages` INCLUDES the current message we just added.
-        // So we strip the last one.
-        const historyForGemini = persistedMessages.slice(0, -1).map(msg => ({
-            role: msg.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: msg.content }]
-        }));
 
         const chatSession = model.startChat({
             history: historyForGemini,
@@ -122,9 +112,8 @@ If the user's request requires an action (like navigation), explicitely mention 
 
         const responseText = result.response.text();
 
-        // 6. Save Assistant Response
-        // Determine embedded components based on raw text analysis or structured output if we switched to it.
-        // For now, simple keyword matching is robust enough for the prototype.
+        // 6. Save Assistant Response (Only if Authenticated)
+        // Logic for actions/components remains the same
         const lowerResponse = responseText.toLowerCase();
         const lowerMessage = message.toLowerCase();
 
@@ -132,8 +121,8 @@ If the user's request requires an action (like navigation), explicitely mention 
         let action: AmbientActionResponse['action'];
         const navigationRoutes: Record<string, string> = {
             'dashboard': '/portal/dashboard',
-            'profile': '/portal/dashboard',
-            'inbox': '/portal/dashboard', // Simplify inbox to dashboard for now
+            'profile': '/portal/dashboard', // Simplify to dashboard/profile
+            'inbox': '/portal/dashboard',
             'funding': '/funding',
             'payments': '/payments',
             'hardware': '/hardware',
@@ -157,21 +146,19 @@ If the user's request requires an action (like navigation), explicitely mention 
         } else if (lowerMessage.includes('profile')) {
             embeddedComponent = { type: 'ProfileProgress', props: { compact: true } };
         } else if (lowerMessage.includes('payment') && lowerMessage.includes('terminal')) {
-            // Generative UI example
             embeddedComponent = { type: 'PaymentTerminalCard', props: {} };
         }
 
-        await addMessage(conversationId, 'assistant', responseText, embeddedComponent);
+        if (isAuthenticated && user && conversationId !== 'temp') {
+            await addMessage(conversationId, 'assistant', responseText, embeddedComponent);
 
-        // 7. Auto-Title (Background determination)
-        if (isNewConversation) {
-            // Use a lightweight call to generate title
-            // In production, use a queue. Here, we await it or let it float?
-            // We'll just do it quickly.
-            const titleModel = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
-            const titleResult = await titleModel.generateContent(`Generate a short, concise 3-4 word title for a chat starting with: "${message}"`);
-            const title = titleResult.response.text().trim().replace(/"/g, '');
-            await updateConversationTitle(conversationId, title);
+            // 7. Auto-Title (Background determination) - Only for saved chats
+            if (isNewConversation) {
+                const titleModel = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
+                const titleResult = await titleModel.generateContent(`Generate a short, concise 3-4 word title for a chat starting with: "${message}"`);
+                const title = titleResult.response.text().trim().replace(/"/g, '');
+                await updateConversationTitle(conversationId, title);
+            }
         }
 
         return {

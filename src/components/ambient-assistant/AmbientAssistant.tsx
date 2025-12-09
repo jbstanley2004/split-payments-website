@@ -165,7 +165,8 @@ export function AmbientAssistant() {
                 messageText,
                 pageContext,
                 conversationId, // Pass current conversation ID
-                firstAttachment ? { data: firstAttachment.data, type: firstAttachment.type } : undefined
+                firstAttachment ? { data: firstAttachment.data, type: firstAttachment.type } : undefined,
+                messages // Pass client history for anonymous context
             );
 
             // Update conversation ID if it was new
