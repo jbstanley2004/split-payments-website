@@ -6,5 +6,6 @@
         "cursor-global": true,
         "cursor-workspace": true
     },
-    "chat.edits2.enabled": true
+    "chat.edits2.enabled": true,
+    "kiroAgent.configureMCP": "Disabled"
 }

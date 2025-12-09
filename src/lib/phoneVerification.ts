@@ -27,14 +27,16 @@ export const verifyPhoneNumber = (input: string): PhoneVerificationResult => {
     const trimmed = input.trim();
     const digits = normalizeDigits(trimmed);
     const normalized = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
-    const match = normalized.match(/^([2-9]\d{2})([2-9]\d{2})(\d{4})$/);
+    
+    // More lenient validation: area code must start with 2-9, but exchange can start with 0-9
+    const match = normalized.match(/^([2-9]\d{2})(\d{3})(\d{4})$/);
 
     if (!match) {
         return {
             isValid: false,
             normalized: '',
             formatted: trimmed,
-            reason: 'Enter a valid US phone number with a 10-digit area/exchange starting at 2-9.'
+            reason: 'Enter a valid US phone number.'
         };
     }
 
@@ -56,7 +58,7 @@ export const verifyPhoneNumber = (input: string): PhoneVerificationResult => {
 };
 
 /**
- * Attempt to verify the phone number against a free carrier-aware API (Abstract Phone Validation).
+ * Attempt to verify the phone number against Veriphone API (free tier: 250 requests/month).
  * Falls back to local validation when no API key is provided or the request fails.
  */
 export const verifyPhoneNumberWithApi = async (
@@ -64,31 +66,39 @@ export const verifyPhoneNumberWithApi = async (
     { signal }: RemoteVerificationOptions = {}
 ): Promise<RemotePhoneVerificationResult> => {
     const localResult = verifyPhoneNumber(input);
-    const apiKey = process.env.NEXT_PUBLIC_ABSTRACT_PHONE_API_KEY;
-    const endpoint = process.env.NEXT_PUBLIC_ABSTRACT_PHONE_ENDPOINT || 'https://phonevalidation.abstractapi.com/v1/';
+    const apiKey = process.env.NEXT_PUBLIC_VERIPHONE_API_KEY;
+    const endpoint = 'https://api.veriphone.io/v2/verify';
 
-    if (!localResult.isValid || !apiKey) {
+    if (!localResult.isValid) {
+        return { ...localResult, checkedWithApi: false };
+    }
+
+    // If no API key, just return local validation
+    if (!apiKey) {
         return { ...localResult, checkedWithApi: false };
     }
 
     try {
         const params = new URLSearchParams({
-            api_key: apiKey,
-            phone: localResult.normalized,
+            key: apiKey,
+            phone: `+1${localResult.normalized}`, // Veriphone expects international format
             country: 'US'
         });
 
         const response = await fetch(`${endpoint}?${params.toString()}`, { signal });
         if (!response.ok) {
-            throw new Error('Validation API unavailable');
+            throw new Error('Veriphone API unavailable');
         }
 
         const data = await response.json();
+        
+        // Veriphone response structure: { status: "success", phone: "+1...", phone_valid: true, phone_type: "mobile", country: "US", ... }
         const apiValid = Boolean(
-            data?.valid &&
-            data?.country?.code === 'US' &&
-            data?.type !== 'invalid' &&
-            data?.line_type && data?.line_type !== 'unknown'
+            data?.status === 'success' &&
+            data?.phone_valid === true &&
+            data?.country === 'US' &&
+            data?.phone_type && 
+            ['mobile', 'landline', 'fixed_line'].includes(data.phone_type)
         );
 
         if (!apiValid) {
