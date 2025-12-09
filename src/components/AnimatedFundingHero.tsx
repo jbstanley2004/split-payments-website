@@ -88,7 +88,7 @@ export default function AnimatedFundingHero() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <h1 className="text-[#1a1a1a] text-[36px] sm:text-[56px] leading-[1.1] tracking-[-0.02em] px-4 font-poppins font-normal">
+                    <h1 className="text-[#1a1a1a] text-[36px] sm:text-[56px] leading-[1.1] tracking-[-0.02em] px-4 font-poppins font-semibold">
                         Fast, flexible capital
                         <br />
                         powered by your sales.

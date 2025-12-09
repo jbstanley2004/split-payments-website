@@ -15,6 +15,7 @@ import TimelineActivationAnimation from "@/components/animations/TimelineActivat
 import TimelineFundingAnimation from "@/components/animations/TimelineFundingAnimation";
 import AnimatedFundingHero from "@/components/AnimatedFundingHero";
 
+
 export default function FundingPage() {
   const fadeInUp = {
     hidden: { opacity: 0, y: 10 },
