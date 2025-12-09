@@ -7,11 +7,7 @@
   z-index: 50;
 }
 
-@media (max-width: 1023px) {
-  .ambient-assistant {
-    display: none;
-  }
-}
+
 
 /* Trigger Button */
 .ambient-trigger {
