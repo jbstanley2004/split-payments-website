@@ -1,16 +1,20 @@
-'use server';
+import { createClient } from "@/lib/supabase/server";
 
-import { getUserConversations, getConversationMessages } from "../lib/supabase/conversations";
-
-// Temporary User ID for prototype
-const DEMO_USER_ID = "demo-user-123";
+// ... other imports ...
 
 /**
  * server action to get list of conversations
  */
 export async function getHistory() {
     try {
-        const conversations = await getUserConversations(DEMO_USER_ID);
+        const supabase = await createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (!user) {
+            return [];
+        }
+
+        const conversations = await getUserConversations(user.id);
         // Serialize dates for client
         return conversations.map(c => ({
             ...c,
