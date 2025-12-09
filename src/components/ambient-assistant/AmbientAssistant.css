@@ -449,3 +449,58 @@ button,
    The user said "resize is fine". So we only want to affect "drag and move".
    Drag happens on the main element.
 */
+
+/* Mobile Sheet Specifics */
+.mobile-ambient-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* Adjust height to leave some space at top */
+  /* Using 100% height inside a container that starts partway down is complex, 
+     instead set top: 10% or similar */
+  top: 10dvh;
+  background: #fff;
+  z-index: 10000;
+  /* Higher than desktop usually need */
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mobile-sheet-handle-area {
+  width: 100%;
+  padding: 12px 0;
+  display: flex;
+  justify-content: center;
+  /* Allow dragging this area */
+  cursor: grab;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.mobile-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+}
+
+.mobile-sheet-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  /* Ensure this takes full height of the flex container */
+  height: 100%;
+}
+
+/* Adjust AmbientPanel internal spacing for mobile if needed */
+.mobile-sheet-content .ambient-header {
+  padding-top: 0;
+  /* Handle area takes standard padding visual space */
+}

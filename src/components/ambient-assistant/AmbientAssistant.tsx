@@ -6,6 +6,7 @@ import { Rnd } from 'react-rnd';
 import { useAmbientAssistant } from '../../contexts/AmbientAssistantContext';
 import { sendAmbientMessage } from '../../actions/ambient-action';
 import { AmbientPanel } from './AmbientPanel';
+import { MobileAmbientWrapper } from './MobileAmbientWrapper';
 import { AIAvatar } from '../funding-concierge/AIAvatar';
 import './AmbientAssistant.css';
 
@@ -225,84 +226,56 @@ export function AmbientAssistant() {
 
     return (
         <React.Fragment>
-            <AnimatePresence>
-                {isOpen && (
-                    isMobile ? (
-                        // Mobile View: Slide up sheet
-                        <>
-                            {/* Backdrop */}
+            {isMobile ? (
+                <MobileAmbientWrapper
+                    isOpen={isOpen}
+                    onClose={closeAssistant}
+                    panelProps={panelProps}
+                />
+            ) : (
+                /* Desktop View: Draggable Rnd */
+                <AnimatePresence>
+                    {isOpen && position && (
+                        <Rnd
+                            size={size}
+                            position={position}
+                            onDragStop={(e, d) => {
+                                setPosition({ x: d.x, y: d.y });
+                            }}
+                            onResizeStop={(e, direction, ref, delta, position) => {
+                                setSize({
+                                    width: parseInt(ref.style.width),
+                                    height: parseInt(ref.style.height),
+                                });
+                                setPosition(position);
+                            }}
+                            minWidth={MIN_WIDTH}
+                            minHeight={MIN_HEIGHT}
+                            maxWidth={MAX_WIDTH}
+                            maxHeight={MAX_HEIGHT}
+                            bounds="window"
+                            enableResizing={true}
+                            disableDragging={false}
+                            className="z-50"
+                            dragHandleClassName="" // Empty = entire element is handle (except form elements usually)
+                            cancel="button, textarea, input, .ambient-messages" // Cancel drag on interactive elements
+                            style={{ position: 'fixed', zIndex: 9999 }}
+                        >
                             <motion.div
-                                className="fixed inset-0 bg-black/20 z-40"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                onClick={closeAssistant}
-                            />
-                            {/* Sheet */}
-                            <motion.div
-                                className="ambient-panel mobile-sheet"
-                                initial={{ y: "100%" }}
-                                animate={{ y: 0 }}
-                                exit={{ y: "100%" }}
-                                transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                                style={{
-                                    position: 'fixed',
-                                    bottom: 0,
-                                    left: 0,
-                                    right: 0,
-                                    width: '100%',
-                                    height: '85vh',
-                                    zIndex: 9999,
-                                    borderBottomLeftRadius: 0,
-                                    borderBottomRightRadius: 0,
-                                }}
+                                className="ambient-panel"
+                                initial={{ opacity: 0, scale: 0.96, y: 10 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.96, y: 10 }}
+                                transition={{ duration: 0.2, ease: 'easeOut' }}
+                                style={{ width: '100%', height: '100%', position: 'relative' }}
                             >
                                 <AmbientPanel {...panelProps} />
                             </motion.div>
-                        </>
-                    ) : (
-                        // Desktop View: Draggable Rnd
-                        position && (
-                            <Rnd
-                                size={size}
-                                position={position}
-                                onDragStop={(e, d) => {
-                                    setPosition({ x: d.x, y: d.y });
-                                }}
-                                onResizeStop={(e, direction, ref, delta, position) => {
-                                    setSize({
-                                        width: parseInt(ref.style.width),
-                                        height: parseInt(ref.style.height),
-                                    });
-                                    setPosition(position);
-                                }}
-                                minWidth={MIN_WIDTH}
-                                minHeight={MIN_HEIGHT}
-                                maxWidth={MAX_WIDTH}
-                                maxHeight={MAX_HEIGHT}
-                                bounds="window"
-                                enableResizing={true}
-                                disableDragging={false}
-                                className="z-50"
-                                dragHandleClassName="" // Empty = entire element is handle (except form elements usually)
-                                cancel="button, textarea, input, .ambient-messages" // Cancel drag on interactive elements
-                                style={{ position: 'fixed', zIndex: 9999 }}
-                            >
-                                <motion.div
-                                    className="ambient-panel"
-                                    initial={{ opacity: 0, scale: 0.96, y: 10 }}
-                                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.96, y: 10 }}
-                                    transition={{ duration: 0.2, ease: 'easeOut' }}
-                                    style={{ width: '100%', height: '100%', position: 'relative' }}
-                                >
-                                    <AmbientPanel {...panelProps} />
-                                </motion.div>
-                            </Rnd>
-                        )
+                        </Rnd>
                     )
-                )}
-            </AnimatePresence>
+                    }
+                </AnimatePresence>
+            )}
 
             <AnimatePresence>
                 {!isOpen && (
