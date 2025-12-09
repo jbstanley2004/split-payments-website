@@ -7,6 +7,11 @@ export async function updateUserCredentials(uid: string, newEmail: string, newPa
         console.log(`[AdminAuth] Updating credentials for user: ${uid}`);
         const supabase = createAdminClient();
 
+        if (!supabase) {
+            console.warn('[AdminAuth] Supabase not configured; skipping credential update.');
+            return { success: false, error: 'Supabase is not configured.' };
+        }
+
         // Update the user's email and password directly.
         // This preserves the UID and application data linkage.
         const { data: user, error } = await supabase.auth.admin.updateUserById(

@@ -1,10 +1,19 @@
 
 import { createClient } from '@supabase/supabase-js'
+import { getSupabaseServiceKey, getSupabaseUrl } from './env'
 
 export function createAdminClient() {
+    const url = getSupabaseUrl()
+    const serviceRoleKey = getSupabaseServiceKey()
+
+    if (!url || !serviceRoleKey) {
+        console.warn('[supabase/admin] Missing Supabase envs; returning null admin client.')
+        return null as unknown as ReturnType<typeof createClient>
+    }
+
     return createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        url,
+        serviceRoleKey,
         {
             auth: {
                 autoRefreshToken: false,

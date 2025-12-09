@@ -2,6 +2,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
+import { getSupabaseAnonKey, getSupabaseUrl } from '@/lib/supabase/env'
 
 export async function GET(request: Request) {
     const { searchParams, origin } = new URL(request.url)
@@ -9,11 +10,19 @@ export async function GET(request: Request) {
     // if "next" is in param, use it as the redirect URL
     const next = searchParams.get('next') ?? '/portal/dashboard'
 
+    const url = getSupabaseUrl()
+    const anonKey = getSupabaseAnonKey()
+
+    if (!url || !anonKey) {
+        console.warn('[auth/callback] Missing Supabase envs; redirecting without session exchange.')
+        return NextResponse.redirect(`${origin}/portal/signin?error=missing_supabase_env`)
+    }
+
     if (code) {
         const cookieStore = await cookies()
         const supabase = createServerClient(
-            process.env.NEXT_PUBLIC_SUPABASE_URL!,
-            process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+            url,
+            anonKey,
             {
                 cookies: {
                     getAll() {
