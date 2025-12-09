@@ -13,6 +13,7 @@ import QualificationAnimation from "@/components/animations/QualificationAnimati
 import TimelineSignAnimation from "@/components/animations/TimelineSignAnimation";
 import TimelineActivationAnimation from "@/components/animations/TimelineActivationAnimation";
 import TimelineFundingAnimation from "@/components/animations/TimelineFundingAnimation";
+import AnimatedFundingHero from "@/components/AnimatedFundingHero";
 
 export default function FundingPage() {
   const fadeInUp = {
@@ -26,43 +27,9 @@ export default function FundingPage() {
         <DynamicIslandNav />
 
         {/* HERO SECTION */}
-        <section className="relative min-h-[100dvh] flex items-center justify-center px-6 md:px-10 lg:px-16 pt-20 pb-12 md:pt-24 overflow-hidden bg-white">
-          <div className="max-w-6xl w-full text-center relative z-10">
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={fadeInUp}
-              className="max-w-4xl mx-auto"
-            >
-              <h1 className="text-4xl md:text-6xl leading-tight tracking-tight text-black mb-6 md:mb-8 font-semibold">
-                Fast, flexible capital
-                <br />
-                <span className="text-brand-charcoal">powered by your sales.</span>
-              </h1>
-
-              <p className="text-lg sm:text-xl md:text-2xl font-lora text-black/70 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed">
-                Split Funding offers access to funding that lets you repay as you sell, at every growth stage.
-              </p>
-
-
-              <div className="flex flex-row justify-center gap-4 w-full max-w-md mx-auto">
-                <Link href="/portal/signup">
-                  <PrimaryButton
-                    variant="outline-orange"
-                    className="shadow-none hover:shadow-none hover:scale-100 active:scale-100"
-                  >
-                    Get qualified
-                  </PrimaryButton>
-                </Link>
-                <Link href="/funding-concierge">
-                  <PrimaryButton className="bg-brand-black text-white shadow-none hover:shadow-none hover:scale-100 active:scale-100">
-                    AI Help Desk
-                  </PrimaryButton>
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+        <div className="relative">
+          <AnimatedFundingHero />
+        </div>
 
         {/* ELIGIBILITY SECTION */}
         <section className="px-6 md:px-10 lg:px-16 py-10 md:py-14 bg-[#F6F5F4]">

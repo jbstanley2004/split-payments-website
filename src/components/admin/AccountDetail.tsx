@@ -4,8 +4,7 @@ import { ApplicationStatus, Message, DocumentType } from "@/types/portal";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Check, Bell, Send, Shield, FileText, Loader2, Trash2, User, ChevronDown, Save } from "lucide-react";
 import { useState, useEffect } from "react";
-import { doc, updateDoc, arrayUnion, query, collection, where, getDocs, deleteDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { createClient } from "@/lib/supabase/client";
 
 interface AccountDetailProps {
     account: ApplicationStatus;
@@ -17,6 +16,7 @@ export default function AccountDetail({ account, onBack, onUpdate }: AccountDeta
     const [notificationText, setNotificationText] = useState("");
     const [actionType, setActionType] = useState<'update' | 'action_required'>('update');
     const [isUpdating, setIsUpdating] = useState(false);
+    const supabase = createClient();
 
     // Local state for profile edits
     const [localAccount, setLocalAccount] = useState<ApplicationStatus>(account);
@@ -33,18 +33,21 @@ export default function AccountDetail({ account, onBack, onUpdate }: AccountDeta
     const { updateUserCredentials } = require('@/actions/admin-auth');
 
     const handleUpdateCredentials = async () => {
-        if (!confirm("Are you sure? This will change the user's login method to Email/Password and invalidate their current session.")) return;
+        if (!confirm("Are you sure? This will change the user's login method to Email/Password.")) return;
 
         setIsUpdating(true);
         try {
-            const result = await updateUserCredentials((account as any).id || account.businessInfo.email, securityForm.email, securityForm.password);
+            const result = await updateUserCredentials((account as any).id, securityForm.email, securityForm.password);
 
             if (result.success) {
                 alert("Credentials updated successfully. The user can now log in with the new email and password.");
                 setSecurityForm({ email: '', password: '' });
                 // Optionally update local state if email changed
                 if (securityForm.email !== account.businessInfo.email) {
-                    onUpdate({ ...account, businessInfo: { ...account.businessInfo, email: securityForm.email } });
+                    // Update email in DB application record as well?
+                    // The server action only updates Auth User.
+                    // Ideally we should sync specific application fields if they are just copies of auth email.
+                    // But businessInfo.email might be different.
                 }
             } else {
                 alert("Failed to update credentials: " + result.error);
@@ -68,12 +71,18 @@ export default function AccountDetail({ account, onBack, onUpdate }: AccountDeta
             const unreadMessages = account.messages.filter(m => !m.read && m.sender === 'merchant');
             if (unreadMessages.length > 0) {
                 try {
-                    const ref = await getAccountRef();
-                    if (ref) {
-                        const updatedMessages = account.messages.map(msg =>
-                            (msg.sender === 'merchant' && !msg.read) ? { ...msg, read: true } : msg
-                        );
-                        await updateDoc(ref, { messages: updatedMessages });
+                    const updatedMessages = account.messages.map(msg =>
+                        (msg.sender === 'merchant' && !msg.read) ? { ...msg, read: true } : msg
+                    );
+
+                    const id = (account as any).id;
+                    if (id) {
+                        // Update with full replacement of messages array
+                        const { error } = await supabase.from('applications')
+                            .update({ messages: updatedMessages })
+                            .eq('id', id);
+
+                        if (error) console.error("Error marking messages read:", error);
                     }
                 } catch (e) {
                     console.error("Error marking messages as read:", e);
@@ -96,22 +105,12 @@ export default function AccountDetail({ account, onBack, onUpdate }: AccountDeta
         .filter(m => !m.isDeleted)
         .sort((a, b) => getMessageDate(b.timestamp).getTime() - getMessageDate(a.timestamp).getTime());
 
-    const getAccountRef = async () => {
-        // Use ID if available (AccountList passes it), otherwise fallback to email query
-        if ((account as any).id) return doc(db, "applications", (account as any).id);
-
-        const q = query(collection(db, "applications"), where("businessInfo.email", "==", account.businessInfo.email));
-        const snapshot = await getDocs(q);
-        if (snapshot.empty) return null;
-        return doc(db, "applications", snapshot.docs[0].id);
-    };
-
     const handleStatusChange = async (newStage: ApplicationStatus['stage']) => {
         setIsUpdating(true);
         try {
-            const ref = await getAccountRef();
-            if (ref) {
-                await updateDoc(ref, { stage: newStage });
+            const id = (account as any).id;
+            if (id) {
+                await supabase.from('applications').update({ stage: newStage }).eq('id', id);
                 onUpdate({ ...account, stage: newStage });
             }
         } catch (e) {
@@ -126,57 +125,40 @@ export default function AccountDetail({ account, onBack, onUpdate }: AccountDeta
         setIsUpdating(true);
 
         const newMessage: Message = {
-
             id: Date.now().toString(),
-
             subject: actionType === 'action_required' ? 'Action Required' : 'Status Update',
-
             body: notificationText,
-
             timestamp: new Date(),
-
             read: false,
-
             category: actionType === 'action_required' ? 'action_required' : 'general',
-
             actionUrl: actionType === 'action_required' ? '/portal/dashboard?section=profile' : undefined,
-
             sender: 'admin'
-
         };
 
-
-
-        // Sanitize object to remove undefined values for Firestore
-
+        // Sanitize object to remove undefined values for Postgres
         const sanitizedMessage = JSON.parse(JSON.stringify(newMessage));
 
-
-
         try {
+            const id = (account as any).id;
+            if (id) {
+                // Fetch latest messages to ensure we don't overwrite concurrent?
+                // For simplicity in migration, append to current prop account.messages
+                const updatedMessages = [...(account.messages || []), sanitizedMessage];
 
-            const ref = await getAccountRef();
-
-            if (ref) {
-
-                await updateDoc(ref, {
-
-                    messages: arrayUnion(sanitizedMessage)
-
-                });
+                await supabase.from('applications')
+                    .update({ messages: updatedMessages })
+                    .eq('id', id);
 
                 onUpdate({
-
                     ...account,
-
-                    messages: [newMessage, ...account.messages]
-
+                    messages: [newMessage, ...(account.messages || [])] // Prepend for local UI if needed or append?
+                    // Actually original code did `arrayUnion`.
+                    // And `visibleMessages` sorts by date.
+                    // Local `onUpdate` should match.
                 });
 
                 setNotificationText("");
-
             }
-
         } catch (e) {
             console.error("Error sending notification:", e);
         } finally {
@@ -186,12 +168,12 @@ export default function AccountDetail({ account, onBack, onUpdate }: AccountDeta
 
     const handleDeleteMessage = async (messageId: string) => {
         try {
-            const ref = await getAccountRef();
-            if (ref) {
-                const updatedMessages = account.messages.map(msg =>
+            const id = (account as any).id;
+            if (id) {
+                const updatedMessages = (account.messages || []).map(msg =>
                     msg.id === messageId ? { ...msg, isDeleted: true } : msg
                 );
-                await updateDoc(ref, { messages: updatedMessages });
+                await supabase.from('applications').update({ messages: updatedMessages }).eq('id', id);
                 onUpdate({ ...account, messages: updatedMessages });
             }
         } catch (e) {
@@ -203,9 +185,9 @@ export default function AccountDetail({ account, onBack, onUpdate }: AccountDeta
         if (confirm("Are you sure you want to delete this account? This action cannot be undone.")) {
             setIsUpdating(true);
             try {
-                const ref = await getAccountRef();
-                if (ref) {
-                    await deleteDoc(ref);
+                const id = (account as any).id;
+                if (id) {
+                    await supabase.from('applications').delete().eq('id', id);
                     onBack();
                 }
             } catch (e) {
@@ -216,17 +198,25 @@ export default function AccountDetail({ account, onBack, onUpdate }: AccountDeta
     };
 
     const handleSaveSection = async (sectionId: string, data: any) => {
-        setIsUpdating(true); // Reuse this or a specific loading state
+        setIsUpdating(true);
         try {
-            const ref = await getAccountRef();
-            if (ref) {
-                // Sanitize data to remove undefined values (Firestore doesn't allow undefined)
-                const sanitizedData = JSON.parse(JSON.stringify(data));
+            const id = (account as any).id;
+            if (id) {
+                // Map camel keys to snake keys for DB update
+                const updates: any = {};
+                // We assume data contains one root key like businessInfo, contactInfo, etc.
+                if (data.businessInfo) updates.business_info = data.businessInfo;
+                if (data.contactInfo) updates.contact_info = data.contactInfo;
+                if (data.ownerInfo) updates.owner_info = data.ownerInfo;
+                if (data.equipmentInfo) updates.equipment_info = data.equipmentInfo;
 
-                await updateDoc(ref, sanitizedData);
+                // Sanitize
+                const sanitizedData = JSON.parse(JSON.stringify(updates));
+
+                await supabase.from('applications').update(sanitizedData).eq('id', id);
                 onUpdate({ ...account, ...data });
 
-                // Show simple feedback - ideally this would be a toast or specific button state
+                // Show simple feedback
                 const btn = document.getElementById(`save-${sectionId}`);
                 if (btn) {
                     btn.classList.add('bg-green-600');
@@ -288,7 +278,7 @@ export default function AccountDetail({ account, onBack, onUpdate }: AccountDeta
 
     // Document Helper
     const renderDocuments = (type: DocumentType) => {
-        const docs = account.documents.filter(d => d.type === type);
+        const docs = account.documents?.filter(d => d.type === type) || [];
         if (docs.length === 0) return <div className="text-sm text-black/30 italic">No documents uploaded</div>;
 
         return (

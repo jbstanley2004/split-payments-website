@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-import { User, onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
+import { User } from "@supabase/supabase-js";
+import { createClient } from "./supabase/client";
 import { useRouter } from "next/navigation";
 
 interface AuthContextType {
@@ -22,11 +22,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);
     const router = useRouter();
+    const supabase = createClient();
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            setUser(user);
-            if (user && user.email === 'jacob@ccsplit.org') {
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+            const currentUser = session?.user ?? null;
+            setUser(currentUser);
+
+            // Basic admin check logic - can be upgraded to check a 'roles' table or user_metadata later
+            if (currentUser && currentUser.email?.endsWith('@ccsplit.org')) {
                 setIsAdmin(true);
             } else {
                 setIsAdmin(false);
@@ -34,7 +38,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setLoading(false);
         });
 
-        return () => unsubscribe();
+        // Initial check
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            const currentUser = session?.user ?? null;
+            setUser(currentUser);
+            if (currentUser && currentUser.email?.endsWith('@ccsplit.org')) {
+                setIsAdmin(true);
+            } else {
+                setIsAdmin(false);
+            }
+            setLoading(false);
+        });
+
+        return () => {
+            subscription.unsubscribe();
+        };
     }, []);
 
     return (
@@ -45,3 +63,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 }
 
 export const useAuth = () => useContext(AuthContext);
+

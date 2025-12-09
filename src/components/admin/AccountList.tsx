@@ -4,8 +4,8 @@ import { ApplicationStatus } from "@/types/portal";
 import { motion } from "framer-motion";
 import { ChevronRight, Search, Filter, Loader2, Bell, UserPlus } from "lucide-react";
 import { useState, useEffect } from "react";
-import { collection, onSnapshot, query, doc, updateDoc } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+// import { collection, onSnapshot, query, doc, updateDoc } from "firebase/firestore";
+// import { db } from "@/lib/firebase";
 
 interface AccountListProps {
     onSelect: (account: ApplicationStatus) => void;
@@ -18,16 +18,66 @@ export default function AccountList({ onSelect }: AccountListProps) {
     const [filterType, setFilterType] = useState<'all' | 'unread' | 'new'>('all');
 
     useEffect(() => {
-        const q = query(collection(db, "applications"));
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            const apps: ApplicationStatus[] = [];
-            querySnapshot.forEach((doc) => {
-                apps.push({ ...doc.data(), id: doc.id } as ApplicationStatus);
-            });
-            setAccounts(apps);
-            setLoading(false);
-        });
-        return () => unsubscribe();
+        const fetchAndSubscribe = async () => {
+            const { createClient } = await import('@/lib/supabase/client');
+            const supabase = createClient();
+
+            const { data } = await supabase.from('applications').select('*');
+            if (data) {
+                // Map snake case to camelCase if needed, or update types. 
+                // We assumed we are using mapped data or updated schema to match.
+                // The Types in `types/portal.ts` use camelCase.
+                // The Postgres table columns are `business_info`, `contact_info` (snake_case).
+                // We need to map them here OR update the types to match DB.
+                // Mapping is safer for now.
+                const mapped = data.map((d: any) => ({
+                    id: d.id,
+                    stage: d.stage,
+                    approvalAmount: d.approval_amount,
+                    progressPercentage: d.progress_percentage,
+                    adminViewed: d.admin_viewed,
+                    businessInfo: d.business_info || {},
+                    contactInfo: d.contact_info || {},
+                    ownerInfo: d.owner_info || {},
+                    equipmentInfo: d.equipment_info || {},
+                    verificationInfo: d.verification_info || {},
+                    documents: d.documents || [],
+                    messages: d.messages || []
+                }));
+                setAccounts(mapped);
+                setLoading(false);
+            }
+
+            const channel = supabase.channel('admin_list')
+                .on('postgres_changes', { event: '*', schema: 'public', table: 'applications' }, (payload) => {
+                    // Quick re-fetch or manual merge? Re-fetch is safer for consistency
+                    supabase.from('applications').select('*').then(({ data: newData }) => {
+                        if (newData) {
+                            const mapped = newData.map((d: any) => ({
+                                id: d.id,
+                                stage: d.stage,
+                                approvalAmount: d.approval_amount,
+                                progressPercentage: d.progress_percentage,
+                                adminViewed: d.admin_viewed,
+                                businessInfo: d.business_info || {},
+                                contactInfo: d.contact_info || {},
+                                ownerInfo: d.owner_info || {},
+                                equipmentInfo: d.equipment_info || {},
+                                verificationInfo: d.verification_info || {},
+                                documents: d.documents || [],
+                                messages: d.messages || []
+                            }));
+                            setAccounts(mapped);
+                        }
+                    });
+                })
+                .subscribe();
+
+            return () => {
+                supabase.removeChannel(channel);
+            };
+        };
+        fetchAndSubscribe();
     }, []);
 
     const filteredAccounts = accounts.filter(acc => {
@@ -56,8 +106,9 @@ export default function AccountList({ onSelect }: AccountListProps) {
             try {
                 const docId = (account as any).id;
                 if (docId) {
-                    const ref = doc(db, "applications", docId);
-                    await updateDoc(ref, { adminViewed: true });
+                    const { createClient } = await import('@/lib/supabase/client');
+                    const supabase = createClient();
+                    await supabase.from('applications').update({ admin_viewed: true }).eq('id', docId);
                 }
             } catch (e) {
                 console.error("Error marking account as viewed:", e);
