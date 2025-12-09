@@ -1,12 +1,13 @@
 import type { Database } from "@midday/supabase/types";
 import { createServerClient } from "@supabase/ssr";
+import { getSupabaseServiceKey, getSupabaseUrl } from "@/lib/supabase/env";
 import TickerClient from "./TickerClient";
 
 export const runtime = "nodejs";
 
 export default async function TickerBlock() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_KEY;
+  const url = getSupabaseUrl();
+  const key = getSupabaseServiceKey();
 
   // If envs are missing at build/prerender time, render safe zeros instead of throwing
   if (!url || !key) {

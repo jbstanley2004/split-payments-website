@@ -1,9 +1,10 @@
 
 import { createClient } from '@supabase/supabase-js'
+import { getSupabaseServiceKey, getSupabaseUrl } from './env'
 
 export function createAdminClient() {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    const url = getSupabaseUrl()
+    const serviceRoleKey = getSupabaseServiceKey()
 
     if (!url || !serviceRoleKey) {
         console.warn('[supabase/admin] Missing Supabase envs; returning null admin client.')

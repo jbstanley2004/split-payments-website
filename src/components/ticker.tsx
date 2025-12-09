@@ -1,12 +1,13 @@
 import type { Database } from "@midday/supabase/types";
 import { createServerClient } from "@supabase/ssr";
+import { getSupabaseServiceKey, getSupabaseUrl } from "@/lib/supabase/env";
 import Link from "next/link";
 
 const currency = "USD";
 
 export async function Ticker() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_KEY;
+  const url = getSupabaseUrl();
+  const key = getSupabaseServiceKey();
 
   // Gracefully handle missing envs at build/prerender time to avoid crashes
   if (!url || !key) {

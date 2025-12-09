@@ -2,10 +2,11 @@
 
 import type { Database } from "@midday/supabase/types";
 import { createServerClient } from "@supabase/ssr";
+import { getSupabaseServiceKey, getSupabaseUrl } from "./supabase/env";
 
 export async function fetchStats() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key = process.env.SUPABASE_SERVICE_KEY;
+  const url = getSupabaseUrl();
+  const key = getSupabaseServiceKey();
 
   const zeroStats = {
     users: 0,
