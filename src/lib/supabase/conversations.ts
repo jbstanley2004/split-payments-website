@@ -26,6 +26,11 @@ export interface Conversation {
 export async function createConversation(userId: string, initialTitle: string = "New Chat"): Promise<string> {
     const supabase = createAdminClient();
 
+    if (!supabase) {
+        console.warn('[conversations] Supabase not configured; skipping conversation creation.')
+        return ''
+    }
+
     // Check if we already have a conversation today? No, allow multiple.
 
     const { data, error } = await supabase
@@ -52,6 +57,11 @@ export async function createConversation(userId: string, initialTitle: string = 
  */
 export async function addMessage(conversationId: string, role: string, content: string, embeddedComponent?: any) {
     const supabase = createAdminClient();
+
+    if (!supabase) {
+        console.warn('[conversations] Supabase not configured; skipping message insert.')
+        return ''
+    }
 
     // Insert message
     const { data, error } = await supabase
@@ -95,6 +105,11 @@ export async function addMessage(conversationId: string, role: string, content: 
 export async function getUserConversations(userId: string): Promise<Conversation[]> {
     const supabase = createAdminClient();
 
+    if (!supabase) {
+        console.warn('[conversations] Supabase not configured; returning empty conversation list.')
+        return []
+    }
+
     // Note: userId is text in our schema to support demo-user-123.
     // Ensure we query correctly.
 
@@ -125,6 +140,11 @@ export async function getUserConversations(userId: string): Promise<Conversation
 export async function getConversationMessages(conversationId: string): Promise<Message[]> {
     const supabase = createAdminClient();
 
+    if (!supabase) {
+        console.warn('[conversations] Supabase not configured; returning empty message list.')
+        return []
+    }
+
     const { data, error } = await supabase
         .from('messages')
         .select('*')
@@ -150,6 +170,11 @@ export async function getConversationMessages(conversationId: string): Promise<M
  */
 export async function updateConversationTitle(conversationId: string, title: string) {
     const supabase = createAdminClient();
+
+    if (!supabase) {
+        console.warn('[conversations] Supabase not configured; skipping title update.')
+        return
+    }
 
     await supabase
         .from('conversations')
