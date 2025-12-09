@@ -3,7 +3,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { PageContext, AmbientMessage } from "../contexts/AmbientAssistantContext";
 import { SPLIT_KNOWLEDGE_BASE } from "../lib/funding-constants";
-import { createConversation, addMessage, getConversationMessages, updateConversationTitle } from "../lib/firebase/conversations";
+import { createConversation, addMessage, getConversationMessages, updateConversationTitle } from "../lib/supabase/conversations";
 
 // Define the model to use - Gemini 1.5 Pro is the best current proxy for "Gemini 3 capabilities"
 // as it has large context and high reasoning.

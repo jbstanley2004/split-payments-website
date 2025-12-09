@@ -36,7 +36,11 @@ export default function AdminDashboardPage() {
                 <div className="text-center mb-12 relative">
                     <div className="absolute top-0 right-0 hidden md:block">
                         <button
-                            onClick={() => import('@/lib/firebase').then(m => m.auth.signOut())}
+                            onClick={() => {
+                                const { createClient } = require('@/lib/supabase/client');
+                                const supabase = createClient();
+                                supabase.auth.signOut().then(() => window.location.href = '/');
+                            }}
                             className="px-6 py-2 bg-black text-white rounded-full text-sm font-bold hover:bg-gray-800 transition-all font-poppins"
                         >
                             Sign Out
@@ -56,7 +60,11 @@ export default function AdminDashboardPage() {
                     {/* Mobile Sign Out */}
                     <div className="md:hidden mt-6">
                         <button
-                            onClick={() => import('@/lib/firebase').then(m => m.auth.signOut())}
+                            onClick={() => {
+                                const { createClient } = require('@/lib/supabase/client');
+                                const supabase = createClient();
+                                supabase.auth.signOut().then(() => window.location.href = '/');
+                            }}
                             className="px-6 py-2 bg-black text-white rounded-full text-sm font-bold hover:bg-gray-800 transition-all font-poppins"
                         >
                             Sign Out

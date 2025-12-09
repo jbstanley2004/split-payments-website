@@ -35,3 +35,7 @@ next-env.d.ts
 dev.log
 start.log
 test-results/
+
+# Agent Configuration (Sensitive)
+AGENTS.MD
+public/.well-known/mcp-manifest.json

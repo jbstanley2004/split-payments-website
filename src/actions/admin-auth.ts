@@ -1,43 +1,30 @@
 'use server';
 
-import { getAdminAuth } from '@/lib/firebase-admin';
+import { createAdminClient } from '@/lib/supabase/admin';
 
 export async function updateUserCredentials(uid: string, newEmail: string, newPassword?: string) {
     try {
         console.log(`[AdminAuth] Updating credentials for user: ${uid}`);
-        const auth = getAdminAuth();
+        const supabase = createAdminClient();
 
-        // 1. Get existing user record
-        const userRecord = await auth.getUser(uid);
-        console.log(`[AdminAuth] Found user: ${userRecord.email}`);
+        // Update the user's email and password directly.
+        // This preserves the UID and application data linkage.
+        const { data: user, error } = await supabase.auth.admin.updateUserById(
+            uid,
+            {
+                email: newEmail,
+                password: newPassword,
+                email_confirm: true, // Auto-confirm the new email
+                user_metadata: { email: newEmail } // Ensure metadata syncs
+            }
+        );
 
-        // 2. Delete the user
-        // This removes all providers (including Google)
-        await auth.deleteUser(uid);
-        console.log(`[AdminAuth] Deleted user: ${uid}`);
+        if (error) throw error;
 
-        // 3. Recreate the user with the same UID
-        // This effectively "resets" them to an email/password user
-        const newUser = await auth.createUser({
-            uid: uid,
-            email: newEmail,
-            password: newPassword, // Required for email/password auth
-            displayName: userRecord.displayName,
-            photoURL: userRecord.photoURL,
-            emailVerified: true, // Auto-verify since admin is doing it
-        });
+        // Optionally, we could remove OAuth identities here if we wanted to enforce strict Email/Pass,
+        // but adding a password is sufficient to enable Email/Pass login.
 
-        // 4. Restore custom claims if any
-        if (userRecord.customClaims) {
-            await auth.setCustomUserClaims(uid, userRecord.customClaims);
-        }
-
-        // 4. Restore custom claims if any
-        if (userRecord.customClaims) {
-            await admin.auth().setCustomUserClaims(uid, userRecord.customClaims);
-        }
-
-        console.log(`[AdminAuth] Recreated user: ${newUser.uid} with new credentials`);
+        console.log(`[AdminAuth] Updated user: ${uid} with new credentials`);
         return { success: true };
 
     } catch (error: any) {

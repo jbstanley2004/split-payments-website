@@ -1,6 +1,6 @@
 'use server';
 
-import { getUserConversations, getConversationMessages } from "../lib/firebase/conversations";
+import { getUserConversations, getConversationMessages } from "../lib/supabase/conversations";
 
 // Temporary User ID for prototype
 const DEMO_USER_ID = "demo-user-123";

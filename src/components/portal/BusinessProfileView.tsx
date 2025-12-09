@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FileText, Check, Shield, Lock, LogOut, Camera, Upload, X, ChevronDown, CheckCircle2, ArrowUp, ArrowDown, AlertCircle } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { auth } from "@/lib/firebase";
 import { useDebounce } from "@/hooks/useDebounce";
+import { createClient } from "@/lib/supabase/client";
 import { AddressAutocomplete } from "../onboarding/AddressAutocomplete";
 import { formatNormalizedPhone, verifyPhoneNumber, verifyPhoneNumberWithApi } from "@/lib/phoneVerification";
 import { formatEin, formatSsn, verifyEin, verifySsn } from "@/lib/identityValidation";
@@ -111,6 +111,7 @@ export default function BusinessProfileView({
     const [ownerPhoneApiVerification, setOwnerPhoneApiVerification] = useState<Awaited<ReturnType<typeof verifyPhoneNumberWithApi>> | null>(null);
     const [isCheckingBusinessPhone, setIsCheckingBusinessPhone] = useState(false);
     const [isCheckingOwnerPhone, setIsCheckingOwnerPhone] = useState(false);
+    const supabase = createClient();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -1000,11 +1001,11 @@ export default function BusinessProfileView({
                         placeholder="e.g. Station Duo"
                     />
                 </div>
-                    <div className="col-span-1 md:col-span-2">
-                        <label className={`${primaryLabelClass} mb-4`}>Card Swipe Ratio (Must equal 100%)</label>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                            <div>
-                                <label className={`${secondaryLabelClass} mb-2`}>Card Present %</label>
+                <div className="col-span-1 md:col-span-2">
+                    <label className={`${primaryLabelClass} mb-4`}>Card Swipe Ratio (Must equal 100%)</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                        <div>
+                            <label className={`${secondaryLabelClass} mb-2`}>Card Present %</label>
                             <div className="relative">
                                 <input
                                     type="number"
@@ -1016,24 +1017,24 @@ export default function BusinessProfileView({
                                 <span className="absolute right-4 top-3 text-black/40">%</span>
                             </div>
                         </div>
-                            <div>
-                                <label className={`${secondaryLabelClass} mb-2`}>Card Not Present %</label>
-                                <div className="relative">
-                                    <input
-                                        type="number"
+                        <div>
+                            <label className={`${secondaryLabelClass} mb-2`}>Card Not Present %</label>
+                            <div className="relative">
+                                <input
+                                    type="number"
                                     value={localEquipmentInfo.cardNotPresentPercentage || ''}
                                     onChange={(e) => updateEquipmentField('cardNotPresentPercentage', sanitizePercentageInput(e.target.value))}
                                     className="w-full bg-[#F6F5F4] border-transparent rounded-xl px-4 py-3 text-base focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10 outline-none transition-all"
                                     placeholder="0"
                                 />
                                 <span className="absolute right-4 top-3 text-black/40">%</span>
-                                </div>
                             </div>
                         </div>
-                        {cardSplitProvided && cardSplitTotal !== 100 && (
-                            <p className="text-xs text-orange-600 mt-2 font-medium">Card present and not present percentages must total 100%.</p>
-                        )}
                     </div>
+                    {cardSplitProvided && cardSplitTotal !== 100 && (
+                        <p className="text-xs text-orange-600 mt-2 font-medium">Card present and not present percentages must total 100%.</p>
+                    )}
+                </div>
 
                 <div className="col-span-1 md:col-span-2">
                     <label className={`${primaryLabelClass} mb-4`}>Equipment Types</label>
@@ -1348,7 +1349,7 @@ export default function BusinessProfileView({
             {/* Sign Out Button at Bottom */}
             <div className="mt-12 flex justify-center">
                 <button
-                    onClick={() => auth.signOut()}
+                    onClick={() => supabase.auth.signOut()}
                     className="flex items-center gap-2 px-6 py-3 bg-white border border-gray-200 rounded-full font-medium text-gray-600 hover:bg-gray-50 hover:text-black transition-all shadow-sm"
                 >
                     <LogOut className="w-4 h-4" />

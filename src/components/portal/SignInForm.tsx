@@ -3,10 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { Mail, ArrowRight, Loader2, AlertCircle } from "lucide-react";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, fetchSignInMethodsForEmail } from "firebase/auth";
-import { auth, db } from "@/lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { Mail, ArrowRight, Loader2, AlertCircle, X, UserPlus, HelpCircle } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
@@ -15,10 +13,13 @@ export default function SignInForm() {
     const [isSignUp, setIsSignUp] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isGoogleLoading, setIsGoogleLoading] = useState(false);
-    const [isCheckingEmail, setIsCheckingEmail] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState(false);
+    const [message, setMessage] = useState<string | null>(null);
+    const [showSignUpConfirm, setShowSignUpConfirm] = useState(false); // New state for modal
+
     const router = useRouter();
+    const supabase = createClient();
 
     const checkProfileAndRedirect = async (user: any) => {
         // Admin check
@@ -28,10 +29,13 @@ export default function SignInForm() {
         }
 
         try {
-            const docRef = doc(db, 'applications', user.uid);
-            const docSnap = await getDoc(docRef);
+            const { data: doc, error } = await supabase
+                .from('applications')
+                .select('*')
+                .eq('id', user.id)
+                .single();
 
-            if (docSnap.exists()) {
+            if (doc && !error) {
                 router.push('/portal/dashboard');
             } else {
                 router.push('/portal/onboarding');
@@ -44,34 +48,15 @@ export default function SignInForm() {
 
     // Check for existing session on mount
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                await checkProfileAndRedirect(user);
+        const checkUser = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) {
+                await checkProfileAndRedirect(session.user);
             }
-        });
-        return () => unsubscribe();
+        }
+        checkUser();
     }, []);
 
-    const checkUserExists = async (emailToCheck: string) => {
-        if (!emailToCheck || !emailToCheck.includes('@')) return;
-
-        setIsCheckingEmail(true);
-        try {
-            const methods = await fetchSignInMethodsForEmail(auth, emailToCheck);
-            // If methods array is empty, user doesn't exist -> Sign Up mode
-            // If methods array has values, user exists -> Sign In mode
-            setIsSignUp(methods.length === 0);
-        } catch (error) {
-            // If fetch fails (e.g. security rules), we default to Sign In and handle "User Not Found" in submit
-            console.log("Email check skipped/failed, falling back to smart submit", error);
-        } finally {
-            setIsCheckingEmail(false);
-        }
-    };
-
-    const handleEmailBlur = () => {
-        if (email) checkUserExists(email);
-    };
 
     const handleEmailSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -86,55 +71,80 @@ export default function SignInForm() {
 
         setIsLoading(true);
         setError(null);
+        setMessage(null);
 
         try {
-            // Smart Submit Logic:
-            // 1. Try to Sign In first (most common case)
-            // 2. If User Not Found, Try to Create Account
+            // Try to Sign In
+            const { error: signInError, data: signInData } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
 
-            try {
-                const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                if (!userCredential.user.emailVerified) {
-                    // Optional: Handle verification
-                }
-                await checkProfileAndRedirect(userCredential.user);
-            } catch (signInError: any) {
-                // Check for both user-not-found AND invalid-credential (which is often returned for security)
-                if (signInError.code === 'auth/user-not-found' || signInError.code === 'auth/invalid-credential') {
-                    // User might not exist, try creating account
-                    try {
-                        const newUserCredential = await createUserWithEmailAndPassword(auth, email, password);
-                        await checkProfileAndRedirect(newUserCredential.user);
-                    } catch (createError: any) {
-                        // If creation fails because email is in use, it means the password was actually wrong
-                        // for the existing account.
-                        if (createError.code === 'auth/email-already-in-use') {
-                            throw signInError; // Throw the original sign-in error to show "Invalid email/password"
-                        }
-                        throw createError; // Throw other creation errors (weak password, etc)
-                    }
+            if (signInError) {
+                if (signInError.message.toLowerCase().includes("invalid login credentials")) {
+                    // STOP! Don't auto-signup. Ask user first.
+                    setIsLoading(false); // Stop loading to show modal
+                    setShowSignUpConfirm(true);
                 } else {
-                    // Other errors (wrong password, etc) - throw to outer catch
-                    throw signInError;
+                    console.error("Sign In Error:", signInError); // Debugging
+                    setError(signInError.message);
+                    setIsLoading(false);
+                }
+            } else {
+                if (signInData.user) {
+                    await checkProfileAndRedirect(signInData.user);
                 }
             }
 
         } catch (err: any) {
             console.error(err);
-            if (err.code === 'auth/email-already-in-use') {
-                setError("This email is already registered. Try signing in.");
-            } else if (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password') {
-                setError("Invalid email or password.");
-            } else if (err.code === 'auth/user-not-found') {
-                // Should be caught by inner try/catch, but just in case
-                setError("No account found. Creating one failed.");
-            } else if (err.code === 'auth/weak-password') {
-                setError("Password should be at least 6 characters.");
-            } else if (err.code === 'auth/invalid-email') {
-                setError("Please enter a valid email address.");
+            setError("An error occurred. Please try again.");
+            setIsLoading(false);
+        }
+    };
+
+    const handleSmartSignUp = async () => {
+        setShowSignUpConfirm(false);
+        setIsLoading(true);
+
+        try {
+            // Attempt Sign Up
+            const { error: signUpError, data: signUpData } = await supabase.auth.signUp({
+                email,
+                password,
+            });
+
+            if (signUpError) {
+                if (signUpError.message.includes("already registered")) {
+                    setError("This email is already registered. Please check your password.");
+                } else {
+                    setError(signUpError.message);
+                }
             } else {
-                setError("An error occurred. Please try again.");
+                if (signUpData.user && signUpData.user.identities && signUpData.user.identities.length === 0) {
+                    setError("This email is already registered. Try signing in.");
+                } else if (signUpData.session) {
+                    // If we have a session, they are logged in!
+                    await checkProfileAndRedirect(signUpData.user);
+                } else if (signUpData.user) {
+                    // Try signing in immediately just in case
+                    const { data: retrySignInData, error: retrySignInError } = await supabase.auth.signInWithPassword({
+                        email,
+                        password
+                    });
+
+                    if (retrySignInData.session) {
+                        await checkProfileAndRedirect(retrySignInData.user);
+                    } else {
+                        setMessage("Account created! Please check your email for a confirmation link.");
+                    }
+                } else {
+                    setMessage("Check your email for a confirmation link.");
+                }
             }
+        } catch (err) {
+            console.error(err);
+            setError("Failed to create account.");
         } finally {
             setIsLoading(false);
         }
@@ -144,13 +154,18 @@ export default function SignInForm() {
         setIsGoogleLoading(true);
         setError(null);
         try {
-            const provider = new GoogleAuthProvider();
-            const result = await signInWithPopup(auth, provider);
-            await checkProfileAndRedirect(result.user);
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+                options: {
+                    redirectTo: `${window.location.origin}/portal/auth/callback`,
+                }
+            });
+
+            if (error) throw error;
+            // Redirect happens automatically
         } catch (err: any) {
             console.error(err);
             setError("Google sign-in failed. Please try again.");
-        } finally {
             setIsGoogleLoading(false);
         }
     };
@@ -163,7 +178,7 @@ export default function SignInForm() {
     };
 
     return (
-        <div className="w-full max-w-md mx-auto">
+        <div className="w-full max-w-md mx-auto relative">
             <div className="p-6 md:p-8">
                 <div className="text-center mb-8 md:mb-12">
                     <h1 className="text-[2.2rem] md:text-[3.4rem] leading-[1.15] font-bold text-black mb-6 tracking-tighter whitespace-nowrap">
@@ -185,7 +200,7 @@ export default function SignInForm() {
                         ) : (
                             <>
                                 <FcGoogle className="w-6 h-6" />
-                                <span>Continue with Google</span>
+                                <span className="text-[#111111]">Continue with Google</span>
                             </>
                         )}
                     </button>
@@ -204,6 +219,11 @@ export default function SignInForm() {
                                 {error}
                             </div>
                         )}
+                        {message && (
+                            <div className="p-3 rounded-lg bg-green-50 text-green-600 text-sm flex items-center gap-2">
+                                {message}
+                            </div>
+                        )}
 
                         <div className="space-y-3">
                             <div className="relative">
@@ -213,7 +233,7 @@ export default function SignInForm() {
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    onBlur={handleEmailBlur}
+                                    // Removed onBlur check for simplicity as Supabase auth handles existence check on sign in attempt usually
                                     onFocus={() => setShowPassword(true)}
                                     placeholder="name@company.com"
                                     className="w-full h-12 md:h-14 pl-12 pr-6 bg-gray-50 border border-gray-200 rounded-full text-lg text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-all"
@@ -255,14 +275,69 @@ export default function SignInForm() {
                                 <Loader2 className="w-5 h-5 animate-spin" />
                             ) : (
                                 <>
-                                    <span>{isSignUp ? "Get qualified" : "Sign In"}</span>
+                                    <span>Sign In / Next</span>
                                     <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
                                 </>
                             )}
                         </button>
                     </form>
                 </div>
-            </div >
-        </div >
+            </div>
+
+            {/* Confirmation Modal */}
+            <AnimatePresence>
+                {showSignUpConfirm && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-50 flex items-center justify-center px-4 bg-black/40 backdrop-blur-sm"
+                        onClick={() => setShowSignUpConfirm(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.95, opacity: 0, y: 20 }}
+                            onClick={(e) => e.stopPropagation()}
+                            className="bg-white rounded-[40px] p-8 max-w-md w-full shadow-2xl overflow-hidden relative"
+                        >
+                            <button
+                                onClick={() => setShowSignUpConfirm(false)}
+                                className="absolute top-6 right-6 p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-400 hover:text-black"
+                            >
+                                <X className="w-5 h-5" />
+                            </button>
+
+                            <div className="flex flex-col items-center text-center">
+                                <div className="w-16 h-16 bg-black/5 text-black rounded-full flex items-center justify-center mb-6">
+                                    <UserPlus className="w-8 h-8" />
+                                </div>
+
+                                <h3 className="text-2xl font-bold text-black mb-3 tracking-tight">Create new account?</h3>
+
+                                <p className="text-gray-500 mb-8 leading-relaxed">
+                                    We couldn't search an account with those credentials. Would you like to create a new account for <span className="font-bold text-black">{email}</span>?
+                                </p>
+
+                                <div className="flex flex-col w-full gap-3">
+                                    <button
+                                        onClick={handleSmartSignUp}
+                                        className="w-full py-4 bg-black text-white rounded-full font-bold text-lg hover:scale-[1.02] transition-transform shadow-lg hover:shadow-xl"
+                                    >
+                                        Yes, Create Account
+                                    </button>
+                                    <button
+                                        onClick={() => setShowSignUpConfirm(false)}
+                                        className="w-full py-4 bg-transparent text-gray-500 hover:text-black font-medium transition-colors"
+                                    >
+                                        No, try again
+                                    </button>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
     );
 }
