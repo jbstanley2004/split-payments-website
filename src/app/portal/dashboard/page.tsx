@@ -37,7 +37,7 @@ export default function PortalDashboardPage() {
         }
 
         // Admin redirect safety check
-        if (user?.email?.endsWith('@ccsplit.org')) {
+        if (user?.email?.endsWith('@split-llc.com')) {
             router.push('/admin');
             return;
         }

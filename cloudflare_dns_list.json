@@ -1,0 +1,3 @@
+event: message
+data: {"result":{"content":[{"type":"text","text":"{\"data\":{},\"successful\":false,\"error\":\"Tool CLOUDFLARE_LIST_DNS_RECORDS not found: Tool CLOUDFLARE_LIST_DNS_RECORDS not found\",\"version\":\"latest\",\"logs\":[],\"log_id\":\"log_QxfKNiSdc-L4\"}"}],"isError":true},"jsonrpc":"2.0","id":10}
+

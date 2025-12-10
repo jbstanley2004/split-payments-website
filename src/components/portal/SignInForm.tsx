@@ -23,7 +23,7 @@ export default function SignInForm() {
 
     const checkProfileAndRedirect = async (user: any) => {
         // Admin check
-        if (user.email?.endsWith('@ccsplit.org')) {
+        if (user.email?.endsWith('@split-llc.com')) {
             router.push('/admin');
             return;
         }

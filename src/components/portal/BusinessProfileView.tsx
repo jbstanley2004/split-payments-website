@@ -107,13 +107,13 @@ export default function BusinessProfileView({
         const hasNotPresent = localEquipmentInfo.cardNotPresentPercentage !== undefined && localEquipmentInfo.cardNotPresentPercentage !== '';
         return hasPresent || hasNotPresent;
     }, [localEquipmentInfo.cardPresentPercentage, localEquipmentInfo.cardNotPresentPercentage]);
-    
+
     const cardSplitValid = useMemo(() => {
         const present = Number(localEquipmentInfo.cardPresentPercentage || 0);
         const notPresent = Number(localEquipmentInfo.cardNotPresentPercentage || 0);
         const hasPresent = localEquipmentInfo.cardPresentPercentage !== undefined && localEquipmentInfo.cardPresentPercentage !== '';
         const hasNotPresent = localEquipmentInfo.cardNotPresentPercentage !== undefined && localEquipmentInfo.cardNotPresentPercentage !== '';
-        
+
         // If both fields are filled, they must total 100%
         if (hasPresent && hasNotPresent) {
             return present + notPresent === 100;
@@ -589,7 +589,8 @@ export default function BusinessProfileView({
                 return !!localBusinessInfo.dba && !!localBusinessInfo.entityType && !!localBusinessInfo.industry && !!localBusinessInfo.businessStartDate && hasVoidedCheck && einVerification.isValid;
 
             case 'contact-location':
-                return !!localContactInfo?.physicalAddress && !!localContactInfo?.businessPhone && !!localContactInfo?.email && businessPhoneVerification.isValid && isValidEmail(localContactInfo?.email);
+                const effectiveBusinessPhoneVer = businessPhoneApiVerification?.checkedWithApi ? businessPhoneApiVerification : businessPhoneVerification;
+                return !!localContactInfo?.physicalAddress && !!localContactInfo?.businessPhone && !!localContactInfo?.email && effectiveBusinessPhoneVer.isValid && isValidEmail(localContactInfo?.email);
 
             case 'financial-information':
                 const hasMerchantStatements = documents.some(d => d.type === 'merchant_statements');
@@ -603,7 +604,8 @@ export default function BusinessProfileView({
 
             case 'owner-information':
                 const hasPhotoId = documents.some(d => d.type === 'photo_id');
-                return hasPhotoId && !!localOwnerInfo?.fullName && !!localOwnerInfo?.title && !!localOwnerInfo?.cellPhone && !!localOwnerInfo?.homeAddress && ssnVerification.isValid && ownerPhoneVerification.isValid;
+                const effectiveOwnerPhoneVer = ownerPhoneApiVerification?.checkedWithApi ? ownerPhoneApiVerification : ownerPhoneVerification;
+                return hasPhotoId && !!localOwnerInfo?.fullName && !!localOwnerInfo?.title && !!localOwnerInfo?.cellPhone && !!localOwnerInfo?.homeAddress && ssnVerification.isValid && effectiveOwnerPhoneVer.isValid;
 
             default:
                 return false;
@@ -843,7 +845,7 @@ export default function BusinessProfileView({
                             const effectiveVerification = businessPhoneApiVerification?.checkedWithApi ? businessPhoneApiVerification : businessPhoneVerification;
                             const isValid = effectiveVerification.isValid;
                             const isChecking = isCheckingBusinessPhone;
-                            
+
                             if (isChecking) {
                                 return (
                                     <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -851,7 +853,7 @@ export default function BusinessProfileView({
                                     </div>
                                 );
                             }
-                            
+
                             if (isValid && localContactInfo.businessPhone) {
                                 return (
                                     <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -859,7 +861,7 @@ export default function BusinessProfileView({
                                     </div>
                                 );
                             }
-                            
+
                             return null;
                         })()}
                     </div>
@@ -867,7 +869,7 @@ export default function BusinessProfileView({
                     {(() => {
                         const effectiveVerification = businessPhoneApiVerification?.checkedWithApi ? businessPhoneApiVerification : businessPhoneVerification;
                         const showError = localContactInfo.businessPhone && !effectiveVerification.isValid && !isCheckingBusinessPhone;
-                        
+
                         if (showError) {
                             return (
                                 <p className="text-xs text-orange-600 mt-1 font-medium">
@@ -875,7 +877,7 @@ export default function BusinessProfileView({
                                 </p>
                             );
                         }
-                        
+
                         return null;
                     })()}
                 </div>
@@ -1068,7 +1070,7 @@ export default function BusinessProfileView({
                     </div>
                     {cardSplitProvided && !cardSplitValid && (
                         <p className="text-xs text-orange-600 mt-2 font-medium">
-                            {localEquipmentInfo.cardPresentPercentage && localEquipmentInfo.cardNotPresentPercentage 
+                            {localEquipmentInfo.cardPresentPercentage && localEquipmentInfo.cardNotPresentPercentage
                                 ? "Card present and not present percentages must total 100%."
                                 : "If only one field is filled, it must equal 100%."}
                         </p>
@@ -1279,7 +1281,7 @@ export default function BusinessProfileView({
                             const effectiveVerification = ownerPhoneApiVerification?.checkedWithApi ? ownerPhoneApiVerification : ownerPhoneVerification;
                             const isValid = effectiveVerification.isValid;
                             const isChecking = isCheckingOwnerPhone;
-                            
+
                             if (isChecking) {
                                 return (
                                     <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -1287,7 +1289,7 @@ export default function BusinessProfileView({
                                     </div>
                                 );
                             }
-                            
+
                             if (isValid && localOwnerInfo.cellPhone) {
                                 return (
                                     <div className="absolute right-4 top-1/2 -translate-y-1/2">
@@ -1295,7 +1297,7 @@ export default function BusinessProfileView({
                                     </div>
                                 );
                             }
-                            
+
                             return null;
                         })()}
                     </div>
@@ -1303,7 +1305,7 @@ export default function BusinessProfileView({
                     {(() => {
                         const effectiveVerification = ownerPhoneApiVerification?.checkedWithApi ? ownerPhoneApiVerification : ownerPhoneVerification;
                         const showError = localOwnerInfo.cellPhone && !effectiveVerification.isValid && !isCheckingOwnerPhone;
-                        
+
                         if (showError) {
                             return (
                                 <p className="text-xs text-orange-600 mt-1 font-medium">
@@ -1311,7 +1313,7 @@ export default function BusinessProfileView({
                                 </p>
                             );
                         }
-                        
+
                         return null;
                     })()}
                 </div>

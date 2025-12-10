@@ -1,4 +1,5 @@
 import { Providers } from '@/components/providers';
+import Script from 'next/script';
 import { DynamicThemeColor } from '@/components/dynamic-theme-color';
 import StyledComponentsRegistry from '@/lib/styled-components';
 import type { Metadata } from 'next';
@@ -31,7 +32,7 @@ const poppins = Poppins({
   display: 'swap',
 });
 
-const baseUrl = 'https://splitpayments.com';
+const baseUrl = 'https://split-llc.com';
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -131,11 +132,10 @@ export default function Layout({ children }: { children: ReactNode }) {
             })();`,
           }}
         />
-        <script
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&v=weekly&callback=Function.prototype`}
-          async
-          defer
-        ></script>
+        <Script
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&v=weekly&project=${process.env.NEXT_PUBLIC_GOOGLE_CLOUD_PROJECT_ID}&callback=Function.prototype&loading=async`}
+          strategy="afterInteractive"
+        />
       </head>
       <body>
         <DynamicThemeColor />

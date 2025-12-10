@@ -396,7 +396,7 @@ export const ApplicationWizard: React.FC<ApplicationWizardProps> = ({ onSubmit, 
                                 <li><strong>Split LLC</strong>, Assignees, and each of their representatives, successors, assigns, and designees (collectively, "Recipients") are authorized to request and receive investigative reports, credit reports, statements from creditors, and financial institutions, also, verification of information, or any other information that a recipient deems necessary.</li>
                                 <li>Applicant waives and releases any claims against Recipients and any information providers arising from any act or omission relating to the requesting, receiving, or release of information.</li>
                                 <li>Each Owner/Officer/Partner represents that he or she is authorized to sign this application on behalf of Merchant.</li>
-                                <li>By providing your phone number, you consent to receive marketing calls and texts from <strong>Split LLC</strong> or Assignees or Recipients at the number you provided. These calls may be made using an automatic telephone dialing system or an artificial or prerecorded voice. Your consent is not a condition of any financing options. You have the right to revoke this consent at any time. To opt-out, please reply 'STOP' to any message or contact us at hello@ccsplit.org.</li>
+                                <li>By providing your phone number, you consent to receive marketing calls and texts from <strong>Split LLC</strong> or Assignees or Recipients at the number you provided. These calls may be made using an automatic telephone dialing system or an artificial or prerecorded voice. Your consent is not a condition of any financing options. You have the right to revoke this consent at any time. To opt-out, please reply 'STOP' to any message or contact us at hello@split-llc.com.</li>
                             </ol>
                         </div>
 
@@ -437,8 +437,8 @@ export const ApplicationWizard: React.FC<ApplicationWizardProps> = ({ onSubmit, 
                         onClick={currentStep === STEPS.length - 1 ? handleSubmit : nextStep}
                         disabled={currentStep === STEPS.length - 1 && !formData.authorized}
                         className={`${actionButtonClass} ${(currentStep === STEPS.length - 1 && !formData.authorized)
-                                ? 'opacity-50 cursor-not-allowed hover:bg-transparent hover:text-black'
-                                : ''
+                            ? 'opacity-50 cursor-not-allowed hover:bg-transparent hover:text-black'
+                            : ''
                             }`}
                     >
                         {currentStep === STEPS.length - 1 ? 'Sign & Submit' : 'Next Step'}

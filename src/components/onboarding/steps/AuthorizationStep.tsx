@@ -65,8 +65,8 @@ export function AuthorizationStep() {
                 >
                     <p className="text-sm text-[brand-black/50]">
                         Questions? Email us at{' '}
-                        <a href="mailto:hello@splitpayments.com" className="underline hover:text-[brand-black]">
-                            hello@splitpayments.com
+                        <a href="mailto:hello@split-llc.com" className="underline hover:text-[brand-black]">
+                            hello@split-llc.com
                         </a>
                     </p>
                 </motion.div>

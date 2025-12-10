@@ -232,7 +232,7 @@ export default function TermsPage() {
                                     <p className="text-black font-semibold">Split LLC</p>
                                     <p className="text-black/80">5540 Centerview Dr, Ste 503507</p>
                                     <p className="text-black/80">Raleigh, NC 27606</p>
-                                    <p className="text-black/80 mt-2">Email: <a href="mailto:hello@ccsplit.org" className="text-[#FF4306] underline">hello@ccsplit.org</a></p>
+                                    <p className="text-black/80 mt-2">Email: <a href="mailto:hello@split-llc.com" className="text-[#FF4306] underline">hello@split-llc.com</a></p>
                                 </div>
                             </div>
 

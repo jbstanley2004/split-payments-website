@@ -176,8 +176,8 @@ export default function ContactPage() {
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-black mb-1 font-poppins">Email us</h3>
-                                            <a href="mailto:hello@ccsplit.org" className="text-[#FF4306] hover:underline">
-                                                hello@ccsplit.org
+                                            <a href="mailto:hello@split-llc.com" className="text-[#FF4306] hover:underline">
+                                                hello@split-llc.com
                                             </a>
                                             <p className="text-sm text-black/60 mt-1">We typically respond within 24 hours</p>
                                         </div>

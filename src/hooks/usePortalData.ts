@@ -188,7 +188,7 @@ export function usePortalData() {
                 setApplicationStatus(mappedData);
                 setIsNewUser(false);
             } else {
-                if (user.email?.endsWith('@ccsplit.org')) {
+                if (user.email?.endsWith('@split-llc.com')) {
                     console.log("[usePortalData] Admin user detected, skipping application creation.");
                     setLoading(false);
                     return;

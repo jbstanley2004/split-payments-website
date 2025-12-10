@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setUser(currentUser);
 
             // Basic admin check logic - can be upgraded to check a 'roles' table or user_metadata later
-            if (currentUser && currentUser.email?.endsWith('@ccsplit.org')) {
+            if (currentUser && currentUser.email?.endsWith('@split-llc.com')) {
                 setIsAdmin(true);
             } else {
                 setIsAdmin(false);
@@ -42,7 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         supabase.auth.getSession().then(({ data: { session } }) => {
             const currentUser = session?.user ?? null;
             setUser(currentUser);
-            if (currentUser && currentUser.email?.endsWith('@ccsplit.org')) {
+            if (currentUser && currentUser.email?.endsWith('@split-llc.com')) {
                 setIsAdmin(true);
             } else {
                 setIsAdmin(false);

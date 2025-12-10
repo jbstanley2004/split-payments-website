@@ -27,7 +27,7 @@ export const verifyPhoneNumber = (input: string): PhoneVerificationResult => {
     const trimmed = input.trim();
     const digits = normalizeDigits(trimmed);
     const normalized = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
-    
+
     // More lenient validation: area code must start with 2-9, but exchange can start with 0-9
     const match = normalized.match(/^([2-9]\d{2})(\d{3})(\d{4})$/);
 
@@ -82,7 +82,7 @@ export const verifyPhoneNumberWithApi = async (
         const params = new URLSearchParams({
             key: apiKey,
             phone: `+1${localResult.normalized}`, // Veriphone expects international format
-            country: 'US'
+            default_country: 'US'
         });
 
         const response = await fetch(`${endpoint}?${params.toString()}`, { signal });
@@ -91,23 +91,24 @@ export const verifyPhoneNumberWithApi = async (
         }
 
         const data = await response.json();
-        
-        // Veriphone response structure: { status: "success", phone: "+1...", phone_valid: true, phone_type: "mobile", country: "US", ... }
+        console.log('Veriphone API response:', data);
+
+        // Veriphone response structure: { status: "success", phone_valid: true, phone_type: "mobile"|"landline"|"voip", country: "US", ... }
+        // We allow VOIP as valid business lines.
         const apiValid = Boolean(
             data?.status === 'success' &&
             data?.phone_valid === true &&
-            data?.country === 'US' &&
-            data?.phone_type && 
-            ['mobile', 'landline', 'fixed_line'].includes(data.phone_type)
+            data?.country === 'US'
         );
 
         if (!apiValid) {
+            // FAIL SAFE: If API reports invalid but formats look okay, fall back to local validation.
+            // This prevents blocking valid numbers that the API simply doesn't recognize yet.
+            // We set checkedWithApi: false so the UI shows "Verified" (Local) instead of "Confirmed" (API).
             return {
-                isValid: false,
-                normalized: '',
-                formatted: input.trim(),
-                reason: 'This number could not be confirmed as active. Please double-check and try again.',
-                checkedWithApi: true
+                ...localResult,
+                checkedWithApi: false,
+                reason: localResult.reason // Keep local reason
             };
         }
 

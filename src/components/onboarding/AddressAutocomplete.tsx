@@ -1,13 +1,8 @@
 "use client";
 
-import React, { useEffect } from 'react';
-import usePlacesAutocomplete, {
-    getGeocode,
-    getZipCode,
-    getDetails,
-} from 'use-places-autocomplete';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin } from 'lucide-react';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface AddressAutocompleteProps {
     label: string;
@@ -19,6 +14,19 @@ interface AddressAutocompleteProps {
     className?: string;
 }
 
+interface Prediction {
+    placePrediction: {
+        placeId: string;
+        text: {
+            text: string;
+        };
+        structuredFormat: {
+            mainText: { text: string };
+            secondaryText: { text: string };
+        };
+    };
+}
+
 export function AddressAutocomplete({
     label,
     value,
@@ -28,78 +36,149 @@ export function AddressAutocomplete({
     placeholder,
     className = '',
 }: AddressAutocompleteProps) {
-    const {
-        ready,
-        value: inputValue,
-        suggestions: { status, data },
-        setValue,
-        clearSuggestions,
-    } = usePlacesAutocomplete({
-        requestOptions: {
-            /* Define search scope here */
-            componentRestrictions: { country: 'us' },
-        },
-        debounce: 300,
-        defaultValue: value || '',
-    });
+    const [inputValue, setInputValue] = useState(value || '');
+    const [predictions, setPredictions] = useState<Prediction[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    // Sync internal state with external value prop if it changes
+    // Use local debounced value for API calls
+    const debouncedInput = useDebounce(inputValue, 500);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    // Sync prop value to state if it changes externally
     useEffect(() => {
         if (value !== undefined && value !== inputValue) {
-            setValue(value, false);
+            setInputValue(value);
         }
-    }, [value, setValue]); // Removed inputValue from deps to avoid loop
+    }, [value]);
 
-    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-    };
+    // Click outside to close
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
 
-    const handleSelect = async (description: string) => {
-        setValue(description, false);
-        clearSuggestions();
+    // Fetch predictions (New Places API v1)
+    useEffect(() => {
+        const fetchPredictions = async () => {
+            if (!debouncedInput || debouncedInput.length < 3) {
+                setPredictions([]);
+                return;
+            }
+
+            // If input matches the current saved value, don't search (user is looking at saved state)
+            // But we can't easily track "saved state" vs "typing", so we search if length > 3
+            // Optimization: If inputs match prop value, maybe skip? No, user might want to edit.
+
+            setIsLoading(true);
+            try {
+                const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+                if (!apiKey) throw new Error("Missing Google Maps API Key");
+
+                const response = await fetch('https://places.googleapis.com/v1/places:autocomplete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Goog-Api-Key': apiKey,
+                    },
+                    body: JSON.stringify({
+                        input: debouncedInput,
+                        includedPrimaryTypes: ['street_address', 'premise', 'subpremise', 'route'],
+                        includedRegionCodes: ['us'],
+                    }),
+                });
+
+                const data = await response.json();
+                if (data.suggestions) {
+                    setPredictions(data.suggestions);
+                    setIsOpen(true);
+                } else {
+                    setPredictions([]);
+                }
+            } catch (err) {
+                console.error('Error fetching autocomplete:', err);
+                setPredictions([]);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchPredictions();
+    }, [debouncedInput]);
+
+    const handleSelect = async (prediction: Prediction) => {
+        const placeId = prediction.placePrediction.placeId;
+        const mainText = prediction.placePrediction.text.text;
+
+        // Optimistic update of input
+        setInputValue(mainText);
+        setIsOpen(false);
 
         try {
-            const results = await getGeocode({ address: description });
-            const result = results[0];
-
-            // Extract address components
-            let streetNumber = '';
-            let route = '';
-            let city = '';
-            let state = '';
-            let zip = '';
-
-            result.address_components.forEach((component) => {
-                const types = component.types;
-                if (types.includes('street_number')) {
-                    streetNumber = component.long_name;
-                }
-                if (types.includes('route')) {
-                    route = component.long_name;
-                }
-                if (types.includes('locality') || types.includes('sublocality')) {
-                    city = component.long_name;
-                }
-                if (types.includes('administrative_area_level_1')) {
-                    state = component.short_name;
-                }
-                if (types.includes('postal_code')) {
-                    zip = component.long_name;
+            const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+            const response = await fetch(`https://places.googleapis.com/v1/places/${placeId}?fields=addressComponents,formattedAddress`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Goog-Api-Key': apiKey || '',
+                    'X-Goog-FieldMask': 'addressComponents,formattedAddress'
                 }
             });
 
-            const fullAddress = `${streetNumber} ${route}`.trim();
+            const data = await response.json();
 
-            // If we didn't get a street number/route, just use the description or part of it
-            // But usually for business address we want the street line.
-            // If the user selected a city/zip only, fullAddress might be empty.
-            // Let's fallback to the description if fullAddress is empty, 
-            // but ideally we want structured data.
+            if (data) {
+                let streetNumber = '';
+                let route = '';
+                let city = '';
+                let state = '';
+                let zip = '';
+                // Prefer formattedAddress, or construct it
+                let fullAddress = data.formattedAddress || mainText;
 
-            onChange(fullAddress || description, city, state, zip);
+                if (data.addressComponents) {
+                    data.addressComponents.forEach((component: any) => {
+                        const types = component.types;
+                        if (types.includes('street_number')) {
+                            streetNumber = component.longText;
+                        }
+                        if (types.includes('route')) {
+                            route = component.longText;
+                        }
+                        if (types.includes('locality') || types.includes('sublocality')) {
+                            city = component.longText;
+                        }
+                        if (types.includes('administrative_area_level_1')) {
+                            state = component.shortText;
+                        }
+                        if (types.includes('postal_code')) {
+                            zip = component.longText;
+                        }
+                    });
+                }
 
-        } catch (error) {
-            console.error('Error: ', error);
+                const constructedStreet = `${streetNumber} ${route}`.trim();
+                if (constructedStreet) {
+                    // Update fullAddress to be just the street part if possible, 
+                    // allowing city/state/zip to be separate
+                    // But usually users want the "Full line 1"
+                    fullAddress = constructedStreet;
+                }
+
+                // Update Input with the Clean Address
+                setInputValue(fullAddress);
+
+                // Propagate to parent
+                onChange(fullAddress, city, state, zip);
+            }
+
+        } catch (err) {
+            console.error('Error fetching place details:', err);
         }
     };
 
@@ -109,7 +188,8 @@ export function AddressAutocomplete({
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col gap-1.5 relative"
+            className="flex flex-col gap-1.5 relative z-20"
+            ref={containerRef}
         >
             <label htmlFor={inputId} className="text-xs font-semibold tracking-wide text-black/70">
                 {label}
@@ -117,37 +197,57 @@ export function AddressAutocomplete({
             <div className="relative">
                 <input
                     id={inputId}
+                    type="text"
                     value={inputValue}
-                    onChange={handleInput}
-                    disabled={!ready}
-                    placeholder={placeholder}
-                    className={`w-full rounded-xl border bg-white px-3.5 py-2.5 text-base text-black outline-none transition-all ${error
-                        ? 'border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200'
-                        : 'border-gray-200 focus:border-[#FF4306] focus:ring-2 focus:ring-[#FF4306]/10'
+                    onChange={(e) => {
+                        setInputValue(e.target.value);
+                        // If user clears input, allow it
+                        if (e.target.value === '') {
+                            setIsOpen(false);
+                            onChange('', '', '', '');
+                        }
+                    }}
+                    onFocus={() => {
+                        if (predictions.length > 0) setIsOpen(true);
+                    }}
+                    placeholder={placeholder || "Enter address"}
+                    className={`w-full rounded-xl px-4 py-3 text-base text-black transition-all outline-none ${error
+                        ? 'border border-red-400 focus:border-red-500 bg-white'
+                        : 'bg-[#F6F5F4] border border-transparent focus:bg-white focus:ring-2 focus:ring-black/5 focus:border-black/10'
                         } ${className}`}
                     autoComplete="off"
                 />
-                {status === 'OK' && (
-                    <ul className="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-xl shadow-lg max-h-60 overflow-auto py-1">
-                        {data.map(({ place_id, description, structured_formatting }) => (
-                            <li
-                                key={place_id}
-                                onClick={() => handleSelect(description)}
-                                className="px-4 py-3 hover:bg-gray-50 cursor-pointer flex items-start gap-3 transition-colors"
-                            >
-                                <MapPin className="w-4 h-4 text-gray-400 mt-0.5 flex-shrink-0" />
-                                <div>
-                                    <span className="block text-sm font-medium text-gray-900">
-                                        {structured_formatting.main_text}
+
+                {/* Custom Dropdown */}
+                <AnimatePresence>
+                    {isOpen && predictions.length > 0 && (
+                        <motion.ul
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 5 }}
+                            className="absolute z-50 left-0 right-0 top-full mt-2 bg-white rounded-xl shadow-xl border border-gray-100 max-h-60 overflow-y-auto"
+                        >
+                            {predictions.map((prediction) => (
+                                <li
+                                    key={prediction.placePrediction.placeId}
+                                    onClick={() => handleSelect(prediction)}
+                                    className="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-50 last:border-none flex flex-col"
+                                >
+                                    <span className="font-medium text-black text-sm">
+                                        {prediction.placePrediction.structuredFormat.mainText.text}
                                     </span>
-                                    <span className="block text-xs text-gray-500">
-                                        {structured_formatting.secondary_text}
+                                    <span className="text-xs text-gray-500">
+                                        {prediction.placePrediction.structuredFormat.secondaryText?.text}
                                     </span>
-                                </div>
+                                </li>
+                            ))}
+                            {/* Powered by Google Footer? Technically required by ToS */}
+                            <li className="px-4 py-2 bg-gray-50 flex justify-end">
+                                <span className="text-[10px] text-gray-400">Powered by Google</span>
                             </li>
-                        ))}
-                    </ul>
-                )}
+                        </motion.ul>
+                    )}
+                </AnimatePresence>
             </div>
             {error && (
                 <motion.p
